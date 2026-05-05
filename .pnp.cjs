@@ -13,12 +13,22 @@ const RAW_RUNTIME_STATE =
     {\
       "name": "uni",\
       "reference": "workspace:."\
+    },\
+    {\
+      "name": "@uni/core",\
+      "reference": "workspace:packages/core"\
+    },\
+    {\
+      "name": "@uni/tsconfig",\
+      "reference": "workspace:packages/tsconfig"\
     }\
   ],\
   "enableTopLevelFallback": true,\
   "ignorePatternData": "(^(?:\\\\.yarn\\\\/sdks(?:\\\\/(?!\\\\.{1,2}(?:\\\\/|$))(?:(?:(?!(?:^|\\\\/)\\\\.{1,2}(?:\\\\/|$)).)*?)|$))$)",\
   "pnpZipBackend": "libzip",\
   "fallbackExclusionList": [\
+    ["@uni/core", ["workspace:packages/core"]],\
+    ["@uni/tsconfig", ["workspace:packages/tsconfig"]],\
     ["uni", ["workspace:."]]\
   ],\
   "fallbackPool": [\
@@ -88,6 +98,26 @@ const RAW_RUNTIME_STATE =
         "linkType": "HARD"\
       }]\
     ]],\
+    ["@uni/core", [\
+      ["workspace:packages/core", {\
+        "packageLocation": "./packages/core/",\
+        "packageDependencies": [\
+          ["@uni/core", "workspace:packages/core"],\
+          ["@uni/tsconfig", "workspace:packages/tsconfig"],\
+          ["typescript", "patch:typescript@npm%3A5.9.3#optional!builtin<compat/typescript>::version=5.9.3&hash=5786d5"]\
+        ],\
+        "linkType": "SOFT"\
+      }]\
+    ]],\
+    ["@uni/tsconfig", [\
+      ["workspace:packages/tsconfig", {\
+        "packageLocation": "./packages/tsconfig/",\
+        "packageDependencies": [\
+          ["@uni/tsconfig", "workspace:packages/tsconfig"]\
+        ],\
+        "linkType": "SOFT"\
+      }]\
+    ]],\
     ["turbo", [\
       ["npm:2.9.8", {\
         "packageLocation": "../../../.yarn/berry/cache/turbo-npm-2.9.8-069fc7983b-10c0.zip/node_modules/turbo/",\
@@ -99,6 +129,15 @@ const RAW_RUNTIME_STATE =
           ["@turbo/windows-64", "npm:2.9.8"],\
           ["@turbo/windows-arm64", "npm:2.9.8"],\
           ["turbo", "npm:2.9.8"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
+    ["typescript", [\
+      ["patch:typescript@npm%3A5.9.3#optional!builtin<compat/typescript>::version=5.9.3&hash=5786d5", {\
+        "packageLocation": "../../../.yarn/berry/cache/typescript-patch-6fda4d02cf-10c0.zip/node_modules/typescript/",\
+        "packageDependencies": [\
+          ["typescript", "patch:typescript@npm%3A5.9.3#optional!builtin<compat/typescript>::version=5.9.3&hash=5786d5"]\
         ],\
         "linkType": "HARD"\
       }]\
