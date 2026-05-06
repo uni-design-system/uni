@@ -35,3 +35,6 @@ Thumbs.db
 
 # --- IDEs ---
 /.idea/
+
+*storybook.log
+storybook-static
