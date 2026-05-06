@@ -23,7 +23,7 @@ export type ColorRole = 'primary' | 'secondary' | 'tertiary' | 'inverse' | 'ghos
  *
  * */
 
-export type ColorToken = ElementColorToken | UtilityColorToken | ContainerColorToken | ContentColorToken;
+export type ColorToken = ElementColorToken | UtilityColorToken | ContainerColorToken | ContentColorToken | string;
 
 export type ElementColorToken = 'primary' | 'secondary' | 'tertiary' | 'error';
 
