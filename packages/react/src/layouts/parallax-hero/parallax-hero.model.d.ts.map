@@ -1,0 +1,1 @@
+{"version":3,"file":"parallax-hero.model.d.ts","sourceRoot":"","sources":["parallax-hero.model.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,SAAS,EAAE,MAAM,OAAO,CAAC;AAElC,MAAM,WAAW,UAAU;IACzB,IAAI,EAAE,MAAM,CAAC;IACb,GAAG,EAAE,MAAM,CAAC;IACZ,KAAK,EAAE,MAAM,CAAC;CACf;AAED,MAAM,WAAW,iBAAiB;IAChC,MAAM,EAAE,UAAU,EAAE,CAAC;IACrB,QAAQ,EAAE,SAAS,CAAC;CACrB"}
