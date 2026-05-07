@@ -1,0 +1,21 @@
+{
+  "extends": "../tsconfig.json",
+  "compilerOptions": {
+    "moduleResolution": "bundler",
+    "module": "ESNext",
+    "esModuleInterop": true,
+    "types": ["node"],
+    "allowSyntheticDefaultImports": true,
+    "resolveJsonModule": true,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true
+  },
+  "exclude": ["../src/test.ts", "../src/**/*.spec.ts"],
+  "include": [
+    "../src/**/*.ts",            // Added: includes your actual components
+    "../src/**/*.stories.ts",    // Updated: specifically target TS stories
+    "./preview.ts",
+    "./main.ts"                  // Added: includes the config itself
+  ],
+  "files": ["./typings.d.ts"]
+}
