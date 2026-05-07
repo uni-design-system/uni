@@ -1,0 +1,22 @@
+{
+  "name": "@uni/angular",
+  "version": "0.1.0",
+  "private": false,
+  "scripts": {
+    "build": "pnpm ng-packagr -p ng-package.json",
+    "storybook": "storybook dev -p 6006"
+  },
+  "peerDependencies": {
+    "@angular/common": "^21.0.0",
+    "@angular/core": "^21.0.0",
+    "@uni/core": "workspace:*"
+  },
+  "devDependencies": {
+    "@angular/compiler": "^21.0.0",
+    "@angular/compiler-cli": "^21.0.0",
+    "@uni/tsconfig": "workspace:*",
+    "ng-packagr": "^21.0.0",
+    "tslib": "^2.8.1",
+    "typescript": "5.9.3"
+  }
+}

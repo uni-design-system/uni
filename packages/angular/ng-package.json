@@ -1,0 +1,7 @@
+{
+  "$schema": "../../node_modules/.pnpm/ng-packagr@21.2.3_@angular+compiler-cli@21.2.11_@angular+compiler@21.2.11_typescript@6.0.3__tslib@2.8.1_typescript@6.0.3/node_modules/ng-packagr/ng-package.schema.json",
+  "lib": {
+    "entryFile": "src/public-api.ts"
+  },
+  "dest": "dist"
+}
