@@ -13,5 +13,25 @@
     "turbo": "^2.9.8",
     "typescript": "~5.9.0",
     "vite": "^8.0.10"
+  },
+  "dependencies": {
+    "@angular/common": "21.2.12",
+    "@angular/compiler": "21.2.12",
+    "@angular/core": "21.2.12"
+  },
+  "pnpm": {
+    "overrides": {
+      "storybook": "10.3.6",
+      "@storybook/angular": "10.3.6",
+      "@storybook/addon-essentials": "10.3.6",
+      "@storybook/addon-links": "10.3.6",
+      "@storybook/addon-interactions": "10.3.6",
+      "@storybook/addon-docs": "10.3.6",
+      "@storybook/addon-a11y": "10.3.6",
+      "@storybook/addon-toolbars": "10.3.6",
+      "@storybook/manager-api": "10.3.6",
+      "@storybook/preview-api": "10.3.6",
+      "@storybook/types": "10.3.6"
+    }
   }
 }
