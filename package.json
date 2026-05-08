@@ -4,15 +4,20 @@
   "private": true,
   "scripts": {
     "build": "turbo build",
-    "dev": "turbo dev",
-    "lint": "turbo lint"
+    "dev": "turbo dev run storybook --parallel",
+    "dev:hub": "turbo run storybook --filter=@uni/docs --filter=@uni/react --filter=@uni/angular",
+    "lint": "turbo lint",
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build"
   },
   "devDependencies": {
     "@types/node": "^25.6.0",
     "csstype": "^3.2.3",
     "turbo": "^2.9.8",
     "typescript": "~5.9.0",
-    "vite": "^8.0.10"
+    "vite": "^8.0.10",
+    "storybook": "^10.3.6",
+    "@storybook/react-vite": "^10.3.6"
   },
   "dependencies": {
     "@angular/common": "21.2.12",

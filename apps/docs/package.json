@@ -1,0 +1,13 @@
+{
+  "name": "@uni/docs",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "storybook": "storybook dev -p 6009"
+  },
+  "devDependencies": {
+    "@storybook/addon-docs": "^10.3.6",
+    "@storybook/addon-links": "^10.3.6",
+    "@storybook/blocks": "^8.6.14"
+  }
+}
