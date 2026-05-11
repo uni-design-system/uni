@@ -1,0 +1,31 @@
+name: Deploy Documentation
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'packages/react/**'
+      - 'packages/angular/**'
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - name: Build Storybooks
+        run: |
+          pnpm install
+          pnpm --filter @uni-design-system/uni-react build-storybook
+          pnpm --filter @uni-design-system/uni-angular build-storybook
+
+      - name: Deploy React Docs
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          folder: packages/react/storybook-static
+          target-folder: docs/react
+
+      - name: Deploy Angular Docs
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          folder: packages/angular/storybook-static
+          target-folder: docs/angular
