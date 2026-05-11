@@ -1,5 +1,5 @@
 import { CSSProperties } from 'react';
-import { Apply, Size } from '@uni/core';
+import { Apply, Size } from '@uni-design-system/uni-core';
 
 export function Padding(size: Size, apply: Apply): CSSProperties {
 

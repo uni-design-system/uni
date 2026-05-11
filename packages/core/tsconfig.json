@@ -1,10 +1,10 @@
 {
-  "extends": "@uni/tsconfig/base.json",
+  "extends": "@uni-design-system/tsconfig/base.json",
   "compilerOptions": {
     "rootDir": "src",
     "baseUrl": ".",
     "paths": {
-      "@uni/core/*": ["./src/*"]
+      "@uni-design-system/uni-core/*": ["./src/*"]
     }
   },
   "include": ["src"],

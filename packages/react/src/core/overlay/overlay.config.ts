@@ -1,4 +1,4 @@
-import { Theme, HSLAToString } from '@uni/core';
+import { Theme, HSLAToString } from '@uni-design-system/uni-core';
 import { CSSProperties } from 'react';
 import { OverlayProps } from './overlay.model';
 

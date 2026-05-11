@@ -1,6 +1,6 @@
 import { motion, Transition } from 'framer-motion';
 import React, { CSSProperties, useState } from 'react';
-import { RoleHues, Size } from '@uni/core';
+import { RoleHues, Size } from '@uni-design-system/uni-core';
 import { SwitchConfigs } from './switch.config';
 
 export interface SwitchProps {

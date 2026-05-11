@@ -1,5 +1,5 @@
 {
-  "name": "@uni/core",
+  "name": "@uni-design-system/uni-core",
   "version": "0.1.0",
   "private": false,
   "sideEffects": false,
@@ -20,7 +20,7 @@
     "type-check": "tsc --noEmit"
   },
   "devDependencies": {
-    "@uni/tsconfig": "workspace:*",
+    "@uni-design-system/tsconfig": "workspace:*",
     "typescript": "^5.0.0"
   }
 }

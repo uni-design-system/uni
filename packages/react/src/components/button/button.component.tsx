@@ -1,6 +1,6 @@
 import React, { CSSProperties, ReactNode, useEffect, useState } from 'react';
 import { BoxShadow, Text, useLayout, useTheme } from '../../core';
-import { Theme, ButtonType, ColorToken, Size, ContentColorToken } from '@uni/core';
+import { Theme, ButtonType, ColorToken, Size, ContentColorToken } from '@uni-design-system/uni-core';
 import { IconTextRow } from '../icon-text-row';
 import { IconName } from '../../core/icon';
 import { useRipple } from 'use-ripple-hook';

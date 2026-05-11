@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { ColorSwatch } from '../color-swatch/color-swatch.component';
-import { RGBA } from '@uni/core';
+import { RGBA } from '@uni-design-system/uni-core';
 
 export interface ColorPickerProps {
   imageUrl: string;

@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "@uni/angular": {
+    "@uni-design-system/uni-angular": {
       "projectType": "library",
       "root": "",
       "sourceRoot": "src",
@@ -27,7 +27,7 @@
           "builder": "@storybook/angular:start-storybook",
           "options": {
             "configDir": ".storybook",
-            "browserTarget": "@uni/angular:build",
+            "browserTarget": "@uni-design-system/uni-angular:build",
             "compodoc": false,
             "port": 6007
           }
@@ -36,7 +36,7 @@
           "builder": "@storybook/angular:build-storybook",
           "options": {
             "configDir": ".storybook",
-            "browserTarget": "@uni/angular:build",
+            "browserTarget": "@uni-design-system/uni-angular:build",
             "compodoc": false,
             "outputDir": "storybook-static"
           }

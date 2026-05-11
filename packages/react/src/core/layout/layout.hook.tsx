@@ -1,5 +1,5 @@
 import React from 'react';
-import { getDeviceOrientation, getDeviceSize, Layout } from '@uni/core';
+import { getDeviceOrientation, getDeviceSize, Layout } from '@uni-design-system/uni-core';
 import LayoutContext from './layout.context';
 
 export function useLayout(): Layout {

@@ -1,4 +1,4 @@
-import { Size } from '@uni/core';
+import { Size } from '@uni-design-system/uni-core';
 
 export const SwitchConfigs: Record<Size, { radius: number; padding: number }> = {
   xs: {

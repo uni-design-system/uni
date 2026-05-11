@@ -1,5 +1,5 @@
 import React, { ReactNode } from 'react';
-import { ContentColorToken, getValue, HorizontalAlign, TextRole } from '@uni/core';
+import { ContentColorToken, getValue, HorizontalAlign, TextRole } from '@uni-design-system/uni-core';
 
 import { alignCenter, expand, fix, row, Text, Icon, useTheme } from '../../core';
 import { IconName } from '../../core/icon';

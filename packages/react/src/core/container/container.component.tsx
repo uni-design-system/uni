@@ -1,5 +1,5 @@
 import React, { createContext, CSSProperties, ReactNode } from 'react';
-import { ContainerColorToken } from '@uni/core';
+import { ContainerColorToken } from '@uni-design-system/uni-core';
 
 export interface ContainerProps {
   children: ReactNode;

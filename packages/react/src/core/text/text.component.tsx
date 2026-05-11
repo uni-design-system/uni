@@ -8,7 +8,7 @@ import {
   HorizontalAlign,
   Size,
   TextRole,
-} from '@uni/core';
+} from '@uni-design-system/uni-core';
 import { useTheme } from '../theme';
 import { ContainerContext } from '../container';
 

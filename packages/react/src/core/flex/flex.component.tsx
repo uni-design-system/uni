@@ -7,7 +7,7 @@ import {
   FlexShrink,
   FlexWrap,
   JustifyContent,
-} from '@uni/core';
+} from '@uni-design-system/uni-core';
 import { Property } from 'csstype';
 
 export interface FlexOptions extends HTMLAttributes<HTMLDivElement> {

@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useMemo } from 'react';
-import {LightTheme, type Theme} from "@uni/core";
+import {LightTheme, type Theme} from "@uni-design-system/uni-core";
 
 const defaultTheme = LightTheme;
 

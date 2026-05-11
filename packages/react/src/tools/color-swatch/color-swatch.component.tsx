@@ -1,5 +1,5 @@
 import React, { CSSProperties, ReactNode } from 'react';
-import { HSLAToString, RGB, RGBToHSL, ShadowElevation } from '@uni/core';
+import { HSLAToString, RGB, RGBToHSL, ShadowElevation } from '@uni-design-system/uni-core';
 import { BoxShadow, Padding, Text, useTheme } from '../../core';
 
 export type CardType = 'elevated' | 'filled' | 'outlined';

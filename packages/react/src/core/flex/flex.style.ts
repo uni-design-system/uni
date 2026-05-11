@@ -1,5 +1,5 @@
 import { CSSProperties } from 'react';
-import { HorizontalAlign, VerticalAlign } from '@uni/core';
+import { HorizontalAlign, VerticalAlign } from '@uni-design-system/uni-core';
 
 export const flex: CSSProperties = { flex: 1 };
 

@@ -1,4 +1,4 @@
-import { Border, ColorToken, getValue, Theme } from '@uni/core';
+import { Border, ColorToken, getValue, Theme } from '@uni-design-system/uni-core';
 import { CSSProperties } from 'react';
 
 export function BorderStyle(border: Border | undefined, theme: Theme): CSSProperties {

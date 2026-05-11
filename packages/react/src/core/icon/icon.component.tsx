@@ -1,5 +1,5 @@
 import React from 'react';
-import { ContentColorToken } from '@uni/core';
+import { ContentColorToken } from '@uni-design-system/uni-core';
 
 import { useTheme } from '../theme';
 import {IconDictionary, type IconName} from "@uni-design-system/uni-react-icons/dist/cjs/src";
