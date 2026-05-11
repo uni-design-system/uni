@@ -6,8 +6,14 @@ const config: StorybookConfig = {
 
   addons: [
     "@storybook/addon-links",
-    "@storybook/addon-essentials",
-    "@storybook/addon-docs"
+    {
+      name: "@storybook/addon-essentials",
+      options: {
+        backgrounds: false,
+        outline: false,
+        docs: true,
+      },
+    },
   ],
 
   framework: {
