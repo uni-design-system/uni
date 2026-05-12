@@ -3,8 +3,8 @@
   "packageManager": "pnpm@11.0.8",
   "private": true,
   "scripts": {
-    "build": "turbo build",
-    "dev": "turbo dev run storybook --parallel",
+    "build": "turbo run build",
+    "dev": "turbo run storybook",
     "dev:hub": "turbo run storybook --filter=@uni-design-system/uni-docs --filter=@uni-design-system/uni-react --filter=@uni-design-system/uni-angular",
     "lint": "turbo lint",
     "storybook": "storybook dev -p 6006",
