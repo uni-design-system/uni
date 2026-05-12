@@ -1,10 +1,16 @@
 {
   "name": "@uni-design-system/uni-angular",
   "version": "1.0.0",
-  "private": false,
-  "publishConfig": {
-    "access": "public"
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/uni-design-system/uni",
+    "directory": "packages/angular"
   },
+  "publishConfig": {
+    "access": "public",
+    "provenance": true
+  },
+  "private": false,
   "scripts": {
     "build": "pnpm ng-packagr -p ng-package.json",
     "storybook": "ng run @uni-design-system/uni-angular:storybook",
