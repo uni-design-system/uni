@@ -5,6 +5,7 @@ on:
     paths:
       - 'packages/react/**'
       - 'packages/angular/**'
+  workflow_dispatch:
 
 jobs:
   deploy:
