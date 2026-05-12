@@ -1,0 +1,1 @@
+function d(n,t){return{top:{paddingTop:"16px"},bottom:{paddingBottom:"16px"},left:{paddingLeft:"16px"},right:{paddingRight:"16px"},vertical:{paddingTop:"16px",paddingBottom:"16px"},horizontal:{paddingLeft:"16px",paddingRight:"16px"},all:{padding:"16px"}}[t]}export{d as P};
