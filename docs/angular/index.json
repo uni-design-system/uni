@@ -1,0 +1,1 @@
+{"v":5,"entries":{"components-unibutton--primary":{"type":"story","subtype":"story","id":"components-unibutton--primary","name":"Primary","title":"Components/UniButton","importPath":"./src/lib/button.stories.ts","componentPath":"./src/lib/button.component.ts","tags":["dev","test","manifest"],"exportName":"Primary"}}}
