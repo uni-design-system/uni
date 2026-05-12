@@ -21,11 +21,13 @@ jobs:
       - name: Deploy React Docs
         uses: JamesIves/github-pages-deploy-action@v4
         with:
+          branch: gh-pages
           folder: packages/react/storybook-static
           target-folder: docs/react
 
       - name: Deploy Angular Docs
         uses: JamesIves/github-pages-deploy-action@v4
         with:
+          branch: gh-pages
           folder: packages/angular/storybook-static
           target-folder: docs/angular
