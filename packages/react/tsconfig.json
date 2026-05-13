@@ -8,6 +8,6 @@
     "outDir": "dist",         // If you DO emit, they go here
     "rootDir": "src"
   },
-  "include": ["src", ".storybook/**/*"],
-  "exclude": ["dist", "node_modules"]
+  "include": ["src"],
+  "exclude": ["dist", "node_modules", ".storybook"]
 }
