@@ -1,6 +1,7 @@
 {
   "extends": "@uni-design-system/tsconfig/base.json",
   "compilerOptions": {
+    "moduleResolution": "bundler",
     "outDir": "./dist",
     "rootDir": "./src",
     "module": "ESNext",
@@ -10,8 +11,8 @@
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "useDefineForClassFields": false,
-    "ignoreDeprecations": "6.0",
+    "ignoreDeprecations": "5.0",
   },
-  "include": ["src/**/*", "vite.config.ts"],
+  "include": ["src/**/*"],
   "exclude": ["node_modules", "dist", "**/*.spec.ts", "**/*.stories.ts"]
 }
