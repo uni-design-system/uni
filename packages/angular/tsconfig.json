@@ -13,6 +13,6 @@
     "useDefineForClassFields": false,
     "ignoreDeprecations": "5.0",
   },
-  "include": ["src/**/*"],
+  "include": ["src/**/*", ".storybook/**/*"],
   "exclude": ["node_modules", "dist", "**/*.spec.ts", "**/*.stories.ts"]
 }
