@@ -4,7 +4,7 @@
     "moduleResolution": "bundler",
     "module": "ESNext",
     "esModuleInterop": true,
-    "types": ["node"],
+    "types": ["node", "vite/client"],
     "allowSyntheticDefaultImports": true,
     "resolveJsonModule": true,
     "experimentalDecorators": true,
@@ -12,10 +12,11 @@
   },
   "exclude": ["../src/test.ts", "../src/**/*.spec.ts"],
   "include": [
-    "../src/**/*.ts",            // Added: includes your actual components
-    "../src/**/*.stories.ts",    // Updated: specifically target TS stories
+    "../src/**/*.ts",
+    "../src/**/*.stories.ts",
     "./preview.ts",
-    "./main.ts"                  // Added: includes the config itself
+    "./main.ts",
+    "./vite.config.ts"
   ],
   "files": ["./typings.d.ts"]
 }
