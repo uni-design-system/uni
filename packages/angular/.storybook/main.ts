@@ -20,6 +20,8 @@ const config: StorybookConfig = {
     name: getAbsolutePath('@analogjs/storybook-angular'),
     options: {}
   },
+  staticDirs: ['../../../public'],
+  managerHead: (head) => `${head}<link rel="icon" href="/favicon.ico" />`,
   async viteFinal(config) {
     return mergeConfig(config, {
       optimizeDeps: {

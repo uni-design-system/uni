@@ -12,15 +12,17 @@ function getAbsolutePath(value: string) {
   return dirname(fileURLToPath(import.meta.resolve(`${value}/package.json`)))
 }
 const config: StorybookConfig = {
-  "stories": [
+  stories: [
     "../src/**/*.stories.@(js|jsx|mjs|ts|tsx)"
   ],
-  "addons": [
+  addons: [
     getAbsolutePath('@chromatic-com/storybook'),
     getAbsolutePath('@storybook/addon-vitest'),
     getAbsolutePath('@storybook/addon-a11y'),
     getAbsolutePath('@storybook/addon-docs')
   ],
-  "framework": getAbsolutePath('@storybook/react-vite')
+  framework: getAbsolutePath('@storybook/react-vite'),
+  staticDirs: ['../../../public'],
+  managerHead: (head) => `${head}<link rel="icon" href="/favicon.ico" />`,
 };
 export default config;
