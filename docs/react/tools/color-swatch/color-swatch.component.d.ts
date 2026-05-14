@@ -9,5 +9,5 @@ export interface ColorSwatchProps {
     width?: string | number;
     height?: string | number;
 }
-export declare function ColorSwatch({ rgba, children, cardType, elevation, width, height }: ColorSwatchProps): import("react/jsx-runtime").JSX.Element;
+export declare function ColorSwatch({ rgba, children, cardType, elevation, width, height, }: ColorSwatchProps): import("react/jsx-runtime").JSX.Element;
 //# sourceMappingURL=color-swatch.component.d.ts.map

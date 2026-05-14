@@ -1,7 +1,7 @@
 import { ColorPickerProps } from './color-picker.component';
 declare const _default: {
     title: string;
-    component: ({ imageUrl, imageWidth, imageHeight, sampleSize }: ColorPickerProps) => JSX.Element;
+    component: ({ imageUrl, imageWidth, imageHeight, sampleSize, }: ColorPickerProps) => JSX.Element;
     parameters: {
         layout: string;
     };
