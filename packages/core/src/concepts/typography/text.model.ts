@@ -5,7 +5,7 @@ export interface TextStyle {
   fontFamily: string;
   fontSize: number;
   lineHeight: number;
-  fontScale?: SizeMap
+  fontScale?: SizeMap;
   fontWeight?: FontWeight;
   fontStyle?: 'italic';
   textTransform?: TextTransform;

@@ -13,7 +13,14 @@ export interface ColorSwatchProps {
   height?: string | number;
 }
 
-export function ColorSwatch({ rgba, children, cardType = 'elevated', elevation, width, height }: ColorSwatchProps) {
+export function ColorSwatch({
+  rgba,
+  children,
+  cardType = 'elevated',
+  elevation,
+  width,
+  height,
+}: ColorSwatchProps) {
   const theme = useTheme();
 
   const { borderRadii } = theme.containers.card;

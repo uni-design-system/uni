@@ -2,8 +2,7 @@ import React from 'react';
 import LayoutContext from './layout.context';
 
 // @ts-ignore
-export const LayoutProvider = ({children}) => {
-
+export const LayoutProvider = ({ children }) => {
   const getWidth = () => document.documentElement.clientWidth;
   const getHeight = () => document.documentElement.clientHeight;
 
@@ -16,13 +15,9 @@ export const LayoutProvider = ({children}) => {
   };
 
   React.useEffect(() => {
-    window.addEventListener("resize", handleWindowResize);
-    return () => window.removeEventListener("resize", handleWindowResize);
+    window.addEventListener('resize', handleWindowResize);
+    return () => window.removeEventListener('resize', handleWindowResize);
   }, []);
 
-  return (
-    <LayoutContext.Provider value={{ height, width }}>
-      { children }
-    </LayoutContext.Provider>
-  )
-}
+  return <LayoutContext.Provider value={{ height, width }}>{children}</LayoutContext.Provider>;
+};

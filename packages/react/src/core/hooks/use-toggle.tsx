@@ -17,7 +17,7 @@ export function useToggle(initialState: InitialState = false) {
       off: () => setValue(false),
       toggle: () => setValue((prev) => !prev),
     }),
-    [],
+    []
   );
   return [value, callbacks] as const;
 }

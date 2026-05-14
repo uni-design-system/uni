@@ -5,7 +5,6 @@ import { Apply, HorizontalAlign, RadiusApply, Size, SizeMap } from '../core.type
 import { ShadowElevation, ShadowMode } from '../shadow';
 
 export interface Container {
-
   maxWidth?: number;
   align?: HorizontalAlign;
   topPadding?: SizeMap;
@@ -16,10 +15,9 @@ export interface Container {
   backgroundType?: BackgroundType;
   borderRadii?: SizeMap;
   shadowMode?: ShadowMode;
-  shadowElevation?: ShadowElevation
+  shadowElevation?: ShadowElevation;
   color: ContainerColorToken;
   contentColor: ContentColorToken;
-
 
   blur?: {
     amount?: number;
@@ -37,8 +35,6 @@ export interface Container {
     apply?: RadiusApply;
   };
 
-
-
   gradient?: {
     degree?: number;
     colors?: string[];
@@ -53,7 +49,4 @@ export interface Container {
     bottom?: SizeMap;
     top?: SizeMap;
   };
-
-
-
 }

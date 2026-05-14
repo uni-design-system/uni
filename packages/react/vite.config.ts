@@ -6,14 +6,14 @@ import { resolve } from 'path';
 export default defineConfig({
   plugins: [
     react(),
-    dts({ insertTypesEntry: true }) // Automatically generates .d.ts files
+    dts({ insertTypesEntry: true }), // Automatically generates .d.ts files
   ],
   build: {
     lib: {
       entry: resolve(__dirname, 'src/index.ts'),
       name: 'UniReact',
       formats: ['es'], // Modern libraries typically only need ES modules
-      fileName: 'index'
+      fileName: 'index',
     },
     rollupOptions: {
       // CRITICAL: Do not bundle React or Core into your library
@@ -21,9 +21,9 @@ export default defineConfig({
       output: {
         globals: {
           react: 'React',
-          'react-dom': 'ReactDOM'
-        }
-      }
-    }
-  }
+          'react-dom': 'ReactDOM',
+        },
+      },
+    },
+  },
 });

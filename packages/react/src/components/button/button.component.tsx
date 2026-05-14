@@ -1,6 +1,12 @@
 import React, { CSSProperties, ReactNode, useEffect, useState } from 'react';
 import { BoxShadow, Text, useLayout, useTheme } from '../../core';
-import { Theme, ButtonType, ColorToken, Size, ContentColorToken } from '@uni-design-system/uni-core';
+import {
+  Theme,
+  ButtonType,
+  ColorToken,
+  Size,
+  ContentColorToken,
+} from '@uni-design-system/uni-core';
 import { IconTextRow } from '../icon-text-row';
 import { IconName } from '../../core/icon';
 import { useRipple } from 'use-ripple-hook';
@@ -84,10 +90,17 @@ function Style(
   size: Size = 'md',
   hover: boolean,
   disabled: boolean,
-  click: boolean,
+  click: boolean
 ): CSSProperties {
-  const { color, horizontalPadding, verticalPadding, borderColor, borderWidth, borderRadius, contentColor } =
-    theme.buttons[buttonType];
+  const {
+    color,
+    horizontalPadding,
+    verticalPadding,
+    borderColor,
+    borderWidth,
+    borderRadius,
+    contentColor,
+  } = theme.buttons[buttonType];
 
   const styles: CSSProperties = {
     overflow: 'hidden',

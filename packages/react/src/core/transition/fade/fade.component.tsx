@@ -3,7 +3,12 @@ import React from 'react';
 import { AnimatePresence, HTMLMotionProps, motion, Variants as _Variants } from 'framer-motion';
 
 import { forwardRef } from 'react';
-import { TRANSITION_DEFAULTS, Variants, withDelay, WithTransitionConfig } from '../transition.utils';
+import {
+  TRANSITION_DEFAULTS,
+  Variants,
+  withDelay,
+  WithTransitionConfig,
+} from '../transition.utils';
 
 export interface FadeProps extends WithTransitionConfig<HTMLMotionProps<'div'>> {}
 
@@ -37,7 +42,16 @@ export const Fade = forwardRef<HTMLDivElement, FadeProps>(function Fade(props, r
 
   return (
     <AnimatePresence custom={custom}>
-      {show && <motion.div ref={ref} className={'fade'} custom={custom} {...fadeConfig} animate={animate} {...rest} />}
+      {show && (
+        <motion.div
+          ref={ref}
+          className={'fade'}
+          custom={custom}
+          {...fadeConfig}
+          animate={animate}
+          {...rest}
+        />
+      )}
     </AnimatePresence>
   );
 });

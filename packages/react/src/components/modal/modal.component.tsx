@@ -33,7 +33,12 @@ export const Modal = ({ children, isOpen, size = 'lg' }: ModalProps) => {
           exit={{ y: 36, opacity: 0 }}
           transition={{ duration: 0.2 }}
         >
-          <Card colorToken="background" width={ModalSizes[size]} cardType="elevated" elevation="modal">
+          <Card
+            colorToken="background"
+            width={ModalSizes[size]}
+            cardType="elevated"
+            elevation="modal"
+          >
             {children}
           </Card>
         </motion.div>

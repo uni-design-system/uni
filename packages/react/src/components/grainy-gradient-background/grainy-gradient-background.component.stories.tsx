@@ -1,5 +1,8 @@
 import React from 'react';
-import { GrainyGradientBackground, GrainyGradientProps } from './grainy-gradient-background.component';
+import {
+  GrainyGradientBackground,
+  GrainyGradientProps,
+} from './grainy-gradient-background.component';
 
 export default {
   title: 'Components/Background',

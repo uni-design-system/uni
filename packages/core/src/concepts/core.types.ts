@@ -1,55 +1,20 @@
-export type Role =
-  | 'primary'
-  | 'secondary'
-  | 'tertiary'
-  | 'ghost'
-  | 'error'
-  | 'warn'
-  | 'link'
-  ;
+export type Role = 'primary' | 'secondary' | 'tertiary' | 'ghost' | 'error' | 'warn' | 'link';
 
-export type SupportRole =
-  | 'info'
-  | 'warn'
-  | 'success'
-  | 'error'
-  ;
+export type SupportRole = 'info' | 'warn' | 'success' | 'error';
 
-export type Size =
-  | 'xs'
-  | 'sm'
-  | 'md'
-  | 'lg'
-  | 'xl'
-  ;
+export type Size = 'xs' | 'sm' | 'md' | 'lg' | 'xl';
 
 export type SizeMap = Record<Size, number>;
 
-export type HorizontalBinary =
-  | 'left'
-  | 'right'
-  ;
+export type HorizontalBinary = 'left' | 'right';
 
-export type HorizontalAlign = HorizontalBinary
-  | 'center'
-  ;
+export type HorizontalAlign = HorizontalBinary | 'center';
 
-export type VerticalBinary =
-  | 'top'
-  | 'bottom'
-  ;
+export type VerticalBinary = 'top' | 'bottom';
 
-export type VerticalAlign = VerticalBinary
-  | 'middle'
-  ;
+export type VerticalAlign = VerticalBinary | 'middle';
 
-export type Apply =
-  | HorizontalBinary
-  | VerticalBinary
-  | 'vertical'
-  | 'horizontal'
-  | 'all'
-  ;
+export type Apply = HorizontalBinary | VerticalBinary | 'vertical' | 'horizontal' | 'all';
 
 export type RadiusApply =
   | 'left'
@@ -61,7 +26,6 @@ export type RadiusApply =
   | 'bottomLeft'
   | 'bottomRight'
   | 'all'
-  | 'none'
-  ;
+  | 'none';
 
 export type StrokeWidth = string | number;

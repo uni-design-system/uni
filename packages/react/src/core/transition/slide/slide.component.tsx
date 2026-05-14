@@ -1,5 +1,11 @@
 import React from 'react';
-import { AnimatePresence, HTMLMotionProps, motion, MotionStyle, Variants as TVariants } from 'framer-motion';
+import {
+  AnimatePresence,
+  HTMLMotionProps,
+  motion,
+  MotionStyle,
+  Variants as TVariants,
+} from 'framer-motion';
 import { forwardRef } from 'react';
 import {
   SlideDirection,
@@ -71,7 +77,11 @@ export const Slide = forwardRef<HTMLDivElement, SlideProps>(function Slide(props
   } = props;
 
   const transitionStyles = getSlideTransition({ direction });
-  const computedStyle: MotionStyle = Object.assign({ position: 'fixed' }, transitionStyles.position, style);
+  const computedStyle: MotionStyle = Object.assign(
+    { position: 'fixed' },
+    transitionStyles.position,
+    style
+  );
 
   const show = unmountOnExit ? isOpen && unmountOnExit : true;
   const animate = isOpen || unmountOnExit ? 'enter' : 'exit';

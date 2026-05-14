@@ -30,7 +30,10 @@ export const IconManifest = (): JSX.Element => {
 
   return (
     <div>
-      <input onChange={(e): void => setFilteredIcons(Filter(e.target.value))} placeholder="Filter Icons by Name" />
+      <input
+        onChange={(e): void => setFilteredIcons(Filter(e.target.value))}
+        placeholder="Filter Icons by Name"
+      />
       <div>
         {filteredIcons.map((iconName) => {
           return (

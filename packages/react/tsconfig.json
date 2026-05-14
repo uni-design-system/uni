@@ -4,8 +4,8 @@
     "moduleResolution": "bundler",
     "jsx": "react-jsx",
     "lib": ["DOM", "DOM.Iterable", "ESNext"],
-    "noEmit": true,           // Ensures 'tsc' only checks types and doesn't write files
-    "outDir": "dist",         // If you DO emit, they go here
+    "noEmit": true, // Ensures 'tsc' only checks types and doesn't write files
+    "outDir": "dist", // If you DO emit, they go here
     "rootDir": "src"
   },
   "include": ["src"],

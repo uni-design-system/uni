@@ -15,4 +15,7 @@ export const cycle = (angle: number): number => {
 export const getAnalogousHues = (hue: number): number[] => [cycle(hue + 30), cycle(hue + 60)];
 export const getComplimentaryHue = (hue: number): number => cycle(hue + 180);
 export const getTriadicHues = (hue: number): number[] => [cycle(hue + 120), cycle(hue - 120)];
-export const getSplitComplimentaryHues = (hue: number): number[] => [cycle(hue + 150), cycle(hue - 150)];
+export const getSplitComplimentaryHues = (hue: number): number[] => [
+  cycle(hue + 150),
+  cycle(hue - 150),
+];

@@ -1,16 +1,6 @@
-export type IconStyle =
-  | 'solid'
-  | 'outline'
-  ;
+export type IconStyle = 'solid' | 'outline';
 
-export type ToggleableIcon =
-  | 'radio'
-  | 'check'
-  | 'like'
-  | 'favorite'
-  | 'lock'
-  | 'view'
-  ;
+export type ToggleableIcon = 'radio' | 'check' | 'like' | 'favorite' | 'lock' | 'view';
 
 export type IconToken =
   | 'alert'
@@ -69,5 +59,4 @@ export type IconToken =
   | 'inbox'
   | 'mail'
   | 'comment'
-  | 'home'
-  ;
+  | 'home';

@@ -7,8 +7,7 @@ import { findManyChannelStatus } from './mockData';
 
 import { Button } from '../../button';
 import { UniqueIdentifier } from '@dnd-kit/core';
-import { Text } from '../../../core';
-import { Flex } from '../../../core/flex/flex.component';
+import { Flex, Text } from '../../../core';
 
 export default {
   title: 'Components/Draggable/Sortable List',
@@ -41,7 +40,8 @@ export const BasicList = (): JSX.Element => {
 export const SortableRows = (): JSX.Element => {
   const [items, setItems] = useState(findManyChannelStatus);
 
-  const handleRemove = (id: UniqueIdentifier): void => setItems((items) => items.filter((item) => item.id !== id));
+  const handleRemove = (id: UniqueIdentifier): void =>
+    setItems((items) => items.filter((item) => item.id !== id));
 
   return (
     <SortableList
@@ -58,7 +58,11 @@ export const SortableRows = (): JSX.Element => {
           <Flex align="center">
             <DragHandle />
             <Text role="paragraph">{name}</Text>
-            <Button buttonType="icon" onClick={(): void => handleRemove(id)} iconName="trashCanRegular" />
+            <Button
+              buttonType="icon"
+              onClick={(): void => handleRemove(id)}
+              iconName="trashCanRegular"
+            />
           </Flex>
         </SortableItem>
       )}

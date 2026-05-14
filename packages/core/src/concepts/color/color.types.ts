@@ -2,7 +2,12 @@
 // https://designerup.co/blog/practical-guide-to-perfect-ui-color-palettes/
 
 // Palette Attributes
-export type ColorScheme = 'monochromatic' | 'analogous' | 'complimentary' | 'splitComplimentary' | 'triadic';
+export type ColorScheme =
+  | 'monochromatic'
+  | 'analogous'
+  | 'complimentary'
+  | 'splitComplimentary'
+  | 'triadic';
 export type ColorCategory = 'jewel' | 'pastel' | 'earth' | 'neutral' | 'florescent' | 'shades';
 
 // Color Attributes
@@ -23,7 +28,12 @@ export type ColorRole = 'primary' | 'secondary' | 'tertiary' | 'inverse' | 'ghos
  *
  * */
 
-export type ColorToken = ElementColorToken | UtilityColorToken | ContainerColorToken | ContentColorToken | string;
+export type ColorToken =
+  | ElementColorToken
+  | UtilityColorToken
+  | ContainerColorToken
+  | ContentColorToken
+  | string;
 
 export type ElementColorToken = 'primary' | 'secondary' | 'tertiary' | 'error';
 

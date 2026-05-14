@@ -9,7 +9,12 @@ export interface ColorPickerProps {
   sampleSize: number;
 }
 
-export const ColorPicker = ({ imageUrl, imageWidth, imageHeight, sampleSize = 41 }: ColorPickerProps): JSX.Element => {
+export const ColorPicker = ({
+  imageUrl,
+  imageWidth,
+  imageHeight,
+  sampleSize = 41,
+}: ColorPickerProps): JSX.Element => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   const [pixelColor, setPixelColor] = useState<RGBA>({ red: 0, green: 0, blue: 0, alpha: 1 });

@@ -29,7 +29,7 @@ export const SortableList = <T extends SortableItemProps>({
     useSensor(PointerSensor),
     useSensor(KeyboardSensor, {
       coordinateGetter: sortableKeyboardCoordinates,
-    }),
+    })
   );
 
   const style: CSSProperties = {

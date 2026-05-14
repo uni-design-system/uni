@@ -17,7 +17,15 @@ export const SortableItem = ({
   style: userStyle,
   onRemove,
 }: PropsWithChildren<SortableItemProps>): JSX.Element => {
-  const { attributes, isDragging, listeners, setNodeRef, setActivatorNodeRef, transform, transition } = useSortable({
+  const {
+    attributes,
+    isDragging,
+    listeners,
+    setNodeRef,
+    setActivatorNodeRef,
+    transform,
+    transition,
+  } = useSortable({
     id,
   });
   const context = useMemo(
@@ -26,7 +34,7 @@ export const SortableItem = ({
       listeners,
       ref: setActivatorNodeRef,
     }),
-    [attributes, listeners, setActivatorNodeRef],
+    [attributes, listeners, setActivatorNodeRef]
   );
   const style: CSSProperties = {
     opacity: isDragging ? 0.4 : undefined,

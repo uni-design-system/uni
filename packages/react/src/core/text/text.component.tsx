@@ -29,7 +29,8 @@ export function Text(props: TextProps) {
 
   const colorToken = containerColorToken ? (`on-${containerColorToken}` as ColorToken) : undefined;
 
-  const { fontSize, letterSpacing, lineHeight, fontWeight, fontFamily, fontStyle, textTransform } = typography[role];
+  const { fontSize, letterSpacing, lineHeight, fontWeight, fontFamily, fontStyle, textTransform } =
+    typography[role];
 
   const style = {
     color: colors[overridingColorToken || colorToken || 'on-surface'],

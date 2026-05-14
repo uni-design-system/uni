@@ -1,4 +1,6 @@
-type FieldWithPossiblyUndefined<T, Key> = GetFieldType<Exclude<T, undefined>, Key> | Extract<T, undefined>
+type FieldWithPossiblyUndefined<T, Key> =
+  | GetFieldType<Exclude<T, undefined>, Key>
+  | Extract<T, undefined>;
 
 type GetIndexedField<T, K> = K extends keyof T
   ? T[K]
@@ -8,20 +10,26 @@ type GetIndexedField<T, K> = K extends keyof T
       : number extends keyof T
         ? T[number]
         : undefined
-    : undefined
+    : undefined;
 
 export type GetFieldType<T, P> = P extends `${infer Left}.${infer Right}`
   ? Left extends keyof T
     ? FieldWithPossiblyUndefined<T[Left], Right>
     : Left extends `${infer FieldKey}[${infer IndexKey}]`
       ? FieldKey extends keyof T
-        ? FieldWithPossiblyUndefined<GetIndexedField<Exclude<T[FieldKey], undefined>, IndexKey> | Extract<T[FieldKey], undefined>, Right>
+        ? FieldWithPossiblyUndefined<
+            | GetIndexedField<Exclude<T[FieldKey], undefined>, IndexKey>
+            | Extract<T[FieldKey], undefined>,
+            Right
+          >
         : undefined
       : undefined
   : P extends keyof T
     ? T[P]
     : P extends `${infer FieldKey}[${infer IndexKey}]`
       ? FieldKey extends keyof T
-        ? GetIndexedField<Exclude<T[FieldKey], undefined>, IndexKey> | Extract<T[FieldKey], undefined>
+        ?
+            | GetIndexedField<Exclude<T[FieldKey], undefined>, IndexKey>
+            | Extract<T[FieldKey], undefined>
         : undefined
-      : undefined
+      : undefined;

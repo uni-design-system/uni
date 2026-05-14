@@ -1,7 +1,14 @@
 import React from 'react';
 import { AnimatePresence, HTMLMotionProps, motion, Variants as _Variants } from 'framer-motion';
 import { forwardRef, useEffect, useState } from 'react';
-import { TRANSITION_EASINGS, Variants, withDelay, WithTransitionConfig, cx, warn } from '../transition.utils';
+import {
+  TRANSITION_EASINGS,
+  Variants,
+  withDelay,
+  WithTransitionConfig,
+  cx,
+  warn,
+} from '../transition.utils';
 
 const isNumeric = (value?: string | number) => value != null && parseInt(value.toString(), 10) > 0;
 
@@ -51,7 +58,8 @@ const variants: Variants<CollapseOptions> = {
 
 export type ICollapse = CollapseProps;
 
-export interface CollapseProps extends WithTransitionConfig<HTMLMotionProps<'div'>>, CollapseOptions {}
+export interface CollapseProps
+  extends WithTransitionConfig<HTMLMotionProps<'div'>>, CollapseOptions {}
 
 export const Collapse = forwardRef<HTMLDivElement, CollapseProps>((props, ref) => {
   const {

@@ -10,5 +10,5 @@ export const FontWeightMap: Record<FontWeight, number> = {
   bold: 700,
   'extra-bold': 800,
   black: 900,
-  'extra-black': 950
-}
+  'extra-black': 950,
+};

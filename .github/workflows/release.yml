@@ -11,9 +11,9 @@ jobs:
     runs-on: ubuntu-latest
 
     permissions:
-      contents: write        # To create the Version PR and Git Tags
-      pull-requests: write   # To open the Version PR
-      id-token: write        # REQUIRED for Trusted Publishing (OIDC)
+      contents: write # To create the Version PR and Git Tags
+      pull-requests: write # To open the Version PR
+      id-token: write # REQUIRED for Trusted Publishing (OIDC)
 
     steps:
       - uses: actions/checkout@v4

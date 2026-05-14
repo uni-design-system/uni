@@ -5,5 +5,4 @@ export type ButtonType =
   | 'outlined'
   | 'text'
   | 'icon'
-  | 'floating-action'
-  ;
+  | 'floating-action';

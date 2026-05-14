@@ -35,7 +35,10 @@ const parseCookie = (cookie: string, key: string): string | undefined => {
 
 // Usage
 // export const cookieStorageManager = createCookieStorageManager(STORAGE_KEY);
-export const createCookieStorageManager = (key: string, cookie?: string): StorageManager<string> => ({
+export const createCookieStorageManager = (
+  key: string,
+  cookie?: string
+): StorageManager<string> => ({
   type: 'cookie',
   get(init?): string | undefined {
     if (cookie) return parseCookie(cookie, key);

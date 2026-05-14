@@ -1,10 +1,6 @@
-import { GetFieldType } from "./types";
+import { GetFieldType } from './types';
 
-export function getValue<
-  TData,
-  TPath extends string,
-  TDefault = GetFieldType<TData, TPath>
-  >(
+export function getValue<TData, TPath extends string, TDefault = GetFieldType<TData, TPath>>(
   data: TData,
   path: TPath,
   defaultValue?: TDefault
@@ -12,10 +8,7 @@ export function getValue<
   const value = path
     .split(/[.[\]]/)
     .filter(Boolean)
-    .reduce<GetFieldType<TData, TPath>>(
-      (value, key) => (value as any)?.[key],
-      data as any
-    );
+    .reduce<GetFieldType<TData, TPath>>((value, key) => (value as any)?.[key], data as any);
 
   return value !== undefined ? value : (defaultValue as TDefault);
 }

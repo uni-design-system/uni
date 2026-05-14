@@ -23,7 +23,7 @@ export const useMedia = <T>(queries: string[], values: T[], defaultValue: T) => 
       // Remove listeners on cleanup
       return () => mediaQueryLists.forEach((mql) => mql.removeListener(handler));
     },
-    [], // Empty array ensures effect is only run on mount and unmount
+    [] // Empty array ensures effect is only run on mount and unmount
   );
   return value;
 };

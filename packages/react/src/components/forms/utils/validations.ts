@@ -9,7 +9,8 @@ export type ValidationRule =
 
 export const validations: Record<ValidationRule, unknown> = {
   email: {
-    rule: () => /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i,
+    rule: () =>
+      /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i,
     formatter(fieldName: string) {
       return `${fieldName} is not valid email`;
     },

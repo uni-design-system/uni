@@ -11,7 +11,7 @@
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "useDefineForClassFields": false,
-    "ignoreDeprecations": "5.0",
+    "ignoreDeprecations": "5.0"
   },
   "include": ["src/**/*", ".storybook/**/*"],
   "exclude": ["node_modules", "dist", "**/*.spec.ts", "**/*.stories.ts"]

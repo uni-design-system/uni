@@ -1,5 +1,1 @@
-export type ContainerType =
-  | 'card'
-  | 'screen'
-  | 'modal'
-  ;
+export type ContainerType = 'card' | 'screen' | 'modal';
