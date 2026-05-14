@@ -6,6 +6,7 @@
     "build": "turbo run build",
     "dev": "turbo run storybook",
     "dev:hub": "turbo run storybook --filter=@uni-design-system/uni-docs --filter=@uni-design-system/uni-react --filter=@uni-design-system/uni-angular",
+    "format": "prettier --write .",
     "lint": "turbo lint",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build"
@@ -16,6 +17,7 @@
     "@storybook/react-vite": "^10.3.6",
     "@types/node": "^25.6.0",
     "csstype": "^3.2.3",
+    "prettier": "^3.8.3",
     "storybook": "^10.3.6",
     "turbo": "^2.9.8",
     "typescript": "~5.9.0",
