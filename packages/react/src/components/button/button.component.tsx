@@ -1,7 +1,7 @@
 import React, { CSSProperties, ReactNode, useEffect, useState } from 'react';
 import { BoxShadow, Text, useLayout, useTheme } from '../../core';
 import {
-  Theme,
+  UniTheme,
   ButtonType,
   ColorToken,
   Size,
@@ -85,7 +85,7 @@ export const Button = ({
 };
 
 function Style(
-  theme: Theme,
+  theme: UniTheme,
   buttonType: ButtonType,
   size: Size = 'md',
   hover: boolean,
