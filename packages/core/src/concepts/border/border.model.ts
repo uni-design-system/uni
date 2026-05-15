@@ -1,7 +1,7 @@
 import { ColorToken } from '../color';
 import { StrokeWidth } from '../core.types';
 
-export interface Border {
+export interface BoxBorder {
   color?: ColorToken;
   colorTop?: ColorToken;
   colorBottom?: ColorToken;

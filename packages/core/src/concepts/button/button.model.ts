@@ -1,7 +1,7 @@
 import { ShadowElevation } from '../shadow';
 import { ColorToken } from '../color';
 import { SizeMap, StrokeWidth } from '../core.types';
-import { Border } from '../border';
+import type { Border } from '../theme';
 
 export interface Button {
   color: ColorToken;

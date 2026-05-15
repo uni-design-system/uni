@@ -1,8 +1,10 @@
+import type { Size } from './size';
+
+export type { Size };
+
 export type Role = 'primary' | 'secondary' | 'tertiary' | 'ghost' | 'error' | 'warn' | 'link';
 
 export type SupportRole = 'info' | 'warn' | 'success' | 'error';
-
-export type Size = 'xs' | 'sm' | 'md' | 'lg' | 'xl';
 
 export type SizeMap = Record<Size, number>;
 

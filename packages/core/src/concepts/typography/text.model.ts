@@ -15,3 +15,13 @@ export interface TextStyle {
   wordSpacing?: number;
   whiteSpace?: 'nowrap';
 }
+
+export interface TypeFaceDefinition {
+  fontFamily: string;
+  fontSize: string;
+  lineHeight: string;
+  letterSpacing?: string;
+  textTransform?: 'uppercase';
+  fontStyle?: 'italic';
+  fontWeight?: string | number;
+}

@@ -1,7 +1,7 @@
-import { Theme } from '../theme.model';
+import { type UniTheme } from '../theme.model';
 import { BaseTheme } from './base.theme';
 
-export const DarkTheme: Theme = {
+export const DarkTheme: UniTheme = {
   ...BaseTheme,
   id: 'DarkTheme',
   name: 'Dark Theme',
