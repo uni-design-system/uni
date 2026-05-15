@@ -1,6 +1,6 @@
 import { Size } from '@uni-design-system/uni-core';
 
-export const SwitchConfigs: Record<Size, { radius: number; padding: number }> = {
+export const SwitchConfigs: Partial<Record<Size, { radius: number; padding: number }>> = {
   xs: {
     radius: 6,
     padding: 2,
