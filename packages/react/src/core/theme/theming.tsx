@@ -1,11 +1,11 @@
 import React, { createContext, useContext, useMemo } from 'react';
-import { LightTheme, type Theme } from '@uni-design-system/uni-core';
+import { LightTheme, type UniTheme } from '@uni-design-system/uni-core';
 
 const defaultTheme = LightTheme;
 
-const ThemeContext = createContext<Theme>(defaultTheme);
+const ThemeContext = createContext<UniTheme>(defaultTheme);
 
-export const ThemeProvider: React.FC<{ theme?: Theme; children: React.ReactNode }> = ({
+export const ThemeProvider: React.FC<{ theme?: UniTheme; children: React.ReactNode }> = ({
   theme,
   children,
 }) => {
@@ -20,7 +20,7 @@ export const useTheme = () => {
   return context;
 };
 
-export function withTheme<P extends { theme: Theme }>(
+export function withTheme<P extends { theme: UniTheme }>(
   Component: React.ComponentType<P>
 ): React.ComponentType<Omit<P, 'theme'>> {
   return function WrappedComponent(props: any) {

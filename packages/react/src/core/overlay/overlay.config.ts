@@ -1,9 +1,9 @@
-import { Theme, HSLAToString } from '@uni-design-system/uni-core';
+import { UniTheme, HSLAToString } from '@uni-design-system/uni-core';
 import { CSSProperties } from 'react';
 import { OverlayProps } from './overlay.model';
 
 export const OverlayStyle = (
-  theme: Theme,
+  theme: UniTheme,
   {
     hueRotateDeg = 0,
     hueDeg = 0,

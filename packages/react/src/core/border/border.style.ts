@@ -1,7 +1,7 @@
-import { Border, ColorToken, getValue, Theme } from '@uni-design-system/uni-core';
+import { Border, ColorToken, getValue, UniTheme } from '@uni-design-system/uni-core';
 import { CSSProperties } from 'react';
 
-export function BorderStyle(border: Border | undefined, theme: Theme): CSSProperties {
+export function BorderStyle(border: Border | undefined, theme: UniTheme): CSSProperties {
   if (!border) return {};
 
   const borderTopColor = extractColor(theme, border, 'colorTop');
@@ -25,6 +25,7 @@ export function BorderStyle(border: Border | undefined, theme: Theme): CSSProper
   };
 }
 
-function extractColor(theme: Theme, border: Border, key: string): string {
-  return theme.colors[getValue(border, key, 'color') as ColorToken];
+function extractColor(theme: UniTheme, border: Border, key: string): string | undefined {
+  const colorToken = getValue(border, key, 'color') as ColorToken;
+  return colorToken ? theme.colors[colorToken] : undefined;
 }
