@@ -1,4 +1,6 @@
-import type { Preview } from '@storybook/angular';
+import { applicationConfig, type Preview } from '@storybook/angular';
+import { UNI_THEMES } from '../src/lib/theming/theme.token';
+import { UniThemes } from '@uni-design-system/uni-core';
 
 const preview: Preview = {
   parameters: {
@@ -9,6 +11,11 @@ const preview: Preview = {
       },
     },
   },
+  decorators: [
+    applicationConfig({
+      providers: [{ provide: UNI_THEMES, useValue: UniThemes }],
+    }),
+  ],
 };
 
 export default preview;
