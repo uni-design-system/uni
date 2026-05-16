@@ -10,7 +10,7 @@ import type {
 import { ThemeService } from '../../theming/theme.service';
 
 @Component({
-  selector: 'oui-text, Text',
+  selector: 'uni-text, Text',
   standalone: true,
   imports: [],
   template: '<ng-content></ng-content>',
@@ -18,7 +18,7 @@ import { ThemeService } from '../../theming/theme.service';
 export class UniTextComponent {
   theme = inject(ThemeService);
 
-  role = input<Typeface>('title-small');
+  typeface = input<Typeface>('title-small');
   color = input<ColorKey>();
   display = input<OptionalDisplay>();
   align = input<OptionalTextAlign>();
@@ -29,7 +29,7 @@ export class UniTextComponent {
   @HostBinding('class') get className() {
     return css([
       {
-        ...this.theme.typeface(this.role()),
+        ...this.theme.typeface(this.typeface()),
         ...this.theme.color(this.color()),
         display: this.display(),
       },
