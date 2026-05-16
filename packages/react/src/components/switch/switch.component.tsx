@@ -25,7 +25,10 @@ export const Switch = ({ size = 'sm', on = false, onChange }: SwitchProps) => {
     damping: 30,
   };
 
-  const config = SwitchConfigs[size];
+  const config = SwitchConfigs[size] || {
+    radius: 8,
+    padding: 2,
+  };
 
   const handleDiameter = config.radius * 2;
   const switchWidth = config.radius * 4;
