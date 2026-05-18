@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
 
-    <title>storybook - Storybook</title>
+    <title>@storybook/angular - Storybook</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
     
@@ -71,19 +71,20 @@
       
         
           window['FEATURES'] = {
-  "argTypeTargetsV7": true,
-  "legacyDecoratorFileOrder": false,
-  "disallowImplicitActionsInRenderV8": true,
-  "viewport": true,
-  "highlight": true,
-  "controls": true,
-  "interactions": true,
   "actions": true,
+  "argTypeTargetsV7": true,
   "backgrounds": true,
-  "outline": true,
+  "changeDetection": true,
+  "componentsManifest": false,
+  "controls": true,
+  "disallowImplicitActionsInRenderV8": true,
+  "highlight": true,
+  "interactions": true,
+  "legacyDecoratorFileOrder": false,
   "measure": true,
+  "outline": true,
   "sidebarOnboardingChecklist": true,
-  "componentsManifest": false
+  "viewport": true
 };
         
       
@@ -114,11 +115,15 @@
         
       
         
-          window['STORYBOOK_BUILDER'] = "vite";
+          window['STORYBOOK_BUILDER'] = "webpack5";
         
       
         
+          window['STORYBOOK_FRAMEWORK'] = "angular";
+        
       
+        
+          window['STORYBOOK_RENDERER'] = "angular";
         
       
         
