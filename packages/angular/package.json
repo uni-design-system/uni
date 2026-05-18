@@ -14,7 +14,7 @@
   "scripts": {
     "build": "pnpm ng-packagr -p ng-package.json",
     "storybook": "pnpm ng run @uni-design-system/uni-angular:storybook",
-    "build-storybook": "pnpm ng run @uni-design-system/uni-angular:build-storybook",
+    "build-storybook": "pnpm dlx @angular/cli run @uni-design-system/uni-angular:build-storybook",
     "release": "pnpm build && pnpm changeset publish"
   },
   "peerDependencies": {
