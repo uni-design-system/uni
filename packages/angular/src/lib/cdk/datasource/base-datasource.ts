@@ -7,7 +7,7 @@ export interface Sort<T> {
   direction: SortDirection;
 }
 
-export abstract class OuiBaseDatasource<T> {
+export abstract class UniBaseDatasource<T> {
   abstract records: Signal<T[]>;
   abstract recordCount: Signal<number>;
 
@@ -25,9 +25,7 @@ export abstract class OuiBaseDatasource<T> {
   abstract pageSize: Signal<number>;
   abstract pageCount: Signal<number>;
 
-  pages = computed(() =>
-    Array.from({ length: this.pageCount() }, (_, index) => index + 1),
-  );
+  pages = computed(() => Array.from({ length: this.pageCount() }, (_, index) => index + 1));
 
   startIndex = computed(() => {
     const pageSize = this.pageSize();
@@ -93,9 +91,7 @@ export abstract class OuiBaseDatasource<T> {
 
   toggleSelection(row: T) {
     this.selections.update((selections) => {
-      return selections.includes(row)
-        ? selections.filter((i) => i !== row)
-        : [...selections, row];
+      return selections.includes(row) ? selections.filter((i) => i !== row) : [...selections, row];
     });
   }
 

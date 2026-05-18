@@ -7,7 +7,7 @@ import {
   type ResourceStatus,
   signal,
 } from '@angular/core';
-import { OuiBaseDatasource, Sort, SortDirection } from './base-datasource';
+import { UniBaseDatasource, Sort, SortDirection } from './base-datasource';
 
 export interface PageRequest {
   pageNumber: number;
@@ -26,7 +26,7 @@ export interface PageResponse<T> {
 
 export type DataLoader<T> = (request: PageRequest) => Promise<PageResponse<T>>;
 
-export class OuiServerSideDatasource<T> extends OuiBaseDatasource<T> {
+export class UniServerSideDatasource<T> extends UniBaseDatasource<T> {
   private _pageNumber = signal(1);
   private _pageSize = signal(10);
   private _sortColumn = signal<keyof T | undefined>(undefined);
@@ -76,13 +76,11 @@ export class OuiServerSideDatasource<T> extends OuiBaseDatasource<T> {
 
   error = computed(() => this.dataResource.error());
 
-  hasError = computed(
-    () => this.dataResource.hasValue() === false && this.error() !== undefined,
-  );
+  hasError = computed(() => this.dataResource.hasValue() === false && this.error() !== undefined);
 
   constructor(
     private dataLoader: DataLoader<T>,
-    initialPageSize = 10,
+    initialPageSize = 10
   ) {
     super();
     this._pageSize.set(initialPageSize);

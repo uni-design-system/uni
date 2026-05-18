@@ -1,14 +1,10 @@
-import { OuiBaseDatasource } from './base-datasource';
-import { OuiRecordDatasource } from './record-datasource';
-import { OuiServerSideDatasource } from './server-side-datasource';
+import { UniBaseDatasource } from './base-datasource';
+import { UniRecordDatasource } from './record-datasource';
+import { UniServerSideDatasource } from './server-side-datasource';
 
-export type OuiDatasource<T> = OuiBaseDatasource<T>;
+export type UniDatasource<T> = UniBaseDatasource<T>;
 
 export type { Sort, SortDirection } from './base-datasource';
-export type {
-  DataLoader,
-  PageRequest,
-  PageResponse,
-} from './server-side-datasource';
+export type { DataLoader, PageRequest, PageResponse } from './server-side-datasource';
 
-export { OuiBaseDatasource, OuiRecordDatasource, OuiServerSideDatasource };
+export { UniBaseDatasource, UniRecordDatasource, UniServerSideDatasource };

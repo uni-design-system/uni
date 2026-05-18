@@ -1,14 +1,12 @@
 import { computed, signal } from '@angular/core';
-import { OuiBaseDatasource, Sort } from './base-datasource';
+import { UniBaseDatasource, Sort } from './base-datasource';
 
-export class OuiRecordDatasource<T> extends OuiBaseDatasource<T> {
+export class UniRecordDatasource<T> extends UniBaseDatasource<T> {
   private _pageNumber = signal(1);
   private _pageSize = signal<number>(0); // 0 = unpaginated (show all)
 
   initialRecords = signal<T[]>([]);
-  override recordCount = computed(
-    (): number => this.initialRecords().filter(this.filter()).length,
-  );
+  override recordCount = computed((): number => this.initialRecords().filter(this.filter()).length);
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   filter = signal<(value: T) => boolean>((value) => true);
