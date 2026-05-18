@@ -3,7 +3,7 @@
   "compilerOptions": {
     "moduleResolution": "bundler",
     "outDir": "./dist",
-    "rootDir": "./src",
+    "rootDir": "..",
     "module": "ESNext",
     "target": "ES2022",
     "esModuleInterop": true,
@@ -13,6 +13,6 @@
     "useDefineForClassFields": false,
     "ignoreDeprecations": "5.0"
   },
-  "include": ["src/**/*", ".storybook/**/*"],
-  "exclude": ["node_modules", "dist", "**/*.spec.ts", "**/*.stories.ts"]
+  "include": ["../src/**/*", "**/*"],
+  "exclude": ["../node_modules", "../dist", "**/*.spec.ts", "**/*.stories.ts"]
 }
