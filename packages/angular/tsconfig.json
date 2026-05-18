@@ -8,11 +8,12 @@
     "target": "ES2022",
     "esModuleInterop": true,
     "types": ["node", "vite/client"],
+    "jsx": "react-jsx",
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "useDefineForClassFields": false,
     "ignoreDeprecations": "5.0"
   },
-  "include": ["../src/**/*", "**/*"],
+  "include": ["src/**/*", "**/*"],
   "exclude": ["../node_modules", "../dist", "**/*.spec.ts", "**/*.stories.ts"]
 }
