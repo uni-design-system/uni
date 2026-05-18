@@ -30,7 +30,7 @@ jobs:
       - name: Build Storybooks
         run: |
           pnpm --filter @uni-design-system/uni-react build-storybook
-          pnpm --filter @uni-design-system/uni-angular build-storybook
+          cd packages/angular && npx ng run @uni-design-system/uni-angular:build-storybook
 
       - name: Deploy React Docs
         uses: JamesIves/github-pages-deploy-action@v4
