@@ -22,7 +22,7 @@ export class UniTextComponent {
   color = input<ColorKey>();
   display = input<OptionalDisplay>();
   align = input<OptionalTextAlign>();
-  nowrap = input<boolean>(false);
+  nowrap = input<boolean>();
   maxWidth = input<number>();
   ellipsis = input<boolean>(false);
 
