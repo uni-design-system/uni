@@ -10,4 +10,15 @@ const theme = create({
   appBg: 'white',
 });
 
-addons.setConfig({ theme });
+addons.setConfig({
+  theme,
+  sidebar: {
+    // This filter excludes individual stories from the sidebar list,
+    // leaving only the MDX documentation pages visible.
+    filters: {
+      patterns: (item) => {
+        return item.type === 'docs';
+      },
+    },
+  },
+});
