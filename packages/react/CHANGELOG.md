@@ -1,5 +1,14 @@
 # @uni-design-system/uni-react
 
+## 2.0.2
+
+### Patch Changes
+
+- [`c5c552a`](https://github.com/uni-design-system/uni/commit/c5c552a74a7ee48e64c438db30e6dd2514ac9b11) Thanks [@gaenglish](https://github.com/gaenglish)! - Fix: switch React package distribution to bundled multi-format outputs via Vite to resolve strict ESM runtime and source compilation issues inside consumers.
+
+- Updated dependencies []:
+  - @uni-design-system/uni-core@2.0.2
+
 ## 2.0.1
 
 ### Patch Changes
