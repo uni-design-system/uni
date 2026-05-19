@@ -157,6 +157,12 @@ importers:
       typescript:
         specifier: ^5.0.0
         version: 5.9.3
+      vite:
+        specifier: ^8.0.13
+        version: 8.0.13(@types/node@25.8.0)(esbuild@0.27.7)(jiti@2.7.0)(less@4.6.4)(sass@1.99.0)(terser@5.47.1)
+      vite-plugin-dts:
+        specifier: ^5.0.0
+        version: 5.0.0(esbuild@0.27.7)(rolldown@1.0.1)(rollup@4.60.4)(typescript@5.9.3)(vite@8.0.13(@types/node@25.8.0)(esbuild@0.27.7)(jiti@2.7.0)(less@4.6.4)(sass@1.99.0)(terser@5.47.1))(webpack@5.106.2(esbuild@0.27.7))
 
   packages/react:
     dependencies:
@@ -6134,6 +6140,20 @@ packages:
   vary@1.1.2:
     resolution: {integrity: sha512-BNGbWLfd0eUPabhkXUVm0j8uuvREyTh5ovRa/dyow/BqAbZJyC+5fU+IzQOzmAKzYqYRAISoRhdQr3eIZ/PXqg==}
     engines: {node: '>= 0.8'}
+
+  vite-plugin-dts@5.0.0:
+    resolution: {integrity: sha512-VLNAUttBq7pLxxL/m/ztjd5zj5yiviiC7ijfPFVLK5c45FLcibvieBsdjSka3a4ag1qdrAF9K3OysH4/lW+rPQ==}
+    peerDependencies:
+      '@microsoft/api-extractor': '>=7'
+      rollup: '>=3'
+      vite: '>=3'
+    peerDependenciesMeta:
+      '@microsoft/api-extractor':
+        optional: true
+      rollup:
+        optional: true
+      vite:
+        optional: true
 
   vite-tsconfig-paths@6.1.1:
     resolution: {integrity: sha512-2cihq7zliibCCZ8P9cKJrQBkfgdvcFkOOc3Y02o3GWUDLgqjWsZudaoiuOwO/gzTzy17cS5F7ZPo4bsnS4DGkg==}
@@ -12720,6 +12740,17 @@ snapshots:
       lightningcss: 1.32.0
     optional: true
 
+  terser-webpack-plugin@5.6.0(esbuild@0.27.7)(webpack@5.106.2(esbuild@0.27.7)):
+    dependencies:
+      '@jridgewell/trace-mapping': 0.3.31
+      jest-worker: 27.5.1
+      schema-utils: 4.3.3
+      terser: 5.47.1
+      webpack: 5.106.2(esbuild@0.27.7)
+    optionalDependencies:
+      esbuild: 0.27.7
+    optional: true
+
   terser@5.46.0:
     dependencies:
       '@jridgewell/source-map': 0.3.11
@@ -12871,6 +12902,26 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
+  unplugin-dts@1.0.0(esbuild@0.27.7)(rolldown@1.0.1)(rollup@4.60.4)(typescript@5.9.3)(vite@8.0.13(@types/node@25.8.0)(esbuild@0.27.7)(jiti@2.7.0)(less@4.6.4)(sass@1.99.0)(terser@5.47.1))(webpack@5.106.2(esbuild@0.27.7)):
+    dependencies:
+      '@rollup/pluginutils': 5.3.0(rollup@4.60.4)
+      '@volar/typescript': 2.4.28
+      compare-versions: 6.1.1
+      debug: 4.4.3
+      kolorist: 1.8.0
+      local-pkg: 1.1.2
+      magic-string: 0.30.21
+      typescript: 5.9.3
+      unplugin: 2.3.11
+    optionalDependencies:
+      esbuild: 0.27.7
+      rolldown: 1.0.1
+      rollup: 4.60.4
+      vite: 8.0.13(@types/node@25.8.0)(esbuild@0.27.7)(jiti@2.7.0)(less@4.6.4)(sass@1.99.0)(terser@5.47.1)
+      webpack: 5.106.2(esbuild@0.27.7)
+    transitivePeerDependencies:
+      - supports-color
+
   unplugin@2.3.11:
     dependencies:
       '@jridgewell/remapping': 2.3.5
@@ -12909,6 +12960,21 @@ snapshots:
   uuid@8.3.2: {}
 
   vary@1.1.2: {}
+
+  vite-plugin-dts@5.0.0(esbuild@0.27.7)(rolldown@1.0.1)(rollup@4.60.4)(typescript@5.9.3)(vite@8.0.13(@types/node@25.8.0)(esbuild@0.27.7)(jiti@2.7.0)(less@4.6.4)(sass@1.99.0)(terser@5.47.1))(webpack@5.106.2(esbuild@0.27.7)):
+    dependencies:
+      unplugin-dts: 1.0.0(esbuild@0.27.7)(rolldown@1.0.1)(rollup@4.60.4)(typescript@5.9.3)(vite@8.0.13(@types/node@25.8.0)(esbuild@0.27.7)(jiti@2.7.0)(less@4.6.4)(sass@1.99.0)(terser@5.47.1))(webpack@5.106.2(esbuild@0.27.7))
+    optionalDependencies:
+      rollup: 4.60.4
+      vite: 8.0.13(@types/node@25.8.0)(esbuild@0.27.7)(jiti@2.7.0)(less@4.6.4)(sass@1.99.0)(terser@5.47.1)
+    transitivePeerDependencies:
+      - '@rspack/core'
+      - '@vue/language-core'
+      - esbuild
+      - rolldown
+      - supports-color
+      - typescript
+      - webpack
 
   vite-tsconfig-paths@6.1.1(typescript@5.9.3)(vite@8.0.13(@types/node@25.8.0)(esbuild@0.27.7)(jiti@2.7.0)(less@4.4.2)(sass@1.97.3)(terser@5.46.0)):
     dependencies:
@@ -13215,6 +13281,47 @@ snapshots:
       - lightningcss
       - postcss
       - uglify-js
+
+  webpack@5.106.2(esbuild@0.27.7):
+    dependencies:
+      '@types/eslint-scope': 3.7.7
+      '@types/estree': 1.0.9
+      '@types/json-schema': 7.0.15
+      '@webassemblyjs/ast': 1.14.1
+      '@webassemblyjs/wasm-edit': 1.14.1
+      '@webassemblyjs/wasm-parser': 1.14.1
+      acorn: 8.16.0
+      acorn-import-phases: 1.0.4(acorn@8.16.0)
+      browserslist: 4.28.2
+      chrome-trace-event: 1.0.4
+      enhanced-resolve: 5.21.3
+      es-module-lexer: 2.1.0
+      eslint-scope: 5.1.1
+      events: 3.3.0
+      glob-to-regexp: 0.4.1
+      graceful-fs: 4.2.11
+      loader-runner: 4.3.2
+      mime-db: 1.54.0
+      neo-async: 2.6.2
+      schema-utils: 4.3.3
+      tapable: 2.3.3
+      terser-webpack-plugin: 5.6.0(esbuild@0.27.7)(webpack@5.106.2(esbuild@0.27.7))
+      watchpack: 2.5.1
+      webpack-sources: 3.4.1
+    transitivePeerDependencies:
+      - '@minify-html/node'
+      - '@swc/core'
+      - '@swc/css'
+      - '@swc/html'
+      - clean-css
+      - cssnano
+      - csso
+      - esbuild
+      - html-minifier-terser
+      - lightningcss
+      - postcss
+      - uglify-js
+    optional: true
 
   webpack@5.106.2(esbuild@0.27.7)(lightningcss@1.32.0):
     dependencies:

@@ -21,24 +21,20 @@
       "types": "./dist/types/index.d.ts",
       "import": "./dist/esm/index.js",
       "require": "./dist/cjs/index.cjs"
-    },
-    "./theme": {
-      "types": "./dist/types/theme/index.d.ts",
-      "import": "./dist/esm/theme/index.js",
-      "require": "./dist/cjs/theme/index.cjs"
     }
   },
   "files": [
     "dist"
   ],
   "scripts": {
-    "build": "rm -rf dist && pnpm build:types && pnpm build:esm && pnpm build:cjs",
-    "build:types": "tsc --project tsconfig.types.json",
-    "build:esm": "tsc --project tsconfig.esm.json",
-    "build:cjs": "tsc --project tsconfig.cjs.json && find dist/cjs -type f -name '*.js' -exec sh -c 'mv \"$1\" \"${1%.js}.cjs\"' _ {} \\;"
+    "build": "vite build",
+    "dev": "vite build --watch",
+    "type-check": "tsc --noEmit"
   },
   "devDependencies": {
     "@uni-design-system/tsconfig": "workspace:*",
-    "typescript": "^5.0.0"
+    "typescript": "^5.0.0",
+    "vite": "^8.0.13",
+    "vite-plugin-dts": "^5.0.0"
   }
 }
