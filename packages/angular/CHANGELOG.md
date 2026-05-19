@@ -1,5 +1,14 @@
 # @uni-design-system/uni-angular
 
+## 2.0.3
+
+### Patch Changes
+
+- [`eb80cff`](https://github.com/uni-design-system/uni/commit/eb80cffaaba0009c1c30875f93ea7e75dcf92302) Thanks [@gaenglish](https://github.com/gaenglish)! - fix: setting dist directory in publishConfig
+
+- Updated dependencies []:
+  - @uni-design-system/uni-core@2.0.3
+
 ## 2.0.2
 
 ### Patch Changes
