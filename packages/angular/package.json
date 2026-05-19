@@ -19,8 +19,8 @@
     "release": "pnpm build && pnpm changeset publish"
   },
   "peerDependencies": {
-    "@angular/common": "21.2.12",
-    "@angular/core": "21.2.12",
+    "@angular/common": "^21.2.0",
+    "@angular/core": "^21.2.0",
     "@emotion/css": "^11.0.0",
     "@uni-design-system/uni-core": "workspace:*"
   },
