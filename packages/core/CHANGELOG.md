@@ -1,5 +1,11 @@
 # @uni-design-system/uni-core
 
+## 1.1.1
+
+### Patch Changes
+
+- [`e2cad74`](https://github.com/uni-design-system/uni/commit/e2cad74631b3a9d2caf4816bcadedf19db99fec4) Thanks [@gaenglish](https://github.com/gaenglish)! - Fix: switch to bundled dual-package distribution via Vite to resolve strict ESM relative path failures
+
 ## 1.1.0
 
 ### Minor Changes

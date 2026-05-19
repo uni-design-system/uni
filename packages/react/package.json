@@ -24,7 +24,7 @@
     "release": "pnpm build && pnpm changeset publish"
   },
   "peerDependencies": {
-    "@uni-design-system/uni-core": ">=1.1.0",
+    "@uni-design-system/uni-core": ">=1.1.1",
     "react": ">=18"
   },
   "dependencies": {
