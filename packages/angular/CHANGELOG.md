@@ -1,5 +1,12 @@
 # @uni-design-system/uni-angular
 
+## 2.0.2
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @uni-design-system/uni-core@2.0.2
+
 ## 2.0.1
 
 ### Patch Changes
