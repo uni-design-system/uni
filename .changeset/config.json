@@ -1,4 +1,16 @@
 {
+  "$schema": "https://unpkg.com",
   "baseBranch": "main",
-  "changelog": ["@changesets/changelog-github", { "repo": "uni-design-system/uni" }]
+  "changelog": ["@changesets/changelog-github", { "repo": "uni-design-system/uni" }],
+  "commit": false,
+  "fixed": [
+    [
+      "@uni-design-system/uni-core",
+      "@uni-design-system/uni-react",
+      "@uni-design-system/uni-angular"
+    ]
+  ],
+  "linked": [],
+  "access": "public",
+  "updateInternalDependencies": "patch"
 }
