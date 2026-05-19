@@ -1,27 +1,35 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
-import dts from 'unplugin-dts/vite'; // Essential for shipping types
+import dts from 'vite-plugin-dts';
 import { resolve } from 'path';
 
 export default defineConfig({
   plugins: [
     react(),
-    dts({ insertTypesEntry: true }), // Automatically generates .d.ts files
+    dts({
+      insertTypesEntry: true,
+      tsconfigPath: './tsconfig.json',
+      outDir: 'dist/types',
+    }),
   ],
   build: {
     lib: {
       entry: resolve(__dirname, 'src/index.ts'),
       name: 'UniReact',
-      formats: ['es'], // Modern libraries typically only need ES modules
-      fileName: 'index',
+      formats: ['es', 'cjs'],
+      fileName: (format) => (format === 'es' ? 'esm/index.js' : 'cjs/index.cjs'),
     },
+    outDir: 'dist',
+    emptyOutDir: true,
+    sourcemap: true,
+    minify: false,
     rollupOptions: {
-      // CRITICAL: Do not bundle React or Core into your library
-      external: ['react', 'react-dom', 'react/jsx-runtime', '@repo/core'],
+      external: ['react', 'react-dom', '@uni-design-system/uni-core'],
       output: {
         globals: {
           react: 'React',
           'react-dom': 'ReactDOM',
+          '@uni-design-system/uni-core': 'UniCore',
         },
       },
     },
