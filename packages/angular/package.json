@@ -8,7 +8,8 @@
   },
   "publishConfig": {
     "access": "public",
-    "provenance": true
+    "provenance": true,
+    "directory": "dist"
   },
   "private": false,
   "scripts": {

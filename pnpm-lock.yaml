@@ -148,6 +148,7 @@ importers:
       vite-tsconfig-paths:
         specifier: ^6.1.1
         version: 6.1.1(typescript@5.9.3)(vite@8.0.13(@types/node@25.8.0)(esbuild@0.27.7)(jiti@2.7.0)(less@4.4.2)(sass@1.97.3)(terser@5.46.0))
+    publishDirectory: dist
 
   packages/core:
     devDependencies:
@@ -9933,9 +9934,9 @@ snapshots:
       obug: 2.1.1
       std-env: 4.1.0
       tinyrainbow: 3.1.0
-      vitest: 4.1.6(@types/node@25.8.0)(@vitest/browser-playwright@4.1.6)(@vitest/coverage-v8@4.1.6)(vite@7.3.3(@types/node@25.8.0)(jiti@2.7.0)(less@4.6.4)(lightningcss@1.32.0)(sass@1.99.0)(terser@5.47.1))
+      vitest: 4.1.6(@types/node@25.8.0)(@vitest/browser-playwright@4.1.6)(@vitest/coverage-v8@4.1.6)(vite@8.0.13(@types/node@25.8.0)(esbuild@0.27.7)(jiti@2.7.0)(less@4.4.2)(sass@1.97.3)(terser@5.46.0))
     optionalDependencies:
-      '@vitest/browser': 4.1.6(vite@7.3.3(@types/node@25.8.0)(jiti@2.7.0)(less@4.6.4)(lightningcss@1.32.0)(sass@1.99.0)(terser@5.47.1))(vitest@4.1.6)
+      '@vitest/browser': 4.1.6(vite@8.0.13(@types/node@25.8.0)(esbuild@0.27.7)(jiti@2.7.0)(less@4.4.2)(sass@1.97.3)(terser@5.46.0))(vitest@4.1.6)
 
   '@vitest/expect@3.2.4':
     dependencies:
@@ -9969,7 +9970,6 @@ snapshots:
       magic-string: 0.30.21
     optionalDependencies:
       vite: 8.0.13(@types/node@25.8.0)(esbuild@0.27.7)(jiti@2.7.0)(less@4.4.2)(sass@1.97.3)(terser@5.46.0)
-    optional: true
 
   '@vitest/pretty-format@3.2.4':
     dependencies:
@@ -13380,7 +13380,6 @@ snapshots:
       '@vitest/coverage-v8': 4.1.6(@vitest/browser@4.1.6)(vitest@4.1.6)
     transitivePeerDependencies:
       - msw
-    optional: true
 
   vscode-uri@3.1.0: {}
 
