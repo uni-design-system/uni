@@ -1,5 +1,14 @@
 # @uni-design-system/uni-angular
 
+## 2.0.1
+
+### Patch Changes
+
+- [`be0fb26`](https://github.com/uni-design-system/uni/commit/be0fb2626c248fed37c2609d50eb1bfae40269e4) Thanks [@gaenglish](https://github.com/gaenglish)! - Setting Fixed Versioning for all packages.
+
+- Updated dependencies [[`e2cad74`](https://github.com/uni-design-system/uni/commit/e2cad74631b3a9d2caf4816bcadedf19db99fec4), [`be0fb26`](https://github.com/uni-design-system/uni/commit/be0fb2626c248fed37c2609d50eb1bfae40269e4)]:
+  - @uni-design-system/uni-core@2.0.1
+
 ## 2.0.0
 
 ### Patch Changes
