@@ -1,4 +1,24 @@
-# 🦋 Uni Design System Monorepo
+<p align="center">
+  <a href="https://uni-design-system.github.io/uni/" target="_blank">
+    <img src="https://github.com/uni-design-system/uni-react/raw/v0.0.17/.github/uni-logo.png" alt="UNI Design System">
+  </a>
+</p>
+
+<p align="center">
+  UNI Design System is a themed based component library designed to support brand uniformity across 
+<a href="https://github.com/uni-design-system/uni/tree/main/packages/angular/"><strong>Angular</strong></a> and 
+<a href="https://github.com/uni-design-system/uni/tree/main/packages/react/"><strong>React</strong></a> projects.
+<p>
+
+<p align="center">
+  <a href="https://uni-design-system.github.io/uni/docs/react/"><strong>Browse the React component library &rarr;</strong></a>
+</p>
+
+<p align="center">
+  <a href="https://uni-design-system.github.io/uni/docs/angular/"><strong>Browse the Angular (v21) component library &rarr;</strong></a>
+</p>
+
+# Uni Design System Monorepo
 
 Welcome to the unified home of the **Uni Design System**. This monorepo houses our core design tokens and their native implementations for both React and Angular frameworks.
 
