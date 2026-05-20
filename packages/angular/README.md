@@ -1,3 +1,17 @@
+<p align="center">
+  <a href="https://uni-design-system.github.io/uni/" target="_blank">
+    <img src="https://github.com/uni-design-system/uni-react/raw/v0.0.17/.github/uni-logo.png" alt="UNI Design System">
+  </a>
+</p>
+
+<p align="center">
+  UNI Angular is a themed based component library built atop of the UNI Design System Core Concepts.
+<p>
+
+<p align="center">
+  <a href="https://uni-design-system.github.io/uni/docs/angular/"><strong>Browse the Angular (v21) component library &rarr;</strong></a>
+</p>
+
 # @uni-design-system/uni-angular
 
 The official **Angular** implementation of the Uni Design System. Built from the ground up for modern enterprise apps, this package delivers strict, performance-optimized structural components.
