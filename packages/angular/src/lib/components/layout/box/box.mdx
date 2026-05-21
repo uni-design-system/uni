@@ -1,0 +1,62 @@
+import * as Stories from './box.stories';
+import { Meta, Title } from '@storybook/addon-docs/blocks';
+import { StoryUsage } from '../../../../stories/blocks/StoryUsage';
+
+<Meta of={Stories} />
+
+<Title />
+
+`import { UniBoxComponent } from '@aig-gl/oui-ui';`
+
+## Overview
+
+Box is the base Layout component. It is highly configurable.
+Each layout component extends the Box component while providing presets to support their application.
+
+## Usage
+
+<StoryUsage of={Stories.Primary} />
+
+## Props
+
+For detailed information about the available properties, please refer to the component's documentation in Storybook. The properties are fully documented in the component's argTypes.
+
+## Examples
+
+### Basic Box with Styling
+
+```html
+<Box color="primary-container" borderRadius="lg" padding="md">
+  Content goes here
+</Box>
+```
+
+### Flex Container Box
+
+```html
+<Box
+  display="flex"
+  flexDirection="row"
+  alignItems="center"
+  justifyContent="space-between"
+  gap="md"
+>
+  <div>Item 1</div>
+  <div>Item 2</div>
+  <div>Item 3</div>
+</Box>
+```
+
+### Box with Border and Shadow
+
+```html
+<Box border="outline" borderRadius="md" elevation="md" padding="lg">
+  Content with border and shadow
+</Box>
+```
+
+### Responsive Box
+
+```html
+<Box width="100%" maxWidth="800px" padding="md"> Responsive content </Box>
+```
