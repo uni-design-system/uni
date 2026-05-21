@@ -1,0 +1,20 @@
+import * as Stories from './icon.stories';
+import { Meta, Title } from '@storybook/addon-docs/blocks';
+import { StoryUsage } from '../../../stories/blocks/StoryUsage';
+
+<Meta of={Stories} />
+
+<Title />
+
+`import { UniIconComponent } from '@aig-gl/oui-ui';`
+
+## Overview
+
+Icons are adaptive svg images. Instead of defining a size or color attributes, Icons
+will grow to the space allotted to them and use the current color of its parent element.
+
+However, it is possible to statically set the icon color.
+
+## Usage
+
+<StoryUsage of={Stories.Primary} />
