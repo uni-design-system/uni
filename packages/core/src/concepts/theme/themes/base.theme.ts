@@ -2,22 +2,7 @@ import { Button } from '../../button';
 import { Container } from '../../container';
 import type { UniTheme } from '../theme.model';
 
-export const palette = {
-  primary: '#0070b9',
-  secondary: '#00b034',
-  tertiary: '#ff9f00',
-  quaternary: '#4d4d4d',
-  warn: '#ff3300',
-  success: '#00b034',
-  light: '#b3b3b3',
-  onLight: '#4d4d4d',
-  onLightVariant: 'rgba(0,0,0,0.4)',
-  dark: '#4d4d4d',
-  onDark: 'rgba(255,255,255,0.8)',
-  background: '#fff',
-  disabled: 'rgba(0,0,0,0.12)',
-  onDisabled: 'rgba(0,0,0,0.5)',
-};
+import { genericLightTheme as palette } from '../palettes/theme.palette';
 
 const BaseButton: Button = {
   borderRadius: 100,
