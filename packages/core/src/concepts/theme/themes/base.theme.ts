@@ -216,8 +216,6 @@ export const BaseTheme: UniTheme = {
     dotted: `1px dotted ${palette.dark}`,
   },
 
-  components: {},
-
   shadows: {
     raised:
       'rgba(0, 0, 0, 0.2) 0px 2px 1px -1px, rgba(0, 0, 0, 0.14) 0px 1px 1px 0px, rgba(0, 0, 0, 0.12) 0px 1px 3px 0px',
@@ -320,4 +318,387 @@ export const BaseTheme: UniTheme = {
   },
   typefaces: {},
   icons: {},
+  components: {
+    alert: {
+      options: {
+        topPosition: 40,
+        borderRadius: 'sm',
+        transitionSpeed: 0.35,
+        elevation: 'md',
+      },
+    },
+    checkbox: {
+      options: {
+        size: 20,
+      },
+    },
+    dialog: {
+      options: {
+        borderRadius: 'lg',
+        color: 'primary-surface',
+        border: 'quaternary',
+        padding: 'sm',
+        elevation: 'dialog',
+        backdrop: {
+          background: 'rgba(255, 255, 255, 0.6)',
+          backdropFilter: 'blur(2px)',
+        },
+      },
+    },
+    dialogHeader: {
+      options: {
+        borderRadius: 'max',
+        color: 'primary',
+        height: 48,
+        textRole: 'title-large',
+        textAlign: 'center',
+        closeButtonIcon: 'close',
+        closeButtonSize: 'md',
+      },
+    },
+    dropdown: {
+      options: {
+        border: 'none',
+        borderRadius: 'xs',
+        color: 'primary-surface',
+        shadow: 'menu',
+      },
+    },
+    footer: {
+      options: {
+        height: 52,
+        color: 'primary',
+        logoHeight: 18.6,
+        logoPadding: 'md',
+      },
+    },
+    input: {
+      options: {
+        typeFace: 'input',
+        color: 'primary-surface',
+        textColor: 'on-primary-surface',
+        disabledColor: 'disabled-surface',
+        disabledTextColor: 'on-disabled-surface',
+        border: 'light',
+        borderRadius: 'xs',
+        errorShadow: 'warn',
+        errorBorder: 'warn',
+        height: 32,
+        paddingLeft: 'sm',
+        focusOutline: `2px solid ${palette.primary}`,
+        focusOutlineOffset: 2,
+      },
+    },
+    multiSelectDropdown: {
+      options: {
+        textRole: 'input',
+        textColor: 'on-primary-surface',
+        dividerBorder: 'light',
+        searchInputBorder: 'light',
+        searchInputBorderRadius: 'xxs',
+        focusOutline: `2px solid ${palette.primary}`,
+        focusOutlineOffset: 2,
+      },
+    },
+    badge: {
+      options: {
+        borderRadius: 'xxs',
+      },
+    },
+    button: {
+      fixed: {
+        position: 'relative',
+        overflow: 'hidden',
+        outline: '0',
+        border: '0',
+        cursor: 'pointer',
+        fontFamily: 'Euphemia, sans-serif',
+        transition: 'all 0.28s ease',
+      },
+      colors: {
+        ghost: {
+          backgroundColor: 'transparent',
+          color: 'currentcolor',
+        },
+        primary: {
+          backgroundColor: palette.primary,
+          color: palette.onDark,
+        },
+        secondary: {
+          backgroundColor: palette.secondary,
+          color: palette.onDark,
+        },
+        tertiary: {
+          backgroundColor: palette.tertiary,
+          color: palette.onDark,
+        },
+        warn: {
+          backgroundColor: palette.warn,
+          color: palette.onDark,
+        },
+        disabled: {
+          backgroundColor: `${palette.disabled} !important`,
+          color: '#fff !important',
+        },
+        success: {
+          backgroundColor: palette.success,
+          color: palette.onDark,
+        },
+      },
+      sizes: {
+        sm: {
+          height: 22,
+          borderRadius: 11,
+          fontSize: 12,
+          padding: '0 12px',
+          fontFamily: 'Euphemia Bold, sans-serif',
+          fontWeight: 600,
+        },
+        md: {
+          height: 26,
+          borderRadius: 13,
+          fontSize: 16,
+          padding: '0 16px',
+        },
+        lg: {
+          height: 36,
+          borderRadius: 18,
+          fontSize: 18,
+          padding: '0 18px',
+        },
+        xl: {
+          height: 48,
+          borderRadius: 24,
+          fontSize: 24,
+          padding: '0 22px',
+        },
+      },
+    },
+    iconButton: {
+      colors: {
+        ghost: {
+          backgroundColor: 'transparent',
+          color: 'currentcolor',
+        },
+        primary: {
+          backgroundColor: palette.primary,
+          color: palette.onDark,
+        },
+        secondary: {
+          backgroundColor: palette.secondary,
+          color: palette.onDark,
+        },
+        tertiary: {
+          backgroundColor: palette.tertiary,
+          color: palette.onDark,
+        },
+        warn: {
+          backgroundColor: palette.warn,
+          color: palette.onDark,
+        },
+        success: {
+          backgroundColor: palette.success,
+          color: palette.onDark,
+        },
+        disabled: {
+          backgroundColor: 'transparent !important',
+          color: 'rgba(0,0,0,0.25) !important',
+        },
+      },
+      sizes: {
+        sm: {
+          height: 22,
+          minHeight: 22,
+          width: 22,
+          minWidth: 22,
+          fontSize: 18,
+        },
+        md: {
+          height: 26,
+          minHeight: 26,
+          width: 26,
+          minWidth: 26,
+          fontSize: 22,
+        },
+        lg: {
+          height: 36,
+          minHeight: 36,
+          width: 36,
+          minWidth: 36,
+          fontSize: 30,
+        },
+        xl: {
+          height: 40,
+          minHeight: 40,
+          width: 40,
+          minWidth: 40,
+          fontSize: 34,
+        },
+      },
+    },
+    progressGauge: {
+      fixed: {
+        textFill: palette.onLight,
+      },
+      colors: {
+        primary: {
+          backgroundColor: '#b3d4ea',
+          color: palette.primary,
+        },
+        secondary: {
+          backgroundColor: '#b3e7c2',
+          color: palette.secondary,
+        },
+        tertiary: {
+          backgroundColor: '#ffe2b3',
+          color: palette.tertiary,
+        },
+        warn: {
+          backgroundColor: '#ffc2b3',
+          color: palette.warn,
+        },
+        success: {
+          backgroundColor: '#b3e7c2',
+          color: palette.success,
+        },
+      },
+      sizes: {
+        sm: { height: '54px' },
+        md: { height: '68px' },
+        lg: { height: '82px' },
+        xl: { height: '104px' },
+      },
+    },
+    card: {
+      fixed: {
+        borderStyle: 'solid',
+        borderWidth: '1px',
+        borderRadius: '8px',
+        overflow: 'hidden',
+      },
+      colors: {
+        primary: {
+          borderColor: palette.primary,
+          backgroundColor: palette.background,
+        },
+        secondary: {
+          borderColor: palette.secondary,
+          backgroundColor: palette.background,
+        },
+        tertiary: {
+          borderColor: palette.tertiary,
+          backgroundColor: palette.background,
+        },
+        warn: {
+          borderColor: palette.warn,
+          backgroundColor: palette.background,
+        },
+        success: {
+          borderColor: palette.success,
+          backgroundColor: palette.background,
+        },
+      },
+    },
+    cardHeader: {
+      fixed: { padding: '12px 24px' },
+      colors: {
+        primary: {
+          backgroundColor: palette.primary,
+          color: palette.onDark,
+        },
+        secondary: {
+          backgroundColor: palette.secondary,
+          color: palette.onDark,
+        },
+        tertiary: {
+          backgroundColor: palette.tertiary,
+          color: palette.onDark,
+        },
+        warn: {
+          backgroundColor: palette.warn,
+          color: palette.onDark,
+        },
+        success: {
+          backgroundColor: palette.success,
+          color: palette.onDark,
+        },
+      },
+    },
+    cardContent: {
+      fixed: {
+        padding: '12px 24px',
+      },
+    },
+    dataSearch: {
+      options: {
+        border: 'light',
+        borderRadius: 'xs',
+        color: 'primary-surface',
+        placeholderColor: 'disabled',
+      },
+    },
+    dataTable: {
+      options: {
+        color: 'primary-surface',
+        border: 'light',
+        borderRadius: 'sm',
+        elevation: undefined,
+        headerPadding: 'sm',
+        footerPadding: 'sm',
+        thTextRole: 'headline-small',
+        thColor: 'primary-container',
+        thVerticalBorder: 'dotted',
+        thHorizontalBorder: 'light',
+        thPadding: 'sm',
+        tdTextRole: 'title-small',
+        tdColor: 'primary-surface',
+        tdStickyColor: 'primary-container',
+        tdPadding: 'sm',
+        tdVerticalBorder: 'dotted',
+        tdHorizontalBorder: 'light',
+        rowHoverColor: 'primary-container',
+        loadingOverlayColor: 'scrim',
+        loadingSpinnerColor: 'primary',
+        loadingSpinnerSize: 40,
+      },
+    },
+    notificationBadge: {
+      options: {
+        borderRadius: 'sm',
+        offset: -10,
+      },
+    },
+    paginator: {
+      options: {
+        gap: 'xs',
+        textRole: 'label',
+        inputBorder: 'light',
+        inputBorderRadius: 'xs',
+        pageBorderRadius: 'xs',
+        currentPageBorder: 'light',
+        currentPageBorderRadius: 'xs',
+      },
+    },
+    snackbar: {
+      options: {
+        bottomPosition: 40, // px
+        transitionDelay: '0.35s', // ms
+        autoCloseDelay: 35000, // ms
+      },
+    },
+    toggle: {
+      options: {
+        size: 20,
+      },
+    },
+    tooltip: {
+      options: {
+        border: undefined,
+        borderRadius: 'xs',
+        shadow: 'raised',
+        color: 'inverse-surface',
+        typeface: 'label',
+      },
+    },
+  },
 };
