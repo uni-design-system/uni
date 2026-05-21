@@ -1,0 +1,20 @@
+import * as Stories from './grid.stories';
+import { Meta, Title } from '@storybook/addon-docs/blocks';
+import { StoryUsage } from '../../../../stories/blocks/StoryUsage';
+
+<Meta of={Stories} />
+<Title />
+
+`import { UniGridComponent } from '@uni-design-system/uni-angular';`
+
+`import { UniGridAreaComponent } from '@uni-design-system/uni-angular';`
+
+## Overview
+
+Grid is a layout component used for composing elements in a grid-like pattern.
+Like tables, grid layouts align elements into columns and rows.
+However, grids allow for more control when spanning elements across columns and rows.
+
+## Usage
+
+<StoryUsage of={Stories.SimpleGrid} />
