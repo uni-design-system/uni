@@ -1,4 +1,4 @@
-import { Size } from '../core.types';
+import type { Size } from '../size';
 
 export interface Layout {
   deviceSize: Size;
