@@ -70,7 +70,9 @@ export type OptionalTextAlign = TextAlign | undefined;
 export type Overflow = 'visible' | 'hidden' | 'scroll' | 'auto';
 export type OptionalOverflow = Overflow | undefined;
 
-/* More Flex Options */
+export type Wrap = 'nowrap' | 'wrap' | 'wrap-reverse';
+export type OptionalWrap = Wrap | undefined;
+
 export type Flex = number;
 export type FlexGrow = number;
 export type FlexShrink = number;
@@ -78,3 +80,4 @@ export type FlexShrink = number;
 export type FlexWrap = 'wrap' | 'nowrap';
 
 export type FlexDirection = 'row' | 'column' | 'column-reverse' | 'row-reverse';
+export type OptionalFlexDirection = FlexDirection | undefined;
