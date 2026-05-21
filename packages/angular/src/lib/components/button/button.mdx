@@ -1,0 +1,20 @@
+import { Meta, Title } from '@storybook/addon-docs/blocks';
+import * as Stories from './button.stories';
+import { StoryUsage } from '../../../stories/blocks/StoryUsage';
+
+<Meta of={Stories} name="Overview" />
+<Title />
+
+`import { UniButtonComponent } from '@uni-design-system/uni-angular';`
+
+## Overview
+
+Button is a clickable interactive element that triggers a response.
+
+You can place text and icons inside of a button.
+
+Buttons are often used for form submissions and to toggle elements into view.
+
+## Usage
+
+<StoryUsage of={Stories.Primary} exclude={['spinnerBox']} />
