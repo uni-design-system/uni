@@ -1,0 +1,19 @@
+import * as Stories from './symbol.stories';
+import { Meta, Title } from '@storybook/addon-docs/blocks';
+import { StoryUsage } from '../../../stories/blocks/StoryUsage';
+
+<Meta of={Stories} />
+
+<Title />
+
+`import { UniSymbolComponent } from '@uni-design-system/uni-angular';`
+
+## Overview
+
+The Symbol Component integrates the latest [Material Symbols](https://fonts.google.com/icons?icon.platform=web&icon.style=Rounded&icon.set=Material+Symbols&query=les).
+Material Symbols consolidates over 3,275 glyphs (icons) in a single font file with a wide range of design variants.
+Symbols are available in three styles and four adjustable variable font styles (fill, weight, grade, and optical size).
+
+## Usage
+
+<StoryUsage of={Stories.Primary} />
