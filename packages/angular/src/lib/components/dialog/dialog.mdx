@@ -1,0 +1,142 @@
+import { Meta, Title } from '@storybook/addon-docs/blocks';
+import * as Stories from './dialog.stories';
+import { StoryUsage } from '../../../stories/blocks/StoryUsage';
+
+<Meta of={Stories} name="Documentation" />
+<Title />
+
+`import { UniDialogComponent } from '@omni/omni-ui';`
+
+**Component Type:** UI/Feedback
+**Version Added:** 1.0.0
+**Last Updated:** 2025-07-31
+**Related Components:** UniDialogHeaderComponent, UniDialogButtonsComponent
+
+## Overview
+
+Dialog is a modal window that appears in front of app content to provide critical information or request user input. The component includes optional header and buttons sections for common dialog patterns, with built-in animations and backdrop handling. Dialogs can be opened programmatically or controlled via inputs, and emit events when their visibility state changes.
+
+### Key Features
+
+- **Modal Presentation**: Displays content in a focused overlay that blocks interaction with the main application
+- **Built-in Animation**: Smooth fade-in and fade-out transitions when opening and closing
+- **Backdrop Handling**: Automatically manages the backdrop and allows closing by clicking outside
+- **Composition Pattern**: Supports header and buttons components for consistent dialog layouts
+
+### Limitations
+
+- Cannot be nested inside other dialog components
+- Animation timing is fixed and not customizable
+- Does not support multiple open instances simultaneously
+
+## API Reference
+
+The Dialog component's API is fully documented in the Storybook controls panel. Interact with the component using the controls to see how different props affect its behavior and appearance.
+
+Key properties include:
+
+- **show**: Controls dialog visibility
+- **defaultCloseButton**: Toggles the default close button
+- **showing**: Event emitted when dialog visibility changes
+
+Methods:
+
+- **open()**: Opens the dialog programmatically
+- **close()**: Closes the dialog programmatically
+
+## Usage
+
+<StoryUsage
+  of={Stories.Primary}
+  exclude={[
+    'closeButton',
+    'container',
+    'ClosingAnimation',
+    'BackdropClick',
+    'dialogFadeIn',
+    'dialogFadeOut',
+  ]}
+/>
+
+### Basic Usage
+
+```html
+<dialog #dialog>
+  <DialogHeader>Dialog Title</DialogHeader>
+  <div>Dialog content goes here</div>
+  <DialogButtons>
+    <button (click)="dialog.close()">Close</button>
+  </DialogButtons>
+</dialog>
+
+<button (click)="dialog.open()">Open Dialog</button>
+```
+
+### Advanced Configurations
+
+#### With Custom Close Button
+
+```html
+<dialog #dialog [defaultCloseButton]="false">
+  <DialogHeader>
+    Custom Header
+    <button
+      variant="ghost"
+      (click)="dialog.close()"
+      style="position: absolute; right: 8px; top: 8px;"
+    >
+      Close
+    </button>
+  </DialogHeader>
+  <div>Dialog content with custom close button</div>
+</dialog>
+```
+
+#### Binding to Show Property
+
+```html
+<dialog [show]="isDialogVisible" (showing)="dialogStateChanged($event)">
+  <DialogHeader>Controlled Dialog</DialogHeader>
+  <div>This dialog is controlled by the isDialogVisible property</div>
+  <DialogButtons>
+    <button (click)="isDialogVisible = false">Close</button>
+  </DialogButtons>
+</dialog>
+
+<button (click)="isDialogVisible = true">Open Dialog</button>
+```
+
+### Do's and Don'ts
+
+#### Do
+
+- Use for important notifications, confirmations, or user input forms
+- Include clear action buttons (confirm/cancel) when appropriate
+- Keep content concise and focused on a single task or message
+- Use DialogHeader and DialogButtons components for consistent layout
+
+#### Don't
+
+- Nest dialogs inside other dialogs
+- Use for non-critical information that could be displayed inline
+- Overload with too much content or multiple actions
+- Rely on dialogs as a primary navigation pattern
+
+## Accessibility
+
+### ARIA Attributes
+
+- The native `<dialog>` element provides appropriate ARIA roles automatically
+- Close buttons have appropriate accessible names
+
+### Keyboard Navigation
+
+- `Tab`: Moves focus between interactive elements within the dialog
+- `Escape`: Closes the dialog
+- `Enter`: Activates the focused button
+
+### Screen Reader Support
+
+- Announces dialog opening and closing
+- Traps focus within the dialog when open
+- Uses native dialog semantics for optimal screen reader interaction

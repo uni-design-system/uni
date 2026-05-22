@@ -1,0 +1,19 @@
+<div
+  row-layout
+  gap="md"
+  [padding]="padding"
+  [paddingBottom]="paddingBottom"
+  [justifyContent]="justifyContent"
+>
+  <button
+    text-button
+    [variant]="confirmButtonVariant"
+    (click)="confirmed.emit(); closeDialog()"
+    [disable]="disableConfirm"
+  >
+    {{ confirmButtonText || 'Confirm' }}
+  </button>
+  <button text-button variant="warn" (click)="closeDialog()">
+    {{ cancelButtonText || 'Cancel' }}
+  </button>
+</div>

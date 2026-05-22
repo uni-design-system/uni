@@ -1,0 +1,29 @@
+<div
+  row-layout
+  [color]="componentOptions().color"
+  [borderRadius]="componentOptions().borderRadius"
+  [height]="componentOptions().height"
+  alignItems="center"
+  paddingHorizontal="sm"
+>
+  <Box [width]="26"></Box>
+  <Box [grow]="1">
+    <Text
+      [role]="componentOptions().textRole"
+      [color]="componentOptions().textColor"
+      display="block"
+      [align]="componentOptions().textAlign || 'center'"
+      ><ng-content></ng-content
+    ></Text>
+  </Box>
+  <button
+    icon-button
+    [iconName]="componentOptions().closeButtonIcon"
+    [symbolName]="componentOptions().closeButtonSymbol"
+    variant="ghost"
+    (click)="closeDialog()"
+    [size]="componentOptions().closeButtonSize || 'md'"
+  >
+    Close
+  </button>
+</div>
