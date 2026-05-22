@@ -24,7 +24,7 @@ import {
 import { BaseComponent } from '../base';
 import { COMPONENT_NAME } from '../base/base.component';
 import { UniBoxComponent } from '../layout';
-import type { OuiDropdownOptions } from './dropdown.model';
+import type { UniDropdownOptions } from './dropdown.model';
 import type { NullableSize } from '@uni-design-system/uni-core';
 
 @Component({
@@ -49,8 +49,8 @@ import type { NullableSize } from '@uni-design-system/uni-core';
   `,
   providers: [{ provide: COMPONENT_NAME, useValue: 'dropdown' }],
 })
-export class OuiDropdownComponent
-  extends BaseComponent<OuiDropdownOptions>
+export class UniDropdownComponent
+  extends BaseComponent<UniDropdownOptions>
   implements OnInit, OnDestroy
 {
   private renderer = inject(Renderer2);

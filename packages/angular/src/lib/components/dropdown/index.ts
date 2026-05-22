@@ -1,1 +1,1 @@
-export { OuiDropdownComponent } from './dropdown.component';
+export { UniDropdownComponent } from './dropdown.component';

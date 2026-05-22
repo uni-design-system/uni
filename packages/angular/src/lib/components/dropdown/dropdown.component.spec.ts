@@ -1,17 +1,17 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { OuiDropdownComponent } from './dropdown.component';
+import { UniDropdownComponent } from './dropdown.component';
 
 describe('DropdownComponent', () => {
-  let component: OuiDropdownComponent;
-  let fixture: ComponentFixture<OuiDropdownComponent>;
+  let component: UniDropdownComponent;
+  let fixture: ComponentFixture<UniDropdownComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [OuiDropdownComponent],
+      imports: [UniDropdownComponent],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(OuiDropdownComponent);
+    fixture = TestBed.createComponent(UniDropdownComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
