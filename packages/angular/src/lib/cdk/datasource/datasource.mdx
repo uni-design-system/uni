@@ -1,0 +1,222 @@
+import { Meta, Story } from '@storybook/addon-docs/blocks';
+import * as Stories from './datasource.stories';
+
+<Meta of={Stories} title="CDK/Datasource" />
+
+# Datasource
+
+The Datasource system provides a flexible and reactive way to manage data collections in Angular applications. It supports both client-side and server-side data operations with a unified API.
+
+## Architecture
+
+The datasource system consists of three main classes:
+
+- **`UniBaseDatasource<T>`**: Abstract base class defining the common interface
+- **`UniRecordDatasource<T>`**: Client-side datasource for in-memory data operations
+- **`UniServerSideDatasource<T>`**: Server-side datasource using Angular's resource signal
+
+## Features
+
+- **Reactive State Management**: Built with Angular signals for efficient reactivity
+- **Unified API**: Both client-side and server-side datasources implement the same interface
+- **Sorting**: Sort data by any column in ascending or descending order
+- **Filtering**: Apply filters with appropriate handling for client vs server-side
+- **Pagination**: Navigate through data with built-in pagination controls
+- **Selection**: Track and manage selected items
+- **Loading States**: Server-side datasource provides loading and error states
+
+## Client-Side Datasource
+
+For in-memory data operations, use `UniRecordDatasource`:
+
+```typescript
+import { UniRecordDatasource } from '@uni-design-system/uni-angular';
+
+interface User {
+  id: number;
+  name: string;
+  email: string;
+  age: number;
+}
+
+@Component({...})
+class ClientSideComponent {
+  // Static data for client-side operations
+  users: User[] = [
+    { id: 1, name: 'John Doe', email: 'john@example.com', age: 30 },
+    { id: 2, name: 'Jane Smith', email: 'jane@example.com', age: 25 },
+    // more users...
+  ];
+
+  datasource = new UniRecordDatasource<User>(this.users);
+
+  constructor() {
+    // Set page size for pagination
+    this.datasource.setPageSize(10);
+
+    // Apply a filter function (client-side filtering)
+    this.datasource.setFilter(user => user.age > 18);
+
+    // Sort by a column
+    this.datasource.sortRecords({
+      column: 'name',
+      direction: 'asc'
+    });
+  }
+
+  // Handle row selection
+  onRowClick(user: User) {
+    this.datasource.toggleSelection(user);
+  }
+
+  // Navigate to next page
+  nextPage() {
+    this.datasource.nextPage();
+  }
+}
+```
+
+## Server-Side Datasource
+
+For server-side operations with automatic loading states, use `UniServerSideDatasource`:
+
+```typescript
+import { UniServerSideDatasource, PageRequest, PageResponse } from '@uni-design-system/uni-angular';
+
+@Component({...})
+class ServerSideComponent {
+  datasource = new UniServerSideDatasource<User>(
+    // Data loader function
+    async (request: PageRequest): Promise<PageResponse<User>> => {
+      const response = await this.userService.getUsers({
+        page: request.pageNumber,
+        size: request.pageSize,
+        sort: request.sortColumn,
+        order: request.sortDirection,
+        filter: request.filter
+      });
+
+      return {
+        data: response.users,
+        totalRecords: response.total,
+        pageNumber: request.pageNumber,
+        pageSize: request.pageSize
+      };
+    },
+    10 // initial page size
+  );
+
+  constructor() {
+    // Apply server-side filter (sends filter object to server)
+    this.datasource.setFilter({ department: 'Engineering', active: true });
+
+    // Sort by a column (triggers server request)
+    this.datasource.sortRecords({
+      column: 'name',
+      direction: 'asc'
+    });
+  }
+
+  // Access loading and error states
+  get isLoading() {
+    return this.datasource.isLoading();
+  }
+
+  get hasError() {
+    return this.datasource.hasError();
+  }
+
+  // Refresh data from server
+  refreshData() {
+    this.datasource.refresh();
+  }
+}
+```
+
+## API Reference
+
+### Common Properties (Both Datasources)
+
+- `records`: Signal containing the current page's filtered and sorted records
+- `recordCount`: Signal with the count of filtered records
+- `selections`: Signal containing currently selected items
+- `sort`: Signal containing the current sort configuration
+- `sortColumn`: Computed signal with the current sort column
+- `sortDirection`: Computed signal with the current sort direction
+- `pageIndex`: Signal with the current page index (zero-based)
+- `pageSize`: Signal with the number of items per page
+- `pageCount`: Signal with the total number of pages
+- `pages`: Signal with array of page numbers for pagination UI
+- `truncatedPages`: Signal with truncated page numbers (includes ellipsis)
+- `disablePrevious`: Signal indicating if previous button should be disabled
+- `disableNext`: Signal indicating if next button should be disabled
+
+### Common Methods (Both Datasources)
+
+- `isSelected(row)`: Checks if a row is selected
+- `toggleSelection(row)`: Toggles selection state of a row
+- `clearSelections()`: Clears all selections
+- `selectAll()`: Selects all records on current page
+- `sortRecords(sort)`: Sets the sort configuration
+- `firstPage()`, `nextPage()`, `previousPage()`, `lastPage()`: Navigation methods
+- `jumpToPage(page)`: Jumps to a specific page
+- `setPageSize(size)`: Sets the page size and resets to first page
+
+### Record Datasource Specific
+
+**Properties:**
+
+- `initialRecords`: Signal containing the original unfiltered data
+- `filter`: Signal containing the current filter function
+
+**Methods:**
+
+- `setFilter(predicate: (item: T) => boolean)`: Sets a filter function for client-side filtering
+- `clearFilter()`: Clears the current filter (shows all records)
+
+### Server-Side Datasource Specific
+
+**Properties:**
+
+- `isLoading`: Signal indicating if data is currently being loaded
+- `error`: Signal containing any loading errors
+- `hasError`: Signal indicating if there's an error state
+
+**Methods:**
+
+- `setFilter(filterObj: Record<string, any>)`: Sets filter parameters sent to server
+- `clearFilter()`: Clears all filter parameters
+- `refresh()`: Manually triggers a data reload from server
+- `getPageRequest()`: Returns the current page request parameters
+
+### Types
+
+```typescript
+interface PageRequest {
+  pageNumber: number;
+  pageSize: number;
+  sortColumn?: string;
+  sortDirection?: SortDirection;
+  filter?: Record<string, any>;
+}
+
+interface PageResponse<T> {
+  data: T[];
+  totalRecords: number;
+  pageNumber: number;
+  pageSize: number;
+}
+
+type DataLoader<T> = (request: PageRequest) => Promise<PageResponse<T>>;
+
+type SortDirection = 'asc' | 'desc' | 'indet';
+
+interface Sort<T> {
+  column?: keyof T;
+  direction: SortDirection;
+}
+```
+
+## Examples
+
+<Story of={Stories.Primary} />
