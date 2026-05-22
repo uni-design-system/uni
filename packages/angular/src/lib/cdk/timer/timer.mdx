@@ -1,0 +1,167 @@
+import { Meta, Story } from '@storybook/addon-docs/blocks';
+import * as Stories from './timer.stories';
+
+<Meta of={Stories} title="CDK/Timer" />
+
+# Timer
+
+The Timer utility provides a reusable, reactive timer service with start, pause, resume, and stop functionality. It's built using Angular signals for reactive state management and automatically handles cleanup through Angular's DestroyRef to prevent memory leaks.
+
+## Key Features
+
+- **Reactive State**: Uses Angular signals for real-time timer updates
+- **Full Control**: Start, pause, resume, and stop operations
+- **Automatic Cleanup**: Automatically clears intervals on component destruction
+- **Completion Callbacks**: Execute custom functions when timer completes
+- **Multiple Time Units**: Access both milliseconds and seconds remaining
+- **Status Tracking**: Monitor active and paused states
+
+## Example Implementation
+
+```typescript
+import { Component } from '@angular/core';
+import { useTimer } from '@uni-design-system/uni-angular';
+
+@Component({
+  selector: 'app-countdown',
+  template: `
+    <div>
+      <h3>Countdown: {{ timer.secondsRemaining() }}s</h3>
+      <p>Status: {{ timer.isActive() ? 'Running' : 'Stopped' }}</p>
+      <p>Paused: {{ timer.isPaused() ? 'Yes' : 'No' }}</p>
+
+      <button (click)="startTimer()">Start 30s Timer</button>
+      <button (click)="pauseTimer()">Pause</button>
+      <button (click)="resumeTimer()">Resume</button>
+      <button (click)="stopTimer()">Stop</button>
+    </div>
+  `,
+  standalone: true,
+})
+export class CountdownComponent {
+  timer = useTimer();
+
+  startTimer() {
+    this.timer.start(30000, () => {
+      console.log('Timer completed!');
+      // Handle completion logic here
+    });
+  }
+
+  pauseTimer() {
+    this.timer.pause();
+  }
+
+  resumeTimer() {
+    this.timer.resume();
+  }
+
+  stopTimer() {
+    this.timer.stop();
+  }
+}
+```
+
+## Auto-close Feature Example
+
+Perfect for notifications, modals, or temporary UI elements:
+
+```typescript
+@Component({
+  selector: 'app-auto-close-notification',
+  template: `
+    <div *ngIf="isVisible" class="notification">
+      <p>This notification will close in {{ timer.secondsRemaining() }}s</p>
+      <button (click)="dismissNow()">Dismiss Now</button>
+    </div>
+  `,
+  standalone: true,
+})
+export class AutoCloseNotificationComponent {
+  timer = useTimer();
+  isVisible = true;
+
+  ngOnInit() {
+    // Auto-close after 5 seconds
+    this.timer.start(5000, () => {
+      this.isVisible = false;
+    });
+  }
+
+  dismissNow() {
+    this.timer.stop();
+    this.isVisible = false;
+  }
+}
+```
+
+## Session Timeout Example
+
+Useful for authentication timeouts or activity tracking:
+
+```typescript
+@Component({...})
+export class SessionManagerComponent {
+  sessionTimer = useTimer();
+  warningTimer = useTimer();
+
+  private readonly SESSION_DURATION = 30 * 60 * 1000; // 30 minutes
+  private readonly WARNING_DURATION = 5 * 60 * 1000;  // 5 minutes
+
+  startSession() {
+    // Start main session timer
+    this.sessionTimer.start(this.SESSION_DURATION, () => {
+      this.handleSessionExpired();
+    });
+
+    // Start warning timer (triggers 5 min before session expires)
+    this.warningTimer.start(this.SESSION_DURATION - this.WARNING_DURATION, () => {
+      this.showSessionWarning();
+    });
+  }
+
+  extendSession() {
+    // User activity detected - restart timers
+    this.sessionTimer.stop();
+    this.warningTimer.stop();
+    this.startSession();
+  }
+
+  private showSessionWarning() {
+    console.log(`Session expires in ${this.sessionTimer.secondsRemaining()}s`);
+  }
+
+  private handleSessionExpired() {
+    // Log out user or redirect to login
+    this.logoutUser();
+  }
+}
+```
+
+## API Reference
+
+### Core Methods
+
+- `start(durationMs: number, onComplete?: () => void): void` - Start timer with duration in milliseconds and optional completion callback
+- `pause(): void` - Pause the active timer (no-op if not active or already paused)
+- `resume(): void` - Resume paused timer (no-op if not paused)
+- `stop(): void` - Stop timer and reset remaining time to 0
+
+### Reactive Properties
+
+- `msRemaining: Signal<number>` - Milliseconds remaining (updates every 100ms)
+- `secondsRemaining: Signal<number>` - Seconds remaining (rounded up)
+- `isPaused: Signal<boolean>` - Whether timer is currently paused
+- `isActive: Signal<boolean>` - Whether timer has time remaining (computed from msRemaining > 0)
+
+### Behavior Notes
+
+- Timer updates every 100ms for smooth UI updates
+- `pause()` and `resume()` are safe to call - they check state before executing
+- `start()` automatically stops any existing timer before starting new one
+- Completion callback is optional and executes when timer reaches 0
+- Component destruction automatically cleans up active timers
+
+## Interactive Example
+
+<Story of={Stories.Primary} />
