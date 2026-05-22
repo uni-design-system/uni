@@ -54,6 +54,10 @@ export const BaseTheme: UniTheme = {
     'on-inverse-surface-primary': '#D0BCFF',
     scrim: '#000000',
     transparent: 'rgba(0,0,0,0)',
+
+    'primary-surface': palette.background,
+    'on-primary-surface': palette.onLight,
+    'on-primary-surface-variant': palette.primary,
   },
   typography: {
     'display-large': {
@@ -344,7 +348,7 @@ export const BaseTheme: UniTheme = {
     dropdown: {
       options: {
         border: 'none',
-        borderRadius: 'xs',
+        borderRadius: 'xxs',
         color: 'primary-surface',
         shadow: 'menu',
       },
