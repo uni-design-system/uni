@@ -1,5 +1,6 @@
 import type { Size } from '../size';
 import type { ColorKey } from '../theme';
+import type { StyleExpression } from '../style/style.types';
 
 export type ComponentName =
   | 'undefined'
@@ -39,6 +40,3 @@ export interface ComponentTheme<T = object> {
 }
 
 export type ComponentThemes = Partial<Record<ComponentName, ComponentTheme>>;
-
-export type StyleExpression = Record<string, string | number | undefined>;
-export type NullableStyleExpression = StyleExpression | undefined;
