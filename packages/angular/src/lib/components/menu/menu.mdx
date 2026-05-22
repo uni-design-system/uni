@@ -1,0 +1,49 @@
+import * as Stories from './menu.stories';
+import { Meta, Title } from '@storybook/addon-docs/blocks';
+import { StoryUsage } from '../../../stories/blocks/StoryUsage';
+
+<Meta of={Stories} />
+<Title />
+
+`import { UniMenuComponent } from '@uni-design-system/uni-angular';`
+
+## Overview
+
+Menus can be linked to any component, but it is recommended to use either the `text-button` or `icon-button` component.
+
+Menus are populated by creating an array of Menu Items (`MenuItem[]`) and binding it to the `Menu` component.
+Actions are optional as the `Menu` component also emits the clicked menu item via the `menuItemClicked` output attribute.
+
+### Menu Item Interface
+
+```
+MenuItem {
+  label: string;
+  symbolName?: string;
+  action?: () => void;
+}
+```
+
+## Usage
+
+<StoryUsage
+  of={Stories.Primary}
+  exclude={[
+    'showClassName',
+    'arrowClassName',
+    'popoverClassName',
+    'spanClassName',
+    'createArrow',
+    'createTooltip',
+    'setPosition',
+    'arrow',
+    'tooltip',
+    'spanClassName',
+    'delay',
+    'arrowRef',
+    'popoverRef',
+    'triggerRef',
+    'TriggerClassName',
+    'handleMenuItemClick',
+  ]}
+/>
