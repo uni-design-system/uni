@@ -1,0 +1,72 @@
+import { Meta, Story } from '@storybook/addon-docs/blocks';
+import * as Stories from './local-storage.stories';
+
+<Meta of={Stories} title="CDK/LocalStorage" />
+
+# LocalStorage
+
+The LocalStorage Service provides a safe, type-safe wrapper around the browser's localStorage API with enhanced error handling and utility methods. It includes availability checking to ensure localStorage is accessible in the current environment and provides methods for storage operations.
+
+## Key Features
+
+- **Availability Checking**: Automatically detects if localStorage is available before operations
+- **Type Safety**: Generic methods support typed data storage and retrieval
+- **Error Handling**: Try-catch blocks with console logging for debugging
+- **JSON Support**: Automatic JSON serialization/deserialization for objects
+- **Utility Methods**: Additional methods for key management, storage size calculation, and existence checking
+
+## Example Implementation
+
+```typescript
+import { LocalStorageService } from '@uni-design-system/uni-angular';
+
+@Component({...})
+class MyComponent {
+
+  constructor(private localStorage: LocalStorageService) {}
+
+  // Store different data types
+  saveUserPreferences() {
+    const preferences = { theme: 'dark', language: 'en' };
+    const success = this.localStorage.setItem('user-prefs', preferences);
+    console.log('Save successful:', success);
+  }
+
+  // Retrieve with type safety
+  getUserPreferences() {
+    const prefs = this.localStorage.getItem<{theme: string, language: string}>('user-prefs');
+    return prefs || { theme: 'light', language: 'en' }; // fallback if null
+  }
+
+  // Check if data exists
+  hasUserData() {
+    return this.localStorage.hasKey('user-prefs');
+  }
+
+  // Clean up storage
+  clearUserData() {
+    this.localStorage.removeItem('user-prefs');
+  }
+}
+```
+
+## API Methods
+
+### Core Operations
+
+- `setItem<T>(key: string, value: T): boolean` - Store any data type with JSON serialization
+- `getItem<T>(key: string): T | null` - Retrieve data with automatic type casting
+- `removeItem(key: string): boolean` - Remove a specific item
+- `clear(): boolean` - Clear all localStorage data
+
+### Utility Methods
+
+- `hasKey(key: string): boolean` - Check if a key exists in storage
+- `getAllKeys(): string[]` - Get array of all storage keys
+- `getSize(): number` - Calculate total storage size in characters
+
+All methods return boolean success indicators for operations and handle localStorage unavailability gracefully.
+
+## Examples
+
+<Story of={Stories.Primary} />
