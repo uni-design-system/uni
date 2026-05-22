@@ -1,0 +1,42 @@
+import { Meta, Story } from '@storybook/addon-docs/blocks';
+import * as Stories from './permissions.stories';
+
+<Meta of={Stories} title="CDK/Permissions" />
+
+# Permissions API
+
+The Permissions API service is used to check if a specific feature or API is available for interaction within your code.
+For instance, the clipboard service calls `isAllowed('clipboard-write')` before attempting to copy to the clipboard.
+This check prevents an error from occurring if the permission on a specific method (e.g. `navigator.clipboard.write(data)`) is denied.
+If the permission is in a `prompt` state, the API is available and the user will be prompted to approve the first execution of the associated method.
+If a permission is not allowed or unsupported, this condition can be used to hide any associated functionality in your UI.
+
+## Example Implementation
+
+```
+import { PermissionService } from '@uni-design-system/uni-angular';
+
+@Component({...})
+class MyComponent {
+
+  allowWriteToClipboard = false;
+
+  constructor(private permissionService: PermissionService) {
+    permissionService
+      .isAllowed('clipboard-write')
+      .then((allowed) => (this.allowWriteToClipboard = allowed));
+  }
+
+}
+
+```
+
+## Permission Manifest
+
+Below are a list of permissions (by name) and their current states for this device.
+
+<Story of={Stories.Primary} />
+
+## Resources
+
+- [Permissions API](https://developer.mozilla.org/en-US/docs/Web/API/Permissions_API)
