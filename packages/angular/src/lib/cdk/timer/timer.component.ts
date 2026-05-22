@@ -1,25 +1,31 @@
 import { Component, signal } from '@angular/core';
 
 import { useTimer } from './timer';
-import { UniButtonComponent, UniRowComponent, UniTextComponent } from '../../components';
+import {
+  UniButtonComponent,
+  UniRowComponent,
+  UniStackComponent,
+  UniTextComponent,
+} from '../../components';
 
 @Component({
   selector: 'oui-timer-story-component, timer-story-component',
-  template: `<div row-layout gap="lg">
+  template: ` <div stack-layout gap="md">
+    <div row-layout gap="lg">
       <button text-button (click)="startTimer()" symbolLeft="play_arrow">Start 10s Timer</button>
       <button text-button (click)="pauseTimer()" symbolLeft="pause">Pause</button>
       <button text-button (click)="resumeTimer()" symbolLeft="play_arrow">Resume</button>
       <button text-button (click)="stopTimer()" symbolLeft="stop">Stop</button>
     </div>
 
-    <div row-layout gap="lg" style="margin-top: 16px;">
+    <div row-layout gap="lg">
       <button text-button (click)="startCustomTimer()" symbolLeft="timer">Start 30s Timer</button>
       <button text-button (click)="startCountdown()" symbolLeft="schedule">
         Start 5s Countdown
       </button>
     </div>
 
-    <div style="margin-top: 16px;">
+    <div>
       <Text display="block">Timer Status:</Text>
       <div style="margin: 8px 0; padding: 12px; border: 1px solid #ccc; border-radius: 4px;">
         <div>
@@ -32,12 +38,13 @@ import { UniButtonComponent, UniRowComponent, UniTextComponent } from '../../com
       </div>
     </div>
 
-    <div style="margin-top: 16px;">
+    <div>
       <Text display="block">Event Log:</Text>
       <textarea rows="8" cols="80" readonly>{{ eventLog() }}</textarea>
-    </div>`,
+    </div>
+  </div>`,
   standalone: true,
-  imports: [UniButtonComponent, UniRowComponent, UniTextComponent],
+  imports: [UniButtonComponent, UniRowComponent, UniTextComponent, UniStackComponent],
 })
 export class TimerStoryComponent {
   timer = useTimer();
