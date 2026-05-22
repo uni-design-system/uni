@@ -9,7 +9,7 @@ import {
 } from '../../components';
 
 @Component({
-  selector: 'oui-timer-story-component, timer-story-component',
+  selector: 'uni-timer-story-component, timer-story-component',
   template: ` <div stack-layout gap="md">
     <div row-layout gap="lg">
       <button text-button (click)="startTimer()" symbolLeft="play_arrow">Start 10s Timer</button>
