@@ -1,5 +1,5 @@
 //export * from './background';
-//export * from './badge';
+export * from './badge';
 //export * from './barcode';
 export * from './button';
 //export * from './button-group';
