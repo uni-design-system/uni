@@ -7,42 +7,18 @@ import { StoryUsage } from '../../../stories/blocks/StoryUsage';
 
 `import { UniDialogComponent } from '@omni/omni-ui';`
 
-**Component Type:** UI/Feedback
-**Version Added:** 1.0.0
-**Last Updated:** 2025-07-31
-**Related Components:** UniDialogHeaderComponent, UniDialogButtonsComponent
-
 ## Overview
 
-Dialog is a modal window that appears in front of app content to provide critical information or request user input. The component includes optional header and buttons sections for common dialog patterns, with built-in animations and backdrop handling. Dialogs can be opened programmatically or controlled via inputs, and emit events when their visibility state changes.
+Enhanced modal dialog that extends the native HTML `<dialog>` element with built-in animations, composition components, and accessibility features.
 
-### Key Features
+### Features
 
-- **Modal Presentation**: Displays content in a focused overlay that blocks interaction with the main application
-- **Built-in Animation**: Smooth fade-in and fade-out transitions when opening and closing
-- **Backdrop Handling**: Automatically manages the backdrop and allows closing by clicking outside
-- **Composition Pattern**: Supports header and buttons components for consistent dialog layouts
-
-### Limitations
-
-- Cannot be nested inside other dialog components
-- Animation timing is fixed and not customizable
-- Does not support multiple open instances simultaneously
-
-## API Reference
-
-The Dialog component's API is fully documented in the Storybook controls panel. Interact with the component using the controls to see how different props affect its behavior and appearance.
-
-Key properties include:
-
-- **show**: Controls dialog visibility
-- **defaultCloseButton**: Toggles the default close button
-- **showing**: Event emitted when dialog visibility changes
-
-Methods:
-
-- **open()**: Opens the dialog programmatically
-- **close()**: Closes the dialog programmatically
+- **Native HTML Dialog**: Built on the standard dialog element with full semantic support
+- **Smooth Animations**: Automatic fade transitions for open/close states
+- **Composition Components**: Optional `DialogHeader` and `DialogButtons` for consistent layouts
+- **Programmatic Control**: Open/close methods plus show property binding
+- **Backdrop Handling**: Click-outside-to-close with customizable behavior
+- **Accessibility**: Full keyboard navigation, focus trapping, and screen reader support
 
 ## Usage
 
@@ -106,37 +82,14 @@ Methods:
 <button (click)="isDialogVisible = true">Open Dialog</button>
 ```
 
-### Do's and Don'ts
+## Best Practices
 
-#### Do
-
-- Use for important notifications, confirmations, or user input forms
-- Include clear action buttons (confirm/cancel) when appropriate
-- Keep content concise and focused on a single task or message
-- Use DialogHeader and DialogButtons components for consistent layout
-
-#### Don't
-
-- Nest dialogs inside other dialogs
-- Use for non-critical information that could be displayed inline
-- Overload with too much content or multiple actions
-- Rely on dialogs as a primary navigation pattern
+**Use for:** Important notifications, confirmations, user input forms
+**Avoid:** Non-critical information, nested dialogs, complex navigation
 
 ## Accessibility
 
-### ARIA Attributes
-
-- The native `<dialog>` element provides appropriate ARIA roles automatically
-- Close buttons have appropriate accessible names
-
-### Keyboard Navigation
-
-- `Tab`: Moves focus between interactive elements within the dialog
-- `Escape`: Closes the dialog
-- `Enter`: Activates the focused button
-
-### Screen Reader Support
-
-- Announces dialog opening and closing
-- Traps focus within the dialog when open
-- Uses native dialog semantics for optimal screen reader interaction
+Built on the native `<dialog>` element for automatic ARIA support. Includes:
+- Focus trapping and keyboard navigation (Tab, Escape, Enter)
+- Screen reader announcements
+- Semantic dialog roles
