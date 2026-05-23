@@ -15,7 +15,7 @@ import { MenuItem } from './menu-item/menu-item.model';
 import { UniDropdownComponent } from '../dropdown';
 
 @Component({
-  selector: 'Menu, oui-menu',
+  selector: 'Menu, uni-menu',
   standalone: true,
   imports: [UniMenuItemComponent, UniDropdownComponent],
   changeDetection: ChangeDetectionStrategy.OnPush, // Crucial for zoneless

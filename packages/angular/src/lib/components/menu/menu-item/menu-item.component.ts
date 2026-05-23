@@ -14,7 +14,7 @@ import type {
 } from '@uni-design-system/uni-core';
 
 @Component({
-  selector: 'div[oui-menu-item], div[menu-item]',
+  selector: 'div[uni-menu-item], div[menu-item]',
   standalone: true,
   imports: [UniTextComponent, UniSymbolComponent, UniBoxComponent, NgTemplateOutlet],
   templateUrl: './menu-item.component.html',
