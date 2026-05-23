@@ -8,7 +8,7 @@ import { UniDialogComponent } from '../dialog.component';
 import type { UniDialogHeaderOptions } from './dialog-header.model';
 
 @Component({
-  selector: 'div[oui-dialog-header], DialogHeader',
+  selector: 'div[uni-dialog-header], DialogHeader',
   standalone: true,
   imports: [UniBoxComponent, UniIconButtonComponent, UniTextComponent, UniRowComponent],
   templateUrl: './dialog-header.component.html',

@@ -20,7 +20,7 @@ import type { UniDialogOptions } from './dialog.model';
 import { fadeIn, fadeOut } from '@uni-design-system/uni-core';
 
 @Component({
-  selector: 'dialog[oui-dialog], Dialog',
+  selector: 'dialog[uni-dialog], Dialog',
   standalone: true,
   imports: [UniIconButtonComponent, CommonModule],
   template: `
