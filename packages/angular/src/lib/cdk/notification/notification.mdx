@@ -1,0 +1,83 @@
+import { Meta, Story } from '@storybook/addon-docs/blocks';
+import * as Stories from './notification.stories';
+
+<Meta title="CDK/Notifications" />
+
+# Notifications
+
+The Notification service is designed to be used in conjunction with one instance of the `<Notification>` component.
+If using the [`<Page>` component](?path=/docs/pages-page--docs) for you layout, an instance of the `<Notifications>` component will
+already be implemented and you only need to call the methods on the notification service to present the various notifications.
+
+## Example Implementations
+
+### Alert
+
+<Story of={Stories.Alert} />
+
+_Note: The [alert component](?path=/docs/components-notifications-alert--alert) can be implemented independently._
+
+```
+import { NotificationService, Alert } from '@uni-design-system/uni-angular';
+
+@Component({...})
+class MyComponent {
+  constructor(notifications: NotificationService) {}
+
+  const alert: Alert = {
+
+  }
+
+  showAlert = () => this.notifications.showAlert(alert);
+
+}
+```
+
+### Snackbar
+
+<Story of={Stories.Snackbar} />
+
+```
+import { NotificationService, Snackbar } from '@uni-design-system/uni-angular';
+
+@Component({...})
+class MyComponent {
+  constructor(notifications: NotificationService) {}
+
+  const snackbar: Snackbar = {
+    message: 'The record has been deleted.',
+    action?: () => undoDelete();
+    actionLabel: 'Undo';
+    symbolName: 'delete';
+    variant: 'warn';
+  }
+
+  showDeleteSnackbar = () => this.notifications.showSnackbar(snackbar);
+
+}
+```
+
+### Confirmation
+
+<Story of={Stories.Confirmation} />
+
+```
+import { NotificationService, Confirmation } from '@uni-design-system/uni-angular';
+
+@Component({...})
+class MyComponent {
+  constructor(notifications: NotificationService) {}
+
+  const confirmation: Confirmation = {
+      title: 'Delete Record',
+      message: 'Are you sure you want to delete this record?',
+      action: () => deleteRecord(),
+      actionLabel: 'Yes',
+      dismissLabel: 'No',
+      color: 'warn'
+  }
+
+  confirmDelete = () => this.notifications.showConfirmation(confirmation);
+
+}
+```
