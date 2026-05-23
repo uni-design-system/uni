@@ -1,0 +1,27 @@
+import { Meta, Title } from '@storybook/addon-docs/blocks';
+import * as Stories from './alert.stories';
+import { StoryUsage } from '../../../../stories/blocks/StoryUsage';
+
+<Meta of={Stories} name="Alert" />
+<Title />
+
+`import { UniAlertComponent } from '@uni-design-system/uni-angular';`
+
+## Overview
+
+The Alert is used to communicate a state that affects a system, feature or page.
+For instance, alerts can be used to display errors or any unexpected results from a user's action.
+
+## Usage
+
+<StoryUsage
+  of={Stories.Primary}
+  exclude={[
+    'alertClass',
+    'fadeOut',
+    'ngAfterViewInit',
+    'alertRef',
+    'notificationService',
+    'showing',
+  ]}
+/>

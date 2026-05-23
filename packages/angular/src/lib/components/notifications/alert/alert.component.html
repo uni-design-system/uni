@@ -1,0 +1,19 @@
+<dialog #alert [class]="alertClass()">
+  <div row-layout gap="md">
+    @if (iconName() || symbolName()) {
+      <div box-layout [height]="26" [width]="26">
+        @if (effectiveIconName()) {
+          <Icon [name]="effectiveIconName()!" />
+        } @else {
+          <Symbol [name]="symbolName()!" [opticalSize]="26" />
+        }
+      </div>
+    }
+    <Text>
+      <ng-content></ng-content>
+    </Text>
+    <button icon-button (click)="close()" iconName="close" size="md">
+      close
+    </button>
+  </div>
+</dialog>
