@@ -1,0 +1,29 @@
+import { Meta, Title } from '@storybook/addon-docs/blocks';
+
+import * as Stories from './snackbar.stories';
+import { StoryUsage } from '../../../../stories/blocks/StoryUsage';
+
+<Meta of={Stories} />
+<Title />
+
+`import { UniSnackbarComponent } from '@uni-design-system/uni-angular';`
+
+## Overview
+
+The Snackbar component is used to give feedback to users after an action has taken place.
+It appears near the bottom center of the screen temporarily and floats above the UI to not affect the application's layout.
+A side action can be defined (e.g. undoing a process or navigating to the details of a newly created record).
+
+## Usage
+
+<StoryUsage
+  of={Stories.Primary}
+  exclude={[
+    'fadeOut',
+    'ngAfterViewInit',
+    'snackbarClass',
+    'snackbarRef',
+    'action',
+    'showing',
+  ]}
+/>

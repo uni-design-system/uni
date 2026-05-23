@@ -1,0 +1,42 @@
+@let icon = iconName();
+@let symbol = symbolName();
+<dialog
+  #snackbar
+  [class]="snackbarClass"
+  (mouseenter)="pauseTimer()"
+  (mouseleave)="resumeTimer()"
+  (focusin)="pauseTimer()"
+  (focusout)="resumeTimer()"
+>
+  <Row alignItems="center">
+    @if (icon || symbol) {
+      <Box [height]="26" [width]="26" paddingLeft="sm">
+        @if (icon) {
+          <Icon [name]="icon"></Icon>
+        } @else if (symbol) {
+          <Symbol [name]="symbol" [opticalSize]="26"></Symbol>
+        }
+      </Box>
+    }
+    <Box padding="sm">
+      <Text>
+        <ng-content></ng-content>
+      </Text>
+    </Box>
+    <Box paddingRight="sm">
+      @if (!actionLabel()) {
+        <button icon-button (click)="close()" iconName="close" size="md">
+          Close
+        </button>
+      } @else {
+        <button
+          text-button
+          variant="ghost"
+          (click)="this.action.emit(); close()"
+        >
+          {{ actionLabel() }}
+        </button>
+      }
+    </Box>
+  </Row>
+</dialog>
