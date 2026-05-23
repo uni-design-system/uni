@@ -1,0 +1,38 @@
+import * as Stories from './tooltip.stories';
+import { Meta, Title } from '@storybook/addon-docs/blocks';
+import { StoryUsage } from '../../../stories/blocks/StoryUsage';
+
+<Meta of={Stories} />
+<Title />
+
+`import { UniTooltipComponent } from '@uni-design-system/uni-angular';`
+
+## Overview
+
+A tooltip is a brief, informative message that appears when a user interacts with an element.
+If using a tooltip within a body of text, set the `inlineText` option to `true`.
+
+## Usage
+
+<StoryUsage
+  of={Stories.Primary}
+  exclude={[
+    'showClassName',
+    'arrowClassName',
+    'tooltipClassName',
+    'spanClassName',
+    'createArrow',
+    'createTooltip',
+    'setPosition',
+    'arrow',
+    'tooltip',
+    'spanClassName',
+    'mouseleave',
+    'mouseenter',
+    'destroyTooltip',
+    'mouseHoveringSubject',
+    'tooltipFadeIn',
+    'tooltipFadeOut',
+    'initializeTooltip',
+  ]}
+/>
