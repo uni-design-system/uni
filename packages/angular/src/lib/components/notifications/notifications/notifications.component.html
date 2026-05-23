@@ -1,0 +1,26 @@
+<Alert
+  [show]="showAlert()"
+  (showing)="handleAlertShowingEvent($event)"
+  [variant]="alert()?.variant || 'primary'"
+  [iconName]="alert()?.iconName"
+  [symbolName]="alert()?.symbolName"
+  >{{ alert()?.message }}</Alert
+>
+
+<Snackbar
+  [show]="showSnackbar()"
+  (showing)="handleSnackbarShowingEvent($event)"
+  [variant]="snackbar()?.variant || 'primary'"
+  [actionLabel]="snackbar()?.actionLabel"
+  (action)="snackbar()?.action?.()"
+  [timeout]="snackbar()?.timeout"
+  [iconName]="snackbar()?.iconName"
+  [symbolName]="snackbar()?.symbolName"
+  >{{ snackbar()?.message }}</Snackbar
+>
+
+<Confirmation
+  [show]="showConfirmation()"
+  (showing)="handleConfirmationShowingEvent($event)"
+  [confirmation]="confirmation()"
+></Confirmation>
