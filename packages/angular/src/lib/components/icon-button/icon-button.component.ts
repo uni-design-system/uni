@@ -79,7 +79,6 @@ export class UniIconButtonComponent implements OnChanges {
       this.variant !== 'ghost' && {
         '&:hover': {
           ...this.theme.boxShadow('raised'),
-          transform: 'scale(1.01)',
         },
       },
       this.variant === 'ghost' && {
