@@ -1,0 +1,16 @@
+<dialog uni-dialog [show]="show()" (showing)="showing.emit($event)">
+  <div uni-dialog-header>
+    {{ confirmation?.title }}
+  </div>
+  <div box-layout padding="md">
+    <Text>
+      {{ confirmation?.message }}
+    </Text>
+  </div>
+  <div
+    dialog-buttons
+    [confirmButtonText]="confirmation?.actionLabel"
+    (confirmed)="confirmation?.action()"
+    [cancelButtonText]="confirmation?.dismissLabel"
+  ></div>
+</dialog>
