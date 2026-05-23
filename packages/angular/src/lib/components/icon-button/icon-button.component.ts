@@ -9,7 +9,7 @@ import { ThemeService } from '../../theming/theme.service';
 import type { Size, Variant } from '@uni-design-system/uni-core';
 
 @Component({
-  selector: 'button[oui-icon-button], button[icon-button]',
+  selector: 'button[uni-icon-button], button[icon-button]',
   standalone: true,
   imports: [
     RippleDirective,
