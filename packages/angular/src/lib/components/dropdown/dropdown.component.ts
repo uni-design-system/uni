@@ -28,7 +28,7 @@ import type { UniDropdownOptions } from './dropdown.model';
 import type { NullableSize } from '@uni-design-system/uni-core';
 
 @Component({
-  selector: 'oui-dropdown, Dropdown',
+  selector: 'uni-dropdown, Dropdown',
   standalone: true,
   imports: [UniBoxComponent],
   template: `
