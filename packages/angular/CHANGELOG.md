@@ -1,5 +1,14 @@
 # @uni-design-system/uni-angular
 
+## 2.0.4
+
+### Patch Changes
+
+- [`ad5dd15`](https://github.com/uni-design-system/uni/commit/ad5dd151d245765b9d24a6ad1370a3e9d0d6b63e) Thanks [@gaenglish](https://github.com/gaenglish)! - Exporting multiple Angular Components
+
+- Updated dependencies []:
+  - @uni-design-system/uni-core@2.0.4
+
 ## 2.0.3
 
 ### Patch Changes
