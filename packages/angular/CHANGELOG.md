@@ -1,5 +1,16 @@
 # @uni-design-system/uni-angular
 
+## 3.0.0
+
+### Minor Changes
+
+- [`54a945c`](https://github.com/uni-design-system/uni/commit/54a945c51635898acb0c8ec0dd93ee234c580228) Thanks [@gaenglish](https://github.com/gaenglish)! - Exporting Components, Themes, and CDK
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @uni-design-system/uni-core@3.0.0
+
 ## 2.0.4
 
 ### Patch Changes
