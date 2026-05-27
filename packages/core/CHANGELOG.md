@@ -1,5 +1,7 @@
 # @uni-design-system/uni-core
 
+## 3.0.0
+
 ## 2.0.4
 
 ## 2.0.3
