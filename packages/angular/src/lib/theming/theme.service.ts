@@ -125,7 +125,6 @@ export class ThemeService {
 
   typeface = (typeface?: Typeface) => {
     const typefaces = this.typeFaces();
-    console.log('typefaces:', typefaces);
     return typeface && typefaces[typeface];
   };
 
