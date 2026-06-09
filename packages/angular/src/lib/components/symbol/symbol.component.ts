@@ -30,7 +30,7 @@ export class UniSymbolComponent extends BaseComponent<SymbolOptions> {
       'material-symbols-rounded ' +
       css({
         fontVariationSettings: settings,
-        fontSize: `${this.opticalSize}px`,
+        fontSize: `${this.opticalSize() || this.componentOptions().opticalSize || 24}px`,
       })
     );
   }
