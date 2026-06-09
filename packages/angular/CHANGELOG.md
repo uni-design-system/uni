@@ -1,5 +1,14 @@
 # @uni-design-system/uni-angular
 
+## 3.0.2
+
+### Patch Changes
+
+- [`dcaf166`](https://github.com/uni-design-system/uni/commit/dcaf1668fb94716b192c65137a14f3ea561a0142) Thanks [@gaenglish](https://github.com/gaenglish)! - Extending the Symbol component to support theme options.
+
+- Updated dependencies []:
+  - @uni-design-system/uni-core@3.0.2
+
 ## 3.0.1
 
 ### Patch Changes
