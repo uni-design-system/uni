@@ -1,5 +1,12 @@
 # @uni-design-system/uni-react
 
+## 3.0.2
+
+### Patch Changes
+
+- Updated dependencies []:
+  - @uni-design-system/uni-core@3.0.2
+
 ## 3.0.1
 
 ### Patch Changes
