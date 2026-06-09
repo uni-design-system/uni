@@ -25,15 +25,9 @@
     </Box>
     <Box paddingRight="sm">
       @if (!actionLabel()) {
-        <button icon-button (click)="close()" iconName="close" size="md">
-          Close
-        </button>
+        <button icon-button (click)="close()" iconName="close" size="md">Close</button>
       } @else {
-        <button
-          text-button
-          variant="ghost"
-          (click)="this.action.emit(); close()"
-        >
+        <button text-button variant="ghost" (click)="this.action.emit(); close()">
           {{ actionLabel() }}
         </button>
       }

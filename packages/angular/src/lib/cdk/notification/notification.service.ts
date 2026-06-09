@@ -17,7 +17,6 @@ export class NotificationService {
 
   /* Confirmation */
   confirmation = signal<Confirmation | undefined>(undefined);
-  showConfirmation = (confirmation: Confirmation) =>
-    this.confirmation.set(confirmation);
+  showConfirmation = (confirmation: Confirmation) => this.confirmation.set(confirmation);
   hideConfirmation = () => this.confirmation.set(undefined);
 }

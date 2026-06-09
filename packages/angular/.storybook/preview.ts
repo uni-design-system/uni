@@ -1,5 +1,5 @@
 import { applicationConfig, type Preview } from '@storybook/angular';
-import { UNI_THEMES } from '../src/lib/theming/theme.token';
+import { UNI_THEMES } from '../src/lib/theming';
 import { UniThemes } from '@uni-design-system/uni-core';
 
 const preview: Preview = {

@@ -5,10 +5,7 @@
 }
 <div box-layout [grow]="1">
   @if (tpl) {
-    <ng-container
-      [ngTemplateOutlet]="tpl"
-      [ngTemplateOutletContext]="context()"
-    ></ng-container>
+    <ng-container [ngTemplateOutlet]="tpl" [ngTemplateOutletContext]="context()"></ng-container>
   } @else {
     <Text role="label" display="block" [nowrap]="true">
       {{ label() }}

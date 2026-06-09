@@ -32,10 +32,7 @@ import { Button } from '@uni-design-system/uni-react';
 
 export const MyComponent = () => {
   return (
-    <Button 
-      type="primary" 
-      onClick={() => console.log('Clicked!')}
-    >
+    <Button type="primary" onClick={() => console.log('Clicked!')}>
       Click Me
     </Button>
   );
@@ -43,7 +40,11 @@ export const MyComponent = () => {
 ```
 
 ## 🛠️ Architecture Profile
+
 - **Framework Support:** React `>=18`
-- **Pre-bundled Internals:** Complex third-party layout engines (like `@dnd-kit` and `framer-motion`) are completely compiled *inside* this package to simplify your build trees.
+- **Pre-bundled Internals:** Complex third-party layout engines (like `@dnd-kit` and `framer-motion`) are completely compiled _inside_ this package to simplify your build trees.
 - **Peer Dependencies:** React and `@uni-design-system/uni-core` are kept external to maintain minimal, lightweight bundle weights.
+
+```
+
 ```

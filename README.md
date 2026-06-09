@@ -36,14 +36,15 @@ uni/
 └── .storybook/     # Centralized Storybook configuration & themes
 ```
 
-
 ### ⚡ Quick Start
 
 #### Requirements
+
 - **Node.js:** `>=22.13.0` (Required due to pnpm 11's internal native SQLite index)
 - **Package Manager:** `pnpm@11.0.8`
 
 #### Local Setup
+
 ```bash
 # Install dependencies across all workspaces
 pnpm install
@@ -54,6 +55,7 @@ pnpm run build
 # Start local parallel Storybook environments
 pnpm run dev
 ```
+
 - **React Storybook:** `http://localhost:6006`
 - **Angular Storybook:** `http://localhost:6007`
 
@@ -64,6 +66,7 @@ pnpm run dev
 We use `@changesets/cli` to manage versioning and changelogs under a **coordinated release cadence**. All packages are locked to share the exact same version number.
 
 ### Developer Flow
+
 1. Make your code changes in a package.
 2. Run `pnpm exec changeset` in the project root.
 3. Select the package(s) you modified, choose a bump type (`patch`, `minor`, `major`), and document your changes.

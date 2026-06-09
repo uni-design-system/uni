@@ -123,7 +123,11 @@ export class ThemeService {
     return this.colorPair(token, useVariant);
   };
 
-  typeface = (typeface?: Typeface) => typeface && this.typeFaces()[typeface];
+  typeface = (typeface?: Typeface) => {
+    const typefaces = this.typeFaces();
+    console.log('typefaces:', typefaces);
+    return typeface && typefaces[typeface];
+  };
 
   colorPalette = () => this.colors();
 

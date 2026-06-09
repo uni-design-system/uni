@@ -51,7 +51,7 @@ export class UniButtonComponent extends BaseComponent {
   @HostBinding('class') get className() {
     return css([
       this.style() && {
-        ...this.style(),
+        ...this.style(), // TODO: Set priority on theme-defined styles
       },
       {
         display: 'flex',
@@ -61,7 +61,6 @@ export class UniButtonComponent extends BaseComponent {
         outline: 0,
         border: 0,
         cursor: 'pointer',
-        fontFamily: 'Euphemia, sans-serif',
         transition: 'all 0.28s ease',
 
         '&:disabled': {

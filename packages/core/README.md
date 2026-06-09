@@ -17,6 +17,7 @@ pnpm add @uni-design-system/uni-core
 ## 🚚 Distribution Formats
 
 This package is compiled using **Vite** as a dual-package distribution to ensure broad ecosystem compatibility with no strict ESM extension path errors:
+
 - **ESM (`dist/esm/index.js`)**: For modern, tree-shakable environments.
 - **CommonJS (`dist/cjs/index.cjs`)**: Explicit fallback extensions for legacy bundlers (like Webpack 5).
 - **Types (`dist/types/`)**: Pre-isolated TypeScript definitions.

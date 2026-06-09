@@ -7,7 +7,7 @@ import type {
   OptionalTextAlign,
   Typeface,
 } from '@uni-design-system/uni-core';
-import { ThemeService } from '../../theming/theme.service';
+import { ThemeService } from '../../theming';
 
 @Component({
   selector: 'uni-text, Text',

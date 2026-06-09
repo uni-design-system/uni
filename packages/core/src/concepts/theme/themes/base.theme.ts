@@ -192,7 +192,6 @@ export const BaseTheme: UniTheme = {
       fontStyle: 'italic',
     },
   },
-
   borders: {
     primary: `1px solid ${palette.primary}`,
     secondary: `1px solid ${palette.secondary}`,

@@ -1,15 +1,15 @@
-import { fileURLToPath } from "node:url";
-import { dirname } from "node:path";
+import { fileURLToPath } from 'node:url';
+import { dirname } from 'node:path';
 import type { StorybookConfig } from '@storybook/react-vite';
 
 const config: StorybookConfig = {
   // The Hub doesn't need its own stories, it just hosts the others
   stories: ['../src/**/*.mdx'],
 
-  addons: [getAbsolutePath("@storybook/addon-links"), getAbsolutePath("@storybook/addon-docs")],
+  addons: [getAbsolutePath('@storybook/addon-links'), getAbsolutePath('@storybook/addon-docs')],
 
   framework: {
-    name: getAbsolutePath("@storybook/react-vite"),
+    name: getAbsolutePath('@storybook/react-vite'),
     options: {},
   },
 
@@ -30,8 +30,8 @@ const config: StorybookConfig = {
 
   features: {
     backgrounds: false,
-    outline: false
-  }
+    outline: false,
+  },
 };
 
 export default config;
