@@ -1,6 +1,6 @@
 import type { Size } from '../size';
 import type { ColorKey } from '../theme';
-import type { StyleExpression } from '../style/style.types';
+import type { StyleExpression } from '../style';
 
 export type ComponentName =
   | 'undefined'
@@ -26,6 +26,7 @@ export type ComponentName =
   | 'select'
   | 'slider'
   | 'snackbar'
+  | 'symbol'
   | 'progressBar'
   | 'progressGauge'
   | 'textButton'
