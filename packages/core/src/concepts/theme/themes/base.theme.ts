@@ -674,6 +674,14 @@ export const BaseTheme: UniTheme = {
         autoCloseDelay: 35000, // ms
       },
     },
+    symbol: {
+      options: {
+        fill: 0,
+        weight: 400,
+        grade: 0,
+        opticalSize: 24,
+      },
+    },
     toggle: {
       options: {
         size: 20,
