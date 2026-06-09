@@ -1,6 +1,6 @@
 {
   "name": "@uni-design-system/uni-react",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "repository": {
     "type": "git",
     "url": "https://github.com/uni-design-system/uni",
@@ -33,7 +33,7 @@
     "build-storybook": "storybook build"
   },
   "peerDependencies": {
-    "@uni-design-system/uni-core": ">=3.0.0",
+    "@uni-design-system/uni-core": ">=3.0.1",
     "react": ">=18"
   },
   "dependencies": {

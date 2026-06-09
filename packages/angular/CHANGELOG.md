@@ -1,5 +1,14 @@
 # @uni-design-system/uni-angular
 
+## 3.0.1
+
+### Patch Changes
+
+- [`fabbb73`](https://github.com/uni-design-system/uni/commit/fabbb73e7b2124e14b3cc263b2b8ca43e0cf80bd) Thanks [@gaenglish](https://github.com/gaenglish)! - Exporting new components and formatting.
+
+- Updated dependencies []:
+  - @uni-design-system/uni-core@3.0.1
+
 ## 3.0.0
 
 ### Minor Changes
