@@ -22,7 +22,7 @@ import type {
   ZIndexableElements,
 } from '@uni-design-system/uni-core';
 
-import { ThemeService } from '../../../theming/theme.service';
+import { ThemeService } from '../../../theming';
 
 @Component({
   selector: 'div[uni-box-layout], Box, div[box-layout]',

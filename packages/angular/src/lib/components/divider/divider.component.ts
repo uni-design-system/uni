@@ -1,6 +1,6 @@
 import { Component, HostBinding, inject, input } from '@angular/core';
 import { css } from '@emotion/css';
-import { ThemeService } from '../../theming/theme.service';
+import { ThemeService } from '../../theming';
 import type { Border, Orientation } from '@uni-design-system/uni-core';
 
 @Component({
