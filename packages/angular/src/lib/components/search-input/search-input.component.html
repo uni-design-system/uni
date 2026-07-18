@@ -1,0 +1,29 @@
+<Box
+  color="primary"
+  borderRadius="max"
+  paddingHorizontal="sm"
+  display="flex"
+  border="quaternary"
+  alignItems="center"
+  [width]="width()"
+>
+  <Box alignSelf="center" paddingHorizontal="md">
+    <Text display="block" typeface="title-large">{{ label() }}</Text>
+  </Box>
+  <Box
+    borderRadius="max"
+    display="block"
+    paddingHorizontal="md"
+    paddingVertical="sm"
+    color="primary-surface"
+    [grow]="1"
+  >
+    <DebounceInput (change)="handleSearchInput($event)" #searchInput />
+  </Box>
+  <button
+    icon-button
+    iconName="search"
+    variant="ghost"
+    (click)="handleSearch(searchInput.value())"
+  ></button>
+</Box>

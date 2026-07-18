@@ -1,0 +1,15 @@
+<label [class]="toggleLabel">
+  <input
+    type="checkbox"
+    [class]="toggleInput"
+    [checked]="checked()"
+    (change)="checked.set($any($event.target).checked); markAsTouched()"
+    [disabled]="disabled()"
+  />
+  <div class="toggle-switch">
+    <div class="toggle-slider"></div>
+  </div>
+  @if (label()) {
+    <Text typeface="label">{{ label() }}</Text>
+  }
+</label>

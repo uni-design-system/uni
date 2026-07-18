@@ -1,0 +1,74 @@
+<button
+  [class]="triggerClass"
+  #trigger
+  [style.cursor]="disabled() ? 'default' : 'pointer'"
+  (click)="!disabled() && touched.set(true)"
+>
+  <uni-input-box [error]="showError()" [disabled]="disabled()">
+    <div
+      row-layout
+      alignItems="center"
+      justifyContent="space-between"
+      [fullWidth]="true"
+      [minWidth]="0"
+      paddingLeft="sm"
+    >
+      <Text
+        display="block"
+        [typeface]="componentOptions().textRole"
+        [color]="textColor()"
+        [ellipsis]="true"
+        [style.flex-grow]="1"
+        >{{ selectedLabelsText() }}</Text
+      >
+      <Symbol name="keyboard_arrow_down" [style.flex-shrink]="0"></Symbol>
+    </div>
+  </uni-input-box>
+</button>
+<uni-dropdown
+  #dropdown
+  [trigger]="trigger"
+  (dropdownShowing)="$event && searchInput.focus()"
+  (dropdownHiding)="$event && trigger.focus()"
+>
+  <div box-layout gap="xs" padding="xs">
+    <input
+      #searchInput
+      type="text"
+      [class]="searchInputClass"
+      [value]="query()"
+      (input)="query.set($any($event.target).value)"
+      placeholder="Search..."
+      (click)="$event.stopPropagation()"
+      [disabled]="disabled()"
+    />
+  </div>
+
+  <uni-divider [border]="componentOptions().dividerBorder" />
+
+  <div stack-layout gap="xs" padding="xs">
+    @for (option of filteredOptions(); track option.value) {
+      <uni-checkbox
+        [label]="option.label"
+        [checked]="isOptionSelected(option)()"
+        (checkedChange)="toggleOption(option, $event)"
+        variant="primary"
+        [disabled]="disabled()"
+      >
+      </uni-checkbox>
+    }
+  </div>
+
+  <uni-divider [border]="componentOptions().dividerBorder" />
+
+  <div row-layout gap="xs" justifyContent="space-around" padding="xs">
+    <button
+      text-button
+      (click)="dropdown.hideDropdown()"
+      size="sm"
+      variant="ghost"
+    >
+      Done
+    </button>
+  </div>
+</uni-dropdown>

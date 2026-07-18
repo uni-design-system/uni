@@ -21,6 +21,7 @@
   "peerDependencies": {
     "@angular/common": "^21.2.0",
     "@angular/core": "^21.2.0",
+    "@angular/forms": "^21.2.0",
     "@emotion/css": "^11.0.0",
     "@uni-design-system/uni-core": "workspace:*"
   },
@@ -32,6 +33,7 @@
     "@angular-devkit/core": "21.2.10",
     "@angular/compiler": "21.2.12",
     "@angular/compiler-cli": "21.2.12",
+    "@angular/forms": "21.2.12",
     "@angular/platform-browser-dynamic": "21.2.12",
     "@emotion/css": "^11.0.0",
     "@storybook/addon-a11y": "^10.4.0",

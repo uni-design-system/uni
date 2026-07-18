@@ -34,6 +34,65 @@ export const DarkTheme: UniTheme = {
     'inverse-surface': '#E6E1E5',
     'inverse-on-surface': '#313033',
     'inverse-on-surface-primary': '#6750A4',
+    'on-inverse-surface': '#313033',
+    'on-inverse-surface-primary': '#6750A4',
+    scrim: '#000000',
     transparent: 'rgba(0,0,0,0)',
+    ghost: 'rgba(0,0,0,0)',
+
+    quaternary: '#938F99',
+    'on-quaternary': '#1C1B1F',
+    warn: '#F2B8B5',
+    'on-warn': '#601410',
+    success: '#7FD98F',
+    'on-success': '#00390F',
+    disabled: 'rgba(255,255,255,0.12)',
+    'on-disabled': 'rgba(255,255,255,0.38)',
+
+    'on-primary-container-variant': 'rgba(255,255,255,0.4)',
+    'on-primary-container-border': '#EADDFF',
+    'on-secondary-container-variant': 'rgba(255,255,255,0.4)',
+    'on-secondary-container-border': '#E8DEF8',
+    'on-tertiary-container-variant': 'rgba(255,255,255,0.4)',
+    'on-tertiary-container-border': '#FFD8E4',
+
+    'warn-container': '#8C1D18',
+    'on-warn-container': '#F9DEDC',
+    'on-warn-container-variant': 'rgba(255,255,255,0.4)',
+    'on-warn-container-border': '#F9DEDC',
+
+    'success-container': '#1E5128',
+    'on-success-container': '#C6F0CD',
+    'on-success-container-variant': 'rgba(255,255,255,0.4)',
+    'on-success-container-border': '#C6F0CD',
+
+    'disabled-container': '#2B2930',
+    'on-disabled-container': 'rgba(255,255,255,0.38)',
+
+    'inverse-container': '#E6E1E5',
+    'on-inverse-container': '#313033',
+
+    'primary-surface': '#1C1B1F',
+    'on-primary-surface': '#E6E1E5',
+    'on-primary-surface-variant': '#D0BCFF',
+
+    'secondary-surface': '#211F26',
+    'on-secondary-surface': '#E6E1E5',
+    'on-secondary-surface-variant': '#D0BCFF',
+
+    'tertiary-surface': '#2B2930',
+    'on-tertiary-surface': '#E6E1E5',
+    'on-tertiary-surface-variant': '#D0BCFF',
+
+    'quaternary-surface': '#36343B',
+    'on-quaternary-surface': '#E6E1E5',
+    'on-quaternary-surface-variant': '#D0BCFF',
+
+    'disabled-surface': 'rgba(255,255,255,0.12)',
+    'on-disabled-surface': 'rgba(255,255,255,0.5)',
+    'on-disabled-surface-variant': 'rgba(255,255,255,0.4)',
+
+    'on-inverse-surface-variant': '#6750A4',
+    'on-background-variant': '#8F8C93',
   },
 };

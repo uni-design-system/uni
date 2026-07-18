@@ -1,0 +1,21 @@
+<uni-input-box [error]="showError()" [class]="selectClass">
+  <select
+    [disabled]="disabled()"
+    [value]="currentSelectedIndex()"
+    (change)="handleSelectChange($event)"
+    (blur)="touched.set(true)"
+  >
+    @if (placeholder()) {
+      <option [value]="UNSELECTED" disabled selected>
+        {{ placeholder() }}
+      </option>
+    }
+
+    @for (opt of options(); track opt.label; let i = $index) {
+      <option [value]="i">
+        {{ opt.label }}
+      </option>
+    }
+  </select>
+  <uni-symbol name="keyboard_arrow_down" [class]="arrowClass" />
+</uni-input-box>

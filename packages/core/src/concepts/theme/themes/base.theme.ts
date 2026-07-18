@@ -3,6 +3,7 @@ import { Container } from '../../container';
 import type { UniTheme } from '../theme.model';
 
 import { genericLightTheme as palette } from '../palettes/theme.palette';
+import { toTypefaces, type TextRole, type TextStyle } from '../../typography';
 
 const BaseButton: Button = {
   borderRadius: 100,
@@ -18,6 +19,140 @@ const BaseContainer: Container = {
   borderRadii: { xxs: 4, xs: 8, sm: 12, md: 16, lg: 20, xl: 24, xxl: 28 },
   horizontalPadding: { xxs: 6, xs: 12, sm: 18, md: 24, lg: 30, xl: 36, xxl: 42 },
   contentSpacing: { xxs: 4, xs: 8, sm: 12, md: 16, lg: 20, xl: 24, xxl: 28 },
+};
+
+const BaseTypography: Record<TextRole, TextStyle> = {
+  'display-large': {
+    fontFamily: 'Red Hat Display',
+    fontSize: 57,
+    lineHeight: 64,
+    fontWeight: 'normal',
+    letterSpacing: -0.25,
+  },
+  'display-medium': {
+    fontFamily: 'Red Hat Display',
+    fontSize: 45,
+    lineHeight: 52,
+    fontWeight: 'normal',
+  },
+  'display-small': {
+    fontFamily: 'Red Hat Display',
+    fontSize: 36,
+    lineHeight: 44,
+    fontWeight: 'normal',
+  },
+  'headline-large': {
+    fontFamily: 'Red Hat Display',
+    fontSize: 32,
+    lineHeight: 40,
+    fontWeight: 'normal',
+  },
+  'headline-medium': {
+    fontFamily: 'Red Hat Display',
+    fontSize: 28,
+    lineHeight: 36,
+    fontWeight: 'normal',
+  },
+  'headline-small': {
+    fontFamily: 'Red Hat Display',
+    fontSize: 24,
+    lineHeight: 32,
+    fontWeight: 'normal',
+  },
+  'title-large': {
+    fontFamily: 'Red Hat Display',
+    fontSize: 22,
+    lineHeight: 28,
+    fontWeight: 'normal',
+  },
+  'title-medium': {
+    fontFamily: 'Red Hat Display',
+    fontSize: 16,
+    lineHeight: 24,
+    fontWeight: 'medium',
+    letterSpacing: 0.15,
+  },
+  'title-small': {
+    fontFamily: 'Red Hat Display',
+    fontWeight: 'medium',
+    fontSize: 14,
+    lineHeight: 20,
+    letterSpacing: 0.1,
+  },
+  'body-1-long': {
+    fontFamily: 'Roboto',
+    fontSize: 16,
+    lineHeight: 22,
+  },
+  'body-1-short': {
+    fontFamily: 'Roboto',
+    fontSize: 16,
+    lineHeight: 24,
+  },
+  'body-2-long': {
+    fontFamily: 'Roboto',
+    fontSize: 14,
+    lineHeight: 18,
+  },
+  'body-2-short': {
+    fontFamily: 'Roboto',
+    fontSize: 14,
+    lineHeight: 20,
+  },
+  'subtitle-1': {
+    fontFamily: 'Red Hat Display',
+    fontSize: 16,
+    lineHeight: 24,
+    letterSpacing: 0.15,
+  },
+  'subtitle-2': {
+    fontFamily: 'Red Hat Display',
+    fontSize: 14,
+    lineHeight: 20,
+    fontWeight: 'medium',
+    letterSpacing: 0.1,
+  },
+  label: {
+    fontFamily: 'Roboto',
+    fontSize: 14,
+    lineHeight: 20,
+  },
+  button: {
+    fontFamily: 'Red Hat Display',
+    fontSize: 14,
+    lineHeight: 20,
+    fontWeight: 'medium',
+    textTransform: 'capitalize',
+  },
+  caption: {
+    fontFamily: 'Roboto',
+    fontSize: 12,
+    lineHeight: 18,
+    letterSpacing: 0.4,
+  },
+  overline: {
+    fontFamily: 'Red Hat Display',
+    fontSize: 10,
+    lineHeight: 18,
+    letterSpacing: 1.5,
+    textTransform: 'uppercase',
+  },
+  paragraph: {
+    fontFamily: 'Roboto',
+    fontSize: 16,
+    lineHeight: 24,
+  },
+  quote: {
+    fontFamily: 'Roboto',
+    fontSize: 16,
+    lineHeight: 24,
+  },
+  note: {
+    fontFamily: 'Roboto',
+    fontSize: 14,
+    lineHeight: 22,
+    fontStyle: 'italic',
+  },
 };
 
 export const BaseTheme: UniTheme = {
@@ -54,144 +189,64 @@ export const BaseTheme: UniTheme = {
     'on-inverse-surface-primary': '#D0BCFF',
     scrim: '#000000',
     transparent: 'rgba(0,0,0,0)',
+    ghost: 'rgba(0,0,0,0)',
+
+    quaternary: '#79747E',
+    'on-quaternary': '#FFFFFF',
+    warn: '#B3261E',
+    'on-warn': '#FFFFFF',
+    success: '#2E7D32',
+    'on-success': '#FFFFFF',
+    disabled: 'rgba(0,0,0,0.12)',
+    'on-disabled': 'rgba(0,0,0,0.38)',
+
+    'on-primary-container-variant': 'rgba(0,0,0,0.4)',
+    'on-primary-container-border': '#6750A4',
+    'on-secondary-container-variant': 'rgba(0,0,0,0.4)',
+    'on-secondary-container-border': '#625B71',
+    'on-tertiary-container-variant': 'rgba(0,0,0,0.4)',
+    'on-tertiary-container-border': '#7D5260',
+
+    'warn-container': '#F9DEDC',
+    'on-warn-container': '#8C1D18',
+    'on-warn-container-variant': 'rgba(0,0,0,0.4)',
+    'on-warn-container-border': '#8C1D18',
+
+    'success-container': '#C6F0CD',
+    'on-success-container': '#1E5128',
+    'on-success-container-variant': 'rgba(0,0,0,0.4)',
+    'on-success-container-border': '#1E5128',
+
+    'disabled-container': '#F2F2F2',
+    'on-disabled-container': 'rgba(0,0,0,0.38)',
+
+    'inverse-container': '#313033',
+    'on-inverse-container': '#F4EFF4',
 
     'primary-surface': palette.background,
     'on-primary-surface': palette.onLight,
     'on-primary-surface-variant': palette.primary,
+
+    'secondary-surface': '#F3EDF7',
+    'on-secondary-surface': '#1C1B1F',
+    'on-secondary-surface-variant': '#6750A4',
+
+    'tertiary-surface': '#F2F2F2',
+    'on-tertiary-surface': '#1C1B1F',
+    'on-tertiary-surface-variant': '#6750A4',
+
+    'quaternary-surface': '#E8DEF8',
+    'on-quaternary-surface': '#1C1B1F',
+    'on-quaternary-surface-variant': '#6750A4',
+
+    'disabled-surface': 'rgba(0,0,0,0.12)',
+    'on-disabled-surface': 'rgba(0,0,0,0.5)',
+    'on-disabled-surface-variant': 'rgba(0,0,0,0.4)',
+
+    'on-inverse-surface-variant': '#D0BCFF',
+    'on-background-variant': '#959595',
   },
-  typography: {
-    'display-large': {
-      fontFamily: 'Red Hat Display',
-      fontSize: 57,
-      lineHeight: 64,
-      fontWeight: 'normal',
-      letterSpacing: -0.25,
-    },
-    'display-medium': {
-      fontFamily: 'Red Hat Display',
-      fontSize: 45,
-      lineHeight: 52,
-      fontWeight: 'normal',
-    },
-    'display-small': {
-      fontFamily: 'Red Hat Display',
-      fontSize: 36,
-      lineHeight: 44,
-      fontWeight: 'normal',
-    },
-    'headline-large': {
-      fontFamily: 'Red Hat Display',
-      fontSize: 32,
-      lineHeight: 40,
-      fontWeight: 'normal',
-    },
-    'headline-medium': {
-      fontFamily: 'Red Hat Display',
-      fontSize: 28,
-      lineHeight: 36,
-      fontWeight: 'normal',
-    },
-    'headline-small': {
-      fontFamily: 'Red Hat Display',
-      fontSize: 24,
-      lineHeight: 32,
-      fontWeight: 'normal',
-    },
-    'title-large': {
-      fontFamily: 'Red Hat Display',
-      fontSize: 22,
-      lineHeight: 28,
-      fontWeight: 'normal',
-    },
-    'title-medium': {
-      fontFamily: 'Red Hat Display',
-      fontSize: 16,
-      lineHeight: 24,
-      fontWeight: 'medium',
-      letterSpacing: 0.15,
-    },
-    'title-small': {
-      fontFamily: 'Red Hat Display',
-      fontWeight: 'medium',
-      fontSize: 14,
-      lineHeight: 20,
-      letterSpacing: 0.1,
-    },
-    'body-1-long': {
-      fontFamily: 'Roboto',
-      fontSize: 16,
-      lineHeight: 22,
-    },
-    'body-1-short': {
-      fontFamily: 'Roboto',
-      fontSize: 16,
-      lineHeight: 24,
-    },
-    'body-2-long': {
-      fontFamily: 'Roboto',
-      fontSize: 14,
-      lineHeight: 18,
-    },
-    'body-2-short': {
-      fontFamily: 'Roboto',
-      fontSize: 14,
-      lineHeight: 20,
-    },
-    'subtitle-1': {
-      fontFamily: 'Red Hat Display',
-      fontSize: 16,
-      lineHeight: 24,
-      letterSpacing: 0.15,
-    },
-    'subtitle-2': {
-      fontFamily: 'Red Hat Display',
-      fontSize: 14,
-      lineHeight: 20,
-      fontWeight: 'medium',
-      letterSpacing: 0.1,
-    },
-    label: {
-      fontFamily: 'Roboto',
-      fontSize: 14,
-      lineHeight: 20,
-    },
-    button: {
-      fontFamily: 'Red Hat Display',
-      fontSize: 14,
-      lineHeight: 20,
-      fontWeight: 'medium',
-      textTransform: 'capitalize',
-    },
-    caption: {
-      fontFamily: 'Roboto',
-      fontSize: 12,
-      lineHeight: 18,
-      letterSpacing: 0.4,
-    },
-    overline: {
-      fontFamily: 'Red Hat Display',
-      fontSize: 10,
-      lineHeight: 18,
-      letterSpacing: 1.5,
-      textTransform: 'uppercase',
-    },
-    paragraph: {
-      fontFamily: 'Roboto',
-      fontSize: 16,
-      lineHeight: 24,
-    },
-    quote: {
-      fontFamily: 'Roboto',
-      fontSize: 16,
-      lineHeight: 24,
-    },
-    note: {
-      fontFamily: 'Roboto',
-      fontSize: 14,
-      lineHeight: 22,
-      fontStyle: 'italic',
-    },
-  },
+  typography: BaseTypography,
   borders: {
     primary: `1px solid ${palette.primary}`,
     secondary: `1px solid ${palette.secondary}`,
@@ -304,7 +359,25 @@ export const BaseTheme: UniTheme = {
       maxWidth: 560,
     },
   },
-  typefaces: {},
+  typefaces: {
+    ...toTypefaces(BaseTypography),
+    badge: {
+      fontFamily: 'Red Hat Display',
+      fontSize: '16px',
+      lineHeight: '24px',
+    },
+    tag: {
+      fontFamily: 'Red Hat Display',
+      fontSize: '15px',
+      lineHeight: '20px',
+      fontWeight: 600,
+    },
+    input: {
+      fontFamily: 'Red Hat Display',
+      fontSize: '14px',
+      lineHeight: '24px',
+    },
+  },
   icons: {},
   components: {
     alert: {

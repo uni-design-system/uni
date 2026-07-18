@@ -1,0 +1,29 @@
+<div [class]="radioGroupClass">
+  @if (label()) {
+    <Text typeface="label">{{ label() }}</Text>
+  }
+
+  @for (option of options(); track option.value) {
+    <label
+      [class]="radioOptionClass"
+      [class.disabled]="disabled() || option.disabled"
+      (click)="
+        !disabled() && !option.disabled && handleRadioChange(option.value)
+      "
+    >
+      <input
+        type="radio"
+        [class]="radioInputClass"
+        [value]="option.value"
+        [name]="name()"
+        [checked]="value() === option.value"
+        [disabled]="disabled() || option.disabled"
+        (change)="handleRadioChange(option.value)"
+      />
+      <div class="radio-button">
+        <div class="radio-inner"></div>
+      </div>
+      <Text typeface="label">{{ option.label }}</Text>
+    </label>
+  }
+</div>

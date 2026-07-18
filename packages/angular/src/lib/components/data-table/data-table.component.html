@@ -1,0 +1,134 @@
+@let ds = datasource();
+@if (ds) {
+  <div
+    box-layout
+    [color]="componentOptions().color"
+    [border]="componentOptions().border"
+    [borderRadius]="componentOptions().borderRadius"
+    [elevation]="componentOptions().elevation"
+    overflow="hidden"
+  >
+    <div
+      box-layout
+      [padding]="componentOptions().headerPadding"
+      [color]="componentOptions().headerColor"
+      [class]="headerClass"
+    >
+      <ng-content select="data-table-header"></ng-content>
+    </div>
+
+    <div box-layout [height]="height()" position="relative">
+      <ScrollArea
+        [verticalScrollPadding]="0"
+        (scrollable)="handleScrollable($event)"
+      >
+        <table [class]="tableClass">
+          <thead>
+            <tr>
+              @for (column of columns(); track column) {
+                <th
+                  [class]="thClass"
+                  [class.scrollable]="scrollable()"
+                  [class.sticky]="column.isSticky"
+                  [style.text-align]="column.textAlign"
+                >
+                  <uni-sort-header
+                    [datasource]="datasource()"
+                    [column]="column.columnDef"
+                  >
+                    <Text [typeface]="componentOptions().thTextRole">{{
+                      column.header
+                    }}</Text>
+                  </uni-sort-header>
+                </th>
+              }
+            </tr>
+          </thead>
+          <tbody>
+            @for (record of ds.records(); track record; let i = $index) {
+              <tr [class]="trClass" (click)="handleRowClick(record, $index)">
+                @for (column of columns(); track column) {
+                  <td
+                    [class]="tdClass"
+                    [class.scrollable]="scrollable()"
+                    [class.sticky]="column.isSticky"
+                    [class.template]="!!column.template"
+                    [style.text-align]="column.textAlign"
+                  >
+                    @if (column.template) {
+                      <ng-container
+                        [ngTemplateOutlet]="column.template"
+                        [ngTemplateOutletContext]="record"
+                      ></ng-container>
+                    } @else {
+                      <Text [typeface]="componentOptions().tdTextRole">
+                        @if (!column.cell) {
+                          {{ record[column.columnDef] }}
+                        } @else {
+                          {{ column.cell(record) }}
+                        }
+                      </Text>
+                    }
+                  </td>
+                }
+              </tr>
+              @if (detailRowTemplate()) {
+                <tr
+                  [class]="detailRowClass"
+                  [class.expanded]="expandedIndex() === $index"
+                >
+                  <td [attr.colspan]="columns().length">
+                    <div class="detail-content-wrapper">
+                      <div class="detail-inner">
+                        <ng-container
+                          [ngTemplateOutlet]="detailRowTemplate()"
+                          [ngTemplateOutletContext]="{
+                            $implicit: record,
+                            index: i,
+                          }"
+                        ></ng-container>
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+              }
+            }
+          </tbody>
+        </table>
+      </ScrollArea>
+
+      <!-- Loading Overlay -->
+      @if (isLoading()) {
+        <div
+          uni-center-layout
+          position="absolute"
+          [inset]="0"
+          [backgroundColor]="componentOptions().loadingOverlayColor"
+          [class]="loadingOverlayClass"
+          zIndex="overlay"
+        >
+          <!-- Loading Spinner -->
+          <div
+            uni-box-layout
+            [height]="componentOptions().loadingSpinnerSize"
+            [width]="componentOptions().loadingSpinnerSize"
+          >
+            <uni-icon
+              name="spinner"
+              [color]="componentOptions().loadingSpinnerColor"
+            />
+          </div>
+        </div>
+      }
+    </div>
+
+    <div
+      box-layout
+      [padding]="componentOptions().footerPadding"
+      [color]="componentOptions().footerColor"
+      [class]="footerClass"
+    >
+      <ng-content select="data-table-footer"></ng-content>
+    </div>
+  </div>
+}

@@ -1,0 +1,12 @@
+<uni-input-box [error]="showError()">
+  <ng-content select="pre-input" />
+  <input
+    [value]="value()"
+    (input)="value.set($any($event.target).value)"
+    [placeholder]="placeholder()"
+    [disabled]="disabled()"
+    (blur)="markAsTouched()"
+    [class]="inputClass"
+  />
+  <ng-content select="post-input" />
+</uni-input-box>

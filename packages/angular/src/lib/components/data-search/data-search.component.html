@@ -1,0 +1,26 @@
+<div
+  row-layout
+  alignItems="center"
+  [border]="componentOptions().border"
+  [height]="26"
+  [borderRadius]="componentOptions().borderRadius"
+  paddingLeft="xs"
+>
+  <div center-layout [height]="18" [width]="18" paddingRight="xs">
+    <uni-icon name="search" />
+  </div>
+  <input
+    type="text"
+    (input)="onInput($event)"
+    [class]="inputClassName"
+    [placeholder]="placeholder()"
+    [value]="searchValue()"
+  />
+  <div row-layout alignItems="center" [width]="22">
+    @if (!!searchValue()) {
+      <button icon-button (click)="clearFilter()" symbolName="close" size="sm">
+        Clear Search
+      </button>
+    }
+  </div>
+</div>

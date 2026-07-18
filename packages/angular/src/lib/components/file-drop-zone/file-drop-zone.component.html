@@ -1,0 +1,59 @@
+<div
+  box-layout
+  [border]="border()"
+  [borderRadius]="borderRadius()"
+  [dashBorder]="[undefined, 'replace'].includes(attachmentState())"
+  display="flex"
+  alignItems="center"
+  justifyContent="center"
+  [padding]="padding()"
+  dragAndDrop
+  (onFileDropped)="selectFiles($event)"
+  [height]="height()"
+>
+  <div stack-layout gap="md" alignItems="center">
+    @switch (attachmentState()) {
+      @case ('upload') {
+        <div stack-layout alignItems="center">
+          <Text typeface="headline-small">{{ label() }}</Text>
+          <Text typeface="title-small">{{ selectedFileName() }}</Text>
+        </div>
+        <button text-button (click)="removeAttachment()" variant="warn">
+          Cancel
+        </button>
+      }
+
+      @default {
+        @if (useBrowseButton()) {
+          <button text-button (click)="openFileSelector()">
+            {{ browseButtonText() }}
+          </button>
+          <Text>OR</Text>
+        }
+
+        @if (!helpTemplate()) {
+          <div stack-layout alignItems="center">
+            <Text typeface="headline-small">Drag and drop the file here</Text>
+            @if (helpText()) {
+              <Text typeface="title-small">{{ helpText() }}</Text>
+            }
+          </div>
+        } @else {
+          <ng-container
+            [ngTemplateOutlet]="helpTemplate()"
+            [ngTemplateOutletContext]="helpTemplateContext()"
+          ></ng-container>
+        }
+      }
+    }
+  </div>
+
+  <input
+    #fileSelector
+    type="file"
+    style="display: none"
+    (change)="onFileInputChange()"
+    [accept]="sanitizedFileExtensions().join(',')"
+    [multiple]="false"
+  />
+</div>

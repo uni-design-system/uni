@@ -1,3 +1,5 @@
+import type { ContentColorToken } from '../color';
+
 export type themes = 'uni' | 'carbon' | 'material' | 'bootstrap';
 
 export type Variant =
@@ -13,3 +15,5 @@ export type Variant =
   | 'onLight'
   | 'dark'
   | 'onDark';
+
+export type TextColor = ContentColorToken | Variant;

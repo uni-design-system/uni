@@ -23,6 +23,7 @@ export type ComponentName =
   | 'multiSelectDropdown'
   | 'notificationBadge'
   | 'paginator'
+  | 'radio'
   | 'select'
   | 'slider'
   | 'snackbar'

@@ -1,0 +1,14 @@
+<div
+  row-layout
+  alignItems="center"
+  [height]="componentOptions().height"
+  [color]="color()"
+  [border]="border()"
+  [borderRadius]="componentOptions().borderRadius"
+  [shadow]="shadow()"
+  [minWidth]="minWidth()"
+  [class]="inputBoxClass()"
+  position="relative"
+>
+  <ng-content></ng-content>
+</div>

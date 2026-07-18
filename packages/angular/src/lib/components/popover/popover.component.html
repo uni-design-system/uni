@@ -1,0 +1,7 @@
+<span #trigger (click)="togglePopover($event)">
+  <ng-content select="[trigger]"></ng-content>
+</span>
+<div uniBodyRender #popover [class]="popoverClassName">
+  <ng-content></ng-content>
+  <div #arrow [class]="arrowClassName"></div>
+</div>

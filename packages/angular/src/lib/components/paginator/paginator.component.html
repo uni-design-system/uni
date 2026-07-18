@@ -1,0 +1,98 @@
+@let ds = datasource();
+@if (ds) {
+  <div row-layout alignItems="center" [gap]="componentOptions().gap">
+    @if (showPageSize()) {
+      <div row-layout alignItems="center" gap="sm" paddingRight="sm">
+        <Text [typeface]="componentOptions().textRole">Show</Text>
+        <input
+          type="number"
+          [class]="inputClass"
+          (change)="updatePageSize($event)"
+          min="1"
+          [max]="ds.recordCount()"
+          [value]="ds.pageSize()"
+        />
+      </div>
+    }
+
+    @if (showPageNumbers()) {
+      <button
+        icon-button
+        variant="ghost"
+        size="md"
+        symbolName="keyboard_double_arrow_left"
+        (click)="ds.firstPage()"
+        [disable]="ds.disablePrevious()"
+      >
+        First Page
+      </button>
+
+      <button
+        icon-button
+        variant="ghost"
+        size="md"
+        symbolName="chevron_left"
+        (click)="ds.previousPage()"
+        [disable]="ds.disablePrevious()"
+      >
+        Previous Page
+      </button>
+
+      @for (page of ds.truncatedPages(); track page) {
+        @if (isNumber(page)) {
+          <div
+            [class]="pageClass"
+            [class.current]="page === ds.pageIndex() + 1"
+            (click)="ds.jumpToPage(page)"
+          >
+            <Text [typeface]="componentOptions().textRole" display="block">
+              {{ page }}
+            </Text>
+          </div>
+        } @else {
+          <div>
+            <Text [typeface]="componentOptions().textRole" display="block">
+              {{ page }}
+            </Text>
+          </div>
+        }
+      }
+
+      <button
+        icon-button
+        variant="ghost"
+        size="md"
+        symbolName="chevron_right"
+        (click)="ds.nextPage()"
+        [disable]="ds.disableNext()"
+      >
+        Next Page
+      </button>
+
+      <button
+        icon-button
+        variant="ghost"
+        size="md"
+        symbolName="keyboard_double_arrow_right"
+        (click)="ds.lastPage()"
+        [disable]="ds.disableNext()"
+      >
+        Last Page
+      </button>
+    }
+
+    @if (showPageJumper()) {
+      <div row-layout alignItems="center" gap="sm" paddingLeft="sm">
+        <Text [typeface]="componentOptions().textRole">Jump to</Text>
+        <input
+          type="number"
+          [class]="inputClass"
+          (change)="jumpToPage($event)"
+          min="1"
+          [max]="ds.pageCount()"
+          [value]="ds.pageIndex() + 1"
+        />
+      </div>
+    }
+  </div>
+}
