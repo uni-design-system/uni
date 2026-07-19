@@ -1,0 +1,201 @@
+import { Meta, Story, Controls } from '@storybook/addon-docs/blocks';
+import * as CheckboxStories from './checkbox.stories';
+
+<Meta of={CheckboxStories} />
+
+# Checkbox
+
+The Checkbox component is a primitive form control that allows users to select or deselect an option. It implements Angular's FormCheckboxControl interface from the new Form Signals API for first-class Signal Forms integration.
+
+## Usage
+
+```typescript
+import { UniCheckboxComponent } from '@uni-design-system/uni-angular';
+```
+
+## Basic Example
+
+<Story of={CheckboxStories.Default} />
+
+## Without Label
+
+The checkbox can be used without a label for custom layouts:
+
+<Story of={CheckboxStories.WithoutLabel} />
+
+## Disabled State
+
+<Story of={CheckboxStories.Disabled} />
+
+## Variants
+
+The checkbox supports different color variants:
+
+<Story of={CheckboxStories.Variants} />
+
+## Event Binding
+
+The checkbox can be used with direct event binding for handling state changes:
+
+<Story of={CheckboxStories.WithChangeEvent} />
+
+## Form Signals Integration
+
+The checkbox implements FormCheckboxControl interface with signal-based properties for modern reactive forms:
+
+<Story of={CheckboxStories.FormSignals} />
+
+## API
+
+<Controls of={CheckboxStories.Default} />
+
+## Properties
+
+<table>
+  <thead>
+    <tr>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Default</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>
+        <code>variant</code>
+      </td>
+      <td>
+        <code>Variant</code>
+      </td>
+      <td>
+        <code>'primary'</code>
+      </td>
+      <td>The color variant of the checkbox</td>
+    </tr>
+    <tr>
+      <td>
+        <code>label</code>
+      </td>
+      <td>
+        <code>string</code>
+      </td>
+      <td>
+        <code>''</code>
+      </td>
+      <td>The label text displayed next to the checkbox</td>
+    </tr>
+    <tr>
+      <td>
+        <code>disabled</code>
+      </td>
+      <td>
+        <code>boolean</code>
+      </td>
+      <td>
+        <code>false</code>
+      </td>
+      <td>Whether the checkbox is disabled</td>
+    </tr>
+    <tr>
+      <td>
+        <code>checked</code>
+      </td>
+      <td>
+        <code>ModelSignal&lt;boolean&gt;</code>
+      </td>
+      <td>
+        <code>false</code>
+      </td>
+      <td>
+        Whether the checkbox is checked (Form Signal model for two-way binding)
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <code>touched</code>
+      </td>
+      <td>
+        <code>ModelSignal&lt;boolean&gt;</code>
+      </td>
+      <td>
+        <code>false</code>
+      </td>
+      <td>Whether the checkbox has been touched by the user</td>
+    </tr>
+    <tr>
+      <td>
+        <code>invalid</code>
+      </td>
+      <td>
+        <code>Signal&lt;boolean&gt;</code>
+      </td>
+      <td>
+        <code>false</code>
+      </td>
+      <td>Whether the checkbox has validation errors</td>
+    </tr>
+    <tr>
+      <td>
+        <code>dirty</code>
+      </td>
+      <td>
+        <code>Signal&lt;boolean&gt;</code>
+      </td>
+      <td>
+        <code>false</code>
+      </td>
+      <td>Whether the checkbox value has been changed</td>
+    </tr>
+  </tbody>
+</table>
+
+## Events
+
+<table>
+  <thead>
+    <tr>
+      <th>Event</th>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>
+        <code>checkedChange</code>
+      </td>
+      <td>
+        <code>EventEmitter&lt;boolean&gt;</code>
+      </td>
+      <td>
+        Emitted when the checkbox state changes. Emits the new checked value
+        (auto-generated from checked model signal).
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+## Methods
+
+The component implements the FormCheckboxControl interface:
+
+- `markAsTouched()`: Marks the checkbox as touched when the user interacts with it
+
+The component also maintains backward compatibility with ControlValueAccessor methods:
+
+- `writeValue(value: boolean)`: Sets the checkbox value
+- `registerOnChange(fn)`: Registers a callback for value changes
+- `registerOnTouched(fn)`: Registers a callback for touch events
+- `setDisabledState(isDisabled: boolean)`: Sets the disabled state
+
+## Accessibility
+
+- The component uses semantic HTML with proper `<input type="checkbox">` and `<label>` elements
+- Keyboard navigation is supported (Space to toggle)
+- Screen readers will announce the label and state correctly
+- The checkbox is properly associated with its label for accessibility
+
+## Styling
+
+The checkbox uses the theme service to apply consistent colors based on the selected variant. The component includes smooth animations for state transitions and hover effects.

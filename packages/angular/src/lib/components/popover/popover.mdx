@@ -1,0 +1,38 @@
+import * as Stories from './popover.stories';
+import { Meta, Title } from '@storybook/addon-docs/blocks';
+import { StoryUsage } from '../../../stories/blocks/StoryUsage';
+
+<Meta of={Stories} />
+<Title />
+
+`import { UniPopoverComponent } from '@uni-design-system/uni-angular';`
+
+## Overview
+
+Popover is a non-modal dialog that floats around a trigger.
+Any type of content can be added inside a popover; however, it is most suitable for short callouts or compact actions.
+
+**Note:** It is important to add the `trigger` attribute to the item you want to open and be referenced to the Popover.
+
+## Usage
+
+<StoryUsage
+  of={Stories.Primary}
+  exclude={[
+    'showClassName',
+    'arrowClassName',
+    'popoverClassName',
+    'spanClassName',
+    'createArrow',
+    'createTooltip',
+    'setPosition',
+    'arrow',
+    'tooltip',
+    'spanClassName',
+    'delay',
+    'arrowRef',
+    'popoverRef',
+    'triggerRef',
+    'arrowClasses',
+  ]}
+/>

@@ -1,0 +1,350 @@
+import { Meta, Story, Controls } from '@storybook/addon-docs/blocks';
+import * as MultiSelectDropdownStories from './multi-select-dropdown.stories';
+import { CommonControlExcludes } from '../../../stories/blocks/helpers';
+
+<Meta of={MultiSelectDropdownStories} />
+
+# Multi Select Dropdown
+
+The Multi Select Dropdown component provides a dropdown interface for selecting multiple options from a filterable list. It implements Angular 21 Form Signal patterns with `FormValueControl<T[]>` and combines dropdown functionality with multi-selection capabilities, including search/filter functionality and convenient select/deselect all options.
+
+## Usage
+
+```typescript
+import { UniMultiSelectDropdownComponent } from '@uni-design-system/uni-angular';
+```
+
+## Basic Example
+
+<Story of={MultiSelectDropdownStories.Primary} />
+
+## Empty State
+
+Multi Select Dropdown with no initial selections:
+
+<Story of={MultiSelectDropdownStories.Empty} />
+
+## Single Selection
+
+Multi Select Dropdown with one option selected:
+
+<Story of={MultiSelectDropdownStories.SingleSelection} />
+
+## Many Options
+
+Multi Select Dropdown with multiple options and selections:
+
+<Story of={MultiSelectDropdownStories.ManyOptions} />
+
+## Form Control States
+
+### Disabled State
+
+Multi Select Dropdown in disabled state:
+
+<Story of={MultiSelectDropdownStories.Disabled} />
+
+### Error State
+
+Multi Select Dropdown showing validation errors:
+
+<Story of={MultiSelectDropdownStories.ErrorState} />
+
+### With Placeholder
+
+Multi Select Dropdown with custom placeholder text:
+
+<Story of={MultiSelectDropdownStories.WithPlaceholder} />
+
+## API
+
+<Controls
+  of={MultiSelectDropdownStories.Primary}
+  exclude={[
+    ...CommonControlExcludes,
+    'selectedLabelsText',
+    'textColor',
+    'filteredOptions',
+    'searchInput',
+    'query',
+    'showError',
+  ]}
+/>
+
+## Properties
+
+<table>
+  <thead>
+    <tr>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Default</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>
+        <code>options</code>
+      </td>
+      <td>
+        <code>Options&lt;T&gt;</code>
+      </td>
+      <td>
+        <code>required</code>
+      </td>
+      <td>
+        Array of options to display in the dropdown. Each option should have
+        value and label properties
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <code>value</code>
+      </td>
+      <td>
+        <code>T[]</code>
+      </td>
+      <td>
+        <code>[]</code>
+      </td>
+      <td>Array of selected option values (FormValueControl signal)</td>
+    </tr>
+    <tr>
+      <td>
+        <code>placeholder</code>
+      </td>
+      <td>
+        <code>string</code>
+      </td>
+      <td>
+        <code>''</code>
+      </td>
+      <td>Placeholder text displayed when no options are selected</td>
+    </tr>
+    <tr>
+      <td>
+        <code>disabled</code>
+      </td>
+      <td>
+        <code>boolean</code>
+      </td>
+      <td>
+        <code>false</code>
+      </td>
+      <td>Whether the component is disabled (FormValueControl signal)</td>
+    </tr>
+    <tr>
+      <td>
+        <code>touched</code>
+      </td>
+      <td>
+        <code>boolean</code>
+      </td>
+      <td>
+        <code>false</code>
+      </td>
+      <td>Whether the component has been touched (FormValueControl signal)</td>
+    </tr>
+    <tr>
+      <td>
+        <code>invalid</code>
+      </td>
+      <td>
+        <code>boolean</code>
+      </td>
+      <td>
+        <code>false</code>
+      </td>
+      <td>
+        Whether the component is in invalid state (FormValueControl signal)
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <code>dirty</code>
+      </td>
+      <td>
+        <code>boolean</code>
+      </td>
+      <td>
+        <code>false</code>
+      </td>
+      <td>
+        Whether the component value has been changed (FormValueControl signal)
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+## FormValueControl Integration
+
+The component implements Angular 21's `FormValueControl<T[]>` interface, providing seamless integration with reactive forms and form signals.
+
+<table>
+  <thead>
+    <tr>
+      <th>Signal</th>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>
+        <code>value</code>
+      </td>
+      <td>
+        <code>model&lt;T[]&gt;</code>
+      </td>
+      <td>
+        Two-way binding for selected option values. Automatically updates when
+        selections change
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <code>disabled</code>
+      </td>
+      <td>
+        <code>input&lt;boolean&gt;</code>
+      </td>
+      <td>Whether the component is disabled</td>
+    </tr>
+    <tr>
+      <td>
+        <code>touched</code>
+      </td>
+      <td>
+        <code>model&lt;boolean&gt;</code>
+      </td>
+      <td>Whether the component has been touched/interacted with</td>
+    </tr>
+    <tr>
+      <td>
+        <code>invalid</code>
+      </td>
+      <td>
+        <code>input&lt;boolean&gt;</code>
+      </td>
+      <td>Whether the component has validation errors</td>
+    </tr>
+    <tr>
+      <td>
+        <code>dirty</code>
+      </td>
+      <td>
+        <code>input&lt;boolean&gt;</code>
+      </td>
+      <td>Whether the component value has been modified</td>
+    </tr>
+  </tbody>
+</table>
+
+## Methods
+
+- `selectAll()`: Selects all available options programmatically
+- `deselectAll()`: Deselects all options programmatically
+
+## Basic Usage
+
+```html
+<uni-multi-select-dropdown
+  [options]="availableOptions"
+  [(value)]="selectedValues"
+  placeholder="Select items..."
+>
+</uni-multi-select-dropdown>
+```
+
+```typescript
+export class MyComponent {
+  availableOptions = [
+    { value: 'option1', label: 'First Option' },
+    { value: 'option2', label: 'Second Option' },
+    { value: 'option3', label: 'Third Option' },
+  ];
+
+  selectedValues: string[] = ['option1'];
+}
+```
+
+## Form Integration
+
+```typescript
+import { FormControl } from '@angular/forms';
+
+export class MyFormComponent {
+  multiSelectControl = new FormControl<string[]>(['option1']);
+
+  availableOptions = [
+    { value: 'option1', label: 'First Option' },
+    { value: 'option2', label: 'Second Option' },
+    { value: 'option3', label: 'Third Option' },
+  ];
+}
+```
+
+```html
+<uni-multi-select-dropdown
+  [options]="availableOptions"
+  [formControl]="multiSelectControl"
+  placeholder="Select items..."
+>
+</uni-multi-select-dropdown>
+```
+
+## Validation and Error States
+
+```html
+<uni-multi-select-dropdown
+  [options]="options"
+  [(value)]="selectedValues"
+  [invalid]="hasValidationError"
+  [touched]="hasBeenTouched"
+  placeholder="Select options..."
+>
+</uni-multi-select-dropdown>
+```
+
+```typescript
+export class ValidationComponent {
+  hasValidationError = false;
+  hasBeenTouched = false;
+  selectedValues: string[] = [];
+
+  validateSelection() {
+    this.hasValidationError = this.selectedValues.length === 0;
+  }
+}
+```
+
+## Search Functionality
+
+The component includes built-in search functionality that filters options as you type in the dropdown. The search is case-insensitive and matches against option labels.
+
+## Programmatic Control
+
+```html
+<uni-multi-select-dropdown
+  #multiSelectDropdown
+  [options]="options"
+  [(value)]="selectedValues"
+>
+</uni-multi-select-dropdown>
+
+<button (click)="multiSelectDropdown.selectAll()">Select All</button>
+<button (click)="multiSelectDropdown.deselectAll()">Clear All</button>
+```
+
+## Accessibility
+
+- Uses semantic dropdown and checkbox patterns with proper ARIA labeling
+- Supports keyboard navigation (Tab, Space, Enter, Arrow keys)
+- Screen readers announce dropdown state, option labels, and selection counts
+- Follows WCAG accessibility guidelines for multi-select controls
+- Search input is properly labeled for assistive technologies
+
+## Styling
+
+The component integrates with the theme system and uses the dropdown component for consistent styling. The search input and option list inherit styling from the design system's input and checkbox components respectively. The dropdown positioning is handled by the underlying UniDropdownComponent.

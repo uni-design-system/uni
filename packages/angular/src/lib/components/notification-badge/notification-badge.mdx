@@ -1,0 +1,137 @@
+import { Meta, Story, Controls } from '@storybook/addon-docs/blocks';
+import * as NotificationBadgeStories from './notification-badge.stories';
+import { ExperimentalBadge } from '../../../stories/blocks';
+
+<Meta of={NotificationBadgeStories} />
+
+# Notification Badge<ExperimentalBadge />
+
+A notification badge is a visual indicator that signals new, unread, or important content. It wraps any element and displays a small colored indicator positioned in one of four corners.
+
+## Features
+
+- **Content Projection**: Wraps any element using `<ng-content>` - no manual positioning required
+- **Three Variants**: Dot, Count, and Pill styles
+- **Smart Count Display**: Automatically shows "+" when exceeding maxCount
+- **Flexible Positioning**: Four corner positions supported
+- **Theme Integration**: Uses design system colors
+- **Accessible**: High contrast colors for visibility
+- **Angular 21**: Built with modern signals and standalone architecture
+
+## Usage
+
+```typescript
+import { UniNotificationBadgeComponent } from '@uni-design-system/uni-angular';
+
+@Component({
+  template: `
+    <uni-notification-badge
+      [count]="messageCount"
+      color="warn"
+      position="top-right"
+    >
+      <button>Messages</button>
+    </uni-notification-badge>
+  `,
+  imports: [UniNotificationBadgeComponent],
+})
+export class MyComponent {
+  messageCount = 5;
+}
+```
+
+## Variants
+
+### Count Badge (Default)
+
+Shows numerical values with automatic "+" suffix for large numbers.
+
+<Story of={NotificationBadgeStories.Count} />
+
+### Dot Badge
+
+A simple indicator without numbers - perfect for showing "something new" without specific counts.
+
+<Story of={NotificationBadgeStories.Dot} />
+
+### Pill Badge
+
+Optimized for larger numbers with extended width to accommodate text.
+
+<Story of={NotificationBadgeStories.Pill} />
+
+## Color Options
+
+Notification badges support all theme colors. Red (danger) is standard for urgent notifications, while other colors can indicate different types of content.
+
+<Story of={NotificationBadgeStories.DifferentColors} />
+
+## Positioning
+
+Badges can be positioned in any of the four corners relative to their parent element.
+
+<Story of={NotificationBadgeStories.DifferentPositions} />
+
+## Best Practices
+
+### Placement
+
+- **Top-right corner**: Most common placement for notifications
+- **Content projection**: Wrap any element with the badge component using `<ng-content>`
+- **Automatic positioning**: No need for manual `position: relative` styling
+- **Icon alignment**: Ensure badges don't obscure important icon details
+
+### Color Guidelines
+
+- **Red (danger)**: Urgent notifications, errors, critical updates
+- **Blue (primary)**: General notifications, informational updates
+- **Green (success)**: Completed actions, positive notifications
+- **Orange (warning)**: Warnings, pending actions
+
+### Count Thresholds
+
+- **Use "+" for large numbers**: Default maxCount is 99, showing "99+" for larger values
+- **Consider pill variant**: For frequently changing large numbers
+- **Dot for binary states**: Use when you only need to show "new" vs "seen"
+
+### Accessibility
+
+- Provide aria-labels for screen readers
+- Ensure sufficient color contrast
+- Consider motion sensitivity for animated badges
+
+## Properties
+
+<Controls />
+
+## Examples
+
+### With Icons
+
+Common pattern for navigation and communication interfaces.
+
+<Story of={NotificationBadgeStories.WithIcons} />
+
+### Variant Comparison
+
+Side-by-side comparison of all three variants.
+
+<Story of={NotificationBadgeStories.VariantComparison} />
+
+## Terminology
+
+- **Notification Badge**: Standard industry term for the component
+- **Count Indicator**: Badge that displays numerical values
+- **Pill**: Badge with extended width for larger numbers
+- **Dot/Red Dot**: Simple indicator without numbers
+- **Status Dot**: Alternative term for dot variant
+
+## Related Components
+
+- [Badge](/docs/components-badge--docs): For labeling and categorization
+- [Alert](/docs/components-alert--docs): For prominent notifications
+- [Tooltip](/docs/components-tooltip--docs): For additional context on hover
+
+## Technical Notes
+
+This component extends `BaseComponent` and integrates with the Omni UI theme system. It uses Angular 21's signal-based reactivity for optimal performance and modern control flow syntax for conditional rendering.

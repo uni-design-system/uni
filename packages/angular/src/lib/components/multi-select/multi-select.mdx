@@ -1,0 +1,202 @@
+import { Meta, Story, Controls } from '@storybook/addon-docs/blocks';
+import * as MultiSelectStories from './multi-select.stories';
+
+<Meta of={MultiSelectStories} />
+
+# Multi Select
+
+The Multi Select component allows users to select multiple options from a predefined list using checkboxes. It provides flexible layout options and integrates seamlessly with forms and filtering interfaces.
+
+## Usage
+
+```typescript
+import { MultiSelectComponent } from '@uni-design-system/uni-angular';
+```
+
+## Basic Example
+
+<Story of={MultiSelectStories.Primary} />
+
+## Empty State
+
+Multi Select with no initial selections:
+
+<Story of={MultiSelectStories.Empty} />
+
+## Single Selection
+
+Multi Select with one option selected:
+
+<Story of={MultiSelectStories.SingleSelection} />
+
+## Many Options
+
+Multi Select with multiple options and selections:
+
+<Story of={MultiSelectStories.ManyOptions} />
+
+## API
+
+<Controls of={MultiSelectStories.Primary} />
+
+## Properties
+
+<table>
+  <thead>
+    <tr>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Default</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>
+        <code>options</code>
+      </td>
+      <td>
+        <code>Option[]</code>
+      </td>
+      <td>
+        <code>[]</code>
+      </td>
+      <td>
+        Array of options to display. Each option should have value and label
+        properties
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <code>selections</code>
+      </td>
+      <td>
+        <code>string[] | null | undefined</code>
+      </td>
+      <td>
+        <code>undefined</code>
+      </td>
+      <td>Array of selected option values</td>
+    </tr>
+    <tr>
+      <td>
+        <code>flexDirection</code>
+      </td>
+      <td>
+        <code>'row' | 'row-reverse' | 'column' | 'column-reverse'</code>
+      </td>
+      <td>
+        <code>'column'</code>
+      </td>
+      <td>Layout direction for the options</td>
+    </tr>
+    <tr>
+      <td>
+        <code>checkboxGap</code>
+      </td>
+      <td>
+        <code>NullableSize | undefined</code>
+      </td>
+      <td>
+        <code>'sm'</code>
+      </td>
+      <td>Gap between checkbox options</td>
+    </tr>
+  </tbody>
+</table>
+
+## Events
+
+<table>
+  <thead>
+    <tr>
+      <th>Event</th>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>
+        <code>updates</code>
+      </td>
+      <td>
+        <code>EventEmitter&lt;string[] | undefined&gt;</code>
+      </td>
+      <td>
+        Emitted when selections change. Emits undefined when all options are
+        deselected
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+## Methods
+
+- `selectAll()`: Selects all available options programmatically
+- `deselectAll()`: Deselects all options programmatically
+
+## Basic Usage
+
+```html
+<uni-multi-select
+  [options]="availableOptions"
+  [selections]="selectedValues"
+  (updates)="onSelectionChange($event)"
+>
+</uni-multi-select>
+```
+
+```typescript
+export class MyComponent {
+  availableOptions = [
+    { value: 'option1', label: 'First Option' },
+    { value: 'option2', label: 'Second Option' },
+    { value: 'option3', label: 'Third Option' },
+  ];
+
+  selectedValues: string[] = ['option1'];
+
+  onSelectionChange(selections: string[] | undefined) {
+    this.selectedValues = selections || [];
+  }
+}
+```
+
+## Layout Options
+
+```html
+<!-- Horizontal layout -->
+<uni-multi-select [options]="options" flexDirection="row" checkboxGap="md">
+</uni-multi-select>
+
+<!-- Custom spacing -->
+<uni-multi-select [options]="options" flexDirection="column" checkboxGap="lg">
+</uni-multi-select>
+```
+
+## Programmatic Control
+
+```html
+<uni-multi-select
+  #multiSelect
+  [options]="options"
+  [selections]="selections"
+  (updates)="onUpdate($event)"
+>
+</uni-multi-select>
+
+<button (click)="multiSelect.selectAll()">Select All</button>
+<button (click)="multiSelect.deselectAll()">Clear All</button>
+```
+
+## Accessibility
+
+- Uses semantic checkbox inputs with proper label associations
+- Supports keyboard navigation (Tab, Space)
+- Screen readers announce option labels and selection states
+- Follows WCAG accessibility guidelines
+
+## Styling
+
+The component uses the Box layout system for flexible positioning and spacing. Individual checkboxes inherit their styling from the UniCheckboxComponent.

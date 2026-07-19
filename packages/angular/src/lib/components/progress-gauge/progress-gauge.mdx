@@ -1,0 +1,32 @@
+import { Controls, Meta, Source, Story, Title } from '@storybook/addon-docs/blocks';
+import { sourceTransform } from '../../../stories/addons/source-transform';
+import * as ProgressGaugeStories from './progress-gauge.stories';
+
+<Meta of={ProgressGaugeStories} name="Overview" />
+<Title />
+
+`import { UniProgressGaugeComponent } from '@uni-design-system/uni-angular';`
+
+## Overview
+
+The progress gauge is a graphical way of representing progress to completion as well as scoring or ranking.
+
+## Usage
+
+<Story of={ProgressGaugeStories.Default} />
+<Source
+  of={ProgressGaugeStories.Default}
+  dark={true}
+  transform={sourceTransform}
+/>
+<Controls
+  exclude={[
+    'style',
+    'theme',
+    'themeService',
+    'click',
+    'init',
+    'ngOnInit',
+    'ngOnChanges',
+  ]}
+/>

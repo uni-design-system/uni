@@ -1,0 +1,28 @@
+import { Meta, Title } from '@storybook/addon-docs/blocks';
+import * as Stories from './input-box.stories';
+import { StoryUsage } from '../../../stories/blocks/StoryUsage';
+
+<Meta of={Stories} name="Input Box" />
+<Title />
+
+`import { UniInputBoxComponent } from '@uni-design-system/uni-angular';`
+
+## Overview
+
+The Input Box is the themed shell shared by all text-like form controls
+([Input](?path=/docs/components-forms-input--docs),
+[Select](?path=/docs/components-forms-select--docs), Multi Select Dropdown). It projects any
+native `input` or `select` element, strips the platform's default styling, and applies the
+`input` component theme options: colors, border, radius, focus outline, and the error and
+disabled states.
+
+Use it directly when composing a custom form control that should match the design system's
+input styling.
+
+## Usage
+
+<StoryUsage of={Stories.Primary} />
+
+## Error State
+
+<StoryUsage of={Stories.ErrorState} />

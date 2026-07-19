@@ -1,0 +1,47 @@
+import { Meta, Title } from '@storybook/addon-docs/blocks';
+
+import * as Stories from './data-table.stories';
+import { StoryUsage } from '../../../stories/blocks/StoryUsage';
+import { StoryExample } from '../../../stories/blocks/StoryExample';
+import { ThemeDataBlock } from '../../../stories/blocks/ThemeDataBlock';
+
+<Meta of={Stories} />
+<Title />
+
+## Overview
+
+## Usage
+
+<StoryUsage
+  of={Stories.Primary}
+  exclude={[
+    'tableClass',
+    'tableHeaderClass',
+    'handleRowClick',
+    'isHighlighted',
+    'handleScrollable',
+    'cellClass',
+    'toggleSelection',
+    'sort',
+  ]}
+/>
+
+## Examples
+
+### Datatable with Header and Scrollbar
+
+<StoryExample of={Stories.WithHeader} />
+
+### Datatable with Search Header and Scrollbar
+
+<StoryExample of={Stories.WithSearch} />
+
+### Datatable with Detail Row
+
+<StoryExample of={Stories.WithDetailRow} />
+
+## Theme Options
+
+Globally defined attributes controlled by the theme.
+
+<ThemeDataBlock componentName={'dataTable'} />

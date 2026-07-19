@@ -1,0 +1,21 @@
+import { Meta, Title } from '@storybook/addon-docs/blocks';
+import * as Stories from './expand.stories';
+import { StoryUsage } from '../../../stories/blocks/StoryUsage';
+
+<Meta of={Stories} name="Overview" />
+<Title />
+
+_Expand Panel:_ `import { UniExpandComponent } from '@uni-design-system/uni-angular';`
+
+_Expand Toggle:_ `import { UniExpandToggleComponent } from '@uni-design-system/uni-angular';`
+
+## Overview
+
+Expand is a group of components that can be used in concert to expand/collapse sections of information.
+The Expand component is transparent in nature and can nest any element to collapse it out of view.
+The Expand Toggle is an optional convenience element that can be used to trigger the expand/collapse animation.
+It has been designed to work with the Card Header.
+
+## Usage
+
+<StoryUsage of={Stories.Primary} exclude={['expandClassName']} />

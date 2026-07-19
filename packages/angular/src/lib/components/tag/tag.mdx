@@ -1,0 +1,16 @@
+import { Meta, Title, Description } from '@storybook/addon-docs/blocks';
+import * as Stories from './tag.stories';
+import { StoryUsage } from '../../../stories/blocks/StoryUsage';
+
+<Meta of={Stories} />
+<Title />
+
+`import { UniTagComponent } from '@uni-design-system/uni-angular';`
+
+## Overview
+
+<Description />
+
+## Usage
+
+<StoryUsage of={Stories.Primary} exclude={['handleClose']} />

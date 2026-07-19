@@ -1,0 +1,389 @@
+import { Meta, Story, Controls } from '@storybook/addon-docs/blocks';
+import * as InputStories from './input.stories';
+import { CommonControlExcludes } from '../../../stories/blocks/helpers';
+
+<Meta of={InputStories} />
+
+# Input
+
+The Input component provides a clean, accessible text input field with built-in validation support and consistent styling. It implements the `FormValueControl<string>` interface from Angular's signals-based forms, providing seamless integration with modern reactive forms while maintaining backwards compatibility.
+
+## Usage
+
+```typescript
+import { UniInputComponent } from '@uni-design-system/uni-angular';
+```
+
+## Basic Example
+
+<Story of={InputStories.Primary} />
+
+## With Value
+
+Input component with pre-filled value:
+
+<Story of={InputStories.WithValue} />
+
+## Disabled State
+
+Input component in disabled state:
+
+<Story of={InputStories.Disabled} />
+
+## Invalid State
+
+Input component showing validation errors:
+
+<Story of={InputStories.Invalid} />
+
+## Required Field Error
+
+Input component showing required field validation error:
+
+<Story of={InputStories.Required} />
+
+## Long Label
+
+Input component with an extended label:
+
+<Story of={InputStories.LongLabel} />
+
+## API
+
+<Controls
+  of={InputStories.Primary}
+  exclude={[...CommonControlExcludes, 'showError', 'inputClass']}
+/>
+
+## Properties
+
+<table>
+  <thead>
+    <tr>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Default</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>
+        <code>value</code>
+      </td>
+      <td>
+        <code>string</code>
+      </td>
+      <td>
+        <code>''</code>
+      </td>
+      <td>Two-way bound value of the input field (model binding)</td>
+    </tr>
+    <tr>
+      <td>
+        <code>label</code>
+      </td>
+      <td>
+        <code>string</code>
+      </td>
+      <td>
+        <code>required</code>
+      </td>
+      <td>Required label text displayed for the input field</td>
+    </tr>
+    <tr>
+      <td>
+        <code>placeholder</code>
+      </td>
+      <td>
+        <code>string</code>
+      </td>
+      <td>
+        <code>''</code>
+      </td>
+      <td>Placeholder text shown when the input is empty</td>
+    </tr>
+    <tr>
+      <td>
+        <code>disabled</code>
+      </td>
+      <td>
+        <code>boolean</code>
+      </td>
+      <td>
+        <code>false</code>
+      </td>
+      <td>Whether the input is disabled and non-interactive</td>
+    </tr>
+    <tr>
+      <td>
+        <code>touched</code>
+      </td>
+      <td>
+        <code>boolean</code>
+      </td>
+      <td>
+        <code>false</code>
+      </td>
+      <td>
+        Two-way bound touched state - indicates if the user has interacted with
+        the field
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <code>invalid</code>
+      </td>
+      <td>
+        <code>boolean</code>
+      </td>
+      <td>
+        <code>false</code>
+      </td>
+      <td>Whether the input is in an invalid state</td>
+    </tr>
+    <tr>
+      <td>
+        <code>dirty</code>
+      </td>
+      <td>
+        <code>boolean</code>
+      </td>
+      <td>
+        <code>false</code>
+      </td>
+      <td>
+        Indicates if the field value has been changed from its initial state
+        (input signal)
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+## FormValueControl Interface
+
+The component implements Angular's `FormValueControl<string>` interface, providing a standardized API for form integration with signals-based forms. This ensures consistent behavior across all form components in the library.
+
+### Required Signals (FormValueControl Interface)
+
+<table>
+  <thead>
+    <tr>
+      <th>Signal</th>
+      <th>Type</th>
+      <th>Binding</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>
+        <code>value</code>
+      </td>
+      <td>
+        <code>ModelSignal&lt;string&gt;</code>
+      </td>
+      <td>Two-way</td>
+      <td>
+        The input's current value. Updates automatically as user types and can
+        be bound bidirectionally
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <code>disabled</code>
+      </td>
+      <td>
+        <code>InputSignal&lt;boolean&gt;</code>
+      </td>
+      <td>One-way</td>
+      <td>Controls whether the input is disabled and non-interactive</td>
+    </tr>
+    <tr>
+      <td>
+        <code>touched</code>
+      </td>
+      <td>
+        <code>ModelSignal&lt;boolean&gt;</code>
+      </td>
+      <td>Two-way</td>
+      <td>
+        Indicates if the user has interacted with the field (focus/blur). Used
+        for error display logic
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <code>invalid</code>
+      </td>
+      <td>
+        <code>InputSignal&lt;boolean&gt;</code>
+      </td>
+      <td>One-way</td>
+      <td>
+        Indicates whether the input's current value is invalid according to
+        validation rules
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <code>dirty</code>
+      </td>
+      <td>
+        <code>InputSignal&lt;boolean&gt;</code>
+      </td>
+      <td>One-way</td>
+      <td>
+        Indicates if the field value has been changed from its initial state
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+## Methods
+
+- `markAsTouched()`: Manually marks the input as touched, triggering error display if validation fails
+
+## Basic Usage with Signals
+
+```html
+<uni-input
+  label="Email Address"
+  placeholder="Enter your email"
+  [(value)]="emailValue"
+  [(touched)]="emailTouched"
+  [invalid]="emailInvalid"
+  [dirty]="emailDirty"
+>
+</uni-input>
+```
+
+```typescript
+import { Component, signal } from '@angular/core';
+
+export class MyComponent {
+  // Using Angular signals for reactive state management
+  emailValue = signal('');
+  emailTouched = signal(false);
+  emailInvalid = signal(false);
+  emailDirty = signal(false);
+
+  validateEmail() {
+    const hasAtSymbol = this.emailValue().includes('@');
+    this.emailInvalid.set(!hasAtSymbol);
+  }
+}
+```
+
+## Content Projection
+
+The component supports content projection for additional elements:
+
+```html
+<uni-input label="Search" placeholder="Type to search...">
+  <span select="pre-input">🔍</span>
+  <button select="post-input" type="button">Clear</button>
+</uni-input>
+```
+
+## Signals-Based Form Integration
+
+The component integrates seamlessly with Angular's new signals-based forms and the `FormValueControl` interface:
+
+```typescript
+import { Component } from '@angular/core';
+import { FormControl } from '@angular/forms/signals';
+
+export class MyFormComponent {
+  // Create a signals-based form control
+  emailControl = new FormControl('', {
+    validators: [
+      /* your validators */
+    ],
+  });
+
+  onSubmit() {
+    if (this.emailControl.valid()) {
+      console.log('Email:', this.emailControl.value());
+    }
+  }
+}
+```
+
+```html
+<!-- Direct binding with FormControl signals -->
+<uni-input
+  label="Email Address"
+  placeholder="Enter your email"
+  [(value)]="emailControl.value"
+  [(touched)]="emailControl.touched"
+  [invalid]="emailControl.invalid"
+  [dirty]="emailControl.dirty"
+  [disabled]="emailControl.disabled"
+>
+</uni-input>
+```
+
+## Legacy Form Support
+
+While the component is optimized for signals-based forms, it maintains compatibility with traditional reactive forms:
+
+```html
+<!-- Traditional reactive form binding -->
+<uni-input
+  label="Username"
+  placeholder="Enter username"
+  [(value)]="usernameValue"
+  [invalid]="usernameControl.invalid"
+  [touched]="usernameControl.touched"
+  [dirty]="usernameControl.dirty"
+>
+</uni-input>
+```
+
+## Error Display
+
+Validation errors are only shown when the field is `invalid` and the user has interacted with it (either `touched` or `dirty`), providing optimal user experience by not showing premature validation errors.
+
+```typescript
+// Error display logic (computed automatically in the component)
+protected readonly showError = computed(
+  () => this.invalid() && (this.touched() || this.dirty())
+);
+```
+
+The error display logic considers both `touched` (user has focused/blurred the field) and `dirty` (user has changed the value) states to determine when to show validation errors, ensuring users aren't confronted with errors before they've had a chance to interact with the field.
+
+## Accessibility
+
+- Uses semantic HTML input element with proper labeling
+- Supports keyboard navigation and standard input interactions
+- Screen readers announce validation errors and field states
+- Follows WCAG accessibility guidelines for form inputs
+- Proper focus management and visual indicators
+
+## Styling
+
+The component integrates with the theme system through the `UniInputBoxComponent` wrapper and provides consistent styling across platforms. Error styling is automatically applied when validation fails and the user has interacted with the field. The component uses Emotion CSS-in-JS for styling and supports theme switching through the theme service.
+
+## Implementation Details
+
+### FormValueControl Compliance
+
+- **Interface**: Implements `FormValueControl<string>` from `@angular/forms/signals`
+- **Required Signals**: `value`, `disabled`, `touched`, `invalid`, `dirty`
+- **Methods**: `markAsTouched()` for programmatic interaction control
+- **Computed Properties**: `showError` for intelligent error display logic
+
+### Signal Architecture
+
+- Uses Angular's modern signal-based reactivity system
+- `model()` signals for two-way data binding (`value`, `touched`)
+- `input()` signals for one-way configuration and state (`disabled`, `invalid`, `dirty`)
+- `computed()` signals for derived state (`showError`)
+
+### Template Integration
+
+- Clean template with minimal logic
+- Proper event handling for user interactions
+- Content projection support for extensible UI patterns

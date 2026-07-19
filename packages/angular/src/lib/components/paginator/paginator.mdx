@@ -1,0 +1,24 @@
+import { Meta, Title } from '@storybook/addon-docs/blocks';
+import * as Stories from './paginator.stories';
+import { StoryUsage } from '../../../stories/blocks/StoryUsage';
+
+<Meta of={Stories} name="Paginator" />
+<Title />
+
+`import { UniPaginatorComponent } from '@uni-design-system/uni-angular';`
+
+## Overview
+
+The Paginator drives page navigation for any `UniDatasource`: first/previous/next/last
+buttons, truncated page numbers, an editable page size, and a page jumper. Each section can
+be toggled independently, so it can render as a full control bar or a minimal pager — the
+[Data Table](?path=/docs/components-data-table--docs) stories use one paginator in the header
+for page size and another in the footer for page numbers.
+
+## Usage
+
+<StoryUsage of={Stories.Primary} />
+
+## Page Numbers Only
+
+<StoryUsage of={Stories.PageNumbersOnly} />

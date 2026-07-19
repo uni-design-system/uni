@@ -1,0 +1,56 @@
+import { Controls, Meta, Story, Title } from '@storybook/addon-docs/blocks';
+import * as Stories from './background.stories';
+import { StoryUsage } from '../../../stories/blocks/StoryUsage';
+
+<Meta of={Stories} />
+
+<Title />
+
+`import { UniBackgroundComponent } from '@uni-design-system/uni-angular';`
+
+## Overview
+
+The Background component is a flexible container that allows you to add and control background images in your application.
+It provides various options for positioning and sizing the background image while maintaining a clean and responsive layout.
+
+## Features
+
+- **Image Support**: Display any image URL as a background
+- **Positioning Control**: Precise control over image placement
+- **Sizing Options**: Choose between 'cover' and 'contain' modes
+- **Flexible Dimensions**: Support for both fixed and responsive sizes
+- **Non-repeating**: Images don't repeat by default for clean aesthetics
+
+## Basic Usage
+
+<StoryUsage of={Stories.Primary} />
+
+## Examples
+
+### Contain Size Mode
+
+The `contain` size mode ensures the entire image is visible while maintaining its aspect ratio:
+
+<Story of={Stories.ContainSize} />
+
+### Custom Positioning
+
+Control the image position to create different visual effects:
+
+<Story of={Stories.CustomPosition} />
+
+## Best Practices
+
+- Use appropriate image sizes to optimize loading performance
+- Consider using responsive dimensions (%, vh, vw) for better adaptability
+- Choose between 'cover' and 'contain' based on your image content and container size
+- Ensure sufficient contrast between the background image and any overlaid content
+- Test different image positions to find the most effective composition
+
+## Accessibility
+
+When using background images:
+
+- Ensure any text overlaid on the background has sufficient contrast
+- Don't rely on background images to convey important information
+- Consider providing alternative visual styles for users who prefer reduced motion

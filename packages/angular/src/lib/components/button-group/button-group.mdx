@@ -1,0 +1,17 @@
+import { Meta, Title } from '@storybook/addon-docs/blocks';
+import * as Stories from './button-group.stories';
+import { StoryUsage } from '../../../stories/blocks/StoryUsage';
+
+<Meta of={Stories} name="Overview" />
+<Title />
+
+`import { UniButtonGroupComponent } from '@uni-design-system/uni-angular';`
+
+## Overview
+
+The `ButtonGroup` component is used to group related buttons. It applies some base styling to the nested buttons.
+If this is not desirable, consider using the `Row` component.
+
+## Usage
+
+<StoryUsage of={Stories.Primary} exclude={[]} />

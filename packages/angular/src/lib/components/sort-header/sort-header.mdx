@@ -1,0 +1,19 @@
+import { Meta, Title } from '@storybook/addon-docs/blocks';
+import * as Stories from './sort-header.stories';
+import { StoryUsage } from '../../../stories/blocks/StoryUsage';
+
+<Meta of={Stories} name="Sort Header" />
+<Title />
+
+`import { UniSortHeaderComponent } from '@uni-design-system/uni-angular';`
+
+## Overview
+
+The Sort Header wraps a column heading and cycles the bound datasource's sort state
+(ascending → descending → unsorted) when clicked. An animated arrow indicates the current
+sort direction. It is used by the [Data Table](?path=/docs/components-data-table--docs)
+for sortable columns, but can wrap any header content bound to a `UniDatasource`.
+
+## Usage
+
+<StoryUsage of={Stories.Primary} />

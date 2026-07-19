@@ -1,0 +1,341 @@
+import { Meta, Story, Controls } from '@storybook/addon-docs/blocks';
+import * as SelectInputStories from './select-input.stories';
+import { CommonControlExcludes } from '../../../stories/blocks/helpers';
+
+<Meta of={SelectInputStories} />
+
+# Select Input
+
+The Select Input component provides a clean, accessible dropdown selection interface with built-in validation support and consistent styling. It implements the `FormValueControl<T | null>` interface using Angular signals and wraps a native HTML select element with the `UniInputBoxComponent` for consistent form integration and error handling.
+
+## Usage
+
+```typescript
+import { UniSelectComponent } from '@uni-design-system/uni-angular';
+```
+
+## Basic Example
+
+<Story of={SelectInputStories.Primary} />
+
+## With Value
+
+Select input component with pre-selected value:
+
+<Story of={SelectInputStories.WithValue} />
+
+## Disabled State
+
+Select input component in disabled state:
+
+<Story of={SelectInputStories.Disabled} />
+
+## Invalid State
+
+Select input component showing validation errors:
+
+<Story of={SelectInputStories.Invalid} />
+
+## Many Options
+
+Select input component with a longer list of options:
+
+<Story of={SelectInputStories.ManyOptions} />
+
+## Short Options
+
+Select input component with brief option labels:
+
+<Story of={SelectInputStories.ShortOptions} />
+
+## API
+
+<Controls
+  of={SelectInputStories.Primary}
+  exclude={[...CommonControlExcludes, 'showError', 'selectClass']}
+/>
+
+## Properties
+
+<table>
+  <thead>
+    <tr>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Default</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>
+        <code>value</code>
+      </td>
+      <td>
+        <code>T | null</code>
+      </td>
+      <td>
+        <code>null</code>
+      </td>
+      <td>Two-way bound value of the selected option (model signal)</td>
+    </tr>
+    <tr>
+      <td>
+        <code>placeholder</code>
+      </td>
+      <td>
+        <code>string</code>
+      </td>
+      <td>
+        <code>'Select...'</code>
+      </td>
+      <td>Placeholder text shown when no option is selected</td>
+    </tr>
+    <tr>
+      <td>
+        <code>options</code>
+      </td>
+      <td>
+        <code>Options&lt;T&gt;</code>
+      </td>
+      <td>
+        <code>[]</code>
+      </td>
+      <td>Array of option objects with value and label properties</td>
+    </tr>
+    <tr>
+      <td>
+        <code>disabled</code>
+      </td>
+      <td>
+        <code>boolean</code>
+      </td>
+      <td>
+        <code>false</code>
+      </td>
+      <td>Whether the select input is disabled and non-interactive</td>
+    </tr>
+    <tr>
+      <td>
+        <code>touched</code>
+      </td>
+      <td>
+        <code>boolean</code>
+      </td>
+      <td>
+        <code>false</code>
+      </td>
+      <td>
+        Two-way bound touched state - indicates if the user has interacted with
+        the field (model signal)
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <code>invalid</code>
+      </td>
+      <td>
+        <code>boolean</code>
+      </td>
+      <td>
+        <code>false</code>
+      </td>
+      <td>Whether the select input is in an invalid state</td>
+    </tr>
+    <tr>
+      <td>
+        <code>dirty</code>
+      </td>
+      <td>
+        <code>boolean</code>
+      </td>
+      <td>
+        <code>false</code>
+      </td>
+      <td>
+        Whether the field has been modified from its initial value (input
+        signal)
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+## Model Binding
+
+The component uses Angular's signal-based model binding with `value` and `touched` as two-way binding models. Changes are automatically reflected through the model signals. It implements the `FormValueControl<T | null>` interface for seamless form integration.
+
+<table>
+  <thead>
+    <tr>
+      <th>Model</th>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>
+        <code>value</code>
+      </td>
+      <td>
+        <code>T | null</code>
+      </td>
+      <td>
+        Two-way binding for the selected option value. Updates automatically
+        when user selects an option
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <code>touched</code>
+      </td>
+      <td>
+        <code>boolean</code>
+      </td>
+      <td>
+        Two-way binding for touched state. Automatically set when user interacts
+        with the select
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+## Computed Properties
+
+- `currentSelectedIndex`: Computed signal that returns the index of the currently selected option as a string
+- `showError`: Computed signal that returns `true` when the component should display errors (when both `invalid` and `touched` or `dirty` are true)
+
+## Basic Usage
+
+```html
+<uni-select
+  placeholder="Select your country..."
+  [options]="countryOptions"
+  [(value)]="selectedCountry"
+  [(touched)]="countryTouched"
+  [invalid]="countryInvalid"
+  [disabled]="countryDisabled"
+  [dirty]="countryDirty"
+>
+</uni-select>
+```
+
+```typescript
+export class MyComponent {
+  countryOptions = [
+    { value: 'us', label: 'United States' },
+    { value: 'ca', label: 'Canada' },
+    { value: 'uk', label: 'United Kingdom' },
+    { value: 'au', label: 'Australia' },
+  ];
+
+  selectedCountry = signal<string | null>(null);
+  countryTouched = signal(false);
+  countryInvalid = computed(() => this.selectedCountry() === null);
+  countryDisabled = signal(false);
+  countryDirty = signal(false);
+}
+```
+
+## Generic Type Support
+
+The component supports generic typing for strongly-typed option values:
+
+```typescript
+interface Priority {
+  level: number;
+  name: string;
+}
+
+// In your component
+priorities: Options<Priority> = [
+  { value: { level: 1, name: 'Low' }, label: 'Low Priority' },
+  { value: { level: 2, name: 'Medium' }, label: 'Medium Priority' },
+  { value: { level: 3, name: 'High' }, label: 'High Priority' },
+];
+
+selectedPriority = signal<Priority | null>(null);
+```
+
+```html
+<uni-select
+  placeholder="Select priority level..."
+  [options]="priorities"
+  [(value)]="selectedPriority"
+>
+</uni-select>
+```
+
+## Form Integration
+
+The component is designed to work seamlessly with reactive forms and template-driven forms:
+
+```html
+<!-- Signal-based form integration -->
+<uni-select
+  placeholder="Select department..."
+  [options]="departmentOptions"
+  [(value)]="departmentValue"
+  [invalid]="departmentInvalid"
+  [touched]="departmentTouched"
+  [disabled]="departmentDisabled"
+  [dirty]="departmentDirty"
+>
+</uni-select>
+
+<!-- With FormValueControl interface -->
+<uni-select
+  placeholder="Select status..."
+  [options]="statusOptions"
+  [(value)]="statusFormControl.value"
+  [invalid]="statusFormControl.invalid"
+  [touched]="statusFormControl.touched"
+  [disabled]="statusFormControl.disabled"
+  [dirty]="statusFormControl.dirty"
+>
+</uni-select>
+```
+
+## Error Display
+
+Validation errors are only shown when both `invalid` and `touched` are true, providing a good user experience by not showing errors until the user has actually interacted with the select.
+
+```typescript
+// Error is computed automatically
+showError = computed(() => this.invalid() && this.touched());
+```
+
+## Required Field Validation
+
+```html
+<uni-select
+  placeholder="Please make a selection..."
+  [options]="options"
+  [(value)]="selectedValue"
+  [invalid]="selectedValue() === null"
+  [touched]="fieldTouched"
+>
+</uni-select>
+```
+
+## Accessibility
+
+- Uses semantic HTML select element with proper labeling
+- Supports keyboard navigation (Tab, Arrow keys, Enter, Space)
+- Screen readers announce option labels and selection state
+- Follows WCAG accessibility guidelines for form selects
+- Proper focus management and visual indicators
+- Dropdown arrow icon provides visual cue for interaction
+
+## Styling
+
+The component integrates with the theme system through the `UniInputBoxComponent` which handles error display and styling. It removes default browser styling for consistent appearance across platforms and includes:
+
+- Custom dropdown arrow using `UniSymbolComponent` with `keyboard_arrow_down` icon
+- Consistent input box styling through `UniInputBoxComponent` that matches other form controls
+- Automatic error state styling when validation fails (computed via `showError`)
+- Platform-specific styling removal (including IE/Edge -ms-expand)
+- Theme-aware colors and typography
+- Index-based internal value handling while maintaining value-based external API
+
+The dropdown arrow is positioned absolutely within the input box and provides a consistent visual indicator across all browsers and platforms.

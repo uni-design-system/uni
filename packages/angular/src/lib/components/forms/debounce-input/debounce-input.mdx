@@ -1,0 +1,21 @@
+import { Meta, Title } from '@storybook/addon-docs/blocks';
+import * as Stories from './debounce-input.stories';
+import { StoryUsage } from '../../../../stories/blocks/StoryUsage';
+
+<Meta of={Stories} name="Debounce Input" />
+<Title />
+
+`import { UniDebounceInputComponent } from '@uni-design-system/uni-angular';`
+
+## Overview
+
+A bare text input that emits its `change` output only after the user pauses typing
+(400&nbsp;ms by default) and only when the value actually changed — a signal-based
+debounce with no rxjs involved. The live value is exposed as the `value` signal.
+
+Used by the [Search Input](?path=/docs/components-search-input--docs) to avoid firing a
+search on every keystroke.
+
+## Usage
+
+<StoryUsage of={Stories.Primary} />

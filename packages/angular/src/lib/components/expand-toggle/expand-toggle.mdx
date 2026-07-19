@@ -1,0 +1,20 @@
+import { Meta, Title } from '@storybook/addon-docs/blocks';
+import * as Stories from './expand-toggle.stories';
+import { StoryUsage } from '../../../stories/blocks/StoryUsage';
+
+<Meta of={Stories} name="Expand Toggle" />
+<Title />
+
+`import { UniExpandToggleComponent } from '@uni-design-system/uni-angular';`
+
+## Overview
+
+The Expand Toggle is a chevron icon button that controls collapsed/expanded state. It pairs
+with the [Expand](?path=/docs/components-expand--docs) component: bind the toggle's
+`collapsed` model to the Expand's `collapsed` input to build collapsible sections.
+
+The icon rotates 180° between states and shows an "Expand"/"Collapse" tooltip.
+
+## Usage
+
+<StoryUsage of={Stories.Primary} />

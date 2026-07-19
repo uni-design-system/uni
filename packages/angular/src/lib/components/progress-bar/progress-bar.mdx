@@ -1,0 +1,35 @@
+import { Controls, Meta, Source, Story, Title } from '@storybook/addon-docs/blocks';
+import { sourceTransform } from '../../../stories/addons/source-transform';
+import * as ProgressBarStories from './progress-bar.stories';
+
+<Meta of={ProgressBarStories} name="Overview" />
+<Title />
+
+`import { UniProgressBarComponent } from '@uni-design-system/uni-angular';`
+
+## Overview
+
+The progress bar is a graphical way of representing progress to completion.
+
+## Usage
+
+<Story of={ProgressBarStories.Default} />
+<Source
+  of={ProgressBarStories.Default}
+  dark={true}
+  transform={sourceTransform}
+/>
+<Controls
+  exclude={[
+    'style',
+    'theme',
+    'themeService',
+    'click',
+    'init',
+    'ngOnInit',
+    'ngOnChanges',
+    'Math',
+    'stroke',
+    'palette',
+  ]}
+/>

@@ -1,0 +1,26 @@
+import { Meta, Title } from '@storybook/addon-docs/blocks';
+import * as Stories from './data-search.stories';
+import { StoryUsage } from '../../../stories/blocks/StoryUsage';
+
+<Meta of={Stories} name="Data Search" />
+<Title />
+
+`import { UniDataSearchComponent } from '@uni-design-system/uni-angular';`
+
+## Overview
+
+The Data Search input filters a `UniDatasource` as the user types. With a client-side
+`UniRecordDatasource` it applies a predicate over the record's fields; with a
+`UniServerSideDatasource` it sends a filter object to the data loader. Pass `fields` to
+restrict the search to specific columns. A clear button resets the filter.
+
+It pairs with the [Data Table](?path=/docs/components-data-table--docs) — see its
+"With Search" story.
+
+## Usage
+
+<StoryUsage of={Stories.Primary} />
+
+## Scoped To Fields
+
+<StoryUsage of={Stories.FieldScoped} />

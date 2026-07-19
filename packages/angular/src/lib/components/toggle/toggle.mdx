@@ -1,0 +1,211 @@
+import { Meta, Story, Controls } from '@storybook/addon-docs/blocks';
+import * as ToggleStories from './toggle.stories';
+
+<Meta of={ToggleStories} />
+
+# Toggle
+
+The Toggle component is a switch-style form control that allows users to turn options on or off. It implements Angular's FormCheckboxControl interface from the new Form Signals API for first-class Signal Forms integration.
+
+## Usage
+
+```typescript
+import { UniToggleComponent } from '@uni-design-system/uni-angular';
+```
+
+## Basic Example
+
+<Story of={ToggleStories.Default} />
+
+## Without Label
+
+The toggle can be used without a label for custom layouts:
+
+<Story of={ToggleStories.WithoutLabel} />
+
+## Disabled State
+
+<Story of={ToggleStories.Disabled} />
+
+## Variants
+
+The toggle supports different color variants:
+
+<Story of={ToggleStories.Variants} />
+
+## Event Binding
+
+The toggle can be used with direct event binding for handling state changes:
+
+<Story of={ToggleStories.WithChangeEvent} />
+
+## Form Signals Integration
+
+The toggle implements FormCheckboxControl interface with signal-based properties for modern reactive forms:
+
+<Story of={ToggleStories.FormSignals} />
+
+## API
+
+<Controls of={ToggleStories.Default} />
+
+## Properties
+
+<table>
+  <thead>
+    <tr>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Default</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>
+        <code>variant</code>
+      </td>
+      <td>
+        <code>Variant</code>
+      </td>
+      <td>
+        <code>'primary'</code>
+      </td>
+      <td>The color variant of the toggle</td>
+    </tr>
+    <tr>
+      <td>
+        <code>label</code>
+      </td>
+      <td>
+        <code>string</code>
+      </td>
+      <td>
+        <code>''</code>
+      </td>
+      <td>The label text displayed next to the toggle</td>
+    </tr>
+    <tr>
+      <td>
+        <code>disabled</code>
+      </td>
+      <td>
+        <code>boolean</code>
+      </td>
+      <td>
+        <code>false</code>
+      </td>
+      <td>Whether the toggle is disabled</td>
+    </tr>
+    <tr>
+      <td>
+        <code>checked</code>
+      </td>
+      <td>
+        <code>ModelSignal&lt;boolean&gt;</code>
+      </td>
+      <td>
+        <code>false</code>
+      </td>
+      <td>
+        Whether the toggle is checked (Form Signal model for two-way binding)
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <code>touched</code>
+      </td>
+      <td>
+        <code>ModelSignal&lt;boolean&gt;</code>
+      </td>
+      <td>
+        <code>false</code>
+      </td>
+      <td>Whether the toggle has been touched by the user</td>
+    </tr>
+    <tr>
+      <td>
+        <code>invalid</code>
+      </td>
+      <td>
+        <code>Signal&lt;boolean&gt;</code>
+      </td>
+      <td>
+        <code>false</code>
+      </td>
+      <td>Whether the toggle has validation errors</td>
+    </tr>
+    <tr>
+      <td>
+        <code>dirty</code>
+      </td>
+      <td>
+        <code>Signal&lt;boolean&gt;</code>
+      </td>
+      <td>
+        <code>false</code>
+      </td>
+      <td>Whether the toggle value has been changed</td>
+    </tr>
+  </tbody>
+</table>
+
+## Events
+
+<table>
+  <thead>
+    <tr>
+      <th>Event</th>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>
+        <code>checkedChange</code>
+      </td>
+      <td>
+        <code>EventEmitter&lt;boolean&gt;</code>
+      </td>
+      <td>
+        Emitted when the toggle state changes. Emits the new checked value
+        (auto-generated from checked model signal).
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+## Methods
+
+The component implements the FormCheckboxControl interface:
+
+- `markAsTouched()`: Marks the toggle as touched when the user interacts with it
+
+The component also maintains backward compatibility with ControlValueAccessor methods:
+
+- `writeValue(value: boolean)`: Sets the toggle value
+- `registerOnChange(fn)`: Registers a callback for value changes
+- `registerOnTouched(fn)`: Registers a callback for touch events
+- `setDisabledState(isDisabled: boolean)`: Sets the disabled state
+
+## Accessibility
+
+- The component uses semantic HTML with proper `<input type="checkbox">` and `<label>` elements
+- Keyboard navigation is supported (Space to toggle)
+- Screen readers will announce the label and state correctly
+- The toggle is properly associated with its label for accessibility
+- Focus indicators are provided for keyboard navigation
+
+## Styling
+
+The toggle uses the theme service to apply consistent colors based on the selected variant. The component includes smooth animations for state transitions and hover effects. The switch design provides clear visual feedback for on/off states with a sliding animation.
+
+## Toggle vs Checkbox
+
+While functionally identical to the checkbox component, the toggle provides a different visual metaphor:
+
+- **Toggle**: Switch-style control that visually represents on/off states
+- **Checkbox**: Traditional checkmark control for selecting/deselecting options
+
+Both components implement the same FormCheckboxControl interface and can be used interchangeably in forms.

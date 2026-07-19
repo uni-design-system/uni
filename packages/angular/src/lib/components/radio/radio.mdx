@@ -1,0 +1,320 @@
+import { Meta, Story, Controls } from '@storybook/addon-docs/blocks';
+import * as RadioStories from './radio.stories';
+
+<Meta of={RadioStories} />
+
+# Radio
+
+The Radio component provides radio button functionality for selecting a single option from a group of choices. It implements Angular's FormValueControl&lt;string&gt; interface from the Form Signals API for first-class Signal Forms integration.
+
+## Usage
+
+```typescript
+import { UniRadioComponent } from '@uni-design-system/uni-angular';
+```
+
+## Basic Example
+
+<Story of={RadioStories.Default} />
+
+## Without Label
+
+The radio group can be used without a main label for custom layouts:
+
+<Story of={RadioStories.WithoutLabel} />
+
+## Disabled State
+
+The entire radio group can be disabled:
+
+<Story of={RadioStories.Disabled} />
+
+## Individual Disabled Options
+
+Individual options within the radio group can be disabled:
+
+<Story of={RadioStories.WithDisabledOptions} />
+
+## Variants
+
+The radio buttons support different color variants:
+
+<Story of={RadioStories.Variants} />
+
+## Event Binding
+
+The radio group can be used with direct event binding for handling value changes:
+
+<Story of={RadioStories.WithChangeEvent} />
+
+## Form Signals Integration
+
+The radio component implements FormValueControl&lt;string&gt; interface with signal-based properties for modern reactive forms:
+
+<Story of={RadioStories.FormSignals} />
+
+## API
+
+<Controls of={RadioStories.Default} />
+
+## Properties
+
+<table>
+  <thead>
+    <tr>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Default</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>
+        <code>variant</code>
+      </td>
+      <td>
+        <code>Variant</code>
+      </td>
+      <td>
+        <code>'primary'</code>
+      </td>
+      <td>The color variant of the radio buttons</td>
+    </tr>
+    <tr>
+      <td>
+        <code>label</code>
+      </td>
+      <td>
+        <code>string</code>
+      </td>
+      <td>
+        <code>''</code>
+      </td>
+      <td>The main label text displayed above the radio options</td>
+    </tr>
+    <tr>
+      <td>
+        <code>name</code>
+      </td>
+      <td>
+        <code>string</code>
+      </td>
+      <td>
+        <code>'radio-group'</code>
+      </td>
+      <td>The name attribute for the radio group (shared by all options)</td>
+    </tr>
+    <tr>
+      <td>
+        <code>options</code>
+      </td>
+      <td>
+        <code>UniRadioOption[]</code>
+      </td>
+      <td>
+        <code>[]</code>
+      </td>
+      <td>
+        Array of radio options with label, value, and optional disabled state
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <code>disabled</code>
+      </td>
+      <td>
+        <code>boolean</code>
+      </td>
+      <td>
+        <code>false</code>
+      </td>
+      <td>Whether the entire radio group is disabled</td>
+    </tr>
+    <tr>
+      <td>
+        <code>value</code>
+      </td>
+      <td>
+        <code>ModelSignal&lt;string&gt;</code>
+      </td>
+      <td>
+        <code>''</code>
+      </td>
+      <td>The selected value (Form Signal model for two-way binding)</td>
+    </tr>
+    <tr>
+      <td>
+        <code>touched</code>
+      </td>
+      <td>
+        <code>ModelSignal&lt;boolean&gt;</code>
+      </td>
+      <td>
+        <code>false</code>
+      </td>
+      <td>Whether the radio group has been touched by the user</td>
+    </tr>
+    <tr>
+      <td>
+        <code>invalid</code>
+      </td>
+      <td>
+        <code>Signal&lt;boolean&gt;</code>
+      </td>
+      <td>
+        <code>false</code>
+      </td>
+      <td>Whether the radio group has validation errors</td>
+    </tr>
+    <tr>
+      <td>
+        <code>dirty</code>
+      </td>
+      <td>
+        <code>Signal&lt;boolean&gt;</code>
+      </td>
+      <td>
+        <code>false</code>
+      </td>
+      <td>Whether the radio group value has been changed</td>
+    </tr>
+  </tbody>
+</table>
+
+## Types
+
+### UniRadioOption
+
+```typescript
+interface UniRadioOption {
+  label: string; // Display text for the option
+  value: string; // Value to be selected
+  disabled?: boolean; // Optional - whether this specific option is disabled
+}
+```
+
+### UniRadioOptions
+
+```typescript
+interface UniRadioOptions {
+  size: number; // Size of the radio buttons in pixels
+}
+```
+
+## Events
+
+<table>
+  <thead>
+    <tr>
+      <th>Event</th>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>
+        <code>valueChange</code>
+      </td>
+      <td>
+        <code>EventEmitter&lt;string&gt;</code>
+      </td>
+      <td>
+        Emitted when the selected value changes. Emits the new selected value
+        (auto-generated from value model signal).
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+## Methods
+
+The component implements the FormValueControl&lt;string&gt; interface:
+
+- `markAsTouched()`: Marks the radio group as touched when the user interacts with it
+- `handleRadioChange(optionValue: string)`: Internal method for handling option selection
+
+The component also maintains backward compatibility with ControlValueAccessor methods:
+
+- `writeValue(value: string)`: Sets the selected value
+- `registerOnChange(fn)`: Registers a callback for value changes
+- `registerOnTouched(fn)`: Registers a callback for touch events
+- `setDisabledState(isDisabled: boolean)`: Sets the disabled state
+
+## Accessibility
+
+- The component uses semantic HTML with proper `<input type="radio">` and `<label>` elements
+- All radio buttons in a group share the same `name` attribute for proper grouping
+- Keyboard navigation is supported (Arrow keys to navigate, Space to select)
+- Screen readers will announce the label and state correctly
+- Each radio option is properly associated with its label for accessibility
+- Focus indicators are provided for keyboard navigation
+- Disabled options are properly announced to screen readers
+
+## Styling
+
+The radio component uses the theme service to apply consistent colors based on the selected variant. The component includes smooth animations for selection transitions and hover effects. The radio button design provides clear visual feedback for selected and unselected states with scaling animations for the inner circle.
+
+## Usage Examples
+
+### Basic Usage
+
+```html
+<uni-radio
+  label="Choose your preference"
+  name="preference"
+  [options]="options"
+  [(value)]="selectedValue"
+>
+</uni-radio>
+```
+
+### With Reactive Forms
+
+```typescript
+// Component
+form = new FormGroup({
+  preference: new FormControl('option1'),
+});
+
+options = [
+  { label: 'Option 1', value: 'option1' },
+  { label: 'Option 2', value: 'option2' },
+  { label: 'Option 3', value: 'option3' },
+];
+```
+
+```html
+<!-- Template -->
+<form [formGroup]="form">
+  <uni-radio
+    label="Select an option"
+    name="preference"
+    [options]="options"
+    formControlName="preference"
+  >
+  </uni-radio>
+</form>
+```
+
+### With Form Signals
+
+```typescript
+// Component using Form Signals
+readonly selectedValue = model<string>('');
+readonly isDisabled = signal(false);
+readonly isInvalid = signal(false);
+```
+
+```html
+<!-- Template -->
+<uni-radio
+  label="Pick one"
+  [options]="options"
+  [value]="selectedValue"
+  [disabled]="isDisabled"
+  [invalid]="isInvalid"
+>
+</uni-radio>
+```

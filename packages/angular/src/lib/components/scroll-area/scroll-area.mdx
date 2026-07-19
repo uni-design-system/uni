@@ -1,0 +1,17 @@
+import { Meta, Title } from '@storybook/addon-docs/blocks';
+import { StoryUsage } from '../../../stories/blocks/StoryUsage';
+import * as Stories from './scroll-area.stories';
+
+<Meta of={Stories} name="Overview" />
+<Title />
+
+`import { UniScrollAreaComponent } from '@uni-design-system/uni-angular';`
+
+## Overview
+
+## Usage
+
+<StoryUsage
+  of={Stories.Primary}
+  exclude={['scrollbarClassName', 'contentClassName', 'trackClassName']}
+/>

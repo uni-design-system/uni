@@ -1,0 +1,50 @@
+import { Meta, Title } from '@storybook/addon-docs/blocks';
+import * as Stories from './json-view.stories';
+import { StoryUsage } from '../../../stories/blocks/StoryUsage';
+
+<Meta of={Stories} />
+<Title />
+
+`import { UniJsonViewComponent } from '@uni-design-system/uni-angular';`
+
+## Overview
+
+The JSON View component provides a simple way to display JSON data in a formatted, readable manner. It renders the JSON in a textarea element, making it easy for users to view and copy the content. The component automatically formats the JSON with proper indentation for better readability.
+
+## Usage
+
+<StoryUsage
+  of={Stories.Primary}
+  exclude={['className', 'jsonString', 'selectContents']}
+/>
+
+## Props
+
+For detailed information about the available properties, please refer to the component's documentation in Storybook. The properties are fully documented in the component's argTypes.
+
+## Examples
+
+### Basic JSON View
+
+```html
+<uni-json-view [json]="myJsonData"></uni-json-view>
+```
+
+### Customized JSON View
+
+```html
+<uni-json-view
+  [json]="myJsonData"
+  [rows]="10"
+  fontSize="large"
+  width="500px"
+  [selectOnClick]="false"
+>
+</uni-json-view>
+```
+
+### JSON View with Dynamic Data
+
+```html
+<uni-json-view [json]="apiResponse" [rows]="8" width="100%"> </uni-json-view>
+```
