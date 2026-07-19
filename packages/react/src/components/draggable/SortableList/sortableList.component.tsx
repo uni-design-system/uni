@@ -21,7 +21,7 @@ export const SortableList = <T extends SortableItemProps>({
   items,
   onChange,
   renderItem,
-  style: userStyle,
+  style: _userStyle,
 }: SortableProps<T>): JSX.Element => {
   const [active, setActive] = useState<Active | null>(null);
   const activeItem = useMemo(() => items.find((item) => item.id === active?.id), [active, items]);

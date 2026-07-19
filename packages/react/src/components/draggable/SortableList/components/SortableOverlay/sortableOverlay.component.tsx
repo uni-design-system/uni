@@ -13,8 +13,6 @@ const dropAnimationConfig: DropAnimation = {
   }),
 };
 
-interface Props {}
-
-export const SortableOverlay = ({ children }: PropsWithChildren<Props>): JSX.Element => (
+export const SortableOverlay = ({ children }: PropsWithChildren): JSX.Element => (
   <DragOverlay dropAnimation={dropAnimationConfig}>{children}</DragOverlay>
 );

@@ -10,7 +10,7 @@ import {
   WithTransitionConfig,
 } from '../transition.utils';
 
-export interface FadeProps extends WithTransitionConfig<HTMLMotionProps<'div'>> {}
+export type FadeProps = WithTransitionConfig<HTMLMotionProps<'div'>>;
 
 const variants: Variants = {
   enter: ({ transition, transitionEnd, delay } = {}) => ({

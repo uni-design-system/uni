@@ -15,7 +15,7 @@ export const SortableItem = ({
   children,
   id,
   style: userStyle,
-  onRemove,
+  onRemove: _onRemove,
 }: PropsWithChildren<SortableItemProps>): JSX.Element => {
   const {
     attributes,

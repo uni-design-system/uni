@@ -1,8 +1,7 @@
 import React from 'react';
 import LayoutContext from './layout.context';
 
-// @ts-ignore
-export const LayoutProvider = ({ children }) => {
+export const LayoutProvider = ({ children }: { children: React.ReactNode }) => {
   const getWidth = () => document.documentElement.clientWidth;
   const getHeight = () => document.documentElement.clientHeight;
 

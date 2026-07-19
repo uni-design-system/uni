@@ -13,7 +13,7 @@ export const createLocalStorageManager = <T>(key: string): StorageManager<T> => 
     let value: any;
     try {
       value = localStorage.getItem(key) || init;
-    } catch (e) {
+    } catch {
       // no op
     }
 
@@ -22,7 +22,7 @@ export const createLocalStorageManager = <T>(key: string): StorageManager<T> => 
   set(value) {
     try {
       localStorage.setItem(key, JSON.stringify(value));
-    } catch (e) {
+    } catch {
       // no op
     }
   },

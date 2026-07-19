@@ -50,6 +50,7 @@
   },
   "devDependencies": {
     "@chromatic-com/storybook": "^5.2.1",
+    "@eslint/js": "^10.0.1",
     "@storybook/addon-a11y": "^10.4.0",
     "@storybook/addon-docs": "^10.4.0",
     "@storybook/addon-vitest": "^10.4.0",
@@ -62,9 +63,11 @@
     "@vitest/browser-playwright": "^4.1.5",
     "@vitest/coverage-v8": "^4.1.5",
     "csstype": "^3.2.3",
+    "eslint": "^10.7.0",
     "playwright": "^1.59.1",
     "storybook": "^10.4.0",
     "typescript": "^5.0.0",
+    "typescript-eslint": "^8.64.0",
     "vite": "^7.0.0",
     "vite-plugin-dts": "^4.5.4",
     "vitest": "^4.1.5"

@@ -41,11 +41,11 @@ export const ColorPicker = ({
     img.src = imageUrl;
 
     //once the image is loaded, add it to the canvas
-    img.onload = (ev) => {
+    img.onload = () => {
       ctx?.drawImage(img, 0, 0);
       //call the context.getImageData method to get the array of [r,g,b,a] values
 
-      let imgDataObj = ctx?.getImageData(0, 0, canvas?.width || 0, canvas?.height || 0);
+      const imgDataObj = ctx?.getImageData(0, 0, canvas?.width || 0, canvas?.height || 0);
 
       const data = imgDataObj?.data; //data prop is an array
 
@@ -63,13 +63,13 @@ export const ColorPicker = ({
     if (!canvas) return;
     //as the mouse moves around the image
     // let canvas = ev.target;
-    let cols = canvas.width;
+    const cols = canvas.width;
 
     // let rows = canvas.height;
-    let { offsetX, offsetY } = ev;
+    const { offsetX, offsetY } = ev;
 
     //call the method to get the r,g,b,a values for current pixel
-    let c = getPixelColor(data, cols, offsetY, offsetX);
+    const c = getPixelColor(data, cols, offsetY, offsetX);
 
     //save the string to use elsewhere
     // pixel = clr;
@@ -84,8 +84,8 @@ export const ColorPicker = ({
     //create a 41px by 41px average colour square
     //replace everything in the canvas with the original image
     // let canvas = ev.target;
-    let cols = canvas?.width || 0;
-    let rows = canvas?.height || 0;
+    const cols = canvas?.width || 0;
+    const rows = canvas?.height || 0;
 
     //remove the current contents of the canvas to draw the image and box again
     ctx.clearRect(0, 0, cols, rows);
@@ -106,16 +106,16 @@ export const ColorPicker = ({
     //for anything in the range (x-20, y-20) to (x+20, y+20)
     for (let x = -1 * inset; x <= inset; x++) {
       for (let y = -1 * inset; y <= inset; y++) {
-        let c = getPixelColor(data, cols, offsetY + y, offsetX + x);
+        const c = getPixelColor(data, cols, offsetY + y, offsetX + x);
         reds += c.red;
         greens += c.green;
         blues += c.blue;
       }
     }
-    let nums = inset * inset * 4; //total number of pixels in the box
-    let red = Math.round(reds / nums);
-    let green = Math.round(greens / nums);
-    let blue = Math.round(blues / nums);
+    const nums = inset * inset * 4; //total number of pixels in the box
+    const red = Math.round(reds / nums);
+    const green = Math.round(greens / nums);
+    const blue = Math.round(blues / nums);
 
     //now draw an overlaying square of that colour
     //make the square twice as big as the sample area
@@ -128,8 +128,8 @@ export const ColorPicker = ({
   };
 
   const getPixelColor = (data: Uint8ClampedArray, cols: number, x: number, y: number): RGBA => {
-    let pixel = cols * x + y;
-    let arrayPos = pixel * 4;
+    const pixel = cols * x + y;
+    const arrayPos = pixel * 4;
 
     return {
       red: data[arrayPos],

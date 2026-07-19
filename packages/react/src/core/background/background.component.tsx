@@ -26,7 +26,7 @@ export const Background = ({
   minHeight,
   color,
 }: BackgroundProps): JSX.Element => {
-  if (!!imageUrl) {
+  if (imageUrl) {
     image = `url(${imageUrl})`;
   }
 
