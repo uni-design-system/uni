@@ -1,6 +1,7 @@
 import { Component, model } from '@angular/core';
 import { css, keyframes } from '@emotion/css';
 import { collapseFadeOut, expandFadeIn } from '@uni-design-system/uni-core';
+import { uniqueId } from '../../cdk';
 
 @Component({
   selector: 'uni-expand, Expand',
@@ -17,9 +18,15 @@ import { collapseFadeOut, expandFadeIn } from '@uni-design-system/uni-core';
       </div>
     </div>
   }`,
+  host: {
+    '[attr.id]': 'regionId',
+  },
 })
 export class UniExpandComponent {
   collapsed = model(true);
+
+  /** Referenced by the controlling toggle's aria-controls. */
+  readonly regionId = uniqueId('uni-expand');
 
   toggle() {
     this.collapsed.update((collapsed) => !collapsed);

@@ -1,4 +1,5 @@
-<dialog #alert [class]="alertClass()">
+<!-- role="alert" makes the message announce immediately when shown -->
+<dialog #alert [class]="alertClass()" role="alert">
   <div row-layout gap="md">
     @if (iconName() || symbolName()) {
       <div box-layout [height]="26" [width]="26">

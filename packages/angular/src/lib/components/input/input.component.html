@@ -7,6 +7,8 @@
     [disabled]="disabled()"
     (blur)="markAsTouched()"
     [class]="inputClass"
+    [attr.aria-label]="label()"
+    [attr.aria-invalid]="showError() ? true : null"
   />
   <ng-content select="post-input" />
 </uni-input-box>

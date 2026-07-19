@@ -4,6 +4,8 @@
     [value]="currentSelectedIndex()"
     (change)="handleSelectChange($event)"
     (blur)="touched.set(true)"
+    [attr.aria-label]="ariaLabel()"
+    [attr.aria-invalid]="showError() ? true : null"
   >
     @if (placeholder()) {
       <option [value]="UNSELECTED" disabled selected>

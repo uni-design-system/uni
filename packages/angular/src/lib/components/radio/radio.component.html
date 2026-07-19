@@ -1,15 +1,17 @@
-<div [class]="radioGroupClass">
+<div
+  [class]="radioGroupClass"
+  role="radiogroup"
+  [attr.aria-labelledby]="label() ? groupLabelId : null"
+  [attr.aria-invalid]="showError() ? true : null"
+>
   @if (label()) {
-    <Text typeface="label">{{ label() }}</Text>
+    <Text typeface="label" [attr.id]="groupLabelId">{{ label() }}</Text>
   }
 
   @for (option of options(); track option.value) {
     <label
       [class]="radioOptionClass"
       [class.disabled]="disabled() || option.disabled"
-      (click)="
-        !disabled() && !option.disabled && handleRadioChange(option.value)
-      "
     >
       <input
         type="radio"

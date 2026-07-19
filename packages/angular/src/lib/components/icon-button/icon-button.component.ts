@@ -1,4 +1,12 @@
-import { Component, HostBinding, inject, Input, OnChanges, SimpleChanges } from '@angular/core';
+import {
+  Component,
+  HostBinding,
+  inject,
+  input,
+  Input,
+  OnChanges,
+  SimpleChanges,
+} from '@angular/core';
 import { css } from '@emotion/css';
 
 import { type IconName } from '../icon/icon.record';
@@ -6,6 +14,7 @@ import { RippleDirective } from '../../directives';
 import { UniSymbolComponent } from '../symbol';
 import { UniIconComponent } from '../icon';
 import { ThemeService } from '../../theming/theme.service';
+import { visuallyHidden } from '../../cdk';
 import type { Size, Variant } from '@uni-design-system/uni-core';
 
 @Component({
@@ -23,15 +32,28 @@ import type { Size, Variant } from '@uni-design-system/uni-core';
     } @else if (iconName && !loading) {
       <Icon [name]="iconName" />
     }
+    <!-- Projected text is the button's accessible name (visually hidden) -->
+    <span [class]="srOnlyClass"><ng-content /></span>
   `,
   host: {
     '[attr.disabled]': 'disable || loading || null',
+    '[attr.aria-busy]': "loading ? 'true' : null",
+    '[attr.aria-label]': 'ariaLabel() || null',
   },
   hostDirectives: [{ directive: RippleDirective }],
 })
 export class UniIconButtonComponent implements OnChanges {
   private theme = inject(ThemeService);
   config = this.theme.component('iconButton');
+
+  /**
+   * Accessible name for the button. Alternative to projecting text content
+   * (`<button icon-button>Close</button>`); one of the two is required for
+   * an icon-only button to be announced correctly.
+   */
+  ariaLabel = input<string>();
+
+  protected readonly srOnlyClass = css(visuallyHidden);
 
   @Input() iconName?: IconName;
   @Input() symbolName?: string;

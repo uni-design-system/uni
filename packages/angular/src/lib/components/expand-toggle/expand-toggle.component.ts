@@ -1,4 +1,4 @@
-import { Component, HostBinding, model } from '@angular/core';
+import { Component, HostBinding, input, model } from '@angular/core';
 import { css } from '@emotion/css';
 import { UniIconButtonComponent } from '../icon-button/icon-button.component';
 import { UniTooltipComponent } from '../tooltip/tooltip.component';
@@ -12,7 +12,13 @@ import { UniTooltipComponent } from '../tooltip/tooltip.component';
     placement="right"
     [appendToBody]="true"
   >
-    <button icon-button iconName="chevronUp" (click)="toggle()">
+    <button
+      icon-button
+      iconName="chevronUp"
+      (click)="toggle()"
+      [attr.aria-expanded]="!collapsed()"
+      [attr.aria-controls]="ariaControls() || null"
+    >
       {{ collapsed() ? 'Expand' : 'Collapse' }}
     </button>
   </Tooltip>`,
@@ -22,6 +28,9 @@ import { UniTooltipComponent } from '../tooltip/tooltip.component';
 })
 export class UniExpandToggleComponent {
   collapsed = model(true);
+
+  /** Id of the Expand region this toggle controls (see UniExpandComponent.regionId). */
+  ariaControls = input<string>();
 
   @HostBinding('class') get className() {
     return css({

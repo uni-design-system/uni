@@ -1,3 +1,5 @@
+<!-- Without a browse button the zone itself is the keyboard path to the
+     native file picker; with one, the button already provides it -->
 <div
   box-layout
   [border]="border()"
@@ -10,6 +12,13 @@
   dragAndDrop
   (onFileDropped)="selectFiles($event)"
   [height]="height()"
+  [attr.role]="zoneIsInteractive() ? 'button' : null"
+  [attr.tabindex]="zoneIsInteractive() ? 0 : null"
+  [attr.aria-label]="zoneIsInteractive() ? label() || 'Choose a file' : null"
+  (keydown.enter)="zoneIsInteractive() && openFileSelector()"
+  (keydown.space)="
+    zoneIsInteractive() && openFileSelector(); zoneIsInteractive() && $event.preventDefault()
+  "
 >
   <div stack-layout gap="md" alignItems="center">
     @switch (attachmentState()) {

@@ -8,9 +8,19 @@ import { BaseComponent, COMPONENT_NAME } from '../base/base.component';
   imports: [],
   templateUrl: './progress-gauge.component.html',
   providers: [{ provide: COMPONENT_NAME, useValue: 'progressGauge' }],
+  host: {
+    role: 'progressbar',
+    'aria-valuemin': '0',
+    'aria-valuemax': '100',
+    '[attr.aria-valuenow]': 'percent()',
+    '[attr.aria-label]': "ariaLabel() || 'Progress'",
+  },
 })
 export class UniProgressGaugeComponent extends BaseComponent {
   percent = input<number>(0);
+
+  /** Accessible name describing what is progressing. */
+  ariaLabel = input<string>();
 
   textStyle = computed(() => {
     const theme = this.componentTheme();

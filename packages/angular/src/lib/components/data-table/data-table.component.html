@@ -17,7 +17,7 @@
       <ng-content select="data-table-header"></ng-content>
     </div>
 
-    <div box-layout [height]="height()" position="relative">
+    <div box-layout [height]="height()" position="relative" [attr.aria-busy]="isLoading()">
       <ScrollArea
         [verticalScrollPadding]="0"
         (scrollable)="handleScrollable($event)"
@@ -27,6 +27,8 @@
             <tr>
               @for (column of columns(); track column) {
                 <th
+                  scope="col"
+                  [attr.aria-sort]="ariaSort(column)"
                   [class]="thClass"
                   [class.scrollable]="scrollable()"
                   [class.sticky]="column.isSticky"
@@ -46,7 +48,16 @@
           </thead>
           <tbody>
             @for (record of ds.records(); track record; let i = $index) {
-              <tr [class]="trClass" (click)="handleRowClick(record, $index)">
+              <tr
+                [class]="trClass"
+                [attr.tabindex]="useRowClick() ? 0 : null"
+                (click)="handleRowClick(record, $index)"
+                (keydown.enter)="useRowClick() && handleRowClick(record, $index)"
+                (keydown.space)="
+                  useRowClick() && handleRowClick(record, $index);
+                  useRowClick() && $event.preventDefault()
+                "
+              >
                 @for (column of columns(); track column) {
                   <td
                     [class]="tdClass"
@@ -73,9 +84,12 @@
                 }
               </tr>
               @if (detailRowTemplate()) {
+                <!-- Collapsed detail rows are inert: invisible to screen
+                     readers and unreachable by keyboard until expanded -->
                 <tr
                   [class]="detailRowClass"
                   [class.expanded]="expandedIndex() === $index"
+                  [attr.inert]="expandedIndex() === $index ? null : ''"
                 >
                   <td [attr.colspan]="columns().length">
                     <div class="detail-content-wrapper">
@@ -101,6 +115,8 @@
       @if (isLoading()) {
         <div
           uni-center-layout
+          role="status"
+          aria-label="Loading"
           position="absolute"
           [inset]="0"
           [backgroundColor]="componentOptions().loadingOverlayColor"

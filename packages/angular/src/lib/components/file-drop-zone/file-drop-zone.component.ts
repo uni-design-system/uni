@@ -56,6 +56,13 @@ export class UniFileDropZoneComponent {
   fileAttached = output<File | undefined>();
   fileRemoved = output();
 
+  /**
+   * The zone acts as the keyboard-reachable file picker only when no browse
+   * button is rendered (nesting a button inside a button-role zone would be
+   * invalid ARIA) and no file is attached yet.
+   */
+  zoneIsInteractive = computed(() => !this.useBrowseButton() && !this.attachmentState());
+
   sanitizedFileExtensions = computed(() =>
     this.allowedFileExtensions().map((ext) => (ext.includes('.') ? ext : '.' + ext))
   );

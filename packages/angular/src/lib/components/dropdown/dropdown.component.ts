@@ -26,6 +26,9 @@ import { COMPONENT_NAME } from '../base/base.component';
 import { UniBoxComponent } from '../layout';
 import type { UniDropdownOptions } from './dropdown.model';
 import type { NullableSize } from '@uni-design-system/uni-core';
+import { resolveFocusTarget, uniqueId } from '../../cdk';
+
+export type AriaHasPopup = 'menu' | 'listbox' | 'dialog' | 'grid' | 'tree' | 'true';
 
 @Component({
   selector: 'uni-dropdown, Dropdown',
@@ -33,7 +36,7 @@ import type { NullableSize } from '@uni-design-system/uni-core';
   imports: [UniBoxComponent],
   template: `
     <!-- 1. The native 'popover' attribute brings it to the top layer with native light-dismiss -->
-    <div #dropdown popover="auto" [class]="dropdownClass()">
+    <div #dropdown popover="auto" [id]="popoverId" [class]="dropdownClass()">
       <div
         box-layout
         [border]="componentOptions().border"
@@ -63,6 +66,16 @@ export class UniDropdownComponent
   trigger = input.required<HTMLElement>();
   placement = input<Placement>('bottom-start');
   offset = input<OffsetOptions>({ mainAxis: 4, alignmentAxis: 12 });
+
+  /**
+   * Value for aria-haspopup on the trigger, describing what the popover
+   * contains (e.g. 'menu' for Menu, 'dialog' for rich content). When unset,
+   * only aria-expanded/aria-controls are managed.
+   */
+  ariaHasPopup = input<AriaHasPopup | null>(null);
+
+  /** Document-unique id of the popover element, for aria-controls wiring. */
+  readonly popoverId = uniqueId('uni-dropdown');
 
   paddingVertical = input<NullableSize>();
   paddingHorizontal = input<NullableSize>();
@@ -140,6 +153,11 @@ export class UniDropdownComponent
     ]);
   });
 
+  /** The element that receives focus and carries the ARIA popup state. */
+  private get _focusTarget(): HTMLElement {
+    return resolveFocusTarget(this._trigger);
+  }
+
   ngOnInit(): void {
     // Single native click binding to manage open/close commands
     this.renderer.listen(this._trigger, 'click', (e: Event) => {
@@ -147,10 +165,19 @@ export class UniDropdownComponent
       this.toggleDropdown();
     });
 
+    // Wire the ARIA popup contract onto the focusable trigger element
+    const focusTarget = this._focusTarget;
+    this.renderer.setAttribute(focusTarget, 'aria-expanded', 'false');
+    this.renderer.setAttribute(focusTarget, 'aria-controls', this.popoverId);
+    if (this.ariaHasPopup()) {
+      this.renderer.setAttribute(focusTarget, 'aria-haspopup', this.ariaHasPopup()!);
+    }
+
     // Sync state if user invokes light-dismiss via outside click or Escape key
     this.renderer.listen(this._dropdown, 'toggle', (event: any) => {
       const isOpened = event.newState === 'open';
       this.showing.set(isOpened);
+      this.renderer.setAttribute(this._focusTarget, 'aria-expanded', `${isOpened}`);
 
       if (isOpened) {
         this.dropdownShowing.emit(true);
@@ -163,8 +190,21 @@ export class UniDropdownComponent
           this.cleanupAutoUpdate();
           this.cleanupAutoUpdate = undefined;
         }
+        this.restoreFocus();
       }
     });
+  }
+
+  /**
+   * Returns focus to the trigger when the popover closes while focus was
+   * inside it (or was dropped on <body> by the top layer closing), so
+   * keyboard users are never stranded (WCAG 2.4.3).
+   */
+  private restoreFocus() {
+    const active = document.activeElement;
+    if (active === document.body || (active && this._dropdown.contains(active))) {
+      this._focusTarget.focus();
+    }
   }
 
   toggleDropdown() {

@@ -18,13 +18,14 @@ import type {
   standalone: true,
   imports: [UniTextComponent, UniSymbolComponent, UniBoxComponent, NgTemplateOutlet],
   templateUrl: './menu-item.component.html',
+  host: {
+    role: 'menuitem',
+    tabindex: '-1',
+    '[attr.aria-disabled]': "disabled() ? 'true' : null",
+    '[attr.aria-current]': "active() ? 'true' : null",
+  },
   styles: [
     `
-      :host:focus {
-        background: #ccc;
-        color: #fff;
-      }
-
       :host.disabled {
         color: #ddd;
         pointer-events: none;
@@ -56,11 +57,18 @@ export class UniMenuItemComponent<T = any> extends UniBoxComponent {
         transition: 'all 0.35s ease',
         height: 38,
 
-        '&:hover': {
+        // Roving focus highlights items the same way hover does
+        '&:hover, &:focus': {
           ...this.theme.colorPair(this.hoverColor()),
+          outline: 'none',
         },
       },
     ]);
+  }
+
+  /** Host element, used by Menu for roving-focus bookkeeping. */
+  get host(): HTMLElement {
+    return this._elementRef.nativeElement;
   }
 
   focus() {

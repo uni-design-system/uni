@@ -1,7 +1,7 @@
 // noinspection JSUnusedGlobalSymbols
 
 import { computed, inject, Injectable, linkedSignal, Signal, signal } from '@angular/core';
-import { css } from '@emotion/css';
+import { css, injectGlobal } from '@emotion/css';
 import { LocalStorageService, Options } from '../cdk';
 import {
   LightTheme,
@@ -54,6 +54,19 @@ export class ThemeService {
   icons = computed(() => this.theme().icons);
 
   constructor() {
+    // Honor the user's reduced-motion preference across every component
+    // (WCAG 2.3.3): collapse all animations/transitions to a single frame.
+    injectGlobal`
+      @media (prefers-reduced-motion: reduce) {
+        *, *::before, *::after {
+          animation-duration: 0.01ms !important;
+          animation-iteration-count: 1 !important;
+          transition-duration: 0.01ms !important;
+          scroll-behavior: auto !important;
+        }
+      }
+    `;
+
     this.themeOptions.set(
       Object.keys(this.themes).map((key) => {
         return { label: this.themes[key].name, value: key };
@@ -122,6 +135,17 @@ export class ThemeService {
     const token = (color + '-container') as ContainerColorToken;
     return this.colorPair(token, useVariant);
   };
+
+  /**
+   * Shared keyboard-focus indicator (WCAG 2.4.7). Spread into a component's
+   * Emotion styles: `...this.theme.focusRing()` or `focusRing('primary')`.
+   */
+  focusRing = (token?: ColorToken) => ({
+    '&:focus-visible': {
+      outline: `2px solid ${token ? this.colors()[token] : 'currentColor'}`,
+      outlineOffset: '2px',
+    },
+  });
 
   typeface = (typeface?: Typeface) => {
     const typefaces = this.typeFaces();

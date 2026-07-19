@@ -1,4 +1,6 @@
-<ng-content></ng-content>
-<div class="sort-icon" [class]="direction()">
-  <uni-symbol name="arrow_upward" />
-</div>
+<button type="button" [class]="buttonClass" (click)="cycleSort()">
+  <ng-content></ng-content>
+  <div class="sort-icon" [class]="direction()">
+    <uni-symbol name="arrow_upward" />
+  </div>
+</button>

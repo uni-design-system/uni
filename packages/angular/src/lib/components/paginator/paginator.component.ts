@@ -14,6 +14,10 @@ import type { UniPaginatorOptions } from './paginator.model';
   templateUrl: './paginator.component.html',
   providers: [{ provide: COMPONENT_NAME, useValue: 'paginator' }],
   standalone: true,
+  host: {
+    role: 'navigation',
+    'aria-label': 'Pagination',
+  },
 })
 export class UniPaginatorComponent<T> extends BaseComponent<UniPaginatorOptions> {
   datasource = input<UniDatasource<T>>();
@@ -44,12 +48,15 @@ export class UniPaginatorComponent<T> extends BaseComponent<UniPaginatorOptions>
         fontSize: 16,
         padding: '2px 0 0 2px',
 
-        '&:focus': {
-          outline: 'none',
+        '&:focus-visible': {
+          outline: '2px solid currentColor',
+          outlineOffset: 1,
         },
       });
 
       this.pageClass = css({
+        all: 'unset',
+        boxSizing: 'border-box',
         ...this.theme.radius(this.componentOptions().pageBorderRadius),
         padding: 2,
         width: 20,
@@ -57,6 +64,11 @@ export class UniPaginatorComponent<T> extends BaseComponent<UniPaginatorOptions>
         justifyContent: 'center',
         cursor: 'pointer',
         border: 'solid 1px transparent',
+
+        '&:focus-visible': {
+          outline: '2px solid currentColor',
+          outlineOffset: 1,
+        },
 
         '&.current': {
           ...this.theme.border(this.componentOptions().currentPageBorder),

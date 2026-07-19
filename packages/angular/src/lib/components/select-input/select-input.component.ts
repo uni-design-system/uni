@@ -22,6 +22,9 @@ export class UniSelectComponent<T> implements FormValueControl<T | null> {
   readonly options = input<Options<T>>([]);
   readonly placeholder = input<string>();
 
+  /** Accessible name for the select; a placeholder is not a label. */
+  readonly ariaLabel = input<string>();
+
   protected readonly UNSELECTED = -1;
 
   /**

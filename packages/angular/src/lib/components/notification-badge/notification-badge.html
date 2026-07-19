@@ -1,6 +1,6 @@
 <ng-content></ng-content>
 @if (shouldShow()) {
-<div class="notification-badge-indicator">
+<div class="notification-badge-indicator" aria-hidden="true">
   <uni-text
     typeface="overline"
     align="center"
@@ -8,4 +8,5 @@
     >{{ displayValue() }}</uni-text
   >
 </div>
+<span [class]="srOnlyClass">{{ announcement() }}</span>
 }

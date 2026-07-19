@@ -31,6 +31,12 @@ export class UniCheckboxComponent
   // --- CONFIGURATION ---
   readonly label = input<string>();
 
+  /**
+   * Mixed state for "select all"-style parent checkboxes. Cleared
+   * automatically on the next user interaction, matching native behavior.
+   */
+  readonly indeterminate = model<boolean>(false);
+
   // Only show errors if the user has actually interacted with the field
   protected readonly showError = computed(
     () => this.invalid() && (this.touched() || this.dirty())
@@ -38,6 +44,12 @@ export class UniCheckboxComponent
 
   markAsTouched() {
     this.touched.set(true);
+  }
+
+  handleChange(checked: boolean) {
+    this.indeterminate.set(false);
+    this.checked.set(checked);
+    this.markAsTouched();
   }
 
   constructor() {
@@ -87,6 +99,14 @@ export class UniCheckboxComponent
           strokeDashoffset: 18,
           transition: 'all 0.5s ease',
         },
+
+        '& .checkbox svg .checkbox-dash': {
+          stroke: '#FFF',
+          strokeWidth: 2,
+          strokeLinecap: 'round',
+          opacity: 0,
+          transition: 'opacity 0.2s ease',
+        },
       });
 
       this.checkboxInput = css({
@@ -106,6 +126,14 @@ export class UniCheckboxComponent
 
         '&:checked + .checkbox svg .checkbox-check': {
           strokeDashoffset: 0,
+        },
+
+        '&:indeterminate + .checkbox svg .checkbox-box': {
+          fill: this.getThemeColor(this.variant()),
+        },
+
+        '&:indeterminate + .checkbox svg .checkbox-dash': {
+          opacity: 1,
         },
 
         '&:disabled + .checkbox': {

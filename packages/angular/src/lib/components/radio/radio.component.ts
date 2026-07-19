@@ -6,6 +6,7 @@ import { BaseComponent } from '../base';
 import { COMPONENT_NAME } from '../base/base.component';
 import { UniTextComponent } from '../text/text.component';
 import type { UniRadioOption, UniRadioOptions } from './radio.model';
+import { uniqueId } from '../../cdk';
 
 @Component({
   selector: 'uni-radio, Radio',
@@ -32,7 +33,11 @@ export class UniRadioComponent
   // --- CONFIGURATION ---
   readonly options = input<UniRadioOption[]>([]);
   readonly label = input<string>();
-  readonly name = input<string>('radio-group');
+  // Unique default so multiple radio groups on a page never share a name
+  readonly name = input<string>(uniqueId('uni-radio-group'));
+
+  /** Links the group label to the radiogroup container. */
+  protected readonly groupLabelId = uniqueId('uni-radio-label');
 
   // Only show errors if the user has actually interacted with the field
   protected readonly showError = computed(

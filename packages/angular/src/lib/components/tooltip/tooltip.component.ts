@@ -1,4 +1,5 @@
 import {
+  afterNextRender,
   Component,
   effect,
   ElementRef,
@@ -18,7 +19,7 @@ import { COMPONENT_NAME } from '../base/base.component';
 import type { UniTooltipOptions } from './tooltip.model';
 import { Placement } from './tooltip.types';
 import { fadeIn, fadeOut, Z_INDEX } from '@uni-design-system/uni-core';
-import { useTimer } from '../../cdk';
+import { resolveFocusTarget, uniqueId, useTimer, FOCUSABLE_SELECTOR } from '../../cdk';
 
 @Component({
   selector: 'uni-tooltip, Tooltip',
@@ -30,6 +31,9 @@ import { useTimer } from '../../cdk';
     '(click)': 'toggleTooltip()',
     '(mouseenter)': 'mouseenter()',
     '(mouseleave)': 'mouseleave()',
+    '(focusin)': 'onFocusIn($event)',
+    '(focusout)': 'onFocusOut()',
+    '(keydown.escape)': 'onEscape($event)',
   },
 })
 export class UniTooltipComponent extends BaseComponent<UniTooltipOptions> implements OnDestroy {
@@ -42,6 +46,7 @@ export class UniTooltipComponent extends BaseComponent<UniTooltipOptions> implem
 
   private tooltip!: HTMLElement | null;
   private arrow!: HTMLElement | null;
+  private readonly tooltipId = uniqueId('uni-tooltip');
 
   hoverDelay = input<number>(500);
   label = input.required<string>();
@@ -66,6 +71,38 @@ export class UniTooltipComponent extends BaseComponent<UniTooltipOptions> implem
         this.hideTooltip();
       }
     });
+
+    // A tooltip must be reachable by keyboard (WCAG 1.4.13): when the
+    // projected content has no focusable element, the host itself joins
+    // the tab sequence.
+    afterNextRender(() => {
+      const host = this.elRef.nativeElement as HTMLElement;
+      if (!host.querySelector(FOCUSABLE_SELECTOR) && !host.matches(FOCUSABLE_SELECTOR)) {
+        this.renderer.setAttribute(host, 'tabindex', '0');
+      }
+    });
+  }
+
+  onFocusIn(event: FocusEvent) {
+    // Only keyboard-driven focus shows the tooltip immediately; mouse
+    // interaction keeps the hover-delay behavior.
+    if ((event.target as HTMLElement).matches(':focus-visible')) {
+      this.showTooltip();
+    }
+  }
+
+  onFocusOut() {
+    if (!this.isMouseInside()) {
+      this.hideTooltip();
+    }
+  }
+
+  onEscape(event: Event) {
+    if (this.tooltip) {
+      // Dismiss only the tooltip, not an enclosing dialog/popover
+      event.stopPropagation();
+      this.hideTooltip();
+    }
   }
 
   toggleTooltip() {
@@ -157,6 +194,20 @@ export class UniTooltipComponent extends BaseComponent<UniTooltipOptions> implem
       this.tooltip
     );
     this.renderer.addClass(this.tooltip, this.tooltipClassName);
+    this.renderer.setAttribute(this.tooltip, 'role', 'tooltip');
+    this.renderer.setAttribute(this.tooltip, 'id', this.tooltipId);
+    // Describe the element that actually receives focus, not the wrapper
+    this.renderer.setAttribute(
+      resolveFocusTarget(this.elRef.nativeElement),
+      'aria-describedby',
+      this.tooltipId
+    );
+
+    // The pointer may move onto the tooltip itself without dismissing it
+    // (WCAG 1.4.13 hoverable) — relevant when appended to <body>.
+    this.renderer.listen(this.tooltip, 'mouseenter', () => this.isMouseInside.set(true));
+    this.renderer.listen(this.tooltip, 'mouseleave', () => this.isMouseInside.set(false));
+
     this.renderer.listen(this.tooltip, 'animationend', (event) => {
       if (event.animationName.includes(this.tooltipFadeOut)) this.destroyTooltip();
     });
@@ -206,6 +257,10 @@ export class UniTooltipComponent extends BaseComponent<UniTooltipOptions> implem
   }
 
   private destroyTooltip() {
+    this.renderer.removeAttribute(
+      resolveFocusTarget(this.elRef.nativeElement),
+      'aria-describedby'
+    );
     this.renderer.removeChild(
       this.appendToBody ? document.body : this.elRef.nativeElement,
       this.tooltip

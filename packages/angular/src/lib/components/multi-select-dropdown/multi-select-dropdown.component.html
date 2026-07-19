@@ -28,6 +28,7 @@
 <uni-dropdown
   #dropdown
   [trigger]="trigger"
+  ariaHasPopup="dialog"
   (dropdownShowing)="$event && searchInput.focus()"
   (dropdownHiding)="$event && trigger.focus()"
 >
@@ -39,6 +40,7 @@
       [value]="query()"
       (input)="query.set($any($event.target).value)"
       placeholder="Search..."
+      aria-label="Filter options"
       (click)="$event.stopPropagation()"
       [disabled]="disabled()"
     />

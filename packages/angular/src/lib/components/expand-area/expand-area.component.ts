@@ -37,10 +37,11 @@ import { UniTextComponent } from '../text/text.component';
           #toggle
           style="display: inline-flex; margin: -2px"
           [collapsed]="initCollapsed()"
+          [ariaControls]="expand.regionId"
         />
       </Box>
 
-      <Expand [collapsed]="toggle.collapsed()">
+      <Expand #expand [collapsed]="toggle.collapsed()">
         <Box [padding]="padding()">
           <ng-content></ng-content>
         </Box>

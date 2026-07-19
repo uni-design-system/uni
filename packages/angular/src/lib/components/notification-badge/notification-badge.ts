@@ -4,6 +4,7 @@ import type { Variant } from '@uni-design-system/uni-core';
 import { BaseComponent } from '../base';
 import { COMPONENT_NAME } from '../base/base.component';
 import { UniTextComponent } from '../text';
+import { visuallyHidden } from '../../cdk';
 import type { UniNotificationBadgeOptions } from './notification-badge.model';
 
 @Component({
@@ -19,6 +20,21 @@ export class UniNotificationBadgeComponent extends BaseComponent<UniNotification
   color = input<Variant | undefined>(undefined);
   position = input<'top-right' | 'top-left' | 'bottom-right' | 'bottom-left'>('top-right');
   show = input<boolean>(true);
+
+  /**
+   * Screen-reader text for the badge (e.g. "5 unread messages"). Without it
+   * a sensible default is announced; a bare number or dot carries no meaning.
+   */
+  ariaLabel = input<string>();
+
+  protected readonly srOnlyClass = css(visuallyHidden);
+
+  protected readonly announcement = computed(() => {
+    const label = this.ariaLabel();
+    if (label) return label;
+    if (this.badgeVariant() === 'dot') return 'New notifications';
+    return `${this.displayValue()} notifications`;
+  });
 
   displayValue = computed(() => {
     const count = this.count();

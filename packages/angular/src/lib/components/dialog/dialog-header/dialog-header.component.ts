@@ -21,6 +21,14 @@ export class UniDialogHeaderComponent extends BaseComponent<UniDialogHeaderOptio
     skipSelf: true,
   });
 
+  /** Attached to the title element so the parent dialog is labelled by it. */
+  protected readonly titleId = this.dialog?.titleId ?? null;
+
+  constructor() {
+    super();
+    this.dialog?.hasTitle.set(true);
+  }
+
   closeDialog() {
     this.dialog?.close();
   }

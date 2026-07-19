@@ -28,6 +28,7 @@ import { RippleDirective } from '../../directives/ripple';
   ],
   host: {
     '[attr.disabled]': 'disable() || loading() || null',
+    '[attr.aria-busy]': "loading() ? 'true' : null",
   },
   hostDirectives: [{ directive: RippleDirective }],
 })

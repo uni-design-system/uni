@@ -8,13 +8,22 @@ import { UniSymbolComponent } from '../symbol/symbol.component';
   imports: [UniSymbolComponent],
   templateUrl: './sort-header.component.html',
   standalone: true,
-  host: {
-    '(click)': 'cycleSort()',
-  },
 })
 export class UniSortHeaderComponent<T> {
   column = input<keyof T>();
   datasource = input<UniDatasource<T>>();
+
+  // A real <button> makes sorting keyboard-operable (Enter/Space) for free
+  protected readonly buttonClass = css({
+    all: 'unset',
+    cursor: 'pointer',
+    display: 'inline-block',
+
+    '&:focus-visible': {
+      outline: '2px solid currentColor',
+      outlineOffset: 2,
+    },
+  });
 
   direction = computed(() => {
     const ds = this.datasource();

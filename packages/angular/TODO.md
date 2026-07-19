@@ -26,38 +26,40 @@
 
 ## Phase 1 — Accessibility (WCAG 2.2 AA) 🚨 highest priority
 
-### 1.1 Keyboard support (currently none anywhere)
+### 1.1 Keyboard support ✅ (2026-07-18)
 
-- [ ] **Menu / Dropdown** (`menu/`, `dropdown/`): arrow-key navigation between items, `Home`/`End`, `Enter`/`Space` to activate, typeahead. Focus moves into the menu on open and **returns to the trigger on close**. (`popover="auto"` gives Escape/light-dismiss for free — keep it.)
-- [ ] **MultiSelectDropdown**: same as Menu plus checkbox-item semantics (`role="menuitemcheckbox"`, `aria-checked`).
-- [ ] **DataTable row interaction** (`data-table/`): rows with `useRowClick` are click-only today — make rows focusable (`tabindex="0"`) with `Enter`/`Space` activation, or render the action as a real button.
-- [ ] **ExpandToggle / Expand / ExpandArea**: `Enter`/`Space` on trigger; `aria-expanded` + `aria-controls`.
-- [ ] **FileDropZone**: keyboard-accessible fallback (real `<input type="file">` reachable by Tab).
-- [ ] **Tooltip**: show on `focusin`, hide on `focusout` and `Escape` (WCAG 1.4.13 requires dismissable + hoverable + persistent).
+- [x] **Menu / Dropdown**: full menu pattern — arrows/`Home`/`End`/`Enter`/`Space`, first-letter typeahead, `ArrowDown`/`ArrowUp` on trigger opens onto first/last item, focus into menu on open, focus restored to trigger on close (handled generically by Dropdown).
+- [x] **MultiSelectDropdown**: implemented as a **disclosure dialog** (`aria-haspopup="dialog"`) rather than menuitemcheckbox — the popover contains native focusables (search, checkboxes, Done) which Tab reaches natively; search input labelled.
+- [x] **DataTable row interaction**: `useRowClick` rows get `tabindex="0"` + `Enter`/`Space` activation.
+- [x] **ExpandToggle / Expand / ExpandArea**: `aria-expanded` + `aria-controls` wired (automatic inside ExpandArea via `Expand.regionId`).
+- [x] **FileDropZone**: zone is `role="button"` + `tabindex="0"` + `Enter`/`Space` when no browse button is rendered (button provides the path otherwise).
+- [x] **Tooltip**: shows on keyboard focus, hides on blur/`Escape`; hover-persistent over the bubble (WCAG 1.4.13); non-focusable triggers get `tabindex="0"`.
 
-### 1.2 ARIA semantics per component
+### 1.2 ARIA semantics per component ✅ (2026-07-18)
 
-- [ ] **Tooltip** (`tooltip.component.ts`): generated span needs `role="tooltip"` + unique `id`, trigger needs `aria-describedby`. Today it's a bare `<span>` invisible to AT.
-- [ ] **Dialog** (`dialog.component.ts`): `aria-labelledby` wired to `DialogHeader`, `aria-modal` (implicit with `showModal()` — verify), configurable initial focus, restore focus on close.
-- [ ] **Button** (`button.component.ts`): `aria-busy` when `loading()`; spinner `aria-hidden="true"`; note that `opacity: 0` label is still read by screen readers while visually hidden — intentional, but document it. Decide `disabled` vs `aria-disabled` policy (native `disabled` removes from tab order; fine for buttons, but be consistent).
-- [ ] **Toggle**: `role="switch"` + `aria-checked` (a checkbox input styled as a switch must announce as a switch).
-- [ ] **Checkbox / Input / SelectInput / Radio**: `aria-invalid` when `showError()`; render error text with an `id` and link via `aria-describedby`; add `indeterminate` support to Checkbox.
-- [ ] **Input** (`input.component.html`): no label association at all. Add `label` input rendering a real `<label for>`, or `aria-label`/`aria-labelledby` passthrough. Placeholder is not a label.
-- [ ] **SortHeader**: `aria-sort="ascending|descending|none"` on the `<th>`; sort trigger must be a `<button>` inside the header.
-- [ ] **DataTable**: `scope="col"` on headers, optional `<caption>`/`aria-label`, `aria-selected` on selected rows, `aria-busy` on the table during datasource loading (not just a visual overlay).
-- [ ] **ProgressBar / ProgressGauge**: `role="progressbar"` + `aria-valuenow/min/max` (or `aria-label` for indeterminate).
-- [ ] **Paginator**: `<nav aria-label="pagination">`, `aria-current="page"`, accessible names on prev/next icon buttons.
-- [ ] **IconButton**: audit that every icon-only button gets a required accessible name (make an `ariaLabel` input **required** — great guardrail for AI-generated code too).
-- [ ] **Alert / Snackbar / Notifications**: `role="alert"` or `role="status"` + `aria-live` so announcements actually happen; pause auto-dismiss timers on hover/focus (WCAG 2.2.1).
-- [ ] **NotificationBadge / Badge / Tag**: accessible text for counts (e.g. visually-hidden "3 unread notifications").
+- [x] **Tooltip**: `role="tooltip"` + unique id, `aria-describedby` on the focusable trigger element (set while visible).
+- [x] **Dialog**: `aria-labelledby` auto-wired when a DialogHeader is present, `ariaLabel` fallback input, `initialFocus` selector input. Bonus fix: native `cancel` (Escape) now routes through the animated close instead of desyncing state.
+- [x] **Button**: `aria-busy` while loading; icons decorative (see Symbol/Icon below). Kept native `disabled`.
+- [x] **Toggle**: `role="switch"` on the native checkbox input.
+- [x] **Checkbox / Input / SelectInput / Radio**: `aria-invalid` from `showError()` everywhere; Checkbox `indeterminate` model + visual dash state; Radio gets `role="radiogroup"` + `aria-labelledby` + per-instance unique `name` default (was a colliding constant). **Deferred:** controls still render no error text, so `aria-describedby` association awaits the Phase 2.3 error-display decision.
+- [x] **Input**: `label` input now applied as `aria-label` (was collected but never rendered). Visible `<label for>` rendering remains a design decision.
+- [x] **SortHeader**: real `<button>` (keyboard for free) + `aria-sort` on the `<th>` via DataTable.
+- [x] **DataTable**: `scope="col"`, `aria-busy` region + `role="status"` loading overlay, collapsed detail rows made `inert`. (`aria-selected` skipped: only valid on `role="grid"`; revisit if multi-select ships.)
+- [x] **ProgressBar / ProgressGauge**: `role="progressbar"` + valuenow/min/max + `ariaLabel` input; SVGs decorative.
+- [x] **Paginator**: `role="navigation"` landmark, page cells converted from divs to real buttons with `aria-current="page"`, labelled number inputs. Bonus fix: removed an `outline: none` that killed all focus indication.
+- [x] **IconButton**: projected text now renders visually-hidden as the accessible name (previously silently dropped — every internal usage was nameless), plus optional `ariaLabel` override. Made required-by-convention rather than required-by-type to stay non-breaking; enforce via lint/axe in Phase 3.
+- [x] **Symbol / Icon**: `aria-hidden="true"` at host level — decorative by default across the whole library.
+- [x] **Alert / Snackbar**: `role="alert"` / `role="status"`; Snackbar already paused timers on hover/focus.
+- [x] **NotificationBadge / Tag**: visually-hidden announcement text (+ `ariaLabel` input); Tag close button announces "Remove {label}". Also fixed invalid `role="label"` leftover on menu-item's Text.
 
 ### 1.3 Cross-cutting a11y
 
-- [ ] `prefers-reduced-motion` guard for every animation (dialog/tooltip/dropdown fades, ripple, checkbox draw). Add a single theme-level helper so components opt in uniformly.
-- [ ] Focus-visible audit: Button has good `:focus-visible` rings — replicate the pattern via a shared mixin for all interactive components.
+- [x] `prefers-reduced-motion`: global rule injected by ThemeService collapses all animations/transitions to one frame; `motionSafe()` helper also available in the cdk for opt-in wrapping.
+- [x] Shared focus mixin: `ThemeService.focusRing(token?)`; applied to SortHeader, Paginator, menu items (themed, replacing hardcoded `#ccc`). Full per-component focus-ring audit continues alongside Phase 2 styling refactor.
+- [x] New `cdk/a11y` module: `uniqueId()`, `visuallyHidden`, `FOCUSABLE_SELECTOR`, `resolveFocusTarget()`, `motionSafe()` — exported publicly.
 - [ ] Contrast: add an automated check that theme token pairs (`colorPair`) meet 4.5:1; document which built-in variants pass.
-- [ ] Turn on `@storybook/addon-a11y` **as a CI gate** (axe via Storybook test-runner), not just a panel.
-- [ ] Write an `ACCESSIBILITY.md` stating conformance target, per-component keyboard maps, and known gaps.
+- [ ] Turn on `@storybook/addon-a11y` **as a CI gate** (axe via Storybook test-runner), not just a panel. (→ do with Phase 3 CI.)
+- [x] `ACCESSIBILITY.md` written: conformance target, per-component keyboard maps and contracts, known gaps.
 
 ---
 

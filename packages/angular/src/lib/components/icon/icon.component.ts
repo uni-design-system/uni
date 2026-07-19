@@ -10,6 +10,8 @@ import type { ColorToken, Icons } from '@uni-design-system/uni-core';
   imports: [],
   template: '',
   styleUrls: ['./icon.component.scss'],
+  // Icons are decorative; meaningful icons get their name from the parent control
+  host: { 'aria-hidden': 'true' },
 })
 export class UniIconComponent {
   private themeService = inject(ThemeService);

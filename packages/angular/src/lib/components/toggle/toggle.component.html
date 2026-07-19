@@ -1,10 +1,12 @@
 <label [class]="toggleLabel">
   <input
     type="checkbox"
+    role="switch"
     [class]="toggleInput"
     [checked]="checked()"
     (change)="checked.set($any($event.target).checked); markAsTouched()"
     [disabled]="disabled()"
+    [attr.aria-invalid]="showError() ? true : null"
   />
   <div class="toggle-switch">
     <div class="toggle-slider"></div>

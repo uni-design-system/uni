@@ -209,6 +209,14 @@ export class UniDataTableComponent<T> extends BaseComponent<UniDataTableOptions>
     this.toggleRow(index);
   }
 
+  /** aria-sort value for a column header, or null when the column is unsorted. */
+  protected ariaSort(column: ColumnDefinition<T>): 'ascending' | 'descending' | null {
+    const ds = this.datasource();
+    if (!ds || ds.sortColumn() !== column.columnDef) return null;
+    const direction = ds.sortDirection();
+    return direction === 'asc' ? 'ascending' : direction === 'desc' ? 'descending' : null;
+  }
+
   isHighlighted(row: T) {
     const callback = this.highlight && this.highlight();
     if (!callback) return false;
