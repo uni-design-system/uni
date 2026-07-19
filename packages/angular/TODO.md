@@ -104,26 +104,27 @@
 
 ---
 
-## Phase 4 — Docs & DX for humans *and* AI agents
+## Phase 4 — Docs & DX for humans *and* AI agents ✅ core done (2026-07-19)
 
-### 4.1 Fix what's actively misleading (AI agents will copy this verbatim)
+### 4.1 Fix what's actively misleading ✅
 
-- [ ] **README Getting Started is wrong**: it imports `ButtonComponent` (actual: `UniButtonComponent`) and uses `<uni-button text="...">` which matches **no selector** (actual: `button[uni-text-button]` with content projection, no `text` input). This is the first thing an AI agent reads — fix and add a compile-checked example.
-- [ ] Audit every MDX usage snippet the same way (imports, selectors, input names).
+- [x] **README rewritten** with compile-checked examples: real class names, real selectors (`button[uni-text-button]` + content projection), theming quick-start, Signal Forms quick-start.
+- [x] MDX audited programmatically (imports + tags checked against real exports/selectors). Findings fixed: `MultiSelectComponent` → `UniMultiSelectComponent`; **fabricated ControlValueAccessor documentation removed** from checkbox/toggle/radio (the controls never implemented `writeValue`/`registerOnChange`); radio's broken Reactive Forms example replaced with a working Signal Forms `form()` + `[field]` example.
+- [x] Verified against the shipped v21 API: `FieldTree` subfields are **direct property access** (`form.username`), not `.fields.username` — note: the repo's `/angular-signals` skill file uses the `.fields.` form and should be updated.
 
-### 4.2 Machine-readable surface (AI-agent readiness)
+### 4.2 Machine-readable surface (AI-agent readiness) ✅
 
-- [ ] Publish an **`llms.txt`** + per-component compact API reference (selector(s), inputs with types/defaults, outputs, content-projection slots, minimal example). Generate it from the compiler API (or `ng-packagr` metadata) so it can't drift.
-- [ ] JSDoc every public input/output/method — flows into IDE intellisense, Storybook argTables, and the generated reference.
-- [ ] **Decide the selector story.** Dual selectors (`uni-checkbox, Checkbox`; `button[uni-text-button], Button`) are novel but ambiguous for tooling and agents. Keep both if you want, but declare **one canonical form**, use it exclusively in all docs/stories, and document the alias as secondary.
-- [ ] Ship a `CLAUDE.md` / `AGENTS.md` in the package root: conventions (signals-only, Emotion-only, no rxjs), canonical import/selector patterns, theming model, and "how to add a component" recipe.
+- [x] **`llms.txt` generated from source** by `scripts/generate-api.mjs` (`pnpm docs:api`): selector, inputs with types/defaults, two-way models, outputs, JSDoc summaries for 58 components/directives, plus inheritance notes (BaseComponent variant/size, Box layout props). Regenerate on API changes; CI can diff for drift.
+- [ ] JSDoc every public input/output — ongoing; the generator already surfaces what exists (a11y-relevant inputs are documented). Grow coverage opportunistically.
+- [x] **Selector decision:** canonical = `uni-*`-prefixed form; short/PascalCase are documented secondaries. Recorded in README, llms.txt header, and AGENTS.md.
+- [x] **`AGENTS.md`** shipped: hard rules (lint-enforced), architecture conventions, form-control contract, a11y requirements, add-a-component checklist, commands.
 
-### 4.3 Open-source table stakes
+### 4.3 Open-source table stakes ✅ (one open decision)
 
-- [ ] `CONTRIBUTING.md` (setup, storybook, test, changeset flow), `CODE_OF_CONDUCT.md`, license file verified in `dist` output, issue/PR templates.
-- [ ] `ACCESSIBILITY.md` (from Phase 1) linked in README.
-- [ ] README: badges (npm, CI, coverage), feature matrix vs. the React package, theming quick-start, Signal Forms quick-start (this is the headline feature — show `form()` + `[field]` + `Checkbox` working together).
-- [ ] Versioning/support policy: which Angular majors are supported, and the deprecation policy.
+- [x] `CONTRIBUTING.md` extended (test/lint gates, AGENTS/ACCESSIBILITY pointers, a11y-is-a-bug policy); `CODE_OF_CONDUCT.md` (Contributor Covenant 2.1); issue templates (bug / accessibility / feature) + PR template with quality checklist.
+- [x] ACCESSIBILITY.md linked from README.
+- [x] README: npm + CI badges, theming and Signal Forms quick-starts, selector table, versioning/support policy (one Angular major per package major, 6-month fix window).
+- [x] **LICENSE: MIT** (maintainer decision, 2026-07-19). `/LICENSE` at root + copies in all three packages, `"license": "MIT"` in all package.jsons, verified present in the ng-packagr `dist` output.
 
 ---
 

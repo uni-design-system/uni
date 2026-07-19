@@ -1,0 +1,25 @@
+name: Accessibility issue
+description: Keyboard, screen reader, contrast, or motion problem (treated as a bug)
+labels: [bug, a11y]
+body:
+  - type: input
+    id: component
+    attributes:
+      label: Component
+      placeholder: uni-menu
+    validations:
+      required: true
+  - type: input
+    id: at
+    attributes:
+      label: Assistive technology & browser
+      placeholder: 'VoiceOver + Safari 18, keyboard-only, ...'
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: What happens, and what should happen
+      description: Reference the contract in packages/angular/ACCESSIBILITY.md if applicable.
+    validations:
+      required: true

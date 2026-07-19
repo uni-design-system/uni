@@ -1,6 +1,7 @@
 {
   "name": "@uni-design-system/uni-angular",
   "version": "3.0.2",
+  "license": "MIT",
   "repository": {
     "type": "git",
     "url": "https://github.com/uni-design-system/uni",
@@ -19,7 +20,8 @@
     "lint": "eslint src",
     "storybook": "pnpm ng run @uni-design-system/uni-angular:storybook",
     "build-storybook": "pnpm architect @uni-design-system/uni-angular:build-storybook",
-    "release": "pnpm build && pnpm changeset publish"
+    "release": "pnpm build && pnpm changeset publish",
+    "docs:api": "node scripts/generate-api.mjs"
   },
   "peerDependencies": {
     "@angular/common": "^21.2.0",

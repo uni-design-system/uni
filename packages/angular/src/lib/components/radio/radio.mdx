@@ -235,13 +235,6 @@ The component implements the FormValueControl&lt;string&gt; interface:
 - `markAsTouched()`: Marks the radio group as touched when the user interacts with it
 - `handleRadioChange(optionValue: string)`: Internal method for handling option selection
 
-The component also maintains backward compatibility with ControlValueAccessor methods:
-
-- `writeValue(value: string)`: Sets the selected value
-- `registerOnChange(fn)`: Registers a callback for value changes
-- `registerOnTouched(fn)`: Registers a callback for touch events
-- `setDisabledState(isDisabled: boolean)`: Sets the disabled state
-
 ## Accessibility
 
 - The component uses semantic HTML with proper `<input type="radio">` and `<label>` elements
@@ -270,51 +263,53 @@ The radio component uses the theme service to apply consistent colors based on t
 </uni-radio>
 ```
 
-### With Reactive Forms
+### With Signal Forms
+
+The component implements `FormValueControl<string>`, so it binds directly to a
+Signal Forms field with the `[field]` directive:
 
 ```typescript
-// Component
-form = new FormGroup({
-  preference: new FormControl('option1'),
-});
+import { Component, signal } from '@angular/core';
+import { form, required } from '@angular/forms/signals';
+import { UniRadioComponent } from '@uni-design-system/uni-angular';
 
-options = [
-  { label: 'Option 1', value: 'option1' },
-  { label: 'Option 2', value: 'option2' },
-  { label: 'Option 3', value: 'option3' },
-];
-```
+@Component({
+  selector: 'app-preferences',
+  imports: [UniRadioComponent /* + Signal Forms directives */],
+  templateUrl: './preferences.component.html',
+})
+export class PreferencesComponent {
+  readonly formState = signal({ preference: 'option1' });
 
-```html
-<!-- Template -->
-<form [formGroup]="form">
-  <uni-radio
-    label="Select an option"
-    name="preference"
-    [options]="options"
-    formControlName="preference"
-  >
-  </uni-radio>
-</form>
-```
+  readonly preferencesForm = form(this.formState, {
+    preference: [required()],
+  });
 
-### With Form Signals
-
-```typescript
-// Component using Form Signals
-readonly selectedValue = model<string>('');
-readonly isDisabled = signal(false);
-readonly isInvalid = signal(false);
+  readonly options = [
+    { label: 'Option 1', value: 'option1' },
+    { label: 'Option 2', value: 'option2' },
+    { label: 'Option 3', value: 'option3' },
+  ];
+}
 ```
 
 ```html
 <!-- Template -->
 <uni-radio
-  label="Pick one"
+  label="Select an option"
   [options]="options"
-  [value]="selectedValue"
-  [disabled]="isDisabled"
-  [invalid]="isInvalid"
->
-</uni-radio>
+  [field]="preferencesForm.preference"
+/>
+```
+
+### Standalone (two-way binding)
+
+```typescript
+// Component state
+readonly selectedValue = signal('');
+```
+
+```html
+<!-- Template -->
+<uni-radio label="Pick one" [options]="options" [(value)]="selectedValue" />
 ```

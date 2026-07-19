@@ -1,6 +1,7 @@
 {
   "name": "@uni-design-system/uni-core",
   "version": "3.0.2",
+  "license": "MIT",
   "repository": {
     "type": "git",
     "url": "https://github.com/uni-design-system/uni",

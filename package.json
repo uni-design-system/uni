@@ -1,5 +1,6 @@
 {
   "name": "uni",
+  "license": "MIT",
   "packageManager": "pnpm@11.0.8",
   "private": true,
   "scripts": {

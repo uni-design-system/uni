@@ -58,13 +58,32 @@ Once tokens live in core, implement the matching component natively in both fram
 
 ---
 
+### Angular Package Standards
+
+The Angular workspace has additional, CI-enforced quality gates:
+
+- **Conventions:** read [packages/angular/AGENTS.md](./packages/angular/AGENTS.md)
+  — signals-only API (legacy decorators are lint **errors**), Emotion-only
+  styling via memoized `computed()` classes, `OnPush` everywhere, no rxjs.
+- **Accessibility:** the library targets WCAG 2.2 AA. Per-component keyboard
+  maps and ARIA contracts live in
+  [packages/angular/ACCESSIBILITY.md](./packages/angular/ACCESSIBILITY.md);
+  template a11y lint rules are errors. A11y regressions are bugs.
+- **API docs:** after changing any public input/output/selector, regenerate the
+  machine-readable reference: `pnpm docs:api` (writes `llms.txt`).
+
+---
+
 ## 📦 Verifying Builds Locally
 
-Never push your branch without confirming that the production bundlers compile correctly. Test the full matrix locally with:
+Never push your branch without confirming lint, tests, and the production bundlers pass — CI gates all of them:
 
 ```bash
 # Verify type emission and compilation across all three layers
 pnpm turbo run build
+
+# Lint + unit tests (Angular: eslint + vitest)
+pnpm turbo run lint test
 
 # Verify your specific framework component sandbox compiles
 pnpm turbo run build-storybook --filter=@uni-design-system/uni-react

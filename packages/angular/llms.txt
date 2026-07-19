@@ -1,0 +1,577 @@
+# @uni-design-system/uni-angular — API reference
+
+> Generated from source by scripts/generate-api.mjs (pnpm docs:api). Do not edit by hand.
+
+Themed Angular component library. Signals-only API: every input below is a
+signal input — read as `component.name()`, bind as `[name]="..."`. Two-way
+model inputs support `[(name)]`. Form controls implement Signal Forms
+`FormValueControl`/`FormCheckboxControl` and bind with `[field]`.
+
+Import everything from `@uni-design-system/uni-angular`.
+Canonical selectors are the `uni-`-prefixed form; the short/PascalCase
+aliases (e.g. `Checkbox`, `button[text-button]`) are supported secondaries.
+
+Inheritance (inputs listed once, available on all subclasses):
+- Components extending `BaseComponent` also accept `variant: Variant` and `size: Size`.
+- Layout components (`UniBoxComponent` and subclasses Row, Stack, Center, Wrap, Grid,
+  MenuItem) also accept every `UniBoxComponent` input (padding*, border*, color,
+  display, gap, width/height, flex/grid props, ...).
+
+## BodyRenderDirective
+- selector: `[uniBodyRender]`
+
+## ConfirmationDialogComponent
+- selector: `uni-confirmation-dialog, Confirmation`
+- inputs:
+  - `show: boolean` = false
+  - `confirmation: Confirmation`
+- outputs:
+  - `showing: boolean`
+
+## DragAndDropDirective
+- selector: `[uni-drag-n-drop], [dragAndDrop]`
+- outputs:
+  - `onFileDropped: FileList`
+
+## NotificationsComponent
+- selector: `uni-notifications, Notifications`
+
+## RippleDirective
+- selector: `[uniRipple]`
+
+## UniAlertComponent
+- selector: `uni-alert, Alert`
+- inputs:
+  - `iconName: IconName | undefined` = undefined
+  - `symbolName: string | undefined` = undefined
+  - `useVariant: boolean` = false
+- two-way models:
+  - `show: boolean`
+- outputs:
+  - `showing: boolean`
+
+## UniBackgroundComponent
+- selector: `uni-background, Background`
+- inputs:
+  - `image: string`
+  - `imagePosition: ImagePosition`
+  - `imageSize: 'cover' | 'contain' | number | string`
+  - `height: number | string` = '100%'
+  - `width: number | string`
+
+## UniBadgeComponent
+- selector: `div[uni-badge], Badge`
+- inputs:
+  - `color: Variant | undefined` = undefined
+  - `useVariant: boolean` = false
+  - `width: number`
+
+## UniBoxComponent
+- selector: `div[uni-box-layout], Box, div[box-layout]`
+- inputs:
+  - `color: ContainerColorToken`
+  - `backgroundColor: OptionalColor`
+  - `borderRadius: OptionalRadius`
+  - `borderRadiusLeft: OptionalRadius`
+  - `borderRadiusRight: OptionalRadius`
+  - `borderRadiusTop: OptionalRadius`
+  - `borderRadiusBottom: OptionalRadius`
+  - `padding: OptionalSize`
+  - `paddingHorizontal: OptionalSize`
+  - `paddingVertical: OptionalSize`
+  - `paddingLeft: OptionalSize`
+  - `paddingRight: OptionalSize`
+  - `paddingTop: OptionalSize`
+  - `paddingBottom: OptionalSize`
+  - `border: OptionalBorder`
+  - `borderTop: OptionalBorder`
+  - `borderBottom: OptionalBorder`
+  - `borderLeft: OptionalBorder`
+  - `borderRight: OptionalBorder`
+  - `dashBorder: boolean` = false
+  - `alignSelf: OptionalAlignSelf`
+  - `alignItems: OptionalAlignItems`
+  - `alignContent: OptionalAlignContent`
+  - `justifyContent: OptionalJustifyContent`
+  - `grow: number`
+  - `display: OptionalDisplay`
+  - `position: OptionalPosition`
+  - `inset: number | string`
+  - `height: number | string`
+  - `minHeight: number | string`
+  - `maxHeight: number | string`
+  - `width: number | string`
+  - `minWidth: number | string`
+  - `maxWidth: number | string`
+  - `ignoreDir: boolean` = true
+  - `gridArea: string`
+  - `gridColumn: string`
+  - `gridRow: string`
+  - `overflow: OptionalOverflow`
+  - `shadow: Shadow`
+  - `gap: OptionalSize`
+  - `fullWidth: boolean`
+  - `fullHeight: boolean`
+  - `flexDirection: OptionalFlexDirection`
+  - `textAlign: OptionalTextAlign`
+  - `wrapItems: OptionalWrap` = undefined
+  - `zIndex: ZIndexableElements`
+
+## UniButtonComponent
+- selector: `button[uni-text-button], Button, button[text-button]`
+- inputs:
+  - `disable: boolean | undefined` = false
+  - `loading: boolean | undefined` = false
+  - `fullWidth: boolean` = false
+  - `symbolLeft: string`
+  - `symbolRight: string`
+
+## UniButtonGroupComponent
+- selector: `uni-button-group, ButtonGroup`
+
+## UniCardComponent
+- selector: `uni-card, Card`
+
+## UniCardContentComponent
+- selector: `uni-card-content, CardContent`
+
+## UniCardHeaderComponent
+- selector: `uni-card-header, CardHeader`
+- inputs:
+  - `title: string` = ''
+  - `titleTextRole: Typeface` = 'title-large'
+
+## UniCenterComponent
+- selector: `div[uni-center-layout], div[center-layout]`
+- inputs:
+  - `display: OptionalDisplay` = 'flex'
+  - `justifyContent: OptionalJustifyContent` = 'center'
+  - `alignItems: OptionalAlignItems` = 'center'
+
+## UniCheckboxComponent
+- selector: `uni-checkbox, Checkbox`
+- inputs:
+  - `disabled: boolean` = false
+  - `invalid: boolean` = false
+  - `dirty: boolean` = false
+  - `required: boolean` = false — Synced from required() validators by the Signal Forms [field] directive.
+  - `ariaDescribedBy: string` — Id(s) of external element(s) describing this control — typically your app-rendered error message — exposed as aria-describedby.
+  - `label: string`
+- two-way models:
+  - `checked: boolean` = false
+  - `touched: boolean` = false
+  - `indeterminate: boolean` = false — Mixed state for "select all"-style parent checkboxes. Cleared automatically on the next user interaction, matching native behavior.
+
+## UniDataSearchComponent
+- selector: `uni-data-search`
+- inputs:
+  - `datasource: UniDatasource<T>`
+  - `placeholder: string` = 'Search'
+  - `fields: string[]`
+
+## UniDataTableComponent
+- selector: `uni-data-table, DataTable`
+- inputs:
+  - `datasource: UniDatasource<T>` (required)
+  - `columns: ColumnDefinition<T>[]` (required)
+  - `useMultiSelect: boolean` = false
+  - `useRowClick: boolean` = true
+  - `height: string`
+- outputs:
+  - `rowSelect: T`
+  - `rowClick: T`
+
+## UniDebounceInputComponent
+- selector: `DebounceInput, uni-debounce-input`
+- inputs:
+  - `inputName: string`
+  - `inputId: string`
+  - `debounceTime: number` = 400
+- outputs:
+  - `change: string`
+
+## UniDialogButtonsComponent
+- selector: `uni-dialog-buttons, DialogButtons, div[dialog-buttons]`
+- inputs:
+  - `confirmButtonText: string`
+  - `confirmButtonVariant: Variant` = 'primary'
+  - `cancelButtonText: string`
+  - `disableConfirm: boolean`
+  - `padding: NullableSize` = 'md'
+  - `paddingBottom: NullableSize` = 'lg'
+  - `justifyContent: JustifyContent` = 'center'
+- outputs:
+  - `confirmed: unknown`
+
+## UniDialogComponent
+- selector: `dialog[uni-dialog], Dialog`
+- inputs:
+  - `ariaLabel: string` — Accessible name for dialogs without a DialogHeader. When a DialogHeader is present it labels the dialog automatically via aria-labelledby.
+  - `initialFocus: string` — CSS selector for the element to focus when the dialog opens. Defaults to the browser's native behavior (first focusable element).
+  - `defaultCloseButton: boolean`
+- two-way models:
+  - `show: boolean` = false — Two-way bindable open state: [(show)].
+- outputs:
+  - `showing: boolean` — Emits true once opened and false once the closing animation finishes.
+
+## UniDialogHeaderComponent
+- selector: `div[uni-dialog-header], DialogHeader`
+
+## UniDividerComponent
+- selector: `uni-divider, Divider`
+- inputs:
+  - `orientation: Orientation` = 'horizontal'
+  - `border: Border` = 'primary'
+
+## UniDropdownComponent
+- selector: `uni-dropdown, Dropdown`
+- inputs:
+  - `trigger: HTMLElement` (required)
+  - `placement: Placement` = 'bottom-start'
+  - `offset: OffsetOptions` = { mainAxis: 4, alignmentAxis: 12 }
+  - `ariaHasPopup: AriaHasPopup | null` = null — Value for aria-haspopup on the trigger, describing what the popover contains (e.g. 'menu' for Menu, 'dialog' for rich content). When unset, only aria-expanded/aria-controls are managed.
+  - `paddingVertical: NullableSize`
+  - `paddingHorizontal: NullableSize`
+- outputs:
+  - `dropdownShowing: boolean`
+  - `dropdownHiding: boolean`
+
+## UniExpandAreaComponent
+- selector: `uni-expand-area, ExpandArea`
+- inputs:
+  - `title: string` (required)
+  - `initCollapsed: boolean` = false
+  - `padding: NullableSize` = 'md'
+- outputs:
+  - `collapsed: boolean`
+
+## UniExpandComponent
+- selector: `uni-expand, Expand`
+- two-way models:
+  - `collapsed: boolean` = true
+
+## UniExpandToggleComponent
+- selector: `uni-expand-toggle, ExpandToggle`
+- inputs:
+  - `ariaControls: string` — Id of the Expand region this toggle controls (see UniExpandComponent.regionId).
+- two-way models:
+  - `collapsed: boolean` = true
+
+## UniFileDropZoneComponent
+- selector: `uni-file-drop-zone`
+- inputs:
+  - `height: number | string`
+  - `borderRadius: Radius` = 'md'
+  - `border: Variant` = 'light'
+  - `padding: NullableSize` = 'lg'
+  - `useBrowseButton: boolean` = false
+  - `browseButtonText: string` = 'Browse for file'
+  - `allowedFileExtensions: string[]` = []
+  - `label: string`
+  - `helpTemplate: TemplateRef<unknown> | null` = null
+  - `helpTemplateContext: unknown | null` = null
+- outputs:
+  - `fileAttached: File | undefined`
+  - `fileRemoved: unknown`
+
+## UniGridAreaComponent
+- selector: `GridArea`
+- inputs:
+  - `area: string` (required)
+
+## UniGridComponent
+- selector: `div[uni-grid-layout], Grid, div[grid-layout]`
+- inputs:
+  - `display: OptionalDisplay` = 'grid'
+  - `templateAreas: string`
+  - `templateColumns: string`
+  - `templateRows: string`
+  - `outline: Thickness`
+  - `outlineColor: Variant`
+
+## UniIconButtonComponent
+- selector: `button[uni-icon-button], button[icon-button]`
+- inputs:
+  - `ariaLabel: string` — Accessible name for the button. Alternative to projecting text content (`<button icon-button>Close</button>`); one of the two is required for an icon-only button to be announced correctly.
+  - `iconName: IconName`
+  - `symbolName: string`
+  - `variant: Variant` = 'ghost'
+  - `size: Size` = 'lg'
+  - `disable: boolean`
+  - `loading: boolean`
+  - `opticalSize: number` = 24
+
+## UniIconComponent
+- selector: `uni-icon, Icon`
+- inputs:
+  - `color: ColorToken`
+  - `name: keyof Icons` (required)
+
+## UniInputBoxComponent
+- selector: `uni-input-box`
+- inputs:
+  - `disabled: boolean` = false
+  - `error: boolean` = false
+  - `minWidth: string` = '0'
+
+## UniInputComponent
+- selector: `uni-input`
+- inputs:
+  - `disabled: boolean` = false
+  - `invalid: boolean` = false
+  - `dirty: boolean` = false
+  - `required: boolean` = false — Synced from required() validators by the Signal Forms [field] directive.
+  - `ariaDescribedBy: string` — Id(s) of external element(s) describing this control — typically your app-rendered error message — exposed as aria-describedby.
+  - `label: string` (required)
+  - `placeholder: string` = ''
+- two-way models:
+  - `value: string` = ''
+  - `touched: boolean` = false
+
+## UniJsonViewComponent
+- selector: `uni-json-view`
+- inputs:
+  - `json: unknown`
+  - `rows: number` = 6
+  - `fontSize: AbsoluteSize | string` = 'medium'
+  - `width: string | number` = '100%'
+  - `selectOnClick: boolean` = true
+
+## UniMenuComponent
+- selector: `Menu, uni-menu`
+- inputs:
+  - `menuItems: MenuItem[]` (required)
+  - `activeItem: MenuItem`
+  - `placement: Placement` = 'bottom-start'
+- outputs:
+  - `menuItemClicked: MenuItem`
+
+## UniMenuItemComponent
+- selector: `div[uni-menu-item], div[menu-item]`
+- inputs:
+  - `display: OptionalDisplay` = 'flex'
+  - `flexDirection: OptionalFlexDirection` = 'row'
+  - `alignItems: OptionalAlignItems` = 'center'
+  - `paddingHorizontal: OptionalSize` = 'md'
+  - `gap: OptionalSize` = 'md'
+  - `label: string`
+  - `template: TemplateRef<T>`
+  - `context: T`
+  - `symbolName: string`
+  - `active: boolean`
+  - `hoverColor: ContainerColorToken` = 'primary-container'
+  - `disabled: boolean` = false
+
+## UniMultiSelectComponent
+- selector: `uni-multi-select, MultiSelect`
+- inputs:
+  - `options: Option<T>[]` = []
+  - `selections: T[] | null | undefined` = undefined
+  - `flexDirection: 'row' | 'row-reverse' | 'column' | 'column-reverse'` = 'column'
+  - `checkboxGap: NullableSize | undefined` = 'sm'
+- outputs:
+  - `updates: T[] | undefined`
+
+## UniMultiSelectDropdownComponent
+- selector: `uni-multi-select-dropdown, MultiSelectDropdown`
+- inputs:
+  - `disabled: boolean` = false
+  - `invalid: boolean` = false
+  - `dirty: boolean` = false
+  - `required: boolean` = false — Synced from required() validators by the Signal Forms [field] directive.
+  - `ariaDescribedBy: string` — Id(s) of external element(s) describing this control — typically your app-rendered error message — exposed as aria-describedby.
+  - `options: Options<T>` (required)
+  - `placeholder: string` = ''
+- two-way models:
+  - `value: T[]` = []
+  - `touched: boolean` = false
+
+## UniNotificationBadgeComponent
+- selector: `uni-notification-badge`
+- inputs:
+  - `count: number | undefined` = undefined
+  - `maxCount: number` = 99
+  - `badgeVariant: 'dot' | 'count' | 'pill'` = 'count'
+  - `color: Variant | undefined` = undefined
+  - `position: 'top-right' | 'top-left' | 'bottom-right' | 'bottom-left'` = 'top-right'
+  - `show: boolean` = true
+  - `ariaLabel: string` — Screen-reader text for the badge (e.g. "5 unread messages"). Without it a sensible default is announced; a bare number or dot carries no meaning.
+
+## UniPaginatorComponent
+- selector: `uni-paginator, Paginator`
+- inputs:
+  - `datasource: UniDatasource<T>`
+  - `initPageSize: number`
+  - `showPageSize: boolean` = true
+  - `showPageJumper: boolean` = true
+  - `showPageNumbers: boolean` = true
+
+## UniPopoverComponent
+- selector: `uni-popover, Popover`
+- inputs:
+  - `placement: Placement`
+  - `autoClose: boolean` = true
+
+## UniProgressBarComponent
+- selector: `uni-progress-bar, ProgressBar`
+- inputs:
+  - `width: number` = 560
+  - `height: number` = 24
+  - `percent: number` = 0
+  - `ariaLabel: string` — Accessible name describing what is progressing (e.g. "Upload progress").
+
+## UniProgressGaugeComponent
+- selector: `uni-progress-gauge, ProgressGauge`
+- inputs:
+  - `percent: number` = 0
+  - `ariaLabel: string` — Accessible name describing what is progressing.
+
+## UniRadioComponent
+- selector: `uni-radio, Radio`
+- inputs:
+  - `disabled: boolean` = false
+  - `invalid: boolean` = false
+  - `dirty: boolean` = false
+  - `required: boolean` = false — Synced from required() validators by the Signal Forms [field] directive.
+  - `ariaDescribedBy: string` — Id(s) of external element(s) describing this control — typically your app-rendered error message — exposed as aria-describedby.
+  - `options: UniRadioOption[]` = []
+  - `label: string`
+  - `name: string` = uniqueId('uni-radio-group')
+- two-way models:
+  - `value: string` = ''
+  - `touched: boolean` = false
+
+## UniRowComponent
+- selector: `div[uni-row-layout], Row, div[row-layout]`
+- inputs:
+  - `display: OptionalDisplay` = 'flex'
+  - `flexDirection: OptionalFlexDirection` = 'row'
+  - `minWidth: number | string | undefined` = 'fit-content'
+
+## UniScrollAreaComponent
+- selector: `div[uni-scroll-area], ScrollArea, div[scroll-area]`
+- inputs:
+  - `color: ContainerColorToken`
+  - `borderRadius: Radius` = 'sm'
+  - `padding: OptionalSize`
+  - `paddingHorizontal: OptionalSize`
+  - `paddingVertical: OptionalSize`
+  - `paddingLeft: OptionalSize`
+  - `paddingRight: OptionalSize`
+  - `paddingTop: OptionalSize`
+  - `paddingBottom: OptionalSize`
+  - `border: Variant`
+  - `height: OptionalValue`
+  - `width: OptionalValue`
+  - `appearance: ScrollbarAppearance` = 'compact'
+  - `autoHeightDisabled: boolean` = false
+  - `verticalScrollPadding: number` = 29
+- outputs:
+  - `scrollable: boolean`
+
+## UniSearchInputComponent
+- selector: `SearchInput, uni-search-input`
+- inputs:
+  - `label: string` (required)
+  - `width: string | number` = '100%'
+- outputs:
+  - `change: string`
+  - `search: string`
+
+## UniSelectComponent
+- selector: `uni-select, SelectInput`
+- inputs:
+  - `disabled: boolean` = false
+  - `invalid: boolean` = false
+  - `dirty: boolean` = false
+  - `required: boolean` = false — Synced from required() validators by the Signal Forms [field] directive.
+  - `ariaDescribedBy: string` — Id(s) of external element(s) describing this control — typically your app-rendered error message — exposed as aria-describedby.
+  - `options: Options<T>` = []
+  - `placeholder: string`
+  - `ariaLabel: string` — Accessible name for the select; a placeholder is not a label.
+- two-way models:
+  - `value: T | null` = null
+  - `touched: boolean` = false
+
+## UniSnackbarComponent
+- selector: `uni-snackbar, Snackbar`
+- inputs:
+  - `iconName: IconName`
+  - `symbolName: string`
+  - `timeout: number | string | 'disabled'`
+  - `actionLabel: string`
+  - `useVariant: boolean` = false
+- two-way models:
+  - `show: boolean` — Two-way bindable open state: [(show)].
+- outputs:
+  - `action: unknown`
+  - `showing: boolean`
+
+## UniSortHeaderComponent
+- selector: `uni-sort-header`
+- inputs:
+  - `column: keyof T`
+  - `datasource: UniDatasource<T>`
+
+## UniStackComponent
+- selector: `div[uni-stack-layout], Stack, div[stack-layout]`
+- inputs:
+  - `display: OptionalDisplay` = 'flex'
+  - `flexDirection: OptionalFlexDirection` = 'column'
+  - `minHeight: number | string | undefined` = 'fit-content'
+
+## UniSymbolComponent
+- selector: `uni-symbol, Symbol`
+- inputs:
+  - `name: string` (required)
+  - `fill: SymbolFill`
+  - `weight: SymbolWeight`
+  - `grade: SymbolGrade`
+  - `opticalSize: number`
+
+## UniTagComponent
+- selector: `Tag, uni-tag`
+- inputs:
+  - `label: string`
+  - `value: string | number`
+- outputs:
+  - `close: string | number`
+
+## UniTextComponent
+- selector: `uni-text, Text`
+- inputs:
+  - `typeface: Typeface` = 'title-small'
+  - `color: ColorKey`
+  - `display: OptionalDisplay`
+  - `align: OptionalTextAlign`
+  - `nowrap: boolean`
+  - `maxWidth: number`
+  - `ellipsis: boolean` = false
+
+## UniToggleComponent
+- selector: `uni-toggle, Toggle`
+- inputs:
+  - `disabled: boolean` = false
+  - `invalid: boolean` = false
+  - `dirty: boolean` = false
+  - `required: boolean` = false — Synced from required() validators by the Signal Forms [field] directive.
+  - `ariaDescribedBy: string` — Id(s) of external element(s) describing this control — typically your app-rendered error message — exposed as aria-describedby.
+  - `label: string`
+- two-way models:
+  - `checked: boolean` = false
+  - `touched: boolean` = false
+
+## UniTooltipComponent
+- selector: `uni-tooltip, Tooltip`
+- inputs:
+  - `hoverDelay: number` = 500
+  - `label: string` (required)
+  - `placement: Placement` = 'top'
+  - `inlineText: boolean` = false
+  - `appendToBody: boolean` = false
+
+## UniWrapComponent
+- selector: `div[uni-wrap-layout], Wrap, div[wrap-layout]`
+- inputs:
+  - `display: OptionalDisplay` = 'flex'
+  - `wrapItems: OptionalWrap` = 'wrap'
