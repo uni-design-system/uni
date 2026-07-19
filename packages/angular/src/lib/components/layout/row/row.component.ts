@@ -1,10 +1,10 @@
-import { Component, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 import { UniBoxComponent } from '../box/box.component';
 import type { OptionalDisplay, OptionalFlexDirection } from '@uni-design-system/uni-core';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'div[uni-row-layout], Row, div[row-layout]',
-  standalone: true,
   template: `<ng-content></ng-content>`,
 })
 export class UniRowComponent extends UniBoxComponent {

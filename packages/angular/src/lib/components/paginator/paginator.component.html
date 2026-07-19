@@ -7,7 +7,7 @@
         <input
           type="number"
           aria-label="Items per page"
-          [class]="inputClass"
+          [class]="inputClass()"
           (change)="updatePageSize($event)"
           min="1"
           [max]="ds.recordCount()"
@@ -43,7 +43,7 @@
         @if (isNumber(page)) {
           <button
             type="button"
-            [class]="pageClass"
+            [class]="pageClass()"
             [class.current]="page === ds.pageIndex() + 1"
             [attr.aria-label]="'Page ' + page"
             [attr.aria-current]="page === ds.pageIndex() + 1 ? 'page' : null"
@@ -91,7 +91,7 @@
         <input
           type="number"
           aria-label="Jump to page"
-          [class]="inputClass"
+          [class]="inputClass()"
           (change)="jumpToPage($event)"
           min="1"
           [max]="ds.pageCount()"

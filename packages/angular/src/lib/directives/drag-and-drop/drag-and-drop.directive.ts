@@ -2,7 +2,6 @@ import { Directive, output, signal } from '@angular/core';
 
 @Directive({
   selector: '[uni-drag-n-drop], [dragAndDrop]',
-  standalone: true,
   host: {
     '[style.opacity]': 'workspaceOpacity()',
     '(dragover)': 'onDragOver($event)',

@@ -1,12 +1,12 @@
 import {
   afterNextRender,
+  ChangeDetectionStrategy,
   Component,
+  computed,
   effect,
   ElementRef,
-  HostBinding,
   inject,
   input,
-  Input,
   OnDestroy,
   Renderer2,
   signal,
@@ -23,11 +23,12 @@ import { resolveFocusTarget, uniqueId, useTimer, FOCUSABLE_SELECTOR } from '../.
 
 @Component({
   selector: 'uni-tooltip, Tooltip',
-  standalone: true,
   imports: [],
   template: `<ng-content></ng-content>`,
   providers: [{ provide: COMPONENT_NAME, useValue: 'tooltip' }],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
+    '[class]': 'className()',
     '(click)': 'toggleTooltip()',
     '(mouseenter)': 'mouseenter()',
     '(mouseleave)': 'mouseleave()',
@@ -53,7 +54,7 @@ export class UniTooltipComponent extends BaseComponent<UniTooltipOptions> implem
   placement = input<Placement>('top');
   inlineText = input<boolean>(false);
 
-  @Input() appendToBody?: boolean;
+  appendToBody = input<boolean>(false);
 
   constructor() {
     super();
@@ -134,8 +135,8 @@ export class UniTooltipComponent extends BaseComponent<UniTooltipOptions> implem
     this.renderer.setAttribute(this.tooltip, 'fade', 'out');
   }
 
-  @HostBinding('class') get className() {
-    return css(
+  protected readonly className = computed(() =>
+    css(
       {
         display: 'inline-flex',
       },
@@ -144,8 +145,8 @@ export class UniTooltipComponent extends BaseComponent<UniTooltipOptions> implem
         textDecoration: 'underline',
         textDecorationStyle: 'dotted',
       }
-    );
-  }
+    )
+  );
 
   private tooltipFadeIn = keyframes({ ...fadeIn });
   private tooltipFadeOut = keyframes({ ...fadeOut });
@@ -190,7 +191,7 @@ export class UniTooltipComponent extends BaseComponent<UniTooltipOptions> implem
     );
 
     this.renderer.appendChild(
-      this.appendToBody ? document.body : this.elRef.nativeElement,
+      this.appendToBody() ? document.body : this.elRef.nativeElement,
       this.tooltip
     );
     this.renderer.addClass(this.tooltip, this.tooltipClassName);
@@ -257,16 +258,13 @@ export class UniTooltipComponent extends BaseComponent<UniTooltipOptions> implem
   }
 
   private destroyTooltip() {
-    this.renderer.removeAttribute(
-      resolveFocusTarget(this.elRef.nativeElement),
-      'aria-describedby'
-    );
+    this.renderer.removeAttribute(resolveFocusTarget(this.elRef.nativeElement), 'aria-describedby');
     this.renderer.removeChild(
-      this.appendToBody ? document.body : this.elRef.nativeElement,
+      this.appendToBody() ? document.body : this.elRef.nativeElement,
       this.tooltip
     );
     this.renderer.removeChild(
-      this.appendToBody ? document.body : this.elRef.nativeElement,
+      this.appendToBody() ? document.body : this.elRef.nativeElement,
       this.arrow
     );
     this.tooltip = null;

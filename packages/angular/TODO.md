@@ -63,39 +63,30 @@
 
 ---
 
-## Phase 2 — Signals & API modernization
+## Phase 2 — Signals & API modernization ✅ (2026-07-19)
 
-### 2.1 Purge legacy decorators (13 files)
+### 2.1 Purge legacy decorators ✅
 
-Convert `@Input()` → `input()`, `@Output() EventEmitter` → `output()` in:
+- [x] Zero `@Input`/`@Output`/`EventEmitter`/`@HostBinding`/`@HostListener` left in the library; the ESLint bans are now **errors**, so they can't come back.
+- [x] Behavior notes from the purge: Icon's `name` is now `input.required`; IconButton shows the spinner icon while `loading` (previously it hid both icons); GridArea's `area` is `input.required`.
 
-- [ ] `components/button/button.component.ts` (`symbolLeft`, `symbolRight`)
-- [ ] `components/dialog/dialog.component.ts` (`defaultCloseButton`, `showing` EventEmitter)
-- [ ] `components/dialog/dialog-buttons/dialog-buttons.component.ts`
-- [ ] `components/tooltip/tooltip.component.ts` (`appendToBody`)
-- [ ] `components/icon/icon.component.ts` / `components/icon-button/icon-button.component.ts`
-- [ ] `components/badge/badge.component.ts`
-- [ ] `components/layout/grid/grid.component.ts` + `grid-area/grid-area.component.ts`
-- [ ] `components/notifications/alert|snackbar|confirmation-dialog`
-- [ ] `cdk/notification/notification.component.ts`
+### 2.2 Reactive styling (correctness + performance) ✅
 
-### 2.2 Reactive styling (correctness + performance)
+- [x] All ~17 `@HostBinding('class')` getters → memoized `computed()` + `host: { '[class]': ... }` (Box's ~50-signal mega-getter included; subclass class-merging via distinct binding names preserved).
+- [x] All effect-written class fields → `computed()` (checkbox, toggle, radio, data-table ×7 fields, paginator, multi-select, multi-select-dropdown). Shared metric locals extracted into small private `computed()`s. Dead `displayedColumns` signal in data-table removed.
+- [x] `@HostListener` → host metadata (dialog, ripple).
+- [x] `ChangeDetectionStrategy.OnPush` on **every** component (~45 files); `prefer-on-push` lint rule now **error**.
+- [x] `menu.component.ts` `cdr.markForCheck()` removed.
+- [x] Dialog: `show` is now `model<boolean>` → `[(show)]` works; `showing` output retained (emits after open / after close-animation). Bonus: `open()`/`close()` are now idempotent (double `showModal()` used to throw).
+- [x] `symbolSize` defensive against themes without `fontSize`.
+- [x] `standalone: true` dropped from 42 files.
+- [x] `$any()` purged from all 5 templates — handlers now take the `Event` and narrow in TS.
 
-- [ ] Replace every `@HostBinding('class') get className()` getter with `protected readonly className = computed(() => css(...))` + `host: { '[class]': 'className()' }`. Getters re-run `css()` on **every CD cycle**; `computed()` memoizes and is zoneless-correct.
-- [ ] Replace the "`effect()` writes plain string fields" pattern (`checkbox.component.ts` constructor effect → `checkboxLabel`/`checkboxInput`; `data-table.component.ts` → `tableClass` etc.) with `computed()` class signals. Plain-field mutation inside `effect()` is not tracked by templates and only renders by CD coincidence.
-- [ ] Replace `@HostListener` with `host: { '(event)': ... }` metadata (`dialog.component.ts` BackdropClick/ClosingAnimation, ripple, etc.).
-- [ ] Set `changeDetection: ChangeDetectionStrategy.OnPush` on **every** component (today only Menu has it). Consider a lint rule to enforce.
-- [ ] Remove the manual `cdr.markForCheck()` in `menu.component.ts` — with signal inputs/outputs and OnPush it should be unnecessary; if state changes in `item.action()` callbacks aren't signal-backed, fix the state, not the CD.
-- [ ] `dialog.component.ts`: `show` input + internal `linkedSignal` + `showing` EventEmitter is a hand-rolled two-way binding — replace with `show = model<boolean>(false)` for `[(show)]`.
-- [ ] `button.component.ts` `symbolSize` computed crashes if the theme provides no `fontSize` (`parseFloat(undefined)` → NaN) — make it defensive.
-- [ ] Drop redundant `standalone: true` (default in v21) and unused imports (`CommonModule` in dialog imports nothing it uses).
-- [ ] Remove `$any()` casts in the 5 templates that use them — type event targets properly (small helper: `(input)="value.set(inputValue($event))"`).
+### 2.3 Signal Forms polish ✅ (decisions recorded)
 
-### 2.3 Signal Forms polish
-
-- [ ] Extract the repeated control boilerplate (`value`/`checked`, `disabled`, `touched`, `invalid`, `dirty`, `showError`, `markAsTouched`) into a shared base or helper — it's copy-pasted across all 6 form controls.
-- [ ] Add `errors` display convention: components currently compute `showError()` but render no message — decide whether controls render validation messages (via `aria-describedby`, see Phase 1) or the host app does, and document it.
-- [ ] Add `required` passthrough so `aria-required` can be set from field state.
+- [x] **Decision — keep per-control state fields explicit.** The `value/checked, disabled, touched, invalid, dirty` block is the `FormValueControl`/`FormCheckboxControl` interface contract; a shared base class would force multiple-inheritance gymnastics (several controls already extend `BaseComponent`) and hide the contract from readers/AI agents. Explicit wins.
+- [x] **Decision — error messages are the app's job.** Controls expose the state (`aria-invalid` via `showError()`) and a new `ariaDescribedBy` input on all six controls so apps can associate their own message element. Documented in ACCESSIBILITY.md.
+- [x] `required` input added to all six controls (synced by the `[field]` directive from `required()` validators) and exposed as `aria-required`.
 
 ---
 

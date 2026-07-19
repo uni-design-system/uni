@@ -3,7 +3,7 @@
 <!-- role="status" announces the message politely without stealing focus -->
 <dialog
   #snackbar
-  [class]="snackbarClass"
+  [class]="snackbarClass()"
   role="status"
   (mouseenter)="pauseTimer()"
   (mouseleave)="resumeTimer()"

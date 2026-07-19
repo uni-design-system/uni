@@ -1,4 +1,4 @@
-import { Component, EventEmitter, input, Input, Output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
 
 import {
   UniDialogButtonsComponent,
@@ -11,7 +11,7 @@ import type { Confirmation } from '../../../cdk/notification';
 
 @Component({
   selector: 'uni-confirmation-dialog, Confirmation',
-  standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     UniDialogComponent,
     UniDialogHeaderComponent,
@@ -23,6 +23,6 @@ import type { Confirmation } from '../../../cdk/notification';
 })
 export class ConfirmationDialogComponent {
   show = input(false);
-  @Input() confirmation?: Confirmation;
-  @Output() showing = new EventEmitter();
+  confirmation = input<Confirmation>();
+  showing = output<boolean>();
 }

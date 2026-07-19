@@ -1,11 +1,11 @@
-import { Component, model } from '@angular/core';
+import { ChangeDetectionStrategy, Component, model } from '@angular/core';
 import { css, keyframes } from '@emotion/css';
 import { collapseFadeOut, expandFadeIn } from '@uni-design-system/uni-core';
 import { uniqueId } from '../../cdk';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'uni-expand, Expand',
-  standalone: true,
   imports: [],
   template: `@if (!collapsed()) {
     <div

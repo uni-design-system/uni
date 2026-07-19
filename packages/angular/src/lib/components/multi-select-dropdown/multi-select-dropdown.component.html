@@ -2,6 +2,9 @@
   [class]="triggerClass"
   #trigger
   [style.cursor]="disabled() ? 'default' : 'pointer'"
+  [attr.aria-required]="required() ? true : null"
+  [attr.aria-invalid]="showError() ? true : null"
+  [attr.aria-describedby]="ariaDescribedBy() || null"
   (click)="!disabled() && touched.set(true)"
 >
   <uni-input-box [error]="showError()" [disabled]="disabled()">
@@ -36,9 +39,9 @@
     <input
       #searchInput
       type="text"
-      [class]="searchInputClass"
+      [class]="searchInputClass()"
       [value]="query()"
-      (input)="query.set($any($event.target).value)"
+      (input)="handleQueryInput($event)"
       placeholder="Search..."
       aria-label="Filter options"
       (click)="$event.stopPropagation()"
@@ -64,13 +67,6 @@
   <uni-divider [border]="componentOptions().dividerBorder" />
 
   <div row-layout gap="xs" justifyContent="space-around" padding="xs">
-    <button
-      text-button
-      (click)="dropdown.hideDropdown()"
-      size="sm"
-      variant="ghost"
-    >
-      Done
-    </button>
+    <button text-button (click)="dropdown.hideDropdown()" size="sm" variant="ghost">Done</button>
   </div>
 </uni-dropdown>

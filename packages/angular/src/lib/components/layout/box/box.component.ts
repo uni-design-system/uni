@@ -1,4 +1,4 @@
-import { Component, HostBinding, inject, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, input } from '@angular/core';
 import { css } from '@emotion/css';
 
 import type {
@@ -26,9 +26,10 @@ import { ThemeService } from '../../../theming';
 
 @Component({
   selector: 'div[uni-box-layout], Box, div[box-layout]',
-  standalone: true,
   imports: [],
   template: `<ng-content></ng-content>`,
+  host: { '[class]': 'boxClassName()' },
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class UniBoxComponent {
   theme = inject(ThemeService);
@@ -82,7 +83,7 @@ export class UniBoxComponent {
   wrapItems = input<OptionalWrap>(undefined);
   zIndex = input<ZIndexableElements>();
 
-  @HostBinding('class') get boxClassName() {
+  protected readonly boxClassName = computed(() => {
     return css([
       {
         ...this.theme.colorPair(this.color()),
@@ -160,5 +161,5 @@ export class UniBoxComponent {
           },
         },
     ]);
-  }
+  });
 }

@@ -1,9 +1,7 @@
 import {
   ChangeDetectionStrategy,
-  ChangeDetectorRef,
   Component,
-  HostBinding,
-  inject,
+  computed,
   input,
   output,
   viewChild,
@@ -18,7 +16,6 @@ import { UniDropdownComponent } from '../dropdown';
 
 @Component({
   selector: 'Menu, uni-menu',
-  standalone: true,
   imports: [UniMenuItemComponent, UniDropdownComponent],
   changeDetection: ChangeDetectionStrategy.OnPush, // Crucial for zoneless
   template: `
@@ -59,10 +56,9 @@ import { UniDropdownComponent } from '../dropdown';
       </Dropdown>
     }
   `,
+  host: { '[class]': 'className()' },
 })
 export class UniMenuComponent {
-  private cdr = inject(ChangeDetectorRef);
-
   // Modern Signal Inputs for perfect Zoneless tracking
   menuItems = input.required<MenuItem[]>();
   activeItem = input<MenuItem>();
@@ -79,12 +75,12 @@ export class UniMenuComponent {
   /** Which item receives focus when the menu opens (ArrowUp opens onto the last item). */
   private pendingFocus: 'first' | 'last' = 'first';
 
-  @HostBinding('class') get className() {
+  protected readonly className = computed(() => {
     return css({
       margin: 'unset',
       padding: 'unset',
     });
-  }
+  });
 
   handleMenuItemClick(item: MenuItem, dropdown: UniDropdownComponent) {
     if (item.action) {
@@ -93,9 +89,6 @@ export class UniMenuComponent {
 
     this.menuItemClicked.emit(item);
     dropdown.hideDropdown();
-
-    // Explicitly request a render tick if item.action() updated any internal state
-    this.cdr.markForCheck();
   }
 
   /** Enabled items participating in keyboard navigation. */

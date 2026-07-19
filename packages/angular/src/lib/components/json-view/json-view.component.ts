@@ -1,8 +1,9 @@
-import { Component, computed, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, input } from '@angular/core';
 import { css } from '@emotion/css';
 import type { AbsoluteSize } from '@uni-design-system/uni-core';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'uni-json-view',
   imports: [],
   templateUrl: './json-view.component.html',

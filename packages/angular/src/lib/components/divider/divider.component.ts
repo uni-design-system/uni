@@ -1,13 +1,14 @@
-import { Component, HostBinding, inject, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, input } from '@angular/core';
 import { css } from '@emotion/css';
 import { ThemeService } from '../../theming';
 import type { Border, Orientation } from '@uni-design-system/uni-core';
 
 @Component({
   selector: 'uni-divider, Divider',
-  standalone: true,
   imports: [],
   template: ``,
+  host: { '[class]': 'className()' },
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class UniDividerComponent {
   themeService = inject(ThemeService);
@@ -15,7 +16,7 @@ export class UniDividerComponent {
   orientation = input<Orientation>('horizontal');
   border = input<Border>('primary');
 
-  @HostBinding('class') get className() {
+  protected readonly className = computed(() => {
     return css([
       {
         display: 'block',
@@ -29,5 +30,5 @@ export class UniDividerComponent {
         height: '100%',
       },
     ]);
-  }
+  });
 }

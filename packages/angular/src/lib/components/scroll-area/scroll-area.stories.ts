@@ -1,9 +1,4 @@
-import {
-  argsToTemplate,
-  Meta,
-  moduleMetadata,
-  StoryObj,
-} from '@storybook/angular';
+import { argsToTemplate, Meta, moduleMetadata, StoryObj } from '@storybook/angular';
 import { UniButtonComponent } from '../button/button.component';
 import { UniTextComponent } from '../text/text.component';
 import { UniScrollAreaComponent as ScrollArea } from './scroll-area.component';

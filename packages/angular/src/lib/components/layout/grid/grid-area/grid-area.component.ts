@@ -1,16 +1,15 @@
-import { Component, HostBinding, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, input } from '@angular/core';
 import { css } from '@emotion/css';
 
 @Component({
   selector: 'GridArea',
-  standalone: true,
   imports: [],
   template: `<ng-content></ng-content>`,
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  host: { '[class]': 'className()' },
 })
 export class UniGridAreaComponent {
-  @Input() area!: string;
+  area = input.required<string>();
 
-  @HostBinding('class') get className() {
-    return css([{ gridArea: this.area }]);
-  }
+  protected readonly className = computed(() => css({ gridArea: this.area() }));
 }

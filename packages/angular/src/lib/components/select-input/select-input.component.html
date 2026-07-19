@@ -6,6 +6,8 @@
     (blur)="touched.set(true)"
     [attr.aria-label]="ariaLabel()"
     [attr.aria-invalid]="showError() ? true : null"
+    [attr.aria-required]="required() ? true : null"
+    [attr.aria-describedby]="ariaDescribedBy() || null"
   >
     @if (placeholder()) {
       <option [value]="UNSELECTED" disabled selected>

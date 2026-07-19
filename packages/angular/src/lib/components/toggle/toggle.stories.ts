@@ -1,9 +1,4 @@
-import {
-  argsToTemplate,
-  Meta,
-  moduleMetadata,
-  StoryObj,
-} from '@storybook/angular';
+import { argsToTemplate, Meta, moduleMetadata, StoryObj } from '@storybook/angular';
 import { UniToggleComponent as ToggleComponent } from './toggle.component';
 
 type StoryType = ToggleComponent;

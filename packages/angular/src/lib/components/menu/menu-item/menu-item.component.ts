@@ -1,5 +1,13 @@
 import { NgTemplateOutlet } from '@angular/common';
-import { Component, ElementRef, HostBinding, inject, input, TemplateRef } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  ElementRef,
+  inject,
+  input,
+  TemplateRef,
+} from '@angular/core';
 import { css } from '@emotion/css';
 
 import { UniBoxComponent } from '../../layout';
@@ -15,14 +23,15 @@ import type {
 
 @Component({
   selector: 'div[uni-menu-item], div[menu-item]',
-  standalone: true,
   imports: [UniTextComponent, UniSymbolComponent, UniBoxComponent, NgTemplateOutlet],
   templateUrl: './menu-item.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
     role: 'menuitem',
     tabindex: '-1',
     '[attr.aria-disabled]': "disabled() ? 'true' : null",
     '[attr.aria-current]': "active() ? 'true' : null",
+    '[class]': 'menuItemClassName()',
   },
   styles: [
     `
@@ -50,8 +59,8 @@ export class UniMenuItemComponent<T = any> extends UniBoxComponent {
   hoverColor = input<ContainerColorToken>('primary-container');
   disabled = input<boolean>(false);
 
-  @HostBinding('class') get className() {
-    return css([
+  protected readonly menuItemClassName = computed(() =>
+    css([
       {
         cursor: 'pointer',
         transition: 'all 0.35s ease',
@@ -63,8 +72,8 @@ export class UniMenuItemComponent<T = any> extends UniBoxComponent {
           outline: 'none',
         },
       },
-    ]);
-  }
+    ])
+  );
 
   /** Host element, used by Menu for roving-focus bookkeeping. */
   get host(): HTMLElement {

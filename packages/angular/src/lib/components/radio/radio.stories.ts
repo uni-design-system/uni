@@ -1,9 +1,4 @@
-import {
-  argsToTemplate,
-  Meta,
-  moduleMetadata,
-  StoryObj,
-} from '@storybook/angular';
+import { argsToTemplate, Meta, moduleMetadata, StoryObj } from '@storybook/angular';
 import { UniRadioComponent as RadioComponent } from './radio.component';
 
 type StoryType = RadioComponent;

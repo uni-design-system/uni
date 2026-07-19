@@ -5,7 +5,9 @@ describe('UniDialogButtonsComponent', () => {
   let fixture: ComponentFixture<UniDialogButtonsComponent>;
 
   beforeEach(async () => {
-    await TestBed.configureTestingModule({ imports: [UniDialogButtonsComponent] }).compileComponents();
+    await TestBed.configureTestingModule({
+      imports: [UniDialogButtonsComponent],
+    }).compileComponents();
     fixture = TestBed.createComponent(UniDialogButtonsComponent);
     fixture.detectChanges();
   });

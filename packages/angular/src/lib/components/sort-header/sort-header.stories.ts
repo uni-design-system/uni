@@ -19,7 +19,8 @@ const meta: Meta<StoryType> = {
       description: 'The datasource column this header sorts by.',
     },
     datasource: {
-      description: 'The UniDatasource instance whose records are sorted when the header is clicked.',
+      description:
+        'The UniDatasource instance whose records are sorted when the header is clicked.',
     },
   },
   render: (args) => {

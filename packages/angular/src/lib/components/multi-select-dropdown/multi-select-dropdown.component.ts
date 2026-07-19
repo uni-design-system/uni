@@ -1,12 +1,4 @@
-import {
-  Component,
-  computed,
-  effect,
-  HostBinding,
-  input,
-  model,
-  signal,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, input, model, signal } from '@angular/core';
 import { FormValueControl } from '@angular/forms/signals';
 import { css } from '@emotion/css';
 import { Option, type Options } from '../../cdk';
@@ -38,12 +30,14 @@ import { UniMultiSelectDropdownOptions } from './multi-select-dropdown.model';
   ],
   templateUrl: './multi-select-dropdown.component.html',
   providers: [{ provide: COMPONENT_NAME, useValue: 'multiSelectDropdown' }],
+  host: { '[class]': 'className' },
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class UniMultiSelectDropdownComponent<T = unknown>
   extends BaseComponent<UniMultiSelectDropdownOptions>
   implements FormValueControl<T[]>
 {
-  @HostBinding('class') className = css({ display: 'contents' });
+  protected readonly className = css({ display: 'contents' });
 
   // --- REQUIRED SIGNALS (populated by FormValueControl) ---
   readonly value = model<T[]>([]);
@@ -51,6 +45,15 @@ export class UniMultiSelectDropdownComponent<T = unknown>
   readonly touched = model(false);
   readonly invalid = input(false);
   readonly dirty = input(false);
+
+  /** Synced from required() validators by the Signal Forms [field] directive. */
+  readonly required = input(false);
+
+  /**
+   * Id(s) of external element(s) describing this control — typically your
+   * app-rendered error message — exposed as aria-describedby.
+   */
+  readonly ariaDescribedBy = input<string>();
 
   // --- CONFIGURATION ---
   readonly options = input.required<Options<T>>();
@@ -76,9 +79,7 @@ export class UniMultiSelectDropdownComponent<T = unknown>
     return labels.length > 0 ? labels.join(', ') : this.placeholder();
   });
 
-  protected readonly showError = computed(
-    () => this.invalid() && (this.touched() || this.dirty())
-  );
+  protected readonly showError = computed(() => this.invalid() && (this.touched() || this.dirty()));
 
   protected readonly textColor = computed(() => {
     return this.selectedLabelsText() === this.placeholder()
@@ -98,26 +99,24 @@ export class UniMultiSelectDropdownComponent<T = unknown>
     },
   });
 
-  searchInputClass!: string;
+  protected readonly searchInputClass = computed(() =>
+    css({
+      ...removeInputPlatformStyling,
+      ...this.theme.border(this.componentOptions().searchInputBorder),
+      ...this.theme.radius(this.componentOptions().searchInputBorderRadius),
+      paddingBlock: 4,
+      paddingInline: 8,
+      width: 'auto',
 
-  constructor() {
-    super();
+      '&:focus': {
+        outline: this.componentOptions().focusOutline,
+        outlineOffset: this.componentOptions().focusOutlineOffset,
+      },
+    })
+  );
 
-    effect(() => {
-      this.searchInputClass = css({
-        ...removeInputPlatformStyling,
-        ...this.theme.border(this.componentOptions().searchInputBorder),
-        ...this.theme.radius(this.componentOptions().searchInputBorderRadius),
-        paddingBlock: 4,
-        paddingInline: 8,
-        width: 'auto',
-
-        '&:focus': {
-          outline: this.componentOptions().focusOutline,
-          outlineOffset: this.componentOptions().focusOutlineOffset,
-        },
-      });
-    });
+  protected handleQueryInput(event: Event) {
+    this.query.set((event.target as HTMLInputElement).value);
   }
 
   selectAll() {

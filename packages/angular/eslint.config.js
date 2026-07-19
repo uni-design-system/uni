@@ -27,10 +27,9 @@ export default tseslint.config(
       // Emotion's injectGlobal is a tagged template used for its side effect
       '@typescript-eslint/no-unused-expressions': ['error', { allowTaggedTemplates: true }],
 
-      // Signals-first API surface: legacy decorators are being purged (Phase 2).
-      // Currently 'warn' — flip each to 'error' as the purge lands.
+      // Signals-first API surface: legacy decorators are banned (purged in Phase 2)
       'no-restricted-syntax': [
-        'warn',
+        'error',
         {
           selector: 'Decorator[expression.callee.name="Input"]',
           message: 'Use the input() signal primitive instead of @Input().',
@@ -48,7 +47,7 @@ export default tseslint.config(
           message: 'Use the host metadata instead of @HostListener().',
         },
       ],
-      '@angular-eslint/prefer-on-push-component-change-detection': 'warn',
+      '@angular-eslint/prefer-on-push-component-change-detection': 'error',
       '@angular-eslint/prefer-standalone': 'error',
     },
   },

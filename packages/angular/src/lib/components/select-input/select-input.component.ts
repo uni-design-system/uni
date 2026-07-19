@@ -1,4 +1,4 @@
-import { Component, computed, input, model } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, input, model } from '@angular/core';
 import { FormValueControl } from '@angular/forms/signals';
 import { css } from '@emotion/css';
 import type { Options } from '../../cdk';
@@ -6,6 +6,7 @@ import { UniInputBoxComponent } from '../input-box/input-box.component';
 import { UniSymbolComponent } from '../symbol';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'uni-select, SelectInput',
   imports: [UniInputBoxComponent, UniSymbolComponent],
   templateUrl: './select-input.component.html',
@@ -17,6 +18,15 @@ export class UniSelectComponent<T> implements FormValueControl<T | null> {
   readonly touched = model(false);
   readonly invalid = input(false);
   readonly dirty = input(false);
+
+  /** Synced from required() validators by the Signal Forms [field] directive. */
+  readonly required = input(false);
+
+  /**
+   * Id(s) of external element(s) describing this control — typically your
+   * app-rendered error message — exposed as aria-describedby.
+   */
+  readonly ariaDescribedBy = input<string>();
 
   // --- CONFIGURATION ---
   readonly options = input<Options<T>>([]);
@@ -40,9 +50,7 @@ export class UniSelectComponent<T> implements FormValueControl<T | null> {
     return index.toString();
   });
 
-  protected readonly showError = computed(
-    () => this.invalid() && (this.touched() || this.dirty())
-  );
+  protected readonly showError = computed(() => this.invalid() && (this.touched() || this.dirty()));
 
   protected handleSelectChange(event: Event): void {
     const select = event.target as HTMLSelectElement;

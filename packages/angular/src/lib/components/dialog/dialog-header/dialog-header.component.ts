@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { BaseComponent } from '../../base';
 import { COMPONENT_NAME } from '../../base/base.component';
 import { UniIconButtonComponent } from '../../icon-button';
@@ -8,8 +8,8 @@ import { UniDialogComponent } from '../dialog.component';
 import type { UniDialogHeaderOptions } from './dialog-header.model';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'div[uni-dialog-header], DialogHeader',
-  standalone: true,
   imports: [UniBoxComponent, UniIconButtonComponent, UniTextComponent, UniRowComponent],
   templateUrl: './dialog-header.component.html',
   providers: [{ provide: COMPONENT_NAME, useValue: 'dialogHeader' }],

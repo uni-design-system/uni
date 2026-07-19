@@ -1,4 +1,4 @@
-import { Component, computed, effect, input, model } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, input, model } from '@angular/core';
 import { FormValueControl } from '@angular/forms/signals';
 import { css } from '@emotion/css';
 import type { ColorToken } from '@uni-design-system/uni-core';
@@ -10,25 +10,30 @@ import { uniqueId } from '../../cdk';
 
 @Component({
   selector: 'uni-radio, Radio',
-  standalone: true,
   imports: [UniTextComponent],
   templateUrl: './radio.component.html',
   providers: [{ provide: COMPONENT_NAME, useValue: 'radio' }],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class UniRadioComponent
   extends BaseComponent<UniRadioOptions>
   implements FormValueControl<string>
 {
-  radioGroupClass!: string;
-  radioOptionClass!: string;
-  radioInputClass!: string;
-
   // --- REQUIRED SIGNALS (populated by FormValueControl) ---
   readonly value = model<string>('');
   readonly disabled = input(false);
   readonly touched = model(false);
   readonly invalid = input(false);
   readonly dirty = input(false);
+
+  /** Synced from required() validators by the Signal Forms [field] directive. */
+  readonly required = input(false);
+
+  /**
+   * Id(s) of external element(s) describing this control — typically your
+   * app-rendered error message — exposed as aria-describedby.
+   */
+  readonly ariaDescribedBy = input<string>();
 
   // --- CONFIGURATION ---
   readonly options = input<UniRadioOption[]>([]);
@@ -40,98 +45,100 @@ export class UniRadioComponent
   protected readonly groupLabelId = uniqueId('uni-radio-label');
 
   // Only show errors if the user has actually interacted with the field
-  protected readonly showError = computed(
-    () => this.invalid() && (this.touched() || this.dirty())
-  );
+  protected readonly showError = computed(() => this.invalid() && (this.touched() || this.dirty()));
 
   markAsTouched() {
     this.touched.set(true);
   }
 
-  constructor() {
-    super();
+  private readonly metrics = computed(() => {
+    const radioSize = (this.componentOptions().size as number) || 20;
+    const innerCircleSize = radioSize * 0.6;
+    return {
+      outerCircleSize: radioSize,
+      innerCircleSize,
+      innerCircleOffset: (radioSize - innerCircleSize) / 2,
+    };
+  });
 
-    effect(() => {
-      const radioSize = this.componentOptions().size || 20;
-      const outerCircleSize = radioSize;
-      const innerCircleSize = radioSize * 0.6;
-      const innerCircleOffset = (radioSize - innerCircleSize) / 2;
+  protected readonly radioGroupClass = css({
+    display: 'flex',
+    flexDirection: 'column',
+    gap: 12,
+  });
 
-      this.radioGroupClass = css({
-        display: 'flex',
-        flexDirection: 'column',
-        gap: 12,
-      });
+  protected readonly radioOptionClass = computed(() => {
+    const { outerCircleSize, innerCircleSize, innerCircleOffset } = this.metrics();
+    return css({
+      userSelect: 'none',
+      cursor: this.disabled() ? 'not-allowed' : 'pointer',
+      display: 'flex',
+      alignItems: 'center',
+      gap: 8,
+      opacity: this.disabled() ? 0.6 : 1,
 
-      this.radioOptionClass = css({
-        userSelect: 'none',
-        cursor: this.disabled() ? 'not-allowed' : 'pointer',
-        display: 'flex',
-        alignItems: 'center',
-        gap: 8,
-        opacity: this.disabled() ? 0.6 : 1,
+      '& .radio-button': {
+        width: outerCircleSize,
+        height: outerCircleSize,
+        borderRadius: '50%',
+        border: `2px solid ${this.disabled() ? '#ccc' : '#d0d0d0'}`,
+        position: 'relative',
+        transition: 'all 0.3s ease',
+        backgroundColor: '#fff',
+        flexShrink: 0,
+      },
+
+      '& .radio-inner': {
+        width: innerCircleSize,
+        height: innerCircleSize,
+        borderRadius: '50%',
+        backgroundColor: this.getThemeColor(this.variant()),
+        position: 'absolute',
+        top: innerCircleOffset,
+        left: innerCircleOffset,
+        transform: 'scale(0)',
+        transition: 'all 0.3s ease',
+      },
+
+      '&:hover .radio-button': this.disabled()
+        ? {}
+        : {
+            borderColor: this.getThemeColor(this.variant()),
+          },
+
+      '&.disabled': {
+        cursor: 'not-allowed',
+        opacity: 0.6,
 
         '& .radio-button': {
-          width: outerCircleSize,
-          height: outerCircleSize,
-          borderRadius: '50%',
-          border: `2px solid ${this.disabled() ? '#ccc' : '#d0d0d0'}`,
-          position: 'relative',
-          transition: 'all 0.3s ease',
-          backgroundColor: '#fff',
-          flexShrink: 0,
+          borderColor: '#ccc',
         },
-
-        '& .radio-inner': {
-          width: innerCircleSize,
-          height: innerCircleSize,
-          borderRadius: '50%',
-          backgroundColor: this.getThemeColor(this.variant()),
-          position: 'absolute',
-          top: innerCircleOffset,
-          left: innerCircleOffset,
-          transform: 'scale(0)',
-          transition: 'all 0.3s ease',
-        },
-
-        '&:hover .radio-button': this.disabled()
-          ? {}
-          : {
-              borderColor: this.getThemeColor(this.variant()),
-            },
-
-        '&.disabled': {
-          cursor: 'not-allowed',
-          opacity: 0.6,
-
-          '& .radio-button': {
-            borderColor: '#ccc',
-          },
-        },
-      });
-
-      this.radioInputClass = css({
-        position: 'absolute',
-        zIndex: -1,
-        width: 0,
-        height: 0,
-        opacity: 0,
-
-        '&:checked + .radio-button': {
-          borderColor: this.getThemeColor(this.variant()),
-        },
-
-        '&:checked + .radio-button .radio-inner': {
-          transform: 'scale(1)',
-        },
-
-        '&:focus + .radio-button': {
-          outline: `2px solid ${this.getThemeColor(this.variant())}`,
-          outlineOffset: '2px',
-        },
-      });
+      },
     });
-  }
+  });
+
+  protected readonly radioInputClass = computed(() =>
+    css({
+      position: 'absolute',
+      zIndex: -1,
+      width: 0,
+      height: 0,
+      opacity: 0,
+
+      '&:checked + .radio-button': {
+        borderColor: this.getThemeColor(this.variant()),
+      },
+
+      '&:checked + .radio-button .radio-inner': {
+        transform: 'scale(1)',
+      },
+
+      '&:focus + .radio-button': {
+        outline: `2px solid ${this.getThemeColor(this.variant())}`,
+        outlineOffset: '2px',
+      },
+    })
+  );
 
   handleRadioChange(optionValue: string) {
     this.value.set(optionValue);

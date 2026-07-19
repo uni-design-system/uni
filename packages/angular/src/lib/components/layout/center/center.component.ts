@@ -1,4 +1,4 @@
-import { Component, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 import { UniBoxComponent } from '../box/box.component';
 import type {
   OptionalAlignItems,
@@ -7,8 +7,8 @@ import type {
 } from '@uni-design-system/uni-core';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'div[uni-center-layout], div[center-layout]',
-  standalone: true,
   imports: [],
   template: `<ng-content></ng-content>`,
 })

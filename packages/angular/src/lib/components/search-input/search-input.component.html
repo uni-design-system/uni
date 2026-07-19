@@ -20,12 +20,7 @@
   >
     <DebounceInput (change)="handleSearchInput($event)" #searchInput />
   </Box>
-  <button
-    icon-button
-    iconName="search"
-    variant="ghost"
-    (click)="handleSearch(searchInput.value())"
-  >
+  <button icon-button iconName="search" variant="ghost" (click)="handleSearch(searchInput.value())">
     Search
   </button>
 </Box>

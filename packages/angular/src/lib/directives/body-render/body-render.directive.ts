@@ -1,7 +1,6 @@
 import { Directive, ElementRef, inject, OnInit, Renderer2 } from '@angular/core';
 
 @Directive({
-  standalone: true,
   selector: '[uniBodyRender]',
 })
 export class BodyRenderDirective implements OnInit {

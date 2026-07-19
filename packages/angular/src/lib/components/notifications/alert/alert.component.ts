@@ -1,13 +1,13 @@
 import {
   AfterViewInit,
+  ChangeDetectionStrategy,
   Component,
   computed,
   effect,
   ElementRef,
-  EventEmitter,
   input,
   model,
-  Output,
+  output,
   signal,
   ViewChild,
 } from '@angular/core';
@@ -27,7 +27,6 @@ import type { UniAlertOptions } from './alert.model';
 
 @Component({
   selector: 'uni-alert, Alert',
-  standalone: true,
   imports: [
     UniRowComponent,
     UniIconButtonComponent,
@@ -38,6 +37,7 @@ import type { UniAlertOptions } from './alert.model';
   ],
   templateUrl: './alert.component.html',
   providers: [{ provide: COMPONENT_NAME, useValue: 'alert' }],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class UniAlertComponent extends BaseComponent<UniAlertOptions> implements AfterViewInit {
   show = model<boolean>();
@@ -45,7 +45,7 @@ export class UniAlertComponent extends BaseComponent<UniAlertOptions> implements
   symbolName = input<string | undefined>(undefined);
   useVariant = input<boolean>(false);
 
-  @Output() showing = new EventEmitter<boolean>();
+  showing = output<boolean>();
 
   @ViewChild('alert') alertRef?: ElementRef<HTMLDialogElement>;
 

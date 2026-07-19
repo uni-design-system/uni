@@ -1,4 +1,5 @@
 import {
+  ChangeDetectionStrategy,
   Component,
   ElementRef,
   inject,
@@ -16,8 +17,8 @@ import { ThemeService } from '../../theming';
 import { Placement } from '../tooltip/tooltip.types';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'uni-popover, Popover',
-  standalone: true,
   imports: [BodyRenderDirective],
   templateUrl: './popover.component.html',
 })

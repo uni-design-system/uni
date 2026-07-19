@@ -1,10 +1,12 @@
 // https://css-tricks.com/how-to-recreate-the-ripple-effect-of-material-design-buttons/
-import { Directive, ElementRef, HostListener, inject, Renderer2 } from '@angular/core';
+import { Directive, ElementRef, inject, Renderer2 } from '@angular/core';
 import { css } from '@emotion/css';
 
 @Directive({
   selector: '[uniRipple]',
-  standalone: true,
+  host: {
+    '(click)': 'onClick($event)',
+  },
 })
 export class RippleDirective {
   private renderer = inject(Renderer2);
@@ -16,7 +18,7 @@ export class RippleDirective {
     this.hostEl = this.el.nativeElement;
   }
 
-  @HostListener('click', ['$event']) onClick(e: MouseEvent) {
+  onClick(e: MouseEvent) {
     if (!e) return;
     let ripple, d;
     if (this.hostEl.querySelector(`.${this.rippleClass}`) === null) {

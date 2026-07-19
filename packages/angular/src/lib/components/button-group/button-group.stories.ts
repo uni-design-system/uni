@@ -1,9 +1,4 @@
-import {
-  argsToTemplate,
-  Meta,
-  moduleMetadata,
-  StoryObj,
-} from '@storybook/angular';
+import { argsToTemplate, Meta, moduleMetadata, StoryObj } from '@storybook/angular';
 import { UniIconButtonComponent } from '../icon-button/icon-button.component';
 import { UniButtonGroupComponent as ButtonGroup } from './button-group.component';
 

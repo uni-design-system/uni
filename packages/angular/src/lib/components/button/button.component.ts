@@ -1,4 +1,4 @@
-import { Component, computed, HostBinding, input, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, input } from '@angular/core';
 import { css } from '@emotion/css';
 
 import { BaseComponent, COMPONENT_NAME } from '../base/base.component';
@@ -12,14 +12,15 @@ import { RippleDirective } from '../../directives/ripple';
   template: `@if (loading()) {
       <Box [class]="spinnerBox"><uni-icon name="spinner" /></Box>
     }
-    @if (symbolLeft) {
-      <Symbol [name]="symbolLeft" class="symbolLeft" />
+    @if (symbolLeft()) {
+      <Symbol [name]="symbolLeft()!" class="symbolLeft" />
     }
     <span><ng-content></ng-content></span>
-    @if (symbolRight) {
-      <Symbol [name]="symbolRight" class="symbolRight" />
+    @if (symbolRight()) {
+      <Symbol [name]="symbolRight()!" class="symbolRight" />
     } `,
   providers: [{ provide: COMPONENT_NAME, useValue: 'button' }],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     RippleDirective, // Keep this import
     UniIconComponent,
@@ -29,6 +30,7 @@ import { RippleDirective } from '../../directives/ripple';
   host: {
     '[attr.disabled]': 'disable() || loading() || null',
     '[attr.aria-busy]': "loading() ? 'true' : null",
+    '[class]': 'className()',
   },
   hostDirectives: [{ directive: RippleDirective }],
 })
@@ -37,8 +39,8 @@ export class UniButtonComponent extends BaseComponent {
   readonly loading = input<boolean | undefined>(false);
   readonly fullWidth = input<boolean>(false);
 
-  @Input() symbolLeft?: string;
-  @Input() symbolRight?: string;
+  readonly symbolLeft = input<string>();
+  readonly symbolRight = input<string>();
 
   spinnerBox = css({
     position: 'absolute',
@@ -49,8 +51,8 @@ export class UniButtonComponent extends BaseComponent {
     paddingBottom: '6%',
   });
 
-  @HostBinding('class') get className() {
-    return css([
+  protected readonly className = computed(() =>
+    css([
       this.style() && {
         ...this.style(), // TODO: Set priority on theme-defined styles
       },
@@ -117,13 +119,12 @@ export class UniButtonComponent extends BaseComponent {
           opacity: 0,
         },
       },
-    ]);
-  }
+    ])
+  );
 
   symbolSize = computed(() => {
-    const style = this.style();
-    const fontString = style['fontSize'] as string;
-    const fontSize = parseFloat(fontString);
-    return fontSize + 4;
+    const fontSize = parseFloat(String(this.style()['fontSize'] ?? ''));
+    // Fall back to the default icon size when the theme defines no fontSize
+    return (Number.isNaN(fontSize) ? 16 : fontSize) + 4;
   });
 }

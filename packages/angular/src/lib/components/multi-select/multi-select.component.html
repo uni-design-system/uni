@@ -1,14 +1,9 @@
-<div
-  box-layout
-  display="flex"
-  [flexDirection]="flexDirection()"
-  [gap]="checkboxGap()"
->
+<div box-layout display="flex" [flexDirection]="flexDirection()" [gap]="checkboxGap()">
   @for (option of options(); track option) {
     <div [class]="optionWrapper">
       <uni-checkbox
         [label]="option.label"
-        [checked]="values.indexOf(option.value) > -1"
+        [checked]="values().indexOf(option.value) > -1"
         (checkedChange)="handleCheck($event, option.value)"
         variant="primary"
       >

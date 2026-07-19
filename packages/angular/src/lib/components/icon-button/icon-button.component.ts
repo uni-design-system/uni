@@ -1,12 +1,4 @@
-import {
-  Component,
-  HostBinding,
-  inject,
-  input,
-  Input,
-  OnChanges,
-  SimpleChanges,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, input } from '@angular/core';
 import { css } from '@emotion/css';
 
 import { type IconName } from '../icon/icon.record';
@@ -19,30 +11,28 @@ import type { Size, Variant } from '@uni-design-system/uni-core';
 
 @Component({
   selector: 'button[uni-icon-button], button[icon-button]',
-  standalone: true,
-  imports: [
-    RippleDirective,
-    UniSymbolComponent,
-    UniIconComponent,
-    // Keep this import
-  ],
+  imports: [UniSymbolComponent, UniIconComponent],
   template: `
-    @if (symbolName && !loading) {
-      <Symbol [name]="symbolName" [opticalSize]="opticalSize" />
-    } @else if (iconName && !loading) {
-      <Icon [name]="iconName" />
+    @if (loading()) {
+      <Icon name="spinner" />
+    } @else if (symbolName()) {
+      <Symbol [name]="symbolName()!" [opticalSize]="opticalSize()" />
+    } @else if (iconName()) {
+      <Icon [name]="iconName()!" />
     }
     <!-- Projected text is the button's accessible name (visually hidden) -->
     <span [class]="srOnlyClass"><ng-content /></span>
   `,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
-    '[attr.disabled]': 'disable || loading || null',
-    '[attr.aria-busy]': "loading ? 'true' : null",
+    '[attr.disabled]': 'disable() || loading() || null',
+    '[attr.aria-busy]': "loading() ? 'true' : null",
     '[attr.aria-label]': 'ariaLabel() || null',
+    '[class]': 'className()',
   },
   hostDirectives: [{ directive: RippleDirective }],
 })
-export class UniIconButtonComponent implements OnChanges {
+export class UniIconButtonComponent {
   private theme = inject(ThemeService);
   config = this.theme.component('iconButton');
 
@@ -53,20 +43,20 @@ export class UniIconButtonComponent implements OnChanges {
    */
   ariaLabel = input<string>();
 
+  iconName = input<IconName>();
+  symbolName = input<string>();
+  variant = input<Variant>('ghost');
+  size = input<Size>('lg');
+  disable = input<boolean>();
+  loading = input<boolean>();
+  opticalSize = input(24);
+
   protected readonly srOnlyClass = css(visuallyHidden);
 
-  @Input() iconName?: IconName;
-  @Input() symbolName?: string;
-  @Input() variant: Variant = 'ghost';
-  @Input() size: Size = 'lg';
-  @Input() disable?: boolean;
-  @Input() loading?: boolean;
-  @Input() opticalSize = 24;
-
-  @HostBinding('class') get className() {
+  protected readonly className = computed(() => {
     const { sizes, colors } = this.config();
-    const sizeConfig = sizes && sizes[this.size];
-    const colorConfig = colors && colors[this.variant];
+    const sizeConfig = sizes && sizes[this.size()];
+    const colorConfig = colors && colors[this.variant()];
 
     return css([
       {
@@ -94,29 +84,25 @@ export class UniIconButtonComponent implements OnChanges {
       colorConfig && {
         ...colorConfig,
       },
-      this.symbolName &&
-        !this.loading && {
+      this.symbolName() &&
+        !this.loading() && {
           padding: 0,
         },
-      this.variant !== 'ghost' && {
+      this.variant() !== 'ghost' && {
         '&:hover': {
           ...this.theme.boxShadow('raised'),
         },
       },
-      this.variant === 'ghost' && {
+      this.variant() === 'ghost' && {
         '&:hover': {
           backgroundColor: 'rgba(0,0,0,0.1)',
         },
       },
-      !this.loading && {
+      !this.loading() && {
         '&:disabled': {
           ...this.config().colors?.disabled,
         },
       },
     ]);
-  }
-
-  ngOnChanges(_changes: SimpleChanges) {
-    if (this.loading) this.iconName = 'spinner';
-  }
+  });
 }

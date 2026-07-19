@@ -1,4 +1,4 @@
-import { Component, computed, HostBinding, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, input } from '@angular/core';
 import { css } from '@emotion/css';
 import { type UniDatasource, SortDirection } from '../../cdk';
 import { UniSymbolComponent } from '../symbol/symbol.component';
@@ -7,7 +7,8 @@ import { UniSymbolComponent } from '../symbol/symbol.component';
   selector: 'uni-sort-header',
   imports: [UniSymbolComponent],
   templateUrl: './sort-header.component.html',
-  standalone: true,
+  host: { '[class]': 'className()' },
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class UniSortHeaderComponent<T> {
   column = input<keyof T>();
@@ -32,8 +33,7 @@ export class UniSortHeaderComponent<T> {
     return ds.sortColumn() === this.column() ? ds.sortDirection() : 'indet';
   });
 
-  @HostBinding('class')
-  get className() {
+  protected readonly className = computed(() => {
     return css({
       cursor: 'pointer',
       position: 'relative',
@@ -59,7 +59,7 @@ export class UniSortHeaderComponent<T> {
         transform: 'rotate(0)',
       },
     });
-  }
+  });
 
   cycleSort() {
     const cycle: SortDirection[] = ['asc', 'desc', 'indet'];

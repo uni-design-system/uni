@@ -1,17 +1,18 @@
-import { Component, HostBinding, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
 import { css } from '@emotion/css';
 import { ThemeService } from '../../theming';
 
 @Component({
   selector: 'uni-button-group, ButtonGroup',
-  standalone: true,
   imports: [],
   template: ` <ng-content></ng-content>`,
+  host: { '[class]': 'className()' },
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class UniButtonGroupComponent {
   private themeService = inject(ThemeService);
 
-  @HostBinding('class') get className() {
+  protected readonly className = computed(() => {
     return css({
       display: 'inline-flex',
 
@@ -42,5 +43,5 @@ export class UniButtonGroupComponent {
         marginRight: 0,
       },
     });
-  }
+  });
 }

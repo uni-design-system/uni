@@ -4,5 +4,5 @@
   [name]="inputName()"
   [id]="inputId()"
   [value]="value() ?? ''"
-  (input)="handleInput($any($event.target).value)"
+  (input)="handleInput($event)"
 />

@@ -1,12 +1,19 @@
-import { Component, computed, effect, inject, signal } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  effect,
+  inject,
+  signal,
+} from '@angular/core';
 import { Alert, Confirmation, NotificationService, Snackbar } from '../../../cdk';
 import { UniAlertComponent } from '../alert/alert.component';
 import { ConfirmationDialogComponent } from '../confirmation-dialog/confirmation-dialog.component';
 import { UniSnackbarComponent } from '../snackbar/snackbar.component';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'uni-notifications, Notifications',
-  standalone: true,
   imports: [UniAlertComponent, UniSnackbarComponent, ConfirmationDialogComponent],
   templateUrl: './notifications.component.html',
 })

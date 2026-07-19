@@ -12,8 +12,7 @@ const meta: Meta<StoryType> = {
         'The JSON data to be displayed. This can be any valid JavaScript object or array that can be serialized to JSON.\n',
     },
     rows: {
-      description:
-        'Sets the number of visible rows in the textarea. Default is 6 rows.\n',
+      description: 'Sets the number of visible rows in the textarea. Default is 6 rows.\n',
     },
     fontSize: {
       description:

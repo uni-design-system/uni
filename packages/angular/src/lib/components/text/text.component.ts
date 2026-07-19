@@ -1,4 +1,4 @@
-import { Component, HostBinding, inject, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, input } from '@angular/core';
 import { css } from '@emotion/css';
 
 import type {
@@ -11,9 +11,10 @@ import { ThemeService } from '../../theming';
 
 @Component({
   selector: 'uni-text, Text',
-  standalone: true,
   imports: [],
   template: '<ng-content></ng-content>',
+  host: { '[class]': 'className()' },
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class UniTextComponent {
   theme = inject(ThemeService);
@@ -26,7 +27,7 @@ export class UniTextComponent {
   maxWidth = input<number>();
   ellipsis = input<boolean>(false);
 
-  @HostBinding('class') get className() {
+  protected readonly className = computed(() => {
     return css([
       {
         ...this.theme.typeface(this.typeface()),
@@ -53,5 +54,5 @@ export class UniTextComponent {
         minWidth: 0,
       },
     ]);
-  }
+  });
 }

@@ -36,8 +36,7 @@ const meta: Meta<StoryType> = {
     // Status Inputs
     disabled: {
       control: 'boolean',
-      description:
-        'Whether the select input is disabled (input signal). Default: false',
+      description: 'Whether the select input is disabled (input signal). Default: false',
     },
     touched: {
       control: 'boolean',
@@ -46,8 +45,7 @@ const meta: Meta<StoryType> = {
     },
     invalid: {
       control: 'boolean',
-      description:
-        'Whether the select input is in an invalid state (input signal). Default: false',
+      description: 'Whether the select input is in an invalid state (input signal). Default: false',
     },
     dirty: {
       control: 'boolean',

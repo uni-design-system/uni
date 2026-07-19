@@ -22,8 +22,7 @@ const meta: Meta<UniTagComponent> = {
     },
     // Output properties
     close: {
-      description:
-        "Event emitted when the tag's close button is clicked, emits the tag's value",
+      description: "Event emitted when the tag's close button is clicked, emits the tag's value",
       control: false,
       table: {
         type: { summary: 'event' },
@@ -35,8 +34,7 @@ const meta: Meta<UniTagComponent> = {
     value: '1',
   },
   parameters: {
-    componentSubtitle:
-      'A compact component for displaying deletable labels or categories',
+    componentSubtitle: 'A compact component for displaying deletable labels or categories',
     docs: {
       description: {
         component: `

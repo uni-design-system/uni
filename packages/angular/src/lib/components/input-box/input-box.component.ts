@@ -1,4 +1,4 @@
-import { Component, computed, HostBinding, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, input } from '@angular/core';
 import { css } from '@emotion/css';
 import { removeInputPlatformStyling } from '@uni-design-system/uni-core';
 import { BaseComponent } from '../base';
@@ -11,9 +11,11 @@ import type { UniInputBoxOptions } from './input-box.model';
   imports: [UniRowComponent],
   templateUrl: './input-box.component.html',
   providers: [{ provide: COMPONENT_NAME, useValue: 'input' }],
+  host: { '[class]': 'className' },
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class UniInputBoxComponent extends BaseComponent<UniInputBoxOptions> {
-  @HostBinding('class') className = css({ display: 'contents' });
+  protected readonly className = css({ display: 'contents' });
 
   disabled = input<boolean>(false);
   error = input<boolean>(false);

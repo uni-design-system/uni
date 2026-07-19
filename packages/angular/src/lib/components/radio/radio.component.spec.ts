@@ -24,7 +24,9 @@ describe('UniRadioComponent', () => {
     expect(group).not.toBeNull();
     const labelledBy = group.getAttribute('aria-labelledby')!;
     expect(labelledBy).toBeTruthy();
-    expect(document.getElementById(labelledBy) ?? group.querySelector(`#${labelledBy}`)).toBeTruthy();
+    expect(
+      document.getElementById(labelledBy) ?? group.querySelector(`#${labelledBy}`)
+    ).toBeTruthy();
   });
 
   it('generates a unique group name per instance', () => {

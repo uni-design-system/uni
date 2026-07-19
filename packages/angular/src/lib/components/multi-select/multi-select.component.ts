@@ -1,4 +1,4 @@
-import { Component, effect, HostBinding, input, output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, input, output } from '@angular/core';
 import { css } from '@emotion/css';
 
 import { Option } from '../../cdk';
@@ -10,6 +10,8 @@ import { UniCheckboxComponent } from '../checkbox/checkbox.component';
   selector: 'uni-multi-select, MultiSelect',
   imports: [UniCheckboxComponent, UniBoxComponent],
   templateUrl: './multi-select.component.html',
+  host: { '[class]': 'className' },
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class UniMultiSelectComponent<T = unknown> {
   // Data Inputs
@@ -21,20 +23,16 @@ export class UniMultiSelectComponent<T = unknown> {
   flexDirection = input<'row' | 'row-reverse' | 'column' | 'column-reverse'>('column');
   checkboxGap = input<NullableSize | undefined>('sm');
 
-  optionsWithSelections: Option<T>[] = [];
-  values: unknown[] = [];
+  protected readonly values = computed<unknown[]>(() => this.selections() || []);
 
-  @HostBinding('class') className = css({ display: 'contents' });
+  protected readonly optionsWithSelections = computed<Option<T>[]>(() =>
+    this.options().map((option) => ({
+      ...option,
+      selected: this.values().includes(option.value),
+    }))
+  );
 
-  constructor() {
-    effect(() => {
-      this.values = this.selections() || [];
-      this.optionsWithSelections = this.options().map((option) => ({
-        ...option,
-        selected: this.values.includes(option.value),
-      }));
-    });
-  }
+  protected readonly className = css({ display: 'contents' });
 
   handleCheck(checked: boolean, value: T) {
     const selections = this.selections();

@@ -1,4 +1,5 @@
 import {
+  ChangeDetectionStrategy,
   Component,
   computed,
   ElementRef,
@@ -31,8 +32,8 @@ import { resolveFocusTarget, uniqueId } from '../../cdk';
 export type AriaHasPopup = 'menu' | 'listbox' | 'dialog' | 'grid' | 'tree' | 'true';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'uni-dropdown, Dropdown',
-  standalone: true,
   imports: [UniBoxComponent],
   template: `
     <!-- 1. The native 'popover' attribute brings it to the top layer with native light-dismiss -->

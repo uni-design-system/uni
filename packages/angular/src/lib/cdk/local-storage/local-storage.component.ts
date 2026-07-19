@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { LocalStorageService } from '../../../lib/cdk';
 import {
   UniButtonComponent,
@@ -8,6 +8,7 @@ import {
 } from '../../components';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'uni-local-storage-story-component, local-storage-story-component',
   template: `<div stack-layout gap="md">
     <div row-layout gap="lg">
@@ -28,7 +29,6 @@ import {
       <textarea rows="8" cols="80" readonly>{{ displayContent }}</textarea>
     </div>
   </div>`,
-  standalone: true,
   imports: [UniButtonComponent, UniRowComponent, UniTextComponent, UniStackComponent],
 })
 export class LocalStorageStoryComponent {

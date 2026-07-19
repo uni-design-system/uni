@@ -1,4 +1,4 @@
-import { Component, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
 
 import { useTimer } from './timer';
 import {
@@ -9,6 +9,7 @@ import {
 } from '../../components';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'uni-timer-story-component, timer-story-component',
   template: ` <div stack-layout gap="md">
     <div row-layout gap="lg">
@@ -43,7 +44,6 @@ import {
       <textarea rows="8" cols="80" readonly>{{ eventLog() }}</textarea>
     </div>
   </div>`,
-  standalone: true,
   imports: [UniButtonComponent, UniRowComponent, UniTextComponent, UniStackComponent],
 })
 export class TimerStoryComponent {

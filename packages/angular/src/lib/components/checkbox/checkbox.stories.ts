@@ -1,9 +1,4 @@
-import {
-  argsToTemplate,
-  Meta,
-  moduleMetadata,
-  StoryObj,
-} from '@storybook/angular';
+import { argsToTemplate, Meta, moduleMetadata, StoryObj } from '@storybook/angular';
 import { UniCheckboxComponent as CheckboxComponent } from './checkbox.component';
 
 type StoryType = CheckboxComponent;

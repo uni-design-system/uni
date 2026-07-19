@@ -1,9 +1,17 @@
-import { Component, DestroyRef, inject, input, output, signal } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  DestroyRef,
+  inject,
+  input,
+  output,
+  signal,
+} from '@angular/core';
 import { css } from '@emotion/css';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'DebounceInput, uni-debounce-input',
-  standalone: true,
   imports: [],
   templateUrl: './debounce-input.component.html',
 })
@@ -27,7 +35,8 @@ export class UniDebounceInputComponent {
     });
   }
 
-  handleInput(value: string) {
+  handleInput(event: Event) {
+    const value = (event.target as HTMLInputElement).value;
     this.value.set(value);
 
     // Debounce, emitting only when the value actually changed.

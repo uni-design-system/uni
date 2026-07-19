@@ -1,18 +1,16 @@
-import { CommonModule } from '@angular/common';
 import {
+  ChangeDetectionStrategy,
   Component,
+  computed,
   effect,
   ElementRef,
-  EventEmitter,
-  HostBinding,
-  HostListener,
   inject,
   input,
-  Input,
-  linkedSignal,
-  Output,
+  model,
+  output,
   signal,
 } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { css, keyframes } from '@emotion/css';
 import { BaseComponent } from '../base';
 import { COMPONENT_NAME } from '../base/base.component';
@@ -23,10 +21,9 @@ import { uniqueId } from '../../cdk';
 
 @Component({
   selector: 'dialog[uni-dialog], Dialog',
-  standalone: true,
   imports: [UniIconButtonComponent, CommonModule],
   template: `
-    @if (defaultCloseButton) {
+    @if (defaultCloseButton()) {
       <button
         icon-button
         iconName="close"
@@ -41,16 +38,21 @@ import { uniqueId } from '../../cdk';
     <ng-content></ng-content>
   `,
   providers: [{ provide: COMPONENT_NAME, useValue: 'dialog' }],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
     '[attr.aria-labelledby]': 'hasTitle() ? titleId : null',
     '[attr.aria-label]': 'ariaLabel() ?? null',
+    '[class]': 'className()',
+    '(click)': 'backdropClick($event)',
+    '(cancel)': 'escapeCancel($event)',
+    '(animationend)': 'closingAnimation($event)',
   },
 })
 export class UniDialogComponent extends BaseComponent<UniDialogOptions> {
   private elem = inject(ElementRef);
 
-  show = input<boolean>(false);
-  private readonly _show = linkedSignal(() => this.show());
+  /** Two-way bindable open state: [(show)]. */
+  show = model<boolean>(false);
 
   /**
    * Accessible name for dialogs without a DialogHeader. When a DialogHeader
@@ -64,24 +66,26 @@ export class UniDialogComponent extends BaseComponent<UniDialogOptions> {
    */
   initialFocus = input<string>();
 
+  defaultCloseButton = input<boolean>();
+
   /** Id referenced by aria-labelledby; DialogHeader attaches it to the title. */
   readonly titleId = uniqueId('uni-dialog-title');
   readonly hasTitle = signal(false);
 
-  @Input() defaultCloseButton?: boolean;
-  @Output() showing = new EventEmitter();
+  /** Emits true once opened and false once the closing animation finishes. */
+  showing = output<boolean>();
 
   constructor() {
     super();
-    effect(() => (this._show() ? this.open() : this.close()));
+    effect(() => (this.show() ? this.open() : this.close()));
   }
 
   private get _dialog(): HTMLDialogElement {
     return this.elem.nativeElement;
   }
 
-  @HostBinding('class') get className() {
-    return css([
+  protected readonly className = computed(() =>
+    css([
       {
         ...this.theme.radius(this.componentOptions().borderRadius),
         ...this.theme.colorPair(this.componentOptions().color),
@@ -101,11 +105,11 @@ export class UniDialogComponent extends BaseComponent<UniDialogOptions> {
           animation: `${this.dialogFadeOut} ease-in 350ms`,
         },
       },
-    ]);
-  }
+    ])
+  );
 
-  @HostListener('click', ['$event']) BackdropClick(event: Event) {
-    if ((event.target as any).nodeName === 'DIALOG') {
+  protected backdropClick(event: Event) {
+    if ((event.target as HTMLElement).nodeName === 'DIALOG') {
       this.close();
     }
   }
@@ -115,12 +119,12 @@ export class UniDialogComponent extends BaseComponent<UniDialogOptions> {
    * instantly and leave our show-state out of sync. Route it through the
    * animated close() instead.
    */
-  @HostListener('cancel', ['$event']) EscapeCancel(event: Event) {
+  protected escapeCancel(event: Event) {
     event.preventDefault();
     this.close();
   }
 
-  @HostListener('animationend', ['$event']) ClosingAnimation(e: AnimationEvent) {
+  protected closingAnimation(e: AnimationEvent) {
     // Close the dialog if the animation is finished
     if (e.animationName.includes(this.dialogFadeOut)) {
       this._dialog.close();
@@ -139,6 +143,8 @@ export class UniDialogComponent extends BaseComponent<UniDialogOptions> {
   private dialogFadeOut = keyframes({ ...fadeOut });
 
   open() {
+    if (this._dialog.open) return;
+
     this._dialog.removeAttribute('closing');
     this._dialog.showModal();
 
@@ -150,12 +156,16 @@ export class UniDialogComponent extends BaseComponent<UniDialogOptions> {
       this._dialog.querySelector<HTMLElement>(selector)?.focus();
     }
 
-    this._show.set(true);
+    this.show.set(true);
     this.showing.emit(true);
   }
 
   close() {
+    // Strict check: outside a real <dialog> host (e.g. unit tests) `open`
+    // is undefined and close() should still run.
+    if (this._dialog.open === false) return;
+
     this._dialog.setAttribute('closing', 'true');
-    this._show.set(false);
+    this.show.set(false);
   }
 }

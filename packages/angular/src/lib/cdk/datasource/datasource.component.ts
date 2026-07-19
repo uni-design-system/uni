@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { UniRecordDatasource } from './record-datasource';
 import type { Sort } from './base-datasource';
 
@@ -11,8 +11,8 @@ interface User {
 }
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'uni-datasource-demo',
-  standalone: true,
   imports: [CommonModule],
   template: `
     <div class="container">

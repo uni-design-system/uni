@@ -45,8 +45,7 @@ const meta: Meta<StoryType> = {
 
     // Behavior
     useMultiSelect: {
-      description:
-        'When true, enables multi-selection functionality for rows. Default is false.',
+      description: 'When true, enables multi-selection functionality for rows. Default is false.',
     },
     useRowClick: {
       description:
@@ -59,8 +58,7 @@ const meta: Meta<StoryType> = {
 
     // Styling
     height: {
-      description:
-        'Sets the height of the table. Can be any valid CSS height value.',
+      description: 'Sets the height of the table. Can be any valid CSS height value.',
     },
 
     // Events

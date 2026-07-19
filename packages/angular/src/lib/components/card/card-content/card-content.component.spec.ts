@@ -5,7 +5,9 @@ describe('UniCardContentComponent', () => {
   let fixture: ComponentFixture<UniCardContentComponent>;
 
   beforeEach(async () => {
-    await TestBed.configureTestingModule({ imports: [UniCardContentComponent] }).compileComponents();
+    await TestBed.configureTestingModule({
+      imports: [UniCardContentComponent],
+    }).compileComponents();
     fixture = TestBed.createComponent(UniCardContentComponent);
     fixture.detectChanges();
   });

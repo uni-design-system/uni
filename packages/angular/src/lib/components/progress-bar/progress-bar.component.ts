@@ -1,19 +1,20 @@
-import { Component, HostBinding, inject, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, input } from '@angular/core';
 import { css } from '@emotion/css';
 import { ThemeService } from '../../theming';
 
 @Component({
   selector: 'uni-progress-bar, ProgressBar',
-  standalone: true,
   imports: [],
   templateUrl: './progress-bar.component.html',
   host: {
+    '[class]': 'className()',
     role: 'progressbar',
     'aria-valuemin': '0',
     'aria-valuemax': '100',
     '[attr.aria-valuenow]': 'percent()',
     '[attr.aria-label]': "ariaLabel() || 'Progress'",
   },
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class UniProgressBarComponent {
   theme = inject(ThemeService);
@@ -29,9 +30,9 @@ export class UniProgressBarComponent {
 
   stroke = 1;
 
-  @HostBinding('class') get className() {
+  protected readonly className = computed(() => {
     return css([{ display: 'block' }]);
-  }
+  });
 
   protected readonly Math = Math;
 }

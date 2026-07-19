@@ -1,10 +1,10 @@
 import {
   afterNextRender,
+  ChangeDetectionStrategy,
   Component,
   computed,
   DestroyRef,
   ElementRef,
-  HostBinding,
   inject,
   input,
   output,
@@ -32,7 +32,6 @@ type OptionalValue = string | number | undefined;
  */
 @Component({
   selector: 'div[uni-scroll-area], ScrollArea, div[scroll-area]',
-  standalone: true,
   imports: [],
   template: `<div #viewport [class]="viewportClassName()">
     <div
@@ -43,6 +42,8 @@ type OptionalValue = string | number | undefined;
       <ng-content></ng-content>
     </div>
   </div>`,
+  host: { '[class]': 'className()' },
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class UniScrollAreaComponent {
   theme = inject(ThemeService);
@@ -79,7 +80,7 @@ export class UniScrollAreaComponent {
     this.viewport().nativeElement.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
-  @HostBinding('class') get className() {
+  protected readonly className = computed(() => {
     return css({
       display: 'block',
       overflow: 'hidden',
@@ -90,7 +91,7 @@ export class UniScrollAreaComponent {
       ...this.theme.radius(this.borderRadius()),
       ...this.theme.border(this.border()),
     });
-  }
+  });
 
   protected viewportClassName = computed(() => {
     const palette = this.theme.colors();

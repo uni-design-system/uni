@@ -1,4 +1,4 @@
-import { Component, computed, HostBinding, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, input } from '@angular/core';
 import { css } from '@emotion/css';
 import type { Variant } from '@uni-design-system/uni-core';
 import { BaseComponent } from '../base';
@@ -12,6 +12,8 @@ import type { UniNotificationBadgeOptions } from './notification-badge.model';
   imports: [UniTextComponent],
   templateUrl: './notification-badge.html',
   providers: [{ provide: COMPONENT_NAME, useValue: 'notificationBadge' }],
+  host: { '[class]': 'className()' },
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class UniNotificationBadgeComponent extends BaseComponent<UniNotificationBadgeOptions> {
   count = input<number | undefined>(undefined);
@@ -68,7 +70,7 @@ export class UniNotificationBadgeComponent extends BaseComponent<UniNotification
     return count !== undefined && count > 0;
   });
 
-  @HostBinding('class') get className() {
+  protected readonly className = computed(() => {
     const variant = this.badgeVariant();
     const color = this.color();
     const position = this.position();
@@ -117,5 +119,5 @@ export class UniNotificationBadgeComponent extends BaseComponent<UniNotification
         ...variantStyles,
       },
     });
-  }
+  });
 }

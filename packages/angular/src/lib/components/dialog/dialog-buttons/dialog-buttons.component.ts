@@ -1,4 +1,4 @@
-import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, input, output } from '@angular/core';
 import { UniButtonComponent } from '../../button';
 import { UniRowComponent } from '../../layout';
 import { UniDialogComponent } from '../dialog.component';
@@ -6,9 +6,9 @@ import type { JustifyContent, NullableSize, Variant } from '@uni-design-system/u
 
 @Component({
   selector: 'uni-dialog-buttons, DialogButtons, div[dialog-buttons]',
-  standalone: true,
   imports: [UniRowComponent, UniButtonComponent],
   templateUrl: './dialog-buttons.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class UniDialogButtonsComponent {
   private dialog = inject(UniDialogComponent, {
@@ -17,15 +17,15 @@ export class UniDialogButtonsComponent {
     skipSelf: true,
   });
 
-  @Input() confirmButtonText?: string;
-  @Input() confirmButtonVariant: Variant = 'primary';
-  @Input() cancelButtonText?: string;
-  @Input() disableConfirm?: boolean;
-  @Input() padding?: NullableSize = 'md';
-  @Input() paddingBottom?: NullableSize = 'lg';
-  @Input() justifyContent?: JustifyContent = 'center';
+  confirmButtonText = input<string>();
+  confirmButtonVariant = input<Variant>('primary');
+  cancelButtonText = input<string>();
+  disableConfirm = input<boolean>();
+  padding = input<NullableSize>('md');
+  paddingBottom = input<NullableSize>('lg');
+  justifyContent = input<JustifyContent>('center');
 
-  @Output() confirmed = new EventEmitter();
+  confirmed = output();
 
   closeDialog() {
     this.dialog?.close();

@@ -1,9 +1,9 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { BaseComponent, COMPONENT_NAME } from '../../base/base.component';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'uni-card-content, CardContent',
-  standalone: true,
   imports: [],
   templateUrl: './card-content.component.html',
   providers: [{ provide: COMPONENT_NAME, useValue: 'cardContent' }],

@@ -2,13 +2,15 @@
   <ng-content select="pre-input" />
   <input
     [value]="value()"
-    (input)="value.set($any($event.target).value)"
+    (input)="handleInput($event)"
     [placeholder]="placeholder()"
     [disabled]="disabled()"
     (blur)="markAsTouched()"
     [class]="inputClass"
     [attr.aria-label]="label()"
     [attr.aria-invalid]="showError() ? true : null"
+    [attr.aria-required]="required() ? true : null"
+    [attr.aria-describedby]="ariaDescribedBy() || null"
   />
   <ng-content select="post-input" />
 </uni-input-box>

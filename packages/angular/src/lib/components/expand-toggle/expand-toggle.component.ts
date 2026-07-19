@@ -1,11 +1,10 @@
-import { Component, HostBinding, input, model } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, input, model } from '@angular/core';
 import { css } from '@emotion/css';
 import { UniIconButtonComponent } from '../icon-button/icon-button.component';
 import { UniTooltipComponent } from '../tooltip/tooltip.component';
 
 @Component({
   selector: 'uni-expand-toggle, ExpandToggle',
-  standalone: true,
   imports: [UniIconButtonComponent, UniTooltipComponent],
   template: `<Tooltip
     [label]="collapsed() ? 'Expand' : 'Collapse'"
@@ -23,8 +22,10 @@ import { UniTooltipComponent } from '../tooltip/tooltip.component';
     </button>
   </Tooltip>`,
   host: {
+    '[class]': 'className()',
     '[attr.toggled]': 'collapsed() || null',
   },
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class UniExpandToggleComponent {
   collapsed = model(true);
@@ -32,7 +33,7 @@ export class UniExpandToggleComponent {
   /** Id of the Expand region this toggle controls (see UniExpandComponent.regionId). */
   ariaControls = input<string>();
 
-  @HostBinding('class') get className() {
+  protected readonly className = computed(() => {
     return css({
       display: 'inline-flex',
       cursor: 'pointer',
@@ -44,7 +45,7 @@ export class UniExpandToggleComponent {
         transform: 'rotate(-180deg)',
       },
     });
-  }
+  });
 
   toggle() {
     this.collapsed.update((collapsed) => !collapsed);

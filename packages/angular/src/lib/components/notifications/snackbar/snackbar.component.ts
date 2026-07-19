@@ -1,15 +1,14 @@
 import {
   AfterViewInit,
+  ChangeDetectionStrategy,
   Component,
+  computed,
   effect,
   ElementRef,
-  EventEmitter,
   input,
-  Input,
-  OnChanges,
-  Output,
-  SimpleChanges,
-  ViewChild,
+  model,
+  output,
+  viewChild,
 } from '@angular/core';
 import { css, keyframes } from '@emotion/css';
 import { useTimer } from '../../../cdk';
@@ -27,7 +26,6 @@ import type { UniSnackbarOptions } from './snackbar.model';
 
 @Component({
   selector: 'uni-snackbar, Snackbar',
-  standalone: true,
   imports: [
     UniRowComponent,
     UniBoxComponent,
@@ -39,16 +37,16 @@ import type { UniSnackbarOptions } from './snackbar.model';
   ],
   templateUrl: './snackbar.component.html',
   providers: [{ provide: COMPONENT_NAME, useValue: 'snackbar' }],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class UniSnackbarComponent
   extends BaseComponent<UniSnackbarOptions>
-  implements AfterViewInit, OnChanges
+  implements AfterViewInit
 {
   timer = useTimer();
 
-  snackbarClass?: string;
-
-  @Input() show?: boolean;
+  /** Two-way bindable open state: [(show)]. */
+  show = model<boolean>();
   iconName = input<IconName>();
   symbolName = input<string>();
   timeout = input<number | string | 'disabled'>();
@@ -56,45 +54,47 @@ export class UniSnackbarComponent
 
   useVariant = input<boolean>(false);
 
-  @Output() action = new EventEmitter();
-  @Output() showing = new EventEmitter();
+  action = output();
+  showing = output<boolean>();
 
-  @ViewChild('snackbar') snackbarRef?: ElementRef;
+  snackbarRef = viewChild<ElementRef>('snackbar');
 
   private get _snackbar(): HTMLDialogElement | undefined {
-    return this.snackbarRef?.nativeElement;
+    return this.snackbarRef()?.nativeElement;
   }
 
   constructor() {
     super();
 
-    effect(() => {
-      this.snackbarClass = css({
-        ...this.theme.getContainerColors(this.variant() || 'primary', this.useVariant()),
-        ...this.theme.radius('sm'),
-        ...this.theme.border(this.variant() || 'primary'),
-        ...this.theme.boxShadow('dialog'),
-        padding: 0,
-        transition: `all ${this.componentOptions().transitionDelay} ease-in-out`,
-        transitionBehavior: 'allow-discrete',
-        opacity: 1,
-        bottom: this.componentOptions().bottomPosition,
-        zIndex: Z_INDEX.dialog,
-        position: 'fixed',
-
-        '&[open]': {
-          '@starting-style': {
-            bottom: 0,
-            opacity: 0,
-          },
-        },
-
-        '&[closing]': {
-          animation: `${this.fadeOut} 0.3s forwards`,
-        },
-      });
-    });
+    effect(() => (this.show() ? this.open() : this.close()));
   }
+
+  protected readonly snackbarClass = computed(() =>
+    css({
+      ...this.theme.getContainerColors(this.variant() || 'primary', this.useVariant()),
+      ...this.theme.radius('sm'),
+      ...this.theme.border(this.variant() || 'primary'),
+      ...this.theme.boxShadow('dialog'),
+      padding: 0,
+      transition: `all ${this.componentOptions().transitionDelay} ease-in-out`,
+      transitionBehavior: 'allow-discrete',
+      opacity: 1,
+      bottom: this.componentOptions().bottomPosition,
+      zIndex: Z_INDEX.dialog,
+      position: 'fixed',
+
+      '&[open]': {
+        '@starting-style': {
+          bottom: 0,
+          opacity: 0,
+        },
+      },
+
+      '&[closing]': {
+        animation: `${this.fadeOut} 0.3s forwards`,
+      },
+    })
+  );
 
   fadeOut = keyframes({
     '0% ': {
@@ -104,14 +104,6 @@ export class UniSnackbarComponent
       opacity: 0,
     },
   });
-
-  ngOnChanges(changes: SimpleChanges) {
-    if (changes['show'] && changes['show'].currentValue) {
-      this.open();
-    } else {
-      this.close();
-    }
-  }
 
   ngAfterViewInit() {
     this._snackbar?.addEventListener('animationend', (e) => {
@@ -134,7 +126,7 @@ export class UniSnackbarComponent
   open() {
     this._snackbar?.removeAttribute('closing');
     this._snackbar?.show();
-    this.show = true;
+    this.show.set(true);
     this.showing.emit(true);
 
     if (this._timeout) this.timer.start(this._timeout, () => this.close());
@@ -142,7 +134,7 @@ export class UniSnackbarComponent
 
   close() {
     this._snackbar?.setAttribute('closing', 'true');
-    this.show = false;
+    this.show.set(false);
   }
 
   protected pauseTimer() {

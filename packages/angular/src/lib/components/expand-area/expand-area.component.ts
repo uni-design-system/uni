@@ -1,4 +1,4 @@
-import { Component, input, output, viewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, input, output, viewChild } from '@angular/core';
 import type { NullableSize } from '@uni-design-system/uni-core';
 import { UniExpandToggleComponent } from '../expand-toggle/expand-toggle.component';
 import { UniExpandComponent } from '../expand/expand.component';
@@ -6,16 +6,11 @@ import { UniBoxComponent } from '../layout';
 import { UniTextComponent } from '../text/text.component';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'uni-expand-area, ExpandArea',
-  standalone: true,
   imports: [UniBoxComponent, UniTextComponent, UniExpandToggleComponent, UniExpandComponent],
   template: `
-    <Box
-      color="tertiary-surface"
-      borderRadius="sm"
-      border="quaternary"
-      overflow="hidden"
-    >
+    <Box color="tertiary-surface" borderRadius="sm" border="quaternary" overflow="hidden">
       <Box
         border="quaternary"
         borderRadius="sm"

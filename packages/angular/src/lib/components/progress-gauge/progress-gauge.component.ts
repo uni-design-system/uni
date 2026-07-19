@@ -1,20 +1,21 @@
-import { Component, computed, HostBinding, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, input } from '@angular/core';
 import { css, keyframes } from '@emotion/css';
 import { BaseComponent, COMPONENT_NAME } from '../base/base.component';
 
 @Component({
   selector: 'uni-progress-gauge, ProgressGauge',
-  standalone: true,
   imports: [],
   templateUrl: './progress-gauge.component.html',
   providers: [{ provide: COMPONENT_NAME, useValue: 'progressGauge' }],
   host: {
+    '[class]': 'className()',
     role: 'progressbar',
     'aria-valuemin': '0',
     'aria-valuemax': '100',
     '[attr.aria-valuenow]': 'percent()',
     '[attr.aria-label]': "ariaLabel() || 'Progress'",
   },
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class UniProgressGaugeComponent extends BaseComponent {
   percent = input<number>(0);
@@ -31,7 +32,7 @@ export class UniProgressGaugeComponent extends BaseComponent {
     '0%': { strokeDasharray: '0 100' },
   });
 
-  @HostBinding('class') get className() {
+  protected readonly className = computed(() => {
     return css({
       display: 'block',
 
@@ -56,5 +57,5 @@ export class UniProgressGaugeComponent extends BaseComponent {
         textAnchor: 'middle',
       },
     });
-  }
+  });
 }

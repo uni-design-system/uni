@@ -3,19 +3,18 @@
   role="radiogroup"
   [attr.aria-labelledby]="label() ? groupLabelId : null"
   [attr.aria-invalid]="showError() ? true : null"
+  [attr.aria-required]="required() ? true : null"
+  [attr.aria-describedby]="ariaDescribedBy() || null"
 >
   @if (label()) {
     <Text typeface="label" [attr.id]="groupLabelId">{{ label() }}</Text>
   }
 
   @for (option of options(); track option.value) {
-    <label
-      [class]="radioOptionClass"
-      [class.disabled]="disabled() || option.disabled"
-    >
+    <label [class]="radioOptionClass()" [class.disabled]="disabled() || option.disabled">
       <input
         type="radio"
-        [class]="radioInputClass"
+        [class]="radioInputClass()"
         [value]="option.value"
         [name]="name()"
         [checked]="value() === option.value"

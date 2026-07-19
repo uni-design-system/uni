@@ -12,35 +12,27 @@
       box-layout
       [padding]="componentOptions().headerPadding"
       [color]="componentOptions().headerColor"
-      [class]="headerClass"
+      [class]="headerClass()"
     >
       <ng-content select="data-table-header"></ng-content>
     </div>
 
     <div box-layout [height]="height()" position="relative" [attr.aria-busy]="isLoading()">
-      <ScrollArea
-        [verticalScrollPadding]="0"
-        (scrollable)="handleScrollable($event)"
-      >
-        <table [class]="tableClass">
+      <ScrollArea [verticalScrollPadding]="0" (scrollable)="handleScrollable($event)">
+        <table [class]="tableClass()">
           <thead>
             <tr>
               @for (column of columns(); track column) {
                 <th
                   scope="col"
                   [attr.aria-sort]="ariaSort(column)"
-                  [class]="thClass"
+                  [class]="thClass()"
                   [class.scrollable]="scrollable()"
                   [class.sticky]="column.isSticky"
                   [style.text-align]="column.textAlign"
                 >
-                  <uni-sort-header
-                    [datasource]="datasource()"
-                    [column]="column.columnDef"
-                  >
-                    <Text [typeface]="componentOptions().thTextRole">{{
-                      column.header
-                    }}</Text>
+                  <uni-sort-header [datasource]="datasource()" [column]="column.columnDef">
+                    <Text [typeface]="componentOptions().thTextRole">{{ column.header }}</Text>
                   </uni-sort-header>
                 </th>
               }
@@ -49,7 +41,7 @@
           <tbody>
             @for (record of ds.records(); track record; let i = $index) {
               <tr
-                [class]="trClass"
+                [class]="trClass()"
                 [attr.tabindex]="useRowClick() ? 0 : null"
                 (click)="handleRowClick(record, $index)"
                 (keydown.enter)="useRowClick() && handleRowClick(record, $index)"
@@ -60,7 +52,7 @@
               >
                 @for (column of columns(); track column) {
                   <td
-                    [class]="tdClass"
+                    [class]="tdClass()"
                     [class.scrollable]="scrollable()"
                     [class.sticky]="column.isSticky"
                     [class.template]="!!column.template"
@@ -87,7 +79,7 @@
                 <!-- Collapsed detail rows are inert: invisible to screen
                      readers and unreachable by keyboard until expanded -->
                 <tr
-                  [class]="detailRowClass"
+                  [class]="detailRowClass()"
                   [class.expanded]="expandedIndex() === $index"
                   [attr.inert]="expandedIndex() === $index ? null : ''"
                 >
@@ -129,10 +121,7 @@
             [height]="componentOptions().loadingSpinnerSize"
             [width]="componentOptions().loadingSpinnerSize"
           >
-            <uni-icon
-              name="spinner"
-              [color]="componentOptions().loadingSpinnerColor"
-            />
+            <uni-icon name="spinner" [color]="componentOptions().loadingSpinnerColor" />
           </div>
         </div>
       }
@@ -142,7 +131,7 @@
       box-layout
       [padding]="componentOptions().footerPadding"
       [color]="componentOptions().footerColor"
-      [class]="footerClass"
+      [class]="footerClass()"
     >
       <ng-content select="data-table-footer"></ng-content>
     </div>

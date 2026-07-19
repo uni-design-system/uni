@@ -7,6 +7,7 @@ describe('UniGridAreaComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({ imports: [UniGridAreaComponent] }).compileComponents();
     fixture = TestBed.createComponent(UniGridAreaComponent);
+    fixture.componentRef.setInput('area', 'main');
     fixture.detectChanges();
   });
 

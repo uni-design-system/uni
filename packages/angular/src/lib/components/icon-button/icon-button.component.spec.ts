@@ -28,8 +28,7 @@ describe('UniIconButtonComponent', () => {
   });
 
   it('marks the button busy while loading', () => {
-    fixture.componentInstance.loading = true;
-    fixture.changeDetectorRef.markForCheck();
+    fixture.componentRef.setInput('loading', true);
     fixture.detectChanges();
     const host: HTMLElement = fixture.nativeElement;
     expect(host.getAttribute('aria-busy')).toBe('true');

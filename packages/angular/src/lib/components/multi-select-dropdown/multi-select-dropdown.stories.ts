@@ -25,8 +25,7 @@ const meta: Meta<StoryType> = {
     },
     value: {
       control: 'object',
-      description:
-        'Array of selected option values (FormValueControl). Default: []',
+      description: 'Array of selected option values (FormValueControl). Default: []',
       table: {
         category: 'Form Control',
         type: { summary: 'T[]' },
@@ -34,15 +33,13 @@ const meta: Meta<StoryType> = {
     },
     placeholder: {
       control: 'text',
-      description:
-        'Placeholder text displayed when no options are selected. Default: ""',
+      description: 'Placeholder text displayed when no options are selected. Default: ""',
     },
 
     // Form Control Properties
     disabled: {
       control: 'boolean',
-      description:
-        'Whether the component is disabled (FormValueControl signal)',
+      description: 'Whether the component is disabled (FormValueControl signal)',
       table: {
         category: 'Form Control',
         type: { summary: 'boolean' },
@@ -50,8 +47,7 @@ const meta: Meta<StoryType> = {
     },
     touched: {
       control: 'boolean',
-      description:
-        'Whether the component has been touched (FormValueControl signal)',
+      description: 'Whether the component has been touched (FormValueControl signal)',
       table: {
         category: 'Form Control',
         type: { summary: 'boolean' },
@@ -59,8 +55,7 @@ const meta: Meta<StoryType> = {
     },
     invalid: {
       control: 'boolean',
-      description:
-        'Whether the component is in invalid state (FormValueControl signal)',
+      description: 'Whether the component is in invalid state (FormValueControl signal)',
       table: {
         category: 'Form Control',
         type: { summary: 'boolean' },
@@ -68,8 +63,7 @@ const meta: Meta<StoryType> = {
     },
     dirty: {
       control: 'boolean',
-      description:
-        'Whether the component value has been changed (FormValueControl signal)',
+      description: 'Whether the component value has been changed (FormValueControl signal)',
       table: {
         category: 'Form Control',
         type: { summary: 'boolean' },

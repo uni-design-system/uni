@@ -1,9 +1,4 @@
-import {
-  applicationConfig,
-  argsToTemplate,
-  Meta,
-  StoryObj,
-} from '@storybook/angular';
+import { applicationConfig, argsToTemplate, Meta, StoryObj } from '@storybook/angular';
 import { UniProgressBarComponent as ProgressBar } from './progress-bar.component';
 
 type StoryType = ProgressBar;

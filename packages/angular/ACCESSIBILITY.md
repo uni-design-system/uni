@@ -81,8 +81,11 @@ All controls implement `FormValueControl`/`FormCheckboxControl` and set
   unique per instance by default. Arrow keys move within the group natively.
 - **SelectInput** — native `<select>`; provide `ariaLabel` (a placeholder is
   not a label).
-- Error *messages* are not rendered by the controls; if you display your own,
-  associate them with the control via `aria-describedby`.
+- All controls expose `required` (synced from `required()` validators by the
+  `[field]` directive) as `aria-required`.
+- Error *messages* are not rendered by the controls — render your own and pass
+  its element id via the `ariaDescribedBy` input, which is exposed as
+  `aria-describedby` on the native control.
 
 ### DataTable / SortHeader / Paginator
 - Column headers use `scope="col"` and expose sort state via `aria-sort`;
@@ -124,8 +127,6 @@ All controls implement `FormValueControl`/`FormCheckboxControl` and set
 
 ## Known gaps (tracked in TODO.md)
 
-- Form controls don't render validation messages yet, so there is nothing to
-  reference with `aria-describedby` out of the box.
 - No automated contrast verification of theme token pairs.
 - Storybook axe checks are not yet enforced in CI.
 - Menu typeahead matches on the first character only.

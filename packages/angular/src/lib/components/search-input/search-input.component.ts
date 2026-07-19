@@ -1,4 +1,4 @@
-import { Component, HostBinding, input, output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, input, output } from '@angular/core';
 import { css } from '@emotion/css';
 import { UniDebounceInputComponent } from '../forms/debounce-input/debounce-input.component';
 import { UniIconButtonComponent } from '../icon-button/icon-button.component';
@@ -7,9 +7,10 @@ import { UniTextComponent } from '../text/text.component';
 
 @Component({
   selector: 'SearchInput, uni-search-input',
-  standalone: true,
   imports: [UniDebounceInputComponent, UniTextComponent, UniBoxComponent, UniIconButtonComponent],
   templateUrl: './search-input.component.html',
+  host: { '[class]': 'className()' },
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class UniSearchInputComponent {
   label = input.required<string>();
@@ -21,14 +22,14 @@ export class UniSearchInputComponent {
   // eslint-disable-next-line @angular-eslint/no-output-native
   search = output<string>();
 
-  @HostBinding('class') get className() {
+  protected readonly className = computed(() => {
     return css([
       {
         display: 'flex',
         alignItems: 'center',
       },
     ]);
-  }
+  });
 
   handleSearchInput(searchInput: string) {
     this.change.emit(searchInput);

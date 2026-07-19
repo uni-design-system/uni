@@ -28,8 +28,7 @@ const meta: Meta<StoryType> = {
     },
     placeholder: {
       control: 'text',
-      description:
-        'Placeholder text shown when the input is empty. Default: ""',
+      description: 'Placeholder text shown when the input is empty. Default: ""',
     },
 
     // Status Inputs
@@ -129,8 +128,7 @@ export const Required: Story = {
 
 export const LongLabel: Story = {
   args: {
-    label:
-      'A Very Long Label That Demonstrates How The Component Handles Extended Text',
+    label: 'A Very Long Label That Demonstrates How The Component Handles Extended Text',
     placeholder: 'Enter some text',
     value: '',
     disabled: false,

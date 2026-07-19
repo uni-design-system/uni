@@ -1,4 +1,4 @@
-import { Component, HostBinding, inject, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, input } from '@angular/core';
 import { css } from '@emotion/css';
 import { ThemeService } from '../../theming';
 
@@ -6,9 +6,10 @@ export type ImagePosition = 'top' | 'bottom' | 'left' | 'right' | 'center' | str
 
 @Component({
   selector: 'uni-background, Background',
-  standalone: true,
   imports: [],
   template: `<ng-content></ng-content>`,
+  host: { '[class]': 'className()' },
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class UniBackgroundComponent {
   theme = inject(ThemeService);
@@ -19,7 +20,7 @@ export class UniBackgroundComponent {
   height = input<number | string>('100%');
   width = input<number | string>();
 
-  @HostBinding('class') get className() {
+  protected readonly className = computed(() => {
     return css([
       {
         backgroundRepeat: 'no-repeat',
@@ -31,5 +32,5 @@ export class UniBackgroundComponent {
       this.theme.style('height', this.height()),
       this.theme.style('width', this.width()),
     ]);
-  }
+  });
 }

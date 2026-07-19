@@ -1,9 +1,4 @@
-import {
-  argsToTemplate,
-  Meta,
-  moduleMetadata,
-  StoryObj,
-} from '@storybook/angular';
+import { argsToTemplate, Meta, moduleMetadata, StoryObj } from '@storybook/angular';
 import { UniStackComponent } from '../layout';
 import { UniTextComponent } from '../text/text.component';
 import { UniFileDropZoneComponent as FileDropZone } from './file-drop-zone.component';

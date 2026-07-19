@@ -7,6 +7,7 @@ describe('UniIconComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({ imports: [UniIconComponent] }).compileComponents();
     fixture = TestBed.createComponent(UniIconComponent);
+    fixture.componentRef.setInput('name', 'close');
     fixture.detectChanges();
   });
 

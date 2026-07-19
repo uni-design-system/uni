@@ -14,13 +14,9 @@
   <rect
     [attr.x]="stroke"
     [attr.y]="stroke"
-    [attr.width]="
-      Math.max(height() - stroke * 2, (percent() / 100) * width() - stroke * 2)
-    "
+    [attr.width]="Math.max(height() - stroke * 2, (percent() / 100) * width() - stroke * 2)"
     [attr.height]="height() - stroke * 2"
-    [attr.fill]="
-      percent() === 100 ? palette()['secondary'] : palette()['secondary-surface']
-    "
+    [attr.fill]="percent() === 100 ? palette()['secondary'] : palette()['secondary-surface']"
     [attr.stroke]="palette()['on-background-variant']"
     [attr.stroke-width]="stroke"
     [attr.ry]="height() / 2 - stroke"

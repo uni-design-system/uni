@@ -1,4 +1,4 @@
-import { Component, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
 import {
   UniBadgeComponent,
   UniBoxComponent,
@@ -11,6 +11,7 @@ import type { Permission } from './permission.types';
 import type { Variant } from '@uni-design-system/uni-core';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'uni-permissions-story-component, permissions-story-component',
   template: ` <div
     box-layout
@@ -30,7 +31,6 @@ import type { Variant } from '@uni-design-system/uni-core';
       }
     </div>
   </div>`,
-  standalone: true,
   imports: [
     UniStackComponent,
     UniBoxComponent,

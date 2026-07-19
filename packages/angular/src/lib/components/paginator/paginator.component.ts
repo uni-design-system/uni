@@ -1,4 +1,4 @@
-import { Component, effect, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, effect, input } from '@angular/core';
 import { css } from '@emotion/css';
 import { type UniDatasource } from '../../cdk';
 import { BaseComponent } from '../base';
@@ -13,7 +13,7 @@ import type { UniPaginatorOptions } from './paginator.model';
   imports: [UniRowComponent, UniIconButtonComponent, UniTextComponent],
   templateUrl: './paginator.component.html',
   providers: [{ provide: COMPONENT_NAME, useValue: 'paginator' }],
-  standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
     role: 'navigation',
     'aria-label': 'Pagination',
@@ -27,9 +27,6 @@ export class UniPaginatorComponent<T> extends BaseComponent<UniPaginatorOptions>
   showPageJumper = input<boolean>(true);
   showPageNumbers = input<boolean>(true);
 
-  inputClass!: string;
-  pageClass!: string;
-
   constructor() {
     super();
     effect(() => {
@@ -38,50 +35,52 @@ export class UniPaginatorComponent<T> extends BaseComponent<UniPaginatorOptions>
       const ds = this.datasource();
       if (ds) ds.setPageSize(pageSize);
     });
-
-    effect(() => {
-      this.inputClass = css({
-        textAlign: 'center',
-        ...this.theme.border(this.componentOptions().inputBorder),
-        ...this.theme.radius(this.componentOptions().inputBorderRadius),
-        height: 22,
-        fontSize: 16,
-        padding: '2px 0 0 2px',
-
-        '&:focus-visible': {
-          outline: '2px solid currentColor',
-          outlineOffset: 1,
-        },
-      });
-
-      this.pageClass = css({
-        all: 'unset',
-        boxSizing: 'border-box',
-        ...this.theme.radius(this.componentOptions().pageBorderRadius),
-        padding: 2,
-        width: 20,
-        display: 'flex',
-        justifyContent: 'center',
-        cursor: 'pointer',
-        border: 'solid 1px transparent',
-
-        '&:focus-visible': {
-          outline: '2px solid currentColor',
-          outlineOffset: 1,
-        },
-
-        '&.current': {
-          ...this.theme.border(this.componentOptions().currentPageBorder),
-          ...this.theme.radius(this.componentOptions().currentPageBorderRadius),
-          cursor: 'unset',
-        },
-
-        '&:hover:not(.current)': {
-          backgroundColor: 'rgba(0,0,0,0.1)',
-        },
-      });
-    });
   }
+
+  protected readonly inputClass = computed(() =>
+    css({
+      textAlign: 'center',
+      ...this.theme.border(this.componentOptions().inputBorder),
+      ...this.theme.radius(this.componentOptions().inputBorderRadius),
+      height: 22,
+      fontSize: 16,
+      padding: '2px 0 0 2px',
+
+      '&:focus-visible': {
+        outline: '2px solid currentColor',
+        outlineOffset: 1,
+      },
+    })
+  );
+
+  protected readonly pageClass = computed(() =>
+    css({
+      all: 'unset',
+      boxSizing: 'border-box',
+      ...this.theme.radius(this.componentOptions().pageBorderRadius),
+      padding: 2,
+      width: 20,
+      display: 'flex',
+      justifyContent: 'center',
+      cursor: 'pointer',
+      border: 'solid 1px transparent',
+
+      '&:focus-visible': {
+        outline: '2px solid currentColor',
+        outlineOffset: 1,
+      },
+
+      '&.current': {
+        ...this.theme.border(this.componentOptions().currentPageBorder),
+        ...this.theme.radius(this.componentOptions().currentPageBorderRadius),
+        cursor: 'unset',
+      },
+
+      '&:hover:not(.current)': {
+        backgroundColor: 'rgba(0,0,0,0.1)',
+      },
+    })
+  );
 
   updatePageSize(event: Event) {
     const ds = this.datasource();

@@ -1,7 +1,8 @@
 import { NgTemplateOutlet } from '@angular/common';
 import {
+  ChangeDetectionStrategy,
   Component,
-  effect,
+  computed,
   input,
   linkedSignal,
   output,
@@ -33,6 +34,7 @@ import { ColumnDefinition, type UniDataTableOptions } from './data-table.models'
   ],
   templateUrl: './data-table.component.html',
   providers: [{ provide: COMPONENT_NAME, useValue: 'dataTable' }],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class UniDataTableComponent<T> extends BaseComponent<UniDataTableOptions> {
   datasource = input.required<UniDatasource<T>>();
@@ -48,14 +50,6 @@ export class UniDataTableComponent<T> extends BaseComponent<UniDataTableOptions>
   height = input<string>();
   scrollable = signal(false);
 
-  tableClass!: string;
-  headerClass!: string;
-  footerClass!: string;
-  thClass!: string;
-  tdClass!: string;
-  trClass!: string;
-  detailRowClass!: string;
-
   loadingOverlayClass = css({
     animation: 'fadeIn 350ms ease-in-out',
     '@keyframes fadeIn': { ...fadeIn },
@@ -64,128 +58,132 @@ export class UniDataTableComponent<T> extends BaseComponent<UniDataTableOptions>
   rowSelect = output<T>();
   rowClick = output<T>();
 
-  displayedColumns = signal<string[]>([]);
+  protected readonly tableClass = computed(() =>
+    css({
+      ...this.theme.colorPair(this.componentOptions().color),
+      width: '100%',
+      borderSpacing: 0,
+    })
+  );
 
-  constructor() {
-    super();
+  protected readonly headerClass = computed(() =>
+    css({
+      borderBottom: this.getBorder(this.componentOptions().thHorizontalBorder),
 
-    effect(() => {
-      this.displayedColumns.set(this.columns().map((c) => c.columnDef as string));
+      '&:empty': {
+        display: 'none',
+      },
+    })
+  );
 
-      this.tableClass = css({
-        ...this.theme.colorPair(this.componentOptions().color),
-        width: '100%',
-        borderSpacing: 0,
-      });
+  protected readonly footerClass = computed(() =>
+    css({
+      borderTop: this.getBorder(this.componentOptions().thHorizontalBorder),
 
-      this.headerClass = css({
-        borderBottom: this.getBorder(this.componentOptions().thHorizontalBorder),
+      '&:empty': {
+        display: 'none',
+      },
+    })
+  );
 
-        '&:empty': {
-          display: 'none',
-        },
-      });
+  protected readonly thClass = computed(() =>
+    css({
+      ...this.theme.colorPair(this.componentOptions().thColor),
 
-      this.footerClass = css({
-        borderTop: this.getBorder(this.componentOptions().thHorizontalBorder),
+      position: 'sticky',
+      top: 0,
+      textAlign: 'center',
+      padding: 0, // Reset renderers default padding
 
-        '&:empty': {
-          display: 'none',
-        },
-      });
+      ...this.theme.padding(this.componentOptions().thPadding),
 
-      this.thClass = css({
-        ...this.theme.colorPair(this.componentOptions().thColor),
-
+      borderBottom: this.getBorder(this.componentOptions().thHorizontalBorder),
+      '&:not(:last-child)': {
+        borderRight: this.getBorder(this.componentOptions().thVerticalBorder),
+      },
+      '&:last-child.scrollable': {
+        paddingRight: 29,
+      },
+      '&.sticky': {
         position: 'sticky',
-        top: 0,
+        left: 0,
+        zIndex: Z_INDEX.sticky,
+      },
+    })
+  );
+
+  protected readonly tdClass = computed(() =>
+    css([
+      {
         textAlign: 'center',
         padding: 0, // Reset renderers default padding
-
-        ...this.theme.padding(this.componentOptions().thPadding),
-
-        borderBottom: this.getBorder(this.componentOptions().thHorizontalBorder),
         '&:not(:last-child)': {
-          borderRight: this.getBorder(this.componentOptions().thVerticalBorder),
+          borderRight: this.getBorder(this.componentOptions().tdVerticalBorder),
         },
         '&:last-child.scrollable': {
+          // The last scrollable column allows space for the scrollbar.
           paddingRight: 29,
         },
         '&.sticky': {
           position: 'sticky',
           left: 0,
           zIndex: Z_INDEX.sticky,
+          ...this.theme.colorPair(this.componentOptions().tdStickyColor),
         },
-      });
+        '&:not(.template)': {
+          // Allow templates to define their own styles
+          ...this.theme.padding(this.componentOptions().tdPadding),
+        },
+      },
+    ])
+  );
 
-      this.tdClass = css([
-        {
-          textAlign: 'center',
-          padding: 0, // Reset renderers default padding
-          '&:not(:last-child)': {
-            borderRight: this.getBorder(this.componentOptions().tdVerticalBorder),
-          },
-          '&:last-child.scrollable': {
-            // The last scrollable column allows space for the scrollbar.
-            paddingRight: 29,
-          },
-          '&.sticky': {
-            position: 'sticky',
-            left: 0,
-            zIndex: Z_INDEX.sticky,
-            ...this.theme.colorPair(this.componentOptions().tdStickyColor),
-          },
-          '&:not(.template)': {
-            // Allow templates to define their own styles
-            ...this.theme.padding(this.componentOptions().tdPadding),
-          },
-        },
-      ]);
-
-      this.trClass = css(
-        {
-          '& td': {
-            ...this.theme.backgroundColor('transparent'),
-            transition: 'all 0.28s ease',
-          },
-          ':not(:last-child) td': {
-            borderBottom: this.getBorder(this.componentOptions().tdHorizontalBorder),
-          },
-        },
-        this.useRowClick() && {
-          '&:hover td': {
-            ...this.theme.backgroundColor(this.componentOptions().rowHoverColor),
-            cursor: 'pointer',
-          },
-        }
-      );
-
-      this.detailRowClass = css({
-        display: 'table-row',
-        visibility: 'hidden',
-        '&.expanded': {
-          visibility: 'visible',
-        },
+  protected readonly trClass = computed(() =>
+    css(
+      {
         '& td': {
-          padding: 0,
+          ...this.theme.backgroundColor('transparent'),
+          transition: 'all 0.28s ease',
+        },
+        ':not(:last-child) td': {
           borderBottom: this.getBorder(this.componentOptions().tdHorizontalBorder),
         },
-        '& td .detail-content-wrapper': {
-          display: 'grid',
-          gridTemplateRows: '0fr',
-          transition: 'grid-template-rows 0.3s ease',
-          overflow: 'hidden',
+      },
+      this.useRowClick() && {
+        '&:hover td': {
+          ...this.theme.backgroundColor(this.componentOptions().rowHoverColor),
+          cursor: 'pointer',
+        },
+      }
+    )
+  );
 
-          '& .detail-inner': {
-            minHeight: 0,
-          },
+  protected readonly detailRowClass = computed(() =>
+    css({
+      display: 'table-row',
+      visibility: 'hidden',
+      '&.expanded': {
+        visibility: 'visible',
+      },
+      '& td': {
+        padding: 0,
+        borderBottom: this.getBorder(this.componentOptions().tdHorizontalBorder),
+      },
+      '& td .detail-content-wrapper': {
+        display: 'grid',
+        gridTemplateRows: '0fr',
+        transition: 'grid-template-rows 0.3s ease',
+        overflow: 'hidden',
+
+        '& .detail-inner': {
+          minHeight: 0,
         },
-        '&.expanded td .detail-content-wrapper': {
-          gridTemplateRows: '1fr',
-        },
-      });
-    });
-  }
+      },
+      '&.expanded td .detail-content-wrapper': {
+        gridTemplateRows: '1fr',
+      },
+    })
+  );
 
   // Loading state detection
   isLoading = linkedSignal(() => {

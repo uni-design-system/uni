@@ -1,12 +1,14 @@
-<label [class]="checkboxLabel">
+<label [class]="checkboxLabel()">
   <input
     type="checkbox"
-    [class]="checkboxInput"
+    [class]="checkboxInput()"
     [checked]="checked()"
     [indeterminate]="indeterminate()"
-    (change)="handleChange($any($event.target).checked)"
+    (change)="handleChange($event)"
     [disabled]="disabled()"
     [attr.aria-invalid]="showError() ? true : null"
+    [attr.aria-required]="required() ? true : null"
+    [attr.aria-describedby]="ariaDescribedBy() || null"
   />
   <div class="checkbox">
     <svg viewBox="0 0 20 20" aria-hidden="true">

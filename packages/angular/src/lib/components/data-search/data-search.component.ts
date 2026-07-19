@@ -1,4 +1,4 @@
-import { Component, effect, input, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, effect, input, signal } from '@angular/core';
 import { css } from '@emotion/css';
 import { UniDatasource, UniRecordDatasource, UniServerSideDatasource } from '../../cdk';
 import { BaseComponent } from '../base';
@@ -9,6 +9,7 @@ import { UniCenterComponent, UniRowComponent } from '../layout';
 import type { UniDataSearchOptions } from './data-search.model';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'uni-data-search',
   imports: [UniRowComponent, UniIconButtonComponent, UniIconComponent, UniCenterComponent],
   templateUrl: './data-search.component.html',

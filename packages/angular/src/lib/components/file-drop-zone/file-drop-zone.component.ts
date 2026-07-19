@@ -1,5 +1,6 @@
 import { NgTemplateOutlet } from '@angular/common';
 import {
+  ChangeDetectionStrategy,
   Component,
   computed,
   effect,
@@ -18,6 +19,7 @@ import { UniBoxComponent, UniStackComponent } from '../layout';
 import { UniTextComponent } from '../text/text.component';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'uni-file-drop-zone',
   imports: [
     DragAndDropDirective,
@@ -28,7 +30,6 @@ import { UniTextComponent } from '../text/text.component';
     NgTemplateOutlet,
   ],
   templateUrl: './file-drop-zone.component.html',
-  standalone: true,
 })
 export class UniFileDropZoneComponent {
   selectedFile = signal<File | undefined>(undefined);

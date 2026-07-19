@@ -1,11 +1,18 @@
-import { Component, computed, inject, InjectionToken, input } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  inject,
+  InjectionToken,
+  input,
+} from '@angular/core';
 import type { ComponentName, Size, Variant } from '@uni-design-system/uni-core';
 import { ThemeService } from '../../theming';
 
 export const COMPONENT_NAME = new InjectionToken<ComponentName>('');
 
 @Component({
-  standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [],
   template: ``,
 })
