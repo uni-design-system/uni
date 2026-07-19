@@ -1,1 +1,0 @@
-import"./jsx-runtime-CBrGbAtX.js";import{N as t}from"./iframe-CQ8l7sTD.js";import{L as o}from"./index-BNl1D2fT.js";const r=o,s=t.createContext(r),i=()=>{const e=t.useContext(s);if(!e)throw new Error("useTheme must be used within ThemeProvider");return e};export{i as u};
