@@ -62,9 +62,10 @@ pure encoder package emitting a module matrix, framework wrappers render SVG.
 1. **Jest is not set up** in `packages/angular` — no `jest.config`, no `jest-preset-angular`,
    so all 111 spec files fail on transform before running. Needs a proper Angular 21 jest
    (or vitest) setup. Pre-existing, not introduced by the port.
-2. **Specs / stories / MDX docs not ported** for the newly ported components (the prototype has
-   them for checkbox, radio, toggle, popover, search-input, select-input, scroll-area, data-table,
-   file-drop-zone, tag, etc.). Port once the test runner works; stories can come over mostly 1:1.
+2. **Specs not ported** for the newly ported components (stories + MDX are done — all 51
+   Storybook titles have docs pages). Port the .spec.ts files once the test runner works.
+   Note: the checkbox/radio/toggle "ReactiveForm" stories from the prototype were dropped
+   (legacy forms API); consider adding Signal Forms (`form()` + `[field]`) examples instead.
 3. **`icons: {}` is empty in BaseTheme** (prototype populated it from `icon.record`).
    `ThemeService.icons()` returns `{}` — audit whether anything reads theme icons.
 4. **Legacy `@Input()` remnants in earlier-ported components** (badge `width`, icon-button,
@@ -84,4 +85,3 @@ pure encoder package emitting a module matrix, framework wrappers render SVG.
 11. **multi-select-dropdown search is not debounced** (prototype had this commented out too).
     Could debounce the `query` signal like debounce-input.
 12. **paginator** `pageBorder` option is defined but unused (prototype parity) — remove or use.
-13. **Storybook coverage** for the ~20 newly ported components.

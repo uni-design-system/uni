@@ -8,8 +8,9 @@
     "dev:hub": "turbo run storybook --filter=@uni-design-system/uni-docs --filter=@uni-design-system/uni-react --filter=@uni-design-system/uni-angular",
     "format": "prettier --write .",
     "lint": "turbo lint",
-    "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build"
+    "storybook": "turbo run storybook --filter=@uni-design-system/uni-angular",
+    "storybook:react": "turbo run storybook --filter=@uni-design-system/uni-react",
+    "build-storybook": "turbo run build-storybook"
   },
   "devDependencies": {
     "@changesets/changelog-github": "^0.7.0",
