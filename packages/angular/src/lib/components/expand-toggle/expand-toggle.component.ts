@@ -9,7 +9,6 @@ import { UniTooltipComponent } from '../tooltip/tooltip.component';
   template: `<Tooltip
     [label]="collapsed() ? 'Expand' : 'Collapse'"
     placement="right"
-    [appendToBody]="true"
   >
     <button
       icon-button

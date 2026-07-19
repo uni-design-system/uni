@@ -1,4 +1,5 @@
 export * from './a11y/a11y';
+export * from './position/anchor';
 export * from './datasource';
 export * from './local-storage/local-storage.service';
 export * from './notification';

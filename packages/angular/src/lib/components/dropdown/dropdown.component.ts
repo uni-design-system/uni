@@ -13,21 +13,20 @@ import {
   ViewChild,
 } from '@angular/core';
 import { css } from '@emotion/css';
-import {
-  autoUpdate,
-  computePosition,
-  offset,
-  OffsetOptions,
-  Placement,
-  shift,
-} from '@floating-ui/dom';
 
 import { BaseComponent } from '../base';
 import { COMPONENT_NAME } from '../base/base.component';
 import { UniBoxComponent } from '../layout';
 import type { UniDropdownOptions } from './dropdown.model';
 import type { NullableSize } from '@uni-design-system/uni-core';
-import { resolveFocusTarget, uniqueId } from '../../cdk';
+import {
+  anchorStyles,
+  newAnchorName,
+  resolveFocusTarget,
+  uniqueId,
+  type AnchorOffset,
+  type Placement,
+} from '../../cdk';
 
 export type AriaHasPopup = 'menu' | 'listbox' | 'dialog' | 'grid' | 'tree' | 'true';
 
@@ -58,7 +57,6 @@ export class UniDropdownComponent
   implements OnInit, OnDestroy
 {
   private renderer = inject(Renderer2);
-  private cleanupAutoUpdate?: () => void;
   private delay = 100;
 
   // Reactively track visibility status using Signals
@@ -66,7 +64,10 @@ export class UniDropdownComponent
 
   trigger = input.required<HTMLElement>();
   placement = input<Placement>('bottom-start');
-  offset = input<OffsetOptions>({ mainAxis: 4, alignmentAxis: 12 });
+  offset = input<AnchorOffset>({ mainAxis: 4, alignmentAxis: 12 });
+
+  /** CSS anchor-name linking the trigger to the popover panel. */
+  private readonly anchorName = newAnchorName();
 
   /**
    * Value for aria-haspopup on the trigger, describing what the popover
@@ -117,14 +118,13 @@ export class UniDropdownComponent
         // Reset browser agent default popover styles
         border: 'none',
         background: 'transparent',
-        margin: 0,
         padding: 0,
         overflow: 'visible',
         width: 'max-content',
-        position: 'absolute',
-        top: 0,
-        left: 0,
-        zIndex: 1,
+
+        // Native anchor positioning: the browser keeps the panel attached to
+        // the trigger (no scroll/resize listeners needed)
+        ...anchorStyles(this.anchorName, currentPlacement, this.offset()),
 
         // 2. Animate discrete properties across top layer layout contexts
         transitionProperty: 'transform, opacity, display, overlay',
@@ -166,6 +166,9 @@ export class UniDropdownComponent
       this.toggleDropdown();
     });
 
+    // Anchor the popover panel to the trigger element
+    this.renderer.setStyle(this._trigger, 'anchor-name', this.anchorName);
+
     // Wire the ARIA popup contract onto the focusable trigger element
     const focusTarget = this._focusTarget;
     this.renderer.setAttribute(focusTarget, 'aria-expanded', 'false');
@@ -182,15 +185,8 @@ export class UniDropdownComponent
 
       if (isOpened) {
         this.dropdownShowing.emit(true);
-        this.cleanupAutoUpdate = autoUpdate(this._trigger, this._dropdown, () =>
-          this.updatePosition()
-        );
       } else {
         this.dropdownHiding.emit(true);
-        if (this.cleanupAutoUpdate) {
-          this.cleanupAutoUpdate();
-          this.cleanupAutoUpdate = undefined;
-        }
         this.restoreFocus();
       }
     });
@@ -220,18 +216,7 @@ export class UniDropdownComponent
     this._dropdown.hidePopover();
   }
 
-  private async updatePosition() {
-    const { x, y } = await computePosition(this._trigger, this._dropdown, {
-      placement: this.placement(),
-      middleware: [offset(this.offset()), shift({ padding: 5 })],
-    });
-
-    this.renderer.setStyle(this._dropdown, 'left', `${x}px`);
-    this.renderer.setStyle(this._dropdown, 'top', `${y}px`);
-  }
-
   ngOnDestroy() {
-    if (this.cleanupAutoUpdate) this.cleanupAutoUpdate();
     try {
       this._dropdown.hidePopover();
     } catch {

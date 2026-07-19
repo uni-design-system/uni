@@ -7,24 +7,45 @@ import {
   ElementRef,
   inject,
   input,
-  OnDestroy,
   Renderer2,
   signal,
+  viewChild,
 } from '@angular/core';
 import { css, keyframes } from '@emotion/css';
-import { arrow, computePosition, flip, offset, shift } from '@floating-ui/dom';
 
 import { BaseComponent } from '../base';
 import { COMPONENT_NAME } from '../base/base.component';
 import type { UniTooltipOptions } from './tooltip.model';
-import { Placement } from './tooltip.types';
-import { fadeIn, fadeOut, Z_INDEX } from '@uni-design-system/uni-core';
-import { resolveFocusTarget, uniqueId, useTimer, FOCUSABLE_SELECTOR } from '../../cdk';
+import { fadeIn, fadeOut } from '@uni-design-system/uni-core';
+import {
+  anchorArrowStyles,
+  anchorStyles,
+  newAnchorName,
+  resolveFocusTarget,
+  uniqueId,
+  useTimer,
+  FOCUSABLE_SELECTOR,
+  type Placement,
+} from '../../cdk';
 
 @Component({
   selector: 'uni-tooltip, Tooltip',
   imports: [],
-  template: `<ng-content></ng-content>`,
+  // The bubble lives declaratively in the template as a manual popover: the
+  // top layer escapes any overflow context (which made appendToBody obsolete)
+  // and native CSS anchor positioning keeps it attached to the host.
+  template: `<ng-content></ng-content
+    ><span
+      #tip
+      popover="manual"
+      role="tooltip"
+      [id]="tooltipId"
+      [class]="tooltipClassName()"
+      (mouseenter)="isMouseInside.set(true)"
+      (mouseleave)="isMouseInside.set(false)"
+      (animationend)="onAnimationEnd($event)"
+      >{{ label() }}<span [class]="arrowClassName()"></span
+    ></span>`,
   providers: [{ provide: COMPONENT_NAME, useValue: 'tooltip' }],
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
@@ -37,24 +58,28 @@ import { resolveFocusTarget, uniqueId, useTimer, FOCUSABLE_SELECTOR } from '../.
     '(keydown.escape)': 'onEscape($event)',
   },
 })
-export class UniTooltipComponent extends BaseComponent<UniTooltipOptions> implements OnDestroy {
+export class UniTooltipComponent extends BaseComponent<UniTooltipOptions> {
   private elRef = inject(ElementRef);
   private renderer = inject(Renderer2);
 
   private timer = useTimer();
-  hoverDelayMs = signal(500);
   isMouseInside = signal(false);
 
-  private tooltip!: HTMLElement | null;
-  private arrow!: HTMLElement | null;
-  private readonly tooltipId = uniqueId('uni-tooltip');
+  /** Whether the bubble is currently shown (or fading out). */
+  private readonly visible = signal(false);
+
+  readonly tooltipId = uniqueId('uni-tooltip');
+  private readonly anchorName = newAnchorName();
 
   hoverDelay = input<number>(500);
   label = input.required<string>();
   placement = input<Placement>('top');
   inlineText = input<boolean>(false);
 
+  /** @deprecated The tooltip renders in the native top layer; ignored. */
   appendToBody = input<boolean>(false);
+
+  private tipRef = viewChild.required<ElementRef<HTMLElement>>('tip');
 
   constructor() {
     super();
@@ -75,12 +100,14 @@ export class UniTooltipComponent extends BaseComponent<UniTooltipOptions> implem
 
     // A tooltip must be reachable by keyboard (WCAG 1.4.13): when the
     // projected content has no focusable element, the host itself joins
-    // the tab sequence.
+    // the tab sequence. The bubble is always in the DOM, so the describedby
+    // relationship is wired once, on the element that receives focus.
     afterNextRender(() => {
       const host = this.elRef.nativeElement as HTMLElement;
       if (!host.querySelector(FOCUSABLE_SELECTOR) && !host.matches(FOCUSABLE_SELECTOR)) {
         this.renderer.setAttribute(host, 'tabindex', '0');
       }
+      this.renderer.setAttribute(resolveFocusTarget(host), 'aria-describedby', this.tooltipId);
     });
   }
 
@@ -99,7 +126,7 @@ export class UniTooltipComponent extends BaseComponent<UniTooltipOptions> implem
   }
 
   onEscape(event: Event) {
-    if (this.tooltip) {
+    if (this.visible()) {
       // Dismiss only the tooltip, not an enclosing dialog/popover
       event.stopPropagation();
       this.hideTooltip();
@@ -107,7 +134,7 @@ export class UniTooltipComponent extends BaseComponent<UniTooltipOptions> implem
   }
 
   toggleTooltip() {
-    if (this.tooltip) {
+    if (this.visible()) {
       this.hideTooltip();
     } else {
       this.showTooltip();
@@ -116,7 +143,7 @@ export class UniTooltipComponent extends BaseComponent<UniTooltipOptions> implem
 
   mouseenter() {
     this.isMouseInside.set(true);
-    this.timer.start(this.hoverDelayMs());
+    this.timer.start(this.hoverDelay());
   }
 
   mouseleave() {
@@ -125,20 +152,30 @@ export class UniTooltipComponent extends BaseComponent<UniTooltipOptions> implem
   }
 
   showTooltip() {
-    if (this.tooltip) return;
-    this.initializeTooltip();
-    this.renderer.setAttribute(this.tooltip, 'fade', 'in');
+    if (this.visible()) return;
+    const tip = this.tipRef().nativeElement;
+    tip.showPopover();
+    this.renderer.setAttribute(tip, 'fade', 'in');
+    this.visible.set(true);
   }
 
   hideTooltip() {
-    if (!this.tooltip) return;
-    this.renderer.setAttribute(this.tooltip, 'fade', 'out');
+    if (!this.visible()) return;
+    this.renderer.setAttribute(this.tipRef().nativeElement, 'fade', 'out');
+  }
+
+  protected onAnimationEnd(event: AnimationEvent) {
+    if (event.animationName.includes(this.tooltipFadeOut)) {
+      this.tipRef().nativeElement.hidePopover();
+      this.visible.set(false);
+    }
   }
 
   protected readonly className = computed(() =>
     css(
       {
         display: 'inline-flex',
+        anchorName: this.anchorName,
       },
       this.inlineText() && {
         cursor: 'help',
@@ -151,127 +188,33 @@ export class UniTooltipComponent extends BaseComponent<UniTooltipOptions> implem
   private tooltipFadeIn = keyframes({ ...fadeIn });
   private tooltipFadeOut = keyframes({ ...fadeOut });
 
-  private tooltipClassName = css([
-    {
+  protected readonly tooltipClassName = computed(() =>
+    css([
+      {
+        ...this.theme.colorPair(this.componentOptions().color),
+        ...this.theme.radius(this.componentOptions().borderRadius),
+        ...this.theme.boxShadow(this.componentOptions().shadow),
+        ...this.theme.typeface(this.componentOptions().typeface),
+        border: 'none',
+        padding: 5,
+        width: 'max-content',
+        ...anchorStyles(this.anchorName, this.placement(), { mainAxis: 6 }),
+
+        '&[fade="in"]': {
+          animation: `${this.tooltipFadeIn} ease-in 350ms`,
+        },
+
+        '&[fade="out"]': {
+          animation: `${this.tooltipFadeOut} ease-in 350ms`,
+        },
+      },
+    ])
+  );
+
+  protected readonly arrowClassName = computed(() =>
+    css({
       ...this.theme.colorPair(this.componentOptions().color),
-      ...this.theme.radius(this.componentOptions().borderRadius),
-      ...this.theme.boxShadow(this.componentOptions().shadow),
-      ...this.theme.typeface(this.componentOptions().typeface),
-      padding: 5,
-      width: 'max-content',
-      position: 'absolute',
-      top: 0,
-      left: 0,
-      zIndex: Z_INDEX.tooltip,
-
-      '&[fade="in"]': {
-        animation: `${this.tooltipFadeIn} ease-in 350ms`,
-      },
-
-      '&[fade="out"]': {
-        animation: `${this.tooltipFadeOut} ease-in 350ms`,
-      },
-    },
-  ]);
-
-  private arrowClassName = css({
-    position: 'absolute',
-    ...this.theme.colorPair(this.componentOptions().color),
-    width: 8,
-    height: 8,
-    transform: 'rotate(45deg)',
-  });
-
-  private createTooltip() {
-    this.tooltip = this.renderer.createElement('span');
-
-    this.renderer.appendChild(
-      this.tooltip,
-      this.renderer.createText(this.label()) // textNode
-    );
-
-    this.renderer.appendChild(
-      this.appendToBody() ? document.body : this.elRef.nativeElement,
-      this.tooltip
-    );
-    this.renderer.addClass(this.tooltip, this.tooltipClassName);
-    this.renderer.setAttribute(this.tooltip, 'role', 'tooltip');
-    this.renderer.setAttribute(this.tooltip, 'id', this.tooltipId);
-    // Describe the element that actually receives focus, not the wrapper
-    this.renderer.setAttribute(
-      resolveFocusTarget(this.elRef.nativeElement),
-      'aria-describedby',
-      this.tooltipId
-    );
-
-    // The pointer may move onto the tooltip itself without dismissing it
-    // (WCAG 1.4.13 hoverable) — relevant when appended to <body>.
-    this.renderer.listen(this.tooltip, 'mouseenter', () => this.isMouseInside.set(true));
-    this.renderer.listen(this.tooltip, 'mouseleave', () => this.isMouseInside.set(false));
-
-    this.renderer.listen(this.tooltip, 'animationend', (event) => {
-      if (event.animationName.includes(this.tooltipFadeOut)) this.destroyTooltip();
-    });
-  }
-
-  private createArrow() {
-    this.arrow = this.renderer.createElement('div');
-    this.renderer.appendChild(this.tooltip, this.arrow);
-    this.renderer.addClass(this.arrow, this.arrowClassName);
-  }
-
-  private setPosition() {
-    if (!this.tooltip || !this.arrow) return;
-    computePosition(this.elRef.nativeElement, this.tooltip, {
-      placement: this.placement(),
-      middleware: [offset(6), flip(), shift({ padding: 5 }), arrow({ element: this.arrow })],
-    }).then(({ x, y, placement, middlewareData }) => {
-      this.renderer.setStyle(this.tooltip, 'top', `${y}px`);
-      this.renderer.setStyle(this.tooltip, 'left', `${x}px`);
-
-      // Accessing the data
-      const arrowX = middlewareData.arrow?.x;
-      const arrowY = middlewareData.arrow?.y;
-
-      const staticSide = {
-        top: 'bottom',
-        right: 'left',
-        bottom: 'top',
-        left: 'right',
-      }[placement.split('-')[0]];
-
-      this.renderer.setStyle(this.arrow, 'top', `${arrowY}px`);
-      this.renderer.setStyle(this.arrow, 'left', `${arrowX}px`);
-      this.renderer.setStyle(this.arrow, 'right', ``);
-      this.renderer.setStyle(this.arrow, 'bottom', ``);
-
-      if (staticSide) {
-        this.renderer.setStyle(this.arrow, staticSide, `-4px`);
-      }
-    });
-  }
-
-  private initializeTooltip() {
-    this.createTooltip();
-    this.createArrow();
-    this.setPosition();
-  }
-
-  private destroyTooltip() {
-    this.renderer.removeAttribute(resolveFocusTarget(this.elRef.nativeElement), 'aria-describedby');
-    this.renderer.removeChild(
-      this.appendToBody() ? document.body : this.elRef.nativeElement,
-      this.tooltip
-    );
-    this.renderer.removeChild(
-      this.appendToBody() ? document.body : this.elRef.nativeElement,
-      this.arrow
-    );
-    this.tooltip = null;
-    this.arrow = null;
-  }
-
-  ngOnDestroy() {
-    this.hideTooltip();
-  }
+      ...anchorArrowStyles(this.placement()),
+    })
+  );
 }

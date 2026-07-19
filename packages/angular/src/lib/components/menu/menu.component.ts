@@ -8,7 +8,7 @@ import {
   viewChildren,
 } from '@angular/core';
 import { css } from '@emotion/css';
-import { Placement } from '@floating-ui/dom';
+import { type Placement } from '../../cdk';
 
 import { UniMenuItemComponent } from './menu-item/menu-item.component';
 import { MenuItem } from './menu-item/menu-item.model';

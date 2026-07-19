@@ -1,10 +1,16 @@
 <!-- Click bubbles up from the projected [trigger] content, which is expected
      to be focusable (a button); keyboard activation arrives as a click. -->
 <!-- eslint-disable-next-line @angular-eslint/template/click-events-have-key-events, @angular-eslint/template/interactive-supports-focus -->
-<span #trigger (click)="togglePopover($event)">
+<span #trigger (click)="togglePopover($event)" [class]="triggerClassName">
   <ng-content select="[trigger]"></ng-content>
 </span>
-<div uniBodyRender #popover [class]="popoverClassName">
+<div
+  #panel
+  [id]="panelId"
+  [attr.popover]="autoClose() ? 'auto' : 'manual'"
+  [class]="popoverClassName()"
+  (toggle)="onToggle($event)"
+>
   <ng-content></ng-content>
-  <div #arrow [class]="arrowClassName"></div>
+  <span [class]="arrowClassName()"></span>
 </div>

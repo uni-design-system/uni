@@ -1,79 +1,77 @@
 import {
+  afterNextRender,
   ChangeDetectionStrategy,
   Component,
+  computed,
   ElementRef,
   inject,
   input,
-  OnDestroy,
-  OnInit,
   Renderer2,
+  signal,
   viewChild,
 } from '@angular/core';
 import { css } from '@emotion/css';
-import { arrow, computePosition, flip, offset, shift } from '@floating-ui/dom';
-import { Z_INDEX } from '@uni-design-system/uni-core';
-import { BodyRenderDirective } from '../../directives/body-render/body-render.directive';
 import { ThemeService } from '../../theming';
-import { Placement } from '../tooltip/tooltip.types';
+import {
+  anchorArrowStyles,
+  anchorStyles,
+  newAnchorName,
+  resolveFocusTarget,
+  uniqueId,
+  type Placement,
+} from '../../cdk';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'uni-popover, Popover',
-  imports: [BodyRenderDirective],
+  imports: [],
   templateUrl: './popover.component.html',
 })
-export class UniPopoverComponent implements OnInit, OnDestroy {
+export class UniPopoverComponent {
   private renderer = inject(Renderer2);
   private theme = inject(ThemeService);
 
-  private delay = 500;
-  private showing = false;
-  private clickListener?: () => void;
+  placement = input<Placement>('bottom');
 
-  placement = input<Placement>();
+  /** Light-dismiss on outside click / Escape (native popover="auto"). */
   autoClose = input(true);
 
-  triggerRef = viewChild.required<ElementRef>('trigger');
-  popoverRef = viewChild.required<ElementRef>('popover');
-  arrowRef = viewChild.required<ElementRef>('arrow');
+  readonly panelId = uniqueId('uni-popover');
+  private readonly anchorName = newAnchorName();
+  private readonly showing = signal(false);
 
-  private get _trigger(): HTMLSpanElement {
-    return this.triggerRef().nativeElement.firstChild;
+  private triggerRef = viewChild.required<ElementRef<HTMLElement>>('trigger');
+  private panelRef = viewChild.required<ElementRef<HTMLElement>>('panel');
+
+  constructor() {
+    // Wire the ARIA disclosure contract onto the focusable trigger element
+    afterNextRender(() => {
+      const target = resolveFocusTarget(this.triggerRef().nativeElement);
+      this.renderer.setAttribute(target, 'aria-expanded', 'false');
+      this.renderer.setAttribute(target, 'aria-controls', this.panelId);
+    });
   }
 
-  private get _popover(): HTMLDivElement {
-    return this.popoverRef().nativeElement;
-  }
-
-  private get _arrow(): HTMLDivElement {
-    return this.arrowRef().nativeElement;
-  }
-
-  ngOnInit() {
-    if (this.autoClose()) {
-      this.clickListener = this.renderer.listen('window', 'click', (e: Event) => {
-        if (!e.composedPath().includes(this._popover) && this.showing) this.hidePopover();
-      });
-    }
+  protected onToggle(event: Event) {
+    const open = (event as ToggleEvent).newState === 'open';
+    this.showing.set(open);
+    this.renderer.setAttribute(
+      resolveFocusTarget(this.triggerRef().nativeElement),
+      'aria-expanded',
+      `${open}`
+    );
   }
 
   showPopover() {
-    this.setPosition();
-    this.renderer.addClass(this._popover, this.showClassName);
-    this.showing = true;
+    this.panelRef().nativeElement.showPopover();
   }
 
   hidePopover() {
-    this.renderer.removeClass(this._popover, this.showClassName);
-    this.showing = false;
-
-    setTimeout(() => {
-      this.renderer.setStyle(this._popover, 'left', `-1000px`);
-    }, this.delay);
+    this.panelRef().nativeElement.hidePopover();
   }
 
   togglePopover(event: MouseEvent) {
-    if (this.showing) {
+    if (this.showing()) {
       this.hidePopover();
     } else {
       this.showPopover();
@@ -81,91 +79,56 @@ export class UniPopoverComponent implements OnInit, OnDestroy {
     event.stopPropagation();
   }
 
-  popoverClassName = css([
-    {
+  protected readonly triggerClassName = css({
+    display: 'inline-block',
+    anchorName: this.anchorName,
+  });
+
+  protected readonly popoverClassName = computed(() =>
+    css([
+      {
+        ...this.theme.colorPair('primary-surface'),
+        ...this.theme.radius('xs'),
+        ...this.theme.boxShadow('raised'),
+        ...this.theme.typeface('label'),
+        ...this.theme.border('quaternary'),
+        padding: '6px 12px',
+        width: 'max-content',
+        overflow: 'visible',
+        ...anchorStyles(this.anchorName, this.placement(), { mainAxis: 7 }),
+
+        // Fade via discrete transitions across the top layer
+        transitionProperty: 'opacity, display, overlay',
+        transitionDuration: '250ms',
+        transitionBehavior: 'allow-discrete',
+        opacity: 0,
+
+        '&:popover-open': {
+          opacity: 1,
+        },
+
+        '@starting-style': {
+          '&:popover-open': {
+            opacity: 0,
+          },
+        },
+      },
+    ])
+  );
+
+  protected readonly arrowClassName = computed(() => {
+    const side = this.placement().split('-')[0];
+    // Border on the two edges of the rotated square that face outward
+    const borders: Record<string, object> = {
+      top: { ...this.theme.borderRight('quaternary'), ...this.theme.borderBottom('quaternary') },
+      bottom: { ...this.theme.borderLeft('quaternary'), ...this.theme.borderTop('quaternary') },
+      left: { ...this.theme.borderRight('quaternary'), ...this.theme.borderTop('quaternary') },
+      right: { ...this.theme.borderLeft('quaternary'), ...this.theme.borderBottom('quaternary') },
+    };
+    return css({
       ...this.theme.colorPair('primary-surface'),
-      ...this.theme.radius('xs'),
-      ...this.theme.boxShadow('raised'),
-      ...this.theme.typeface('label'),
-      ...this.theme.border('quaternary'),
-      padding: '6px 12px',
-      width: 'max-content',
-      position: 'absolute',
-      top: 0,
-      left: 0,
-      transition: `opacity ${this.delay}ms`,
-      opacity: 0,
-      zIndex: Z_INDEX.popover,
-    },
-  ]);
-
-  arrowClassName = css({
-    position: 'absolute',
-    ...this.theme.colorPair('primary-surface'),
-    width: 8,
-    height: 8,
-    transform: 'rotate(45deg)',
-  });
-
-  private showClassName = css({
-    opacity: '1 !important',
-  });
-
-  private arrowClasses: Record<string, string> = {
-    top: css({
-      top: '-5px',
-      ...this.theme.borderLeft('quaternary'),
-      ...this.theme.borderTop('quaternary'),
-    }),
-    bottom: css({
-      bottom: '-5px',
-      ...this.theme.borderRight('quaternary'),
-      ...this.theme.borderBottom('quaternary'),
-    }),
-    left: css({
-      left: '-5px',
-      ...this.theme.borderLeft('quaternary'),
-      ...this.theme.borderBottom('quaternary'),
-    }),
-    right: css({
-      right: '-5px',
-      ...this.theme.borderRight('quaternary'),
-      ...this.theme.borderTop('quaternary'),
-    }),
-  };
-
-  private setPosition() {
-    computePosition(this._trigger, this._popover, {
-      placement: this.placement(),
-      middleware: [offset(7), flip(), shift({ padding: 5 }), arrow({ element: this._arrow })],
-    }).then(({ x, y, placement, middlewareData }) => {
-      this.renderer.setStyle(this._popover, 'top', `${y}px`);
-      this.renderer.setStyle(this._popover, 'left', `${x}px`);
-
-      const arrowX = middlewareData.arrow?.x;
-      const arrowY = middlewareData.arrow?.y;
-
-      const staticSide = {
-        top: 'bottom',
-        right: 'left',
-        bottom: 'top',
-        left: 'right',
-      }[placement.split('-')[0]];
-
-      this.renderer.setStyle(this._arrow, 'top', `${arrowY}px`);
-      this.renderer.setStyle(this._arrow, 'left', `${arrowX}px`);
-      this.renderer.setStyle(this._arrow, 'right', ``);
-      this.renderer.setStyle(this._arrow, 'bottom', ``);
-
-      if (staticSide) {
-        this.renderer.addClass(this._arrow, this.arrowClasses[staticSide]);
-      }
+      ...anchorArrowStyles(this.placement()),
+      ...borders[side],
     });
-  }
-
-  ngOnDestroy() {
-    if (this.clickListener) {
-      this.clickListener();
-    }
-  }
+  });
 }
