@@ -1,21 +1,16 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { UniBadgeComponent } from './badge.component';
 
-import { BadgeComponent } from './badge.component';
+describe('UniBadgeComponent', () => {
+  let fixture: ComponentFixture<UniBadgeComponent>;
 
-describe('BadgeComponent', () => {
-  let component: BadgeComponent;
-  let fixture: ComponentFixture<BadgeComponent>;
-
-  beforeEach(() => {
-    TestBed.configureTestingModule({
-      imports: [BadgeComponent],
-    });
-    fixture = TestBed.createComponent(BadgeComponent);
-    component = fixture.componentInstance;
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({ imports: [UniBadgeComponent] }).compileComponents();
+    fixture = TestBed.createComponent(UniBadgeComponent);
     fixture.detectChanges();
   });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
+  it('creates', () => {
+    expect(fixture.componentInstance).toBeTruthy();
   });
 });

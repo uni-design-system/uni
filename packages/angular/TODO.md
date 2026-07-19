@@ -99,19 +99,17 @@ Convert `@Input()` → `input()`, `@Output() EventEmitter` → `output()` in:
 
 ---
 
-## Phase 3 — Testing & CI (currently: tests exist, nothing runs them)
+## Phase 3 — Testing & CI ✅ core done (2026-07-19)
 
-- [ ] **Pick and wire a runner.** Recommendation: **Vitest** via `@analogjs/vite-plugin-angular` (already a devDep; aligns with the Vite/Analog Storybook toolchain). Remove the unused `jest`/`@types/jest` devDeps. Add `"test"` script.
-- [ ] Get the existing 31 specs green under the new runner.
-- [ ] Cover the untested ~20 components — prioritize the form controls and DataTable (highest logic density: `currentSelectedIndex`, datasource, sorting, pagination).
-- [ ] Add **interaction tests in stories** (`play` functions) for keyboard behavior built in Phase 1 — these double as living a11y documentation.
-- [ ] Storybook test-runner + axe in CI (see 1.3).
-- [ ] **ESLint** — there is no lint config anywhere. Add `angular-eslint` with:
-  - `no-restricted-syntax` bans on `@Input`/`@Output`/`@HostBinding`/`@HostListener`
-  - template a11y rules (`@angular-eslint/template/accessibility-*`)
-  - enforce OnPush
-- [ ] **CI workflow for PRs** (`.github/workflows/ci.yml`): build + lint + test + storybook-build. Today only `deploy-docs` and `release` exist — nothing gates a PR.
-- [ ] Repo hygiene: remove `debug-storybook.log`; ensure `dist/`, `storybook-static/` are git-ignored.
+- [x] **Runner: Vitest** (zoneless — no zone.js; matches how the library runs in apps) via `@analogjs/vite-plugin-angular`. `pnpm test` / `test:watch`; jest deps removed; jsdom stubs for the Popover/`<dialog>` APIs live in `src/test-setup.ts`. **Note:** `vitest.config.ts` carries a documented workaround for an Analog 2.5.x bug under Vite 8 (its vitest sourcemap pass parses uncompiled `.ts` as JS) — keep spec files decorator-free; revisit when Analog ships a fix.
+- [x] Existing 31 spec files green — most were stale scaffolds importing pre-rename class names (`ButtonComponent` vs `UniButtonComponent`) and were rewritten against the real API with behavioral assertions on the Phase 1 a11y contracts (aria-busy, aria-expanded wiring, menuitem roles, dialog labelling, Escape-cancel routing).
+- [x] New specs for previously untested controls: Checkbox (indeterminate + aria-invalid gating), Toggle (switch role), Radio (radiogroup, per-instance name uniqueness), Input/Select (label exposure, value mapping), ProgressBar (progressbar contract), NotificationBadge (SR announcement). **48 → 69 tests, 38 files, all green.**
+- [ ] Remaining coverage: DataTable/SortHeader/Paginator against a `UniDatasource` fixture; MultiSelectDropdown filtering/selection.
+- [ ] **Interaction tests in stories** (`play` functions) for the Phase 1 keyboard behavior — jsdom can't drive popovers/dialogs; this is where real keyboard coverage belongs.
+- [ ] Storybook test-runner + axe as a CI gate — deferred: needs `@storybook/test-runner` + Playwright wiring against `storybook-static`; do as its own PR.
+- [x] **ESLint** (`eslint.config.js`, flat): angular-eslint recommended + **template a11y rules as errors** (already caught two real gaps: Popover's keyboard-invisible trigger, an unlabelled demo input), legacy-decorator bans via `no-restricted-syntax` as **warnings** (~90; flip to errors as Phase 2 lands), `prefer-on-push` warning. Output renames that would be breaking (`change`, `close`, `onFileDropped`) are suppressed inline with `TODO(v4)` markers.
+- [x] **CI workflow** `.github/workflows/ci.yml`: PRs + main → turbo build, lint, test, Angular storybook build; `test`/`lint` tasks registered in turbo.json.
+- [x] Repo hygiene: `debug-storybook.log` deleted; `dist/` and `storybook-static/` were already git-ignored.
 
 ---
 

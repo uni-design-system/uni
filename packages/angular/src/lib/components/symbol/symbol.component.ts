@@ -1,4 +1,4 @@
-import { Component, HostBinding, input, Input } from '@angular/core';
+import { Component, HostBinding, input } from '@angular/core';
 import { css } from '@emotion/css';
 import { BaseComponent } from '../base';
 import type { SymbolFill, SymbolGrade, SymbolOptions, SymbolWeight } from './symbol.model';

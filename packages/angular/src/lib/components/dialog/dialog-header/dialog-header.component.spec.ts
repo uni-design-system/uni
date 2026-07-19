@@ -1,22 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { UniDialogHeaderComponent } from './dialog-header.component';
 
-import { DialogHeaderComponent } from './dialog-header.component';
-
-describe('DialogHeaderComponent', () => {
-  let component: DialogHeaderComponent;
-  let fixture: ComponentFixture<DialogHeaderComponent>;
+describe('UniDialogHeaderComponent', () => {
+  let fixture: ComponentFixture<UniDialogHeaderComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [DialogHeaderComponent],
+      imports: [UniDialogHeaderComponent],
     }).compileComponents();
-
-    fixture = TestBed.createComponent(DialogHeaderComponent);
-    component = fixture.componentInstance;
+    fixture = TestBed.createComponent(UniDialogHeaderComponent);
     fixture.detectChanges();
   });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
+  it('creates (dialog parent is optional)', () => {
+    expect(fixture.componentInstance).toBeTruthy();
   });
 });

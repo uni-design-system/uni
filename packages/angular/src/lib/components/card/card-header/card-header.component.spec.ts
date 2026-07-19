@@ -1,21 +1,16 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { UniCardHeaderComponent } from './card-header.component';
 
-import { CardHeaderComponent } from './card-header.component';
+describe('UniCardHeaderComponent', () => {
+  let fixture: ComponentFixture<UniCardHeaderComponent>;
 
-describe('CardHeaderComponent', () => {
-  let component: CardHeaderComponent;
-  let fixture: ComponentFixture<CardHeaderComponent>;
-
-  beforeEach(() => {
-    TestBed.configureTestingModule({
-      imports: [CardHeaderComponent],
-    });
-    fixture = TestBed.createComponent(CardHeaderComponent);
-    component = fixture.componentInstance;
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({ imports: [UniCardHeaderComponent] }).compileComponents();
+    fixture = TestBed.createComponent(UniCardHeaderComponent);
     fixture.detectChanges();
   });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
+  it('creates', () => {
+    expect(fixture.componentInstance).toBeTruthy();
   });
 });

@@ -11,6 +11,8 @@ import { Directive, output, signal } from '@angular/core';
   },
 })
 export class DragAndDropDirective {
+  // TODO(v4): rename to fileDropped — renaming is breaking
+  // eslint-disable-next-line @angular-eslint/no-output-on-prefix
   onFileDropped = output<FileList>();
 
   protected workspaceOpacity = signal('1');

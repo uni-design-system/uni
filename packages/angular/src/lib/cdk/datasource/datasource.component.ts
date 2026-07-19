@@ -20,8 +20,15 @@ interface User {
 
       <div class="controls">
         <div class="filter-controls">
-          <label>Filter by minimum age:</label>
-          <input type="number" [value]="minAge" (input)="updateFilter($event)" min="0" max="100" />
+          <label for="uni-ds-demo-min-age">Filter by minimum age:</label>
+          <input
+            id="uni-ds-demo-min-age"
+            type="number"
+            [value]="minAge"
+            (input)="updateFilter($event)"
+            min="0"
+            max="100"
+          />
         </div>
 
         <div class="sort-controls">

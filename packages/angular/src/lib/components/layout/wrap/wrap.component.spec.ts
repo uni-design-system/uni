@@ -1,22 +1,16 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { UniWrapComponent } from './wrap.component';
 
-import { WrapComponent } from './wrap.component';
-
-describe('WrapComponent', () => {
-  let component: WrapComponent;
-  let fixture: ComponentFixture<WrapComponent>;
+describe('UniWrapComponent', () => {
+  let fixture: ComponentFixture<UniWrapComponent>;
 
   beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      imports: [WrapComponent],
-    }).compileComponents();
-
-    fixture = TestBed.createComponent(WrapComponent);
-    component = fixture.componentInstance;
+    await TestBed.configureTestingModule({ imports: [UniWrapComponent] }).compileComponents();
+    fixture = TestBed.createComponent(UniWrapComponent);
     fixture.detectChanges();
   });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
+  it('creates', () => {
+    expect(fixture.componentInstance).toBeTruthy();
   });
 });

@@ -233,6 +233,8 @@ export class UniDropdownComponent
     if (this.cleanupAutoUpdate) this.cleanupAutoUpdate();
     try {
       this._dropdown.hidePopover();
-    } catch {}
+    } catch {
+      // popover was already closed or detached
+    }
   }
 }

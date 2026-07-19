@@ -10,7 +10,7 @@ const meta: Meta<StoryType> = {
   title: 'Components/Icon',
   component: Icon,
   render: (args) => {
-    const { name, color, size, containerColor } = args;
+    const { name, color, size } = args;
     return {
       undefined,
       template: `

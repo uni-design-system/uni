@@ -105,7 +105,7 @@ export class PermissionsStoryComponent {
           state,
           colorToken: this.permissionColorTokens[state],
         });
-      } catch (error) {
+      } catch {
         results.push({
           name,
           state: 'unsupported',

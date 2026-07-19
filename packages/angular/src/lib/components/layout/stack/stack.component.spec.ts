@@ -1,21 +1,16 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { UniStackComponent } from './stack.component';
 
-import { StackComponent } from './stack.component';
+describe('UniStackComponent', () => {
+  let fixture: ComponentFixture<UniStackComponent>;
 
-describe('StackComponent', () => {
-  let component: StackComponent;
-  let fixture: ComponentFixture<StackComponent>;
-
-  beforeEach(() => {
-    TestBed.configureTestingModule({
-      imports: [StackComponent],
-    });
-    fixture = TestBed.createComponent(StackComponent);
-    component = fixture.componentInstance;
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({ imports: [UniStackComponent] }).compileComponents();
+    fixture = TestBed.createComponent(UniStackComponent);
     fixture.detectChanges();
   });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
+  it('creates', () => {
+    expect(fixture.componentInstance).toBeTruthy();
   });
 });

@@ -1,21 +1,22 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
-import { BaseComponent } from './base.component';
+import { BaseComponent, COMPONENT_NAME } from './base.component';
 
 describe('BaseComponent', () => {
-  let component: BaseComponent;
   let fixture: ComponentFixture<BaseComponent>;
 
-  beforeEach(() => {
-    TestBed.configureTestingModule({
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
       imports: [BaseComponent],
-    });
+      providers: [{ provide: COMPONENT_NAME, useValue: 'button' }],
+    }).compileComponents();
     fixture = TestBed.createComponent(BaseComponent);
-    component = fixture.componentInstance;
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it('creates with theme-derived options', () => {
+    const component = fixture.componentInstance;
     expect(component).toBeTruthy();
+    expect(component.componentOptions()).toBeDefined();
+    expect(component.componentTheme()).toBeDefined();
   });
 });

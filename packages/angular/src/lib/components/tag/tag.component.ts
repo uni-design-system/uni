@@ -12,6 +12,8 @@ export class UniTagComponent {
   label = input<string>();
   value = input<string | number>();
 
+  // TODO(v4): rename to closed — renaming is breaking
+  // eslint-disable-next-line @angular-eslint/no-output-native
   close = output<string | number>();
 
   handleClose() {

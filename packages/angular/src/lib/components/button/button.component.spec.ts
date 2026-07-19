@@ -1,21 +1,33 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { UniButtonComponent } from './button.component';
 
-import { ButtonComponent } from './button.component';
+describe('UniButtonComponent', () => {
+  let fixture: ComponentFixture<UniButtonComponent>;
 
-describe('ButtonComponent', () => {
-  let component: ButtonComponent;
-  let fixture: ComponentFixture<ButtonComponent>;
-
-  beforeEach(() => {
-    TestBed.configureTestingModule({
-      declarations: [ButtonComponent],
-    });
-    fixture = TestBed.createComponent(ButtonComponent);
-    component = fixture.componentInstance;
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({ imports: [UniButtonComponent] }).compileComponents();
+    fixture = TestBed.createComponent(UniButtonComponent);
     fixture.detectChanges();
   });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
+  it('creates', () => {
+    expect(fixture.componentInstance).toBeTruthy();
+  });
+
+  it('is disabled and marked busy while loading', () => {
+    const host: HTMLElement = fixture.nativeElement;
+    expect(host.getAttribute('aria-busy')).toBeNull();
+
+    fixture.componentRef.setInput('loading', true);
+    fixture.detectChanges();
+
+    expect(host.getAttribute('aria-busy')).toBe('true');
+    expect(host.hasAttribute('disabled')).toBe(true);
+  });
+
+  it('is disabled via the disable input', () => {
+    fixture.componentRef.setInput('disable', true);
+    fixture.detectChanges();
+    expect((fixture.nativeElement as HTMLElement).hasAttribute('disabled')).toBe(true);
   });
 });

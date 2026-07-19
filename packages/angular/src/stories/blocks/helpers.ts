@@ -23,9 +23,9 @@ export const CommonControlExcludes = [
  * @returns {string} - The resulting rgba string.
  */
 export const transparentize = (amount: number, color: string): string => {
-  let r = 0;
-  let g = 0;
-  let b = 0;
+  let r: number;
+  let g: number;
+  let b: number;
   let a = 1;
 
   if (color.startsWith('#')) {

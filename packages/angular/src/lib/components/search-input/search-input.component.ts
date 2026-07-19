@@ -15,7 +15,10 @@ export class UniSearchInputComponent {
   label = input.required<string>();
   width = input<string | number>('100%');
 
+  // TODO(v4): rename to searchChange/searchSubmit — renaming is breaking
+  // eslint-disable-next-line @angular-eslint/no-output-native
   change = output<string>();
+  // eslint-disable-next-line @angular-eslint/no-output-native
   search = output<string>();
 
   @HostBinding('class') get className() {

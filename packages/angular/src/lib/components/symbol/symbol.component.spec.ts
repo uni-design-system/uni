@@ -1,22 +1,21 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { UniSymbolComponent } from './symbol.component';
 
-import { SymbolComponent } from './symbol.component';
-
-describe('SymbolComponent', () => {
-  let component: SymbolComponent;
-  let fixture: ComponentFixture<SymbolComponent>;
+describe('UniSymbolComponent', () => {
+  let fixture: ComponentFixture<UniSymbolComponent>;
 
   beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      imports: [SymbolComponent],
-    }).compileComponents();
-
-    fixture = TestBed.createComponent(SymbolComponent);
-    component = fixture.componentInstance;
+    await TestBed.configureTestingModule({ imports: [UniSymbolComponent] }).compileComponents();
+    fixture = TestBed.createComponent(UniSymbolComponent);
+    fixture.componentRef.setInput('name', 'close');
     fixture.detectChanges();
   });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
+  it('creates and renders the ligature name', () => {
+    expect((fixture.nativeElement as HTMLElement).textContent).toContain('close');
+  });
+
+  it('is decorative by default (aria-hidden)', () => {
+    expect((fixture.nativeElement as HTMLElement).getAttribute('aria-hidden')).toBe('true');
   });
 });

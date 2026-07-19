@@ -22,6 +22,9 @@ import { UniDropdownComponent } from '../dropdown';
   imports: [UniMenuItemComponent, UniDropdownComponent],
   changeDetection: ChangeDetectionStrategy.OnPush, // Crucial for zoneless
   template: `
+    <!-- Keydown listens for arrow keys bubbling from the projected (focusable)
+         trigger; the wrapper itself must stay out of the tab order. -->
+    <!-- eslint-disable-next-line @angular-eslint/template/interactive-supports-focus -->
     <div #trigger [class]="TriggerClassName" (keydown)="onTriggerKeydown($event)">
       <ng-content></ng-content>
     </div>
@@ -35,8 +38,13 @@ import { UniDropdownComponent } from '../dropdown';
         #dropdown
         (dropdownShowing)="onOpened()"
       >
+        <!-- Roving-focus composite: the container handles keys bubbling from
+             the focused item (menu-item hosts carry tabindex="-1"), and
+             Enter/Space activation is dispatched from onMenuKeydown. -->
+        <!-- eslint-disable-next-line @angular-eslint/template/interactive-supports-focus -->
         <div role="menu" (keydown)="onMenuKeydown($event, dropdown)">
           @for (item of menuItems(); track item) {
+            <!-- eslint-disable-next-line @angular-eslint/template/click-events-have-key-events, @angular-eslint/template/interactive-supports-focus -->
             <div
               menu-item
               [label]="item.label"

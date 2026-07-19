@@ -116,10 +116,7 @@ export class UniIconButtonComponent implements OnChanges {
     ]);
   }
 
-  ngOnChanges(changes: SimpleChanges) {
-    const { sizes, colors } = this.config();
-    const sizeConfig = sizes && sizes[this.size];
-
+  ngOnChanges(_changes: SimpleChanges) {
     if (this.loading) this.iconName = 'spinner';
   }
 }

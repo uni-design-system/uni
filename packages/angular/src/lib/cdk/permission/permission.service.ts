@@ -11,7 +11,7 @@ export class PermissionService {
         name: permission as PermissionName,
       });
       return state;
-    } catch (error) {
+    } catch {
       return 'unsupported';
     }
   }
@@ -22,7 +22,7 @@ export class PermissionService {
         name: permission as PermissionName,
       });
       return state === 'granted' || state === 'prompt';
-    } catch (error) {
+    } catch {
       return false;
     }
   }

@@ -12,6 +12,8 @@ export class UniDebounceInputComponent {
   inputId = input<string>();
   debounceTime = input<number>(400);
 
+  // TODO(v4): rename to valueChange — renaming is breaking
+  // eslint-disable-next-line @angular-eslint/no-output-native
   change = output<string>();
 
   value = signal<string | undefined>(undefined);

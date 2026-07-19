@@ -1,21 +1,16 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { UniDividerComponent } from './divider.component';
 
-import { DividerComponent } from './divider.component';
+describe('UniDividerComponent', () => {
+  let fixture: ComponentFixture<UniDividerComponent>;
 
-describe('DividerComponent', () => {
-  let component: DividerComponent;
-  let fixture: ComponentFixture<DividerComponent>;
-
-  beforeEach(() => {
-    TestBed.configureTestingModule({
-      imports: [DividerComponent],
-    });
-    fixture = TestBed.createComponent(DividerComponent);
-    component = fixture.componentInstance;
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({ imports: [UniDividerComponent] }).compileComponents();
+    fixture = TestBed.createComponent(UniDividerComponent);
     fixture.detectChanges();
   });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
+  it('creates', () => {
+    expect(fixture.componentInstance).toBeTruthy();
   });
 });

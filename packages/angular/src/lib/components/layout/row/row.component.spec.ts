@@ -1,21 +1,16 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { UniRowComponent } from './row.component';
 
-import { RowComponent } from './row.component';
+describe('UniRowComponent', () => {
+  let fixture: ComponentFixture<UniRowComponent>;
 
-describe('RowComponent', () => {
-  let component: RowComponent;
-  let fixture: ComponentFixture<RowComponent>;
-
-  beforeEach(() => {
-    TestBed.configureTestingModule({
-      imports: [RowComponent],
-    });
-    fixture = TestBed.createComponent(RowComponent);
-    component = fixture.componentInstance;
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({ imports: [UniRowComponent] }).compileComponents();
+    fixture = TestBed.createComponent(UniRowComponent);
     fixture.detectChanges();
   });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
+  it('creates', () => {
+    expect(fixture.componentInstance).toBeTruthy();
   });
 });

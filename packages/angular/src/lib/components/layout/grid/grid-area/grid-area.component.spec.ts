@@ -1,21 +1,16 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { UniGridAreaComponent } from './grid-area.component';
 
-import { UniGridAreaComponent as GridAreaComponent } from './grid-area.component';
+describe('UniGridAreaComponent', () => {
+  let fixture: ComponentFixture<UniGridAreaComponent>;
 
-describe('GridAreaComponent', () => {
-  let component: GridAreaComponent;
-  let fixture: ComponentFixture<GridAreaComponent>;
-
-  beforeEach(() => {
-    TestBed.configureTestingModule({
-      imports: [GridAreaComponent],
-    });
-    fixture = TestBed.createComponent(GridAreaComponent);
-    component = fixture.componentInstance;
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({ imports: [UniGridAreaComponent] }).compileComponents();
+    fixture = TestBed.createComponent(UniGridAreaComponent);
     fixture.detectChanges();
   });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
+  it('creates', () => {
+    expect(fixture.componentInstance).toBeTruthy();
   });
 });
