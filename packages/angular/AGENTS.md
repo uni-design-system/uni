@@ -26,7 +26,11 @@ Guidance for contributors, human or AI. The generated API reference is in
   never getters (they re-serialize on every CD cycle) and never fields written
   from `effect()`.
 - **Native platform first:** `<dialog>` + `showModal()`, `popover="auto"`,
-  native `<select>`/`<input>`. `@floating-ui/dom` is the only runtime dep.
+  native `<select>`/`<input>`, CSS Anchor Positioning via the cdk helpers
+  (`anchorStyles`/`anchorArrowStyles`/`newAnchorName`). **Zero runtime
+  dependencies** — adding one requires a maintainer decision.
+- **Client-only:** the library assumes a browser (top layer, popovers).
+  Guard any pre-render DOM access with `afterNextRender`.
 - **Theming:** components inject `ThemeService` (usually via `BaseComponent`)
   and self-register a `COMPONENT_NAME` provider to read their options from the
   theme. `theme.focusRing()` is the shared focus indicator.

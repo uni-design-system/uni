@@ -137,8 +137,12 @@ every component. Point your coding agent at it. Regenerate with
 - **Package format:** Angular Package Format (APF) via `ng-packagr`, flat `fesm2022`
 - **Styling:** [Emotion](https://emotion.sh/docs/@emotion/css) atomic CSS from
   theme tokens — no global stylesheets, no CSS files to import
-- **Positioning:** native Popover API + `@floating-ui/dom` (the package's only
-  runtime dependency)
+- **Zero runtime dependencies.** Positioning uses the native Popover API +
+  CSS Anchor Positioning (Baseline 2026). On browsers without
+  `@position-try` support yet (Safari < 26, Firefox < 147) panels still
+  position correctly but don't auto-flip at viewport edges.
+- **Rendering:** client-side. The library drives browser-only primitives
+  (top layer, popovers, `matchMedia`); SSR/hydration is not currently a target
 - **Testing:** Vitest (zoneless TestBed), ESLint with template accessibility
   rules and a hard ban on legacy decorator APIs
 

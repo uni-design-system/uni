@@ -128,13 +128,14 @@
 
 ---
 
-## Phase 5 — Architecture decisions to make deliberately
+## Phase 5 — Architecture decisions ✅ decided & executed (2026-07-19)
 
-- [ ] **`@floating-ui/dom` is the package's only runtime dependency**, which conflicts with the stated "no 3rd-party deps" goal. Options: (a) accept and document it as the one blessed dep; (b) plan migration to native **CSS anchor positioning** (Chromium shipped; Firefox/Safari in progress) behind the current API. Recommend (a) now with (b) tracked for later.
-- [ ] **Tooltip/Dropdown DOM creation via `Renderer2`** (`tooltip.component.ts` builds elements imperatively): consider template + `popover` (like Dropdown) so ARIA wiring, testing, and SSR are tractable.
-- [ ] **SSR/hydration audit**: direct `document.body` access (tooltip `appendToBody`), `ElementRef.nativeElement` in constructors — gate behind `afterNextRender`/`isPlatformBrowser` or document the library as client-only.
-- [ ] **Public API discipline**: `public-api.ts` wildcard-exports everything, including `BaseComponent` and internals. Curate exports; internals leaking into the public surface become breaking-change liabilities.
-- [ ] `prototype/` directory: promote or delete before it ships in a release.
+- [x] **`@floating-ui/dom` REMOVED** (maintainer decision). Replaced with native **CSS Anchor Positioning** (Baseline 2026: Chrome 125+, Firefox 132+, Safari 18.2+) via new cdk helpers `anchorStyles`/`anchorArrowStyles`/`newAnchorName` + a library-owned `Placement` type. The browser now tracks anchors natively — Dropdown's `autoUpdate` scroll/resize plumbing is deleted. **Zero runtime dependencies.** Known degradation: browsers without `@position-try` (Safari < 26, Firefox < 147) position correctly but don't auto-flip at viewport edges; heals as browsers update. Dropdown's `offset` input type changed from floating-ui's `OffsetOptions` to the structurally-compatible cdk `AnchorOffset`.
+- [x] **Tooltip rebuilt declaratively**: the bubble is a template `popover="manual"` span in the top layer — no more `Renderer2` element building, `aria-describedby` wired once (bubble always in DOM), hoverable/Escape/focus contract preserved, spec asserts it. `appendToBody` is a deprecated no-op (top layer makes it meaningless); fixed a latent bug where the `hoverDelay` input was ignored in favor of an internal signal. The arrow is static per placement (won't follow a `@position-try` flip — cosmetic only).
+- [x] **Popover kept as a first-class component** (maintainer decision) and converted: native `popover` (light-dismiss = its old `autoClose` window-listener), CSS anchors, bordered arrow, plus new `aria-expanded`/`aria-controls` wiring. `BodyRenderDirective` no longer used internally (still exported).
+- [x] **SSR posture decided: client-only**, documented in README + AGENTS.md. Pre-render DOM access is gated behind `afterNextRender` where it exists.
+- [x] **Public API verified curated**: barrels do not export `BaseComponent`, demo/story components, or cdk internals; commented-out future components (`barcode`, `qrcode`, `pages`) stay unshipped. cdk a11y + positioning helpers are deliberate public API.
+- [x] `prototype/` — removed by maintainer before this phase; moot.
 
 ---
 

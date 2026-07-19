@@ -228,7 +228,7 @@ Inheritance (inputs listed once, available on all subclasses):
 - inputs:
   - `trigger: HTMLElement` (required)
   - `placement: Placement` = 'bottom-start'
-  - `offset: OffsetOptions` = { mainAxis: 4, alignmentAxis: 12 }
+  - `offset: AnchorOffset` = { mainAxis: 4, alignmentAxis: 12 }
   - `ariaHasPopup: AriaHasPopup | null` = null — Value for aria-haspopup on the trigger, describing what the popover contains (e.g. 'menu' for Menu, 'dialog' for rich content). When unset, only aria-expanded/aria-controls are managed.
   - `paddingVertical: NullableSize`
   - `paddingHorizontal: NullableSize`
@@ -409,8 +409,8 @@ Inheritance (inputs listed once, available on all subclasses):
 ## UniPopoverComponent
 - selector: `uni-popover, Popover`
 - inputs:
-  - `placement: Placement`
-  - `autoClose: boolean` = true
+  - `placement: Placement` = 'bottom'
+  - `autoClose: boolean` = true — Light-dismiss on outside click / Escape (native popover="auto").
 
 ## UniProgressBarComponent
 - selector: `uni-progress-bar, ProgressBar`
@@ -568,7 +568,7 @@ Inheritance (inputs listed once, available on all subclasses):
   - `label: string` (required)
   - `placement: Placement` = 'top'
   - `inlineText: boolean` = false
-  - `appendToBody: boolean` = false
+  - `appendToBody: boolean` = false — @deprecated The tooltip renders in the native top layer; ignored.
 
 ## UniWrapComponent
 - selector: `div[uni-wrap-layout], Wrap, div[wrap-layout]`

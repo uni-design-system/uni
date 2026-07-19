@@ -65,9 +65,10 @@ what consumers must supply themselves.
 ### Tooltip
 - Shows on keyboard focus (immediately) and on hover (after `hoverDelay`);
   hides on blur, pointer-out, or `Escape` (WCAG 1.4.13).
-- The bubble is `role="tooltip"` and linked via `aria-describedby` to the
-  focusable trigger. If the projected content isn't focusable, the host
-  becomes keyboard-reachable (`tabindex="0"`).
+- The bubble is a declarative `role="tooltip"` popover in the native top
+  layer, linked via `aria-describedby` to the focusable trigger. If the
+  projected content isn't focusable, the host becomes keyboard-reachable
+  (`tabindex="0"`).
 - Never put essential controls inside a tooltip label.
 
 ### Form controls (Signal Forms)
