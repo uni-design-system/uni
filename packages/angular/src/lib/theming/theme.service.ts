@@ -22,6 +22,7 @@ import {
   TextRole,
   Thickness,
   Variant,
+  toTypefaces,
   type ColorKey,
   type Radius,
   type Border,
@@ -45,7 +46,9 @@ export class ThemeService {
   component = <T>(componentName: ComponentName): Signal<ComponentTheme<T>> =>
     computed(() => (this.components()[componentName] as ComponentTheme<T>) || {});
   colors = computed(() => this.theme().colors);
-  typeFaces = computed(() => this.theme().typefaces);
+  // CSS-ready typefaces are derived from the theme's numeric type scale,
+  // never stored twice on the theme.
+  typeFaces = computed(() => toTypefaces(this.theme().typography));
   spacing = computed(() => this.theme().spacing);
   thicknesses = computed(() => this.theme().thicknesses);
   radii = computed(() => this.theme().radii);
@@ -99,10 +102,10 @@ export class ThemeService {
   componentStyle = (componentName: ComponentName, variant: Variant, size: Size) =>
     computed(() => {
       const component = this.component(componentName)();
-      const { fixed, colors, sizes } = component;
-      const colorStyle = colors && colors[variant];
+      const { fixed, variants, sizes } = component;
+      const variantStyle = variants && variants[variant];
       const sizeStyle = sizes && sizes[size];
-      return { ...fixed, ...colorStyle, ...sizeStyle };
+      return { ...fixed, ...variantStyle, ...sizeStyle };
     });
 
   getSpacing = (size: NullableSize) => {

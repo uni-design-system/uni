@@ -1,7 +1,5 @@
 import { TextRole, TextStyle, type TypeFaceDefinition } from '../typography';
 import { ColorToken } from '../color';
-import { Button, ButtonType } from '../button';
-import { Container, ContainerType } from '../container';
 import type { ComponentThemes } from '../component';
 import type { Variant } from './theme.types';
 import type { NullableSize } from '../size';
@@ -15,14 +13,16 @@ export type Spacing = Partial<Record<NullableSize, string | number>>;
 export type Orientation = 'horizontal' | 'vertical';
 export type LinearSpacing = Record<Orientation, Spacing>;
 
+/**
+ * A theme's type scale. Keyed by the canonical {@link TextRole}s, with room
+ * for a few product-specific extras (badge, tag, input). This is the single
+ * source of type truth — CSS-ready `typefaces` are derived from it on read
+ * via `toTypefaces()`, never stored twice.
+ */
+export type Typography = Record<TextRole, TextStyle> & Record<string, TextStyle>;
+
 export type Typefaces = Partial<Record<TextRole | string, TypeFaceDefinition>>;
 export type Typeface = keyof Typefaces;
-
-export interface ThemeProps {
-  themeId?: string;
-  themes?: Record<string, UniTheme>;
-  setTheme?: any;
-}
 
 export type Borders = Partial<Record<Variant | string, string>>;
 export type Border = keyof Borders;
@@ -43,22 +43,24 @@ export type Icons = Record<string, string>;
 export type Icon = keyof Icons;
 
 export interface UniTheme {
-  name: string;
   id: string;
-  colors: Colors;
-  typography: Record<TextRole, TextStyle>;
-  buttons: Record<ButtonType, Button>;
-  containers: Record<ContainerType, Container>;
+  name: string;
 
-  // Updated Model Props
+  /** Sole color source of truth. Borders and component variants derive from it. */
+  colors: Colors;
+  /** Numeric type scale; CSS `typefaces` are derived on read. */
+  typography: Typography;
+
+  // Token scales — flat, resolver-friendly.
   borders: Borders;
-  components: ComponentThemes;
-  icons: Icons;
   radii: Radii;
   shadows: Shadows;
   spacing: Spacing;
   thicknesses: Thicknesses;
-  typefaces: Typefaces;
+  icons: Icons;
+
+  /** Per-component theming: fixed base + state-aware variants + sizes + options. */
+  components: ComponentThemes;
 }
 
 export type Themes = Record<string, UniTheme>;

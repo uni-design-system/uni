@@ -54,9 +54,9 @@ export class UniIconButtonComponent {
   protected readonly srOnlyClass = css(visuallyHidden);
 
   protected readonly className = computed(() => {
-    const { sizes, colors } = this.config();
+    const { sizes, variants } = this.config();
     const sizeConfig = sizes && sizes[this.size()];
-    const colorConfig = colors && colors[this.variant()];
+    const colorConfig = variants && variants[this.variant()];
 
     return css([
       {
@@ -100,7 +100,7 @@ export class UniIconButtonComponent {
       },
       !this.loading() && {
         '&:disabled': {
-          ...this.config().colors?.disabled,
+          ...this.config().variants?.disabled,
         },
       },
     ]);

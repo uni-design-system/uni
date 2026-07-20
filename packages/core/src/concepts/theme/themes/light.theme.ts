@@ -1,8 +1,7 @@
-import { type UniTheme } from '../theme.model';
-import { BaseTheme } from './base.theme';
+import { createTheme, lightColors } from './base.theme';
 
-export const LightTheme: UniTheme = {
-  ...BaseTheme,
+export const LightTheme = createTheme({
   id: 'LightTheme',
   name: 'Light Theme',
-};
+  colors: lightColors,
+});

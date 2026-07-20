@@ -1,98 +1,97 @@
-import { type UniTheme } from '../theme.model';
-import { BaseTheme } from './base.theme';
+import type { Colors } from '../theme.model';
+import { createTheme } from './base.theme';
 
-export const DarkTheme: UniTheme = {
-  ...BaseTheme,
+export const darkColors: Colors = {
+  primary: '#D0BCFF',
+  'on-primary': '#371E73',
+  'primary-container': '#4F378B',
+  'on-primary-container': '#EADDFF',
+  secondary: '#CCC2DC',
+  'on-secondary': '#332D41',
+  'secondary-container': '#4A4458',
+  'on-secondary-container': '#E8DEF8',
+  tertiary: '#EFB8C8',
+  'on-tertiary': '#492532',
+  'tertiary-container': '#633B48',
+  'on-tertiary-container': '#FFD8E4',
+  error: '#F2B8B5',
+  'on-error': '#601410',
+  'error-container': '#8C1D18',
+  'on-error-container': '#F9DEDC',
+  background: '#1C1B1F',
+  'on-background': '#E6E1E5',
+  surface: '#1C1B1F',
+  'on-surface': '#E6E1E5',
+  'surface-variant': '#49454F',
+  'on-surface-variant': '#CAC4D0',
+  outline: '#938F99',
+  shadow: '#000000',
+  'surface-tint': '#D0BCFF',
+  'inverse-surface': '#E6E1E5',
+  'on-inverse-surface': '#313033',
+  'on-inverse-surface-primary': '#6750A4',
+  scrim: '#000000',
+  transparent: 'rgba(0,0,0,0)',
+  ghost: 'rgba(0,0,0,0)',
+
+  quaternary: '#938F99',
+  'on-quaternary': '#1C1B1F',
+  warn: '#F2B8B5',
+  'on-warn': '#601410',
+  success: '#7FD98F',
+  'on-success': '#00390F',
+  disabled: 'rgba(255,255,255,0.12)',
+  'on-disabled': 'rgba(255,255,255,0.38)',
+
+  'on-primary-container-variant': 'rgba(255,255,255,0.4)',
+  'on-primary-container-border': '#EADDFF',
+  'on-secondary-container-variant': 'rgba(255,255,255,0.4)',
+  'on-secondary-container-border': '#E8DEF8',
+  'on-tertiary-container-variant': 'rgba(255,255,255,0.4)',
+  'on-tertiary-container-border': '#FFD8E4',
+
+  'warn-container': '#8C1D18',
+  'on-warn-container': '#F9DEDC',
+  'on-warn-container-variant': 'rgba(255,255,255,0.4)',
+  'on-warn-container-border': '#F9DEDC',
+
+  'success-container': '#1E5128',
+  'on-success-container': '#C6F0CD',
+  'on-success-container-variant': 'rgba(255,255,255,0.4)',
+  'on-success-container-border': '#C6F0CD',
+
+  'disabled-container': '#2B2930',
+  'on-disabled-container': 'rgba(255,255,255,0.38)',
+
+  'inverse-container': '#E6E1E5',
+  'on-inverse-container': '#313033',
+
+  'primary-surface': '#1C1B1F',
+  'on-primary-surface': '#E6E1E5',
+  'on-primary-surface-variant': '#D0BCFF',
+
+  'secondary-surface': '#211F26',
+  'on-secondary-surface': '#E6E1E5',
+  'on-secondary-surface-variant': '#D0BCFF',
+
+  'tertiary-surface': '#2B2930',
+  'on-tertiary-surface': '#E6E1E5',
+  'on-tertiary-surface-variant': '#D0BCFF',
+
+  'quaternary-surface': '#36343B',
+  'on-quaternary-surface': '#E6E1E5',
+  'on-quaternary-surface-variant': '#D0BCFF',
+
+  'disabled-surface': 'rgba(255,255,255,0.12)',
+  'on-disabled-surface': 'rgba(255,255,255,0.5)',
+  'on-disabled-surface-variant': 'rgba(255,255,255,0.4)',
+
+  'on-inverse-surface-variant': '#6750A4',
+  'on-background-variant': '#8F8C93',
+};
+
+export const DarkTheme = createTheme({
   id: 'DarkTheme',
   name: 'Dark Theme',
-  colors: {
-    primary: '#D0BCFF',
-    'on-primary': '#371E73',
-    'primary-container': '#4F378B',
-    'on-primary-container': '#EADDFF',
-    secondary: '#CCC2DC',
-    'on-secondary': '#332D41',
-    'secondary-container': '#4A4458',
-    'on-secondary-container': '#E8DEF8',
-    tertiary: '#EFB8C8',
-    'on-tertiary': '#492532',
-    'tertiary-container': '#633B48',
-    'on-tertiary-container': '#FFD8E4',
-    error: '#F2B8B5',
-    'on-error': '#601410',
-    'error-container': '#8C1D18',
-    'on-error-container': '#F9DEDC',
-    background: '#1C1B1F',
-    'on-background': '#E6E1E5',
-    surface: '#1C1B1F',
-    'on-surface': '#E6E1E5',
-    'surface-variant': '#49454F',
-    'on-surface-variant': '#CAC4D0',
-    outline: '#938F99',
-    shadow: '#000000',
-    'surface-tint': '#D0BCFF',
-    'inverse-surface': '#E6E1E5',
-    'inverse-on-surface': '#313033',
-    'inverse-on-surface-primary': '#6750A4',
-    'on-inverse-surface': '#313033',
-    'on-inverse-surface-primary': '#6750A4',
-    scrim: '#000000',
-    transparent: 'rgba(0,0,0,0)',
-    ghost: 'rgba(0,0,0,0)',
-
-    quaternary: '#938F99',
-    'on-quaternary': '#1C1B1F',
-    warn: '#F2B8B5',
-    'on-warn': '#601410',
-    success: '#7FD98F',
-    'on-success': '#00390F',
-    disabled: 'rgba(255,255,255,0.12)',
-    'on-disabled': 'rgba(255,255,255,0.38)',
-
-    'on-primary-container-variant': 'rgba(255,255,255,0.4)',
-    'on-primary-container-border': '#EADDFF',
-    'on-secondary-container-variant': 'rgba(255,255,255,0.4)',
-    'on-secondary-container-border': '#E8DEF8',
-    'on-tertiary-container-variant': 'rgba(255,255,255,0.4)',
-    'on-tertiary-container-border': '#FFD8E4',
-
-    'warn-container': '#8C1D18',
-    'on-warn-container': '#F9DEDC',
-    'on-warn-container-variant': 'rgba(255,255,255,0.4)',
-    'on-warn-container-border': '#F9DEDC',
-
-    'success-container': '#1E5128',
-    'on-success-container': '#C6F0CD',
-    'on-success-container-variant': 'rgba(255,255,255,0.4)',
-    'on-success-container-border': '#C6F0CD',
-
-    'disabled-container': '#2B2930',
-    'on-disabled-container': 'rgba(255,255,255,0.38)',
-
-    'inverse-container': '#E6E1E5',
-    'on-inverse-container': '#313033',
-
-    'primary-surface': '#1C1B1F',
-    'on-primary-surface': '#E6E1E5',
-    'on-primary-surface-variant': '#D0BCFF',
-
-    'secondary-surface': '#211F26',
-    'on-secondary-surface': '#E6E1E5',
-    'on-secondary-surface-variant': '#D0BCFF',
-
-    'tertiary-surface': '#2B2930',
-    'on-tertiary-surface': '#E6E1E5',
-    'on-tertiary-surface-variant': '#D0BCFF',
-
-    'quaternary-surface': '#36343B',
-    'on-quaternary-surface': '#E6E1E5',
-    'on-quaternary-surface-variant': '#D0BCFF',
-
-    'disabled-surface': 'rgba(255,255,255,0.12)',
-    'on-disabled-surface': 'rgba(255,255,255,0.5)',
-    'on-disabled-surface-variant': 'rgba(255,255,255,0.4)',
-
-    'on-inverse-surface-variant': '#6750A4',
-    'on-background-variant': '#8F8C93',
-  },
-};
+  colors: darkColors,
+});

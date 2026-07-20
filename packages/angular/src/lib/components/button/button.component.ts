@@ -85,19 +85,10 @@ export class UniButtonComponent extends BaseComponent {
           fontSize: this.symbolSize(),
         },
       },
-      this.variant() !== 'ghost' && {
-        '&:hover, &:focus': {
-          ...this.theme.boxShadow('raised'),
-        },
-        '&:focus-visible': {
-          outline: `2px solid ${this.theme.colors()[this.variant()]}`,
-          outlineOffset: '2px',
-        },
-      },
-      this.variant() === 'ghost' && {
-        '&:hover, &:focus': {
-          backgroundColor: 'rgba(0,0,0,0.1) !important',
-        },
+      // Hover/pressed styling now lives in the theme's button variants
+      // (solid vs. hollow, per-variant states). Only the keyboard-focus
+      // indicator (WCAG 2.4.7) stays component-owned.
+      {
         '&:focus-visible': {
           outline: `2px solid ${this.theme.colors()[this.variant()]}`,
           outlineOffset: '2px',
@@ -108,7 +99,7 @@ export class UniButtonComponent extends BaseComponent {
       },
       !this.loading() && {
         '&:disabled': {
-          ...this.componentTheme().colors?.disabled,
+          ...this.componentTheme().variants?.disabled,
         },
       },
       this.loading() && {

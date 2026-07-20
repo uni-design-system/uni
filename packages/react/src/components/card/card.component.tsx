@@ -32,9 +32,11 @@ export function Card({
   style,
   ...rest
 }: CardProps) {
-  const { colors, containers } = useTheme();
+  const { colors } = useTheme();
 
-  const { borderRadii } = containers.card;
+  // NOTE: react is an experimental sandbox, not at parity with angular.
+  // `containers` was removed from the normalized UniTheme. Local fallback.
+  const borderRadii = { xxs: 4, xs: 8, sm: 12, md: 16, lg: 20, xl: 24, xxl: 28 } as const;
 
   const styles: CSSProperties = {
     height,

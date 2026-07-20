@@ -23,7 +23,9 @@ export function ColorSwatch({
 }: ColorSwatchProps) {
   const theme = useTheme();
 
-  const { borderRadii } = theme.containers.card;
+  // NOTE (react is an experimental sandbox, not at parity with angular):
+  // `containers` was removed from the normalized UniTheme. Local fallback.
+  const borderRadii = { xxs: 4, xs: 8, sm: 12, md: 16, lg: 20, xl: 24, xxl: 28 } as const;
 
   const cardStyle: CSSProperties = {
     height,

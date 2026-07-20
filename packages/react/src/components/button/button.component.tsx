@@ -2,6 +2,7 @@ import React, { CSSProperties, ReactNode, useEffect, useState } from 'react';
 import { BoxShadow, Text, useLayout, useTheme } from '../../core';
 import {
   UniTheme,
+  Button as ButtonModel,
   ButtonType,
   ColorToken,
   Size,
@@ -10,6 +11,34 @@ import {
 import { IconTextRow } from '../icon-text-row';
 import { IconName } from '../../core/icon';
 import { useRipple } from 'use-ripple-hook';
+
+// NOTE: react is an experimental sandbox, not at parity with angular. The typed
+// `buttons` map was removed from the normalized UniTheme (button styling now
+// lives in `components.button.variants`). These local defaults keep react building.
+const verticalPadding = { xxs: 2, xs: 5, sm: 8, md: 12, lg: 16, xl: 20, xxl: 24 };
+const horizontalPadding = { xxs: 4, xs: 8, sm: 12, md: 18, lg: 24, xl: 30, xxl: 36 };
+const baseButton: ButtonModel = {
+  borderRadius: 100,
+  color: 'primary-container',
+  contentColor: 'on-primary-container',
+  verticalPadding,
+  horizontalPadding,
+};
+const DEFAULT_BUTTONS: Record<ButtonType, ButtonModel> = {
+  elevated: { ...baseButton, color: 'surface', contentColor: 'on-surface', shadowElevation: 'raised' },
+  filled: { ...baseButton, color: 'primary' },
+  'filled-secondary': { ...baseButton, color: 'secondary', contentColor: 'on-secondary' },
+  outlined: {
+    ...baseButton,
+    color: 'transparent',
+    borderColor: 'primary',
+    contentColor: 'on-primary',
+    borderWidth: 1,
+  },
+  text: { ...baseButton, color: 'transparent', contentColor: 'on-surface' },
+  icon: { ...baseButton, color: 'transparent', contentColor: 'on-surface', horizontalPadding: verticalPadding },
+  'floating-action': { ...baseButton, color: 'secondary', contentColor: 'on-secondary' },
+};
 
 export interface ButtonProps {
   text?: string;
@@ -39,7 +68,7 @@ export const Button = ({
   const { deviceSize } = useLayout();
   const theme = useTheme();
   const [ref, createRipple] = useRipple({ disabled: disableRipple || buttonType === 'elevated' });
-  const buttonProps = theme.buttons[buttonType];
+  const buttonProps = DEFAULT_BUTTONS[buttonType];
 
   const getOnColorToken = (color: ColorToken) => `on-${color}` as ContentColorToken;
   const contentColor = overrideContentColor || getOnColorToken(buttonProps.color);
@@ -100,7 +129,7 @@ function Style(
     borderWidth,
     borderRadius,
     contentColor,
-  } = theme.buttons[buttonType];
+  } = DEFAULT_BUTTONS[buttonType];
 
   const styles: CSSProperties = {
     overflow: 'hidden',
