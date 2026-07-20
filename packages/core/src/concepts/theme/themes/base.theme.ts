@@ -1,4 +1,5 @@
 import type { ComponentThemes } from '../../component';
+import { generatePalette, type PaletteConfig } from '../../color';
 import type { TextRole, TextStyle } from '../../typography';
 import type {
   Borders,
@@ -404,94 +405,18 @@ export const createTheme = ({ id, name, colors, icons = {} }: ThemeConfig): UniT
   components: buildComponents(colors),
 });
 
-export const lightColors: Colors = {
-  primary: '#6750A4',
-  'on-primary': '#FFFFFF',
-  'primary-container': '#EADDFF',
-  'on-primary-container': '#21005E',
-  secondary: '#625B71',
-  'on-secondary': '#FFFFFF',
-  'secondary-container': '#E8DEF8',
-  'on-secondary-container': '#1E192B',
-  tertiary: '#7D5260',
-  'on-tertiary': '#FFFFFF',
-  'tertiary-container': '#FFD8E4',
-  'on-tertiary-container': '#370B1E',
-  error: '#B3261E',
-  'on-error': '#FFFFFF',
-  'error-container': '#F9DEDC',
-  'on-error-container': '#370B1E',
-  background: '#FFFBFE',
-  'on-background': '#1C1B1F',
-  surface: '#FFFBFE',
-  'on-surface': '#1C1B1F',
-  'surface-variant': '#E7E0EC',
-  'on-surface-variant': '#49454E',
-  outline: '#79747E',
-  shadow: '#000000',
-  'surface-tint': '#6750A4',
-  'inverse-surface': '#313033',
-  'on-inverse-surface': '#F4EFF4',
-  'on-inverse-surface-primary': '#D0BCFF',
-  scrim: '#000000',
-  transparent: 'rgba(0,0,0,0)',
-  ghost: 'rgba(0,0,0,0)',
-
-  quaternary: '#79747E',
-  'on-quaternary': '#FFFFFF',
-  warn: '#B3261E',
-  'on-warn': '#FFFFFF',
-  success: '#2E7D32',
-  'on-success': '#FFFFFF',
-  disabled: 'rgba(0,0,0,0.12)',
-  'on-disabled': 'rgba(0,0,0,0.38)',
-
-  'on-primary-container-variant': 'rgba(0,0,0,0.4)',
-  'on-primary-container-border': '#6750A4',
-  'on-secondary-container-variant': 'rgba(0,0,0,0.4)',
-  'on-secondary-container-border': '#625B71',
-  'on-tertiary-container-variant': 'rgba(0,0,0,0.4)',
-  'on-tertiary-container-border': '#7D5260',
-
-  'warn-container': '#F9DEDC',
-  'on-warn-container': '#8C1D18',
-  'on-warn-container-variant': 'rgba(0,0,0,0.4)',
-  'on-warn-container-border': '#8C1D18',
-
-  'success-container': '#C6F0CD',
-  'on-success-container': '#1E5128',
-  'on-success-container-variant': 'rgba(0,0,0,0.4)',
-  'on-success-container-border': '#1E5128',
-
-  'disabled-container': '#F2F2F2',
-  'on-disabled-container': 'rgba(0,0,0,0.38)',
-
-  'inverse-container': '#313033',
-  'on-inverse-container': '#F4EFF4',
-
-  'primary-surface': '#FFFFFF',
-  'on-primary-surface': '#18181B',
-  'on-primary-surface-variant': '#6750A4',
-
-  'secondary-surface': '#F3EDF7',
-  'on-secondary-surface': '#1C1B1F',
-  'on-secondary-surface-variant': '#6750A4',
-
-  'tertiary-surface': '#F2F2F2',
-  'on-tertiary-surface': '#1C1B1F',
-  'on-tertiary-surface-variant': '#6750A4',
-
-  'quaternary-surface': '#E8DEF8',
-  'on-quaternary-surface': '#1C1B1F',
-  'on-quaternary-surface-variant': '#6750A4',
-
-  'disabled-surface': 'rgba(0,0,0,0.12)',
-  'on-disabled-surface': 'rgba(0,0,0,0.5)',
-  'on-disabled-surface-variant': 'rgba(0,0,0,0.4)',
-
-  'on-inverse-surface-variant': '#D0BCFF',
-  'on-background-variant': '#959595',
+/**
+ * Seed for the shipped Light/Dark themes. Swap these three values (or call
+ * `generatePalette` with your own) to reskin the entire system — every color
+ * token is derived, so there is nothing else to hand-author.
+ */
+export const BASE_PALETTE_CONFIG: Pick<PaletteConfig, 'seed' | 'scheme' | 'category'> = {
+  seed: '#4F46E5', // indigo
+  scheme: 'triadic',
+  category: 'neutral',
 };
+
+export const lightColors: Colors = generatePalette({ ...BASE_PALETTE_CONFIG, mode: 'light' });
 
 export const BaseTheme: UniTheme = createTheme({
   id: 'BaseTheme',
