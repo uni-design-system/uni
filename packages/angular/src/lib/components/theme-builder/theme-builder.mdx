@@ -1,0 +1,24 @@
+import { Meta, Title, Story } from '@storybook/addon-docs/blocks';
+import * as Stories from './theme-builder.stories';
+
+<Meta of={Stories} name="Color" />
+<Title />
+
+## Bring your own brand
+
+Uni is **brand-agnostic**. You don't theme it token by token — you give it a brand color, and the
+whole system derives from it: accents, containers, surfaces, neutrals, semantic states, and a matching
+dark theme. Every one of the components in this Storybook reads from that theme, so the moment you
+change the palette below, they all change with it.
+
+- **Seed + scheme + category** — the fastest path. Pick a color, choose how secondary/tertiary relate
+  to it, and set the overall saturation character. 76 tokens are generated, all with WCAG-checked
+  contrast for legible text.
+- **Pin exact brand colors** — have a required brand color or a fixed pair (say forest green + ochre)?
+  Pin them. Pinned colors are emitted **verbatim in light** and lifted only in lightness for **dark**,
+  so they stay on-brand and legible. Everything else is generated around them.
+
+Tune the controls, then open any component in the sidebar — Button, Card, Badge, Data Table — and see
+it wearing your brand. Use **Reset to default** to return to the shipped theme.
+
+<Story of={Stories.Builder} />

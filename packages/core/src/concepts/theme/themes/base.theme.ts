@@ -406,6 +406,21 @@ export const createTheme = ({ id, name, colors, icons = {} }: ThemeConfig): UniT
 });
 
 /**
+ * Build a full {@link UniTheme} straight from a {@link PaletteConfig} — the
+ * one-call path a theme builder uses to turn a brand color (or a seed +
+ * scheme + category) into a complete, ready-to-apply theme.
+ */
+export const createThemeFromPalette = (
+  config: PaletteConfig & { id?: string; name?: string; icons?: Icons }
+): UniTheme =>
+  createTheme({
+    id: config.id ?? 'CustomTheme',
+    name: config.name ?? 'Custom Theme',
+    colors: generatePalette(config),
+    icons: config.icons,
+  });
+
+/**
  * Seed for the shipped Light/Dark themes. Swap these three values (or call
  * `generatePalette` with your own) to reskin the entire system — every color
  * token is derived, so there is nothing else to hand-author.

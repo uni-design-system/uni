@@ -23,6 +23,8 @@ import {
   Thickness,
   Variant,
   toTypefaces,
+  createThemeFromPalette,
+  type PaletteConfig,
   type ColorKey,
   type Radius,
   type Border,
@@ -32,10 +34,23 @@ import {
 import { UNI_THEMES } from './theme.token';
 import { safeParseInt } from '../cdk/helpers/number.helper';
 
+/**
+ * The editable shape a theme builder manipulates: a seed + scheme + category
+ * (plus optional saturation floor, pinned brand colors, and light/dark mode).
+ * Everything else in a theme is derived from this.
+ */
+export type BrandPaletteConfig = Required<Pick<PaletteConfig, 'seed' | 'scheme' | 'category'>> &
+  Pick<PaletteConfig, 'mode' | 'accentSaturationFloor' | 'brand'>;
+
 @Injectable({
   providedIn: 'root',
 })
 export class ThemeService {
+  /** localStorage key marking the custom brand theme as active. */
+  static readonly CUSTOM_KEY = 'CustomTheme';
+  /** localStorage key holding the serialized brand palette config. */
+  static readonly PALETTE_KEY = 'uni-custom-palette';
+
   private themes = inject(UNI_THEMES);
   private localStorage = inject(LocalStorageService);
 
@@ -76,13 +91,50 @@ export class ThemeService {
       })
     );
 
-    this.selectTheme(this.localStorage.getItem('theme') || Object.keys(this.themes)[0] || 'base');
+    // Rehydrate a custom brand theme if one is active — this is what lets a
+    // palette built in one story reskin every other story: each story spins up
+    // a fresh ThemeService, and it reads the persisted config here on init.
+    const savedTheme = this.localStorage.getItem<string>('theme');
+    const savedPalette = this.localStorage.getItem<BrandPaletteConfig>(ThemeService.PALETTE_KEY);
+    if (savedTheme === ThemeService.CUSTOM_KEY && savedPalette) {
+      this.applyPalette(savedPalette, false);
+    } else {
+      this.selectTheme(savedTheme || Object.keys(this.themes)[0] || 'base');
+    }
   }
 
   public selectTheme(themeName: ThemeName): void {
     this.selectedThemeKey.set(themeName);
     if (this.themes[themeName]) this.theme.set(this.themes[themeName]);
     this.localStorage.setItem('theme', themeName);
+  }
+
+  /** The live brand palette config, when a custom theme is active. */
+  public customPalette = signal<BrandPaletteConfig | null>(null);
+  public isCustomTheme = computed(() => this.selectedThemeKey() === ThemeService.CUSTOM_KEY);
+
+  /**
+   * Generate a full theme from a brand palette config and make it active. When
+   * `persist` is true the config is saved so every subsequent story (and
+   * reload) renders with the same brand.
+   */
+  public applyPalette(config: BrandPaletteConfig, persist = true): void {
+    this.customPalette.set(config);
+    this.theme.set(
+      createThemeFromPalette({ ...config, id: ThemeService.CUSTOM_KEY, name: 'Your Brand' })
+    );
+    this.selectedThemeKey.set(ThemeService.CUSTOM_KEY);
+    if (persist) {
+      this.localStorage.setItem(ThemeService.PALETTE_KEY, config);
+      this.localStorage.setItem('theme', ThemeService.CUSTOM_KEY);
+    }
+  }
+
+  /** Drop the custom brand theme and fall back to the first built-in theme. */
+  public clearCustomPalette(): void {
+    this.customPalette.set(null);
+    this.localStorage.removeItem(ThemeService.PALETTE_KEY);
+    this.selectTheme(Object.keys(this.themes)[0] || 'base');
   }
 
   public selectedThemeName = computed(() => this.theme().name);
