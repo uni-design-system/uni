@@ -1,6 +1,19 @@
 import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
 import { css } from '@emotion/css';
-import type { ColorCategory, ColorScheme, ColorToken, Variant } from '@uni-design-system/uni-core';
+import {
+  emitDtcgTokens,
+  emitThemeFile,
+  generatePalette,
+  ShapeRadii,
+  type ColorCategory,
+  type ColorScheme,
+  type Colors,
+  type ColorToken,
+  type ContrastCheck,
+  type GenerationInput,
+  type ThemeShape,
+  type Variant,
+} from '@uni-design-system/uni-core';
 
 import { ThemeService, type BrandPaletteConfig } from '../../theming';
 import { UniButtonComponent } from '../button';
@@ -13,14 +26,15 @@ const SCHEMES: ColorScheme[] = [
   'triadic',
 ];
 const CATEGORIES: ColorCategory[] = ['jewel', 'pastel', 'earth', 'neutral', 'florescent', 'shades'];
+const SHAPES: ThemeShape[] = ['sharp', 'modern', 'playful'];
 const VARIANTS: Variant[] = ['primary', 'secondary', 'tertiary', 'warn', 'ghost'];
 
-// Representative tokens to show as swatches — the brand-derived spine of the theme.
+// Representative tokens shown as swatches in each mode panel.
 const SWATCHES: { label: string; token: ColorToken; on: ColorToken }[] = [
   { label: 'primary', token: 'primary', on: 'on-primary' },
   { label: 'secondary', token: 'secondary', on: 'on-secondary' },
   { label: 'tertiary', token: 'tertiary', on: 'on-tertiary' },
-  { label: 'quaternary', token: 'quaternary', on: 'on-quaternary' },
+  { label: 'container', token: 'primary-container', on: 'on-primary-container' },
   { label: 'error', token: 'error', on: 'on-error' },
   { label: 'warn', token: 'warn', on: 'on-warn' },
   { label: 'success', token: 'success', on: 'on-success' },
@@ -98,7 +112,7 @@ const PRESETS: Preset[] = [
   template: `
     <aside [class]="controls()">
       <header class="tb-head">
-        <span class="tb-eyebrow">Theme builder · Color</span>
+        <span class="tb-eyebrow">Theme builder · Playground</span>
         <h2 class="tb-title">Make Uni your brand</h2>
         <p class="tb-lede">
           Every token is derived in OKLCH from a seed color, a scheme and a category — or bring
@@ -146,12 +160,21 @@ const PRESETS: Preset[] = [
       </label>
 
       <label class="tb-field">
+        <span>Shape</span>
+        <select (change)="setShape($any($event.target).value)">
+          @for (s of shapes; track s) {
+            <option [value]="s" [selected]="s === shape()">{{ s }}</option>
+          }
+        </select>
+      </label>
+
+      <label class="tb-field">
         <span>Accent saturation floor · {{ floor() }}</span>
         <input type="range" min="0" max="45" [value]="floor()" (input)="setFloor($any($event.target).value)" />
       </label>
 
       <div class="tb-field">
-        <span>Mode</span>
+        <span>Storybook mode</span>
         <div class="tb-toggle">
           <button type="button" [class.on]="mode() === 'light'" (click)="setMode('light')">Light</button>
           <button type="button" [class.on]="mode() === 'dark'" (click)="setMode('dark')">Dark</button>
@@ -180,6 +203,21 @@ const PRESETS: Preset[] = [
         </div>
       </label>
 
+      <div class="tb-field">
+        <span>Export</span>
+        <div class="tb-exports">
+          <button type="button" (click)="copyThemeFile()">
+            {{ copied() === 'file' ? 'Copied ✓' : 'Copy uni-theme.ts' }}
+          </button>
+          <button type="button" (click)="copyNgAdd()">
+            {{ copied() === 'ngadd' ? 'Copied ✓' : 'Copy ng add command' }}
+          </button>
+          <button type="button" (click)="copyDtcg()">
+            {{ copied() === 'dtcg' ? 'Copied ✓' : 'Copy DTCG JSON' }}
+          </button>
+        </div>
+      </div>
+
       <div class="tb-actions">
         <button type="button" class="tb-reset" (click)="reset()">Reset to default</button>
       </div>
@@ -187,17 +225,35 @@ const PRESETS: Preset[] = [
     </aside>
 
     <section [class]="preview()">
-      <p class="tb-group">Palette</p>
-      <div class="tb-swatches">
-        @for (s of swatches; track s.label) {
-          <div class="tb-swatch" [style.background]="color(s.token)" [style.color]="color(s.on)">
-            <span>{{ s.label }}</span>
-            <code>{{ color(s.token) }}</code>
+      <p class="tb-group">Light & dark — generated together, side by side</p>
+      <div class="tb-modes">
+        @for (m of modePanels(); track m.label) {
+          <div class="tb-panel" [style.background]="m.colors['background']" [style.borderColor]="m.colors['outline']">
+            <span class="tb-panel-tag" [style.color]="m.colors['on-background-variant']">{{ m.label }}</span>
+            <div class="tb-mode-swatches">
+              @for (s of swatches; track s.label) {
+                <div class="tb-swatch" [style.background]="m.colors[s.token]" [style.color]="m.colors[s.on]">
+                  <span>{{ s.label }}</span>
+                  <code>{{ m.colors[s.token] }}</code>
+                </div>
+              }
+            </div>
+            <div class="tb-mini-card" [style.background]="m.colors['surface']" [style.borderColor]="m.colors['outline']">
+              <div class="tb-mini-head" [style.background]="m.colors['primary']" [style.color]="m.colors['on-primary']">
+                Card header
+              </div>
+              <div class="tb-mini-body" [style.color]="m.colors['on-surface']">
+                Semantic inks stay legible:
+                <b [style.color]="m.colors['error']">error</b> ·
+                <b [style.color]="m.colors['warn']">warn</b> ·
+                <b [style.color]="m.colors['success']">success</b>.
+              </div>
+            </div>
           </div>
         }
       </div>
 
-      <p class="tb-group">Buttons — your brand, our variants</p>
+      <p class="tb-group">Real components — your brand, live ({{ mode() }})</p>
       <div class="tb-buttons">
         @for (v of variants; track v) {
           <button text-button [variant]="v" size="lg">{{ v }}</button>
@@ -209,26 +265,45 @@ const PRESETS: Preset[] = [
         }
       </div>
 
-      <p class="tb-group">Surfaces</p>
-      <div class="tb-cards">
-        <div class="tb-card" [style.background]="color('surface')" [style.borderColor]="color('outline')">
-          <div class="tb-card-head" [style.background]="color('primary')" [style.color]="color('on-primary')">
-            Card header
-          </div>
-          <div class="tb-card-body" [style.color]="color('on-surface')">
-            Body copy on a surface with the outline token as its border. Semantic states stay legible:
-            <b [style.color]="color('error')">error</b> ·
-            <b [style.color]="color('warn')">warn</b> ·
-            <b [style.color]="color('success')">success</b>.
-          </div>
+      <p class="tb-group">
+        Contrast report — {{ report().checks.length }} pairs ·
+        worst {{ report().worst }}:1 ·
+        @if (report().failing.length === 0) {
+          <span class="tb-pass">all AA</span>
+        } @else {
+          <span class="tb-fail">{{ report().failing.length }} failing</span>
+        }
+        <button type="button" class="tb-link" (click)="showAllPairs.set(!showAllPairs())">
+          {{ showAllPairs() ? 'hide detail' : 'show all pairs' }}
+        </button>
+      </p>
+      @if (report().failing.length > 0 || showAllPairs()) {
+        <div class="tb-matrix">
+          <table>
+            <thead>
+              <tr><th>mode</th><th>foreground</th><th>on</th><th>ratio</th><th>needs</th><th>level</th></tr>
+            </thead>
+            <tbody>
+              @for (c of visibleChecks(); track $index) {
+                <tr [class.bad]="!c.pass">
+                  <td>{{ c.mode }}</td>
+                  <td><code>{{ c.foreground }}</code></td>
+                  <td><code>{{ c.background }}</code></td>
+                  <td>{{ c.ratio }}</td>
+                  <td>{{ c.required }}</td>
+                  <td>{{ c.level }}</td>
+                </tr>
+              }
+            </tbody>
+          </table>
         </div>
-        <div class="tb-card" [style.background]="color('primary-container')" [style.borderColor]="color('primary')">
-          <div class="tb-card-body" [style.color]="color('on-primary-container')">
-            <b>primary-container</b> — a soft brand tint for chips, highlights and callouts, with its
-            own legible on-color.
-          </div>
-        </div>
-      </div>
+      }
+      @if (report().failing.length > 0) {
+        <p class="tb-hint">
+          Failing pairs come from hard-pinned brand colors (pins are emitted verbatim). Un-pin, or
+          use a preset — soft targets keep brand hue while the guard-rail restores AA.
+        </p>
+      }
 
       <p class="tb-hint">Tip: browse to any component story in the sidebar — it's wearing your brand now.</p>
     </section>
@@ -239,6 +314,7 @@ export class UniThemeBuilderComponent {
 
   protected readonly schemes = SCHEMES;
   protected readonly categories = CATEGORIES;
+  protected readonly shapes = SHAPES;
   protected readonly variants = VARIANTS;
   protected readonly sizes = ['sm', 'md', 'lg', 'xl'] as const;
   protected readonly swatches = SWATCHES;
@@ -247,6 +323,7 @@ export class UniThemeBuilderComponent {
   protected seed = signal('#4F46E5');
   protected scheme = signal<ColorScheme>('triadic');
   protected category = signal<ColorCategory>('neutral');
+  protected shape = signal<ThemeShape>('modern');
   protected floor = signal(18);
   protected mode = signal<'light' | 'dark'>('light');
   protected pinPrimary = signal(false);
@@ -255,6 +332,9 @@ export class UniThemeBuilderComponent {
   protected secondaryHex = signal('#D4A373');
   /** Soft brand targets carried by the active preset (cleared on seed edits). */
   protected targets = signal<BrandPaletteConfig['targets']>(undefined);
+
+  protected copied = signal<'file' | 'ngadd' | 'dtcg' | null>(null);
+  protected showAllPairs = signal(false);
 
   constructor() {
     // Seed the controls from an already-active custom palette, if any.
@@ -283,6 +363,7 @@ export class UniThemeBuilderComponent {
     category: this.category(),
     mode: this.mode(),
     accentSaturationFloor: this.floor(),
+    radii: ShapeRadii[this.shape()],
     ...(this.targets() ? { targets: this.targets() } : {}),
     brand: {
       ...(this.pinPrimary() ? { primary: this.primaryHex() } : {}),
@@ -290,7 +371,57 @@ export class UniThemeBuilderComponent {
     },
   }));
 
-  protected snippet = computed(() => JSON.stringify(this.config()));
+  /**
+   * Both modes generated on every input change (< 15 ms each), independent of
+   * the storybook-wide theme — the side-by-side preview and the contrast
+   * report always show the full light+dark picture.
+   */
+  protected palettes = computed(() => {
+    const base = { ...this.config() };
+    const checks: ContrastCheck[] = [];
+    const light = generatePalette({ ...base, mode: 'light', checks });
+    const dark = generatePalette({ ...base, mode: 'dark', checks });
+    return { light, dark, checks };
+  });
+
+  protected modePanels = computed((): { label: 'light' | 'dark'; colors: Colors }[] => [
+    { label: 'light', colors: this.palettes().light },
+    { label: 'dark', colors: this.palettes().dark },
+  ]);
+
+  protected report = computed(() => {
+    const { checks } = this.palettes();
+    return {
+      checks,
+      failing: checks.filter((c) => !c.pass),
+      worst: checks.reduce((worst, c) => Math.min(worst, c.ratio), 21),
+    };
+  });
+
+  protected visibleChecks = computed(() =>
+    this.showAllPairs() ? this.report().checks : this.report().failing
+  );
+
+  protected snippet = computed(() => {
+    const { radii: _radii, ...rest } = this.config();
+    return JSON.stringify(rest);
+  });
+
+  /** The builder state expressed as engine input — drives all three exports. */
+  protected generationInput = computed<GenerationInput>(() => {
+    const targets = this.targets();
+    const seeds = [this.pinPrimary() ? this.primaryHex() : (targets?.primary ?? this.seed())];
+    const secondary = this.pinSecondary() ? this.secondaryHex() : targets?.secondary;
+    if (secondary) seeds.push(secondary);
+    if (targets?.tertiary) seeds.push(targets.tertiary);
+    return {
+      seed: seeds.length === 1 ? seeds[0] : seeds,
+      scheme: this.scheme(),
+      vibe: this.category(),
+      shape: this.shape(),
+      name: 'Brand',
+    };
+  });
 
   protected color(token: ColorToken): string {
     return this.theme.colors()[token] ?? 'transparent';
@@ -298,6 +429,43 @@ export class UniThemeBuilderComponent {
 
   private apply(): void {
     this.theme.applyPalette(this.config());
+  }
+
+  private copyToClipboard(kind: 'file' | 'ngadd' | 'dtcg', text: string): void {
+    void navigator.clipboard?.writeText(text).then(() => {
+      this.copied.set(kind);
+      setTimeout(() => this.copied.set(null), 1600);
+    });
+  }
+
+  protected copyThemeFile(): void {
+    this.copyToClipboard('file', emitThemeFile(this.generationInput()).content);
+  }
+
+  protected copyNgAdd(): void {
+    const input = this.generationInput();
+    const seeds = Array.isArray(input.seed) ? input.seed.join(',') : input.seed;
+    this.copyToClipboard(
+      'ngadd',
+      `ng add @uni-design-system/uni-angular --brand=${seeds} --shape=${input.shape}`
+    );
+  }
+
+  protected copyDtcg(): void {
+    const { light, dark } = this.palettes();
+    const radii = ShapeRadii[this.shape()];
+    const spacing = this.theme.spacing();
+    this.copyToClipboard(
+      'dtcg',
+      JSON.stringify(
+        {
+          light: emitDtcgTokens({ colors: light, radii, spacing }),
+          dark: emitDtcgTokens({ colors: dark, radii, spacing }),
+        },
+        null,
+        2
+      )
+    );
   }
 
   protected setSeed(v: string) {
@@ -314,6 +482,10 @@ export class UniThemeBuilderComponent {
   }
   protected setCategory(v: ColorCategory) {
     this.category.set(v);
+    this.apply();
+  }
+  protected setShape(v: ThemeShape) {
+    this.shape.set(v);
     this.apply();
   }
   protected setFloor(v: string) {
@@ -359,6 +531,7 @@ export class UniThemeBuilderComponent {
     this.seed.set('#4F46E5');
     this.scheme.set('triadic');
     this.category.set('neutral');
+    this.shape.set('modern');
     this.floor.set(18);
     this.mode.set('light');
     this.targets.set(undefined);
@@ -463,6 +636,16 @@ export class UniThemeBuilderComponent {
         color: this.c('on-primary'),
         borderColor: this.c('primary'),
       },
+      '& .tb-exports': { display: 'flex', flexDirection: 'column', gap: 6 },
+      '& .tb-exports button': {
+        height: 32,
+        borderRadius: 8,
+        cursor: 'pointer',
+        fontSize: 12.5,
+        border: `1px solid ${this.c('primary')}`,
+        background: this.c('primary-surface'),
+        color: this.c('on-primary-surface'),
+      },
       '& .tb-pin.dim input[type=color], & .tb-pin.dim input[type=text]': { opacity: 0.45 },
       '& .tb-pin em': {
         fontStyle: 'normal',
@@ -498,27 +681,79 @@ export class UniThemeBuilderComponent {
       display: 'flex',
       flexDirection: 'column',
       gap: 10,
-      '& .tb-swatches': {
+      '& .tb-modes': {
         display: 'grid',
-        gridTemplateColumns: 'repeat(auto-fill, minmax(120px, 1fr))',
-        gap: 10,
+        gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
+        gap: 14,
         marginBottom: 20,
       },
+      '& .tb-panel': {
+        border: '1px solid',
+        borderRadius: 14,
+        padding: 14,
+        display: 'flex',
+        flexDirection: 'column',
+        gap: 12,
+      },
+      '& .tb-panel-tag': {
+        fontSize: 10.5,
+        letterSpacing: '0.12em',
+        textTransform: 'uppercase',
+      },
+      '& .tb-mode-swatches': {
+        display: 'grid',
+        gridTemplateColumns: 'repeat(auto-fill, minmax(110px, 1fr))',
+        gap: 8,
+      },
       '& .tb-swatch': {
-        borderRadius: 12,
-        padding: '16px 14px',
-        minHeight: 74,
+        borderRadius: 10,
+        padding: '12px 12px',
+        minHeight: 60,
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'space-between',
       },
-      '& .tb-swatch span': { fontSize: 13, fontWeight: 600 },
-      '& .tb-swatch code': { fontFamily: 'monospace', fontSize: 11, opacity: 0.85 },
+      '& .tb-swatch span': { fontSize: 12.5, fontWeight: 600 },
+      '& .tb-swatch code': { fontFamily: 'monospace', fontSize: 10.5, opacity: 0.85 },
+      '& .tb-mini-card': { borderRadius: 10, overflow: 'hidden', border: '1px solid' },
+      '& .tb-mini-head': { padding: '8px 14px', fontWeight: 600, fontSize: 13 },
+      '& .tb-mini-body': { padding: '10px 14px', fontSize: 12.5, lineHeight: 1.5 },
       '& .tb-buttons': { display: 'flex', flexWrap: 'wrap', gap: 12, alignItems: 'center', marginBottom: 14 },
-      '& .tb-cards': { display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: 14, marginBottom: 12 },
-      '& .tb-card': { borderRadius: 12, overflow: 'hidden', border: '1px solid' },
-      '& .tb-card-head': { padding: '10px 16px', fontWeight: 600 },
-      '& .tb-card-body': { padding: '14px 16px', fontSize: 13.5, lineHeight: 1.5 },
+      '& .tb-pass': { color: this.c('success'), fontWeight: 700 },
+      '& .tb-fail': { color: this.c('error'), fontWeight: 700 },
+      '& .tb-link': {
+        marginLeft: 10,
+        background: 'none',
+        border: 'none',
+        cursor: 'pointer',
+        color: this.c('primary'),
+        fontSize: 11,
+        textTransform: 'none',
+        letterSpacing: 'normal',
+        textDecoration: 'underline',
+      },
+      '& .tb-matrix': {
+        maxHeight: 320,
+        overflow: 'auto',
+        border: `1px solid ${this.c('outline')}`,
+        borderRadius: 10,
+        marginBottom: 12,
+        '& table': { width: '100%', borderCollapse: 'collapse', fontSize: 12 },
+        '& th': {
+          position: 'sticky',
+          top: 0,
+          textAlign: 'left',
+          padding: '8px 10px',
+          background: this.c('surface-variant'),
+          color: this.c('on-surface-variant'),
+          fontSize: 10.5,
+          textTransform: 'uppercase',
+          letterSpacing: '0.08em',
+        },
+        '& td': { padding: '6px 10px', borderTop: `1px solid ${this.c('outline')}` },
+        '& td code': { fontFamily: 'monospace', fontSize: 11.5 },
+        '& tr.bad td': { background: this.c('error-container'), color: this.c('on-error-container') },
+      },
       '& .tb-hint': { fontSize: 12.5, opacity: 0.6, marginTop: 8 },
     })
   );

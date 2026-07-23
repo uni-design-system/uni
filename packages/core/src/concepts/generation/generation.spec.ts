@@ -6,6 +6,7 @@ import { createTheme, lightColors } from '../theme/themes/base.theme';
 import { hexToOklch, oklchToHex } from './oklch.helper';
 import { classifyScheme, generateThemes, generateUniThemes, ShapeRadii } from './theme.generator';
 import { emitThemeFile } from './theme-file.emitter';
+import { emitDtcgTokens } from './dtcg.emitter';
 
 // Uniform seed corpus: hue sweep × lightness × chroma extremes (PRD §7.3
 // requires ≥ 1,000). Out-of-gamut combinations gamut-map to valid hexes,
@@ -178,6 +179,19 @@ describe('generateShadows (via generateThemes)', () => {
     expect(content).toContain('const lightShadows: Shadows');
     expect(content).toContain('const darkShadows: Shadows');
     expect(content).toContain('shadows: lightShadows,');
+  });
+});
+
+describe('emitDtcgTokens', () => {
+  it('maps every color token and dimension scales into DTCG format', () => {
+    const { lightColors: colors } = generateThemes({ seed: '#0052FF' });
+    const tokens = emitDtcgTokens({ colors, radii: ShapeRadii.modern, spacing: { md: '16px' } });
+    expect(tokens.color['primary']).toEqual({ $value: colors.primary, $type: 'color' });
+    expect(tokens.color['on-surface-variant']).toBeDefined();
+    expect(Object.keys(tokens.color).length).toBe(Object.keys(colors).length);
+    expect(tokens.size.radius['md']).toEqual({ $value: '24px', $type: 'dimension' });
+    expect(tokens.size.radius['none']).toBeUndefined(); // 'none' is not a dimension
+    expect(tokens.size.spacing['md']).toEqual({ $value: '16px', $type: 'dimension' });
   });
 });
 

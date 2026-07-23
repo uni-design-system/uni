@@ -26,6 +26,7 @@ import {
   createThemeFromPalette,
   type GenerateColorsConfig,
   type PaletteConfig,
+  type Radii,
   type ColorKey,
   type Radius,
   type Border,
@@ -43,7 +44,10 @@ import { safeParseInt } from '../cdk/helpers/number.helper';
  * are brand-faithful but the WCAG guard-rail may adjust their lightness.
  */
 export type BrandPaletteConfig = Required<Pick<PaletteConfig, 'seed' | 'scheme' | 'category'>> &
-  Pick<GenerateColorsConfig, 'mode' | 'accentSaturationFloor' | 'brand' | 'targets'>;
+  Pick<GenerateColorsConfig, 'mode' | 'accentSaturationFloor' | 'brand' | 'targets'> & {
+    /** Radii override (e.g. a `ShapeRadii` shape-language preset). */
+    radii?: Radii;
+  };
 
 @Injectable({
   providedIn: 'root',

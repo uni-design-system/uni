@@ -453,13 +453,14 @@ export const createTheme = ({
  * scheme + category) into a complete, ready-to-apply theme.
  */
 export const createThemeFromPalette = (
-  config: GenerateColorsConfig & { id?: string; name?: string; icons?: Icons }
+  config: GenerateColorsConfig & { id?: string; name?: string; icons?: Icons; radii?: Radii }
 ): UniTheme => {
   const colors = generatePalette(config);
   return createTheme({
     id: config.id ?? 'CustomTheme',
     name: config.name ?? 'Custom Theme',
     colors,
+    radii: config.radii,
     shadows: generateShadows(colors, config.mode ?? 'light'),
     icons: config.icons,
   });

@@ -66,9 +66,12 @@ them at scaffold time; the engine never runs in the browser. Enablers landed:
         fixes ship in the next patch release.
   - [ ] `npx … init` fallback for non-CLI workspaces; `ng serve` computed-style
         assertion (browser automation).
-- [ ] **Playground**: promote/extend the existing Theme Builder component into
-      `apps/playground` with light+dark side-by-side, contrast report panel, exports
-      (`uni-theme.ts` copy, pre-encoded `ng add` command, DTCG JSON).
+- [x] **Playground** (2026-07-23): Theme Builder extended in place — light+dark
+      side-by-side panels, live contrast pass/fail matrix, shape-language input (radii
+      applied live), and all three exports (`uni-theme.ts` via `emitThemeFile`,
+      pre-encoded `ng add` command, DTCG JSON via `emitDtcgTokens`). Deploys with the
+      existing Storybook Pages workflow; a standalone `apps/playground` remains optional
+      if a chrome-free URL is ever wanted.
   - [x] Theme Builder re-based on the engine: `targets` (soft brand anchors) plumbed
         through `BrandPaletteConfig`/`createThemeFromPalette`; nine curated AA-clean
         presets (Indigo, Ocean, Emerald, Sunset, Berry, Heritage, Sage & Clay, Pastel,
@@ -77,7 +80,8 @@ them at scaffold time; the engine never runs in the browser. Enablers landed:
       provider snippet + contrast report; server instructions teach the
       edit-the-static-file retheming workflow.
   - [ ] Lint check rejecting raw hex in the MCP snippet corpus.
-- [ ] W3C DTCG JSON emitter (shared by playground + MCP).
+- [x] W3C DTCG JSON emitter (`emitDtcgTokens` in `concepts/generation`), consumed by the
+      playground export; wiring it into an MCP tool remains open.
 
 ## Milestone 5 — Process
 
