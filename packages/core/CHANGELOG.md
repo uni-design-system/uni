@@ -1,5 +1,35 @@
 # @uni-design-system/uni-core
 
+## 5.1.0
+
+### Minor Changes
+
+- [`c1dc853`](https://github.com/uni-design-system/uni/commit/c1dc853f762a27c466b033709ec84876b708995c) Thanks [@gaenglish](https://github.com/gaenglish)! - Brand-tinted, theme-scoped elevation shadows (PRD §3.5.C)
+  - New `generateShadows(colors, mode)`: light themes replace the dead-neutral
+    `rgba(0,0,0,…)` stacks with a shadow ink pulled toward the brand hue; dark themes go
+    near-zero (`raised: none`) with only a faint veil on floating overlays — elevation
+    reads from the surface lightness steps instead. The `warn` glow is tinted with the
+    theme's own error color in both modes.
+  - `generateThemes` now returns `lightShadows`/`darkShadows`; `generateUniThemes`,
+    `createThemeFromPalette` (Theme Builder), the emitted `uni-theme.ts`, and the shipped
+    stock Light/Dark themes all carry them.
+
+### Patch Changes
+
+- [`f2951db`](https://github.com/uni-design-system/uni/commit/f2951db7f6267f29b56d127151ff843d445c40a4) Thanks [@gaenglish](https://github.com/gaenglish)! - Fix `ng add` against real published packages (found by fresh `ng new` e2e):
+  - The schematic bundle is CJS, but ng-packagr stamps `"type": "module"` into the
+    published package.json, so Node loaded it as ESM and the CLI reported "no ng add
+    actions". A nested `schematics/package.json` (`"type": "commonjs"`) scopes the
+    bundle back to CJS.
+  - The emitted `uni-theme.ts` used dot access on `Colors` (which has an index
+    signature), failing under `ng new`'s strict `noPropertyAccessFromIndexSignature`.
+    The emitter (and the MCP tool's guidance) now uses bracket access throughout.
+  - `uni-angular`'s peer range on `uni-core` is now `workspace:^` (publishes as `^5.x`)
+    instead of `workspace:*` (published as an exact pin). Alongside changesets'
+    `onlyUpdatePeerDependentsWhenOutOfRange`, this stops minor releases from being
+    inflated to majors by the peer-dependents rule — the cause of the 4.0.0 and 5.0.0
+    version jumps.
+
 ## 5.0.0
 
 ### Minor Changes
