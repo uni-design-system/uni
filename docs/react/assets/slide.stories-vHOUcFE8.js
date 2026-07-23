@@ -1,0 +1,19 @@
+import{j as e}from"./jsx-runtime-DB1iCi7M.js";import{u as l}from"./use-toggle-D0f_Ldyd.js";import"./iframe-DbBjZySO.js";import{S as o}from"./slide.component-cq9gKTwF.js";import{B as i}from"./button.component-BIc8Pcc-.js";import{C as m}from"./card.component-Bkk9TSF4.js";import"./sortableList.component-KQVkSS_u.js";import"./icon-text-row.component-BrqFUMTT.js";import"./modal.component-D_L1qNO_.js";import"./switch.component-Dbx7dfM5.js";import"./preload-helper-PPVm8Dsz.js";import"./theming-q5fmw0Jo.js";import"./index-BwOnGDr7.js";import"./overlay.component-B7QlisLP.js";import"./proxy-WWA8iru9.js";import"./background.component-8ObOeoOS.js";import"./text.component-CoIBGH9s.js";import"./image.component-B3-WyBjm.js";import"./shadow.style-Duij7dU6.js";import"./padding.style-k3FT0osq.js";import"./index-BFpAb-qs.js";import"./index-BiBLzSgX.js";const E={title:"Components / Transition / Slide",component:o},t=({...a})=>{const[n,{toggle:r}]=l(!1);return e.jsxs(e.Fragment,{children:[e.jsx(i,{onClick:r,children:"Toggle Sidebar"}),e.jsx(o,{style:{maxWidth:400,padding:0},in:n,...a,children:e.jsx(m,{colorToken:"background",borderRadius:"none",cardType:n?"elevated":void 0,elevation:"modal",height:"100%",children:e.jsx(i,{buttonType:"icon",iconName:"xmarkSolid",onClick:r})})})]})};t.args={};t.__docgenInfo={description:"",methods:[],displayName:"Sidebar",props:{transition:{required:!1,tsType:{name:"Partial",elements:[{name:"Record",elements:[{name:"union",raw:"'enter' | 'exit'",elements:[{name:"literal",value:"'enter'"},{name:"literal",value:"'exit'"}]},{name:"Transition"}],raw:"Record<'enter' | 'exit', P>"}],raw:"Partial<Record<'enter' | 'exit', P>>"},description:"Custom `transition` definition for `enter` and `exit`"},transitionEnd:{required:!1,tsType:{name:"Partial",elements:[{name:"Record",elements:[{name:"union",raw:"'enter' | 'exit'",elements:[{name:"literal",value:"'enter'"},{name:"literal",value:"'exit'"}]},{name:"Target"}],raw:"Record<'enter' | 'exit', P>"}],raw:"Partial<Record<'enter' | 'exit', P>>"},description:"Custom `transitionEnd` definition for `enter` and `exit`"},delay:{required:!1,tsType:{name:"union",raw:"number | DelayConfig",elements:[{name:"number"},{name:"Partial",elements:[{name:"Record",elements:[{name:"union",raw:"'enter' | 'exit'",elements:[{name:"literal",value:"'enter'"},{name:"literal",value:"'exit'"}]},{name:"number"}],raw:"Record<'enter' | 'exit', P>"}],raw:"Partial<Record<'enter' | 'exit', P>>"}]},description:"Custom `delay` definition for `enter` and `exit`"},unmountOnExit:{required:!1,tsType:{name:"boolean"},description:"If `true`, the element will unmount when `in={false}` and animation is done"},in:{required:!1,tsType:{name:"boolean"},description:"Show the component; triggers when enter or exit states"},direction:{required:!1,tsType:{name:"union",raw:"'top' | 'left' | 'bottom' | 'right'",elements:[{name:"literal",value:"'top'"},{name:"literal",value:"'left'"},{name:"literal",value:"'bottom'"},{name:"literal",value:"'right'"}]},description:`The direction to slide from
+@default "right"`},motionProps:{required:!1,tsType:{name:"HTMLMotionProps",elements:[{name:"literal",value:"'div'"}],raw:"HTMLMotionProps<'div'>"},description:""}}};t.parameters={...t.parameters,docs:{...t.parameters?.docs,source:{originalSource:`({
+  ...args
+}: SlideProps) => {
+  const [open, {
+    toggle
+  }] = useToggle(false);
+  return <>
+      <Button onClick={toggle}>Toggle Sidebar</Button>
+      <Slide style={{
+      maxWidth: 400,
+      padding: 0
+    }} in={open} {...args}>
+        <Card colorToken="background" borderRadius="none" cardType={open ? 'elevated' : undefined} elevation="modal" height="100%">
+          <Button buttonType="icon" iconName="xmarkSolid" onClick={toggle} />
+        </Card>
+      </Slide>
+    </>;
+}`,...t.parameters?.docs?.source}}};const _=["Sidebar"];export{t as Sidebar,_ as __namedExportsOrder,E as default};
