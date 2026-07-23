@@ -7,7 +7,7 @@ import { UniSymbolComponent } from '../symbol';
 import { UniIconComponent } from '../icon';
 import { ThemeService } from '../../theming/theme.service';
 import { visuallyHidden } from '../../cdk';
-import type { Size, Variant } from '@uni-design-system/uni-core';
+import type { RadiiSize, Size, Variant } from '@uni-design-system/uni-core';
 
 @Component({
   selector: 'button[uni-icon-button], button[icon-button]',
@@ -34,7 +34,7 @@ import type { Size, Variant } from '@uni-design-system/uni-core';
 })
 export class UniIconButtonComponent {
   private theme = inject(ThemeService);
-  config = this.theme.component('iconButton');
+  config = this.theme.component<{ borderRadius?: RadiiSize }>('iconButton');
 
   /**
    * Accessible name for the button. Alternative to projecting text content
@@ -66,7 +66,9 @@ export class UniIconButtonComponent {
         border: 0,
         cursor: 'pointer',
         transition: 'all 0.28s ease',
-        borderRadius: 999,
+        // Token-driven radius (`max` = circle) with the legacy 999 fallback
+        // for hand-authored themes that predate iconButton options.
+        ...(this.theme.radius(this.config().options?.borderRadius) ?? { borderRadius: 999 }),
         display: 'block',
 
         '&:disabled': {

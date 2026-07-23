@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component, computed, input } from '@angular/co
 import { css } from '@emotion/css';
 
 import { BaseComponent, COMPONENT_NAME } from '../base/base.component';
+import type { UniButtonOptions } from './button.model';
 import { UniIconComponent } from '../icon';
 import { UniBoxComponent } from '../layout';
 import { UniSymbolComponent } from '../symbol';
@@ -34,7 +35,7 @@ import { RippleDirective } from '../../directives/ripple';
   },
   hostDirectives: [{ directive: RippleDirective }],
 })
-export class UniButtonComponent extends BaseComponent {
+export class UniButtonComponent extends BaseComponent<UniButtonOptions> {
   readonly disable = input<boolean | undefined>(false);
   readonly loading = input<boolean | undefined>(false);
   readonly fullWidth = input<boolean>(false);
@@ -53,6 +54,11 @@ export class UniButtonComponent extends BaseComponent {
 
   protected readonly className = computed(() =>
     css([
+      // Token-driven radius + typeface from component options. Applied before
+      // `style()` so theme `sizes`/`fixed` (per-size fontSize, or hand-set
+      // radii/families in older themes) keep winning.
+      this.theme.radius(this.componentOptions().borderRadius),
+      { ...this.theme.typeface(this.componentOptions().typeface) },
       this.style() && {
         ...this.style(), // TODO: Set priority on theme-defined styles
       },

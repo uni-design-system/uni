@@ -195,6 +195,37 @@ describe('emitDtcgTokens', () => {
   });
 });
 
+describe('button token conformance', () => {
+  it('drives button corner rounding from options tokens, not per-size pixels', () => {
+    const theme = createTheme({ id: 'T', name: 'T', colors: lightColors });
+    const options = theme.components.button?.options as { borderRadius: string };
+    expect(options).toEqual({ borderRadius: 'max', typeface: 'button' });
+    expect(theme.components.iconButton?.options).toEqual({ borderRadius: 'max' });
+    for (const size of Object.values(theme.components.button?.sizes ?? {})) {
+      expect(size).not.toHaveProperty('borderRadius');
+    }
+    // The token resolves through the theme's radii scale, so shape languages
+    // restyle buttons: sharp → square, modern/playful → pill.
+    expect(theme.radii[options.borderRadius]).toBe('999px');
+    const sharp = createTheme({ id: 'S', name: 'S', colors: lightColors, radii: ShapeRadii.sharp });
+    expect(sharp.radii[options.borderRadius]).toBe('0px');
+  });
+
+  it('drives button typography from the type scale, not hardcoded families', () => {
+    const theme = createTheme({ id: 'T', name: 'T', colors: lightColors });
+    const options = theme.components.button?.options as { typeface: string };
+    // The typeface token resolves against the theme's typography, so the
+    // `button` role (or any custom role) restyles labels without CSS edits.
+    expect(theme.typography[options.typeface]).toBeDefined();
+    expect(theme.typography[options.typeface].fontFamily).toBe('Red Hat Display');
+    const fixed = theme.components.button?.fixed as Record<string, unknown>;
+    expect(fixed).not.toHaveProperty('fontFamily');
+    for (const size of Object.values(theme.components.button?.sizes ?? {})) {
+      expect(size).not.toHaveProperty('fontFamily');
+    }
+  });
+});
+
 describe('createTheme overrides', () => {
   it('deep-merges custom border primitives and component overrides over derived defaults', () => {
     const theme = createTheme({

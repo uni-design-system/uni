@@ -1,13 +1,13 @@
 {
   "meta": {
     "version": "5.0.0",
-    "builtAt": "2026-07-23T20:35:06.467Z",
+    "builtAt": "2026-07-23T23:32:34.419Z",
     "frameworks": [
       "angular"
     ],
     "counts": {
       "components": 59,
-      "tokens": 223,
+      "tokens": 226,
       "themes": 2,
       "examples": 107
     }
@@ -699,7 +699,10 @@
         "donts": [],
         "accessibility": []
       },
-      "relatedTokens": []
+      "relatedTokens": [
+        "button.behavior.borderRadius",
+        "button.behavior.typeface"
+      ]
     },
     {
       "id": "button-group",
@@ -6435,6 +6438,42 @@
       }
     },
     {
+      "id": "button.behavior.borderRadius",
+      "value": "max",
+      "type": "string",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "button",
+      "themeValues": {
+        "LightTheme": "max",
+        "DarkTheme": "max"
+      }
+    },
+    {
+      "id": "button.behavior.typeface",
+      "value": "button",
+      "type": "string",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "button",
+      "themeValues": {
+        "LightTheme": "button",
+        "DarkTheme": "button"
+      }
+    },
+    {
+      "id": "iconButton.behavior.borderRadius",
+      "value": "max",
+      "type": "string",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "iconButton",
+      "themeValues": {
+        "LightTheme": "max",
+        "DarkTheme": "max"
+      }
+    },
+    {
       "id": "dataSearch.behavior.border",
       "value": "light",
       "type": "string",
@@ -7179,6 +7218,13 @@
         "badge": {
           "borderRadius": "xxs"
         },
+        "button": {
+          "borderRadius": "max",
+          "typeface": "button"
+        },
+        "iconButton": {
+          "borderRadius": "max"
+        },
         "dataSearch": {
           "border": "light",
           "borderRadius": "xs",
@@ -7445,6 +7491,13 @@
         },
         "badge": {
           "borderRadius": "xxs"
+        },
+        "button": {
+          "borderRadius": "max",
+          "typeface": "button"
+        },
+        "iconButton": {
+          "borderRadius": "max"
         },
         "dataSearch": {
           "border": "light",

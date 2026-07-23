@@ -196,13 +196,17 @@ const buildComponents = (c: Colors): ComponentThemes => ({
 
   // ---- Buttons: variants are structural archetypes with interaction states ----
   button: {
+    // Radius and typeface are tokens, not baked values: `max` renders the
+    // classic pill and the type scale's `button` role carries the label
+    // typography, so shape languages, custom radii, and typography edits
+    // restyle every button by re-pointing or redefining a token.
+    options: { borderRadius: 'max', typeface: 'button' },
     fixed: {
       position: 'relative',
       overflow: 'hidden',
       outline: '0',
       border: '0',
       cursor: 'pointer',
-      fontFamily: 'Euphemia, sans-serif',
       transition: 'all 0.28s ease',
     },
     variants: {
@@ -250,21 +254,17 @@ const buildComponents = (c: Colors): ComponentThemes => ({
         border: '0',
       },
     },
+    // Sizes are geometry only (height/padding/fontSize); families, weights and
+    // transforms come from the `typeface` option's type-scale role.
     sizes: {
-      sm: {
-        height: 22,
-        borderRadius: 11,
-        fontSize: 12,
-        padding: '0 12px',
-        fontFamily: 'Euphemia Bold, sans-serif',
-        fontWeight: 600,
-      },
-      md: { height: 26, borderRadius: 13, fontSize: 16, padding: '0 16px' },
-      lg: { height: 36, borderRadius: 18, fontSize: 18, padding: '0 18px' },
-      xl: { height: 48, borderRadius: 24, fontSize: 24, padding: '0 22px' },
+      sm: { height: 22, fontSize: 12, padding: '0 12px', fontWeight: 600 },
+      md: { height: 26, fontSize: 16, padding: '0 16px' },
+      lg: { height: 36, fontSize: 18, padding: '0 18px' },
+      xl: { height: 48, fontSize: 24, padding: '0 22px' },
     },
   },
   iconButton: {
+    options: { borderRadius: 'max' },
     variants: {
       ghost: { backgroundColor: 'transparent', color: 'currentcolor' },
       primary: { backgroundColor: c.primary, color: c['on-primary'] },
