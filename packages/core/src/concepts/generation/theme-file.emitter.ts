@@ -1,4 +1,4 @@
-import type { Colors } from '../theme/theme.model';
+import type { Colors, Shadows } from '../theme/theme.model';
 import { generateThemes } from './theme.generator';
 import type { ContrastReport, GenerationInput } from './generation.types';
 
@@ -52,7 +52,13 @@ const bordersLiteral = (): string =>
     '});',
   ].join('\n');
 
-const themeExport = (exportName: string, displayName: string, colorsConst: string, radii: boolean): string =>
+const themeExport = (
+  exportName: string,
+  displayName: string,
+  colorsConst: string,
+  shadowsConst: string,
+  radii: boolean
+): string =>
   [
     `export const ${exportName}: UniTheme = createTheme({`,
     `  id: '${exportName}',`,
@@ -60,6 +66,7 @@ const themeExport = (exportName: string, displayName: string, colorsConst: strin
     `  colors: ${colorsConst},`,
     `  borders: borders(${colorsConst}),`,
     `  components: components(${colorsConst}),`,
+    `  shadows: ${shadowsConst},`,
     ...(radii ? ['  radii,'] : []),
     '});',
   ].join('\n');
@@ -75,7 +82,7 @@ const themeExport = (exportName: string, displayName: string, colorsConst: strin
  */
 export const emitThemeFile = (input: ThemeFileInput): EmittedThemeFile => {
   const { darkMode = true, name = 'Brand' } = input;
-  const { lightColors, darkColors, radii, report } = generateThemes(input);
+  const { lightColors, darkColors, radii, lightShadows, darkShadows, report } = generateThemes(input);
   const id = (name.replace(/\W+/g, '') || 'Brand') as string;
 
   const seeds = Array.isArray(input.seed) ? input.seed : [input.seed];
@@ -93,10 +100,33 @@ export const emitThemeFile = (input: ThemeFileInput): EmittedThemeFile => {
     report.pass ? 'all AA' : `${report.checks.filter((c) => !c.pass).length} failing`
   }`;
 
-  const modes: { exportName: string; displayName: string; colorsConst: string; colors: Colors }[] = [
-    { exportName: `${id}Light`, displayName: `${name} Light`, colorsConst: 'lightColors', colors: lightColors },
+  const modes: {
+    exportName: string;
+    displayName: string;
+    colorsConst: string;
+    colors: Colors;
+    shadowsConst: string;
+    shadows: Shadows;
+  }[] = [
+    {
+      exportName: `${id}Light`,
+      displayName: `${name} Light`,
+      colorsConst: 'lightColors',
+      colors: lightColors,
+      shadowsConst: 'lightShadows',
+      shadows: lightShadows,
+    },
     ...(darkMode
-      ? [{ exportName: `${id}Dark`, displayName: `${name} Dark`, colorsConst: 'darkColors', colors: darkColors }]
+      ? [
+          {
+            exportName: `${id}Dark`,
+            displayName: `${name} Dark`,
+            colorsConst: 'darkColors',
+            colors: darkColors,
+            shadowsConst: 'darkShadows',
+            shadows: darkShadows,
+          },
+        ]
       : []),
   ];
 
@@ -114,10 +144,13 @@ export const emitThemeFile = (input: ThemeFileInput): EmittedThemeFile => {
     '  type Borders,',
     '  type Colors,',
     '  type ComponentThemes,',
+    '  type Shadows,',
     '  type UniTheme,',
     "} from '@uni-design-system/uni-core';",
     '',
     ...modes.map(({ colorsConst, colors }) => `const ${colorsConst}: Colors = {\n${recordLiteral(colors as Record<string, string>, '  ')}\n};\n`),
+    '/** Brand-tinted elevation shadows — theme-scoped, edit freely. */',
+    ...modes.map(({ shadowsConst, shadows }) => `const ${shadowsConst}: Shadows = {\n${recordLiteral(shadows as Record<string, string>, '  ')}\n};\n`),
     bordersLiteral(),
     '',
     '/**',
@@ -131,7 +164,10 @@ export const emitThemeFile = (input: ThemeFileInput): EmittedThemeFile => {
     ...(radii
       ? [`/** Shape language: '${input.shape}'. */`, `const radii = {\n${recordLiteral(radii as Record<string, string>, '  ')}\n};`, '']
       : []),
-    ...modes.map(({ exportName, displayName, colorsConst }) => `${themeExport(exportName, displayName, colorsConst, !!radii)}\n`),
+    ...modes.map(
+      ({ exportName, displayName, colorsConst, shadowsConst }) =>
+        `${themeExport(exportName, displayName, colorsConst, shadowsConst, !!radii)}\n`
+    ),
     '/** First key wins as the default theme when registered via UNI_THEMES. */',
     `export const ${id}Themes = { ${modes.map((m) => m.exportName).join(', ')} };`,
     '',

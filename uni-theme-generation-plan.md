@@ -35,8 +35,10 @@ muddy-palette fix lands first. Tick items as they land.
 - [x] Extend `ThemeConfig`/`createTheme` to accept optional `radii` and `shadows` overrides.
 - [x] `shape` input → `Radii` presets (`ShapeRadii` in `theme.generator.ts`), wired through
       `generateUniThemes`.
-- [ ] Brand-tinted light shadows (≈ 6–8% primary hue in the alpha stacks); near-zero dark
-      shadows + surface lightness stepping (shadows become theme-scoped, not shared).
+- [x] Brand-tinted light shadows (`generateShadows` in `concepts/generation`); near-zero
+      dark shadows (raised `none`, faint overlay veil) + error-tinted warn glow. Shadows
+      are theme-scoped: wired through `generateThemes`, `generateUniThemes`,
+      `createThemeFromPalette`, the emitted theme file, and the stock Light/Dark themes.
 
 ## Milestone 3 — Input flexibility
 

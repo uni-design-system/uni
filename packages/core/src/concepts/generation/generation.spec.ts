@@ -154,6 +154,33 @@ describe('generateUniThemes', () => {
   });
 });
 
+describe('generateShadows (via generateThemes)', () => {
+  it('tints light shadows toward the brand hue instead of neutral black', () => {
+    const { lightShadows, lightColors: colors } = generateThemes({ seed: '#0052FF' });
+    const rgb = lightShadows.raised!.match(/rgba\((\d+), (\d+), (\d+),/);
+    expect(rgb).not.toBeNull();
+    const [, r, g, b] = rgb!.map(Number);
+    expect(`${r},${g},${b}`).not.toBe('0,0,0');
+    // Blue seed → shadow ink leans blue.
+    expect(b).toBeGreaterThan(r);
+    expect(colors.primary).toBeDefined();
+  });
+
+  it('keeps dark shadows near-zero and tints the warn glow with the error color', () => {
+    const { darkShadows, darkColors } = generateThemes({ seed: '#0052FF' });
+    expect(darkShadows.raised).toBe('none');
+    const { red } = hexToRgb(darkColors.error!);
+    expect(darkShadows.warn).toContain(`rgba(${red}, `);
+  });
+
+  it('emits theme-scoped shadows into the static theme file', () => {
+    const { content } = emitThemeFile({ seed: '#0052FF' });
+    expect(content).toContain('const lightShadows: Shadows');
+    expect(content).toContain('const darkShadows: Shadows');
+    expect(content).toContain('shadows: lightShadows,');
+  });
+});
+
 describe('createTheme overrides', () => {
   it('deep-merges custom border primitives and component overrides over derived defaults', () => {
     const theme = createTheme({

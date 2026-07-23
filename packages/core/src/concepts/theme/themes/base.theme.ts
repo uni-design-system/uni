@@ -1,6 +1,7 @@
 import type { ComponentThemes } from '../../component';
 import { generatePalette, type PaletteConfig } from '../../color';
 import type { GenerateColorsConfig } from '../../generation/palette.factory';
+import { generateShadows } from '../../generation/shadow.generator';
 import type { TextRole, TextStyle } from '../../typography';
 import type {
   Borders,
@@ -453,13 +454,16 @@ export const createTheme = ({
  */
 export const createThemeFromPalette = (
   config: GenerateColorsConfig & { id?: string; name?: string; icons?: Icons }
-): UniTheme =>
-  createTheme({
+): UniTheme => {
+  const colors = generatePalette(config);
+  return createTheme({
     id: config.id ?? 'CustomTheme',
     name: config.name ?? 'Custom Theme',
-    colors: generatePalette(config),
+    colors,
+    shadows: generateShadows(colors, config.mode ?? 'light'),
     icons: config.icons,
   });
+};
 
 /**
  * Seed for the shipped Light/Dark themes. Swap these three values (or call

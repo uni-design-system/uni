@@ -4,6 +4,7 @@ import type { BrandRole } from '../color/color.factory';
 import { createTheme } from '../theme/themes/base.theme';
 import { hexToOklch, oklchToHex } from './oklch.helper';
 import { CategoryChroma, generateColors } from './palette.factory';
+import { generateShadows } from './shadow.generator';
 import type {
   ContrastCheck,
   GeneratedThemeConfig,
@@ -86,6 +87,8 @@ export const generateThemes = (input: GenerationInput): GeneratedThemeConfig => 
     lightColors,
     darkColors,
     radii: input.shape ? ShapeRadii[input.shape] : undefined,
+    lightShadows: generateShadows(lightColors, 'light'),
+    darkShadows: generateShadows(darkColors, 'dark'),
     report: { checks, worstRatio, pass: checks.every((check) => check.pass) },
   };
 };
@@ -95,11 +98,23 @@ export const generateThemes = (input: GenerationInput): GeneratedThemeConfig => 
  * returning a registration-ready light/dark {@link UniTheme} pair.
  */
 export const generateUniThemes = (input: GenerationInput): { light: UniTheme; dark: UniTheme } => {
-  const { lightColors, darkColors, radii } = generateThemes(input);
+  const { lightColors, darkColors, radii, lightShadows, darkShadows } = generateThemes(input);
   const name = input.name ?? 'Brand';
   const id = name.replace(/\W+/g, '') || 'Brand';
   return {
-    light: createTheme({ id: `${id}Light`, name: `${name} Light`, colors: lightColors, radii }),
-    dark: createTheme({ id: `${id}Dark`, name: `${name} Dark`, colors: darkColors, radii }),
+    light: createTheme({
+      id: `${id}Light`,
+      name: `${name} Light`,
+      colors: lightColors,
+      radii,
+      shadows: lightShadows,
+    }),
+    dark: createTheme({
+      id: `${id}Dark`,
+      name: `${name} Dark`,
+      colors: darkColors,
+      radii,
+      shadows: darkShadows,
+    }),
   };
 };

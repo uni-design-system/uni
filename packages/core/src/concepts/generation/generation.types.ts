@@ -57,7 +57,8 @@ export interface GeneratedThemeConfig {
   darkColors: Colors;
   /** Present when `shape` was provided. */
   radii?: Radii;
-  /** Brand-tinted shadow overrides (reserved; not yet emitted). */
-  shadows?: Shadows;
+  /** Brand-tinted elevation shadows, theme-scoped per mode (PRD §3.5.C). */
+  lightShadows: Shadows;
+  darkShadows: Shadows;
   report: ContrastReport;
 }
