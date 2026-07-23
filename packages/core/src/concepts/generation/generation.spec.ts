@@ -1,0 +1,180 @@
+import { describe, expect, it } from 'vitest';
+import { contrastRatio, hexToRgb } from '../color/color.helper';
+import { generatePalette } from '../color/color.factory';
+import { lightColors } from '../theme/themes/base.theme';
+import { hexToOklch, oklchToHex } from './oklch.helper';
+import { classifyScheme, generateThemes, generateUniThemes, ShapeRadii } from './theme.generator';
+
+// Uniform seed corpus: hue sweep × lightness × chroma extremes (PRD §7.3
+// requires ≥ 1,000). Out-of-gamut combinations gamut-map to valid hexes,
+// which is exactly the kind of extreme seed the guard-rail must survive.
+const corpus: string[] = [];
+for (let h = 0; h < 360; h += 4) {
+  for (const l of [0.25, 0.45, 0.65, 0.85]) {
+    for (const c of [0.02, 0.12, 0.28]) {
+      corpus.push(oklchToHex({ l, c, h }));
+    }
+  }
+}
+
+describe('oklch conversion', () => {
+  it('round-trips hex → OKLCH → hex within 1 bit per channel', () => {
+    for (const hex of corpus) {
+      const back = oklchToHex(hexToOklch(hex));
+      const a = hexToRgb(hex);
+      const b = hexToRgb(back);
+      expect(Math.abs(a.red - b.red), `red drift for ${hex}`).toBeLessThanOrEqual(1);
+      expect(Math.abs(a.green - b.green), `green drift for ${hex}`).toBeLessThanOrEqual(1);
+      expect(Math.abs(a.blue - b.blue), `blue drift for ${hex}`).toBeLessThanOrEqual(1);
+    }
+  });
+
+  it('preserves perceptual anchors (white, black, mid grey)', () => {
+    expect(oklchToHex({ l: 1, c: 0, h: 0 })).toBe('#FFFFFF');
+    expect(oklchToHex({ l: 0, c: 0, h: 0 })).toBe('#000000');
+    expect(hexToOklch('#FFFFFF').l).toBeCloseTo(1, 3);
+    expect(hexToOklch('#000000').l).toBeCloseTo(0, 3);
+  });
+
+  it('gamut-maps out-of-range chroma without hue drift', () => {
+    const vivid = hexToOklch(oklchToHex({ l: 0.6, c: 0.5, h: 145 }));
+    expect(Math.abs(vivid.h - 145)).toBeLessThan(2);
+  });
+});
+
+describe('generateThemes', () => {
+  it('is deterministic — identical input, identical output', () => {
+    const input = { seed: '#0052FF', vibe: 'jewel', shape: 'modern' } as const;
+    expect(JSON.stringify(generateThemes(input))).toBe(JSON.stringify(generateThemes(input)));
+  });
+
+  it('emits every token the shipped BaseTheme emits', () => {
+    const { lightColors: generated, darkColors } = generateThemes({ seed: '#0052FF' });
+    const baseKeys = Object.keys(lightColors);
+    for (const key of baseKeys) {
+      expect(generated[key], `light missing '${key}'`).toBeDefined();
+      expect(darkColors[key], `dark missing '${key}'`).toBeDefined();
+    }
+  });
+
+  it('reports a passing WCAG audit for every corpus seed in both modes', () => {
+    for (const seed of corpus) {
+      const { report } = generateThemes({ seed });
+      const failures = report.checks.filter((check) => !check.pass);
+      expect(
+        failures,
+        `${seed}: ${failures
+          .map((f) => `${f.mode} ${f.foreground}/${f.background} ${f.ratio} < ${f.required}`)
+          .join(', ')}`
+      ).toEqual([]);
+      expect(report.pass).toBe(true);
+    }
+  });
+
+  it('honors the seed hue in the primary token', () => {
+    for (const seed of ['#0052FF', '#C2185B', '#00695C', '#F57F17']) {
+      const { lightColors: generated } = generateThemes({ seed });
+      const seedHue = hexToOklch(seed).h;
+      const primaryHue = hexToOklch(generated.primary!).h;
+      const drift = Math.abs(seedHue - primaryHue) % 360;
+      expect(Math.min(drift, 360 - drift), `hue drift for ${seed}`).toBeLessThan(6);
+    }
+  });
+
+  it('emits an AA-safe seed nearly verbatim as the light primary', () => {
+    // #4F46E5 already passes 4.5:1 on the generated background, so the
+    // guard-rail must not touch it (± round-trip precision).
+    const { lightColors: generated } = generateThemes({ seed: '#4F46E5' });
+    const seed = hexToRgb('#4F46E5');
+    const out = hexToRgb(generated.primary!);
+    expect(Math.abs(seed.red - out.red)).toBeLessThanOrEqual(1);
+    expect(Math.abs(seed.green - out.green)).toBeLessThanOrEqual(1);
+    expect(Math.abs(seed.blue - out.blue)).toBeLessThanOrEqual(1);
+  });
+
+  it('keeps semantic inks vivid, not muddy, in light mode', () => {
+    // Guard against bronze/brown drift: warn must sit on the orange side of
+    // amber (dark yellow reads brown) and error/warn must keep real chroma
+    // even after the AA guard-rail darkens them for use as ink on white.
+    const { lightColors: generated } = generateThemes({ seed: '#4F46E5' });
+    const warn = hexToOklch(generated.warn!);
+    expect(warn.h).toBeGreaterThan(45);
+    expect(warn.h).toBeLessThan(65);
+    expect(warn.c).toBeGreaterThan(0.13);
+    expect(hexToOklch(generated.error!).c).toBeGreaterThan(0.15);
+  });
+
+  it('caps dark-mode accent chroma to avoid neon vibration', () => {
+    const { darkColors } = generateThemes({ seed: '#FF0044', vibe: 'florescent' });
+    for (const token of ['primary', 'secondary', 'tertiary'] as const) {
+      expect(hexToOklch(darkColors[token]!).c).toBeLessThanOrEqual(0.17);
+    }
+  });
+
+  it('keeps dark surfaces off pure black and tinted toward the brand hue', () => {
+    const { darkColors } = generateThemes({ seed: '#0052FF' });
+    expect(darkColors.background).not.toBe('#000000');
+    expect(hexToOklch(darkColors.background!).l).toBeGreaterThan(0.1);
+  });
+
+  it('emits radii only when a shape is requested', () => {
+    expect(generateThemes({ seed: '#0052FF' }).radii).toBeUndefined();
+    expect(generateThemes({ seed: '#0052FF', shape: 'playful' }).radii).toEqual(ShapeRadii.playful);
+  });
+
+  it('meets the ≤ 15 ms generation budget', () => {
+    generateThemes({ seed: '#0052FF' }); // warm-up
+    const runs = 25;
+    const start = performance.now();
+    for (let i = 0; i < runs; i++) generateThemes({ seed: '#0052FF', shape: 'modern' });
+    expect((performance.now() - start) / runs).toBeLessThan(15);
+  });
+});
+
+describe('classifyScheme', () => {
+  it('classifies hue relationships', () => {
+    expect(classifyScheme(10, [12])).toBe('monochromatic');
+    expect(classifyScheme(10, [40, 60])).toBe('analogous');
+    expect(classifyScheme(10, [190])).toBe('complimentary');
+    expect(classifyScheme(10, [155, 225])).toBe('splitComplimentary');
+    expect(classifyScheme(10, [130, 250])).toBe('triadic');
+  });
+});
+
+describe('generateUniThemes', () => {
+  it('returns registration-ready themes with derived borders and components', () => {
+    const { light, dark } = generateUniThemes({ seed: '#0052FF', name: 'Acme', shape: 'sharp' });
+    expect(light.id).toBe('AcmeLight');
+    expect(dark.id).toBe('AcmeDark');
+    expect(light.radii).toEqual(ShapeRadii.sharp);
+    expect(light.borders.primary).toContain(light.colors.primary);
+    expect(light.components.button?.variants?.primary?.backgroundColor).toBe(light.colors.primary);
+  });
+});
+
+describe('generatePalette (compat wrapper)', () => {
+  it('keeps hard brand pins verbatim in light mode', () => {
+    const colors = generatePalette({
+      seed: '#4F46E5',
+      scheme: 'triadic',
+      category: 'neutral',
+      brand: { primary: '#123456' },
+    });
+    expect(colors.primary).toBe('#123456');
+  });
+
+  it('lifts hard pins for dark mode without hue drift', () => {
+    const colors = generatePalette({
+      seed: '#4F46E5',
+      scheme: 'triadic',
+      category: 'neutral',
+      mode: 'dark',
+      brand: { primary: '#123456' },
+    });
+    const pinHue = hexToOklch('#123456').h;
+    const outHue = hexToOklch(colors.primary!).h;
+    const drift = Math.abs(pinHue - outHue) % 360;
+    expect(Math.min(drift, 360 - drift)).toBeLessThan(8);
+    expect(contrastRatio(colors.primary!, colors.background!)).toBeGreaterThanOrEqual(3);
+  });
+});

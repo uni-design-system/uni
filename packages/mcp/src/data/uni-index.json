@@ -1,7 +1,7 @@
 {
   "meta": {
     "version": "4.0.0",
-    "builtAt": "2026-07-22T02:45:38.213Z",
+    "builtAt": "2026-07-23T18:08:37.199Z",
     "frameworks": [
       "angular"
     ],
@@ -4431,706 +4431,706 @@
   "tokens": [
     {
       "id": "color.primary",
-      "value": "#565478",
+      "value": "#6A6F8F",
       "type": "color",
       "kind": "style",
       "target": "emotion-css",
       "themeValues": {
-        "LightTheme": "#565478",
-        "DarkTheme": "#B8B7CD"
+        "LightTheme": "#6A6F8F",
+        "DarkTheme": "#AFB5D8"
       }
     },
     {
       "id": "color.on-primary",
-      "value": "#FAFAFA",
+      "value": "#F9FAFF",
       "type": "color",
       "kind": "style",
       "target": "emotion-css",
       "themeValues": {
-        "LightTheme": "#FAFAFA",
-        "DarkTheme": "#121217"
+        "LightTheme": "#F9FAFF",
+        "DarkTheme": "#11132C"
       }
     },
     {
       "id": "color.primary-container",
-      "value": "#E3E3E8",
+      "value": "#DBDDEA",
       "type": "color",
       "kind": "style",
       "target": "emotion-css",
       "themeValues": {
-        "LightTheme": "#E3E3E8",
-        "DarkTheme": "#504F5F"
+        "LightTheme": "#DBDDEA",
+        "DarkTheme": "#4A4C57"
       }
     },
     {
       "id": "color.on-primary-container",
-      "value": "#1B1A23",
+      "value": "#1A1C37",
       "type": "color",
       "kind": "style",
       "target": "emotion-css",
       "themeValues": {
-        "LightTheme": "#1B1A23",
-        "DarkTheme": "#FAFAFA"
+        "LightTheme": "#1A1C37",
+        "DarkTheme": "#F9FAFF"
       }
     },
     {
       "id": "color.on-primary-container-variant",
-      "value": "rgba(0,0,0,0.4)",
+      "value": "#5B5D68",
       "type": "color",
       "kind": "style",
       "target": "emotion-css",
       "themeValues": {
-        "LightTheme": "rgba(0,0,0,0.4)",
-        "DarkTheme": "rgba(255,255,255,0.4)"
+        "LightTheme": "#5B5D68",
+        "DarkTheme": "#BCBECB"
       }
     },
     {
       "id": "color.on-primary-container-border",
-      "value": "#565478",
+      "value": "#6A6F8F",
       "type": "color",
       "kind": "style",
       "target": "emotion-css",
       "themeValues": {
-        "LightTheme": "#565478",
-        "DarkTheme": "#B8B7CD"
+        "LightTheme": "#6A6F8F",
+        "DarkTheme": "#AFB5D8"
       }
     },
     {
       "id": "color.primary-surface",
-      "value": "#F7F7F8",
+      "value": "#F3F5FD",
       "type": "color",
       "kind": "style",
       "target": "emotion-css",
       "themeValues": {
-        "LightTheme": "#F7F7F8",
-        "DarkTheme": "#27272B"
+        "LightTheme": "#F3F5FD",
+        "DarkTheme": "#22242A"
       }
     },
     {
       "id": "color.on-primary-surface",
-      "value": "#1D1D20",
+      "value": "#1E1F25",
       "type": "color",
       "kind": "style",
       "target": "emotion-css",
       "themeValues": {
-        "LightTheme": "#1D1D20",
-        "DarkTheme": "#FAFAFA"
+        "LightTheme": "#1E1F25",
+        "DarkTheme": "#F9FAFF"
       }
     },
     {
       "id": "color.on-primary-surface-variant",
-      "value": "#565478",
+      "value": "#6A6F8F",
       "type": "color",
       "kind": "style",
       "target": "emotion-css",
       "themeValues": {
-        "LightTheme": "#565478",
-        "DarkTheme": "#B8B7CD"
+        "LightTheme": "#6A6F8F",
+        "DarkTheme": "#AFB5D8"
       }
     },
     {
       "id": "color.secondary",
-      "value": "#785654",
+      "value": "#8C685D",
       "type": "color",
       "kind": "style",
       "target": "emotion-css",
       "themeValues": {
-        "LightTheme": "#785654",
-        "DarkTheme": "#CDB8B7"
+        "LightTheme": "#8C685D",
+        "DarkTheme": "#D5ADA1"
       }
     },
     {
       "id": "color.on-secondary",
-      "value": "#FAFAFA",
+      "value": "#FFF8F6",
       "type": "color",
       "kind": "style",
       "target": "emotion-css",
       "themeValues": {
-        "LightTheme": "#FAFAFA",
-        "DarkTheme": "#171212"
+        "LightTheme": "#FFF8F6",
+        "DarkTheme": "#280C05"
       }
     },
     {
       "id": "color.secondary-container",
-      "value": "#E8E3E3",
+      "value": "#E9DAD6",
       "type": "color",
       "kind": "style",
       "target": "emotion-css",
       "themeValues": {
-        "LightTheme": "#E8E3E3",
-        "DarkTheme": "#5F504F"
+        "LightTheme": "#E9DAD6",
+        "DarkTheme": "#564A46"
       }
     },
     {
       "id": "color.on-secondary-container",
-      "value": "#231B1A",
+      "value": "#33160D",
       "type": "color",
       "kind": "style",
       "target": "emotion-css",
       "themeValues": {
-        "LightTheme": "#231B1A",
-        "DarkTheme": "#FAFAFA"
+        "LightTheme": "#33160D",
+        "DarkTheme": "#FFF8F7"
       }
     },
     {
       "id": "color.on-secondary-container-variant",
-      "value": "rgba(0,0,0,0.4)",
+      "value": "#675A57",
       "type": "color",
       "kind": "style",
       "target": "emotion-css",
       "themeValues": {
-        "LightTheme": "rgba(0,0,0,0.4)",
-        "DarkTheme": "rgba(255,255,255,0.4)"
+        "LightTheme": "#675A57",
+        "DarkTheme": "#CABCB7"
       }
     },
     {
       "id": "color.on-secondary-container-border",
-      "value": "#785654",
+      "value": "#8C685D",
       "type": "color",
       "kind": "style",
       "target": "emotion-css",
       "themeValues": {
-        "LightTheme": "#785654",
-        "DarkTheme": "#CDB8B7"
+        "LightTheme": "#8C685D",
+        "DarkTheme": "#D5ADA1"
       }
     },
     {
       "id": "color.secondary-surface",
-      "value": "#F8F7F7",
+      "value": "#FDF3EF",
       "type": "color",
       "kind": "style",
       "target": "emotion-css",
       "themeValues": {
-        "LightTheme": "#F8F7F7",
-        "DarkTheme": "#2B2727"
+        "LightTheme": "#FDF3EF",
+        "DarkTheme": "#292220"
       }
     },
     {
       "id": "color.on-secondary-surface",
-      "value": "#201D1D",
+      "value": "#251D1B",
       "type": "color",
       "kind": "style",
       "target": "emotion-css",
       "themeValues": {
-        "LightTheme": "#201D1D",
-        "DarkTheme": "#FAFAFA"
+        "LightTheme": "#251D1B",
+        "DarkTheme": "#FFF8F7"
       }
     },
     {
       "id": "color.on-secondary-surface-variant",
-      "value": "#785654",
+      "value": "#8C685D",
       "type": "color",
       "kind": "style",
       "target": "emotion-css",
       "themeValues": {
-        "LightTheme": "#785654",
-        "DarkTheme": "#CDB8B7"
+        "LightTheme": "#8C685D",
+        "DarkTheme": "#D5ADA1"
       }
     },
     {
       "id": "color.tertiary",
-      "value": "#547856",
+      "value": "#597B66",
       "type": "color",
       "kind": "style",
       "target": "emotion-css",
       "themeValues": {
-        "LightTheme": "#547856",
-        "DarkTheme": "#B7CDB8"
+        "LightTheme": "#597B66",
+        "DarkTheme": "#9EC2AB"
       }
     },
     {
       "id": "color.on-tertiary",
-      "value": "#FAFAFA",
+      "value": "#F0FFF5",
       "type": "color",
       "kind": "style",
       "target": "emotion-css",
       "themeValues": {
-        "LightTheme": "#FAFAFA",
-        "DarkTheme": "#121712"
+        "LightTheme": "#F0FFF5",
+        "DarkTheme": "#001C0D"
       }
     },
     {
       "id": "color.tertiary-container",
-      "value": "#E3E8E3",
+      "value": "#D5E2D9",
       "type": "color",
       "kind": "style",
       "target": "emotion-css",
       "themeValues": {
-        "LightTheme": "#E3E8E3",
-        "DarkTheme": "#4F5F50"
+        "LightTheme": "#D5E2D9",
+        "DarkTheme": "#465049"
       }
     },
     {
       "id": "color.on-tertiary-container",
-      "value": "#1A231B",
+      "value": "#052615",
       "type": "color",
       "kind": "style",
       "target": "emotion-css",
       "themeValues": {
-        "LightTheme": "#1A231B",
-        "DarkTheme": "#FAFAFA"
+        "LightTheme": "#052615",
+        "DarkTheme": "#F0FFF5"
       }
     },
     {
       "id": "color.on-tertiary-container-variant",
-      "value": "rgba(0,0,0,0.4)",
+      "value": "#56615A",
       "type": "color",
       "kind": "style",
       "target": "emotion-css",
       "themeValues": {
-        "LightTheme": "rgba(0,0,0,0.4)",
-        "DarkTheme": "rgba(255,255,255,0.4)"
+        "LightTheme": "#56615A",
+        "DarkTheme": "#B7C3BB"
       }
     },
     {
       "id": "color.on-tertiary-container-border",
-      "value": "#547856",
+      "value": "#597B66",
       "type": "color",
       "kind": "style",
       "target": "emotion-css",
       "themeValues": {
-        "LightTheme": "#547856",
-        "DarkTheme": "#B7CDB8"
+        "LightTheme": "#597B66",
+        "DarkTheme": "#9EC2AB"
       }
     },
     {
       "id": "color.tertiary-surface",
-      "value": "#F7F8F7",
+      "value": "#EFF8F2",
       "type": "color",
       "kind": "style",
       "target": "emotion-css",
       "themeValues": {
-        "LightTheme": "#F7F8F7",
-        "DarkTheme": "#272B27"
+        "LightTheme": "#EFF8F2",
+        "DarkTheme": "#1F2622"
       }
     },
     {
       "id": "color.on-tertiary-surface",
-      "value": "#1D201D",
+      "value": "#1B211D",
       "type": "color",
       "kind": "style",
       "target": "emotion-css",
       "themeValues": {
-        "LightTheme": "#1D201D",
-        "DarkTheme": "#FAFAFA"
+        "LightTheme": "#1B211D",
+        "DarkTheme": "#F4FDF7"
       }
     },
     {
       "id": "color.on-tertiary-surface-variant",
-      "value": "#547856",
+      "value": "#557762",
       "type": "color",
       "kind": "style",
       "target": "emotion-css",
       "themeValues": {
-        "LightTheme": "#547856",
-        "DarkTheme": "#B7CDB8"
+        "LightTheme": "#557762",
+        "DarkTheme": "#9EC2AB"
       }
     },
     {
       "id": "color.quaternary",
-      "value": "#706F7C",
+      "value": "#61636A",
       "type": "color",
       "kind": "style",
       "target": "emotion-css",
       "themeValues": {
-        "LightTheme": "#706F7C",
-        "DarkTheme": "#AFAEB7"
+        "LightTheme": "#61636A",
+        "DarkTheme": "#A2A4AC"
       }
     },
     {
       "id": "color.on-quaternary",
-      "value": "#FFFFFF",
+      "value": "#F9FAFF",
       "type": "color",
       "kind": "style",
       "target": "emotion-css",
       "themeValues": {
-        "LightTheme": "#FFFFFF",
-        "DarkTheme": "#1C1B1F"
+        "LightTheme": "#F9FAFF",
+        "DarkTheme": "#15161C"
       }
     },
     {
       "id": "color.quaternary-surface",
-      "value": "#F7F7F8",
+      "value": "#F3F5FD",
       "type": "color",
       "kind": "style",
       "target": "emotion-css",
       "themeValues": {
-        "LightTheme": "#F7F7F8",
-        "DarkTheme": "#27272B"
+        "LightTheme": "#F3F5FD",
+        "DarkTheme": "#22242A"
       }
     },
     {
       "id": "color.on-quaternary-surface",
-      "value": "#1D1D20",
+      "value": "#1E1F25",
       "type": "color",
       "kind": "style",
       "target": "emotion-css",
       "themeValues": {
-        "LightTheme": "#1D1D20",
-        "DarkTheme": "#FAFAFA"
+        "LightTheme": "#1E1F25",
+        "DarkTheme": "#F9FAFF"
       }
     },
     {
       "id": "color.on-quaternary-surface-variant",
-      "value": "#565478",
+      "value": "#6A6F8F",
       "type": "color",
       "kind": "style",
       "target": "emotion-css",
       "themeValues": {
-        "LightTheme": "#565478",
-        "DarkTheme": "#B8B7CD"
+        "LightTheme": "#6A6F8F",
+        "DarkTheme": "#AFB5D8"
       }
     },
     {
       "id": "color.on-quaternary-container-variant",
-      "value": "rgba(0,0,0,0.4)",
+      "value": "#5B5D68",
       "type": "color",
       "kind": "style",
       "target": "emotion-css",
       "themeValues": {
-        "LightTheme": "rgba(0,0,0,0.4)",
-        "DarkTheme": "rgba(255,255,255,0.4)"
+        "LightTheme": "#5B5D68",
+        "DarkTheme": "#AEB0BD"
       }
     },
     {
       "id": "color.on-quaternary-container-border",
-      "value": "#706F7C",
+      "value": "#61636A",
       "type": "color",
       "kind": "style",
       "target": "emotion-css",
       "themeValues": {
-        "LightTheme": "#706F7C",
-        "DarkTheme": "#AFAEB7"
+        "LightTheme": "#61636A",
+        "DarkTheme": "#A2A4AC"
       }
     },
     {
       "id": "color.error",
-      "value": "#A53827",
+      "value": "#CC2827",
       "type": "color",
       "kind": "style",
       "target": "emotion-css",
       "themeValues": {
-        "LightTheme": "#A53827",
-        "DarkTheme": "#E8A69C"
+        "LightTheme": "#CC2827",
+        "DarkTheme": "#FF968A"
       }
     },
     {
       "id": "color.on-error",
-      "value": "#FAFAFA",
+      "value": "#FFF8F7",
       "type": "color",
       "kind": "style",
       "target": "emotion-css",
       "themeValues": {
-        "LightTheme": "#FAFAFA",
-        "DarkTheme": "#171212"
+        "LightTheme": "#FFF8F7",
+        "DarkTheme": "#290B09"
       }
     },
     {
       "id": "color.error-container",
-      "value": "#EDE0DE",
+      "value": "#FFD2CC",
       "type": "color",
       "kind": "style",
       "target": "emotion-css",
       "themeValues": {
-        "LightTheme": "#EDE0DE",
-        "DarkTheme": "#70443E"
+        "LightTheme": "#FFD2CC",
+        "DarkTheme": "#69413C"
       }
     },
     {
       "id": "color.on-error-container",
-      "value": "#231B1A",
+      "value": "#331512",
       "type": "color",
       "kind": "style",
       "target": "emotion-css",
       "themeValues": {
-        "LightTheme": "#231B1A",
-        "DarkTheme": "#FAFAFA"
+        "LightTheme": "#331512",
+        "DarkTheme": "#FFF8F7"
       }
     },
     {
       "id": "color.warn",
-      "value": "#A56A27",
+      "value": "#AC5700",
       "type": "color",
       "kind": "style",
       "target": "emotion-css",
       "themeValues": {
-        "LightTheme": "#A56A27",
-        "DarkTheme": "#E8C49C"
+        "LightTheme": "#AC5700",
+        "DarkTheme": "#FF9B51"
       }
     },
     {
       "id": "color.on-warn",
-      "value": "#FAFAFA",
+      "value": "#FFF9F5",
       "type": "color",
       "kind": "style",
       "target": "emotion-css",
       "themeValues": {
-        "LightTheme": "#FAFAFA",
-        "DarkTheme": "#171512"
+        "LightTheme": "#FFF9F5",
+        "DarkTheme": "#270E00"
       }
     },
     {
       "id": "color.warn-container",
-      "value": "#EDE6DE",
+      "value": "#FDD5BA",
       "type": "color",
       "kind": "style",
       "target": "emotion-css",
       "themeValues": {
-        "LightTheme": "#EDE6DE",
-        "DarkTheme": "#70583E"
+        "LightTheme": "#FDD5BA",
+        "DarkTheme": "#66442E"
       }
     },
     {
       "id": "color.on-warn-container",
-      "value": "#231F1A",
+      "value": "#311805",
       "type": "color",
       "kind": "style",
       "target": "emotion-css",
       "themeValues": {
-        "LightTheme": "#231F1A",
-        "DarkTheme": "#FAFAFA"
+        "LightTheme": "#311805",
+        "DarkTheme": "#FFF9F5"
       }
     },
     {
       "id": "color.on-warn-container-variant",
-      "value": "rgba(0,0,0,0.4)",
+      "value": "#78543C",
       "type": "color",
       "kind": "style",
       "target": "emotion-css",
       "themeValues": {
-        "LightTheme": "rgba(0,0,0,0.4)",
-        "DarkTheme": "rgba(255,255,255,0.4)"
+        "LightTheme": "#78543C",
+        "DarkTheme": "#DFB69B"
       }
     },
     {
       "id": "color.on-warn-container-border",
-      "value": "#A56A27",
+      "value": "#AC5700",
       "type": "color",
       "kind": "style",
       "target": "emotion-css",
       "themeValues": {
-        "LightTheme": "#A56A27",
-        "DarkTheme": "#E8C49C"
+        "LightTheme": "#AC5700",
+        "DarkTheme": "#FF9B51"
       }
     },
     {
       "id": "color.success",
-      "value": "#27A555",
+      "value": "#008341",
       "type": "color",
       "kind": "style",
       "target": "emotion-css",
       "themeValues": {
-        "LightTheme": "#27A555",
-        "DarkTheme": "#9CE8B8"
+        "LightTheme": "#008341",
+        "DarkTheme": "#59D483"
       }
     },
     {
       "id": "color.on-success",
-      "value": "#1A231D",
+      "value": "#F1FEF4",
       "type": "color",
       "kind": "style",
       "target": "emotion-css",
       "themeValues": {
-        "LightTheme": "#1A231D",
-        "DarkTheme": "#121714"
+        "LightTheme": "#F1FEF4",
+        "DarkTheme": "#011C0A"
       }
     },
     {
       "id": "color.success-container",
-      "value": "#DEEDE4",
+      "value": "#C3EACC",
       "type": "color",
       "kind": "style",
       "target": "emotion-css",
       "themeValues": {
-        "LightTheme": "#DEEDE4",
-        "DarkTheme": "#3E7050"
+        "LightTheme": "#C3EACC",
+        "DarkTheme": "#34563D"
       }
     },
     {
       "id": "color.on-success-container",
-      "value": "#1A231D",
+      "value": "#092613",
       "type": "color",
       "kind": "style",
       "target": "emotion-css",
       "themeValues": {
-        "LightTheme": "#1A231D",
-        "DarkTheme": "#FAFAFA"
+        "LightTheme": "#092613",
+        "DarkTheme": "#F1FEF4"
       }
     },
     {
       "id": "color.on-success-container-variant",
-      "value": "rgba(0,0,0,0.4)",
+      "value": "#43684D",
       "type": "color",
       "kind": "style",
       "target": "emotion-css",
       "themeValues": {
-        "LightTheme": "rgba(0,0,0,0.4)",
-        "DarkTheme": "rgba(255,255,255,0.4)"
+        "LightTheme": "#43684D",
+        "DarkTheme": "#A3CBAD"
       }
     },
     {
       "id": "color.on-success-container-border",
-      "value": "#27A555",
+      "value": "#008341",
       "type": "color",
       "kind": "style",
       "target": "emotion-css",
       "themeValues": {
-        "LightTheme": "#27A555",
-        "DarkTheme": "#9CE8B8"
+        "LightTheme": "#008341",
+        "DarkTheme": "#59D483"
       }
     },
     {
       "id": "color.background",
-      "value": "#FCFCFD",
+      "value": "#FDFDFF",
       "type": "color",
       "kind": "style",
       "target": "emotion-css",
       "themeValues": {
-        "LightTheme": "#FCFCFD",
-        "DarkTheme": "#1D1D20"
+        "LightTheme": "#FDFDFF",
+        "DarkTheme": "#101117"
       }
     },
     {
       "id": "color.on-background",
-      "value": "#222226",
+      "value": "#202127",
       "type": "color",
       "kind": "style",
       "target": "emotion-css",
       "themeValues": {
-        "LightTheme": "#222226",
-        "DarkTheme": "#E4E4E7"
+        "LightTheme": "#202127",
+        "DarkTheme": "#E5E7F0"
       }
     },
     {
       "id": "color.on-background-variant",
-      "value": "#8F8E9A",
+      "value": "#5C5D65",
       "type": "color",
       "kind": "style",
       "target": "emotion-css",
       "themeValues": {
-        "LightTheme": "#8F8E9A",
-        "DarkTheme": "#9999A3"
+        "LightTheme": "#5C5D65",
+        "DarkTheme": "#AFB0B9"
       }
     },
     {
       "id": "color.surface",
-      "value": "#FCFCFD",
+      "value": "#F9FAFF",
       "type": "color",
       "kind": "style",
       "target": "emotion-css",
       "themeValues": {
-        "LightTheme": "#FCFCFD",
-        "DarkTheme": "#201F23"
+        "LightTheme": "#F9FAFF",
+        "DarkTheme": "#17181E"
       }
     },
     {
       "id": "color.on-surface",
-      "value": "#222226",
+      "value": "#202127",
       "type": "color",
       "kind": "style",
       "target": "emotion-css",
       "themeValues": {
-        "LightTheme": "#222226",
-        "DarkTheme": "#E4E4E7"
+        "LightTheme": "#202127",
+        "DarkTheme": "#E5E7F0"
       }
     },
     {
       "id": "color.surface-variant",
-      "value": "#EAE9EC",
+      "value": "#E9EBF3",
       "type": "color",
       "kind": "style",
       "target": "emotion-css",
       "themeValues": {
-        "LightTheme": "#EAE9EC",
-        "DarkTheme": "#44434B"
+        "LightTheme": "#E9EBF3",
+        "DarkTheme": "#313239"
       }
     },
     {
       "id": "color.on-surface-variant",
-      "value": "#494851",
+      "value": "#36373E",
       "type": "color",
       "kind": "style",
       "target": "emotion-css",
       "themeValues": {
-        "LightTheme": "#494851",
-        "DarkTheme": "#C4C4CA"
+        "LightTheme": "#36373E",
+        "DarkTheme": "#AFB0B9"
       }
     },
     {
       "id": "color.inverse-surface",
-      "value": "#313036",
+      "value": "#2C2D34",
       "type": "color",
       "kind": "style",
       "target": "emotion-css",
       "themeValues": {
-        "LightTheme": "#313036",
-        "DarkTheme": "#E4E4E7"
+        "LightTheme": "#2C2D34",
+        "DarkTheme": "#E5E7F0"
       }
     },
     {
       "id": "color.on-inverse-surface",
-      "value": "#F4F4F5",
+      "value": "#F3F5FD",
       "type": "color",
       "kind": "style",
       "target": "emotion-css",
       "themeValues": {
-        "LightTheme": "#F4F4F5",
-        "DarkTheme": "#2C2B30"
+        "LightTheme": "#F3F5FD",
+        "DarkTheme": "#202127"
       }
     },
     {
       "id": "color.on-inverse-surface-primary",
-      "value": "#565478",
+      "value": "#8D93B4",
       "type": "color",
       "kind": "style",
       "target": "emotion-css",
       "themeValues": {
-        "LightTheme": "#565478",
-        "DarkTheme": "#B8B7CD"
+        "LightTheme": "#8D93B4",
+        "DarkTheme": "#5F6483"
       }
     },
     {
       "id": "color.on-inverse-surface-variant",
-      "value": "#565478",
+      "value": "#8D93B4",
       "type": "color",
       "kind": "style",
       "target": "emotion-css",
       "themeValues": {
-        "LightTheme": "#565478",
-        "DarkTheme": "#B8B7CD"
+        "LightTheme": "#8D93B4",
+        "DarkTheme": "#5F6483"
       }
     },
     {
       "id": "color.inverse-container",
-      "value": "#313036",
+      "value": "#2C2D34",
       "type": "color",
       "kind": "style",
       "target": "emotion-css",
       "themeValues": {
-        "LightTheme": "#313036",
-        "DarkTheme": "#E4E4E7"
+        "LightTheme": "#2C2D34",
+        "DarkTheme": "#E5E7F0"
       }
     },
     {
       "id": "color.on-inverse-container",
-      "value": "#F4F4F5",
+      "value": "#F3F5FD",
       "type": "color",
       "kind": "style",
       "target": "emotion-css",
       "themeValues": {
-        "LightTheme": "#F4F4F5",
-        "DarkTheme": "#2C2B30"
+        "LightTheme": "#F3F5FD",
+        "DarkTheme": "#202127"
       }
     },
     {
       "id": "color.outline",
-      "value": "#7F7E8B",
+      "value": "#7E8088",
       "type": "color",
       "kind": "style",
       "target": "emotion-css",
       "themeValues": {
-        "LightTheme": "#7F7E8B",
-        "DarkTheme": "#878693"
+        "LightTheme": "#7E8088",
+        "DarkTheme": "#90929A"
       }
     },
     {
@@ -5157,13 +5157,13 @@
     },
     {
       "id": "color.surface-tint",
-      "value": "#565478",
+      "value": "#6A6F8F",
       "type": "color",
       "kind": "style",
       "target": "emotion-css",
       "themeValues": {
-        "LightTheme": "#565478",
-        "DarkTheme": "#B8B7CD"
+        "LightTheme": "#6A6F8F",
+        "DarkTheme": "#AFB5D8"
       }
     },
     {
@@ -5212,13 +5212,13 @@
     },
     {
       "id": "color.disabled-container",
-      "value": "#F2F2F3",
+      "value": "#EFF1FA",
       "type": "color",
       "kind": "style",
       "target": "emotion-css",
       "themeValues": {
-        "LightTheme": "#F2F2F3",
-        "DarkTheme": "#35353B"
+        "LightTheme": "#EFF1FA",
+        "DarkTheme": "#2C2D34"
       }
     },
     {
@@ -5421,101 +5421,101 @@
     },
     {
       "id": "border.primary",
-      "value": "1px solid #565478",
+      "value": "1px solid #6A6F8F",
       "type": "border",
       "kind": "style",
       "target": "emotion-css",
       "themeValues": {
-        "LightTheme": "1px solid #565478",
-        "DarkTheme": "1px solid #B8B7CD"
+        "LightTheme": "1px solid #6A6F8F",
+        "DarkTheme": "1px solid #AFB5D8"
       }
     },
     {
       "id": "border.secondary",
-      "value": "1px solid #785654",
+      "value": "1px solid #8C685D",
       "type": "border",
       "kind": "style",
       "target": "emotion-css",
       "themeValues": {
-        "LightTheme": "1px solid #785654",
-        "DarkTheme": "1px solid #CDB8B7"
+        "LightTheme": "1px solid #8C685D",
+        "DarkTheme": "1px solid #D5ADA1"
       }
     },
     {
       "id": "border.tertiary",
-      "value": "1px solid #547856",
+      "value": "1px solid #597B66",
       "type": "border",
       "kind": "style",
       "target": "emotion-css",
       "themeValues": {
-        "LightTheme": "1px solid #547856",
-        "DarkTheme": "1px solid #B7CDB8"
+        "LightTheme": "1px solid #597B66",
+        "DarkTheme": "1px solid #9EC2AB"
       }
     },
     {
       "id": "border.quaternary",
-      "value": "1px solid #706F7C",
+      "value": "1px solid #61636A",
       "type": "border",
       "kind": "style",
       "target": "emotion-css",
       "themeValues": {
-        "LightTheme": "1px solid #706F7C",
-        "DarkTheme": "1px solid #AFAEB7"
+        "LightTheme": "1px solid #61636A",
+        "DarkTheme": "1px solid #A2A4AC"
       }
     },
     {
       "id": "border.warn",
-      "value": "1px solid #A56A27",
+      "value": "1px solid #AC5700",
       "type": "border",
       "kind": "style",
       "target": "emotion-css",
       "themeValues": {
-        "LightTheme": "1px solid #A56A27",
-        "DarkTheme": "1px solid #E8C49C"
+        "LightTheme": "1px solid #AC5700",
+        "DarkTheme": "1px solid #FF9B51"
       }
     },
     {
       "id": "border.success",
-      "value": "1px solid #27A555",
+      "value": "1px solid #008341",
       "type": "border",
       "kind": "style",
       "target": "emotion-css",
       "themeValues": {
-        "LightTheme": "1px solid #27A555",
-        "DarkTheme": "1px solid #9CE8B8"
+        "LightTheme": "1px solid #008341",
+        "DarkTheme": "1px solid #59D483"
       }
     },
     {
       "id": "border.light",
-      "value": "1px solid #7F7E8B",
+      "value": "1px solid #7E8088",
       "type": "border",
       "kind": "style",
       "target": "emotion-css",
       "themeValues": {
-        "LightTheme": "1px solid #7F7E8B",
-        "DarkTheme": "1px solid #878693"
+        "LightTheme": "1px solid #7E8088",
+        "DarkTheme": "1px solid #90929A"
       }
     },
     {
       "id": "border.dark",
-      "value": "1px solid #222226",
+      "value": "1px solid #202127",
       "type": "border",
       "kind": "style",
       "target": "emotion-css",
       "themeValues": {
-        "LightTheme": "1px solid #222226",
-        "DarkTheme": "1px solid #E4E4E7"
+        "LightTheme": "1px solid #202127",
+        "DarkTheme": "1px solid #E5E7F0"
       }
     },
     {
       "id": "border.dotted",
-      "value": "1px dotted #222226",
+      "value": "1px dotted #202127",
       "type": "border",
       "kind": "style",
       "target": "emotion-css",
       "themeValues": {
-        "LightTheme": "1px dotted #222226",
-        "DarkTheme": "1px dotted #E4E4E7"
+        "LightTheme": "1px dotted #202127",
+        "DarkTheme": "1px dotted #E5E7F0"
       }
     },
     {
@@ -6316,14 +6316,14 @@
     },
     {
       "id": "input.behavior.focusOutline",
-      "value": "2px solid #565478",
+      "value": "2px solid #6A6F8F",
       "type": "string",
       "kind": "behavioral",
       "target": "component-prop",
       "appliesTo": "input",
       "themeValues": {
-        "LightTheme": "2px solid #565478",
-        "DarkTheme": "2px solid #B8B7CD"
+        "LightTheme": "2px solid #6A6F8F",
+        "DarkTheme": "2px solid #AFB5D8"
       }
     },
     {
@@ -6400,14 +6400,14 @@
     },
     {
       "id": "multiSelectDropdown.behavior.focusOutline",
-      "value": "2px solid #565478",
+      "value": "2px solid #6A6F8F",
       "type": "string",
       "kind": "behavioral",
       "target": "component-prop",
       "appliesTo": "multiSelectDropdown",
       "themeValues": {
-        "LightTheme": "2px solid #565478",
-        "DarkTheme": "2px solid #B8B7CD"
+        "LightTheme": "2px solid #6A6F8F",
+        "DarkTheme": "2px solid #AFB5D8"
       }
     },
     {
@@ -6981,78 +6981,78 @@
       "name": "Light Theme",
       "description": "The Light Theme theme for the Uni Design System.",
       "styleOverrides": {
-        "color.primary": "#565478",
-        "color.on-primary": "#FAFAFA",
-        "color.primary-container": "#E3E3E8",
-        "color.on-primary-container": "#1B1A23",
-        "color.on-primary-container-variant": "rgba(0,0,0,0.4)",
-        "color.on-primary-container-border": "#565478",
-        "color.primary-surface": "#F7F7F8",
-        "color.on-primary-surface": "#1D1D20",
-        "color.on-primary-surface-variant": "#565478",
-        "color.secondary": "#785654",
-        "color.on-secondary": "#FAFAFA",
-        "color.secondary-container": "#E8E3E3",
-        "color.on-secondary-container": "#231B1A",
-        "color.on-secondary-container-variant": "rgba(0,0,0,0.4)",
-        "color.on-secondary-container-border": "#785654",
-        "color.secondary-surface": "#F8F7F7",
-        "color.on-secondary-surface": "#201D1D",
-        "color.on-secondary-surface-variant": "#785654",
-        "color.tertiary": "#547856",
-        "color.on-tertiary": "#FAFAFA",
-        "color.tertiary-container": "#E3E8E3",
-        "color.on-tertiary-container": "#1A231B",
-        "color.on-tertiary-container-variant": "rgba(0,0,0,0.4)",
-        "color.on-tertiary-container-border": "#547856",
-        "color.tertiary-surface": "#F7F8F7",
-        "color.on-tertiary-surface": "#1D201D",
-        "color.on-tertiary-surface-variant": "#547856",
-        "color.quaternary": "#706F7C",
-        "color.on-quaternary": "#FFFFFF",
-        "color.quaternary-surface": "#F7F7F8",
-        "color.on-quaternary-surface": "#1D1D20",
-        "color.on-quaternary-surface-variant": "#565478",
-        "color.on-quaternary-container-variant": "rgba(0,0,0,0.4)",
-        "color.on-quaternary-container-border": "#706F7C",
-        "color.error": "#A53827",
-        "color.on-error": "#FAFAFA",
-        "color.error-container": "#EDE0DE",
-        "color.on-error-container": "#231B1A",
-        "color.warn": "#A56A27",
-        "color.on-warn": "#FAFAFA",
-        "color.warn-container": "#EDE6DE",
-        "color.on-warn-container": "#231F1A",
-        "color.on-warn-container-variant": "rgba(0,0,0,0.4)",
-        "color.on-warn-container-border": "#A56A27",
-        "color.success": "#27A555",
-        "color.on-success": "#1A231D",
-        "color.success-container": "#DEEDE4",
-        "color.on-success-container": "#1A231D",
-        "color.on-success-container-variant": "rgba(0,0,0,0.4)",
-        "color.on-success-container-border": "#27A555",
-        "color.background": "#FCFCFD",
-        "color.on-background": "#222226",
-        "color.on-background-variant": "#8F8E9A",
-        "color.surface": "#FCFCFD",
-        "color.on-surface": "#222226",
-        "color.surface-variant": "#EAE9EC",
-        "color.on-surface-variant": "#494851",
-        "color.inverse-surface": "#313036",
-        "color.on-inverse-surface": "#F4F4F5",
-        "color.on-inverse-surface-primary": "#565478",
-        "color.on-inverse-surface-variant": "#565478",
-        "color.inverse-container": "#313036",
-        "color.on-inverse-container": "#F4F4F5",
-        "color.outline": "#7F7E8B",
+        "color.primary": "#6A6F8F",
+        "color.on-primary": "#F9FAFF",
+        "color.primary-container": "#DBDDEA",
+        "color.on-primary-container": "#1A1C37",
+        "color.on-primary-container-variant": "#5B5D68",
+        "color.on-primary-container-border": "#6A6F8F",
+        "color.primary-surface": "#F3F5FD",
+        "color.on-primary-surface": "#1E1F25",
+        "color.on-primary-surface-variant": "#6A6F8F",
+        "color.secondary": "#8C685D",
+        "color.on-secondary": "#FFF8F6",
+        "color.secondary-container": "#E9DAD6",
+        "color.on-secondary-container": "#33160D",
+        "color.on-secondary-container-variant": "#675A57",
+        "color.on-secondary-container-border": "#8C685D",
+        "color.secondary-surface": "#FDF3EF",
+        "color.on-secondary-surface": "#251D1B",
+        "color.on-secondary-surface-variant": "#8C685D",
+        "color.tertiary": "#597B66",
+        "color.on-tertiary": "#F0FFF5",
+        "color.tertiary-container": "#D5E2D9",
+        "color.on-tertiary-container": "#052615",
+        "color.on-tertiary-container-variant": "#56615A",
+        "color.on-tertiary-container-border": "#597B66",
+        "color.tertiary-surface": "#EFF8F2",
+        "color.on-tertiary-surface": "#1B211D",
+        "color.on-tertiary-surface-variant": "#557762",
+        "color.quaternary": "#61636A",
+        "color.on-quaternary": "#F9FAFF",
+        "color.quaternary-surface": "#F3F5FD",
+        "color.on-quaternary-surface": "#1E1F25",
+        "color.on-quaternary-surface-variant": "#6A6F8F",
+        "color.on-quaternary-container-variant": "#5B5D68",
+        "color.on-quaternary-container-border": "#61636A",
+        "color.error": "#CC2827",
+        "color.on-error": "#FFF8F7",
+        "color.error-container": "#FFD2CC",
+        "color.on-error-container": "#331512",
+        "color.warn": "#AC5700",
+        "color.on-warn": "#FFF9F5",
+        "color.warn-container": "#FDD5BA",
+        "color.on-warn-container": "#311805",
+        "color.on-warn-container-variant": "#78543C",
+        "color.on-warn-container-border": "#AC5700",
+        "color.success": "#008341",
+        "color.on-success": "#F1FEF4",
+        "color.success-container": "#C3EACC",
+        "color.on-success-container": "#092613",
+        "color.on-success-container-variant": "#43684D",
+        "color.on-success-container-border": "#008341",
+        "color.background": "#FDFDFF",
+        "color.on-background": "#202127",
+        "color.on-background-variant": "#5C5D65",
+        "color.surface": "#F9FAFF",
+        "color.on-surface": "#202127",
+        "color.surface-variant": "#E9EBF3",
+        "color.on-surface-variant": "#36373E",
+        "color.inverse-surface": "#2C2D34",
+        "color.on-inverse-surface": "#F3F5FD",
+        "color.on-inverse-surface-primary": "#8D93B4",
+        "color.on-inverse-surface-variant": "#8D93B4",
+        "color.inverse-container": "#2C2D34",
+        "color.on-inverse-container": "#F3F5FD",
+        "color.outline": "#7E8088",
         "color.shadow": "#000000",
         "color.scrim": "#000000",
-        "color.surface-tint": "#565478",
+        "color.surface-tint": "#6A6F8F",
         "color.transparent": "rgba(0,0,0,0)",
         "color.ghost": "rgba(0,0,0,0)",
         "color.disabled": "rgba(0,0,0,0.12)",
         "color.on-disabled": "rgba(0,0,0,0.38)",
-        "color.disabled-container": "#F2F2F3",
+        "color.disabled-container": "#EFF1FA",
         "color.on-disabled-container": "rgba(0,0,0,0.38)",
         "color.disabled-surface": "rgba(0,0,0,0.12)",
         "color.on-disabled-surface": "rgba(0,0,0,0.5)",
@@ -7071,15 +7071,15 @@
         "spacing.md": "16px",
         "spacing.lg": "32px",
         "spacing.xl": "64px",
-        "border.primary": "1px solid #565478",
-        "border.secondary": "1px solid #785654",
-        "border.tertiary": "1px solid #547856",
-        "border.quaternary": "1px solid #706F7C",
-        "border.warn": "1px solid #A56A27",
-        "border.success": "1px solid #27A555",
-        "border.light": "1px solid #7F7E8B",
-        "border.dark": "1px solid #222226",
-        "border.dotted": "1px dotted #222226",
+        "border.primary": "1px solid #6A6F8F",
+        "border.secondary": "1px solid #8C685D",
+        "border.tertiary": "1px solid #597B66",
+        "border.quaternary": "1px solid #61636A",
+        "border.warn": "1px solid #AC5700",
+        "border.success": "1px solid #008341",
+        "border.light": "1px solid #7E8088",
+        "border.dark": "1px solid #202127",
+        "border.dotted": "1px dotted #202127",
         "shadow.raised": "rgba(0, 0, 0, 0.2) 0px 2px 1px -1px, rgba(0, 0, 0, 0.14) 0px 1px 1px 0px, rgba(0, 0, 0, 0.12) 0px 1px 3px 0px",
         "shadow.menu": "rgba(0, 0, 0, 0.2) 0px 3px 3px -2px, rgba(0, 0, 0, 0.14) 0px 3px 4px 0px, rgba(0, 0, 0, 0.12) 0px 1px 8px 0px;",
         "shadow.dialog": "rgba(0, 0, 0, 0.2) 0px 3px 5px -1px, rgba(0, 0, 0, 0.14) 0px 6px 10px 0px, rgba(0, 0, 0, 0.12) 0px 1px 18px 0px",
@@ -7164,7 +7164,7 @@
           "errorBorder": "warn",
           "height": 32,
           "paddingLeft": "sm",
-          "focusOutline": "2px solid #565478",
+          "focusOutline": "2px solid #6A6F8F",
           "focusOutlineOffset": 2
         },
         "multiSelectDropdown": {
@@ -7173,7 +7173,7 @@
           "dividerBorder": "light",
           "searchInputBorder": "light",
           "searchInputBorderRadius": "xxs",
-          "focusOutline": "2px solid #565478",
+          "focusOutline": "2px solid #6A6F8F",
           "focusOutlineOffset": 2
         },
         "badge": {
@@ -7248,78 +7248,78 @@
       "name": "Dark Theme",
       "description": "The Dark Theme theme for the Uni Design System.",
       "styleOverrides": {
-        "color.primary": "#B8B7CD",
-        "color.on-primary": "#121217",
-        "color.primary-container": "#504F5F",
-        "color.on-primary-container": "#FAFAFA",
-        "color.on-primary-container-variant": "rgba(255,255,255,0.4)",
-        "color.on-primary-container-border": "#B8B7CD",
-        "color.primary-surface": "#27272B",
-        "color.on-primary-surface": "#FAFAFA",
-        "color.on-primary-surface-variant": "#B8B7CD",
-        "color.secondary": "#CDB8B7",
-        "color.on-secondary": "#171212",
-        "color.secondary-container": "#5F504F",
-        "color.on-secondary-container": "#FAFAFA",
-        "color.on-secondary-container-variant": "rgba(255,255,255,0.4)",
-        "color.on-secondary-container-border": "#CDB8B7",
-        "color.secondary-surface": "#2B2727",
-        "color.on-secondary-surface": "#FAFAFA",
-        "color.on-secondary-surface-variant": "#CDB8B7",
-        "color.tertiary": "#B7CDB8",
-        "color.on-tertiary": "#121712",
-        "color.tertiary-container": "#4F5F50",
-        "color.on-tertiary-container": "#FAFAFA",
-        "color.on-tertiary-container-variant": "rgba(255,255,255,0.4)",
-        "color.on-tertiary-container-border": "#B7CDB8",
-        "color.tertiary-surface": "#272B27",
-        "color.on-tertiary-surface": "#FAFAFA",
-        "color.on-tertiary-surface-variant": "#B7CDB8",
-        "color.quaternary": "#AFAEB7",
-        "color.on-quaternary": "#1C1B1F",
-        "color.quaternary-surface": "#27272B",
-        "color.on-quaternary-surface": "#FAFAFA",
-        "color.on-quaternary-surface-variant": "#B8B7CD",
-        "color.on-quaternary-container-variant": "rgba(255,255,255,0.4)",
-        "color.on-quaternary-container-border": "#AFAEB7",
-        "color.error": "#E8A69C",
-        "color.on-error": "#171212",
-        "color.error-container": "#70443E",
-        "color.on-error-container": "#FAFAFA",
-        "color.warn": "#E8C49C",
-        "color.on-warn": "#171512",
-        "color.warn-container": "#70583E",
-        "color.on-warn-container": "#FAFAFA",
-        "color.on-warn-container-variant": "rgba(255,255,255,0.4)",
-        "color.on-warn-container-border": "#E8C49C",
-        "color.success": "#9CE8B8",
-        "color.on-success": "#121714",
-        "color.success-container": "#3E7050",
-        "color.on-success-container": "#FAFAFA",
-        "color.on-success-container-variant": "rgba(255,255,255,0.4)",
-        "color.on-success-container-border": "#9CE8B8",
-        "color.background": "#1D1D20",
-        "color.on-background": "#E4E4E7",
-        "color.on-background-variant": "#9999A3",
-        "color.surface": "#201F23",
-        "color.on-surface": "#E4E4E7",
-        "color.surface-variant": "#44434B",
-        "color.on-surface-variant": "#C4C4CA",
-        "color.inverse-surface": "#E4E4E7",
-        "color.on-inverse-surface": "#2C2B30",
-        "color.on-inverse-surface-primary": "#B8B7CD",
-        "color.on-inverse-surface-variant": "#B8B7CD",
-        "color.inverse-container": "#E4E4E7",
-        "color.on-inverse-container": "#2C2B30",
-        "color.outline": "#878693",
+        "color.primary": "#AFB5D8",
+        "color.on-primary": "#11132C",
+        "color.primary-container": "#4A4C57",
+        "color.on-primary-container": "#F9FAFF",
+        "color.on-primary-container-variant": "#BCBECB",
+        "color.on-primary-container-border": "#AFB5D8",
+        "color.primary-surface": "#22242A",
+        "color.on-primary-surface": "#F9FAFF",
+        "color.on-primary-surface-variant": "#AFB5D8",
+        "color.secondary": "#D5ADA1",
+        "color.on-secondary": "#280C05",
+        "color.secondary-container": "#564A46",
+        "color.on-secondary-container": "#FFF8F7",
+        "color.on-secondary-container-variant": "#CABCB7",
+        "color.on-secondary-container-border": "#D5ADA1",
+        "color.secondary-surface": "#292220",
+        "color.on-secondary-surface": "#FFF8F7",
+        "color.on-secondary-surface-variant": "#D5ADA1",
+        "color.tertiary": "#9EC2AB",
+        "color.on-tertiary": "#001C0D",
+        "color.tertiary-container": "#465049",
+        "color.on-tertiary-container": "#F0FFF5",
+        "color.on-tertiary-container-variant": "#B7C3BB",
+        "color.on-tertiary-container-border": "#9EC2AB",
+        "color.tertiary-surface": "#1F2622",
+        "color.on-tertiary-surface": "#F4FDF7",
+        "color.on-tertiary-surface-variant": "#9EC2AB",
+        "color.quaternary": "#A2A4AC",
+        "color.on-quaternary": "#15161C",
+        "color.quaternary-surface": "#22242A",
+        "color.on-quaternary-surface": "#F9FAFF",
+        "color.on-quaternary-surface-variant": "#AFB5D8",
+        "color.on-quaternary-container-variant": "#AEB0BD",
+        "color.on-quaternary-container-border": "#A2A4AC",
+        "color.error": "#FF968A",
+        "color.on-error": "#290B09",
+        "color.error-container": "#69413C",
+        "color.on-error-container": "#FFF8F7",
+        "color.warn": "#FF9B51",
+        "color.on-warn": "#270E00",
+        "color.warn-container": "#66442E",
+        "color.on-warn-container": "#FFF9F5",
+        "color.on-warn-container-variant": "#DFB69B",
+        "color.on-warn-container-border": "#FF9B51",
+        "color.success": "#59D483",
+        "color.on-success": "#011C0A",
+        "color.success-container": "#34563D",
+        "color.on-success-container": "#F1FEF4",
+        "color.on-success-container-variant": "#A3CBAD",
+        "color.on-success-container-border": "#59D483",
+        "color.background": "#101117",
+        "color.on-background": "#E5E7F0",
+        "color.on-background-variant": "#AFB0B9",
+        "color.surface": "#17181E",
+        "color.on-surface": "#E5E7F0",
+        "color.surface-variant": "#313239",
+        "color.on-surface-variant": "#AFB0B9",
+        "color.inverse-surface": "#E5E7F0",
+        "color.on-inverse-surface": "#202127",
+        "color.on-inverse-surface-primary": "#5F6483",
+        "color.on-inverse-surface-variant": "#5F6483",
+        "color.inverse-container": "#E5E7F0",
+        "color.on-inverse-container": "#202127",
+        "color.outline": "#90929A",
         "color.shadow": "#000000",
         "color.scrim": "#000000",
-        "color.surface-tint": "#B8B7CD",
+        "color.surface-tint": "#AFB5D8",
         "color.transparent": "rgba(0,0,0,0)",
         "color.ghost": "rgba(0,0,0,0)",
         "color.disabled": "rgba(255,255,255,0.12)",
         "color.on-disabled": "rgba(255,255,255,0.38)",
-        "color.disabled-container": "#35353B",
+        "color.disabled-container": "#2C2D34",
         "color.on-disabled-container": "rgba(255,255,255,0.38)",
         "color.disabled-surface": "rgba(255,255,255,0.12)",
         "color.on-disabled-surface": "rgba(255,255,255,0.5)",
@@ -7338,15 +7338,15 @@
         "spacing.md": "16px",
         "spacing.lg": "32px",
         "spacing.xl": "64px",
-        "border.primary": "1px solid #B8B7CD",
-        "border.secondary": "1px solid #CDB8B7",
-        "border.tertiary": "1px solid #B7CDB8",
-        "border.quaternary": "1px solid #AFAEB7",
-        "border.warn": "1px solid #E8C49C",
-        "border.success": "1px solid #9CE8B8",
-        "border.light": "1px solid #878693",
-        "border.dark": "1px solid #E4E4E7",
-        "border.dotted": "1px dotted #E4E4E7",
+        "border.primary": "1px solid #AFB5D8",
+        "border.secondary": "1px solid #D5ADA1",
+        "border.tertiary": "1px solid #9EC2AB",
+        "border.quaternary": "1px solid #A2A4AC",
+        "border.warn": "1px solid #FF9B51",
+        "border.success": "1px solid #59D483",
+        "border.light": "1px solid #90929A",
+        "border.dark": "1px solid #E5E7F0",
+        "border.dotted": "1px dotted #E5E7F0",
         "shadow.raised": "rgba(0, 0, 0, 0.2) 0px 2px 1px -1px, rgba(0, 0, 0, 0.14) 0px 1px 1px 0px, rgba(0, 0, 0, 0.12) 0px 1px 3px 0px",
         "shadow.menu": "rgba(0, 0, 0, 0.2) 0px 3px 3px -2px, rgba(0, 0, 0, 0.14) 0px 3px 4px 0px, rgba(0, 0, 0, 0.12) 0px 1px 8px 0px;",
         "shadow.dialog": "rgba(0, 0, 0, 0.2) 0px 3px 5px -1px, rgba(0, 0, 0, 0.14) 0px 6px 10px 0px, rgba(0, 0, 0, 0.12) 0px 1px 18px 0px",
@@ -7431,7 +7431,7 @@
           "errorBorder": "warn",
           "height": 32,
           "paddingLeft": "sm",
-          "focusOutline": "2px solid #B8B7CD",
+          "focusOutline": "2px solid #AFB5D8",
           "focusOutlineOffset": 2
         },
         "multiSelectDropdown": {
@@ -7440,7 +7440,7 @@
           "dividerBorder": "light",
           "searchInputBorder": "light",
           "searchInputBorderRadius": "xxs",
-          "focusOutline": "2px solid #B8B7CD",
+          "focusOutline": "2px solid #AFB5D8",
           "focusOutlineOffset": 2
         },
         "badge": {

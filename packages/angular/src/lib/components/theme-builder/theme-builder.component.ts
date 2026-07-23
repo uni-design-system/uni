@@ -32,17 +32,60 @@ interface Preset {
   config: BrandPaletteConfig;
 }
 
+// Curated presets for the OKLCH engine. Brand colors ride as soft `targets`:
+// emitted exactly where they already meet WCAG AA, lightness-adjusted (never
+// hue) where they don't — so every preset is AA-clean in both modes.
 const PRESETS: Preset[] = [
-  { label: 'Indigo', config: { seed: '#4F46E5', scheme: 'triadic', category: 'neutral' } },
-  { label: 'Teal', config: { seed: '#0F766E', scheme: 'analogous', category: 'earth' } },
-  { label: 'Ocean', config: { seed: '#0066B2', scheme: 'complimentary', category: 'jewel' } },
   {
-    label: 'Heritage (pinned pair)',
+    label: 'Indigo',
+    config: { seed: '#4F46E5', scheme: 'analogous', category: 'jewel', targets: { primary: '#4F46E5' } },
+  },
+  {
+    label: 'Ocean',
+    config: { seed: '#0066B2', scheme: 'complimentary', category: 'jewel', targets: { primary: '#0066B2' } },
+  },
+  {
+    label: 'Emerald',
+    config: { seed: '#047857', scheme: 'analogous', category: 'jewel', targets: { primary: '#047857' } },
+  },
+  {
+    label: 'Sunset',
+    config: { seed: '#DC2626', scheme: 'splitComplimentary', category: 'jewel', targets: { primary: '#DC2626' } },
+  },
+  {
+    label: 'Berry',
+    config: { seed: '#C2185B', scheme: 'triadic', category: 'jewel', targets: { primary: '#C2185B' } },
+  },
+  {
+    label: 'Heritage',
     config: {
       seed: '#2C3E35',
       scheme: 'complimentary',
       category: 'earth',
-      brand: { primary: '#2C3E35', secondary: '#D4A373' },
+      targets: { primary: '#2C3E35', secondary: '#D4A373' },
+    },
+  },
+  {
+    label: 'Sage & Clay',
+    config: {
+      seed: '#6B8F71',
+      scheme: 'analogous',
+      category: 'earth',
+      targets: { primary: '#6B8F71', secondary: '#B3593C' },
+    },
+  },
+  {
+    label: 'Pastel',
+    config: { seed: '#A78BFA', scheme: 'analogous', category: 'pastel', targets: { primary: '#A78BFA' } },
+  },
+  {
+    label: 'Graphite',
+    config: {
+      seed: '#475569',
+      scheme: 'monochromatic',
+      category: 'neutral',
+      accentSaturationFloor: 10,
+      targets: { primary: '#475569' },
     },
   },
 ];
@@ -58,15 +101,19 @@ const PRESETS: Preset[] = [
         <span class="tb-eyebrow">Theme builder · Color</span>
         <h2 class="tb-title">Make Uni your brand</h2>
         <p class="tb-lede">
-          Every token is derived from a seed color, a scheme and a category — or pin exact brand
-          colors. Changes apply to <b>every</b> component in this Storybook, live.
+          Every token is derived in OKLCH from a seed color, a scheme and a category — or bring
+          exact brand colors. Presets are WCAG AA in light and dark. Changes apply to
+          <b>every</b> component in this Storybook, live.
         </p>
       </header>
 
       <div class="tb-presets">
         @for (p of presets; track p.label) {
           <button type="button" class="tb-preset" (click)="applyPreset(p.config)">
-            <span class="tb-dot" [style.background]="p.config.brand?.primary ?? p.config.seed"></span>
+            <span
+              class="tb-dot"
+              [style.background]="p.config.targets?.primary ?? p.config.brand?.primary ?? p.config.seed"
+            ></span>
             {{ p.label }}
           </button>
         }
@@ -206,6 +253,8 @@ export class UniThemeBuilderComponent {
   protected primaryHex = signal('#2C3E35');
   protected pinSecondary = signal(false);
   protected secondaryHex = signal('#D4A373');
+  /** Soft brand targets carried by the active preset (cleared on seed edits). */
+  protected targets = signal<BrandPaletteConfig['targets']>(undefined);
 
   constructor() {
     // Seed the controls from an already-active custom palette, if any.
@@ -224,6 +273,7 @@ export class UniThemeBuilderComponent {
         this.pinSecondary.set(true);
         this.secondaryHex.set(existing.brand.secondary);
       }
+      this.targets.set(existing.targets);
     }
   }
 
@@ -233,6 +283,7 @@ export class UniThemeBuilderComponent {
     category: this.category(),
     mode: this.mode(),
     accentSaturationFloor: this.floor(),
+    ...(this.targets() ? { targets: this.targets() } : {}),
     brand: {
       ...(this.pinPrimary() ? { primary: this.primaryHex() } : {}),
       ...(this.pinSecondary() ? { secondary: this.secondaryHex() } : {}),
@@ -252,6 +303,8 @@ export class UniThemeBuilderComponent {
   protected setSeed(v: string) {
     if (/^#?[0-9a-fA-F]{6}$/.test(v.replace('#', ''))) {
       this.seed.set(v.startsWith('#') ? v : `#${v}`);
+      // A hand-edited seed takes over from any preset's soft brand targets.
+      this.targets.set(undefined);
       this.apply();
     }
   }
@@ -293,6 +346,7 @@ export class UniThemeBuilderComponent {
     this.scheme.set(config.scheme);
     this.category.set(config.category);
     this.floor.set(config.accentSaturationFloor ?? 18);
+    this.targets.set(config.targets);
     this.pinPrimary.set(!!config.brand?.primary);
     if (config.brand?.primary) this.primaryHex.set(config.brand.primary);
     this.pinSecondary.set(!!config.brand?.secondary);
@@ -307,6 +361,7 @@ export class UniThemeBuilderComponent {
     this.category.set('neutral');
     this.floor.set(18);
     this.mode.set('light');
+    this.targets.set(undefined);
     this.pinPrimary.set(false);
     this.pinSecondary.set(false);
   }

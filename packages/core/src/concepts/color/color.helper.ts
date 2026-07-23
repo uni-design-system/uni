@@ -10,6 +10,11 @@ export function RGBToString({ red, green, blue }: RGB): string {
   return `rgb(${red}, ${green}, ${blue})`;
 }
 
+/**
+ * @deprecated Random HSL generation produces non-deterministic, perceptually
+ * uneven colors. Use the OKLCH engine (`generateThemes` in
+ * `concepts/generation`) or `generatePalette` instead.
+ */
 export function uniColor({ role, category, alpha = 1 }: UniColor): string {
   const hue = randomRangeValue(RoleHues[role]);
   const saturation = randomRangeValue(CategorySaturation[category]);

@@ -1,6 +1,11 @@
 import { Range } from './color.model';
 import { ColorCategory, ColorRole, UtilityColorRole } from './color.types';
 
+/**
+ * @deprecated HSL saturation ranges are superseded by the perceptual OKLCH
+ * chroma model inside `concepts/generation` (see `generateThemes`). Kept for
+ * legacy callers of `uniColor`; removal follows the changeset major process.
+ */
 export const CategorySaturation: Record<ColorCategory, Range> = {
   jewel: { low: 73, high: 83 },
   pastel: { low: 14, high: 21 },
@@ -10,6 +15,10 @@ export const CategorySaturation: Record<ColorCategory, Range> = {
   shades: { low: 0, high: 0 },
 };
 
+/**
+ * @deprecated HSL lightness ranges are superseded by the perceptual OKLCH
+ * tone slots inside `concepts/generation` (see `generateThemes`).
+ */
 export const CategoryLightness: Record<ColorCategory, Range> = {
   jewel: { low: 56, high: 76 },
   pastel: { low: 89, high: 96 },

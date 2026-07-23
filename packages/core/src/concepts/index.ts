@@ -7,6 +7,7 @@ export * from './color';
 export * from './component';
 export * from './container';
 export * from './elevation';
+export * from './generation';
 export * from './gradient';
 export * from './iconography';
 export * from './layout';

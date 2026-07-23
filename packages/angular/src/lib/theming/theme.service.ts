@@ -24,6 +24,7 @@ import {
   Variant,
   toTypefaces,
   createThemeFromPalette,
+  type GenerateColorsConfig,
   type PaletteConfig,
   type ColorKey,
   type Radius,
@@ -36,11 +37,13 @@ import { safeParseInt } from '../cdk/helpers/number.helper';
 
 /**
  * The editable shape a theme builder manipulates: a seed + scheme + category
- * (plus optional saturation floor, pinned brand colors, and light/dark mode).
- * Everything else in a theme is derived from this.
+ * (plus optional saturation floor, brand colors, and light/dark mode).
+ * Everything else in a theme is derived from this. Brand colors come in two
+ * strengths: `brand` pins are emitted verbatim (may fail contrast), `targets`
+ * are brand-faithful but the WCAG guard-rail may adjust their lightness.
  */
 export type BrandPaletteConfig = Required<Pick<PaletteConfig, 'seed' | 'scheme' | 'category'>> &
-  Pick<PaletteConfig, 'mode' | 'accentSaturationFloor' | 'brand'>;
+  Pick<GenerateColorsConfig, 'mode' | 'accentSaturationFloor' | 'brand' | 'targets'>;
 
 @Injectable({
   providedIn: 'root',

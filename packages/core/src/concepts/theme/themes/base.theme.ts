@@ -1,5 +1,6 @@
 import type { ComponentThemes } from '../../component';
 import { generatePalette, type PaletteConfig } from '../../color';
+import type { GenerateColorsConfig } from '../../generation/palette.factory';
 import type { TextRole, TextStyle } from '../../typography';
 import type {
   Borders,
@@ -389,16 +390,27 @@ export interface ThemeConfig {
   name: string;
   colors: Colors;
   icons?: Icons;
+  /** Override the radii scale, e.g. a generated shape-language preset. */
+  radii?: Radii;
+  /** Override the elevation shadows, e.g. brand-tinted generated stacks. */
+  shadows?: Shadows;
 }
 
-export const createTheme = ({ id, name, colors, icons = {} }: ThemeConfig): UniTheme => ({
+export const createTheme = ({
+  id,
+  name,
+  colors,
+  icons = {},
+  radii = BaseRadii,
+  shadows = BaseShadows,
+}: ThemeConfig): UniTheme => ({
   id,
   name,
   colors,
   typography: BaseTypography,
   borders: buildBorders(colors),
-  radii: BaseRadii,
-  shadows: BaseShadows,
+  radii,
+  shadows,
   spacing: BaseSpacing,
   thicknesses: BaseThicknesses,
   icons,
@@ -411,7 +423,7 @@ export const createTheme = ({ id, name, colors, icons = {} }: ThemeConfig): UniT
  * scheme + category) into a complete, ready-to-apply theme.
  */
 export const createThemeFromPalette = (
-  config: PaletteConfig & { id?: string; name?: string; icons?: Icons }
+  config: GenerateColorsConfig & { id?: string; name?: string; icons?: Icons }
 ): UniTheme =>
   createTheme({
     id: config.id ?? 'CustomTheme',
