@@ -1,5 +1,12 @@
 # @uni-design-system/uni-react
 
+## 5.0.0
+
+### Patch Changes
+
+- Updated dependencies [[`f7f0bdd`](https://github.com/uni-design-system/uni/commit/f7f0bdddfac855955e022a852c2bfdccf8013a7b)]:
+  - @uni-design-system/uni-core@5.0.0
+
 ## 4.0.0
 
 ### Patch Changes

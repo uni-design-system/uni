@@ -1,6 +1,6 @@
 {
   "name": "@uni-design-system/uni-mcp",
-  "version": "4.0.0",
+  "version": "4.1.0",
   "license": "MIT",
   "description": "Model Context Protocol server for the Uni Design System — gives AI coding assistants an authoritative interface to Uni components, tokens, themes, and guidelines.",
   "repository": {
