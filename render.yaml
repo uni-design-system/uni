@@ -1,0 +1,26 @@
+# Render blueprint for the Uni Design System MCP server (Streamable HTTP).
+# Deploy: push this repo to GitHub, then "New > Blueprint" in Render and point
+# it here. The service serves the versioned index committed at
+# packages/mcp/src/data/uni-index.json (regenerate it with `pnpm --filter
+# @uni-design-system/uni-mcp build-index` and commit before deploying).
+services:
+  - type: web
+    name: uni-mcp
+    runtime: node
+    plan: free
+    # Render injects PORT; http.ts binds process.env.PORT on 0.0.0.0.
+    healthCheckPath: /health
+    buildCommand: corepack enable && pnpm install --frozen-lockfile && pnpm --filter @uni-design-system/uni-mcp build:server
+    startCommand: pnpm --filter @uni-design-system/uni-mcp start
+    autoDeployTrigger: commit
+    envVars:
+      - key: NODE_VERSION
+        value: "22.22.3"
+      # Bearer token required on every /mcp request. Render generates a value;
+      # copy it into your client config (Authorization: Bearer <value>).
+      - key: UNI_MCP_TOKEN
+        generateValue: true
+      # DNS-rebinding protection. Set to your Render hostname once known, e.g.
+      # "uni-mcp.onrender.com". Comma-separated for multiple hosts.
+      - key: UNI_ALLOWED_HOSTS
+        sync: false

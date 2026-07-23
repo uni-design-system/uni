@@ -1,0 +1,47 @@
+{
+  "name": "@uni-design-system/uni-mcp",
+  "version": "4.0.0",
+  "license": "MIT",
+  "description": "Model Context Protocol server for the Uni Design System — gives AI coding assistants an authoritative interface to Uni components, tokens, themes, and guidelines.",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/uni-design-system/uni",
+    "directory": "packages/mcp"
+  },
+  "publishConfig": {
+    "access": "public",
+    "provenance": true
+  },
+  "private": false,
+  "type": "module",
+  "bin": {
+    "uni-mcp": "./dist/stdio.js"
+  },
+  "main": "./dist/server.js",
+  "types": "./dist/server.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build-index": "tsx src/build/index.ts",
+    "build": "pnpm build-index && tsup",
+    "build:server": "tsup",
+    "dev": "tsx watch src/server/stdio.ts",
+    "serve:http": "tsx src/server/http.ts",
+    "start": "node dist/http.js",
+    "inspect": "pnpm dlx @modelcontextprotocol/inspector tsx src/server/stdio.ts",
+    "type-check": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.22.0",
+    "zod": "^3.25.0"
+  },
+  "devDependencies": {
+    "@types/node": "^25.6.0",
+    "@uni-design-system/tsconfig": "workspace:*",
+    "@uni-design-system/uni-core": "workspace:*",
+    "tsup": "^8.5.0",
+    "tsx": "^4.20.0",
+    "typescript": "~5.9.0"
+  }
+}
