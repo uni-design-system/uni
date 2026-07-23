@@ -33,7 +33,7 @@
     "@angular/core": "^21.2.0",
     "@angular/forms": "^21.2.0",
     "@emotion/css": "^11.0.0",
-    "@uni-design-system/uni-core": "workspace:*"
+    "@uni-design-system/uni-core": "workspace:^"
   },
   "devDependencies": {
     "@analogjs/storybook-angular": "^2.5.1",
