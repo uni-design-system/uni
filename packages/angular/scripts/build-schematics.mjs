@@ -5,7 +5,7 @@
  * because the Angular CLI provides them at execution time.
  */
 import { build } from 'vite';
-import { copyFileSync, mkdirSync } from 'node:fs';
+import { copyFileSync, mkdirSync, writeFileSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -34,4 +34,8 @@ await build({
 mkdirSync(resolve(root, 'schematics/ng-add'), { recursive: true });
 copyFileSync(resolve(root, 'schematics-src/collection.json'), resolve(root, 'schematics/collection.json'));
 copyFileSync(resolve(root, 'schematics-src/ng-add/schema.json'), resolve(root, 'schematics/ng-add/schema.json'));
+// ng-packagr stamps `"type": "module"` into dist/package.json, which would make
+// Node read the CJS schematic bundle as ESM ("exports is not defined"). This
+// nested package.json scopes schematics/ back to CommonJS.
+writeFileSync(resolve(root, 'schematics/package.json'), '{"type":"commonjs"}\n');
 console.log('schematics bundled → schematics/');

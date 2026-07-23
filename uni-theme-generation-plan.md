@@ -24,7 +24,8 @@ muddy-palette fix lands first. Tick items as they land.
       `uniColor`, `randomRangeValue`, `CategorySaturation`, `CategoryLightness` marked
       `@deprecated`; `schemeHues` moved to `color.utils.ts`.
 - [x] **Shipped Light/Dark themes regenerated** automatically via the wrapper.
-- [ ] Visually verify the regenerated stock themes + Theme Builder in Storybook.
+- [x] Visually verify the regenerated stock themes + Theme Builder in Storybook
+      (passed 2026-07-23).
 - [x] **Vitest suite in core**: 16 tests — round-trip, determinism, completeness, contrast
       corpus (1,080 seeds × both modes, zero failures), seed fidelity, dark chroma cap,
       ≤ 15 ms perf budget. `pnpm --filter @uni-design-system/uni-core test`
@@ -56,8 +57,13 @@ them at scaffold time; the engine never runs in the browser. Enablers landed:
       `dist/schematics` with uni-core inlined): installs deps, prompts brand/shape/dark,
       writes `uni-theme.ts` via `emitThemeFile`, registers `UNI_THEMES`, typeface links,
       smoke test, contrast summary; idempotent; 13-spec suite.
-  - [ ] Real-world e2e: fresh `ng new` + `ng add` + `ng serve` (needs a published or
-        packed tarball); `npx … init` fallback for non-CLI workspaces.
+  - [x] Real-world e2e (2026-07-23): fresh `ng new` + `ng add` against published 5.0.0.
+        Caught two packaging bugs — ESM/CJS mismatch (ng-packagr stamps `type: module`;
+        fixed via nested `schematics/package.json`) and emitter dot-access vs
+        `noPropertyAccessFromIndexSignature` (fixed: bracket access). App builds clean;
+        fixes ship in the next patch release.
+  - [ ] `npx … init` fallback for non-CLI workspaces; `ng serve` computed-style
+        assertion (browser automation).
 - [ ] **Playground**: promote/extend the existing Theme Builder component into
       `apps/playground` with light+dark side-by-side, contrast report panel, exports
       (`uni-theme.ts` copy, pre-encoded `ng add` command, DTCG JSON).
@@ -73,6 +79,7 @@ them at scaffold time; the engine never runs in the browser. Enablers landed:
 
 ## Milestone 5 — Process
 
-- [ ] Changeset (minor) for the engine; deprecations documented; removal deferred to a
-      future major.
+- [x] Changeset (minor) covering engine + schematic + MCP tool
+      (`.changeset/oklch-theme-generation-engine.md`); deprecations documented; removal
+      deferred to a future major.
 - [ ] Chromatic/Storybook visual regression snapshots of generated stock themes.

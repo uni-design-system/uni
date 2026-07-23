@@ -20,7 +20,6 @@ export interface EmittedThemeFile {
 
 const IDENT = /^[A-Za-z_$][A-Za-z0-9_$]*$/;
 const asKey = (k: string): string => (IDENT.test(k) ? k : `'${k}'`);
-const access = (k: string): string => (IDENT.test(k) ? `colors.${k}` : `colors['${k}']`);
 
 const recordLiteral = (record: Record<string, string | undefined>, indent: string): string =>
   Object.entries(record)
@@ -28,7 +27,10 @@ const recordLiteral = (record: Record<string, string | undefined>, indent: strin
     .join('\n');
 
 // The derived border primitives, spelled out as template literals over the
-// colors const — visible, editable, and edits to a color propagate.
+// colors const — visible, editable, and edits to a color propagate. Access is
+// bracket-only: `Colors` carries an index signature, and consumer tsconfigs
+// with `noPropertyAccessFromIndexSignature` (ng new strict default) reject
+// dot access on it.
 const bordersLiteral = (): string =>
   [
     '/**',
@@ -38,13 +40,13 @@ const bordersLiteral = (): string =>
     ' * shared token picks up the change.',
     ' */',
     'const borders = (colors: Colors): Borders => ({',
-    '  primary: `1px solid ${colors.primary}`,',
-    '  secondary: `1px solid ${colors.secondary}`,',
-    '  tertiary: `1px solid ${colors.tertiary}`,',
-    '  quaternary: `1px solid ${colors.quaternary}`,',
-    '  warn: `1px solid ${colors.warn}`,',
-    '  success: `1px solid ${colors.success}`,',
-    '  light: `1px solid ${colors.outline}`,',
+    "  primary: `1px solid ${colors['primary']}`,",
+    "  secondary: `1px solid ${colors['secondary']}`,",
+    "  tertiary: `1px solid ${colors['tertiary']}`,",
+    "  quaternary: `1px solid ${colors['quaternary']}`,",
+    "  warn: `1px solid ${colors['warn']}`,",
+    "  success: `1px solid ${colors['success']}`,",
+    "  light: `1px solid ${colors['outline']}`,",
     "  dark: `1px solid ${colors['on-background']}`,",
     "  dotted: `1px dotted ${colors['on-background']}`,",
     '});',
@@ -121,7 +123,7 @@ export const emitThemeFile = (input: ThemeFileInput): EmittedThemeFile => {
     '/**',
     ' * Sparse component overrides, deep-merged over Uni component defaults: only',
     ' * what you write here changes. Point components at your own primitives, e.g.:',
-    ' *   button: { variants: { secondary: { border: `2px dashed ${colors.tertiary}` } } },',
+    " *   button: { variants: { secondary: { border: `2px dashed ${colors['tertiary']}` } } },",
     " *   input: { options: { borderRadius: 'max' } },",
     ' */',
     'const components = (colors: Colors): ComponentThemes => ({});',

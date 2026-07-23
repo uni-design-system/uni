@@ -189,6 +189,9 @@ describe('emitThemeFile', () => {
     expect(a.content).toContain('radii,');
     expect(a.providerSnippet).toContain('UNI_THEMES');
     expect(a.report.pass).toBe(true);
+    // ng new's strict tsconfig sets noPropertyAccessFromIndexSignature, and
+    // Colors has an index signature — dot access on `colors` breaks the build.
+    expect(a.content).not.toMatch(/colors\.[a-z]/);
   });
 
   it('emits syntactically valid TypeScript', () => {
