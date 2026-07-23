@@ -47,9 +47,17 @@ muddy-palette fix lands first. Tick items as they land.
 
 ## Milestone 4 — Consumer surfaces
 
-- [ ] **`ng add` schematic** in `packages/angular` (none exists): install deps, prompt
-      (brand hex / shape / dark), write resolved `uni-theme.ts`, register `UNI_THEMES`,
-      typeface links, smoke-test component, contrast summary. + `init` fallback for non-CLI.
+Direction (2026-07-23): static theme files are the source of truth — MCP/schematic emit
+them at scaffold time; the engine never runs in the browser. Enablers landed:
+`createTheme` deep-merges `borders`/`components` overrides; `emitThemeFile()` in
+`concepts/generation` renders the editable `uni-theme.ts` (shared by schematic + MCP).
+
+- [x] **`ng add` schematic** (`packages/angular/schematics-src`, bundled to
+      `dist/schematics` with uni-core inlined): installs deps, prompts brand/shape/dark,
+      writes `uni-theme.ts` via `emitThemeFile`, registers `UNI_THEMES`, typeface links,
+      smoke test, contrast summary; idempotent; 13-spec suite.
+  - [ ] Real-world e2e: fresh `ng new` + `ng add` + `ng serve` (needs a published or
+        packed tarball); `npx … init` fallback for non-CLI workspaces.
 - [ ] **Playground**: promote/extend the existing Theme Builder component into
       `apps/playground` with light+dark side-by-side, contrast report panel, exports
       (`uni-theme.ts` copy, pre-encoded `ng add` command, DTCG JSON).
@@ -57,8 +65,10 @@ muddy-palette fix lands first. Tick items as they land.
         through `BrandPaletteConfig`/`createThemeFromPalette`; nine curated AA-clean
         presets (Indigo, Ocean, Emerald, Sunset, Berry, Heritage, Sage & Clay, Pastel,
         Graphite) replace the old HSL-tuned four.
-- [ ] **MCP**: add `generate_uni_theme` tool to `packages/mcp` (no theme tools exist yet),
-      wired to the real engine — no OKLCH stubs; lint check rejecting raw hex in snippets.
+- [x] **MCP**: `generate-uni-theme` tool in `packages/mcp` returns the static file +
+      provider snippet + contrast report; server instructions teach the
+      edit-the-static-file retheming workflow.
+  - [ ] Lint check rejecting raw hex in the MCP snippet corpus.
 - [ ] W3C DTCG JSON emitter (shared by playground + MCP).
 
 ## Milestone 5 — Process

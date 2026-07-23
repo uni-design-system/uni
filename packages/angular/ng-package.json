@@ -4,5 +4,6 @@
     "entryFile": "src/public-api.ts"
   },
   "dest": "dist",
+  "assets": ["./schematics/**/*"],
   "allowedNonPeerDependencies": ["@floating-ui/dom"]
 }

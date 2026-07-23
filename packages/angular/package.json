@@ -13,8 +13,13 @@
     "directory": "dist"
   },
   "private": false,
+  "schematics": "./schematics/collection.json",
+  "ng-add": {
+    "save": "dependencies"
+  },
   "scripts": {
-    "build": "pnpm ng-packagr -p ng-package.json",
+    "build": "node scripts/build-schematics.mjs && pnpm ng-packagr -p ng-package.json",
+    "build:schematics": "node scripts/build-schematics.mjs",
     "test": "vitest run",
     "test:watch": "vitest",
     "lint": "eslint src",
@@ -36,6 +41,7 @@
     "@angular-devkit/architect": "^0.2102.10",
     "@angular-devkit/build-angular": "^21.2.10",
     "@angular-devkit/core": "21.2.10",
+    "@angular-devkit/schematics": "^21.2.10",
     "@angular/compiler": "21.2.12",
     "@angular/compiler-cli": "21.2.12",
     "@angular/forms": "21.2.12",

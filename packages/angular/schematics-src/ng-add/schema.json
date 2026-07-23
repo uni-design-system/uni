@@ -1,0 +1,47 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "$id": "UniNgAdd",
+  "title": "Uni Design System ng-add options",
+  "type": "object",
+  "properties": {
+    "brand": {
+      "type": "string",
+      "description": "Brand hex color(s); comma-separate 2–3 for primary,secondary,tertiary.",
+      "default": "#4F46E5",
+      "x-prompt": "Brand color hex (Enter keeps Uni indigo #4F46E5):"
+    },
+    "shape": {
+      "type": "string",
+      "enum": ["sharp", "modern", "playful"],
+      "default": "modern",
+      "x-prompt": {
+        "message": "Shape language?",
+        "type": "list",
+        "items": [
+          { "value": "modern", "label": "Modern — Uni's default radii" },
+          { "value": "sharp", "label": "Sharp — square corners everywhere" },
+          { "value": "playful", "label": "Playful — big, round radii" }
+        ]
+      }
+    },
+    "darkMode": {
+      "type": "boolean",
+      "default": true,
+      "x-prompt": "Generate a dark theme too?"
+    },
+    "typography": {
+      "type": "boolean",
+      "default": true,
+      "description": "Add the Red Hat Display + Roboto font links to index.html."
+    },
+    "smokeTest": {
+      "type": "boolean",
+      "default": true,
+      "description": "Add a themed uni-text + uni-button snippet to the app component."
+    },
+    "project": {
+      "type": "string",
+      "description": "Target project name (defaults to the workspace's first project)."
+    }
+  }
+}

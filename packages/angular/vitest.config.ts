@@ -16,7 +16,8 @@ function specFilesAsTypescript(): Plugin {
     name: 'uni-spec-ts-transform',
     enforce: 'pre',
     async transform(code, id) {
-      if (!/\.spec\.ts$|test-setup\.ts$/.test(id)) return;
+      // schematics-src is plain decorator-free TS too — same treatment.
+      if (!/\.spec\.ts$|test-setup\.ts$|schematics-src\/.*\.ts$/.test(id)) return;
       return transformWithOxc(code, id, { lang: 'ts' });
     },
   };
@@ -28,7 +29,7 @@ export default defineConfig({
     globals: true,
     environment: 'jsdom',
     setupFiles: ['src/test-setup.ts'],
-    include: ['src/**/*.spec.ts'],
+    include: ['src/**/*.spec.ts', 'schematics-src/**/*.spec.ts'],
     reporters: ['default'],
   },
 });

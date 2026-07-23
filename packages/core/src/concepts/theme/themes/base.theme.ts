@@ -383,7 +383,10 @@ const buildComponents = (c: Colors): ComponentThemes => ({
 
 // ==========================================
 // Theme factory. A custom theme = a name + a `colors` map.
-// Everything color-dependent (borders, component variants) is derived.
+// Everything color-dependent (borders, component variants) is derived;
+// `borders`/`components` overrides deep-merge over the derived defaults, so a
+// theme file can define its own named primitives and rewire per-component
+// options without restating anything it doesn't touch.
 // ==========================================
 export interface ThemeConfig {
   id: string;
@@ -394,7 +397,31 @@ export interface ThemeConfig {
   radii?: Radii;
   /** Override the elevation shadows, e.g. brand-tinted generated stacks. */
   shadows?: Shadows;
+  /**
+   * Named border primitives, merged over the derived defaults. New tokens may
+   * use any name — point component options (or `components` overrides) at
+   * them and every consumer of the shared token picks up the change.
+   */
+  borders?: Borders;
+  /**
+   * Sparse per-component overrides, deep-merged over the derived component
+   * themes: only the sections you provide (fixed/variants/sizes/options keys)
+   * are replaced; everything else keeps tracking the library defaults.
+   */
+  components?: ComponentThemes;
 }
+
+const isRecord = (value: unknown): value is Record<string, unknown> =>
+  typeof value === 'object' && value !== null && !Array.isArray(value);
+
+const deepMerge = <T>(base: T, override: Partial<T> | undefined): T => {
+  if (!override) return base;
+  const out = { ...base } as Record<string, unknown>;
+  for (const [key, value] of Object.entries(override)) {
+    out[key] = isRecord(value) && isRecord(out[key]) ? deepMerge(out[key], value) : value;
+  }
+  return out as T;
+};
 
 export const createTheme = ({
   id,
@@ -403,18 +430,20 @@ export const createTheme = ({
   icons = {},
   radii = BaseRadii,
   shadows = BaseShadows,
+  borders,
+  components,
 }: ThemeConfig): UniTheme => ({
   id,
   name,
   colors,
   typography: BaseTypography,
-  borders: buildBorders(colors),
+  borders: deepMerge(buildBorders(colors), borders),
   radii,
   shadows,
   spacing: BaseSpacing,
   thicknesses: BaseThicknesses,
   icons,
-  components: buildComponents(colors),
+  components: deepMerge(buildComponents(colors), components),
 });
 
 /**

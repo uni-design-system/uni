@@ -6,6 +6,7 @@
 import { McpServer, ResourceTemplate } from '@modelcontextprotocol/sdk/server/mcp.js';
 import { z } from 'zod';
 import * as store from './store.js';
+import { formatGeneratedTheme } from './generate.js';
 
 const FrameworkArg = z.enum(['angular', 'react']);
 
@@ -28,7 +29,10 @@ export function createUniServer(): McpServer {
         'here match the exact Uni release the developer installed. Start with ' +
         '`list-components` or `search`, then `get-component` / `get-component-examples`. ' +
         'Use real token ids (via `list-tokens`) instead of raw hex; apply themes with ' +
-        '`get-theme-template` (style overrides go through Emotion, component options are props).',
+        '`get-theme-template` (style overrides go through Emotion, component options are props). ' +
+        'To brand an app, call `generate-uni-theme` once and write the returned static ' +
+        '`uni-theme.ts`; to change look and feel afterwards (colors, borders, per-component ' +
+        'styling), edit that file\'s tokens directly — shared tokens propagate everywhere.',
     },
   );
 
@@ -147,6 +151,41 @@ export function createUniServer(): McpServer {
       const t = store.getTheme(id);
       return t ? text(store.formatTheme(t)) : notFound('theme', id);
     },
+  );
+
+  // -- generate-uni-theme ----------------------------------------------------
+  server.registerTool(
+    'generate-uni-theme',
+    {
+      title: 'Generate a Uni brand theme file',
+      description:
+        'Generate a complete, WCAG-AA light+dark Uni theme from brand hex color(s) and return ' +
+        'the static `uni-theme.ts` file content (write it to `src/app/uni-theme.ts`), the ' +
+        '`UNI_THEMES` provider registration snippet, and a contrast report. The file is plain ' +
+        'editable data and becomes the source of truth: later restyling means editing its ' +
+        'tokens (colors, named border primitives, sparse component overrides) — not calling ' +
+        'this tool again. Never hardcode hex in components; reference theme tokens.',
+      inputSchema: {
+        brand: z
+          .union([z.string(), z.array(z.string()).min(1).max(3)])
+          .describe('Brand hex color(s), e.g. "#0052FF". 2–3 colors map to primary/secondary/tertiary.'),
+        vibe: z
+          .enum(['jewel', 'pastel', 'earth', 'neutral', 'florescent'])
+          .optional()
+          .describe('Tonal character; defaults to a category inferred from the seed chroma.'),
+        scheme: z
+          .enum(['monochromatic', 'analogous', 'complimentary', 'splitComplimentary', 'triadic'])
+          .optional()
+          .describe('Hue-wheel relationship for generated roles; auto-classified for multi-color input.'),
+        shape: z
+          .enum(['sharp', 'modern', 'playful'])
+          .optional()
+          .describe('Shape language — emits a radii override into the file.'),
+        name: z.string().optional().describe('Theme display name, defaults to "Brand".'),
+        darkMode: z.boolean().optional().describe('Emit the dark theme too. Defaults to true.'),
+      },
+    },
+    async (args) => text(formatGeneratedTheme(args)),
   );
 
   // -- search ----------------------------------------------------------------

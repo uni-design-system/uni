@@ -1,9 +1,11 @@
 import { describe, expect, it } from 'vitest';
+import ts from 'typescript';
 import { contrastRatio, hexToRgb } from '../color/color.helper';
 import { generatePalette } from '../color/color.factory';
-import { lightColors } from '../theme/themes/base.theme';
+import { createTheme, lightColors } from '../theme/themes/base.theme';
 import { hexToOklch, oklchToHex } from './oklch.helper';
 import { classifyScheme, generateThemes, generateUniThemes, ShapeRadii } from './theme.generator';
+import { emitThemeFile } from './theme-file.emitter';
 
 // Uniform seed corpus: hue sweep × lightness × chroma extremes (PRD §7.3
 // requires ≥ 1,000). Out-of-gamut combinations gamut-map to valid hexes,
@@ -149,6 +151,60 @@ describe('generateUniThemes', () => {
     expect(light.radii).toEqual(ShapeRadii.sharp);
     expect(light.borders.primary).toContain(light.colors.primary);
     expect(light.components.button?.variants?.primary?.backgroundColor).toBe(light.colors.primary);
+  });
+});
+
+describe('createTheme overrides', () => {
+  it('deep-merges custom border primitives and component overrides over derived defaults', () => {
+    const theme = createTheme({
+      id: 'T',
+      name: 'T',
+      colors: lightColors,
+      borders: { 'brush-stroke': '3px dashed #444' },
+      components: { button: { variants: { secondary: { border: '3px dashed #444' } } } },
+    });
+    // New primitive lands; derived defaults survive.
+    expect(theme.borders['brush-stroke']).toBe('3px dashed #444');
+    expect(theme.borders.primary).toBe(`1px solid ${lightColors.primary}`);
+    // Only the touched leaf changes; sibling variant keys and components survive.
+    expect(theme.components.button?.variants?.secondary?.border).toBe('3px dashed #444');
+    expect(theme.components.button?.variants?.secondary?.color).toBeDefined();
+    expect(theme.components.button?.variants?.primary?.backgroundColor).toBe(lightColors.primary);
+    expect(theme.components.input?.options).toBeDefined();
+  });
+});
+
+describe('emitThemeFile', () => {
+  it('is deterministic and emits every color token literally', () => {
+    const input = { seed: '#0052FF', shape: 'modern', name: 'Acme' } as const;
+    const a = emitThemeFile(input);
+    expect(a.content).toBe(emitThemeFile(input).content);
+    for (const key of Object.keys(lightColors)) {
+      expect(a.content, `missing token '${key}'`).toContain(`${/^[A-Za-z_$][\w$]*$/.test(key) ? key : `'${key}'`}:`);
+    }
+    expect(a.content).toContain('const borders = (colors: Colors): Borders');
+    expect(a.content).toContain('export const AcmeLight');
+    expect(a.content).toContain('export const AcmeDark');
+    expect(a.content).toContain('export const AcmeThemes');
+    expect(a.content).toContain('radii,');
+    expect(a.providerSnippet).toContain('UNI_THEMES');
+    expect(a.report.pass).toBe(true);
+  });
+
+  it('emits syntactically valid TypeScript', () => {
+    const { content } = emitThemeFile({ seed: '#C2185B', name: 'Berry' });
+    const out = ts.transpileModule(content, {
+      reportDiagnostics: true,
+      compilerOptions: { module: ts.ModuleKind.ESNext, target: ts.ScriptTarget.ESNext },
+    });
+    expect(out.diagnostics).toEqual([]);
+  });
+
+  it('omits the dark theme when darkMode is false', () => {
+    const { content } = emitThemeFile({ seed: '#0052FF', darkMode: false });
+    expect(content).toContain('export const BrandLight');
+    expect(content).not.toContain('BrandDark');
+    expect(content).not.toContain('darkColors');
   });
 });
 

@@ -28,3 +28,6 @@ Thumbs.db
 
 *storybook.log
 storybook-static
+
+# ng-add schematic build output (bundled from schematics-src)
+packages/angular/schematics/

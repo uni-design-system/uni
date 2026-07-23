@@ -1,0 +1,9 @@
+{
+  "schematics": {
+    "ng-add": {
+      "description": "Add the Uni Design System: install peer dependencies, generate a static brand theme file, register UNI_THEMES, load typefaces, and scaffold a themed smoke test.",
+      "factory": "./ng-add/index#ngAdd",
+      "schema": "./ng-add/schema.json"
+    }
+  }
+}
