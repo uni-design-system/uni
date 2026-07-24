@@ -38,8 +38,8 @@ export const Primary: Story = {
     color: 'tertiary-surface',
     height: 200,
     ngContent: `
-      <Text typeface="headline-medium">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</Text>
-      <Text typeface="body-1-long">
+      <span uni-text="headline-medium">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</span>
+      <span uni-text="body-1-long">
       <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quis facere debitis ullam, quae quidem, impedit
               culpa nam
               repellat in voluptatibus esse ab harum, hic? Aliquam nesciunt voluptates repellendus assumenda labore.
@@ -63,7 +63,7 @@ export const Primary: Story = {
               exercitationem
               eos illo minima non magnam, provident sit doloribus maiores odio in animi quidem unde. Perferendis.</p>
 
-      </Text>
+      </span>
 
 
     `,

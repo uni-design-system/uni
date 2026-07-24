@@ -30,7 +30,7 @@ const meta: Meta<StoryType> = {
       props,
       template: `
         <uni-sort-header [datasource]="datasource" [column]="column">
-          <Text typeface="title-small">Name</Text>
+          <span uni-text="title-small">Name</span>
         </uni-sort-header>
         <div box-layout paddingTop="md">
           @for (record of datasource.records().slice(0, 5); track record.id) {

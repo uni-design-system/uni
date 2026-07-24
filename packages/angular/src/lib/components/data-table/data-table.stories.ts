@@ -119,7 +119,7 @@ export const Primary: Story = {
       template: `
       <DataTable ${argsToTemplate(props)} #dataTable>
         <div row-layout ngProjectAs="data-table-header" justifyContent="space-between">
-          <Text>Data Table</Text>
+          <span uni-text>Data Table</span>
           <uni-paginator [datasource]="dataTable.datasource()" [initPageSize]="10" [showPageSize]="true" [showPageJumper]="true" [showPageNumbers]="false" />
         </div>
         <div row-layout ngProjectAs="data-table-footer" justifyContent="center">

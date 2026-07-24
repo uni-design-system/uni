@@ -31,7 +31,7 @@ const meta: Meta<StoryType> = {
         <Dialog #dialog>
           <DialogHeader color="primary">Sample Dialog</DialogHeader>
           <div center-layout [width]="300" [height]="200">
-            <Text>Dialog</Text>
+            <span uni-text>Dialog</span>
           </div>
           <DialogButtons></DialogButtons>
         </Dialog>

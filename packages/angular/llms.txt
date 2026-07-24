@@ -645,9 +645,10 @@ Inheritance (inputs listed once, available on all subclasses):
   - `touched: boolean` = false
 
 ## UniTextComponent
-- selector: `uni-text, Text`
+- selector: `[uni-text]`
 - inputs:
-  - `typeface: Typeface` = 'title-small'
+  - `uniText: Typeface | ''` = '', { alias: 'uni-text' } — Typeface via the selector attribute: `uni-text="headline-large"`.
+  - `typeface: Typeface | undefined` = undefined — Explicit typeface; the attribute value wins when both are set.
   - `color: ColorKey`
   - `display: OptionalDisplay`
   - `align: OptionalTextAlign`

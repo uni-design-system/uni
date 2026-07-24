@@ -15,7 +15,7 @@ const meta: Meta<StoryType> = {
       props,
       template: `
         <div center-layout  ${argsToTemplate(props)}>
-          <Text typeface="headline-large">${ngContent}</Text>
+          <span uni-text="headline-large">${ngContent}</span>
         </div>
       `,
     };

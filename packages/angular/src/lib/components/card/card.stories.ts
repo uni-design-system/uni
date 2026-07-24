@@ -27,7 +27,7 @@ const meta: Meta<StoryType> = {
         <Card variant="${variant}">
           <CardHeader title="Card Header"></CardHeader>
           <CardContent>
-            <Text>${ngContent}</Text>
+            <span uni-text>${ngContent}</span>
           </CardContent>
         </Card>
 

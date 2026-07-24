@@ -1,15 +1,27 @@
 import { Meta, Title } from '@storybook/addon-docs/blocks';
 import * as Stories from './text.stories';
-import { StoryUsage } from '../../../stories/blocks/StoryUsage';
+import { StoryExample } from '../../../stories/blocks/StoryExample';
 
 <Meta of={Stories} name="Overview" />
 <Title />
-`import {UniTextComponent} from '@uni-design-system/uni-angular';`
+`import { UniTextComponent } from '@uni-design-system/uni-angular';`
 
 ## Overview
 
-The Text Component is used to format text using typefaces and colors defined in the loaded theme.
+The typography primitive, applied as an **attribute on any element** so your HTML
+semantics stay intact. The attribute value is the typeface —
+`<h1 uni-text="display-small">` — and `[uni-text]="role()"` binds it dynamically.
 
-## Usage
+With no value, the typeface is inferred from the host element (`h1` →
+`headline-large`, `p` → `body-1-long`, `small` → `caption`, `blockquote` → `quote`,
+falling back to `title-small`), so plain semantic markup is correctly set with zero
+configuration. `color` takes any theme color token; `align`, `nowrap`, `maxWidth`,
+and `ellipsis` handle common text layout.
 
-<StoryUsage of={Stories.DisplayLarge} />
+## The value shorthand
+
+<StoryExample of={Stories.ValueShorthand} />
+
+## Element-aware defaults
+
+<StoryExample of={Stories.ElementAwareDefaults} />

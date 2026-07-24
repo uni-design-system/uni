@@ -55,16 +55,16 @@ export const DashboardShell: Story = {
         <div row-layout [grow]="1" [minHeight]="0">
           <uni-drawer mode="side" [(open)]="open">
             <nav stack-layout gap="sm" aria-label="Main">
-              <uni-text typeface="title-small" display="block">Dashboard</uni-text>
-              <uni-text typeface="title-small" display="block">Reports</uni-text>
-              <uni-text typeface="title-small" display="block">Settings</uni-text>
+              <span uni-text="title-small" display="block">Dashboard</span>
+              <span uni-text="title-small" display="block">Reports</span>
+              <span uni-text="title-small" display="block">Settings</span>
             </nav>
           </uni-drawer>
           <main box-layout [grow]="1" padding="md" [minWidth]="0">
-            <uni-text typeface="headline-small">Content</uni-text>
-            <uni-text typeface="body-1-long" display="block">
+            <h2 uni-text="headline-small">Content</h2>
+            <span uni-text="body-1-long" display="block">
               The side drawer pushes this content; toggle it from the app bar.
-            </uni-text>
+            </span>
           </main>
         </div>
       </section>
@@ -78,9 +78,9 @@ export const Overlay: Story = {
     template: `
       <button text-button variant="primary" size="md" (click)="open = true">Open drawer</button>
       <uni-drawer mode="over" position="start" [(open)]="open" ariaLabel="Main navigation">
-        <uni-text typeface="title-small" display="block">Dashboard</uni-text>
-        <uni-text typeface="title-small" display="block">Reports</uni-text>
-        <uni-text typeface="title-small" display="block">Settings</uni-text>
+        <span uni-text="title-small" display="block">Dashboard</span>
+        <span uni-text="title-small" display="block">Reports</span>
+        <span uni-text="title-small" display="block">Settings</span>
         <button text-button variant="secondary" size="sm" (click)="open = false">Close</button>
       </uni-drawer>
     `,

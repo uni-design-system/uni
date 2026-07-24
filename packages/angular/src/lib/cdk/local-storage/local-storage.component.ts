@@ -25,7 +25,7 @@ import {
     </div>
 
     <div>
-      <Text display="block">Storage Contents:</Text>
+      <span uni-text display="block">Storage Contents:</span>
       <textarea rows="8" cols="80" readonly>{{ displayContent }}</textarea>
     </div>
   </div>`,

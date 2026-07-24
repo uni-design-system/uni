@@ -32,7 +32,7 @@
                   [style.text-align]="column.textAlign"
                 >
                   <uni-sort-header [datasource]="datasource()" [column]="column.columnDef">
-                    <Text [typeface]="componentOptions().thTextRole">{{ column.header }}</Text>
+                    <span uni-text [typeface]="componentOptions().thTextRole">{{ column.header }}</span>
                   </uni-sort-header>
                 </th>
               }
@@ -64,13 +64,13 @@
                         [ngTemplateOutletContext]="record"
                       ></ng-container>
                     } @else {
-                      <Text [typeface]="componentOptions().tdTextRole">
+                      <span uni-text [typeface]="componentOptions().tdTextRole">
                         @if (!column.cell) {
                           {{ record[column.columnDef] }}
                         } @else {
                           {{ column.cell(record) }}
                         }
-                      </Text>
+                      </span>
                     }
                   </td>
                 }

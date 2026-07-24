@@ -1,7 +1,7 @@
 {
   "meta": {
     "version": "5.2.0",
-    "builtAt": "2026-07-24T11:17:10.758Z",
+    "builtAt": "2026-07-24T11:51:52.919Z",
     "frameworks": [
       "angular"
     ],
@@ -9,7 +9,7 @@
       "components": 70,
       "tokens": 296,
       "themes": 2,
-      "examples": 130
+      "examples": 132
     }
   },
   "components": [
@@ -746,7 +746,7 @@
         {
           "title": "Primary",
           "framework": "angular",
-          "code": "<!-- Storybook story: Primary -->\n<div box-layout ${argsToTemplate(props)}>\n<Text>${ngContent}</Text>\n</div>\n<!-- args:\n{\n    color: 'secondary-container',\n    borderRadius: 'md',\n    padding: 'lg',\n    ngContent: 'Box Content.',\n  }\n-->"
+          "code": "<!-- Storybook story: Primary -->\n<div box-layout ${argsToTemplate(props)}>\n<span uni-text>${ngContent}</span>\n</div>\n<!-- args:\n{\n    color: 'secondary-container',\n    borderRadius: 'md',\n    padding: 'lg',\n    ngContent: 'Box Content.',\n  }\n-->"
         }
       ],
       "guidelines": {
@@ -962,7 +962,7 @@
         {
           "title": "Primary",
           "framework": "angular",
-          "code": "<!-- Storybook story: Primary -->\n<Card variant=\"${variant}\">\n  <CardHeader title=\"Card Header\"></CardHeader>\n  <CardContent>\n    <Text>${ngContent}</Text>\n  </CardContent>\n</Card>\n<!-- args:\n{\n    variant: 'primary',\n    size: 'lg',\n    ngContent: 'Card content.',\n  }\n-->"
+          "code": "<!-- Storybook story: Primary -->\n<Card variant=\"${variant}\">\n  <CardHeader title=\"Card Header\"></CardHeader>\n  <CardContent>\n    <span uni-text>${ngContent}</span>\n  </CardContent>\n</Card>\n<!-- args:\n{\n    variant: 'primary',\n    size: 'lg',\n    ngContent: 'Card content.',\n  }\n-->"
         }
       ],
       "guidelines": {
@@ -1084,7 +1084,7 @@
         {
           "title": "Primary",
           "framework": "angular",
-          "code": "<!-- Storybook story: Primary -->\n<div center-layout  ${argsToTemplate(props)}>\n  <Text typeface=\"headline-large\">${ngContent}</Text>\n</div>\n<!-- args:\n{\n    ngContent: 'Centered Content',\n    height: 180,\n    width: '100%',\n  }\n-->"
+          "code": "<!-- Storybook story: Primary -->\n<div center-layout  ${argsToTemplate(props)}>\n  <span uni-text=\"headline-large\">${ngContent}</span>\n</div>\n<!-- args:\n{\n    ngContent: 'Centered Content',\n    height: 180,\n    width: '100%',\n  }\n-->"
         }
       ],
       "guidelines": {
@@ -1594,7 +1594,7 @@
         {
           "title": "Primary",
           "framework": "angular",
-          "code": "<!-- Storybook story: Primary -->\n<Button (click)=\"dialog.open()\">Open Dialog</Button>\n<Dialog #dialog>\n  <DialogHeader color=\"primary\">Sample Dialog</DialogHeader>\n  <div center-layout [width]=\"300\" [height]=\"200\">\n    <Text>Dialog</Text>\n  </div>\n  <DialogButtons></DialogButtons>\n</Dialog>\n<!-- args:\n{}\n-->"
+          "code": "<!-- Storybook story: Primary -->\n<Button (click)=\"dialog.open()\">Open Dialog</Button>\n<Dialog #dialog>\n  <DialogHeader color=\"primary\">Sample Dialog</DialogHeader>\n  <div center-layout [width]=\"300\" [height]=\"200\">\n    <span uni-text>Dialog</span>\n  </div>\n  <DialogButtons></DialogButtons>\n</Dialog>\n<!-- args:\n{}\n-->"
         }
       ],
       "guidelines": {
@@ -1852,12 +1852,12 @@
         {
           "title": "Dashboard Shell",
           "framework": "angular",
-          "code": "<!-- Storybook story: Dashboard Shell -->\n<section stack-layout height=\"420px\" overflow=\"hidden\">\n<uni-app-bar title=\"Console\">\n  <button leading icon-button symbolName=\"menu\" (click)=\"open = !open\">Toggle navigation</button>\n  <button trailing icon-button symbolName=\"account_circle\">Account</button>\n</uni-app-bar>\n<div row-layout [grow]=\"1\" [minHeight]=\"0\">\n  <uni-drawer mode=\"side\" [(open)]=\"open\">\n    <nav stack-layout gap=\"sm\" aria-label=\"Main\">\n      <uni-text typeface=\"title-small\" display=\"block\">Dashboard</uni-text>\n      <uni-text typeface=\"title-small\" display=\"block\">Reports</uni-text>\n      <uni-text typeface=\"title-small\" display=\"block\">Settings</uni-text>\n    </nav>\n  </uni-drawer>\n  <main box-layout [grow]=\"1\" padding=\"md\" [minWidth]=\"0\">\n    <uni-text typeface=\"headline-small\">Content</uni-text>\n    <uni-text typeface=\"body-1-long\" display=\"block\">\n      The side drawer pushes this content; toggle it from the app bar.\n    </uni-text>\n  </main>\n</div>\n</section>"
+          "code": "<!-- Storybook story: Dashboard Shell -->\n<section stack-layout height=\"420px\" overflow=\"hidden\">\n<uni-app-bar title=\"Console\">\n  <button leading icon-button symbolName=\"menu\" (click)=\"open = !open\">Toggle navigation</button>\n  <button trailing icon-button symbolName=\"account_circle\">Account</button>\n</uni-app-bar>\n<div row-layout [grow]=\"1\" [minHeight]=\"0\">\n  <uni-drawer mode=\"side\" [(open)]=\"open\">\n    <nav stack-layout gap=\"sm\" aria-label=\"Main\">\n      <span uni-text=\"title-small\" display=\"block\">Dashboard</span>\n      <span uni-text=\"title-small\" display=\"block\">Reports</span>\n      <span uni-text=\"title-small\" display=\"block\">Settings</span>\n    </nav>\n  </uni-drawer>\n  <main box-layout [grow]=\"1\" padding=\"md\" [minWidth]=\"0\">\n    <h2 uni-text=\"headline-small\">Content</h2>\n    <span uni-text=\"body-1-long\" display=\"block\">\n      The side drawer pushes this content; toggle it from the app bar.\n    </span>\n  </main>\n</div>\n</section>"
         },
         {
           "title": "Overlay",
           "framework": "angular",
-          "code": "<!-- Storybook story: Overlay -->\n<section stack-layout height=\"420px\" overflow=\"hidden\">\n<uni-app-bar title=\"Console\">\n  <button leading icon-button symbolName=\"menu\" (click)=\"open = !open\">Toggle navigation</button>\n  <button trailing icon-button symbolName=\"account_circle\">Account</button>\n</uni-app-bar>\n<div row-layout [grow]=\"1\" [minHeight]=\"0\">\n  <uni-drawer mode=\"side\" [(open)]=\"open\">\n    <nav stack-layout gap=\"sm\" aria-label=\"Main\">\n      <uni-text typeface=\"title-small\" display=\"block\">Dashboard</uni-text>\n      <uni-text typeface=\"title-small\" display=\"block\">Reports</uni-text>\n      <uni-text typeface=\"title-small\" display=\"block\">Settings</uni-text>\n    </nav>\n  </uni-drawer>\n  <main box-layout [grow]=\"1\" padding=\"md\" [minWidth]=\"0\">\n    <uni-text typeface=\"headline-small\">Content</uni-text>\n    <uni-text typeface=\"body-1-long\" display=\"block\">\n      The side drawer pushes this content; toggle it from the app bar.\n    </uni-text>\n  </main>\n</div>\n</section>"
+          "code": "<!-- Storybook story: Overlay -->\n<section stack-layout height=\"420px\" overflow=\"hidden\">\n<uni-app-bar title=\"Console\">\n  <button leading icon-button symbolName=\"menu\" (click)=\"open = !open\">Toggle navigation</button>\n  <button trailing icon-button symbolName=\"account_circle\">Account</button>\n</uni-app-bar>\n<div row-layout [grow]=\"1\" [minHeight]=\"0\">\n  <uni-drawer mode=\"side\" [(open)]=\"open\">\n    <nav stack-layout gap=\"sm\" aria-label=\"Main\">\n      <span uni-text=\"title-small\" display=\"block\">Dashboard</span>\n      <span uni-text=\"title-small\" display=\"block\">Reports</span>\n      <span uni-text=\"title-small\" display=\"block\">Settings</span>\n    </nav>\n  </uni-drawer>\n  <main box-layout [grow]=\"1\" padding=\"md\" [minWidth]=\"0\">\n    <h2 uni-text=\"headline-small\">Content</h2>\n    <span uni-text=\"body-1-long\" display=\"block\">\n      The side drawer pushes this content; toggle it from the app bar.\n    </span>\n  </main>\n</div>\n</section>"
         }
       ],
       "guidelines": {
@@ -1992,7 +1992,7 @@
         {
           "title": "Primary",
           "framework": "angular",
-          "code": "<!-- Storybook story: Primary -->\n<Card>\n<CardHeader title=\"Expandable Card\"><ExpandToggle #toggle /></CardHeader>\n<Expand [collapsed]=\"toggle.collapsed()\">\n  <CardContent>\n    <Text>${ngContent}</Text>\n  </CardContent>\n</Expand>\n</Card>\n<!-- args:\n{\n    collapsed: false,\n    ngContent: 'Expandable Content',\n  }\n-->"
+          "code": "<!-- Storybook story: Primary -->\n<Card>\n<CardHeader title=\"Expandable Card\"><ExpandToggle #toggle /></CardHeader>\n<Expand [collapsed]=\"toggle.collapsed()\">\n  <CardContent>\n    <span uni-text>${ngContent}</span>\n  </CardContent>\n</Expand>\n</Card>\n<!-- args:\n{\n    collapsed: false,\n    ngContent: 'Expandable Content',\n  }\n-->"
         }
       ],
       "guidelines": {
@@ -2222,12 +2222,12 @@
         {
           "title": "Primary",
           "framework": "angular",
-          "code": "<!-- Storybook story: Primary -->\n<uni-file-drop-zone ${argsToTemplate(props)} [helpTemplate]=\"myTemplate\" />\n<ng-template #myTemplate>\n<div stack-layout alignItems=\"center\">\n  <Text typeface=\"title-medium\">Title Text</Text>\n  <Text typeface=\"subtitle-1\">Subtitle Text</Text>\n</div>\n</ng-template>\n<!-- args:\n{\n    label: 'Image',\n    browseButtonText: 'Browse for image',\n    allowedFileExtensions: ['png', 'jpg'],\n  }\n-->"
+          "code": "<!-- Storybook story: Primary -->\n<uni-file-drop-zone ${argsToTemplate(props)} [helpTemplate]=\"myTemplate\" />\n<ng-template #myTemplate>\n<div stack-layout alignItems=\"center\">\n  <span uni-text=\"title-medium\">Title Text</span>\n  <span uni-text=\"subtitle-1\">Subtitle Text</span>\n</div>\n</ng-template>\n<!-- args:\n{\n    label: 'Image',\n    browseButtonText: 'Browse for image',\n    allowedFileExtensions: ['png', 'jpg'],\n  }\n-->"
         },
         {
           "title": "With Help Template",
           "framework": "angular",
-          "code": "<!-- Storybook story: With Help Template -->\n<uni-file-drop-zone ${argsToTemplate(props)} [helpTemplate]=\"myTemplate\" />\n<ng-template #myTemplate>\n<div stack-layout alignItems=\"center\">\n  <Text typeface=\"title-medium\">Title Text</Text>\n  <Text typeface=\"subtitle-1\">Subtitle Text</Text>\n</div>\n</ng-template>\n<!-- args:\n{\n    label: 'Image',\n    browseButtonText: 'Browse for image',\n    allowedFileExtensions: ['png', 'jpg'],\n  }\n-->"
+          "code": "<!-- Storybook story: With Help Template -->\n<uni-file-drop-zone ${argsToTemplate(props)} [helpTemplate]=\"myTemplate\" />\n<ng-template #myTemplate>\n<div stack-layout alignItems=\"center\">\n  <span uni-text=\"title-medium\">Title Text</span>\n  <span uni-text=\"subtitle-1\">Subtitle Text</span>\n</div>\n</ng-template>\n<!-- args:\n{\n    label: 'Image',\n    browseButtonText: 'Browse for image',\n    allowedFileExtensions: ['png', 'jpg'],\n  }\n-->"
         }
       ],
       "guidelines": {
@@ -2301,7 +2301,7 @@
         {
           "title": "Simple Grid",
           "framework": "angular",
-          "code": "<!-- Storybook story: Simple Grid -->\n<div grid-layout ${argsToTemplate(props)}>\n  <div box-layout gridArea=\"nav\" color=\"quaternary\" padding=\"md\" borderRadius=\"sm\">\n    <Text>nav</Text>\n  </div>\n  <div box-layout gridArea=\"a1\" color=\"primary\" padding=\"md\" borderRadius=\"sm\">\n    <Text>a1</Text>\n  </div>\n  <div box-layout gridArea=\"a2\" color=\"secondary\" padding=\"md\" borderRadius=\"sm\">\n    <Text>a2</Text>\n  </div>\n  <div box-layout gridArea=\"b1\" color=\"tertiary\" padding=\"md\" borderRadius=\"sm\">\n    <Text>b1</Text>\n  </div>\n  <div box-layout gridArea=\"b2\" color=\"warn\" padding=\"md\" borderRadius=\"sm\">\n    <Text>b2</Text>\n  </div>\n</div>\n<!-- args:\n{\n    templateAreas: `'nav a1 a2' 'nav b1 b2'`,\n    gap: 'sm',\n  }\n-->"
+          "code": "<!-- Storybook story: Simple Grid -->\n<div grid-layout ${argsToTemplate(props)}>\n  <div box-layout gridArea=\"nav\" color=\"quaternary\" padding=\"md\" borderRadius=\"sm\">\n    <span uni-text>nav</span>\n  </div>\n  <div box-layout gridArea=\"a1\" color=\"primary\" padding=\"md\" borderRadius=\"sm\">\n    <span uni-text>a1</span>\n  </div>\n  <div box-layout gridArea=\"a2\" color=\"secondary\" padding=\"md\" borderRadius=\"sm\">\n    <span uni-text>a2</span>\n  </div>\n  <div box-layout gridArea=\"b1\" color=\"tertiary\" padding=\"md\" borderRadius=\"sm\">\n    <span uni-text>b1</span>\n  </div>\n  <div box-layout gridArea=\"b2\" color=\"warn\" padding=\"md\" borderRadius=\"sm\">\n    <span uni-text>b2</span>\n  </div>\n</div>\n<!-- args:\n{\n    templateAreas: `'nav a1 a2' 'nav b1 b2'`,\n    gap: 'sm',\n  }\n-->"
         }
       ],
       "guidelines": {
@@ -3422,7 +3422,7 @@
         {
           "title": "Primary",
           "framework": "angular",
-          "code": "<!-- Storybook story: Primary -->\n<Popover placement=\"${placement}\" [autoClose]=\"${autoClose}\" #popover>\n  <Button trigger>Open Popover</Button>\n  <div stack-layout gap=\"sm\">\n    <div>\n      <Text typeface=\"title-small\" display=\"block\">\n      This is a Popover.\n      </Text>\n      It is possible to add any markup you want to a Popover.\n    </div>\n    <div>\n      <Button symbolLeft=\"thumb_up\" size=\"sm\" variant=\"secondary\" (click)=\"popover.hidePopover()\">OK!</Button>\n    </div>\n  </div>\n</Popover>\n<!-- args:\n{\n    placement: 'right-start',\n    autoClose: true,\n  }\n-->"
+          "code": "<!-- Storybook story: Primary -->\n<Popover placement=\"${placement}\" [autoClose]=\"${autoClose}\" #popover>\n  <Button trigger>Open Popover</Button>\n  <div stack-layout gap=\"sm\">\n    <div>\n      <span uni-text=\"title-small\" display=\"block\">\n      This is a Popover.\n      </span>\n      It is possible to add any markup you want to a Popover.\n    </div>\n    <div>\n      <Button symbolLeft=\"thumb_up\" size=\"sm\" variant=\"secondary\" (click)=\"popover.hidePopover()\">OK!</Button>\n    </div>\n  </div>\n</Popover>\n<!-- args:\n{\n    placement: 'right-start',\n    autoClose: true,\n  }\n-->"
         }
       ],
       "guidelines": {
@@ -3899,7 +3899,7 @@
         {
           "title": "Primary",
           "framework": "angular",
-          "code": "<!-- Storybook story: Primary -->\n<div scroll-area ${argsToTemplate(props)} #scrollArea>\n  <button size=\"sm\" text-button variant=\"ghost\" symbolLeft=\"arrow_downward\" (click)=\"scrollArea.scrollToBottom()\">Scroll to bottom</button>\n  ${ngContent}\n  <button size=\"sm\" text-button variant=\"ghost\" symbolLeft=\"arrow_upward\" (click)=\"scrollArea.scrollToTop()\">Back to top</button>\n</div>\n<!-- args:\n{\n    border: 'quaternary',\n    color: 'tertiary-surface',\n    height: 200,\n    ngContent: `\n      <Text typeface=\"headline-medium\">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</Text>\n      <Text typeface=\"body-1-long\">\n      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quis facere debitis ullam, quae quidem, impedit\n              culpa nam\n              repellat in voluptatibus esse ab harum, hic? Aliquam nesciunt voluptates repellendus assumenda labore.\n            </p>\n            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Porro quos voluptate doloribus. Optio unde\n              inventore, tempore\n              nemo repellat expedita! Quod, accusamus nobis iure. Aliquam quibusdam, nemo explicabo ipsum provident\n              asperiores.</p>\n            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quaerat, qui, rem! Debitis cum maiores iste,\n              possimus!\n              Obcaecati accusamus eaque expedita quo soluta quis, repudiandae similique, veritatis repellendus facere\n              suscipit!\n              Et!</p>\n            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Harum doloremque repellat praesentium quae et\n              consectetur\n              iure quos porro, provident voluptates reprehenderit a. Accusamus ut, quaerat asperiores blanditiis\n              voluptate, sint\n              facilis.</p>\n            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus beatae inventore nobis esse\n              temporibus\n              exercitationem\n              eos illo minima non magnam, provident sit doloribus maiores odio in animi quidem unde. Perferendis.</p>\n\n      </Text>\n\n\n    `,\n  }\n-->"
+          "code": "<!-- Storybook story: Primary -->\n<div scroll-area ${argsToTemplate(props)} #scrollArea>\n  <button size=\"sm\" text-button variant=\"ghost\" symbolLeft=\"arrow_downward\" (click)=\"scrollArea.scrollToBottom()\">Scroll to bottom</button>\n  ${ngContent}\n  <button size=\"sm\" text-button variant=\"ghost\" symbolLeft=\"arrow_upward\" (click)=\"scrollArea.scrollToTop()\">Back to top</button>\n</div>\n<!-- args:\n{\n    border: 'quaternary',\n    color: 'tertiary-surface',\n    height: 200,\n    ngContent: `\n      <span uni-text=\"headline-medium\">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</span>\n      <span uni-text=\"body-1-long\">\n      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quis facere debitis ullam, quae quidem, impedit\n              culpa nam\n              repellat in voluptatibus esse ab harum, hic? Aliquam nesciunt voluptates repellendus assumenda labore.\n            </p>\n            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Porro quos voluptate doloribus. Optio unde\n              inventore, tempore\n              nemo repellat expedita! Quod, accusamus nobis iure. Aliquam quibusdam, nemo explicabo ipsum provident\n              asperiores.</p>\n            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quaerat, qui, rem! Debitis cum maiores iste,\n              possimus!\n              Obcaecati accusamus eaque expedita quo soluta quis, repudiandae similique, veritatis repellendus facere\n              suscipit!\n              Et!</p>\n            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Harum doloremque repellat praesentium quae et\n              consectetur\n              iure quos porro, provident voluptates reprehenderit a. Accusamus ut, quaerat asperiores blanditiis\n              voluptate, sint\n              facilis.</p>\n            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus beatae inventore nobis esse\n              temporibus\n              exercitationem\n              eos illo minima non magnam, provident sit doloribus maiores odio in animi quidem unde. Perferendis.</p>\n\n      </span>\n\n\n    `,\n  }\n-->"
         }
       ],
       "guidelines": {
@@ -4472,7 +4472,7 @@
         {
           "title": "Primary",
           "framework": "angular",
-          "code": "<!-- Storybook story: Primary -->\n<uni-sort-header [datasource]=\"datasource\" [column]=\"column\">\n  <Text typeface=\"title-small\">Name</Text>\n</uni-sort-header>\n<div box-layout paddingTop=\"md\">\n  @for (record of datasource.records().slice(0, 5); track record.id) {\n    <div>{{ record.name }}</div>\n  }\n</div>\n<!-- args:\n{\n    column: 'name',\n    datasource: new UniRecordDatasource<any>(starWarsCharacters),\n  }\n-->"
+          "code": "<!-- Storybook story: Primary -->\n<uni-sort-header [datasource]=\"datasource\" [column]=\"column\">\n  <span uni-text=\"title-small\">Name</span>\n</uni-sort-header>\n<div box-layout paddingTop=\"md\">\n  @for (record of datasource.records().slice(0, 5); track record.id) {\n    <div>{{ record.name }}</div>\n  }\n</div>\n<!-- args:\n{\n    column: 'name',\n    datasource: new UniRecordDatasource<any>(starWarsCharacters),\n  }\n-->"
         }
       ],
       "guidelines": {
@@ -4527,7 +4527,7 @@
         {
           "title": "Stacked Cards",
           "framework": "angular",
-          "code": "<!-- Storybook story: Stacked Cards -->\n<div stack-layout ${argsToTemplate(props)}>\n  <Card><CardContent><Text>Card 1</Text></CardContent></Card>\n  <Card><CardContent><Text>Card 2</Text></CardContent></Card>\n  <Card><CardContent><Text>Card 3</Text></CardContent></Card>\n  <Card><CardContent><Text>Card 4</Text></CardContent></Card>\n  <Card><CardContent><Text>Card 5</Text></CardContent></Card>\n</div>\n<!-- args:\n{ gap: 'lg' }\n-->"
+          "code": "<!-- Storybook story: Stacked Cards -->\n<div stack-layout ${argsToTemplate(props)}>\n  <Card><CardContent><span uni-text>Card 1</span></CardContent></Card>\n  <Card><CardContent><span uni-text>Card 2</span></CardContent></Card>\n  <Card><CardContent><span uni-text>Card 3</span></CardContent></Card>\n  <Card><CardContent><span uni-text>Card 4</span></CardContent></Card>\n  <Card><CardContent><span uni-text>Card 5</span></CardContent></Card>\n</div>\n<!-- args:\n{ gap: 'lg' }\n-->"
         }
       ],
       "guidelines": {
@@ -4774,12 +4774,12 @@
         {
           "title": "Default",
           "framework": "angular",
-          "code": "<!-- Storybook story: Default -->\n<uni-tabs [selectedIndex]=\"selectedIndex ?? 0\">\n<uni-tab label=\"Overview\">\n  <uni-text typeface=\"body-1-long\">\n    Arrow keys move between tabs (disabled tabs are skipped), Home and End jump\n    to the extremes, and only the selected panel is rendered.\n  </uni-text>\n</uni-tab>\n<uni-tab label=\"Activity\">\n  <uni-text typeface=\"body-1-long\">Recent activity would render here.</uni-text>\n</uni-tab>\n<uni-tab label=\"Settings\">\n  <uni-text typeface=\"body-1-long\">Settings content, instantiated on selection.</uni-text>\n</uni-tab>\n</uni-tabs>"
+          "code": "<!-- Storybook story: Default -->\n<uni-tabs [selectedIndex]=\"selectedIndex ?? 0\">\n<uni-tab label=\"Overview\">\n  <span uni-text=\"body-1-long\">\n    Arrow keys move between tabs (disabled tabs are skipped), Home and End jump\n    to the extremes, and only the selected panel is rendered.\n  </span>\n</uni-tab>\n<uni-tab label=\"Activity\">\n  <span uni-text=\"body-1-long\">Recent activity would render here.</span>\n</uni-tab>\n<uni-tab label=\"Settings\">\n  <span uni-text=\"body-1-long\">Settings content, instantiated on selection.</span>\n</uni-tab>\n</uni-tabs>"
         },
         {
           "title": "With Disabled Tab",
           "framework": "angular",
-          "code": "<!-- Storybook story: With Disabled Tab -->\n<uni-tabs [selectedIndex]=\"selectedIndex ?? 0\">\n<uni-tab label=\"Overview\">\n  <uni-text typeface=\"body-1-long\">\n    Arrow keys move between tabs (disabled tabs are skipped), Home and End jump\n    to the extremes, and only the selected panel is rendered.\n  </uni-text>\n</uni-tab>\n<uni-tab label=\"Activity\">\n  <uni-text typeface=\"body-1-long\">Recent activity would render here.</uni-text>\n</uni-tab>\n<uni-tab label=\"Settings\">\n  <uni-text typeface=\"body-1-long\">Settings content, instantiated on selection.</uni-text>\n</uni-tab>\n</uni-tabs>"
+          "code": "<!-- Storybook story: With Disabled Tab -->\n<uni-tabs [selectedIndex]=\"selectedIndex ?? 0\">\n<uni-tab label=\"Overview\">\n  <span uni-text=\"body-1-long\">\n    Arrow keys move between tabs (disabled tabs are skipped), Home and End jump\n    to the extremes, and only the selected panel is rendered.\n  </span>\n</uni-tab>\n<uni-tab label=\"Activity\">\n  <span uni-text=\"body-1-long\">Recent activity would render here.</span>\n</uni-tab>\n<uni-tab label=\"Settings\">\n  <span uni-text=\"body-1-long\">Settings content, instantiated on selection.</span>\n</uni-tab>\n</uni-tabs>"
         }
       ],
       "guidelines": {
@@ -4878,15 +4878,23 @@
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
-          "selectorOrTag": "uni-text, Text",
+          "selectorOrTag": "[uni-text]",
           "api": [
+            {
+              "name": "uniText",
+              "kind": "input",
+              "type": "Typeface | ''",
+              "required": false,
+              "default": "'', { alias: 'uni-text' }",
+              "description": "Typeface via the selector attribute: `uni-text=\"headline-large\"`."
+            },
             {
               "name": "typeface",
               "kind": "input",
-              "type": "Typeface",
+              "type": "Typeface | undefined",
               "required": false,
-              "default": "'title-small'",
-              "description": ""
+              "default": "undefined",
+              "description": "Explicit typeface; the attribute value wins when both are set."
             },
             {
               "name": "color",
@@ -4934,7 +4942,18 @@
           ]
         }
       },
-      "examples": [],
+      "examples": [
+        {
+          "title": "Value shorthand",
+          "framework": "angular",
+          "code": "<!-- Storybook story: Value shorthand -->\n<div stack-layout gap=\"sm\">\n<span uni-text=\"display-small\" display=\"block\">Display small</span>\n<span uni-text=\"headline-medium\" display=\"block\">Headline medium</span>\n<span uni-text=\"body-1-long\" display=\"block\">\n  Body copy set with uni-text=\"body-1-long\" — the attribute value is the typeface.\n</span>\n<span uni-text=\"caption\" color=\"on-background-variant\" display=\"block\">\n  A caption in the muted ink.\n</span>\n</div>"
+        },
+        {
+          "title": "Element-aware defaults",
+          "framework": "angular",
+          "code": "<!-- Storybook story: Element-aware defaults -->\n<div stack-layout gap=\"sm\">\n<span uni-text=\"display-small\" display=\"block\">Display small</span>\n<span uni-text=\"headline-medium\" display=\"block\">Headline medium</span>\n<span uni-text=\"body-1-long\" display=\"block\">\n  Body copy set with uni-text=\"body-1-long\" — the attribute value is the typeface.\n</span>\n<span uni-text=\"caption\" color=\"on-background-variant\" display=\"block\">\n  A caption in the muted ink.\n</span>\n</div>"
+        }
+      ],
       "guidelines": {
         "whenToUse": "",
         "dos": [],
@@ -5281,7 +5300,7 @@
         {
           "title": "Primary",
           "framework": "angular",
-          "code": "<!-- Storybook story: Primary -->\n<Text>Here is some text with a <Tooltip ${argsToTemplate(props)}>tooltip</Tooltip> in the middle.\n</Text>\n<!-- args:\n{\n    label: 'Bottom-start tooltip',\n    placement: 'bottom-start',\n    inlineText: true,\n  }\n-->"
+          "code": "<!-- Storybook story: Primary -->\n<span uni-text>Here is some text with a <Tooltip ${argsToTemplate(props)}>tooltip</Tooltip> in the middle.\n</span>\n<!-- args:\n{\n    label: 'Bottom-start tooltip',\n    placement: 'bottom-start',\n    inlineText: true,\n  }\n-->"
         }
       ],
       "guidelines": {

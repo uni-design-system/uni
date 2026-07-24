@@ -8,13 +8,13 @@
 >
   <div box-layout [width]="26"></div>
   <div box-layout [grow]="1" [attr.id]="titleId">
-    <Text
+    <span uni-text
       [typeface]="componentOptions().textRole"
       [color]="componentOptions().textColor"
       display="block"
       [align]="componentOptions().textAlign || 'center'"
       ><ng-content></ng-content
-    ></Text>
+    ></span>
   </div>
   <button
     icon-button

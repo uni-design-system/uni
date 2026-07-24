@@ -23,9 +23,9 @@ import { UniTextComponent } from '../text/text.component';
       >
         <div box-layout [width]="36"></div>
         <div box-layout paddingHorizontal="md">
-          <Text typeface="title-small" display="block">
+          <span uni-text="title-small" display="block">
             {{ title() }}
-          </Text>
+          </span>
         </div>
 
         <ExpandToggle

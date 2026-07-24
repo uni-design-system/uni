@@ -17,8 +17,8 @@ const meta: Meta<StoryType> = {
     return {
       props,
       template: `
-        <Text>Here is some text with a <Tooltip ${argsToTemplate(props)}>tooltip</Tooltip> in the middle.
-        </Text>
+        <span uni-text>Here is some text with a <Tooltip ${argsToTemplate(props)}>tooltip</Tooltip> in the middle.
+        </span>
       `,
     };
   },

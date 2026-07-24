@@ -7,9 +7,9 @@
   @if (tpl) {
     <ng-container [ngTemplateOutlet]="tpl" [ngTemplateOutletContext]="context()"></ng-container>
   } @else {
-    <Text typeface="label" display="block" [nowrap]="true">
+    <span uni-text="label" display="block" [nowrap]="true">
       {{ label() }}
-    </Text>
+    </span>
   }
 </div>
 @if (active()) {

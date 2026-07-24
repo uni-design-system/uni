@@ -55,8 +55,8 @@ export const WithHelpTemplate: Story = {
       <uni-file-drop-zone ${argsToTemplate(props)} [helpTemplate]="myTemplate" />
       <ng-template #myTemplate>
         <div stack-layout alignItems="center">
-          <Text typeface="title-medium">Title Text</Text>
-          <Text typeface="subtitle-1">Subtitle Text</Text>
+          <span uni-text="title-medium">Title Text</span>
+          <span uni-text="subtitle-1">Subtitle Text</span>
         </div>
       </ng-template>
       `,

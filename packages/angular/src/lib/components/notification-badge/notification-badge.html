@@ -1,12 +1,11 @@
 <ng-content></ng-content>
 @if (shouldShow()) {
 <div class="notification-badge-indicator" aria-hidden="true">
-  <uni-text
+  <span uni-text
     typeface="overline"
     align="center"
     [style.max-width]="badgeVariant() !== 'pill' ? (displayValue().length * 5 + 'px') : ''"
-    >{{ displayValue() }}</uni-text
-  >
+    >{{ displayValue() }}</span>
 </div>
 <span [class]="srOnlyClass">{{ announcement() }}</span>
 }

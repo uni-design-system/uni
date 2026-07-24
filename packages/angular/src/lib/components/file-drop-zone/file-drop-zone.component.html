@@ -24,8 +24,8 @@
     @switch (attachmentState()) {
       @case ('upload') {
         <div stack-layout alignItems="center">
-          <Text typeface="headline-small">{{ label() }}</Text>
-          <Text typeface="title-small">{{ selectedFileName() }}</Text>
+          <span uni-text="headline-small">{{ label() }}</span>
+          <span uni-text="title-small">{{ selectedFileName() }}</span>
         </div>
         <button text-button (click)="removeAttachment()" variant="warn">Cancel</button>
       }
@@ -35,14 +35,14 @@
           <button text-button (click)="openFileSelector()">
             {{ browseButtonText() }}
           </button>
-          <Text>OR</Text>
+          <span uni-text>OR</span>
         }
 
         @if (!helpTemplate()) {
           <div stack-layout alignItems="center">
-            <Text typeface="headline-small">Drag and drop the file here</Text>
+            <span uni-text="headline-small">Drag and drop the file here</span>
             @if (helpText()) {
-              <Text typeface="title-small">{{ helpText() }}</Text>
+              <span uni-text="title-small">{{ helpText() }}</span>
             }
           </div>
         } @else {

@@ -27,19 +27,19 @@ export const SimpleGrid: Story = {
       template: `
         <div grid-layout ${argsToTemplate(props)}>
           <div box-layout gridArea="nav" color="quaternary" padding="md" borderRadius="sm">
-            <Text>nav</Text>
+            <span uni-text>nav</span>
           </div>
           <div box-layout gridArea="a1" color="primary" padding="md" borderRadius="sm">
-            <Text>a1</Text>
+            <span uni-text>a1</span>
           </div>
           <div box-layout gridArea="a2" color="secondary" padding="md" borderRadius="sm">
-            <Text>a2</Text>
+            <span uni-text>a2</span>
           </div>
           <div box-layout gridArea="b1" color="tertiary" padding="md" borderRadius="sm">
-            <Text>b1</Text>
+            <span uni-text>b1</span>
           </div>
           <div box-layout gridArea="b2" color="warn" padding="md" borderRadius="sm">
-            <Text>b2</Text>
+            <span uni-text>b2</span>
           </div>
         </div>
       `,

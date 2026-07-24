@@ -16,14 +16,13 @@
       [minWidth]="0"
       paddingLeft="sm"
     >
-      <Text
+      <span uni-text
         display="block"
         [typeface]="componentOptions().textRole"
         [color]="textColor()"
         [ellipsis]="true"
         [style.flex-grow]="1"
-        >{{ selectedLabelsText() }}</Text
-      >
+        >{{ selectedLabelsText() }}</span>
       <Symbol name="keyboard_arrow_down" [style.flex-shrink]="0"></Symbol>
     </div>
   </uni-input-box>

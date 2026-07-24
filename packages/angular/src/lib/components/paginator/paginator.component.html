@@ -3,7 +3,7 @@
   <div row-layout alignItems="center" [gap]="componentOptions().gap">
     @if (showPageSize()) {
       <div row-layout alignItems="center" gap="sm" paddingRight="sm">
-        <Text [typeface]="componentOptions().textRole">Show</Text>
+        <span uni-text [typeface]="componentOptions().textRole">Show</span>
         <input
           type="number"
           aria-label="Items per page"
@@ -49,15 +49,15 @@
             [attr.aria-current]="page === ds.pageIndex() + 1 ? 'page' : null"
             (click)="ds.jumpToPage(page)"
           >
-            <Text [typeface]="componentOptions().textRole" display="block">
+            <span uni-text [typeface]="componentOptions().textRole" display="block">
               {{ page }}
-            </Text>
+            </span>
           </button>
         } @else {
           <div>
-            <Text [typeface]="componentOptions().textRole" display="block">
+            <span uni-text [typeface]="componentOptions().textRole" display="block">
               {{ page }}
-            </Text>
+            </span>
           </div>
         }
       }
@@ -87,7 +87,7 @@
 
     @if (showPageJumper()) {
       <div row-layout alignItems="center" gap="sm" paddingLeft="sm">
-        <Text [typeface]="componentOptions().textRole">Jump to</Text>
+        <span uni-text [typeface]="componentOptions().textRole">Jump to</span>
         <input
           type="number"
           aria-label="Jump to page"

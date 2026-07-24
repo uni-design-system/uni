@@ -21,7 +21,7 @@ const meta: Meta<StoryType> = {
       props,
       template: `
       <div box-layout ${argsToTemplate(props)}>
-        <Text>${ngContent}</Text>
+        <span uni-text>${ngContent}</span>
       </div>
       `,
     };

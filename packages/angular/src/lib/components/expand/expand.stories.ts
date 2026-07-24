@@ -29,7 +29,7 @@ const meta: Meta<StoryType> = {
         <CardHeader title="Expandable Card"><ExpandToggle #toggle /></CardHeader>
         <Expand [collapsed]="toggle.collapsed()">
           <CardContent>
-            <Text>${ngContent}</Text>
+            <span uni-text>${ngContent}</span>
           </CardContent>
         </Expand>
       </Card>

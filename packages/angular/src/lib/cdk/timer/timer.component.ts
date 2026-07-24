@@ -27,7 +27,7 @@ import {
     </div>
 
     <div>
-      <Text display="block">Timer Status:</Text>
+      <span uni-text display="block">Timer Status:</span>
       <div style="margin: 8px 0; padding: 12px; border: 1px solid #ccc; border-radius: 4px;">
         <div>
           <strong>Time Remaining:</strong> {{ timer.secondsRemaining() }}s ({{
@@ -40,7 +40,7 @@ import {
     </div>
 
     <div>
-      <Text display="block">Event Log:</Text>
+      <span uni-text display="block">Event Log:</span>
       <textarea rows="8" cols="80" readonly>{{ eventLog() }}</textarea>
     </div>
   </div>`,

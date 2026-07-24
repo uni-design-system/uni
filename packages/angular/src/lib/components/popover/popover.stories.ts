@@ -23,9 +23,9 @@ const meta: Meta<StoryType> = {
           <Button trigger>Open Popover</Button>
           <div stack-layout gap="sm">
             <div>
-              <Text typeface="title-small" display="block">
+              <span uni-text="title-small" display="block">
               This is a Popover.
-              </Text>
+              </span>
               It is possible to add any markup you want to a Popover.
             </div>
             <div>
