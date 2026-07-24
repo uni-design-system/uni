@@ -1,15 +1,15 @@
 {
   "meta": {
-    "version": "5.2.0",
-    "builtAt": "2026-07-24T03:22:37.140Z",
+    "version": "5.3.0",
+    "builtAt": "2026-07-24T03:59:02.502Z",
     "frameworks": [
       "angular"
     ],
     "counts": {
-      "components": 69,
-      "tokens": 272,
+      "components": 70,
+      "tokens": 284,
       "themes": 2,
-      "examples": 126
+      "examples": 129
     }
   },
   "components": [
@@ -20,7 +20,7 @@
       "summary": "",
       "description": "",
       "category": "feedback",
-      "version": "5.2.0",
+      "version": "5.3.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -94,7 +94,7 @@
       "summary": "",
       "description": "",
       "category": "components",
-      "version": "5.2.0",
+      "version": "5.3.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -140,7 +140,7 @@
       "summary": "",
       "description": "",
       "category": "components",
-      "version": "5.2.0",
+      "version": "5.3.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -206,7 +206,7 @@
       "summary": "",
       "description": "",
       "category": "components",
-      "version": "5.2.0",
+      "version": "5.3.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -239,7 +239,7 @@
       "summary": "",
       "description": "",
       "category": "primitives",
-      "version": "5.2.0",
+      "version": "5.3.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -316,7 +316,7 @@
       "summary": "",
       "description": "",
       "category": "feedback",
-      "version": "5.2.0",
+      "version": "5.3.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -377,7 +377,7 @@
       "summary": "",
       "description": "",
       "category": "directives",
-      "version": "5.2.0",
+      "version": "5.3.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -401,7 +401,7 @@
       "summary": "",
       "description": "",
       "category": "layout",
-      "version": "5.2.0",
+      "version": "5.3.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -764,7 +764,7 @@
       "summary": "",
       "description": "",
       "category": "components",
-      "version": "5.2.0",
+      "version": "5.3.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -828,7 +828,7 @@
       "summary": "",
       "description": "",
       "category": "primitives",
-      "version": "5.2.0",
+      "version": "5.3.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -920,7 +920,7 @@
       "summary": "",
       "description": "",
       "category": "primitives",
-      "version": "5.2.0",
+      "version": "5.3.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -950,7 +950,7 @@
       "summary": "",
       "description": "",
       "category": "layout",
-      "version": "5.2.0",
+      "version": "5.3.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -982,7 +982,7 @@
       "summary": "",
       "description": "",
       "category": "layout",
-      "version": "5.2.0",
+      "version": "5.3.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -1006,7 +1006,7 @@
       "summary": "",
       "description": "",
       "category": "layout",
-      "version": "5.2.0",
+      "version": "5.3.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -1047,7 +1047,7 @@
       "summary": "",
       "description": "",
       "category": "layout",
-      "version": "5.2.0",
+      "version": "5.3.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -1102,7 +1102,7 @@
       "summary": "",
       "description": "",
       "category": "forms",
-      "version": "5.2.0",
+      "version": "5.3.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -1230,7 +1230,7 @@
       "summary": "",
       "description": "",
       "category": "feedback",
-      "version": "5.2.0",
+      "version": "5.3.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -1277,7 +1277,7 @@
       "summary": "",
       "description": "",
       "category": "forms",
-      "version": "5.2.0",
+      "version": "5.3.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -1335,7 +1335,7 @@
       "summary": "",
       "description": "",
       "category": "data",
-      "version": "5.2.0",
+      "version": "5.3.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -1432,7 +1432,7 @@
       "summary": "",
       "description": "",
       "category": "forms",
-      "version": "5.2.0",
+      "version": "5.3.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -1492,7 +1492,7 @@
       "summary": "",
       "description": "",
       "category": "feedback",
-      "version": "5.2.0",
+      "version": "5.3.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -1566,7 +1566,7 @@
       "summary": "",
       "description": "",
       "category": "feedback",
-      "version": "5.2.0",
+      "version": "5.3.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -1651,7 +1651,7 @@
       "summary": "",
       "description": "",
       "category": "feedback",
-      "version": "5.2.0",
+      "version": "5.3.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -1675,7 +1675,7 @@
       "summary": "",
       "description": "",
       "category": "layout",
-      "version": "5.2.0",
+      "version": "5.3.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -1722,7 +1722,7 @@
       "summary": "",
       "description": "",
       "category": "directives",
-      "version": "5.2.0",
+      "version": "5.3.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -1754,7 +1754,7 @@
       "summary": "",
       "description": "",
       "category": "components",
-      "version": "5.2.0",
+      "version": "5.3.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -1829,7 +1829,7 @@
       "summary": "",
       "description": "",
       "category": "components",
-      "version": "5.2.0",
+      "version": "5.3.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -1918,7 +1918,7 @@
       "summary": "",
       "description": "",
       "category": "layout",
-      "version": "5.2.0",
+      "version": "5.3.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -1957,7 +1957,7 @@
       "summary": "",
       "description": "",
       "category": "layout",
-      "version": "5.2.0",
+      "version": "5.3.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -2018,7 +2018,7 @@
       "summary": "",
       "description": "",
       "category": "forms",
-      "version": "5.2.0",
+      "version": "5.3.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -2064,7 +2064,7 @@
       "summary": "",
       "description": "",
       "category": "forms",
-      "version": "5.2.0",
+      "version": "5.3.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -2192,7 +2192,7 @@
       "summary": "",
       "description": "",
       "category": "layout",
-      "version": "5.2.0",
+      "version": "5.3.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -2266,7 +2266,7 @@
       "summary": "",
       "description": "",
       "category": "layout",
-      "version": "5.2.0",
+      "version": "5.3.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -2298,7 +2298,7 @@
       "summary": "",
       "description": "",
       "category": "primitives",
-      "version": "5.2.0",
+      "version": "5.3.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -2343,7 +2343,7 @@
       "summary": "",
       "description": "",
       "category": "primitives",
-      "version": "5.2.0",
+      "version": "5.3.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -2433,7 +2433,7 @@
       "summary": "",
       "description": "",
       "category": "forms",
-      "version": "5.2.0",
+      "version": "5.3.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -2573,7 +2573,7 @@
       "summary": "",
       "description": "",
       "category": "forms",
-      "version": "5.2.0",
+      "version": "5.3.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -2646,7 +2646,7 @@
       "summary": "",
       "description": "",
       "category": "components",
-      "version": "5.2.0",
+      "version": "5.3.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -2716,7 +2716,7 @@
       "summary": "",
       "description": "",
       "category": "layout",
-      "version": "5.2.0",
+      "version": "5.3.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -2776,7 +2776,7 @@
       "summary": "",
       "description": "",
       "category": "layout",
-      "version": "5.2.0",
+      "version": "5.3.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -2892,7 +2892,7 @@
       "summary": "",
       "description": "",
       "category": "forms",
-      "version": "5.2.0",
+      "version": "5.3.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -2977,7 +2977,7 @@
       "summary": "",
       "description": "",
       "category": "forms",
-      "version": "5.2.0",
+      "version": "5.3.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -3108,7 +3108,7 @@
       "summary": "",
       "description": "",
       "category": "feedback",
-      "version": "5.2.0",
+      "version": "5.3.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -3234,7 +3234,7 @@
       "summary": "",
       "description": "",
       "category": "feedback",
-      "version": "5.2.0",
+      "version": "5.3.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -3258,7 +3258,7 @@
       "summary": "",
       "description": "",
       "category": "data",
-      "version": "5.2.0",
+      "version": "5.3.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -3340,7 +3340,7 @@
       "summary": "",
       "description": "",
       "category": "layout",
-      "version": "5.2.0",
+      "version": "5.3.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -3387,7 +3387,7 @@
       "summary": "",
       "description": "",
       "category": "feedback",
-      "version": "5.2.0",
+      "version": "5.3.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -3449,7 +3449,7 @@
       "summary": "",
       "description": "",
       "category": "feedback",
-      "version": "5.2.0",
+      "version": "5.3.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -3495,7 +3495,7 @@
       "summary": "",
       "description": "",
       "category": "forms",
-      "version": "5.2.0",
+      "version": "5.3.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -3634,7 +3634,7 @@
       "summary": "",
       "description": "",
       "category": "directives",
-      "version": "5.2.0",
+      "version": "5.3.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -3658,7 +3658,7 @@
       "summary": "",
       "description": "",
       "category": "layout",
-      "version": "5.2.0",
+      "version": "5.3.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -3713,7 +3713,7 @@
       "summary": "",
       "description": "",
       "category": "layout",
-      "version": "5.2.0",
+      "version": "5.3.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -3860,7 +3860,7 @@
       "summary": "",
       "description": "",
       "category": "forms",
-      "version": "5.2.0",
+      "version": "5.3.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -3920,7 +3920,7 @@
       "summary": "",
       "description": "",
       "category": "forms",
-      "version": "5.2.0",
+      "version": "5.3.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -4053,7 +4053,7 @@
       "summary": "",
       "description": "",
       "category": "components",
-      "version": "5.2.0",
+      "version": "5.3.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -4128,7 +4128,7 @@
       "summary": "",
       "description": "",
       "category": "forms",
-      "version": "5.2.0",
+      "version": "5.3.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -4261,7 +4261,7 @@
       "summary": "",
       "description": "",
       "category": "feedback",
-      "version": "5.2.0",
+      "version": "5.3.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -4353,7 +4353,7 @@
       "summary": "",
       "description": "",
       "category": "data",
-      "version": "5.2.0",
+      "version": "5.3.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -4398,7 +4398,7 @@
       "summary": "",
       "description": "",
       "category": "layout",
-      "version": "5.2.0",
+      "version": "5.3.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -4447,13 +4447,110 @@
       "relatedTokens": []
     },
     {
+      "id": "stat",
+      "name": "Stat",
+      "status": "stable",
+      "summary": "",
+      "description": "",
+      "category": "components",
+      "version": "5.3.0",
+      "bindings": {
+        "angular": {
+          "importPath": "@uni-design-system/uni-angular",
+          "selectorOrTag": "uni-stat, Stat",
+          "api": [
+            {
+              "name": "label",
+              "kind": "input",
+              "type": "string",
+              "required": true,
+              "description": "What is being measured, sentence case."
+            },
+            {
+              "name": "value",
+              "kind": "input",
+              "type": "string | number",
+              "required": true,
+              "description": "The headline number: strings render verbatim, numbers auto-compact."
+            },
+            {
+              "name": "delta",
+              "kind": "input",
+              "type": "string",
+              "required": false,
+              "description": "Signed change, e.g. \"+12.4%\" or \"-0.4%\". The sign drives the arrow."
+            },
+            {
+              "name": "upIsGood",
+              "kind": "input",
+              "type": "boolean",
+              "required": false,
+              "default": "true",
+              "description": "Whether an upward movement is good news. Flip for churn, errors, cost."
+            },
+            {
+              "name": "caption",
+              "kind": "input",
+              "type": "string",
+              "required": false,
+              "description": "Names the comparison period, e.g. \"vs last month\"."
+            },
+            {
+              "name": "trend",
+              "kind": "input",
+              "type": "number[] | undefined",
+              "required": false,
+              "default": "undefined",
+              "description": "Recent values for the decorative sparkline (12 points reads best)."
+            }
+          ]
+        }
+      },
+      "examples": [
+        {
+          "title": "Default",
+          "framework": "angular",
+          "code": "<!-- Storybook story: Default -->\n<uni-stat ${argsToTemplate(props)}></uni-stat>\n<!-- args:\n{\n    label: 'Monthly recurring revenue',\n    value: '$48.2K',\n    delta: '+12.4%',\n    caption: 'vs last month',\n    trend: [31, 34, 33, 38, 37, 41, 40, 44, 43, 46, 47, 48],\n  }\n-->"
+        },
+        {
+          "title": "Down is good (churn)",
+          "framework": "angular",
+          "code": "<!-- Storybook story: Down is good (churn) -->\n<uni-stat ${argsToTemplate(props)}></uni-stat>\n<!-- args:\n{\n    label: 'Churn rate',\n    value: '2.1%',\n    delta: '-0.4%',\n    upIsGood: false,\n    caption: 'vs last month',\n    trend: [3.2, 3.1, 3.0, 2.8, 2.9, 2.7, 2.6, 2.4, 2.5, 2.3, 2.2, 2.1],\n  }\n-->"
+        },
+        {
+          "title": "KPI row",
+          "framework": "angular",
+          "code": "<!-- Storybook story: KPI row -->\n<uni-stat ${argsToTemplate(props)}></uni-stat>"
+        }
+      ],
+      "guidelines": {
+        "whenToUse": "",
+        "dos": [],
+        "donts": [],
+        "accessibility": []
+      },
+      "relatedTokens": [
+        "stat.behavior.labelTypeface",
+        "stat.behavior.valueTypeface",
+        "stat.behavior.color",
+        "stat.behavior.border",
+        "stat.behavior.borderRadius",
+        "stat.behavior.positiveColor",
+        "stat.behavior.negativeColor",
+        "stat.behavior.trendColor",
+        "stat.behavior.trendAccent",
+        "stat.behavior.padding",
+        "stat.behavior.gap"
+      ]
+    },
+    {
       "id": "symbol",
       "name": "Symbol",
       "status": "stable",
       "summary": "",
       "description": "",
       "category": "primitives",
-      "version": "5.2.0",
+      "version": "5.3.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -4524,7 +4621,7 @@
       "summary": "",
       "description": "",
       "category": "components",
-      "version": "5.2.0",
+      "version": "5.3.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -4564,7 +4661,7 @@
       "summary": "",
       "description": "",
       "category": "components",
-      "version": "5.2.0",
+      "version": "5.3.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -4618,7 +4715,7 @@
       "summary": "",
       "description": "",
       "category": "data",
-      "version": "5.2.0",
+      "version": "5.3.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -4685,7 +4782,7 @@
       "summary": "",
       "description": "",
       "category": "primitives",
-      "version": "5.2.0",
+      "version": "5.3.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -4761,7 +4858,7 @@
       "summary": "",
       "description": "",
       "category": "primitives",
-      "version": "5.2.0",
+      "version": "5.3.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -4888,7 +4985,7 @@
       "summary": "",
       "description": "",
       "category": "primitives",
-      "version": "5.2.0",
+      "version": "5.3.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -4918,7 +5015,7 @@
       "summary": "",
       "description": "",
       "category": "forms",
-      "version": "5.2.0",
+      "version": "5.3.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -5038,7 +5135,7 @@
       "summary": "",
       "description": "",
       "category": "feedback",
-      "version": "5.2.0",
+      "version": "5.3.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -5113,7 +5210,7 @@
       "summary": "",
       "description": "",
       "category": "layout",
-      "version": "5.2.0",
+      "version": "5.3.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -6575,6 +6672,17 @@
       }
     },
     {
+      "id": "typography.stat",
+      "value": "{\"fontFamily\":\"Red Hat Display\",\"fontSize\":32,\"lineHeight\":38,\"fontWeight\":600,\"letterSpacing\":-0.32}",
+      "type": "typography",
+      "kind": "style",
+      "target": "emotion-css",
+      "themeValues": {
+        "LightTheme": "{\"fontFamily\":\"Red Hat Display\",\"fontSize\":32,\"lineHeight\":38,\"fontWeight\":600,\"letterSpacing\":-0.32}",
+        "DarkTheme": "{\"fontFamily\":\"Red Hat Display\",\"fontSize\":32,\"lineHeight\":38,\"fontWeight\":600,\"letterSpacing\":-0.32}"
+      }
+    },
+    {
       "id": "typography.tag",
       "value": "{\"fontFamily\":\"Red Hat Display\",\"fontSize\":15,\"lineHeight\":20,\"fontWeight\":600}",
       "type": "typography",
@@ -8013,6 +8121,138 @@
       }
     },
     {
+      "id": "stat.behavior.labelTypeface",
+      "value": "label",
+      "type": "string",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "stat",
+      "themeValues": {
+        "LightTheme": "label",
+        "DarkTheme": "label"
+      }
+    },
+    {
+      "id": "stat.behavior.valueTypeface",
+      "value": "stat",
+      "type": "string",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "stat",
+      "themeValues": {
+        "LightTheme": "stat",
+        "DarkTheme": "stat"
+      }
+    },
+    {
+      "id": "stat.behavior.color",
+      "value": "surface",
+      "type": "string",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "stat",
+      "themeValues": {
+        "LightTheme": "surface",
+        "DarkTheme": "surface"
+      }
+    },
+    {
+      "id": "stat.behavior.border",
+      "value": "light",
+      "type": "string",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "stat",
+      "themeValues": {
+        "LightTheme": "light",
+        "DarkTheme": "light"
+      }
+    },
+    {
+      "id": "stat.behavior.borderRadius",
+      "value": "xs",
+      "type": "string",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "stat",
+      "themeValues": {
+        "LightTheme": "xs",
+        "DarkTheme": "xs"
+      }
+    },
+    {
+      "id": "stat.behavior.positiveColor",
+      "value": "success",
+      "type": "string",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "stat",
+      "themeValues": {
+        "LightTheme": "success",
+        "DarkTheme": "success"
+      }
+    },
+    {
+      "id": "stat.behavior.negativeColor",
+      "value": "error",
+      "type": "string",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "stat",
+      "themeValues": {
+        "LightTheme": "error",
+        "DarkTheme": "error"
+      }
+    },
+    {
+      "id": "stat.behavior.trendColor",
+      "value": "outline",
+      "type": "string",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "stat",
+      "themeValues": {
+        "LightTheme": "outline",
+        "DarkTheme": "outline"
+      }
+    },
+    {
+      "id": "stat.behavior.trendAccent",
+      "value": "primary",
+      "type": "string",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "stat",
+      "themeValues": {
+        "LightTheme": "primary",
+        "DarkTheme": "primary"
+      }
+    },
+    {
+      "id": "stat.behavior.padding",
+      "value": "md",
+      "type": "string",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "stat",
+      "themeValues": {
+        "LightTheme": "md",
+        "DarkTheme": "md"
+      }
+    },
+    {
+      "id": "stat.behavior.gap",
+      "value": "xxs",
+      "type": "string",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "stat",
+      "themeValues": {
+        "LightTheme": "xxs",
+        "DarkTheme": "xxs"
+      }
+    },
+    {
       "id": "slider.behavior.color",
       "value": "primary",
       "type": "string",
@@ -8424,6 +8664,7 @@
         "typography.quote": "{\"fontFamily\":\"Roboto\",\"fontSize\":16,\"lineHeight\":24}",
         "typography.note": "{\"fontFamily\":\"Roboto\",\"fontSize\":14,\"lineHeight\":22,\"fontStyle\":\"italic\"}",
         "typography.badge": "{\"fontFamily\":\"Red Hat Display\",\"fontSize\":16,\"lineHeight\":24}",
+        "typography.stat": "{\"fontFamily\":\"Red Hat Display\",\"fontSize\":32,\"lineHeight\":38,\"fontWeight\":600,\"letterSpacing\":-0.32}",
         "typography.tag": "{\"fontFamily\":\"Red Hat Display\",\"fontSize\":15,\"lineHeight\":20,\"fontWeight\":600}",
         "typography.input": "{\"fontFamily\":\"Red Hat Display\",\"fontSize\":14,\"lineHeight\":24}"
       },
@@ -8591,6 +8832,19 @@
           "pageBorderRadius": "xs",
           "currentPageBorder": "light",
           "currentPageBorderRadius": "xs"
+        },
+        "stat": {
+          "labelTypeface": "label",
+          "valueTypeface": "stat",
+          "color": "surface",
+          "border": "light",
+          "borderRadius": "xs",
+          "positiveColor": "success",
+          "negativeColor": "error",
+          "trendColor": "outline",
+          "trendAccent": "primary",
+          "padding": "md",
+          "gap": "xxs"
         },
         "slider": {
           "color": "primary",
@@ -8764,6 +9018,7 @@
         "typography.quote": "{\"fontFamily\":\"Roboto\",\"fontSize\":16,\"lineHeight\":24}",
         "typography.note": "{\"fontFamily\":\"Roboto\",\"fontSize\":14,\"lineHeight\":22,\"fontStyle\":\"italic\"}",
         "typography.badge": "{\"fontFamily\":\"Red Hat Display\",\"fontSize\":16,\"lineHeight\":24}",
+        "typography.stat": "{\"fontFamily\":\"Red Hat Display\",\"fontSize\":32,\"lineHeight\":38,\"fontWeight\":600,\"letterSpacing\":-0.32}",
         "typography.tag": "{\"fontFamily\":\"Red Hat Display\",\"fontSize\":15,\"lineHeight\":20,\"fontWeight\":600}",
         "typography.input": "{\"fontFamily\":\"Red Hat Display\",\"fontSize\":14,\"lineHeight\":24}"
       },
@@ -8931,6 +9186,19 @@
           "pageBorderRadius": "xs",
           "currentPageBorder": "light",
           "currentPageBorderRadius": "xs"
+        },
+        "stat": {
+          "labelTypeface": "label",
+          "valueTypeface": "stat",
+          "color": "surface",
+          "border": "light",
+          "borderRadius": "xs",
+          "positiveColor": "success",
+          "negativeColor": "error",
+          "trendColor": "outline",
+          "trendAccent": "primary",
+          "padding": "md",
+          "gap": "xxs"
         },
         "slider": {
           "color": "primary",
