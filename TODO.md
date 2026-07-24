@@ -1,87 +1,95 @@
-# Uni Design System — Port Parity TODO
+# Uni — Roadmap
 
-Tracking gaps from the Omni (`oui`) → Uni (`uni`) Angular component port (July 2026).
-Status of the port itself: all prototype components are now ported **except** the deliberately
-deferred items below.
+Consolidated lineup, composed 2026-07-23 (post-5.2.0). Supersedes the July port-parity
+tracker (resolved items removed; live ones folded in below). Completed historical
+audits: `packages/angular/TODO.md` (v4 audit) and `uni-theme-generation-plan.md`
+(theme-generation PRD). Ordered within sections by leverage.
 
-## Deferred components
+## Components — Tier 2 (common patterns, real build effort)
 
-### Barcode → future `@uni-design-system/uni-barcode` package
-Deliberately not ported (jsbarcode dependency rejected). Plan:
-- New workspace package `packages/barcode` with a **pure TypeScript encoder** (framework-agnostic,
-  like `uni-core`): input string → abstract bar/space widths + human-readable text.
-- Start with **Code 128** (ISO/IEC 15417): 107-pattern table, modulo-103 checksum, automatic
-  subset B/C switching (~200–250 lines). Add **EAN-13/UPC-A** (ISO/IEC 15420) next.
-- Thin Angular + React wrapper components render the encoder output as SVG (Emotion-styled,
-  theme-token aware). No canvas, no runtime deps.
+- [ ] **Date picker + calendar** — the most-requested form control anywhere; the
+      biggest single build (grid keyboard nav, locale; range selection later).
+- [ ] **Combobox / autocomplete** — compose existing dropdown + search-input into the
+      ARIA combobox pattern; high AI-scaffold frequency.
+- [ ] **Stepper / wizard** — multi-step forms; pairs with Signal Forms.
+- [ ] **List** — structured items (leading avatar/icon, primary/secondary text,
+      trailing action); the "settings screen" primitive.
+- [ ] **Number input** with increment/decrement steppers.
+- [ ] **Chips / tag input** — `uni-tag` is display-only; add the input variant
+      (type-to-add, backspace-to-remove, keyboard nav).
+- [ ] **Password input** — visibility toggle on the input-box chrome.
+- [ ] **OTP / pin input** — auth-flow staple for AI scaffolds.
+- [ ] **Link** — theme-aware anchor (color/underline policy as tokens).
+- [ ] **Spinner** — standalone documented loader (exists only inside button today).
 
-### QR Code → future `@uni-design-system/uni-qrcode` package
-Deferred (real lift: ISO/IEC 18004 needs Reed–Solomon over GF(256), version/mode selection,
-mask evaluation — ~600–1000 lines plus known-vector tests). Same architecture as barcode:
-pure encoder package emitting a module matrix, framework wrappers render SVG.
+## Components — Tier 3 (defer until asked for)
 
-### App-level components (deferred by decision)
-- `pages/` (page, header, footer)
-- `print-preview`
-- `image-magnifier`
+- [ ] Rating · timeline · carousel · bottom sheet · time picker · resizable panes ·
+      color picker.
 
-## Ports that intentionally diverge from the prototype
+## Future packages (deferred by decision — no 3rd-party deps)
 
-- **scroll-area**: rebuilt natively (ngx-scrollbar removed). Scrollbars styled via Emotion
-  `::-webkit-scrollbar` + `scrollbar-width/color` fallback; scrollable-state detection via
-  ResizeObserver. Public API preserved (`appearance`, `verticalScrollPadding`, `scrollable`
-  output, `scrollToTop/Bottom`). Overlay-style scrollbars ("appearance: compact" in ngx terms)
-  now render as thin classic scrollbars — verify visual acceptance in Storybook.
-- **debounce-input**: rxjs (`Subject` + `debounceTime`) replaced with signal + `setTimeout`
-  debounce; scss file replaced with Emotion. `value` is now a signal (template callers use
-  `searchInput.value()`).
-- **data-search**: legacy `FormControl`/`ReactiveFormsModule`/`NgIf` replaced with a plain
-  signal (`searchValue`).
-- **file-drop-zone**: `FormGroup` + rxjs subscription replaced with a native `(change)` handler.
-- All new ports use signal `input()`/`output()`/`model()`/`viewChild()` per the
-  angular-signals standard, and `Text role=` became `Text typeface=` (uni Text API).
+- [ ] **`uni-barcode`** — pure TS encoder (Code 128 first: 107-pattern table,
+      modulo-103 checksum, subset B/C switching; EAN-13/UPC-A next), SVG wrappers.
+- [ ] **`uni-qrcode`** — ISO 18004 (Reed–Solomon over GF(256)); same architecture.
+- [ ] App-level components (`pages/`, `print-preview`, `image-magnifier`).
 
-## uni-core changes made during the port (review welcome)
+## Token conformance & component housekeeping
 
-- **Color tokens extended** (`ContainerColorToken`, `ContentColorToken`): added the prototype's
-  semantic families — bare containers (`primary`…`success`), `warn/success/disabled/inverse`
-  containers (+ `-variant`/`-border` content tokens), and the surface tiers
-  (`primary-surface`…`quaternary-surface`, `disabled-surface`). Values added to BaseTheme (light)
-  and DarkTheme, derived from the existing M3 purple palette. **Review the chosen hex values.**
-- **`typefaces` was an empty object in BaseTheme** — every `Text`/`typeface()` lookup silently
-  returned nothing. Now derived from the theme's `typography` block via `toTypefaces()`
-  (`concepts/typography/typeface.helpers.ts`) plus hand-added `badge`, `tag`, `input` roles.
-- Added `AbsoluteSize` to `concepts/size` (fixed the prototype's `' x-large'` leading-space typo).
-- Added `TextColor` (`ContentColorToken | Variant`) to `concepts/theme/theme.types.ts`.
-- Added `radio` to `ComponentName`.
-- Added `removeInputPlatformStyling` to `concepts/style`.
-- `@angular/forms` added as peer + dev dependency of `uni-angular` (Signal Forms controls).
+- [ ] **Hardcoded colors in checkbox / radio / toggle** (`#FFF`, `#ccc`, `#d0d0d0`,
+      `#e0e0e0`) — replace with theme tokens; the last big conformance offenders.
+- [ ] **`footer`** — declared in `ComponentName` with theme options but unbuilt;
+      build it (app-bar sibling) or remove the declaration.
+- [ ] **Input `typeFace` option casing** → `typeface` (tooltip/button/tabs precedent),
+      with a deprecated alias; do alongside the next input-box change.
+- [ ] **`icons: {}` empty in BaseTheme** — audit whether anything reads theme icons;
+      populate from `icon.record` or drop the concept.
+- [ ] DarkTheme legacy `inverse-on-surface` key — remove once nothing references it.
+- [ ] notification-badge `offset` fallback for themes that omit it.
+- [ ] multi-select-dropdown search debounce (reuse debounce-input's signal pattern).
+- [ ] JSDoc coverage on public inputs/outputs — ongoing; feeds `llms.txt` and MCP
+      summaries (empty where class JSDoc is missing).
 
-## Known gaps / follow-ups
+## Theme generation (PRD stragglers)
 
-1. **Jest is not set up** in `packages/angular` — no `jest.config`, no `jest-preset-angular`,
-   so all 111 spec files fail on transform before running. Needs a proper Angular 21 jest
-   (or vitest) setup. Pre-existing, not introduced by the port.
-2. **Specs not ported** for the newly ported components (stories + MDX are done — all 51
-   Storybook titles have docs pages). Port the .spec.ts files once the test runner works.
-   Note: the checkbox/radio/toggle "ReactiveForm" stories from the prototype were dropped
-   (legacy forms API); consider adding Signal Forms (`form()` + `[field]`) examples instead.
-3. **`icons: {}` is empty in BaseTheme** (prototype populated it from `icon.record`).
-   `ThemeService.icons()` returns `{}` — audit whether anything reads theme icons.
-4. **Legacy `@Input()` remnants in earlier-ported components** (badge `width`, icon-button,
-   tooltip `appendToBody`, others) — migrate to signal inputs for consistency.
-5. **expand-area `collapsed` output never emits** (faithful to a prototype bug). Wire it to the
-   toggle's state change.
-6. **Hardcoded colors in checkbox/radio/toggle** (`#FFF`, `#ccc`, `#d0d0d0`, `#e0e0e0`) — replace
-   with theme tokens (the prototype had the same issue).
-7. **notification-badge** relies on `componentOptions().offset` — BaseTheme provides it, but any
-   custom theme without it yields `"undefinedpx"`. Consider a fallback.
-8. **DarkTheme legacy color keys**: has both `inverse-on-surface` (legacy) and the canonical
-   `on-inverse-surface` (added). Clean up once nothing references the legacy spelling.
-9. **Prototype cdk modules not yet ported**: `breakpoint`, `clipboard`, `common/validation`,
-   `image`, `save`, `scroll`. Port on demand.
-10. **Prototype extras not ported**: `theme-switcher` addon, `translation` module, `versions`
-    addon, ATB brand themes (`atb.theme.ts`, `atb-dark.theme.ts`).
-11. **multi-select-dropdown search is not debounced** (prototype had this commented out too).
-    Could debounce the `query` signal like debounce-input.
-12. **paginator** `pageBorder` option is defined but unused (prototype parity) — remove or use.
+- [ ] **`npx @uni-design-system/uni-angular init`** fallback — schematic logic for
+      Nx/custom-builder workspaces without the Angular CLI.
+- [ ] Schematic e2e computed-style assertion (`ng serve` + browser check; today's e2e
+      asserts build + file wiring only).
+- [ ] Image input (stretch) — dominant-color extraction seeding the engine.
+- [ ] Gradients / glassmorphism tokens (stretch) — Δh walks via `concepts/gradient`,
+      glass via `concepts/masking`.
+
+## Theme Builder (playground next phases)
+
+- [ ] **Primitives editor** — define a border/radius/shadow/typeface primitive under
+      an arbitrary token and point component options at it, live (makes the
+      component-options superpower visible; color phase shipped).
+- [ ] Typography & spacing editing phases.
+- [ ] "Surprise me" seeded-random generation (playground-only by design).
+
+## MCP server
+
+- [ ] **MDX guidelines adapter** — pipe component MDX Overview sections into the
+      index's empty `guidelines` field; 10+ thoughtful pages now exist, making this
+      the highest-value MCP item.
+- [ ] **DTCG export tool** — expose `emitDtcgTokens` (in core; playground already
+      uses it) as an MCP tool.
+- [ ] React bindings in the index — gated on uni-react parity.
+- [ ] Semantic search over the index.
+
+## React parity
+
+- [ ] `uni-react` at ~8 components vs Angular's 50+. Deliberately deferred; revisit
+      scope once the Angular surface stabilizes. MCP/React `init` parity rides on it.
+- [ ] Prototype cdk modules (`breakpoint`, `clipboard`, `validation`, `image`,
+      `save`, `scroll`) — port on demand.
+
+## Process / quality
+
+- [ ] **Chromatic / visual regression** — deliberately gated on component-library
+      maturity (maintainer decision 2026-07-23); revisit once Tier 2 lands.
+- [ ] Bundle-analysis CI check for the tree-shaking budget (engine ≈ 0 bytes for
+      non-generating apps, PRD §7.1 — verified manually, not enforced).
+- [ ] Remove deprecated HSL helpers (`uniColor`, `randomRangeValue`,
+      `CategorySaturation`, `CategoryLightness`) — next major.
