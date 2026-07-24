@@ -1,0 +1,38 @@
+import { Meta, Title } from '@storybook/addon-docs/blocks';
+
+import * as Stories from './stat.stories';
+import { StoryUsage } from '../../../stories/blocks/StoryUsage';
+import { StoryExample } from '../../../stories/blocks/StoryExample';
+
+<Meta of={Stories} />
+<Title />
+
+`import { UniStatComponent } from '@uni-design-system/uni-angular';`
+
+## Overview
+
+The KPI tile a dashboard leads with: a muted label, a large headline value (numbers
+auto-compact — `48234` renders "48.2K"), an optional signed delta, and an optional
+decorative sparkline.
+
+The delta's color is decided by **direction × whether up is good**, never direction
+alone — set `upIsGood` to `false` for measures like churn, errors, or cost, and a
+falling number correctly reads as good news. The arrow is accompanied by
+screen-reader text ("up"/"down"), so state never relies on color alone, and `caption`
+names the comparison period.
+
+Frame (surface, border primitive, radius), typography (the type scale's `stat` role
+for values), delta inks (the semantic `success`/`error`), and sparkline colors all
+resolve from the theme's `stat` options.
+
+## Usage
+
+<StoryUsage of={Stories.Default} />
+
+## Down is good
+
+<StoryExample of={Stories.DownIsGood} />
+
+## A dashboard's KPI row
+
+<StoryExample of={Stories.KpiRow} />

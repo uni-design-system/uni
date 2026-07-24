@@ -80,6 +80,15 @@ const BaseTypography: Typography = {
   note: { fontFamily: 'Roboto', fontSize: 14, lineHeight: 22, fontStyle: 'italic' },
   // Product-specific extras (were duplicated into `typefaces` before).
   badge: { fontFamily: 'Red Hat Display', fontSize: 16, lineHeight: 24 },
+  // Stat-tile value: large, semibold, slightly tightened. Proportional
+  // figures on purpose — tabular-nums is for columns, not display numbers.
+  stat: {
+    fontFamily: 'Red Hat Display',
+    fontSize: 32,
+    lineHeight: 38,
+    fontWeight: 600,
+    letterSpacing: -0.32,
+  },
   tag: { fontFamily: 'Red Hat Display', fontSize: 15, lineHeight: 20, fontWeight: 600 },
   input: { fontFamily: 'Red Hat Display', fontSize: 14, lineHeight: 24 },
 } as Record<TextRole, TextStyle> & Record<string, TextStyle>;
@@ -443,6 +452,24 @@ const buildComponents = (c: Colors): ComponentThemes => ({
       pageBorderRadius: 'xs',
       currentPageBorder: 'light',
       currentPageBorderRadius: 'xs',
+    },
+  },
+  // KPI tile: card-recipe frame, muted label over a large `stat`-role value;
+  // delta inks are the semantic success/error (direction × goodness decided
+  // by the component); sparkline in the outline hue, endpoint in the accent.
+  stat: {
+    options: {
+      labelTypeface: 'label',
+      valueTypeface: 'stat',
+      color: 'surface',
+      border: 'light',
+      borderRadius: 'xs',
+      positiveColor: 'success',
+      negativeColor: 'error',
+      trendColor: 'outline',
+      trendAccent: 'primary',
+      padding: 'md',
+      gap: 'xxs',
     },
   },
   // Range input: fill/thumb in the accent, track in the muted surface, both

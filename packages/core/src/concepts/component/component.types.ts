@@ -33,6 +33,7 @@ export type ComponentName =
   | 'skeleton'
   | 'slider'
   | 'snackbar'
+  | 'stat'
   | 'symbol'
   | 'progressBar'
   | 'progressGauge'
