@@ -1,6 +1,6 @@
-import type { TextStyle, TypeFaceDefinition } from './text.model';
+import type { CssLength, TextStyle, TypeFaceDefinition } from './text.model';
 
-const px = (value: number): string => `${value}px`;
+const px = (value: CssLength): string => (typeof value === 'number' ? `${value}px` : value);
 
 /**
  * Converts a TextStyle (numeric, design-token oriented) into a
