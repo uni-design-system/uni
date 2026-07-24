@@ -205,6 +205,18 @@ const buildComponents = (c: Colors): ComponentThemes => ({
   // Overlap is a spacing token; the ring separates stacked avatars using the
   // surface color so groups read on any background.
   avatarGroup: { options: { overlap: 'sm', ringColor: 'surface', ringWidth: 2 } },
+  // Search field: chrome comes from the shared `input` options via
+  // uni-input-box; these tokens style the affordances and suggestion list.
+  searchInput: {
+    options: {
+      searchSymbol: 'search',
+      clearSymbol: 'close',
+      listColor: 'primary-surface',
+      listShadow: 'menu',
+      listBorderRadius: 'xs',
+      maxSuggestions: 8,
+    },
+  },
   // Selection controls: chrome colors are tokens (accent fill/ring follows the
   // component's variant; its on-color pairs are derived in the component).
   checkbox: { options: { size: 20, boxColor: 'surface' } },

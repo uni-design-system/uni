@@ -9,8 +9,9 @@ audits: `packages/angular/TODO.md` (v4 audit) and `uni-theme-generation-plan.md`
 
 - [ ] **Date picker + calendar** — the most-requested form control anywhere; the
       biggest single build (grid keyboard nav, locale; range selection later).
-- [ ] **Combobox / autocomplete** — compose existing dropdown + search-input into the
-      ARIA combobox pattern; high AI-scaffold frequency.
+- [ ] **Combobox / autocomplete** — search-input now implements the ARIA combobox
+      pattern with string suggestions (2026-07-24); remaining scope is a form-bound
+      variant (object options, `FormValueControl`, non-search semantics).
 - [ ] **Stepper / wizard** — multi-step forms; pairs with Signal Forms.
 - [ ] **List** — structured items (leading avatar/icon, primary/secondary text,
       trailing action); the "settings screen" primitive.

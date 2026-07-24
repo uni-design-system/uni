@@ -3,16 +3,61 @@ import { UniSearchInputComponent as Search } from './search-input.component';
 
 type StoryType = Search;
 
+const SUGGESTIONS = [
+  'oklch color engine',
+  'ok computer',
+  'okta integration',
+  'theme tokens',
+  'theme builder',
+  'typography scale',
+];
+
 const meta: Meta<StoryType> = {
-  title: 'Components/Search Input',
+  title: 'Components/Forms/Search Input',
   component: Search,
+  argTypes: {
+    label: { control: 'text', description: 'Accessible name; placeholder fallback.' },
+    placeholder: { control: 'text', description: 'Placeholder override.' },
+    debounceTime: { control: 'number', description: 'Pause before `change` emits. Default: 400ms' },
+    suggestions: {
+      control: 'object',
+      description: 'Type-ahead entries; refresh them from `change` emissions.',
+    },
+    width: { control: 'text', description: "Field width. Default: '100%'" },
+  },
 };
 
 export default meta;
 type Story = StoryObj<StoryType>;
 
 export const Primary: Story = {
-  args: {
-    label: 'Search',
-  },
+  args: { label: 'Search' },
+};
+
+export const TypeAhead: Story = {
+  name: 'Type-ahead',
+  render: () => ({
+    props: {
+      all: SUGGESTIONS,
+      suggestions: [] as string[],
+      filter(query: string) {
+        this.suggestions = query
+          ? this.all.filter((s: string) => s.toLowerCase().includes(query.toLowerCase()))
+          : [];
+      },
+      log(value: string) {
+        console.log('search:', value);
+      },
+    },
+    template: `
+      <uni-search-input
+        label="Search the docs"
+        [debounceTime]="200"
+        [suggestions]="suggestions"
+        (change)="filter($event)"
+        (search)="log($event)"
+        style="max-width: 420px;"
+      ></uni-search-input>
+    `,
+  }),
 };

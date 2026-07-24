@@ -1,26 +1,48 @@
-<Box
-  color="primary"
-  borderRadius="max"
-  paddingHorizontal="sm"
-  display="flex"
-  border="quaternary"
-  alignItems="center"
-  [width]="width()"
->
-  <Box alignSelf="center" paddingHorizontal="md">
-    <Text display="block" typeface="title-large">{{ label() }}</Text>
-  </Box>
-  <Box
-    borderRadius="max"
-    display="block"
-    paddingHorizontal="md"
-    paddingVertical="sm"
-    color="primary-surface"
-    [grow]="1"
+<!-- Keydown/focusout ride the bubbling events from the inner input; the
+     wrapper itself stays out of the tab order. -->
+<!-- eslint-disable-next-line @angular-eslint/template/interactive-supports-focus -->
+<div (keydown)="onKeydown($event)" (focusout)="onFocusOut($event)">
+  <DebounceInput
+    #searchField
+    [label]="label()"
+    [placeholder]="placeholder() ?? label()"
+    [debounceTime]="debounceTime()"
+    role="combobox"
+    [ariaExpanded]="showList()"
+    [ariaControls]="listboxId"
+    [ariaActivedescendant]="activeOptionId()"
+    (change)="handleChange($event)"
   >
-    <DebounceInput (change)="handleSearchInput($event)" #searchInput />
-  </Box>
-  <button icon-button iconName="search" variant="ghost" (click)="handleSearch(searchInput.value())">
-    Search
-  </button>
-</Box>
+    <Symbol pre-input class="uni-search-lead" name="{{ componentOptions().searchSymbol ?? 'search' }}" aria-hidden="true" />
+    @if (hasQuery()) {
+      <button
+        post-input
+        icon-button
+        [iconName]="componentOptions().clearSymbol ?? 'close'"
+        variant="ghost"
+        size="sm"
+        (click)="clear()"
+      >
+        Clear search
+      </button>
+    }
+  </DebounceInput>
+
+  @if (showList()) {
+    <ul [id]="listboxId" role="listbox" [attr.aria-label]="label()" [class]="listClass()">
+      @for (suggestion of visibleSuggestions(); track suggestion; let i = $index) {
+        <!-- eslint-disable-next-line @angular-eslint/template/click-events-have-key-events, @angular-eslint/template/interactive-supports-focus -->
+        <li
+          role="option"
+          [id]="listboxId + '-' + i"
+          [class.active]="i === activeIndex()"
+          [attr.aria-selected]="i === activeIndex()"
+          (mousedown)="$event.preventDefault()"
+          (click)="select(suggestion)"
+        >
+          {{ suggestion }}
+        </li>
+      }
+    </ul>
+  }
+</div>

@@ -9,12 +9,19 @@ import { StoryUsage } from '../../../../stories/blocks/StoryUsage';
 
 ## Overview
 
-A bare text input that emits its `change` output only after the user pauses typing
+A themed text input that emits its `change` output only after the user pauses typing
 (400&nbsp;ms by default) and only when the value actually changed — a signal-based
-debounce with no rxjs involved. The live value is exposed as the `value` signal.
+debounce with no rxjs involved. The live value is exposed as the `value` signal, and
+`clear()` empties the field immediately (cancelling any pending emit).
 
-Used by the [Search Input](?path=/docs/components-search-input--docs) to avoid firing a
-search on every keystroke.
+It wears the shared input chrome (color, border, typeface, focus ring) via the input
+box, and offers `pre-input` / `post-input` attribute slots for adornments plus ARIA
+passthrough inputs (`role`, `ariaExpanded`, `ariaControls`, `ariaActivedescendant`)
+so composite widgets can annotate the real input element.
+
+Used by the [Search Input](?path=/docs/components-forms-search-input--docs), which
+projects its magnifier and clear button through the slots and drives the combobox
+ARIA through the passthroughs.
 
 ## Usage
 

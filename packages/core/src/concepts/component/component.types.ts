@@ -29,6 +29,7 @@ export type ComponentName =
   | 'notificationBadge'
   | 'paginator'
   | 'radio'
+  | 'searchInput'
   | 'select'
   | 'skeleton'
   | 'slider'

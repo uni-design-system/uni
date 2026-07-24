@@ -5,3 +5,4 @@
  */
 
 export { UniSearchInputComponent } from './search-input.component';
+export type { UniSearchInputOptions } from './search-input.model';

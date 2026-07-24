@@ -1,8 +1,21 @@
-<input
-  [class]="inputClass"
-  type="text"
-  [name]="inputName()"
-  [id]="inputId()"
-  [value]="value() ?? ''"
-  (input)="handleInput($event)"
-/>
+<uni-input-box>
+  <ng-content select="[pre-input]" />
+  <input
+    #field
+    [class]="inputClass"
+    type="text"
+    [name]="inputName()"
+    [id]="inputId()"
+    [value]="value() ?? ''"
+    (input)="handleInput($event)"
+    [placeholder]="placeholder()"
+    [disabled]="disabled()"
+    [attr.aria-label]="label() || null"
+    [attr.role]="role() || null"
+    [attr.aria-expanded]="ariaExpanded() ?? null"
+    [attr.aria-controls]="ariaControls() || null"
+    [attr.aria-activedescendant]="ariaActivedescendant() || null"
+    [attr.aria-autocomplete]="role() === 'combobox' ? 'list' : null"
+  />
+  <ng-content select="[post-input]" />
+</uni-input-box>
