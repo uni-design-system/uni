@@ -1,6 +1,7 @@
 import * as Stories from './symbol.stories';
 import { Meta, Title } from '@storybook/addon-docs/blocks';
 import { StoryUsage } from '../../../stories/blocks/StoryUsage';
+import { ThemeOptions } from '../../../stories/blocks/ThemeOptionsBlock';
 
 <Meta of={Stories} />
 
@@ -17,3 +18,11 @@ Symbols are available in three styles and four adjustable variable font styles (
 ## Usage
 
 <StoryUsage of={Stories.Primary} />
+
+## Theme options
+
+<ThemeOptions componentName="symbol" />
+
+## Accessibility
+
+- Symbols are decorative (`aria-hidden`) — the parent control carries the accessible name.

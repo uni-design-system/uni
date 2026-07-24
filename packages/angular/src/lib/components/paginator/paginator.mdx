@@ -1,6 +1,7 @@
 import { Meta, Title } from '@storybook/addon-docs/blocks';
 import * as Stories from './paginator.stories';
 import { StoryUsage } from '../../../stories/blocks/StoryUsage';
+import { ThemeOptions } from '../../../stories/blocks/ThemeOptionsBlock';
 
 <Meta of={Stories} name="Paginator" />
 <Title />
@@ -22,3 +23,12 @@ for page size and another in the footer for page numbers.
 ## Page Numbers Only
 
 <StoryUsage of={Stories.PageNumbersOnly} />
+
+## Theme options
+
+<ThemeOptions componentName="paginator" />
+
+## Accessibility
+
+- A `role="navigation"` landmark; pages are real buttons with `aria-current="page"` on the active one.
+- The page-number input is labelled.

@@ -1,6 +1,7 @@
 import * as Stories from './menu.stories';
 import { Meta, Title } from '@storybook/addon-docs/blocks';
 import { StoryUsage } from '../../../stories/blocks/StoryUsage';
+import { ThemeOptions } from '../../../stories/blocks/ThemeOptionsBlock';
 
 <Meta of={Stories} />
 <Title />
@@ -47,3 +48,12 @@ MenuItem {
     'handleMenuItemClick',
   ]}
 />
+
+## Theme options
+
+<ThemeOptions componentName="dropdown" />
+
+## Accessibility
+
+- Full ARIA menu pattern: arrows and Home/End move, first-letter typeahead jumps, Enter/Space activates.
+- ArrowDown/ArrowUp on the trigger opens onto the first/last item; focus returns to the trigger on close.

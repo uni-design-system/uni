@@ -2,6 +2,7 @@ import { Meta, Title } from '@storybook/addon-docs/blocks';
 
 import * as Stories from './card.stories';
 import { StoryUsage } from '../../../stories/blocks/StoryUsage';
+import { ThemeOptions } from '../../../stories/blocks/ThemeOptionsBlock';
 
 <Meta of={Stories} />
 <Title />
@@ -14,6 +15,18 @@ import { StoryUsage } from '../../../stories/blocks/StoryUsage';
 
 ## Overview
 
+Content container with a themed frame: the border resolves from the **border
+primitive named by its variant** (`borders.primary` … `borders.success`), the corner
+radius from the `card` theme options, and an optional elevation shadow. Compose with
+Card Header and Card Content for the standard anatomy — or point `options.border` at
+a custom primitive to restyle every card in the theme at once.
+
 ## Usage
 
 <StoryUsage of={Stories.Primary} />
+
+## Theme options
+
+<ThemeOptions componentName="card" />
+
+<ThemeOptions componentName="cardHeader" />

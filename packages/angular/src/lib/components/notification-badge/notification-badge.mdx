@@ -1,137 +1,46 @@
-import { Meta, Story, Controls } from '@storybook/addon-docs/blocks';
-import * as NotificationBadgeStories from './notification-badge.stories';
-import { ExperimentalBadge } from '../../../stories/blocks';
+import { Meta, Title } from '@storybook/addon-docs/blocks';
 
-<Meta of={NotificationBadgeStories} />
+import * as Stories from './notification-badge.stories';
+import { StoryUsage } from '../../../stories/blocks/StoryUsage';
+import { StoryExample } from '../../../stories/blocks/StoryExample';
+import { ThemeOptions } from '../../../stories/blocks/ThemeOptionsBlock';
 
-# Notification Badge<ExperimentalBadge />
+<Meta of={Stories} />
+<Title />
 
-A notification badge is a visual indicator that signals new, unread, or important content. It wraps any element and displays a small colored indicator positioned in one of four corners.
+`import { UniNotificationBadgeComponent } from '@uni-design-system/uni-angular';`
 
-## Features
+## Overview
 
-- **Content Projection**: Wraps any element using `<ng-content>` - no manual positioning required
-- **Three Variants**: Dot, Count, and Pill styles
-- **Smart Count Display**: Automatically shows "+" when exceeding maxCount
-- **Flexible Positioning**: Four corner positions supported
-- **Theme Integration**: Uses design system colors
-- **Accessible**: High contrast colors for visibility
-- **Angular 21**: Built with modern signals and standalone architecture
+Attention indicator anchored to whatever it wraps — an icon button, a nav item, an
+avatar. Three shapes: `dot` (something is new), `count` (how many), and `pill`
+(counts that need room); `maxCount` caps the display ("99+"). Position it on any
+corner of the wrapped content.
+
+Radius and offset resolve from the `notificationBadge` theme options; the badge
+wears the active `variant` color.
 
 ## Usage
 
-```typescript
-import { UniNotificationBadgeComponent } from '@uni-design-system/uni-angular';
-
-@Component({
-  template: `
-    <uni-notification-badge
-      [count]="messageCount"
-      color="warn"
-      position="top-right"
-    >
-      <button>Messages</button>
-    </uni-notification-badge>
-  `,
-  imports: [UniNotificationBadgeComponent],
-})
-export class MyComponent {
-  messageCount = 5;
-}
-```
+<StoryUsage of={Stories.Default} />
 
 ## Variants
 
-### Count Badge (Default)
+<StoryExample of={Stories.VariantComparison} />
 
-Shows numerical values with automatic "+" suffix for large numbers.
+## Positions
 
-<Story of={NotificationBadgeStories.Count} />
+<StoryExample of={Stories.DifferentPositions} />
 
-### Dot Badge
+## Theme options
 
-A simple indicator without numbers - perfect for showing "something new" without specific counts.
+<ThemeOptions componentName="notificationBadge" />
 
-<Story of={NotificationBadgeStories.Dot} />
+## Accessibility
 
-### Pill Badge
+- The visual badge is hidden from assistive tech; a visually-hidden text announcement carries the meaning ("3 notifications").
+- Provide `ariaLabel` context when the wrapped control's purpose isn't obvious from its own name.
 
-Optimized for larger numbers with extended width to accommodate text.
+## Don't
 
-<Story of={NotificationBadgeStories.Pill} />
-
-## Color Options
-
-Notification badges support all theme colors. Red (danger) is standard for urgent notifications, while other colors can indicate different types of content.
-
-<Story of={NotificationBadgeStories.DifferentColors} />
-
-## Positioning
-
-Badges can be positioned in any of the four corners relative to their parent element.
-
-<Story of={NotificationBadgeStories.DifferentPositions} />
-
-## Best Practices
-
-### Placement
-
-- **Top-right corner**: Most common placement for notifications
-- **Content projection**: Wrap any element with the badge component using `<ng-content>`
-- **Automatic positioning**: No need for manual `position: relative` styling
-- **Icon alignment**: Ensure badges don't obscure important icon details
-
-### Color Guidelines
-
-- **Red (danger)**: Urgent notifications, errors, critical updates
-- **Blue (primary)**: General notifications, informational updates
-- **Green (success)**: Completed actions, positive notifications
-- **Orange (warning)**: Warnings, pending actions
-
-### Count Thresholds
-
-- **Use "+" for large numbers**: Default maxCount is 99, showing "99+" for larger values
-- **Consider pill variant**: For frequently changing large numbers
-- **Dot for binary states**: Use when you only need to show "new" vs "seen"
-
-### Accessibility
-
-- Provide aria-labels for screen readers
-- Ensure sufficient color contrast
-- Consider motion sensitivity for animated badges
-
-## Properties
-
-<Controls />
-
-## Examples
-
-### With Icons
-
-Common pattern for navigation and communication interfaces.
-
-<Story of={NotificationBadgeStories.WithIcons} />
-
-### Variant Comparison
-
-Side-by-side comparison of all three variants.
-
-<Story of={NotificationBadgeStories.VariantComparison} />
-
-## Terminology
-
-- **Notification Badge**: Standard industry term for the component
-- **Count Indicator**: Badge that displays numerical values
-- **Pill**: Badge with extended width for larger numbers
-- **Dot/Red Dot**: Simple indicator without numbers
-- **Status Dot**: Alternative term for dot variant
-
-## Related Components
-
-- [Badge](/docs/components-badge--docs): For labeling and categorization
-- [Alert](/docs/components-alert--docs): For prominent notifications
-- [Tooltip](/docs/components-tooltip--docs): For additional context on hover
-
-## Technical Notes
-
-This component extends `BaseComponent` and integrates with the Omni UI theme system. It uses Angular 21's signal-based reactivity for optimal performance and modern control flow syntax for conditional rendering.
+- Convey urgency by color alone — the count/dot shape carries the signal

@@ -1,6 +1,7 @@
 import { Meta, Title } from '@storybook/addon-docs/blocks';
 import * as Stories from './button.stories';
 import { StoryUsage } from '../../../stories/blocks/StoryUsage';
+import { ThemeOptions } from '../../../stories/blocks/ThemeOptionsBlock';
 
 <Meta of={Stories} name="Overview" />
 <Title />
@@ -18,3 +19,12 @@ Buttons are often used for form submissions and to toggle elements into view.
 ## Usage
 
 <StoryUsage of={Stories.Primary} exclude={['spinnerBox']} />
+
+## Theme options
+
+<ThemeOptions componentName="button" />
+
+## Accessibility
+
+- A real `<button>` element — native focus, Enter/Space activation, and `disabled` semantics.
+- `aria-busy` is set while `loading`; the spinner and symbols are decorative.

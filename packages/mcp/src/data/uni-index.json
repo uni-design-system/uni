@@ -1,7 +1,7 @@
 {
   "meta": {
     "version": "5.2.0",
-    "builtAt": "2026-07-24T14:28:31.520Z",
+    "builtAt": "2026-07-24T14:41:53.742Z",
     "frameworks": [
       "angular"
     ],
@@ -921,7 +921,10 @@
         "whenToUse": "Button is a clickable interactive element that triggers a response.\nYou can place text and icons inside of a button.\nButtons are often used for form submissions and to toggle elements into view.",
         "dos": [],
         "donts": [],
-        "accessibility": []
+        "accessibility": [
+          "A real `<button>` element — native focus, Enter/Space activation, and `disabled` semantics.",
+          "`aria-busy` is set while `loading`; the spinner and symbols are decorative."
+        ]
       },
       "relatedTokens": [
         "button.behavior.borderRadius",
@@ -954,7 +957,9 @@
         "whenToUse": "The `ButtonGroup` component is used to group related buttons. It applies some base styling to the nested buttons.\nIf this is not desirable, consider using the `Row` component.",
         "dos": [],
         "donts": [],
-        "accessibility": []
+        "accessibility": [
+          "Group the related actions; each button keeps its own accessible name."
+        ]
       },
       "relatedTokens": []
     },
@@ -981,7 +986,7 @@
         }
       ],
       "guidelines": {
-        "whenToUse": "",
+        "whenToUse": "Content container with a themed frame: the border resolves from the **border\nprimitive named by its variant** (`borders.primary` … `borders.success`), the corner\nradius from the `card` theme options, and an optional elevation shadow. Compose with\nCard Header and Card Content for the standard anatomy — or point `options.border` at\na custom primitive to restyle every card in the theme at once.",
         "dos": [],
         "donts": [],
         "accessibility": []
@@ -1229,14 +1234,17 @@
         }
       ],
       "guidelines": {
-        "whenToUse": "",
-        "dos": [],
-        "donts": [],
+        "whenToUse": "Binary choice control for forms: check to opt in, submit to apply. It implements\n`FormCheckboxControl` for the Signal Forms `[field]` directive (or bind\n`[(checked)]` directly), exposes `aria-invalid` once touched, and supports an\n`indeterminate` model for \"select all\" parents — cleared automatically on the next\nuser interaction, matching native behavior.\nThe box color, check stroke (the variant's paired on-color), and size resolve from\nthe `checkbox` theme options.",
+        "dos": [
+          "Use for choices that apply when the form is submitted"
+        ],
+        "donts": [
+          "Use for instant on/off effects — that is a toggle"
+        ],
         "accessibility": [
-          "The component uses semantic HTML with proper `<input type=\"checkbox\">` and `<label>` elements",
-          "Keyboard navigation is supported (Space to toggle)",
-          "Screen readers will announce the label and state correctly",
-          "The checkbox is properly associated with its label for accessibility"
+          "Semantic `<input type=\"checkbox\">` + `<label>`; Space toggles.",
+          "`aria-invalid` reflects the error state once the field was touched or is dirty.",
+          "The indeterminate visual state is carried by the native `indeterminate` property, announced as \"mixed\"."
         ]
       },
       "relatedTokens": [
@@ -1439,10 +1447,14 @@
         }
       ],
       "guidelines": {
-        "whenToUse": "",
+        "whenToUse": "Data grid for structured records: sortable column headers (Sort Header), paging\n(Paginator), field-scoped search (Data Search), row interaction, sticky columns,\nand expandable detail rows — all themed through the `dataTable` options, which\npoint at shared tokens for surfaces, borders, and typography.",
         "dos": [],
         "donts": [],
-        "accessibility": []
+        "accessibility": [
+          "Column headers use `scope=\"col\"`; sortable headers are real buttons with `aria-sort` on the `<th>`.",
+          "The loading overlay is a `role=\"status\"` region and the table is `aria-busy` while loading.",
+          "Collapsed detail rows are `inert`, out of the accessibility tree until expanded."
+        ]
       },
       "relatedTokens": []
     },
@@ -2030,7 +2042,9 @@
         "whenToUse": "Expand is a group of components that can be used in concert to expand/collapse sections of information.\nThe Expand component is transparent in nature and can nest any element to collapse it out of view.\nThe Expand Toggle is an optional convenience element that can be used to trigger the expand/collapse animation.\nIt has been designed to work with the Card Header.",
         "dos": [],
         "donts": [],
-        "accessibility": []
+        "accessibility": [
+          "The toggle carries `aria-expanded` and `aria-controls` for its region (wired automatically inside Expand Area)."
+        ]
       },
       "relatedTokens": []
     },
@@ -2088,7 +2102,7 @@
         }
       ],
       "guidelines": {
-        "whenToUse": "",
+        "whenToUse": "The batteries-included collapsible: a themed surface with a header row, an Expand\nToggle, and a content region wired together — `aria-expanded`/`aria-controls`\nhandled automatically. For custom collapse layouts, compose the lower-level Expand\nand Expand Toggle directly.",
         "dos": [],
         "donts": [],
         "accessibility": []
@@ -2265,7 +2279,9 @@
         "whenToUse": "The File Drop Zone component is used in uploading files.",
         "dos": [],
         "donts": [],
-        "accessibility": []
+        "accessibility": [
+          "Without a browse button, the zone itself is `role=\"button\"` with `tabindex=\"0\"` and Enter/Space activation."
+        ]
       },
       "relatedTokens": []
     },
@@ -2416,7 +2432,10 @@
         "whenToUse": "Icons are adaptive svg images. Instead of defining a size or color attributes, Icons\nwill grow to the space allotted to them and use the current color of its parent element.\nHowever, it is possible to statically set the icon color.",
         "dos": [],
         "donts": [],
-        "accessibility": []
+        "accessibility": [
+          "Icons are decorative (`aria-hidden`) — the parent control carries the accessible name.",
+          "Icons come from the theme's `icons` map (masked with `currentColor`); unknown names render nothing."
+        ]
       },
       "relatedTokens": []
     },
@@ -2503,10 +2522,13 @@
         }
       ],
       "guidelines": {
-        "whenToUse": "",
+        "whenToUse": "A square, icon-only button for toolbars, bars, and tight layouts. Renders a real\n`<button>` around a symbol or icon, with ghost as the default variant so it sits\nquietly on any surface. Because there is no visible text, the accessible name comes\nfrom projected (visually hidden) text or `ariaLabel`.",
         "dos": [],
         "donts": [],
-        "accessibility": []
+        "accessibility": [
+          "Icon-only buttons need a name: project text (rendered visually hidden) or set `ariaLabel`.",
+          "The icon/symbol itself is decorative (`aria-hidden`)."
+        ]
       },
       "relatedTokens": []
     },
@@ -2629,15 +2651,14 @@
         }
       ],
       "guidelines": {
-        "whenToUse": "",
+        "whenToUse": "Single-line text field with the shared input chrome (themed color, border, typeface,\nfocus ring, error state). It implements `FormValueControl<string>`: bind a Signal\nForms field with `[field]`, or drive `[(value)]` directly. Errors style the field\nonly after the user has interacted (touched or dirty), and `required` syncs from\n`required()` validators automatically.\nProject adornments with the `pre-input` / `post-input` slots. For multi-line text\nuse Textarea; for search semantics use Search Input.",
         "dos": [],
         "donts": [],
         "accessibility": [
-          "Uses semantic HTML input element with proper labeling",
-          "Supports keyboard navigation and standard input interactions",
-          "Screen readers announce validation errors and field states",
-          "Follows WCAG accessibility guidelines for form inputs",
-          "Proper focus management and visual indicators"
+          "`label` is required and becomes the accessible name (`aria-label`).",
+          "`aria-invalid` reflects the error state once the field was touched or is dirty.",
+          "`aria-required` mirrors the `required` state synced from validators.",
+          "Link external error text with `ariaDescribedBy`."
         ]
       },
       "relatedTokens": [
@@ -2855,7 +2876,10 @@
         "whenToUse": "Menus can be linked to any component, but it is recommended to use either the `text-button` or `icon-button` component.\nMenus are populated by creating an array of Menu Items (`MenuItem[]`) and binding it to the `Menu` component.\nActions are optional as the `Menu` component also emits the clicked menu item via the `menuItemClicked` output attribute.\n### Menu Item Interface\n```\nMenuItem {\n  label: string;\n  symbolName?: string;\n  action?: () => void;\n}\n```",
         "dos": [],
         "donts": [],
-        "accessibility": []
+        "accessibility": [
+          "Full ARIA menu pattern: arrows and Home/End move, first-letter typeahead jumps, Enter/Space activates.",
+          "ArrowDown/ArrowUp on the trigger opens onto the first/last item; focus returns to the trigger on close."
+        ]
       },
       "relatedTokens": []
     },
@@ -3053,14 +3077,12 @@
         }
       ],
       "guidelines": {
-        "whenToUse": "",
+        "whenToUse": "Inline multiple-choice: every option visible as a toggleable item, selection\nemitted as an array. Reach for it when the option set is small enough to show all\nat once and seeing the full set helps the choice; when space is tight or options\nare many, use Multi Select Dropdown instead.",
         "dos": [],
         "donts": [],
         "accessibility": [
-          "Uses semantic checkbox inputs with proper label associations",
-          "Supports keyboard navigation (Tab, Space)",
-          "Screen readers announce option labels and selection states",
-          "Follows WCAG accessibility guidelines"
+          "Options are real checkboxes in a labelled group — Space toggles, Tab moves between them.",
+          "Selection state is announced per option."
         ]
       },
       "relatedTokens": []
@@ -3189,15 +3211,13 @@
         }
       ],
       "guidelines": {
-        "whenToUse": "",
+        "whenToUse": "Multiple choice behind a compact trigger: a disclosure popover containing a search\nfield, checkbox options, and a Done action. Implements `FormValueControl` with an\narray value for Signal Forms, and shows a summarized selection in the trigger.\nThe popover surface, radius, and elevation resolve from the\n`multiSelectDropdown` theme options.",
         "dos": [],
         "donts": [],
         "accessibility": [
-          "Uses semantic dropdown and checkbox patterns with proper ARIA labeling",
-          "Supports keyboard navigation (Tab, Space, Enter, Arrow keys)",
-          "Screen readers announce dropdown state, option labels, and selection counts",
-          "Follows WCAG accessibility guidelines for multi-select controls",
-          "Search input is properly labeled for assistive technologies"
+          "The trigger is a disclosure (`aria-haspopup=\"dialog\"`, `aria-expanded`); the popover contains native focusables Tab reaches normally.",
+          "The search input is labelled; options are real checkboxes announced with their state.",
+          "Escape closes the popover and returns focus to the trigger."
         ]
       },
       "relatedTokens": []
@@ -3321,10 +3341,15 @@
         }
       ],
       "guidelines": {
-        "whenToUse": "",
+        "whenToUse": "Attention indicator anchored to whatever it wraps — an icon button, a nav item, an\navatar. Three shapes: `dot` (something is new), `count` (how many), and `pill`\n(counts that need room); `maxCount` caps the display (\"99+\"). Position it on any\ncorner of the wrapped content.\nRadius and offset resolve from the `notificationBadge` theme options; the badge\nwears the active `variant` color.",
         "dos": [],
-        "donts": [],
-        "accessibility": []
+        "donts": [
+          "Convey urgency by color alone — the count/dot shape carries the signal"
+        ],
+        "accessibility": [
+          "The visual badge is hidden from assistive tech; a visually-hidden text announcement carries the meaning (\"3 notifications\").",
+          "Provide `ariaLabel` context when the wrapped control's purpose isn't obvious from its own name."
+        ]
       },
       "relatedTokens": []
     },
@@ -3422,7 +3447,10 @@
         "whenToUse": "The Paginator drives page navigation for any `UniDatasource`: first/previous/next/last\nbuttons, truncated page numbers, an editable page size, and a page jumper. Each section can\nbe toggled independently, so it can render as a full control bar or a minimal pager — the\n[Data Table](?path=/docs/components-data-table--docs) stories use one paginator in the header\nfor page size and another in the footer for page numbers.",
         "dos": [],
         "donts": [],
-        "accessibility": []
+        "accessibility": [
+          "A `role=\"navigation\"` landmark; pages are real buttons with `aria-current=\"page\"` on the active one.",
+          "The page-number input is labelled."
+        ]
       },
       "relatedTokens": [
         "paginator.behavior.gap",
@@ -3477,7 +3505,9 @@
         "whenToUse": "Popover is a non-modal dialog that floats around a trigger.\nAny type of content can be added inside a popover; however, it is most suitable for short callouts or compact actions.\n**Note:** It is important to add the `trigger` attribute to the item you want to open and be referenced to the Popover.",
         "dos": [],
         "donts": [],
-        "accessibility": []
+        "accessibility": [
+          "The trigger carries `aria-expanded` and `aria-controls`; light-dismiss comes from the native popover."
+        ]
       },
       "relatedTokens": []
     },
@@ -3539,7 +3569,9 @@
         "whenToUse": "The progress bar is a graphical way of representing progress to completion.",
         "dos": [],
         "donts": [],
-        "accessibility": []
+        "accessibility": [
+          "`role=\"progressbar\"` with `aria-valuenow`/`min`/`max`; name it with `ariaLabel`."
+        ]
       },
       "relatedTokens": []
     },
@@ -3585,7 +3617,9 @@
         "whenToUse": "The progress gauge is a graphical way of representing progress to completion as well as scoring or ranking.",
         "dos": [],
         "donts": [],
-        "accessibility": []
+        "accessibility": [
+          "`role=\"progressbar\"` with `aria-valuenow`/`min`/`max`; name it with `ariaLabel`. The SVG is decorative."
+        ]
       },
       "relatedTokens": []
     },
@@ -3721,17 +3755,17 @@
         }
       ],
       "guidelines": {
-        "whenToUse": "",
-        "dos": [],
-        "donts": [],
+        "whenToUse": "Single choice among a small set of visible options. The component renders the whole\ngroup from an `options` array (`{ label, value, disabled? }`), implements\n`FormValueControl<string>` for Signal Forms, and defaults each group to a unique\n`name` so multiple groups on a page never collide.\nRing, fill, and size resolve from the `radio` theme options; the selected dot wears\nthe active `variant` color.",
+        "dos": [
+          "Use for 2–5 mutually exclusive options that should all be visible"
+        ],
+        "donts": [
+          "Use for long option lists — that is a select"
+        ],
         "accessibility": [
-          "The component uses semantic HTML with proper `<input type=\"radio\">` and `<label>` elements",
-          "All radio buttons in a group share the same `name` attribute for proper grouping",
-          "Keyboard navigation is supported (Arrow keys to navigate, Space to select)",
-          "Screen readers will announce the label and state correctly",
-          "Each radio option is properly associated with its label for accessibility",
-          "Focus indicators are provided for keyboard navigation",
-          "Disabled options are properly announced to screen readers"
+          "`role=\"radiogroup\"` labelled by the group label via `aria-labelledby`.",
+          "Native radio inputs: arrow keys move selection within the group, Tab moves out.",
+          "`aria-invalid` reflects the error state once the group was touched or is dirty."
         ]
       },
       "relatedTokens": [
@@ -3959,7 +3993,7 @@
         }
       ],
       "guidelines": {
-        "whenToUse": "",
+        "whenToUse": "A scroll container with themed, consistent scrollbars across browsers — thin\nEmotion-styled WebKit scrollbars with a `scrollbar-width`/`scrollbar-color`\nfallback. It detects scrollable state via ResizeObserver (the `scrollable` output)\nand offers `scrollToTop`/`scrollToBottom` for programmatic control.",
         "dos": [],
         "donts": [],
         "accessibility": []
@@ -4191,16 +4225,12 @@
         }
       ],
       "guidelines": {
-        "whenToUse": "",
+        "whenToUse": "Single choice from a list, on a native `<select>` — platform pickers on mobile,\nplatform keyboard behavior everywhere. Options are typed generically\n(`options: T[]` with `optionLabel`/`optionValue` accessors), and the component\nimplements `FormValueControl` for the Signal Forms `[field]` directive. Errors\nstyle the field only after interaction, matching Input.\nFor choosing several, use Multi Select; for type-to-filter over large sets, use\nSearch Input's type-ahead.",
         "dos": [],
         "donts": [],
         "accessibility": [
-          "Uses semantic HTML select element with proper labeling",
-          "Supports keyboard navigation (Tab, Arrow keys, Enter, Space)",
-          "Screen readers announce option labels and selection state",
-          "Follows WCAG accessibility guidelines for form selects",
-          "Proper focus management and visual indicators",
-          "Dropdown arrow icon provides visual cue for interaction"
+          "Native `<select>`: platform keyboard interaction and mobile pickers for free.",
+          "`label` becomes the accessible name; `aria-invalid` reflects the touched error state."
         ]
       },
       "relatedTokens": []
@@ -4778,7 +4808,9 @@
         "whenToUse": "The Symbol Component integrates the latest [Material Symbols](https://fonts.google.com/icons?icon.platform=web&icon.style=Rounded&icon.set=Material+Symbols&query=les).\nMaterial Symbols consolidates over 3,275 glyphs (icons) in a single font file with a wide range of design variants.\nSymbols are available in three styles and four adjustable variable font styles (fill, weight, grade, and optical size).",
         "dos": [],
         "donts": [],
-        "accessibility": []
+        "accessibility": [
+          "Symbols are decorative (`aria-hidden`) — the parent control carries the accessible name."
+        ]
       },
       "relatedTokens": [
         "symbol.behavior.fill",
@@ -4951,7 +4983,7 @@
         }
       ],
       "guidelines": {
-        "whenToUse": "",
+        "whenToUse": "Compact label for classifying content — categories, states, filters. Tags are\ndisplay-only chips that wear the active variant's colors; for removable,\ntype-to-add chips (a future input variant), see the roadmap.",
         "dos": [],
         "donts": [],
         "accessibility": []
@@ -5331,15 +5363,17 @@
         }
       ],
       "guidelines": {
-        "whenToUse": "",
-        "dos": [],
-        "donts": [],
+        "whenToUse": "A switch-style control for turning an option on or off with immediate effect —\nprefer it over a checkbox when the change applies instantly (settings, feature\nswitches) rather than as part of a submitted form. It implements\n`FormCheckboxControl`, so it binds with the Signal Forms `[field]` directive or a\ndirect `[(checked)]` model.\nTrack, knob, and size resolve from the `toggle` theme options; the checked state\nwears the active `variant` color.",
+        "dos": [
+          "Use for instant on/off effects (settings, feature switches)"
+        ],
+        "donts": [
+          "Use in submitted forms where nothing happens until save — that is a checkbox"
+        ],
         "accessibility": [
-          "The component uses semantic HTML with proper `<input type=\"checkbox\">` and `<label>` elements",
-          "Keyboard navigation is supported (Space to toggle)",
-          "Screen readers will announce the label and state correctly",
-          "The toggle is properly associated with its label for accessibility",
-          "Focus indicators are provided for keyboard navigation"
+          "Semantic `<input type=\"checkbox\">` with `role=\"switch\"`, properly associated with its label.",
+          "Space toggles; focus indicators are provided for keyboard navigation.",
+          "Screen readers announce the label and on/off state."
         ]
       },
       "relatedTokens": [
@@ -5414,7 +5448,11 @@
         "whenToUse": "A tooltip is a brief, informative message that appears when a user interacts with an element.\nIf using a tooltip within a body of text, set the `inlineText` option to `true`.",
         "dos": [],
         "donts": [],
-        "accessibility": []
+        "accessibility": [
+          "`role=\"tooltip\"` linked to the trigger via `aria-describedby` (wired once — the bubble is always in the DOM).",
+          "Shows on keyboard focus, hides on blur and Escape; stays open while hovered (WCAG 1.4.13).",
+          "Non-focusable triggers get `tabindex=\"0\"` so keyboard users can reach the tooltip."
+        ]
       },
       "relatedTokens": [
         "tooltip.behavior.borderRadius",

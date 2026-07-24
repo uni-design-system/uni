@@ -1,6 +1,7 @@
 import { Meta, Title } from '@storybook/addon-docs/blocks';
 import * as Stories from './icon-button.stories';
 import { StoryUsage } from '../../../stories/blocks/StoryUsage';
+import { ThemeOptions } from '../../../stories/blocks/ThemeOptionsBlock';
 
 <Meta of={Stories} />
 <Title />
@@ -9,6 +10,20 @@ import { StoryUsage } from '../../../stories/blocks/StoryUsage';
 
 ## Overview
 
+A square, icon-only button for toolbars, bars, and tight layouts. Renders a real
+`<button>` around a symbol or icon, with ghost as the default variant so it sits
+quietly on any surface. Because there is no visible text, the accessible name comes
+from projected (visually hidden) text or `ariaLabel`.
+
 ## Usage
 
 <StoryUsage of={Stories.Primary} />
+
+## Theme options
+
+<ThemeOptions componentName="iconButton" />
+
+## Accessibility
+
+- Icon-only buttons need a name: project text (rendered visually hidden) or set `ariaLabel`.
+- The icon/symbol itself is decorative (`aria-hidden`).

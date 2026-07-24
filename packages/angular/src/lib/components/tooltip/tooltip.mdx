@@ -1,6 +1,7 @@
 import * as Stories from './tooltip.stories';
 import { Meta, Title } from '@storybook/addon-docs/blocks';
 import { StoryUsage } from '../../../stories/blocks/StoryUsage';
+import { ThemeOptions } from '../../../stories/blocks/ThemeOptionsBlock';
 
 <Meta of={Stories} />
 <Title />
@@ -36,3 +37,13 @@ If using a tooltip within a body of text, set the `inlineText` option to `true`.
     'initializeTooltip',
   ]}
 />
+
+## Theme options
+
+<ThemeOptions componentName="tooltip" />
+
+## Accessibility
+
+- `role="tooltip"` linked to the trigger via `aria-describedby` (wired once — the bubble is always in the DOM).
+- Shows on keyboard focus, hides on blur and Escape; stays open while hovered (WCAG 1.4.13).
+- Non-focusable triggers get `tabindex="0"` so keyboard users can reach the tooltip.

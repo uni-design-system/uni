@@ -1,194 +1,52 @@
-import { Meta, Story, Controls } from '@storybook/addon-docs/blocks';
-import * as CheckboxStories from './checkbox.stories';
+import { Meta, Title } from '@storybook/addon-docs/blocks';
 
-<Meta of={CheckboxStories} />
+import * as Stories from './checkbox.stories';
+import { StoryUsage } from '../../../stories/blocks/StoryUsage';
+import { StoryExample } from '../../../stories/blocks/StoryExample';
+import { ThemeOptions } from '../../../stories/blocks/ThemeOptionsBlock';
 
-# Checkbox
+<Meta of={Stories} />
+<Title />
 
-The Checkbox component is a primitive form control that allows users to select or deselect an option. It implements Angular's FormCheckboxControl interface from the new Form Signals API for first-class Signal Forms integration.
+`import { UniCheckboxComponent } from '@uni-design-system/uni-angular';`
+
+## Overview
+
+Binary choice control for forms: check to opt in, submit to apply. It implements
+`FormCheckboxControl` for the Signal Forms `[field]` directive (or bind
+`[(checked)]` directly), exposes `aria-invalid` once touched, and supports an
+`indeterminate` model for "select all" parents — cleared automatically on the next
+user interaction, matching native behavior.
+
+The box color, check stroke (the variant's paired on-color), and size resolve from
+the `checkbox` theme options.
 
 ## Usage
 
-```typescript
-import { UniCheckboxComponent } from '@uni-design-system/uni-angular';
-```
-
-## Basic Example
-
-<Story of={CheckboxStories.Default} />
-
-## Without Label
-
-The checkbox can be used without a label for custom layouts:
-
-<Story of={CheckboxStories.WithoutLabel} />
-
-## Disabled State
-
-<Story of={CheckboxStories.Disabled} />
+<StoryUsage of={Stories.Default} />
 
 ## Variants
 
-The checkbox supports different color variants:
+<StoryExample of={Stories.Variants} />
 
-<Story of={CheckboxStories.Variants} />
+## Signal Forms
 
-## Event Binding
+<StoryExample of={Stories.FormSignals} />
 
-The checkbox can be used with direct event binding for handling state changes:
+## Theme options
 
-<Story of={CheckboxStories.WithChangeEvent} />
-
-## Form Signals Integration
-
-The checkbox implements FormCheckboxControl interface with signal-based properties for modern reactive forms:
-
-<Story of={CheckboxStories.FormSignals} />
-
-## API
-
-<Controls of={CheckboxStories.Default} />
-
-## Properties
-
-<table>
-  <thead>
-    <tr>
-      <th>Property</th>
-      <th>Type</th>
-      <th>Default</th>
-      <th>Description</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>
-        <code>variant</code>
-      </td>
-      <td>
-        <code>Variant</code>
-      </td>
-      <td>
-        <code>'primary'</code>
-      </td>
-      <td>The color variant of the checkbox</td>
-    </tr>
-    <tr>
-      <td>
-        <code>label</code>
-      </td>
-      <td>
-        <code>string</code>
-      </td>
-      <td>
-        <code>''</code>
-      </td>
-      <td>The label text displayed next to the checkbox</td>
-    </tr>
-    <tr>
-      <td>
-        <code>disabled</code>
-      </td>
-      <td>
-        <code>boolean</code>
-      </td>
-      <td>
-        <code>false</code>
-      </td>
-      <td>Whether the checkbox is disabled</td>
-    </tr>
-    <tr>
-      <td>
-        <code>checked</code>
-      </td>
-      <td>
-        <code>ModelSignal&lt;boolean&gt;</code>
-      </td>
-      <td>
-        <code>false</code>
-      </td>
-      <td>
-        Whether the checkbox is checked (Form Signal model for two-way binding)
-      </td>
-    </tr>
-    <tr>
-      <td>
-        <code>touched</code>
-      </td>
-      <td>
-        <code>ModelSignal&lt;boolean&gt;</code>
-      </td>
-      <td>
-        <code>false</code>
-      </td>
-      <td>Whether the checkbox has been touched by the user</td>
-    </tr>
-    <tr>
-      <td>
-        <code>invalid</code>
-      </td>
-      <td>
-        <code>Signal&lt;boolean&gt;</code>
-      </td>
-      <td>
-        <code>false</code>
-      </td>
-      <td>Whether the checkbox has validation errors</td>
-    </tr>
-    <tr>
-      <td>
-        <code>dirty</code>
-      </td>
-      <td>
-        <code>Signal&lt;boolean&gt;</code>
-      </td>
-      <td>
-        <code>false</code>
-      </td>
-      <td>Whether the checkbox value has been changed</td>
-    </tr>
-  </tbody>
-</table>
-
-## Events
-
-<table>
-  <thead>
-    <tr>
-      <th>Event</th>
-      <th>Type</th>
-      <th>Description</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>
-        <code>checkedChange</code>
-      </td>
-      <td>
-        <code>EventEmitter&lt;boolean&gt;</code>
-      </td>
-      <td>
-        Emitted when the checkbox state changes. Emits the new checked value
-        (auto-generated from checked model signal).
-      </td>
-    </tr>
-  </tbody>
-</table>
-
-## Methods
-
-The component implements the FormCheckboxControl interface:
-
-- `markAsTouched()`: Marks the checkbox as touched when the user interacts with it
+<ThemeOptions componentName="checkbox" />
 
 ## Accessibility
 
-- The component uses semantic HTML with proper `<input type="checkbox">` and `<label>` elements
-- Keyboard navigation is supported (Space to toggle)
-- Screen readers will announce the label and state correctly
-- The checkbox is properly associated with its label for accessibility
+- Semantic `<input type="checkbox">` + `<label>`; Space toggles.
+- `aria-invalid` reflects the error state once the field was touched or is dirty.
+- The indeterminate visual state is carried by the native `indeterminate` property, announced as "mixed".
 
-## Styling
+## Do
 
-The checkbox uses the theme service to apply consistent colors based on the selected variant. The component includes smooth animations for state transitions and hover effects.
+- Use for choices that apply when the form is submitted
+
+## Don't
+
+- Use for instant on/off effects — that is a toggle

@@ -75,10 +75,10 @@ audits: `packages/angular/TODO.md` (v4 audit) and `uni-theme-generation-plan.md`
 
 - [x] ~~MDX guidelines adapter~~ — shipped 2026-07-24: Overview → whenToUse, optional
       Do/Don't/Accessibility bullet sections; 48/70 components covered.
-- [ ] **Author guidelines for the skeleton MDX pages** — several older pages (card,
-      input, checkbox, radio, toggle, dropdown, select, data-table, tag, multi-select…)
-      have empty `## Overview` sections, so they contribute nothing to the MCP; write
-      real when-to-use prose (+ Do/Don't/Accessibility bullets now supported).
+- [x] ~~Author guidelines for skeleton MDX pages~~ — done 2026-07-24 with the
+      canonical-structure sweep: all pages conform (AGENTS.md spec), empty Overviews
+      written, form-control API tables retired; MCP carries whenToUse for 55/70 and
+      a11y guidance for 36/70 (rest are subcomponents/directives).
 - [ ] **DTCG export tool** — expose `emitDtcgTokens` (in core; playground already
       uses it) as an MCP tool.
 - [ ] React bindings in the index — gated on uni-react parity.

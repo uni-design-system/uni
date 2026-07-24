@@ -18,3 +18,8 @@ However, it is possible to statically set the icon color.
 ## Usage
 
 <StoryUsage of={Stories.Primary} />
+
+## Accessibility
+
+- Icons are decorative (`aria-hidden`) — the parent control carries the accessible name.
+- Icons come from the theme's `icons` map (masked with `currentColor`); unknown names render nothing.

@@ -1,6 +1,7 @@
 import { Meta, Title } from '@storybook/addon-docs/blocks';
 import * as Stories from './dialog.stories';
 import { StoryUsage } from '../../../stories/blocks/StoryUsage';
+import { ThemeOptions } from '../../../stories/blocks/ThemeOptionsBlock';
 
 <Meta of={Stories} name="Documentation" />
 <Title />
@@ -86,6 +87,12 @@ Enhanced modal dialog that extends the native HTML `<dialog>` element with built
 
 **Use for:** Important notifications, confirmations, user input forms
 **Avoid:** Non-critical information, nested dialogs, complex navigation
+
+## Theme options
+
+<ThemeOptions componentName="dialog" />
+
+<ThemeOptions componentName="dialogHeader" />
 
 ## Accessibility
 

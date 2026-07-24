@@ -2,6 +2,7 @@ import { Meta, Title } from '@storybook/addon-docs/blocks';
 
 import * as Stories from './snackbar.stories';
 import { StoryUsage } from '../../../../stories/blocks/StoryUsage';
+import { ThemeOptions } from '../../../../stories/blocks/ThemeOptionsBlock';
 
 <Meta of={Stories} />
 <Title />
@@ -20,3 +21,7 @@ A side action can be defined (e.g. undoing a process or navigating to the detail
   of={Stories.Primary}
   exclude={['fadeOut', 'ngAfterViewInit', 'snackbarClass', 'snackbarRef', 'action', 'showing']}
 />
+
+## Theme options
+
+<ThemeOptions componentName="snackbar" />

@@ -3,12 +3,17 @@ import { Meta, Title } from '@storybook/addon-docs/blocks';
 import * as Stories from './data-table.stories';
 import { StoryUsage } from '../../../stories/blocks/StoryUsage';
 import { StoryExample } from '../../../stories/blocks/StoryExample';
-import { ThemeDataBlock } from '../../../stories/blocks/ThemeDataBlock';
+import { ThemeOptions } from '../../../stories/blocks/ThemeOptionsBlock';
 
 <Meta of={Stories} />
 <Title />
 
 ## Overview
+
+Data grid for structured records: sortable column headers (Sort Header), paging
+(Paginator), field-scoped search (Data Search), row interaction, sticky columns,
+and expandable detail rows — all themed through the `dataTable` options, which
+point at shared tokens for surfaces, borders, and typography.
 
 ## Usage
 
@@ -44,4 +49,10 @@ import { ThemeDataBlock } from '../../../stories/blocks/ThemeDataBlock';
 
 Globally defined attributes controlled by the theme.
 
-<ThemeDataBlock componentName={'dataTable'} />
+<ThemeOptions componentName="dataTable" />
+
+## Accessibility
+
+- Column headers use `scope="col"`; sortable headers are real buttons with `aria-sort` on the `<th>`.
+- The loading overlay is a `role="status"` region and the table is `aria-busy` while loading.
+- Collapsed detail rows are `inert`, out of the accessibility tree until expanded.
