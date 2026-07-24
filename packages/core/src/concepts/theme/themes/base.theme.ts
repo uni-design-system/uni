@@ -138,6 +138,28 @@ const buildComponents = (c: Colors): ComponentThemes => ({
   alert: {
     options: { topPosition: 40, borderRadius: 'sm', transitionSpeed: 0.35, elevation: 'md' },
   },
+  // Initials/icon avatars color from the role's container tokens; the radius
+  // token makes them circles by default and squares under a 'sharp' theme.
+  avatar: {
+    options: { borderRadius: 'max', typeface: 'subtitle-2', fallbackSymbol: 'person' },
+    variants: {
+      primary: { backgroundColor: c['primary-container'], color: c['on-primary-container'] },
+      secondary: { backgroundColor: c['secondary-container'], color: c['on-secondary-container'] },
+      tertiary: { backgroundColor: c['tertiary-container'], color: c['on-tertiary-container'] },
+      quaternary: { backgroundColor: c['surface-variant'], color: c['on-surface-variant'] },
+      warn: { backgroundColor: c['warn-container'], color: c['on-warn-container'] },
+      success: { backgroundColor: c['success-container'], color: c['on-success-container'] },
+    },
+    sizes: {
+      sm: { height: 24, width: 24, fontSize: 10 },
+      md: { height: 32, width: 32, fontSize: 13 },
+      lg: { height: 40, width: 40, fontSize: 16 },
+      xl: { height: 56, width: 56, fontSize: 22 },
+    },
+  },
+  // Overlap is a spacing token; the ring separates stacked avatars using the
+  // surface color so groups read on any background.
+  avatarGroup: { options: { overlap: 'sm', ringColor: 'surface', ringWidth: 2 } },
   checkbox: { options: { size: 20 } },
   dialog: {
     options: {

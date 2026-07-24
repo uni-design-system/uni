@@ -5,6 +5,8 @@ import type { StyleExpression } from '../style';
 export type ComponentName =
   | 'undefined'
   | 'alert'
+  | 'avatar'
+  | 'avatarGroup'
   | 'badge'
   | 'button'
   | 'buttonGroup'

@@ -1,3 +1,4 @@
+export * from './avatar';
 export * from './background';
 export * from './badge';
 //export * from './barcode';
