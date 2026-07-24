@@ -67,6 +67,7 @@ const themeExport = (
     `  borders: borders(${colorsConst}),`,
     `  components: components(${colorsConst}),`,
     `  shadows: ${shadowsConst},`,
+    '  icons,',
     ...(radii ? ['  radii,'] : []),
     '});',
   ].join('\n');
@@ -144,6 +145,7 @@ export const emitThemeFile = (input: ThemeFileInput): EmittedThemeFile => {
     '  type Borders,',
     '  type Colors,',
     '  type ComponentThemes,',
+    '  type Icons,',
     '  type Shadows,',
     '  type UniTheme,',
     "} from '@uni-design-system/uni-core';",
@@ -160,6 +162,15 @@ export const emitThemeFile = (input: ThemeFileInput): EmittedThemeFile => {
     " *   input: { options: { borderRadius: 'max' } },",
     ' */',
     'const components = (colors: Colors): ComponentThemes => ({});',
+    '',
+    '/**',
+    ' * Icon primitives, merged over the built-in set (close, search, spinner,',
+    ' * chevrons, …). Define an icon ONCE here as an inline SVG data URI — it is',
+    ' * masked with currentColor, so it recolors with the theme — and render it',
+    " * anywhere via `<uni-icon name='…'/>`. Never inline SVG in components.",
+    " * Example: logo: \"data:image/svg+xml,%3Csvg xmlns='…' viewBox='0 0 24 24'%3E…%3C/svg%3E\",",
+    ' */',
+    'const icons: Icons = {};',
     '',
     ...(radii
       ? [`/** Shape language: '${input.shape}'. */`, `const radii = {\n${recordLiteral(radii as Record<string, string>, '  ')}\n};`, '']

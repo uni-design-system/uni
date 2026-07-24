@@ -14,6 +14,7 @@ import type { ColorToken, Icons } from '@uni-design-system/uni-core';
   host: {
     'aria-hidden': 'true',
     '[class]': 'className()',
+    '[style.mask-image]': 'path()',
     '[style.-webkit-mask-image]': 'path()',
   },
 })
@@ -23,9 +24,11 @@ export class UniIconComponent {
   color = input<ColorToken>();
   name = input.required<keyof Icons>();
 
-  protected readonly path = computed(
-    () => `url("${this.themeService.theme().icons[this.name()]}")`
-  );
+  /** Resolved from the theme's icon primitives; unknown names render nothing. */
+  protected readonly path = computed(() => {
+    const icon = this.themeService.theme().icons[this.name()];
+    return icon ? `url("${icon}")` : 'none';
+  });
 
   protected readonly className = computed(() =>
     css([{ ...this.themeService.color(this.color()) }])

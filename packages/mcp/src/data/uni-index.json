@@ -1,15 +1,15 @@
 {
   "meta": {
     "version": "5.2.0",
-    "builtAt": "2026-07-24T03:22:37.140Z",
+    "builtAt": "2026-07-24T10:37:46.736Z",
     "frameworks": [
       "angular"
     ],
     "counts": {
-      "components": 69,
-      "tokens": 272,
+      "components": 70,
+      "tokens": 296,
       "themes": 2,
-      "examples": 126
+      "examples": 130
     }
   },
   "components": [
@@ -1220,7 +1220,8 @@
         "accessibility": []
       },
       "relatedTokens": [
-        "checkbox.behavior.size"
+        "checkbox.behavior.size",
+        "checkbox.behavior.boxColor"
       ]
     },
     {
@@ -1458,6 +1459,58 @@
               "type": "number",
               "required": false,
               "default": "400",
+              "description": ""
+            },
+            {
+              "name": "label",
+              "kind": "input",
+              "type": "string",
+              "required": false,
+              "description": "Accessible name for the input."
+            },
+            {
+              "name": "placeholder",
+              "kind": "input",
+              "type": "string",
+              "required": false,
+              "default": "''",
+              "description": ""
+            },
+            {
+              "name": "disabled",
+              "kind": "input",
+              "type": "boolean",
+              "required": false,
+              "default": "false",
+              "description": ""
+            },
+            {
+              "name": "role",
+              "kind": "input",
+              "type": "string",
+              "required": false,
+              "description": ""
+            },
+            {
+              "name": "ariaExpanded",
+              "kind": "input",
+              "type": "boolean | undefined",
+              "required": false,
+              "default": "undefined",
+              "description": ""
+            },
+            {
+              "name": "ariaControls",
+              "kind": "input",
+              "type": "string",
+              "required": false,
+              "description": ""
+            },
+            {
+              "name": "ariaActivedescendant",
+              "kind": "input",
+              "type": "string",
+              "required": false,
               "description": ""
             },
             {
@@ -1799,12 +1852,12 @@
         {
           "title": "Dashboard Shell",
           "framework": "angular",
-          "code": "<!-- Storybook story: Dashboard Shell -->\n<div style=\"display: flex; flex-direction: column; height: 420px; border: 1px solid #8884; overflow: hidden;\">\n<uni-app-bar title=\"Console\">\n  <button leading icon-button symbolName=\"menu\" (click)=\"open = !open\">Toggle navigation</button>\n  <button trailing icon-button symbolName=\"account_circle\">Account</button>\n</uni-app-bar>\n<div style=\"display: flex; flex: 1; min-height: 0;\">\n  <uni-drawer mode=\"side\" [(open)]=\"open\">\n    <uni-text typeface=\"title-small\" display=\"block\">Dashboard</uni-text>\n    <uni-text typeface=\"title-small\" display=\"block\">Reports</uni-text>\n    <uni-text typeface=\"title-small\" display=\"block\">Settings</uni-text>\n  </uni-drawer>\n  <main style=\"flex: 1; padding: 16px; min-width: 0;\">\n    <uni-text typeface=\"headline-small\">Content</uni-text>\n    <uni-text typeface=\"body-1-long\" display=\"block\">\n      The side drawer pushes this content; toggle it from the app bar.\n    </uni-text>\n  </main>\n</div>\n</div>"
+          "code": "<!-- Storybook story: Dashboard Shell -->\n<div style=\"display: flex; flex-direction: column; height: 420px; overflow: hidden;\">\n<uni-app-bar title=\"Console\">\n  <button leading icon-button symbolName=\"menu\" (click)=\"open = !open\">Toggle navigation</button>\n  <button trailing icon-button symbolName=\"account_circle\">Account</button>\n</uni-app-bar>\n<div style=\"display: flex; flex: 1; min-height: 0;\">\n  <uni-drawer mode=\"side\" [(open)]=\"open\">\n    <uni-text typeface=\"title-small\" display=\"block\">Dashboard</uni-text>\n    <uni-text typeface=\"title-small\" display=\"block\">Reports</uni-text>\n    <uni-text typeface=\"title-small\" display=\"block\">Settings</uni-text>\n  </uni-drawer>\n  <main style=\"flex: 1; padding: 16px; min-width: 0;\">\n    <uni-text typeface=\"headline-small\">Content</uni-text>\n    <uni-text typeface=\"body-1-long\" display=\"block\">\n      The side drawer pushes this content; toggle it from the app bar.\n    </uni-text>\n  </main>\n</div>\n</div>"
         },
         {
           "title": "Overlay",
           "framework": "angular",
-          "code": "<!-- Storybook story: Overlay -->\n<div style=\"display: flex; flex-direction: column; height: 420px; border: 1px solid #8884; overflow: hidden;\">\n<uni-app-bar title=\"Console\">\n  <button leading icon-button symbolName=\"menu\" (click)=\"open = !open\">Toggle navigation</button>\n  <button trailing icon-button symbolName=\"account_circle\">Account</button>\n</uni-app-bar>\n<div style=\"display: flex; flex: 1; min-height: 0;\">\n  <uni-drawer mode=\"side\" [(open)]=\"open\">\n    <uni-text typeface=\"title-small\" display=\"block\">Dashboard</uni-text>\n    <uni-text typeface=\"title-small\" display=\"block\">Reports</uni-text>\n    <uni-text typeface=\"title-small\" display=\"block\">Settings</uni-text>\n  </uni-drawer>\n  <main style=\"flex: 1; padding: 16px; min-width: 0;\">\n    <uni-text typeface=\"headline-small\">Content</uni-text>\n    <uni-text typeface=\"body-1-long\" display=\"block\">\n      The side drawer pushes this content; toggle it from the app bar.\n    </uni-text>\n  </main>\n</div>\n</div>"
+          "code": "<!-- Storybook story: Overlay -->\n<div style=\"display: flex; flex-direction: column; height: 420px; overflow: hidden;\">\n<uni-app-bar title=\"Console\">\n  <button leading icon-button symbolName=\"menu\" (click)=\"open = !open\">Toggle navigation</button>\n  <button trailing icon-button symbolName=\"account_circle\">Account</button>\n</uni-app-bar>\n<div style=\"display: flex; flex: 1; min-height: 0;\">\n  <uni-drawer mode=\"side\" [(open)]=\"open\">\n    <uni-text typeface=\"title-small\" display=\"block\">Dashboard</uni-text>\n    <uni-text typeface=\"title-small\" display=\"block\">Reports</uni-text>\n    <uni-text typeface=\"title-small\" display=\"block\">Settings</uni-text>\n  </uni-drawer>\n  <main style=\"flex: 1; padding: 16px; min-width: 0;\">\n    <uni-text typeface=\"headline-small\">Content</uni-text>\n    <uni-text typeface=\"body-1-long\" display=\"block\">\n      The side drawer pushes this content; toggle it from the app bar.\n    </uni-text>\n  </main>\n</div>\n</div>"
         }
       ],
       "guidelines": {
@@ -3625,7 +3678,11 @@
         "donts": [],
         "accessibility": []
       },
-      "relatedTokens": []
+      "relatedTokens": [
+        "radio.behavior.size",
+        "radio.behavior.ringColor",
+        "radio.behavior.fillColor"
+      ]
     },
     {
       "id": "ripple",
@@ -3871,6 +3928,13 @@
               "kind": "input",
               "type": "string",
               "required": true,
+              "description": "Accessible name for the field, also the placeholder fallback."
+            },
+            {
+              "name": "placeholder",
+              "kind": "input",
+              "type": "string",
+              "required": false,
               "description": ""
             },
             {
@@ -3880,6 +3944,22 @@
               "required": false,
               "default": "'100%'",
               "description": ""
+            },
+            {
+              "name": "debounceTime",
+              "kind": "input",
+              "type": "number",
+              "required": false,
+              "default": "400",
+              "description": ""
+            },
+            {
+              "name": "suggestions",
+              "kind": "input",
+              "type": "string[]",
+              "required": false,
+              "default": "[]",
+              "description": "Type-ahead entries. Keep them fresh from `change` emissions; the list shows while the field has focus and entries exist."
             },
             {
               "name": "change",
@@ -3894,6 +3974,13 @@
               "type": "string",
               "required": false,
               "description": ""
+            },
+            {
+              "name": "suggestionSelected",
+              "kind": "output",
+              "type": "string",
+              "required": false,
+              "description": ""
             }
           ]
         }
@@ -3902,7 +3989,12 @@
         {
           "title": "Primary",
           "framework": "angular",
-          "code": "<!-- Storybook story: Primary -->\n<!-- args:\n{\n    label: 'Search',\n  }\n-->"
+          "code": "<!-- Storybook story: Primary -->\n<uni-search-input\nlabel=\"Search the docs\"\n[debounceTime]=\"200\"\n[suggestions]=\"suggestions\"\n(change)=\"filter($event)\"\n(search)=\"log($event)\"\nstyle=\"max-width: 420px;\"\n></uni-search-input>\n<!-- args:\n{ label: 'Search' }\n-->"
+        },
+        {
+          "title": "Type-ahead",
+          "framework": "angular",
+          "code": "<!-- Storybook story: Type-ahead -->\n<uni-search-input\nlabel=\"Search the docs\"\n[debounceTime]=\"200\"\n[suggestions]=\"suggestions\"\n(change)=\"filter($event)\"\n(search)=\"log($event)\"\nstyle=\"max-width: 420px;\"\n></uni-search-input>"
         }
       ],
       "guidelines": {
@@ -4445,6 +4537,103 @@
         "accessibility": []
       },
       "relatedTokens": []
+    },
+    {
+      "id": "stat",
+      "name": "Stat",
+      "status": "stable",
+      "summary": "",
+      "description": "",
+      "category": "components",
+      "version": "5.2.0",
+      "bindings": {
+        "angular": {
+          "importPath": "@uni-design-system/uni-angular",
+          "selectorOrTag": "uni-stat, Stat",
+          "api": [
+            {
+              "name": "label",
+              "kind": "input",
+              "type": "string",
+              "required": true,
+              "description": "What is being measured, sentence case."
+            },
+            {
+              "name": "value",
+              "kind": "input",
+              "type": "string | number",
+              "required": true,
+              "description": "The headline number: strings render verbatim, numbers auto-compact."
+            },
+            {
+              "name": "delta",
+              "kind": "input",
+              "type": "string",
+              "required": false,
+              "description": "Signed change, e.g. \"+12.4%\" or \"-0.4%\". The sign drives the arrow."
+            },
+            {
+              "name": "upIsGood",
+              "kind": "input",
+              "type": "boolean",
+              "required": false,
+              "default": "true",
+              "description": "Whether an upward movement is good news. Flip for churn, errors, cost."
+            },
+            {
+              "name": "caption",
+              "kind": "input",
+              "type": "string",
+              "required": false,
+              "description": "Names the comparison period, e.g. \"vs last month\"."
+            },
+            {
+              "name": "trend",
+              "kind": "input",
+              "type": "number[] | undefined",
+              "required": false,
+              "default": "undefined",
+              "description": "Recent values for the decorative sparkline (12 points reads best)."
+            }
+          ]
+        }
+      },
+      "examples": [
+        {
+          "title": "Default",
+          "framework": "angular",
+          "code": "<!-- Storybook story: Default -->\n<uni-stat ${argsToTemplate(props)}></uni-stat>\n<!-- args:\n{\n    label: 'Monthly recurring revenue',\n    value: '$48.2K',\n    delta: '+12.4%',\n    caption: 'vs last month',\n    trend: [31, 34, 33, 38, 37, 41, 40, 44, 43, 46, 47, 48],\n  }\n-->"
+        },
+        {
+          "title": "Down is good (churn)",
+          "framework": "angular",
+          "code": "<!-- Storybook story: Down is good (churn) -->\n<uni-stat ${argsToTemplate(props)}></uni-stat>\n<!-- args:\n{\n    label: 'Churn rate',\n    value: '2.1%',\n    delta: '-0.4%',\n    upIsGood: false,\n    caption: 'vs last month',\n    trend: [3.2, 3.1, 3.0, 2.8, 2.9, 2.7, 2.6, 2.4, 2.5, 2.3, 2.2, 2.1],\n  }\n-->"
+        },
+        {
+          "title": "KPI row",
+          "framework": "angular",
+          "code": "<!-- Storybook story: KPI row -->\n<uni-stat ${argsToTemplate(props)}></uni-stat>"
+        }
+      ],
+      "guidelines": {
+        "whenToUse": "",
+        "dos": [],
+        "donts": [],
+        "accessibility": []
+      },
+      "relatedTokens": [
+        "stat.behavior.labelTypeface",
+        "stat.behavior.valueTypeface",
+        "stat.behavior.color",
+        "stat.behavior.border",
+        "stat.behavior.borderRadius",
+        "stat.behavior.positiveColor",
+        "stat.behavior.negativeColor",
+        "stat.behavior.trendColor",
+        "stat.behavior.trendAccent",
+        "stat.behavior.padding",
+        "stat.behavior.gap"
+      ]
     },
     {
       "id": "symbol",
@@ -5028,7 +5217,9 @@
         "accessibility": []
       },
       "relatedTokens": [
-        "toggle.behavior.size"
+        "toggle.behavior.size",
+        "toggle.behavior.trackColor",
+        "toggle.behavior.knobColor"
       ]
     },
     {
@@ -6575,6 +6766,17 @@
       }
     },
     {
+      "id": "typography.stat",
+      "value": "{\"fontFamily\":\"Red Hat Display\",\"fontSize\":32,\"lineHeight\":38,\"fontWeight\":600,\"letterSpacing\":-0.32}",
+      "type": "typography",
+      "kind": "style",
+      "target": "emotion-css",
+      "themeValues": {
+        "LightTheme": "{\"fontFamily\":\"Red Hat Display\",\"fontSize\":32,\"lineHeight\":38,\"fontWeight\":600,\"letterSpacing\":-0.32}",
+        "DarkTheme": "{\"fontFamily\":\"Red Hat Display\",\"fontSize\":32,\"lineHeight\":38,\"fontWeight\":600,\"letterSpacing\":-0.32}"
+      }
+    },
+    {
       "id": "typography.tag",
       "value": "{\"fontFamily\":\"Red Hat Display\",\"fontSize\":15,\"lineHeight\":20,\"fontWeight\":600}",
       "type": "typography",
@@ -6921,6 +7123,78 @@
       }
     },
     {
+      "id": "searchInput.behavior.searchSymbol",
+      "value": "search",
+      "type": "string",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "searchInput",
+      "themeValues": {
+        "LightTheme": "search",
+        "DarkTheme": "search"
+      }
+    },
+    {
+      "id": "searchInput.behavior.clearSymbol",
+      "value": "close",
+      "type": "string",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "searchInput",
+      "themeValues": {
+        "LightTheme": "close",
+        "DarkTheme": "close"
+      }
+    },
+    {
+      "id": "searchInput.behavior.listColor",
+      "value": "primary-surface",
+      "type": "string",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "searchInput",
+      "themeValues": {
+        "LightTheme": "primary-surface",
+        "DarkTheme": "primary-surface"
+      }
+    },
+    {
+      "id": "searchInput.behavior.listShadow",
+      "value": "menu",
+      "type": "string",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "searchInput",
+      "themeValues": {
+        "LightTheme": "menu",
+        "DarkTheme": "menu"
+      }
+    },
+    {
+      "id": "searchInput.behavior.listBorderRadius",
+      "value": "xs",
+      "type": "string",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "searchInput",
+      "themeValues": {
+        "LightTheme": "xs",
+        "DarkTheme": "xs"
+      }
+    },
+    {
+      "id": "searchInput.behavior.maxSuggestions",
+      "value": 8,
+      "type": "number",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "searchInput",
+      "themeValues": {
+        "LightTheme": 8,
+        "DarkTheme": 8
+      }
+    },
+    {
       "id": "checkbox.behavior.size",
       "value": 20,
       "type": "number",
@@ -6930,6 +7204,54 @@
       "themeValues": {
         "LightTheme": 20,
         "DarkTheme": 20
+      }
+    },
+    {
+      "id": "checkbox.behavior.boxColor",
+      "value": "surface",
+      "type": "string",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "checkbox",
+      "themeValues": {
+        "LightTheme": "surface",
+        "DarkTheme": "surface"
+      }
+    },
+    {
+      "id": "radio.behavior.size",
+      "value": 20,
+      "type": "number",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "radio",
+      "themeValues": {
+        "LightTheme": 20,
+        "DarkTheme": 20
+      }
+    },
+    {
+      "id": "radio.behavior.ringColor",
+      "value": "outline",
+      "type": "string",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "radio",
+      "themeValues": {
+        "LightTheme": "outline",
+        "DarkTheme": "outline"
+      }
+    },
+    {
+      "id": "radio.behavior.fillColor",
+      "value": "surface",
+      "type": "string",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "radio",
+      "themeValues": {
+        "LightTheme": "surface",
+        "DarkTheme": "surface"
       }
     },
     {
@@ -8013,6 +8335,138 @@
       }
     },
     {
+      "id": "stat.behavior.labelTypeface",
+      "value": "label",
+      "type": "string",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "stat",
+      "themeValues": {
+        "LightTheme": "label",
+        "DarkTheme": "label"
+      }
+    },
+    {
+      "id": "stat.behavior.valueTypeface",
+      "value": "stat",
+      "type": "string",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "stat",
+      "themeValues": {
+        "LightTheme": "stat",
+        "DarkTheme": "stat"
+      }
+    },
+    {
+      "id": "stat.behavior.color",
+      "value": "surface",
+      "type": "string",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "stat",
+      "themeValues": {
+        "LightTheme": "surface",
+        "DarkTheme": "surface"
+      }
+    },
+    {
+      "id": "stat.behavior.border",
+      "value": "light",
+      "type": "string",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "stat",
+      "themeValues": {
+        "LightTheme": "light",
+        "DarkTheme": "light"
+      }
+    },
+    {
+      "id": "stat.behavior.borderRadius",
+      "value": "xs",
+      "type": "string",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "stat",
+      "themeValues": {
+        "LightTheme": "xs",
+        "DarkTheme": "xs"
+      }
+    },
+    {
+      "id": "stat.behavior.positiveColor",
+      "value": "success",
+      "type": "string",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "stat",
+      "themeValues": {
+        "LightTheme": "success",
+        "DarkTheme": "success"
+      }
+    },
+    {
+      "id": "stat.behavior.negativeColor",
+      "value": "error",
+      "type": "string",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "stat",
+      "themeValues": {
+        "LightTheme": "error",
+        "DarkTheme": "error"
+      }
+    },
+    {
+      "id": "stat.behavior.trendColor",
+      "value": "outline",
+      "type": "string",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "stat",
+      "themeValues": {
+        "LightTheme": "outline",
+        "DarkTheme": "outline"
+      }
+    },
+    {
+      "id": "stat.behavior.trendAccent",
+      "value": "primary",
+      "type": "string",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "stat",
+      "themeValues": {
+        "LightTheme": "primary",
+        "DarkTheme": "primary"
+      }
+    },
+    {
+      "id": "stat.behavior.padding",
+      "value": "md",
+      "type": "string",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "stat",
+      "themeValues": {
+        "LightTheme": "md",
+        "DarkTheme": "md"
+      }
+    },
+    {
+      "id": "stat.behavior.gap",
+      "value": "xxs",
+      "type": "string",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "stat",
+      "themeValues": {
+        "LightTheme": "xxs",
+        "DarkTheme": "xxs"
+      }
+    },
+    {
       "id": "slider.behavior.color",
       "value": "primary",
       "type": "string",
@@ -8241,6 +8695,30 @@
       }
     },
     {
+      "id": "toggle.behavior.trackColor",
+      "value": "surface-variant",
+      "type": "string",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "toggle",
+      "themeValues": {
+        "LightTheme": "surface-variant",
+        "DarkTheme": "surface-variant"
+      }
+    },
+    {
+      "id": "toggle.behavior.knobColor",
+      "value": "surface",
+      "type": "string",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "toggle",
+      "themeValues": {
+        "LightTheme": "surface",
+        "DarkTheme": "surface"
+      }
+    },
+    {
       "id": "tooltip.behavior.borderRadius",
       "value": "xs",
       "type": "string",
@@ -8424,6 +8902,7 @@
         "typography.quote": "{\"fontFamily\":\"Roboto\",\"fontSize\":16,\"lineHeight\":24}",
         "typography.note": "{\"fontFamily\":\"Roboto\",\"fontSize\":14,\"lineHeight\":22,\"fontStyle\":\"italic\"}",
         "typography.badge": "{\"fontFamily\":\"Red Hat Display\",\"fontSize\":16,\"lineHeight\":24}",
+        "typography.stat": "{\"fontFamily\":\"Red Hat Display\",\"fontSize\":32,\"lineHeight\":38,\"fontWeight\":600,\"letterSpacing\":-0.32}",
         "typography.tag": "{\"fontFamily\":\"Red Hat Display\",\"fontSize\":15,\"lineHeight\":20,\"fontWeight\":600}",
         "typography.input": "{\"fontFamily\":\"Red Hat Display\",\"fontSize\":14,\"lineHeight\":24}"
       },
@@ -8467,8 +8946,22 @@
           "ringColor": "surface",
           "ringWidth": 2
         },
+        "searchInput": {
+          "searchSymbol": "search",
+          "clearSymbol": "close",
+          "listColor": "primary-surface",
+          "listShadow": "menu",
+          "listBorderRadius": "xs",
+          "maxSuggestions": 8
+        },
         "checkbox": {
-          "size": 20
+          "size": 20,
+          "boxColor": "surface"
+        },
+        "radio": {
+          "size": 20,
+          "ringColor": "outline",
+          "fillColor": "surface"
         },
         "dialog": {
           "borderRadius": "lg",
@@ -8592,6 +9085,19 @@
           "currentPageBorder": "light",
           "currentPageBorderRadius": "xs"
         },
+        "stat": {
+          "labelTypeface": "label",
+          "valueTypeface": "stat",
+          "color": "surface",
+          "border": "light",
+          "borderRadius": "xs",
+          "positiveColor": "success",
+          "negativeColor": "error",
+          "trendColor": "outline",
+          "trendAccent": "primary",
+          "padding": "md",
+          "gap": "xxs"
+        },
         "slider": {
           "color": "primary",
           "trackColor": "surface-variant",
@@ -8619,7 +9125,9 @@
           "opticalSize": 24
         },
         "toggle": {
-          "size": 20
+          "size": 20,
+          "trackColor": "surface-variant",
+          "knobColor": "surface"
         },
         "tooltip": {
           "borderRadius": "xs",
@@ -8764,6 +9272,7 @@
         "typography.quote": "{\"fontFamily\":\"Roboto\",\"fontSize\":16,\"lineHeight\":24}",
         "typography.note": "{\"fontFamily\":\"Roboto\",\"fontSize\":14,\"lineHeight\":22,\"fontStyle\":\"italic\"}",
         "typography.badge": "{\"fontFamily\":\"Red Hat Display\",\"fontSize\":16,\"lineHeight\":24}",
+        "typography.stat": "{\"fontFamily\":\"Red Hat Display\",\"fontSize\":32,\"lineHeight\":38,\"fontWeight\":600,\"letterSpacing\":-0.32}",
         "typography.tag": "{\"fontFamily\":\"Red Hat Display\",\"fontSize\":15,\"lineHeight\":20,\"fontWeight\":600}",
         "typography.input": "{\"fontFamily\":\"Red Hat Display\",\"fontSize\":14,\"lineHeight\":24}"
       },
@@ -8807,8 +9316,22 @@
           "ringColor": "surface",
           "ringWidth": 2
         },
+        "searchInput": {
+          "searchSymbol": "search",
+          "clearSymbol": "close",
+          "listColor": "primary-surface",
+          "listShadow": "menu",
+          "listBorderRadius": "xs",
+          "maxSuggestions": 8
+        },
         "checkbox": {
-          "size": 20
+          "size": 20,
+          "boxColor": "surface"
+        },
+        "radio": {
+          "size": 20,
+          "ringColor": "outline",
+          "fillColor": "surface"
         },
         "dialog": {
           "borderRadius": "lg",
@@ -8932,6 +9455,19 @@
           "currentPageBorder": "light",
           "currentPageBorderRadius": "xs"
         },
+        "stat": {
+          "labelTypeface": "label",
+          "valueTypeface": "stat",
+          "color": "surface",
+          "border": "light",
+          "borderRadius": "xs",
+          "positiveColor": "success",
+          "negativeColor": "error",
+          "trendColor": "outline",
+          "trendAccent": "primary",
+          "padding": "md",
+          "gap": "xxs"
+        },
         "slider": {
           "color": "primary",
           "trackColor": "surface-variant",
@@ -8959,7 +9495,9 @@
           "opticalSize": 24
         },
         "toggle": {
-          "size": 20
+          "size": 20,
+          "trackColor": "surface-variant",
+          "knobColor": "surface"
         },
         "tooltip": {
           "borderRadius": "xs",

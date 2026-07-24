@@ -38,7 +38,7 @@ export const DashboardShell: Story = {
   render: () => ({
     props: { open: true },
     template: `
-      <div style="display: flex; flex-direction: column; height: 420px; border: 1px solid #8884; overflow: hidden;">
+      <div style="display: flex; flex-direction: column; height: 420px; overflow: hidden;">
         <uni-app-bar title="Console">
           <button leading icon-button symbolName="menu" (click)="open = !open">Toggle navigation</button>
           <button trailing icon-button symbolName="account_circle">Account</button>

@@ -2,6 +2,7 @@ import type { ComponentThemes } from '../../component';
 import { generatePalette, type PaletteConfig } from '../../color';
 import type { GenerateColorsConfig } from '../../generation/palette.factory';
 import { generateShadows } from '../../generation/shadow.generator';
+import { BaseIcons } from '../../iconography/icon.records';
 import type { TextRole, TextStyle } from '../../typography';
 import type {
   Borders,
@@ -537,6 +538,11 @@ export interface ThemeConfig {
   id: string;
   name: string;
   colors: Colors;
+  /**
+   * Named icon primitives (inline SVG data URIs, masked with `currentColor`),
+   * merged over {@link BaseIcons}. Add or override under any name; components
+   * render them by token via the icon component, never by inlining SVG.
+   */
   icons?: Icons;
   /** Override the radii scale, e.g. a generated shape-language preset. */
   radii?: Radii;
@@ -587,7 +593,7 @@ export const createTheme = ({
   shadows,
   spacing: BaseSpacing,
   thicknesses: BaseThicknesses,
-  icons,
+  icons: { ...BaseIcons, ...icons },
   components: deepMerge(buildComponents(colors), components),
 });
 

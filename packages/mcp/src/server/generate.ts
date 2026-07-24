@@ -62,6 +62,10 @@ export function formatGeneratedTheme(args: GenerateThemeArgs): string {
     '- **Components**: the `components` function returns sparse overrides deep-merged over',
     '  Uni defaults — set only what you change, e.g.',
     "  `button: { variants: { secondary: { border: borders(colors)['brush-stroke'] } } }`.",
+    '- **Icons**: never inline SVG in components. Define an icon ONCE in the theme file\'s',
+    '  `icons` map as an inline SVG data URI — it is masked with `currentColor`, so it',
+    "  recolors with the theme — then render it anywhere with `<uni-icon name='…'/>`.",
+    '  A built-in set (close, search, spinner, chevrons, …) ships with every theme.',
     '- Never hardcode hex values in application components: style through `ThemeService`',
     '  accessors and semantic token names so themes stay swappable.',
   ].join('\n');

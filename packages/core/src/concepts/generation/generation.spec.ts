@@ -274,6 +274,33 @@ describe('progressGauge token conformance', () => {
   });
 });
 
+describe('theme icon primitives', () => {
+  it('every theme ships the default icon set, with per-icon override and extension', () => {
+    const theme = createTheme({
+      id: 'T',
+      name: 'T',
+      colors: lightColors,
+      icons: { close: 'data:image/svg+xml,custom', logo: 'data:image/svg+xml,brand' },
+    });
+    // Defaults present without any config…
+    for (const name of ['close', 'search', 'spinner', 'chevronDown']) {
+      expect(createTheme({ id: 'D', name: 'D', colors: lightColors }).icons[name]).toContain(
+        'data:image/svg+xml'
+      );
+    }
+    // …theme icons merge over them: override wins, additions land, rest survive.
+    expect(theme.icons['close']).toBe('data:image/svg+xml,custom');
+    expect(theme.icons['logo']).toBe('data:image/svg+xml,brand');
+    expect(theme.icons['search']).toContain('data:image/svg+xml');
+  });
+
+  it('the emitted theme file carries an editable icons section', () => {
+    const { content } = emitThemeFile({ seed: '#0052FF' });
+    expect(content).toContain('const icons: Icons = {};');
+    expect(content).toContain('icons,');
+  });
+});
+
 describe('createTheme overrides', () => {
   it('deep-merges custom border primitives and component overrides over derived defaults', () => {
     const theme = createTheme({

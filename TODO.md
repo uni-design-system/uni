@@ -44,8 +44,9 @@ audits: `packages/angular/TODO.md` (v4 audit) and `uni-theme-generation-plan.md`
       build it (app-bar sibling) or remove the declaration.
 - [ ] **Input `typeFace` option casing** → `typeface` (tooltip/button/tabs precedent),
       with a deprecated alias; do alongside the next input-box change.
-- [ ] **`icons: {}` empty in BaseTheme** — audit whether anything reads theme icons;
-      populate from `icon.record` or drop the concept.
+- [x] ~~`icons: {}` empty in BaseTheme~~ — audited 2026-07-24: `uni-icon` reads it and
+      every icon was invisible. `BaseIcons` now lives in core and merges into every
+      `createTheme`; emitter + MCP teach icons-in-theme (never inline SVG).
 - [ ] DarkTheme legacy `inverse-on-surface` key — remove once nothing references it.
 - [ ] notification-badge `offset` fallback for themes that omit it.
 - [ ] multi-select-dropdown search debounce (reuse debounce-input's signal pattern).
