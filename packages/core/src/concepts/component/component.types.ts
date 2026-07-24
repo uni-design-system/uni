@@ -30,6 +30,7 @@ export type ComponentName =
   | 'symbol'
   | 'progressBar'
   | 'progressGauge'
+  | 'tabs'
   | 'textarea'
   | 'textButton'
   | 'toggle'

@@ -184,6 +184,23 @@ const buildComponents = (c: Colors): ComponentThemes => ({
   // Field chrome (color/border/typeface/focus) comes from the shared `input`
   // options via uni-input-box; these are the textarea-specific behaviors.
   textarea: { options: { rows: 3, resize: 'vertical' } },
+  // Every visual knob is a token, so a theme can turn the default underline
+  // tabs into pills (borderRadius 'max' + activeColor) or restyle the
+  // indicator without touching component code.
+  tabs: {
+    options: {
+      typeface: 'title-small',
+      textColor: 'on-surface-variant',
+      activeTextColor: 'primary',
+      indicatorColor: 'primary',
+      indicatorThickness: 'standard',
+      divider: 'light',
+      gap: 'sm',
+      borderRadius: 'none',
+      padding: 'md',
+      activeColor: undefined,
+    },
+  },
   multiSelectDropdown: {
     options: {
       textRole: 'input',
