@@ -5,6 +5,7 @@
   "private": true,
   "scripts": {
     "build": "turbo run build",
+    "version-packages": "changeset version && turbo run build-storybook --filter=@uni-design-system/uni-angular && pnpm --filter @uni-design-system/uni-mcp build-index",
     "dev": "turbo run storybook",
     "dev:hub": "turbo run storybook --filter=@uni-design-system/uni-docs --filter=@uni-design-system/uni-react --filter=@uni-design-system/uni-angular",
     "format": "prettier --write .",

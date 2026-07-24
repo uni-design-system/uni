@@ -24,7 +24,7 @@
   ],
   "scripts": {
     "build-index": "tsx src/build/index.ts",
-    "build": "pnpm build-index && tsup",
+    "build": "tsup",
     "build:server": "tsup",
     "dev": "tsx watch src/server/stdio.ts",
     "serve:http": "tsx src/server/http.ts",

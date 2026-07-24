@@ -1,7 +1,7 @@
 {
   "meta": {
-    "version": "5.0.0",
-    "builtAt": "2026-07-24T00:56:53.364Z",
+    "version": "5.1.0",
+    "builtAt": "2026-07-24T01:12:45.614Z",
     "frameworks": [
       "angular"
     ],
@@ -20,7 +20,7 @@
       "summary": "",
       "description": "",
       "category": "feedback",
-      "version": "5.0.0",
+      "version": "5.1.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -94,7 +94,7 @@
       "summary": "",
       "description": "",
       "category": "primitives",
-      "version": "5.0.0",
+      "version": "5.1.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -171,7 +171,7 @@
       "summary": "",
       "description": "",
       "category": "feedback",
-      "version": "5.0.0",
+      "version": "5.1.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -232,7 +232,7 @@
       "summary": "",
       "description": "",
       "category": "directives",
-      "version": "5.0.0",
+      "version": "5.1.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -256,7 +256,7 @@
       "summary": "",
       "description": "",
       "category": "layout",
-      "version": "5.0.0",
+      "version": "5.1.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -619,7 +619,7 @@
       "summary": "",
       "description": "",
       "category": "primitives",
-      "version": "5.0.0",
+      "version": "5.1.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -711,7 +711,7 @@
       "summary": "",
       "description": "",
       "category": "primitives",
-      "version": "5.0.0",
+      "version": "5.1.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -741,7 +741,7 @@
       "summary": "",
       "description": "",
       "category": "layout",
-      "version": "5.0.0",
+      "version": "5.1.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -773,7 +773,7 @@
       "summary": "",
       "description": "",
       "category": "layout",
-      "version": "5.0.0",
+      "version": "5.1.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -797,7 +797,7 @@
       "summary": "",
       "description": "",
       "category": "layout",
-      "version": "5.0.0",
+      "version": "5.1.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -838,7 +838,7 @@
       "summary": "",
       "description": "",
       "category": "layout",
-      "version": "5.0.0",
+      "version": "5.1.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -893,7 +893,7 @@
       "summary": "",
       "description": "",
       "category": "forms",
-      "version": "5.0.0",
+      "version": "5.1.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -1021,7 +1021,7 @@
       "summary": "",
       "description": "",
       "category": "feedback",
-      "version": "5.0.0",
+      "version": "5.1.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -1068,7 +1068,7 @@
       "summary": "",
       "description": "",
       "category": "forms",
-      "version": "5.0.0",
+      "version": "5.1.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -1126,7 +1126,7 @@
       "summary": "",
       "description": "",
       "category": "data",
-      "version": "5.0.0",
+      "version": "5.1.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -1223,7 +1223,7 @@
       "summary": "",
       "description": "",
       "category": "forms",
-      "version": "5.0.0",
+      "version": "5.1.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -1283,7 +1283,7 @@
       "summary": "",
       "description": "",
       "category": "feedback",
-      "version": "5.0.0",
+      "version": "5.1.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -1357,7 +1357,7 @@
       "summary": "",
       "description": "",
       "category": "feedback",
-      "version": "5.0.0",
+      "version": "5.1.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -1442,7 +1442,7 @@
       "summary": "",
       "description": "",
       "category": "feedback",
-      "version": "5.0.0",
+      "version": "5.1.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -1466,7 +1466,7 @@
       "summary": "",
       "description": "",
       "category": "layout",
-      "version": "5.0.0",
+      "version": "5.1.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -1513,7 +1513,7 @@
       "summary": "",
       "description": "",
       "category": "directives",
-      "version": "5.0.0",
+      "version": "5.1.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -1545,7 +1545,7 @@
       "summary": "",
       "description": "",
       "category": "components",
-      "version": "5.0.0",
+      "version": "5.1.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -1634,7 +1634,7 @@
       "summary": "",
       "description": "",
       "category": "layout",
-      "version": "5.0.0",
+      "version": "5.1.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -1673,7 +1673,7 @@
       "summary": "",
       "description": "",
       "category": "layout",
-      "version": "5.0.0",
+      "version": "5.1.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -1734,7 +1734,7 @@
       "summary": "",
       "description": "",
       "category": "forms",
-      "version": "5.0.0",
+      "version": "5.1.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -1780,7 +1780,7 @@
       "summary": "",
       "description": "",
       "category": "forms",
-      "version": "5.0.0",
+      "version": "5.1.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -1908,7 +1908,7 @@
       "summary": "",
       "description": "",
       "category": "layout",
-      "version": "5.0.0",
+      "version": "5.1.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -1982,7 +1982,7 @@
       "summary": "",
       "description": "",
       "category": "layout",
-      "version": "5.0.0",
+      "version": "5.1.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -2014,7 +2014,7 @@
       "summary": "",
       "description": "",
       "category": "primitives",
-      "version": "5.0.0",
+      "version": "5.1.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -2059,7 +2059,7 @@
       "summary": "",
       "description": "",
       "category": "primitives",
-      "version": "5.0.0",
+      "version": "5.1.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -2149,7 +2149,7 @@
       "summary": "",
       "description": "",
       "category": "forms",
-      "version": "5.0.0",
+      "version": "5.1.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -2289,7 +2289,7 @@
       "summary": "",
       "description": "",
       "category": "forms",
-      "version": "5.0.0",
+      "version": "5.1.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -2354,7 +2354,7 @@
       "summary": "",
       "description": "",
       "category": "components",
-      "version": "5.0.0",
+      "version": "5.1.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -2424,7 +2424,7 @@
       "summary": "",
       "description": "",
       "category": "layout",
-      "version": "5.0.0",
+      "version": "5.1.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -2484,7 +2484,7 @@
       "summary": "",
       "description": "",
       "category": "layout",
-      "version": "5.0.0",
+      "version": "5.1.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -2600,7 +2600,7 @@
       "summary": "",
       "description": "",
       "category": "forms",
-      "version": "5.0.0",
+      "version": "5.1.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -2685,7 +2685,7 @@
       "summary": "",
       "description": "",
       "category": "forms",
-      "version": "5.0.0",
+      "version": "5.1.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -2816,7 +2816,7 @@
       "summary": "",
       "description": "",
       "category": "feedback",
-      "version": "5.0.0",
+      "version": "5.1.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -2942,7 +2942,7 @@
       "summary": "",
       "description": "",
       "category": "feedback",
-      "version": "5.0.0",
+      "version": "5.1.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -2966,7 +2966,7 @@
       "summary": "",
       "description": "",
       "category": "data",
-      "version": "5.0.0",
+      "version": "5.1.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -3048,7 +3048,7 @@
       "summary": "",
       "description": "",
       "category": "layout",
-      "version": "5.0.0",
+      "version": "5.1.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -3095,7 +3095,7 @@
       "summary": "",
       "description": "",
       "category": "feedback",
-      "version": "5.0.0",
+      "version": "5.1.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -3157,7 +3157,7 @@
       "summary": "",
       "description": "",
       "category": "feedback",
-      "version": "5.0.0",
+      "version": "5.1.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -3203,7 +3203,7 @@
       "summary": "",
       "description": "",
       "category": "forms",
-      "version": "5.0.0",
+      "version": "5.1.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -3342,7 +3342,7 @@
       "summary": "",
       "description": "",
       "category": "directives",
-      "version": "5.0.0",
+      "version": "5.1.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -3366,7 +3366,7 @@
       "summary": "",
       "description": "",
       "category": "layout",
-      "version": "5.0.0",
+      "version": "5.1.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -3421,7 +3421,7 @@
       "summary": "",
       "description": "",
       "category": "layout",
-      "version": "5.0.0",
+      "version": "5.1.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -3568,7 +3568,7 @@
       "summary": "",
       "description": "",
       "category": "forms",
-      "version": "5.0.0",
+      "version": "5.1.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -3628,7 +3628,7 @@
       "summary": "",
       "description": "",
       "category": "forms",
-      "version": "5.0.0",
+      "version": "5.1.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -3761,7 +3761,7 @@
       "summary": "",
       "description": "",
       "category": "feedback",
-      "version": "5.0.0",
+      "version": "5.1.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -3853,7 +3853,7 @@
       "summary": "",
       "description": "",
       "category": "data",
-      "version": "5.0.0",
+      "version": "5.1.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -3898,7 +3898,7 @@
       "summary": "",
       "description": "",
       "category": "layout",
-      "version": "5.0.0",
+      "version": "5.1.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -3953,7 +3953,7 @@
       "summary": "",
       "description": "",
       "category": "primitives",
-      "version": "5.0.0",
+      "version": "5.1.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -4024,7 +4024,7 @@
       "summary": "",
       "description": "",
       "category": "data",
-      "version": "5.0.0",
+      "version": "5.1.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -4091,7 +4091,7 @@
       "summary": "",
       "description": "",
       "category": "primitives",
-      "version": "5.0.0",
+      "version": "5.1.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -4167,7 +4167,7 @@
       "summary": "",
       "description": "",
       "category": "primitives",
-      "version": "5.0.0",
+      "version": "5.1.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -4197,7 +4197,7 @@
       "summary": "",
       "description": "",
       "category": "forms",
-      "version": "5.0.0",
+      "version": "5.1.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -4317,7 +4317,7 @@
       "summary": "",
       "description": "",
       "category": "feedback",
-      "version": "5.0.0",
+      "version": "5.1.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -4392,7 +4392,7 @@
       "summary": "",
       "description": "",
       "category": "layout",
-      "version": "5.0.0",
+      "version": "5.1.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",

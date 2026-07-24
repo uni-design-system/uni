@@ -47,6 +47,14 @@ function main() {
     storybookBaseUrl: process.env.UNI_STORYBOOK_URL,
   });
   console.log(`  examples: ${examples.length}`);
+  if (examples.length === 0) {
+    // The adapter degrades gracefully per-story, but zero examples means the
+    // built storybook is missing entirely — an index without examples once
+    // shipped silently (4.1.1). Refuse to write one.
+    throw new Error(
+      `No storybook examples found — run \`turbo run build-storybook --filter=@uni-design-system/uni-angular\` first (looked in ${join(angularRoot, 'storybook-static')}).`,
+    );
+  }
 
   const index = normalize({
     version,
