@@ -1,0 +1,34 @@
+import { Meta, Title } from '@storybook/addon-docs/blocks';
+
+import * as Stories from './drawer.stories';
+import { StoryUsage } from '../../../stories/blocks/StoryUsage';
+import { StoryExample } from '../../../stories/blocks/StoryExample';
+
+<Meta of={Stories} />
+<Title />
+
+`import { UniDrawerComponent } from '@uni-design-system/uni-angular';`
+
+## Overview
+
+Navigation drawer with two modes sharing one content slot:
+
+- **`side`** renders an in-flow `<aside>` that pushes page content — the classic
+  dashboard sidenav. Opening and closing animates its width; a divider border primitive
+  separates it from the content, and it is hidden from assistive tech while closed.
+- **`over`** renders a native `<dialog>` in the top layer: focus trapping, Escape, and
+  the scrim backdrop come from the platform, and the panel slides in from its edge
+  (`position`: `start` or `end`).
+
+`[(open)]` is two-way; Escape and backdrop clicks keep it in sync. Surface, width,
+divider, elevation, padding and backdrop all resolve from the theme's `drawer` options.
+
+## The dashboard shell
+
+App bar with a menu toggle, side drawer, content — the standard application skeleton:
+
+<StoryUsage of={Stories.DashboardShell} />
+
+## Overlay mode
+
+<StoryExample of={Stories.Overlay} />

@@ -1,0 +1,38 @@
+import { Meta, Title } from '@storybook/addon-docs/blocks';
+
+import * as Stories from './avatar.stories';
+import { StoryUsage } from '../../../stories/blocks/StoryUsage';
+import { StoryExample } from '../../../stories/blocks/StoryExample';
+
+<Meta of={Stories} />
+<Title />
+
+`import { UniAvatarComponent } from '@uni-design-system/uni-angular';`
+
+`import { UniAvatarGroupComponent } from '@uni-design-system/uni-angular';`
+
+## Overview
+
+Identity avatar with a graceful fallback chain: the image when it loads, initials
+derived from `name` when it doesn't (or was never given), and a themed symbol as the
+last resort. The name doubles as the accessible label; avatars with no name are marked
+decorative automatically.
+
+Variants color initials from the role's container tokens, so avatars follow the brand
+palette in light and dark. The corner radius is the theme's `avatar.options.borderRadius`
+token — circles by default, squares under a `sharp` shape language.
+
+## Usage
+
+<StoryUsage of={Stories.Initials} />
+
+## Sizes & variants
+
+<StoryExample of={Stories.SizesAndVariants} />
+
+## Group
+
+`uni-avatar-group` stacks avatars with a themed overlap and separator ring. `max`
+collapses the overflow into a "+N" chip — itself an avatar with verbatim `text`.
+
+<StoryExample of={Stories.Group} />

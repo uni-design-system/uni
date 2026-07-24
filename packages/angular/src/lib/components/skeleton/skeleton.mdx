@@ -1,0 +1,29 @@
+import { Meta, Title } from '@storybook/addon-docs/blocks';
+
+import * as Stories from './skeleton.stories';
+import { StoryUsage } from '../../../stories/blocks/StoryUsage';
+import { StoryExample } from '../../../stories/blocks/StoryExample';
+
+<Meta of={Stories} />
+<Title />
+
+`import { UniSkeletonComponent } from '@uni-design-system/uni-angular';`
+
+## Overview
+
+Loading placeholder that sketches the shape of incoming content: `text` renders one or
+more lines (ending on a short line, as real copy would), `rect` stands in for media and
+charts, `circle` for avatars. Skeletons paint with the theme's surface tokens so they
+sit naturally on any brand in both modes, and the shimmer sweep only animates for users
+who allow motion — under `prefers-reduced-motion` it degrades to calm static blocks.
+
+Skeletons are `aria-hidden`; announce loading on the container (e.g. `aria-busy`)
+where your app knows what is actually loading.
+
+## Usage
+
+<StoryUsage of={Stories.TextLines} />
+
+## Composing a placeholder card
+
+<StoryExample of={Stories.CardPlaceholder} />

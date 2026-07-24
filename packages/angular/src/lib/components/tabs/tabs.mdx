@@ -1,0 +1,35 @@
+import { Meta, Title } from '@storybook/addon-docs/blocks';
+
+import * as Stories from './tabs.stories';
+import { StoryUsage } from '../../../stories/blocks/StoryUsage';
+import { StoryExample } from '../../../stories/blocks/StoryExample';
+
+<Meta of={Stories} />
+<Title />
+
+`import { UniTabsComponent } from '@uni-design-system/uni-angular';`
+
+`import { UniTabComponent } from '@uni-design-system/uni-angular';`
+
+## Overview
+
+Tabs organize peer views behind a single switcher. Each `uni-tab` supplies a label and
+its panel content; only the selected panel is instantiated, so heavy tab content costs
+nothing until visited. The full WAI-ARIA tabs pattern is built in: arrow keys move
+between tabs (wrapping, skipping disabled tabs), Home/End jump to the extremes, and
+selection follows focus.
+
+Every visual aspect resolves from the theme's `tabs` options — label typeface, colors,
+the indicator's color and thickness, the divider, spacing, and radius. The default
+tokens render underline tabs; a theme that sets `borderRadius: 'max'` and an
+`activeColor` gets segmented pills without any component changes.
+
+## Usage
+
+<StoryUsage of={Stories.Default} />
+
+## Disabled tabs
+
+Disabled tabs stay visible but can't be selected — pointer and keyboard both skip them.
+
+<StoryExample of={Stories.WithDisabledTab} />

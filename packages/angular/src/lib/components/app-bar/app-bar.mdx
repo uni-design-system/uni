@@ -1,0 +1,24 @@
+import { Meta, Title } from '@storybook/addon-docs/blocks';
+
+import * as Stories from './app-bar.stories';
+import { StoryUsage } from '../../../stories/blocks/StoryUsage';
+
+<Meta of={Stories} />
+<Title />
+
+`import { UniAppBarComponent } from '@uni-design-system/uni-angular';`
+
+## Overview
+
+Horizontal application bar for the top of a page or section. Project controls with the
+`leading` attribute (menu button, logo) and actions with `trailing` (pushed to the far
+edge); pass `title` or project your own center content. Surface color, height, the
+divider rule, title typography and spacing all resolve from the theme's `appBar`
+options, and `sticky` pins the bar to the top of its scroll container.
+
+Place it inside your page's `<header>` landmark. It pairs with the Drawer — see the
+Drawer docs for the full dashboard-shell recipe.
+
+## Usage
+
+<StoryUsage of={Stories.Default} />

@@ -1,0 +1,34 @@
+import { Meta, Title } from '@storybook/addon-docs/blocks';
+
+import * as Stories from './textarea.stories';
+import { StoryUsage } from '../../../stories/blocks/StoryUsage';
+import { StoryExample } from '../../../stories/blocks/StoryExample';
+
+<Meta of={Stories} />
+<Title />
+
+`import { UniTextareaComponent } from '@uni-design-system/uni-angular';`
+
+## Overview
+
+Multi-line text field with the same Signal Forms contract as Input — use it anywhere
+free-form text runs past one line (comments, descriptions, feedback). It shares Input's
+themed chrome (color, border, error state, focus outline, typeface) and adds
+textarea-specific behavior from the theme's `textarea` options: default `rows` and the
+CSS `resize` mode. Bind it to a form with the `[field]` directive, or drive `[(value)]`
+directly.
+
+## Usage
+
+<StoryUsage of={Stories.Default} />
+
+## Validation
+
+Errors style the field only after the user has interacted with it (touched or dirty),
+matching Input's behavior.
+
+<StoryExample of={Stories.Invalid} />
+
+## Disabled
+
+<StoryExample of={Stories.Disabled} />
