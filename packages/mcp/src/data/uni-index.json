@@ -1,15 +1,15 @@
 {
   "meta": {
-    "version": "5.1.0",
-    "builtAt": "2026-07-24T01:12:45.614Z",
+    "version": "5.2.0",
+    "builtAt": "2026-07-24T03:22:37.140Z",
     "frameworks": [
       "angular"
     ],
     "counts": {
-      "components": 59,
-      "tokens": 227,
+      "components": 69,
+      "tokens": 272,
       "themes": 2,
-      "examples": 107
+      "examples": 126
     }
   },
   "components": [
@@ -20,7 +20,7 @@
       "summary": "",
       "description": "",
       "category": "feedback",
-      "version": "5.1.0",
+      "version": "5.2.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -88,13 +88,158 @@
       ]
     },
     {
+      "id": "app-bar",
+      "name": "AppBar",
+      "status": "stable",
+      "summary": "",
+      "description": "",
+      "category": "components",
+      "version": "5.2.0",
+      "bindings": {
+        "angular": {
+          "importPath": "@uni-design-system/uni-angular",
+          "selectorOrTag": "uni-app-bar, AppBar",
+          "api": [
+            {
+              "name": "title",
+              "kind": "input",
+              "type": "string",
+              "required": false,
+              "description": "Bar title; alternatively project your own center content."
+            },
+            {
+              "name": "sticky",
+              "kind": "input",
+              "type": "boolean",
+              "required": false,
+              "default": "false",
+              "description": "Stick the bar to the top of its scroll container."
+            }
+          ]
+        }
+      },
+      "examples": [
+        {
+          "title": "Default",
+          "framework": "angular",
+          "code": "<!-- Storybook story: Default -->\n<uni-app-bar [title]=\"title\" [sticky]=\"sticky\">\n<button leading icon-button symbolName=\"menu\">Open navigation</button>\n<button trailing icon-button symbolName=\"notifications\">Notifications</button>\n<uni-avatar trailing name=\"Grace Hopper\" size=\"sm\" />\n</uni-app-bar>\n<!-- args:\n{ title: 'Console' }\n-->"
+        }
+      ],
+      "guidelines": {
+        "whenToUse": "",
+        "dos": [],
+        "donts": [],
+        "accessibility": []
+      },
+      "relatedTokens": []
+    },
+    {
+      "id": "avatar",
+      "name": "Avatar",
+      "status": "stable",
+      "summary": "",
+      "description": "",
+      "category": "components",
+      "version": "5.2.0",
+      "bindings": {
+        "angular": {
+          "importPath": "@uni-design-system/uni-angular",
+          "selectorOrTag": "uni-avatar, Avatar",
+          "api": [
+            {
+              "name": "src",
+              "kind": "input",
+              "type": "string",
+              "required": false,
+              "description": "Image URL; on load error the avatar falls back to initials/symbol."
+            },
+            {
+              "name": "name",
+              "kind": "input",
+              "type": "string",
+              "required": false,
+              "description": "Person's name: drives the initials and the accessible label."
+            },
+            {
+              "name": "text",
+              "kind": "input",
+              "type": "string",
+              "required": false,
+              "description": "Verbatim text instead of derived initials (e.g. a group's “+3”)."
+            }
+          ]
+        }
+      },
+      "examples": [
+        {
+          "title": "Initials",
+          "framework": "angular",
+          "code": "<!-- Storybook story: Initials -->\n<div style=\"display: flex; gap: 12px; align-items: center;\">\n<uni-avatar name=\"Ada Lovelace\" size=\"sm\" />\n<uni-avatar name=\"Grace Hopper\" size=\"md\" variant=\"secondary\" />\n<uni-avatar name=\"Katherine Johnson\" size=\"lg\" variant=\"tertiary\" />\n<uni-avatar name=\"Annie Easley\" size=\"xl\" variant=\"success\" />\n<uni-avatar size=\"lg\" variant=\"quaternary\" />\n</div>\n<!-- args:\n{ name: 'Grace Hopper', variant: 'primary', size: 'lg' }\n-->"
+        },
+        {
+          "title": "Sizes And Variants",
+          "framework": "angular",
+          "code": "<!-- Storybook story: Sizes And Variants -->\n<div style=\"display: flex; gap: 12px; align-items: center;\">\n<uni-avatar name=\"Ada Lovelace\" size=\"sm\" />\n<uni-avatar name=\"Grace Hopper\" size=\"md\" variant=\"secondary\" />\n<uni-avatar name=\"Katherine Johnson\" size=\"lg\" variant=\"tertiary\" />\n<uni-avatar name=\"Annie Easley\" size=\"xl\" variant=\"success\" />\n<uni-avatar size=\"lg\" variant=\"quaternary\" />\n</div>"
+        },
+        {
+          "title": "Group",
+          "framework": "angular",
+          "code": "<!-- Storybook story: Group -->\n<div style=\"display: flex; gap: 12px; align-items: center;\">\n<uni-avatar name=\"Ada Lovelace\" size=\"sm\" />\n<uni-avatar name=\"Grace Hopper\" size=\"md\" variant=\"secondary\" />\n<uni-avatar name=\"Katherine Johnson\" size=\"lg\" variant=\"tertiary\" />\n<uni-avatar name=\"Annie Easley\" size=\"xl\" variant=\"success\" />\n<uni-avatar size=\"lg\" variant=\"quaternary\" />\n</div>"
+        }
+      ],
+      "guidelines": {
+        "whenToUse": "",
+        "dos": [],
+        "donts": [],
+        "accessibility": []
+      },
+      "relatedTokens": [
+        "avatar.behavior.borderRadius",
+        "avatar.behavior.typeface",
+        "avatar.behavior.fallbackSymbol"
+      ]
+    },
+    {
+      "id": "avatar-group",
+      "name": "AvatarGroup",
+      "status": "stable",
+      "summary": "",
+      "description": "",
+      "category": "components",
+      "version": "5.2.0",
+      "bindings": {
+        "angular": {
+          "importPath": "@uni-design-system/uni-angular",
+          "selectorOrTag": "uni-avatar-group, AvatarGroup",
+          "api": [
+            {
+              "name": "max",
+              "kind": "input",
+              "type": "number | undefined",
+              "required": false,
+              "default": "undefined",
+              "description": "Show at most this many avatars; the rest collapse into a “+N” chip."
+            }
+          ]
+        }
+      },
+      "examples": [],
+      "guidelines": {
+        "whenToUse": "",
+        "dos": [],
+        "donts": [],
+        "accessibility": []
+      },
+      "relatedTokens": []
+    },
+    {
       "id": "background",
       "name": "Background",
       "status": "stable",
       "summary": "",
       "description": "",
       "category": "primitives",
-      "version": "5.1.0",
+      "version": "5.2.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -171,7 +316,7 @@
       "summary": "",
       "description": "",
       "category": "feedback",
-      "version": "5.1.0",
+      "version": "5.2.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -232,7 +377,7 @@
       "summary": "",
       "description": "",
       "category": "directives",
-      "version": "5.1.0",
+      "version": "5.2.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -256,7 +401,7 @@
       "summary": "",
       "description": "",
       "category": "layout",
-      "version": "5.1.0",
+      "version": "5.2.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -613,13 +758,77 @@
       "relatedTokens": []
     },
     {
+      "id": "breadcrumb",
+      "name": "Breadcrumb",
+      "status": "stable",
+      "summary": "",
+      "description": "",
+      "category": "components",
+      "version": "5.2.0",
+      "bindings": {
+        "angular": {
+          "importPath": "@uni-design-system/uni-angular",
+          "selectorOrTag": "uni-breadcrumb, Breadcrumb",
+          "api": [
+            {
+              "name": "items",
+              "kind": "input",
+              "type": "BreadcrumbItem[]",
+              "required": true,
+              "description": "The trail, root first; the last item is the current page."
+            },
+            {
+              "name": "ariaLabel",
+              "kind": "input",
+              "type": "string",
+              "required": false,
+              "default": "'Breadcrumb'",
+              "description": "Landmark label distinguishing this nav from others on the page."
+            },
+            {
+              "name": "itemClicked",
+              "kind": "output",
+              "type": "BreadcrumbItem",
+              "required": false,
+              "description": "Emits the clicked ancestor item (also fires for `href` links)."
+            }
+          ]
+        }
+      },
+      "examples": [
+        {
+          "title": "Default",
+          "framework": "angular",
+          "code": "<!-- Storybook story: Default -->\n<!-- args:\n{\n    items: [\n      { label: 'Home', href: '#' },\n      { label: 'Reports', href: '#' },\n      { label: 'Q3 Revenue' },\n    ],\n  }\n-->"
+        },
+        {
+          "title": "Router-driven (no hrefs)",
+          "framework": "angular",
+          "code": "<!-- Storybook story: Router-driven (no hrefs) -->\n<!-- args:\n{\n    items: [{ label: 'Home' }, { label: 'Settings' }, { label: 'Notifications' }],\n  }\n-->"
+        }
+      ],
+      "guidelines": {
+        "whenToUse": "",
+        "dos": [],
+        "donts": [],
+        "accessibility": []
+      },
+      "relatedTokens": [
+        "breadcrumb.behavior.typeface",
+        "breadcrumb.behavior.color",
+        "breadcrumb.behavior.currentColor",
+        "breadcrumb.behavior.separatorSymbol",
+        "breadcrumb.behavior.gap"
+      ]
+    },
+    {
       "id": "button",
       "name": "Button",
       "status": "stable",
       "summary": "",
       "description": "",
       "category": "primitives",
-      "version": "5.1.0",
+      "version": "5.2.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -711,7 +920,7 @@
       "summary": "",
       "description": "",
       "category": "primitives",
-      "version": "5.1.0",
+      "version": "5.2.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -741,7 +950,7 @@
       "summary": "",
       "description": "",
       "category": "layout",
-      "version": "5.1.0",
+      "version": "5.2.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -773,7 +982,7 @@
       "summary": "",
       "description": "",
       "category": "layout",
-      "version": "5.1.0",
+      "version": "5.2.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -797,7 +1006,7 @@
       "summary": "",
       "description": "",
       "category": "layout",
-      "version": "5.1.0",
+      "version": "5.2.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -838,7 +1047,7 @@
       "summary": "",
       "description": "",
       "category": "layout",
-      "version": "5.1.0",
+      "version": "5.2.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -893,7 +1102,7 @@
       "summary": "",
       "description": "",
       "category": "forms",
-      "version": "5.1.0",
+      "version": "5.2.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -1021,7 +1230,7 @@
       "summary": "",
       "description": "",
       "category": "feedback",
-      "version": "5.1.0",
+      "version": "5.2.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -1068,7 +1277,7 @@
       "summary": "",
       "description": "",
       "category": "forms",
-      "version": "5.1.0",
+      "version": "5.2.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -1126,7 +1335,7 @@
       "summary": "",
       "description": "",
       "category": "data",
-      "version": "5.1.0",
+      "version": "5.2.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -1223,7 +1432,7 @@
       "summary": "",
       "description": "",
       "category": "forms",
-      "version": "5.1.0",
+      "version": "5.2.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -1283,7 +1492,7 @@
       "summary": "",
       "description": "",
       "category": "feedback",
-      "version": "5.1.0",
+      "version": "5.2.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -1357,7 +1566,7 @@
       "summary": "",
       "description": "",
       "category": "feedback",
-      "version": "5.1.0",
+      "version": "5.2.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -1442,7 +1651,7 @@
       "summary": "",
       "description": "",
       "category": "feedback",
-      "version": "5.1.0",
+      "version": "5.2.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -1466,7 +1675,7 @@
       "summary": "",
       "description": "",
       "category": "layout",
-      "version": "5.1.0",
+      "version": "5.2.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -1513,7 +1722,7 @@
       "summary": "",
       "description": "",
       "category": "directives",
-      "version": "5.1.0",
+      "version": "5.2.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -1539,13 +1748,88 @@
       "relatedTokens": []
     },
     {
+      "id": "drawer",
+      "name": "Drawer",
+      "status": "stable",
+      "summary": "",
+      "description": "",
+      "category": "components",
+      "version": "5.2.0",
+      "bindings": {
+        "angular": {
+          "importPath": "@uni-design-system/uni-angular",
+          "selectorOrTag": "uni-drawer, Drawer",
+          "api": [
+            {
+              "name": "open",
+              "kind": "model",
+              "type": "boolean",
+              "required": false,
+              "default": "false",
+              "description": "Two-way bindable open state: [(open)]."
+            },
+            {
+              "name": "mode",
+              "kind": "input",
+              "type": "DrawerMode",
+              "required": false,
+              "default": "'side'",
+              "description": ""
+            },
+            {
+              "name": "position",
+              "kind": "input",
+              "type": "DrawerPosition",
+              "required": false,
+              "default": "'start'",
+              "description": ""
+            },
+            {
+              "name": "ariaLabel",
+              "kind": "input",
+              "type": "string",
+              "required": false,
+              "default": "'Navigation'",
+              "description": "Accessible name for the overlay mode's dialog."
+            }
+          ]
+        }
+      },
+      "examples": [
+        {
+          "title": "Dashboard Shell",
+          "framework": "angular",
+          "code": "<!-- Storybook story: Dashboard Shell -->\n<div style=\"display: flex; flex-direction: column; height: 420px; border: 1px solid #8884; overflow: hidden;\">\n<uni-app-bar title=\"Console\">\n  <button leading icon-button symbolName=\"menu\" (click)=\"open = !open\">Toggle navigation</button>\n  <button trailing icon-button symbolName=\"account_circle\">Account</button>\n</uni-app-bar>\n<div style=\"display: flex; flex: 1; min-height: 0;\">\n  <uni-drawer mode=\"side\" [(open)]=\"open\">\n    <uni-text typeface=\"title-small\" display=\"block\">Dashboard</uni-text>\n    <uni-text typeface=\"title-small\" display=\"block\">Reports</uni-text>\n    <uni-text typeface=\"title-small\" display=\"block\">Settings</uni-text>\n  </uni-drawer>\n  <main style=\"flex: 1; padding: 16px; min-width: 0;\">\n    <uni-text typeface=\"headline-small\">Content</uni-text>\n    <uni-text typeface=\"body-1-long\" display=\"block\">\n      The side drawer pushes this content; toggle it from the app bar.\n    </uni-text>\n  </main>\n</div>\n</div>"
+        },
+        {
+          "title": "Overlay",
+          "framework": "angular",
+          "code": "<!-- Storybook story: Overlay -->\n<div style=\"display: flex; flex-direction: column; height: 420px; border: 1px solid #8884; overflow: hidden;\">\n<uni-app-bar title=\"Console\">\n  <button leading icon-button symbolName=\"menu\" (click)=\"open = !open\">Toggle navigation</button>\n  <button trailing icon-button symbolName=\"account_circle\">Account</button>\n</uni-app-bar>\n<div style=\"display: flex; flex: 1; min-height: 0;\">\n  <uni-drawer mode=\"side\" [(open)]=\"open\">\n    <uni-text typeface=\"title-small\" display=\"block\">Dashboard</uni-text>\n    <uni-text typeface=\"title-small\" display=\"block\">Reports</uni-text>\n    <uni-text typeface=\"title-small\" display=\"block\">Settings</uni-text>\n  </uni-drawer>\n  <main style=\"flex: 1; padding: 16px; min-width: 0;\">\n    <uni-text typeface=\"headline-small\">Content</uni-text>\n    <uni-text typeface=\"body-1-long\" display=\"block\">\n      The side drawer pushes this content; toggle it from the app bar.\n    </uni-text>\n  </main>\n</div>\n</div>"
+        }
+      ],
+      "guidelines": {
+        "whenToUse": "",
+        "dos": [],
+        "donts": [],
+        "accessibility": []
+      },
+      "relatedTokens": [
+        "drawer.behavior.color",
+        "drawer.behavior.width",
+        "drawer.behavior.divider",
+        "drawer.behavior.elevation",
+        "drawer.behavior.padding",
+        "drawer.behavior.backdrop"
+      ]
+    },
+    {
       "id": "dropdown",
       "name": "Dropdown",
       "status": "stable",
       "summary": "",
       "description": "",
       "category": "components",
-      "version": "5.1.0",
+      "version": "5.2.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -1634,7 +1918,7 @@
       "summary": "",
       "description": "",
       "category": "layout",
-      "version": "5.1.0",
+      "version": "5.2.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -1673,7 +1957,7 @@
       "summary": "",
       "description": "",
       "category": "layout",
-      "version": "5.1.0",
+      "version": "5.2.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -1734,7 +2018,7 @@
       "summary": "",
       "description": "",
       "category": "forms",
-      "version": "5.1.0",
+      "version": "5.2.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -1780,7 +2064,7 @@
       "summary": "",
       "description": "",
       "category": "forms",
-      "version": "5.1.0",
+      "version": "5.2.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -1908,7 +2192,7 @@
       "summary": "",
       "description": "",
       "category": "layout",
-      "version": "5.1.0",
+      "version": "5.2.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -1982,7 +2266,7 @@
       "summary": "",
       "description": "",
       "category": "layout",
-      "version": "5.1.0",
+      "version": "5.2.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -2014,7 +2298,7 @@
       "summary": "",
       "description": "",
       "category": "primitives",
-      "version": "5.1.0",
+      "version": "5.2.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -2059,7 +2343,7 @@
       "summary": "",
       "description": "",
       "category": "primitives",
-      "version": "5.1.0",
+      "version": "5.2.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -2149,7 +2433,7 @@
       "summary": "",
       "description": "",
       "category": "forms",
-      "version": "5.1.0",
+      "version": "5.2.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -2289,7 +2573,7 @@
       "summary": "",
       "description": "",
       "category": "forms",
-      "version": "5.1.0",
+      "version": "5.2.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -2318,6 +2602,14 @@
               "required": false,
               "default": "'0'",
               "description": ""
+            },
+            {
+              "name": "height",
+              "kind": "input",
+              "type": "string | number | undefined",
+              "required": false,
+              "default": "undefined",
+              "description": "Override the themed field height, e.g. `'auto'` for multi-line fields."
             }
           ]
         }
@@ -2354,7 +2646,7 @@
       "summary": "",
       "description": "",
       "category": "components",
-      "version": "5.1.0",
+      "version": "5.2.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -2424,7 +2716,7 @@
       "summary": "",
       "description": "",
       "category": "layout",
-      "version": "5.1.0",
+      "version": "5.2.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -2484,7 +2776,7 @@
       "summary": "",
       "description": "",
       "category": "layout",
-      "version": "5.1.0",
+      "version": "5.2.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -2600,7 +2892,7 @@
       "summary": "",
       "description": "",
       "category": "forms",
-      "version": "5.1.0",
+      "version": "5.2.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -2685,7 +2977,7 @@
       "summary": "",
       "description": "",
       "category": "forms",
-      "version": "5.1.0",
+      "version": "5.2.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -2816,7 +3108,7 @@
       "summary": "",
       "description": "",
       "category": "feedback",
-      "version": "5.1.0",
+      "version": "5.2.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -2942,7 +3234,7 @@
       "summary": "",
       "description": "",
       "category": "feedback",
-      "version": "5.1.0",
+      "version": "5.2.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -2966,7 +3258,7 @@
       "summary": "",
       "description": "",
       "category": "data",
-      "version": "5.1.0",
+      "version": "5.2.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -3048,7 +3340,7 @@
       "summary": "",
       "description": "",
       "category": "layout",
-      "version": "5.1.0",
+      "version": "5.2.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -3095,7 +3387,7 @@
       "summary": "",
       "description": "",
       "category": "feedback",
-      "version": "5.1.0",
+      "version": "5.2.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -3157,7 +3449,7 @@
       "summary": "",
       "description": "",
       "category": "feedback",
-      "version": "5.1.0",
+      "version": "5.2.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -3203,7 +3495,7 @@
       "summary": "",
       "description": "",
       "category": "forms",
-      "version": "5.1.0",
+      "version": "5.2.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -3342,7 +3634,7 @@
       "summary": "",
       "description": "",
       "category": "directives",
-      "version": "5.1.0",
+      "version": "5.2.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -3366,7 +3658,7 @@
       "summary": "",
       "description": "",
       "category": "layout",
-      "version": "5.1.0",
+      "version": "5.2.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -3421,7 +3713,7 @@
       "summary": "",
       "description": "",
       "category": "layout",
-      "version": "5.1.0",
+      "version": "5.2.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -3568,7 +3860,7 @@
       "summary": "",
       "description": "",
       "category": "forms",
-      "version": "5.1.0",
+      "version": "5.2.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -3628,7 +3920,7 @@
       "summary": "",
       "description": "",
       "category": "forms",
-      "version": "5.1.0",
+      "version": "5.2.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -3755,13 +4047,221 @@
       "relatedTokens": []
     },
     {
+      "id": "skeleton",
+      "name": "Skeleton",
+      "status": "stable",
+      "summary": "",
+      "description": "",
+      "category": "components",
+      "version": "5.2.0",
+      "bindings": {
+        "angular": {
+          "importPath": "@uni-design-system/uni-angular",
+          "selectorOrTag": "uni-skeleton, Skeleton",
+          "api": [
+            {
+              "name": "shape",
+              "kind": "input",
+              "type": "SkeletonShape",
+              "required": false,
+              "default": "'text'",
+              "description": ""
+            },
+            {
+              "name": "width",
+              "kind": "input",
+              "type": "string | number | undefined",
+              "required": false,
+              "default": "undefined",
+              "description": "CSS width; defaults to 100% for text/rect and `height` for circles."
+            },
+            {
+              "name": "height",
+              "kind": "input",
+              "type": "string | number | undefined",
+              "required": false,
+              "default": "undefined",
+              "description": "CSS height per block; defaults to 1em (text), 96px (rect), 40px (circle)."
+            },
+            {
+              "name": "lines",
+              "kind": "input",
+              "type": "number",
+              "required": false,
+              "default": "1",
+              "description": "Number of text lines (text shape only)."
+            }
+          ]
+        }
+      },
+      "examples": [
+        {
+          "title": "Text Lines",
+          "framework": "angular",
+          "code": "<!-- Storybook story: Text Lines -->\n<uni-card style=\"max-width: 360px; display: block;\">\n<div style=\"display: flex; gap: 12px; align-items: center; padding: 16px;\">\n  <uni-skeleton shape=\"circle\" [height]=\"40\" />\n  <div style=\"flex: 1;\">\n    <uni-skeleton [lines]=\"2\" />\n  </div>\n</div>\n<uni-skeleton shape=\"rect\" [height]=\"120\" style=\"display: block; padding: 0 16px 16px;\" />\n</uni-card>\n<!-- args:\n{ shape: 'text', lines: 3 }\n-->"
+        },
+        {
+          "title": "Card Placeholder",
+          "framework": "angular",
+          "code": "<!-- Storybook story: Card Placeholder -->\n<uni-card style=\"max-width: 360px; display: block;\">\n<div style=\"display: flex; gap: 12px; align-items: center; padding: 16px;\">\n  <uni-skeleton shape=\"circle\" [height]=\"40\" />\n  <div style=\"flex: 1;\">\n    <uni-skeleton [lines]=\"2\" />\n  </div>\n</div>\n<uni-skeleton shape=\"rect\" [height]=\"120\" style=\"display: block; padding: 0 16px 16px;\" />\n</uni-card>"
+        }
+      ],
+      "guidelines": {
+        "whenToUse": "",
+        "dos": [],
+        "donts": [],
+        "accessibility": []
+      },
+      "relatedTokens": [
+        "skeleton.behavior.color",
+        "skeleton.behavior.highlightColor",
+        "skeleton.behavior.borderRadius",
+        "skeleton.behavior.animation",
+        "skeleton.behavior.duration",
+        "skeleton.behavior.gap"
+      ]
+    },
+    {
+      "id": "slider",
+      "name": "Slider",
+      "status": "stable",
+      "summary": "",
+      "description": "",
+      "category": "forms",
+      "version": "5.2.0",
+      "bindings": {
+        "angular": {
+          "importPath": "@uni-design-system/uni-angular",
+          "selectorOrTag": "uni-slider, Slider",
+          "api": [
+            {
+              "name": "value",
+              "kind": "model",
+              "type": "number",
+              "required": false,
+              "default": "0",
+              "description": ""
+            },
+            {
+              "name": "disabled",
+              "kind": "input",
+              "type": "boolean",
+              "required": false,
+              "default": "false",
+              "description": ""
+            },
+            {
+              "name": "touched",
+              "kind": "model",
+              "type": "boolean",
+              "required": false,
+              "default": "false",
+              "description": ""
+            },
+            {
+              "name": "invalid",
+              "kind": "input",
+              "type": "boolean",
+              "required": false,
+              "default": "false",
+              "description": ""
+            },
+            {
+              "name": "dirty",
+              "kind": "input",
+              "type": "boolean",
+              "required": false,
+              "default": "false",
+              "description": ""
+            },
+            {
+              "name": "required",
+              "kind": "input",
+              "type": "boolean",
+              "required": false,
+              "default": "false",
+              "description": "Synced from required() validators by the Signal Forms [field] directive."
+            },
+            {
+              "name": "ariaDescribedBy",
+              "kind": "input",
+              "type": "string",
+              "required": false,
+              "description": "Id(s) of external element(s) describing this control — typically your app-rendered value or error text — exposed as aria-describedby."
+            },
+            {
+              "name": "label",
+              "kind": "input",
+              "type": "string",
+              "required": true,
+              "description": ""
+            },
+            {
+              "name": "min",
+              "kind": "input",
+              "type": "number | undefined",
+              "required": false,
+              "default": "0",
+              "description": ""
+            },
+            {
+              "name": "max",
+              "kind": "input",
+              "type": "number | undefined",
+              "required": false,
+              "default": "100",
+              "description": ""
+            },
+            {
+              "name": "step",
+              "kind": "input",
+              "type": "number",
+              "required": false,
+              "default": "1",
+              "description": ""
+            }
+          ]
+        }
+      },
+      "examples": [
+        {
+          "title": "Default",
+          "framework": "angular",
+          "code": "<!-- Storybook story: Default -->\n<uni-slider ${argsToTemplate(props)}></uni-slider>\n<!-- args:\n{ label: 'Volume', value: 40 }\n-->"
+        },
+        {
+          "title": "Stepped Range",
+          "framework": "angular",
+          "code": "<!-- Storybook story: Stepped Range -->\n<uni-slider ${argsToTemplate(props)}></uni-slider>\n<!-- args:\n{ label: 'Opacity', min: 0, max: 1, step: 0.05, value: 0.6 }\n-->"
+        },
+        {
+          "title": "Disabled",
+          "framework": "angular",
+          "code": "<!-- Storybook story: Disabled -->\n<uni-slider ${argsToTemplate(props)}></uni-slider>\n<!-- args:\n{ label: 'Brightness', value: 70, disabled: true }\n-->"
+        }
+      ],
+      "guidelines": {
+        "whenToUse": "",
+        "dos": [],
+        "donts": [],
+        "accessibility": []
+      },
+      "relatedTokens": [
+        "slider.behavior.color",
+        "slider.behavior.trackColor",
+        "slider.behavior.borderRadius",
+        "slider.behavior.trackHeight",
+        "slider.behavior.thumbSize"
+      ]
+    },
+    {
       "id": "snackbar",
       "name": "Snackbar",
       "status": "stable",
       "summary": "",
       "description": "",
       "category": "feedback",
-      "version": "5.1.0",
+      "version": "5.2.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -3853,7 +4353,7 @@
       "summary": "",
       "description": "",
       "category": "data",
-      "version": "5.1.0",
+      "version": "5.2.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -3898,7 +4398,7 @@
       "summary": "",
       "description": "",
       "category": "layout",
-      "version": "5.1.0",
+      "version": "5.2.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -3953,7 +4453,7 @@
       "summary": "",
       "description": "",
       "category": "primitives",
-      "version": "5.1.0",
+      "version": "5.2.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -4018,13 +4518,107 @@
       ]
     },
     {
+      "id": "tab",
+      "name": "Tab",
+      "status": "stable",
+      "summary": "",
+      "description": "",
+      "category": "components",
+      "version": "5.2.0",
+      "bindings": {
+        "angular": {
+          "importPath": "@uni-design-system/uni-angular",
+          "selectorOrTag": "uni-tab, Tab",
+          "api": [
+            {
+              "name": "label",
+              "kind": "input",
+              "type": "string",
+              "required": true,
+              "description": ""
+            },
+            {
+              "name": "disabled",
+              "kind": "input",
+              "type": "boolean",
+              "required": false,
+              "default": "false",
+              "description": ""
+            }
+          ]
+        }
+      },
+      "examples": [],
+      "guidelines": {
+        "whenToUse": "",
+        "dos": [],
+        "donts": [],
+        "accessibility": []
+      },
+      "relatedTokens": []
+    },
+    {
+      "id": "tabs",
+      "name": "Tabs",
+      "status": "stable",
+      "summary": "",
+      "description": "",
+      "category": "components",
+      "version": "5.2.0",
+      "bindings": {
+        "angular": {
+          "importPath": "@uni-design-system/uni-angular",
+          "selectorOrTag": "uni-tabs, Tabs",
+          "api": [
+            {
+              "name": "selectedIndex",
+              "kind": "model",
+              "type": "number",
+              "required": false,
+              "default": "0",
+              "description": "Index of the selected tab; two-way bindable."
+            }
+          ]
+        }
+      },
+      "examples": [
+        {
+          "title": "Default",
+          "framework": "angular",
+          "code": "<!-- Storybook story: Default -->\n<uni-tabs [selectedIndex]=\"selectedIndex ?? 0\">\n<uni-tab label=\"Overview\">\n  <uni-text typeface=\"body-1-long\">\n    Arrow keys move between tabs (disabled tabs are skipped), Home and End jump\n    to the extremes, and only the selected panel is rendered.\n  </uni-text>\n</uni-tab>\n<uni-tab label=\"Activity\">\n  <uni-text typeface=\"body-1-long\">Recent activity would render here.</uni-text>\n</uni-tab>\n<uni-tab label=\"Settings\">\n  <uni-text typeface=\"body-1-long\">Settings content, instantiated on selection.</uni-text>\n</uni-tab>\n</uni-tabs>"
+        },
+        {
+          "title": "With Disabled Tab",
+          "framework": "angular",
+          "code": "<!-- Storybook story: With Disabled Tab -->\n<uni-tabs [selectedIndex]=\"selectedIndex ?? 0\">\n<uni-tab label=\"Overview\">\n  <uni-text typeface=\"body-1-long\">\n    Arrow keys move between tabs (disabled tabs are skipped), Home and End jump\n    to the extremes, and only the selected panel is rendered.\n  </uni-text>\n</uni-tab>\n<uni-tab label=\"Activity\">\n  <uni-text typeface=\"body-1-long\">Recent activity would render here.</uni-text>\n</uni-tab>\n<uni-tab label=\"Settings\">\n  <uni-text typeface=\"body-1-long\">Settings content, instantiated on selection.</uni-text>\n</uni-tab>\n</uni-tabs>"
+        }
+      ],
+      "guidelines": {
+        "whenToUse": "",
+        "dos": [],
+        "donts": [],
+        "accessibility": []
+      },
+      "relatedTokens": [
+        "tabs.behavior.typeface",
+        "tabs.behavior.textColor",
+        "tabs.behavior.activeTextColor",
+        "tabs.behavior.indicatorColor",
+        "tabs.behavior.indicatorThickness",
+        "tabs.behavior.divider",
+        "tabs.behavior.gap",
+        "tabs.behavior.borderRadius",
+        "tabs.behavior.padding"
+      ]
+    },
+    {
       "id": "tag",
       "name": "Tag",
       "status": "stable",
       "summary": "",
       "description": "",
       "category": "data",
-      "version": "5.1.0",
+      "version": "5.2.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -4091,7 +4685,7 @@
       "summary": "",
       "description": "",
       "category": "primitives",
-      "version": "5.1.0",
+      "version": "5.2.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -4161,13 +4755,140 @@
       "relatedTokens": []
     },
     {
+      "id": "textarea",
+      "name": "Textarea",
+      "status": "stable",
+      "summary": "",
+      "description": "",
+      "category": "primitives",
+      "version": "5.2.0",
+      "bindings": {
+        "angular": {
+          "importPath": "@uni-design-system/uni-angular",
+          "selectorOrTag": "uni-textarea",
+          "api": [
+            {
+              "name": "value",
+              "kind": "model",
+              "type": "string",
+              "required": false,
+              "default": "''",
+              "description": ""
+            },
+            {
+              "name": "disabled",
+              "kind": "input",
+              "type": "boolean",
+              "required": false,
+              "default": "false",
+              "description": ""
+            },
+            {
+              "name": "touched",
+              "kind": "model",
+              "type": "boolean",
+              "required": false,
+              "default": "false",
+              "description": ""
+            },
+            {
+              "name": "invalid",
+              "kind": "input",
+              "type": "boolean",
+              "required": false,
+              "default": "false",
+              "description": ""
+            },
+            {
+              "name": "dirty",
+              "kind": "input",
+              "type": "boolean",
+              "required": false,
+              "default": "false",
+              "description": ""
+            },
+            {
+              "name": "required",
+              "kind": "input",
+              "type": "boolean",
+              "required": false,
+              "default": "false",
+              "description": "Synced from required() validators by the Signal Forms [field] directive."
+            },
+            {
+              "name": "ariaDescribedBy",
+              "kind": "input",
+              "type": "string",
+              "required": false,
+              "description": "Id(s) of external element(s) describing this control — typically your app-rendered error message — exposed as aria-describedby."
+            },
+            {
+              "name": "label",
+              "kind": "input",
+              "type": "string",
+              "required": true,
+              "description": ""
+            },
+            {
+              "name": "placeholder",
+              "kind": "input",
+              "type": "string",
+              "required": false,
+              "default": "''",
+              "description": ""
+            },
+            {
+              "name": "rows",
+              "kind": "input",
+              "type": "number | undefined",
+              "required": false,
+              "default": "undefined",
+              "description": "Visible text rows. Defaults to the theme's `textarea` options."
+            }
+          ]
+        }
+      },
+      "examples": [
+        {
+          "title": "Default",
+          "framework": "angular",
+          "code": "<!-- Storybook story: Default -->\n<uni-textarea ${argsToTemplate(props)}>\n</uni-textarea>\n<!-- args:\n{ label: 'Message', placeholder: 'Tell us everything…' }\n-->"
+        },
+        {
+          "title": "Prefilled",
+          "framework": "angular",
+          "code": "<!-- Storybook story: Prefilled -->\n<uni-textarea ${argsToTemplate(props)}>\n</uni-textarea>\n<!-- args:\n{\n    label: 'Bio',\n    value: 'Design systems engineer.\\nOKLCH enthusiast.',\n    rows: 5,\n  }\n-->"
+        },
+        {
+          "title": "Invalid",
+          "framework": "angular",
+          "code": "<!-- Storybook story: Invalid -->\n<uni-textarea ${argsToTemplate(props)}>\n</uni-textarea>\n<!-- args:\n{\n    label: 'Feedback',\n    placeholder: 'Required',\n    invalid: true,\n    touched: true,\n  }\n-->"
+        },
+        {
+          "title": "Disabled",
+          "framework": "angular",
+          "code": "<!-- Storybook story: Disabled -->\n<uni-textarea ${argsToTemplate(props)}>\n</uni-textarea>\n<!-- args:\n{ label: 'Notes', value: 'Read-only content', disabled: true }\n-->"
+        }
+      ],
+      "guidelines": {
+        "whenToUse": "",
+        "dos": [],
+        "donts": [],
+        "accessibility": []
+      },
+      "relatedTokens": [
+        "textarea.behavior.rows",
+        "textarea.behavior.resize"
+      ]
+    },
+    {
       "id": "theme-builder",
       "name": "ThemeBuilder",
       "status": "stable",
       "summary": "",
       "description": "",
       "category": "primitives",
-      "version": "5.1.0",
+      "version": "5.2.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -4197,7 +4918,7 @@
       "summary": "",
       "description": "",
       "category": "forms",
-      "version": "5.1.0",
+      "version": "5.2.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -4317,7 +5038,7 @@
       "summary": "",
       "description": "",
       "category": "feedback",
-      "version": "5.1.0",
+      "version": "5.2.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -4392,7 +5113,7 @@
       "summary": "",
       "description": "",
       "category": "layout",
-      "version": "5.1.0",
+      "version": "5.2.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -5924,6 +6645,282 @@
       }
     },
     {
+      "id": "breadcrumb.behavior.typeface",
+      "value": "label",
+      "type": "string",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "breadcrumb",
+      "themeValues": {
+        "LightTheme": "label",
+        "DarkTheme": "label"
+      }
+    },
+    {
+      "id": "breadcrumb.behavior.color",
+      "value": "on-background-variant",
+      "type": "string",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "breadcrumb",
+      "themeValues": {
+        "LightTheme": "on-background-variant",
+        "DarkTheme": "on-background-variant"
+      }
+    },
+    {
+      "id": "breadcrumb.behavior.currentColor",
+      "value": "on-background",
+      "type": "string",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "breadcrumb",
+      "themeValues": {
+        "LightTheme": "on-background",
+        "DarkTheme": "on-background"
+      }
+    },
+    {
+      "id": "breadcrumb.behavior.separatorSymbol",
+      "value": "chevron_right",
+      "type": "string",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "breadcrumb",
+      "themeValues": {
+        "LightTheme": "chevron_right",
+        "DarkTheme": "chevron_right"
+      }
+    },
+    {
+      "id": "breadcrumb.behavior.gap",
+      "value": "xs",
+      "type": "string",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "breadcrumb",
+      "themeValues": {
+        "LightTheme": "xs",
+        "DarkTheme": "xs"
+      }
+    },
+    {
+      "id": "appBar.behavior.color",
+      "value": "surface",
+      "type": "string",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "appBar",
+      "themeValues": {
+        "LightTheme": "surface",
+        "DarkTheme": "surface"
+      }
+    },
+    {
+      "id": "appBar.behavior.height",
+      "value": 56,
+      "type": "number",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "appBar",
+      "themeValues": {
+        "LightTheme": 56,
+        "DarkTheme": 56
+      }
+    },
+    {
+      "id": "appBar.behavior.divider",
+      "value": "light",
+      "type": "string",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "appBar",
+      "themeValues": {
+        "LightTheme": "light",
+        "DarkTheme": "light"
+      }
+    },
+    {
+      "id": "appBar.behavior.typeface",
+      "value": "title-large",
+      "type": "string",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "appBar",
+      "themeValues": {
+        "LightTheme": "title-large",
+        "DarkTheme": "title-large"
+      }
+    },
+    {
+      "id": "appBar.behavior.padding",
+      "value": "md",
+      "type": "string",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "appBar",
+      "themeValues": {
+        "LightTheme": "md",
+        "DarkTheme": "md"
+      }
+    },
+    {
+      "id": "appBar.behavior.gap",
+      "value": "md",
+      "type": "string",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "appBar",
+      "themeValues": {
+        "LightTheme": "md",
+        "DarkTheme": "md"
+      }
+    },
+    {
+      "id": "drawer.behavior.color",
+      "value": "surface",
+      "type": "string",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "drawer",
+      "themeValues": {
+        "LightTheme": "surface",
+        "DarkTheme": "surface"
+      }
+    },
+    {
+      "id": "drawer.behavior.width",
+      "value": 280,
+      "type": "number",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "drawer",
+      "themeValues": {
+        "LightTheme": 280,
+        "DarkTheme": 280
+      }
+    },
+    {
+      "id": "drawer.behavior.divider",
+      "value": "light",
+      "type": "string",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "drawer",
+      "themeValues": {
+        "LightTheme": "light",
+        "DarkTheme": "light"
+      }
+    },
+    {
+      "id": "drawer.behavior.elevation",
+      "value": "menu",
+      "type": "string",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "drawer",
+      "themeValues": {
+        "LightTheme": "menu",
+        "DarkTheme": "menu"
+      }
+    },
+    {
+      "id": "drawer.behavior.padding",
+      "value": "md",
+      "type": "string",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "drawer",
+      "themeValues": {
+        "LightTheme": "md",
+        "DarkTheme": "md"
+      }
+    },
+    {
+      "id": "drawer.behavior.backdrop",
+      "value": "{\"background\":\"rgba(0, 0, 0, 0.4)\"}",
+      "type": "object",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "drawer",
+      "themeValues": {
+        "LightTheme": "{\"background\":\"rgba(0, 0, 0, 0.4)\"}",
+        "DarkTheme": "{\"background\":\"rgba(0, 0, 0, 0.4)\"}"
+      }
+    },
+    {
+      "id": "avatar.behavior.borderRadius",
+      "value": "max",
+      "type": "string",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "avatar",
+      "themeValues": {
+        "LightTheme": "max",
+        "DarkTheme": "max"
+      }
+    },
+    {
+      "id": "avatar.behavior.typeface",
+      "value": "subtitle-2",
+      "type": "string",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "avatar",
+      "themeValues": {
+        "LightTheme": "subtitle-2",
+        "DarkTheme": "subtitle-2"
+      }
+    },
+    {
+      "id": "avatar.behavior.fallbackSymbol",
+      "value": "person",
+      "type": "string",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "avatar",
+      "themeValues": {
+        "LightTheme": "person",
+        "DarkTheme": "person"
+      }
+    },
+    {
+      "id": "avatarGroup.behavior.overlap",
+      "value": "sm",
+      "type": "string",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "avatarGroup",
+      "themeValues": {
+        "LightTheme": "sm",
+        "DarkTheme": "sm"
+      }
+    },
+    {
+      "id": "avatarGroup.behavior.ringColor",
+      "value": "surface",
+      "type": "string",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "avatarGroup",
+      "themeValues": {
+        "LightTheme": "surface",
+        "DarkTheme": "surface"
+      }
+    },
+    {
+      "id": "avatarGroup.behavior.ringWidth",
+      "value": 2,
+      "type": "number",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "avatarGroup",
+      "themeValues": {
+        "LightTheme": 2,
+        "DarkTheme": 2
+      }
+    },
+    {
       "id": "checkbox.behavior.size",
       "value": 20,
       "type": "number",
@@ -6341,6 +7338,138 @@
       "themeValues": {
         "LightTheme": 2,
         "DarkTheme": 2
+      }
+    },
+    {
+      "id": "textarea.behavior.rows",
+      "value": 3,
+      "type": "number",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "textarea",
+      "themeValues": {
+        "LightTheme": 3,
+        "DarkTheme": 3
+      }
+    },
+    {
+      "id": "textarea.behavior.resize",
+      "value": "vertical",
+      "type": "string",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "textarea",
+      "themeValues": {
+        "LightTheme": "vertical",
+        "DarkTheme": "vertical"
+      }
+    },
+    {
+      "id": "tabs.behavior.typeface",
+      "value": "title-small",
+      "type": "string",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "tabs",
+      "themeValues": {
+        "LightTheme": "title-small",
+        "DarkTheme": "title-small"
+      }
+    },
+    {
+      "id": "tabs.behavior.textColor",
+      "value": "on-surface-variant",
+      "type": "string",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "tabs",
+      "themeValues": {
+        "LightTheme": "on-surface-variant",
+        "DarkTheme": "on-surface-variant"
+      }
+    },
+    {
+      "id": "tabs.behavior.activeTextColor",
+      "value": "primary",
+      "type": "string",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "tabs",
+      "themeValues": {
+        "LightTheme": "primary",
+        "DarkTheme": "primary"
+      }
+    },
+    {
+      "id": "tabs.behavior.indicatorColor",
+      "value": "primary",
+      "type": "string",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "tabs",
+      "themeValues": {
+        "LightTheme": "primary",
+        "DarkTheme": "primary"
+      }
+    },
+    {
+      "id": "tabs.behavior.indicatorThickness",
+      "value": "standard",
+      "type": "string",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "tabs",
+      "themeValues": {
+        "LightTheme": "standard",
+        "DarkTheme": "standard"
+      }
+    },
+    {
+      "id": "tabs.behavior.divider",
+      "value": "light",
+      "type": "string",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "tabs",
+      "themeValues": {
+        "LightTheme": "light",
+        "DarkTheme": "light"
+      }
+    },
+    {
+      "id": "tabs.behavior.gap",
+      "value": "sm",
+      "type": "string",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "tabs",
+      "themeValues": {
+        "LightTheme": "sm",
+        "DarkTheme": "sm"
+      }
+    },
+    {
+      "id": "tabs.behavior.borderRadius",
+      "value": "none",
+      "type": "string",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "tabs",
+      "themeValues": {
+        "LightTheme": "none",
+        "DarkTheme": "none"
+      }
+    },
+    {
+      "id": "tabs.behavior.padding",
+      "value": "md",
+      "type": "string",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "tabs",
+      "themeValues": {
+        "LightTheme": "md",
+        "DarkTheme": "md"
       }
     },
     {
@@ -6884,6 +8013,138 @@
       }
     },
     {
+      "id": "slider.behavior.color",
+      "value": "primary",
+      "type": "string",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "slider",
+      "themeValues": {
+        "LightTheme": "primary",
+        "DarkTheme": "primary"
+      }
+    },
+    {
+      "id": "slider.behavior.trackColor",
+      "value": "surface-variant",
+      "type": "string",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "slider",
+      "themeValues": {
+        "LightTheme": "surface-variant",
+        "DarkTheme": "surface-variant"
+      }
+    },
+    {
+      "id": "slider.behavior.borderRadius",
+      "value": "max",
+      "type": "string",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "slider",
+      "themeValues": {
+        "LightTheme": "max",
+        "DarkTheme": "max"
+      }
+    },
+    {
+      "id": "slider.behavior.trackHeight",
+      "value": 4,
+      "type": "number",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "slider",
+      "themeValues": {
+        "LightTheme": 4,
+        "DarkTheme": 4
+      }
+    },
+    {
+      "id": "slider.behavior.thumbSize",
+      "value": 16,
+      "type": "number",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "slider",
+      "themeValues": {
+        "LightTheme": 16,
+        "DarkTheme": 16
+      }
+    },
+    {
+      "id": "skeleton.behavior.color",
+      "value": "surface-variant",
+      "type": "string",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "skeleton",
+      "themeValues": {
+        "LightTheme": "surface-variant",
+        "DarkTheme": "surface-variant"
+      }
+    },
+    {
+      "id": "skeleton.behavior.highlightColor",
+      "value": "surface",
+      "type": "string",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "skeleton",
+      "themeValues": {
+        "LightTheme": "surface",
+        "DarkTheme": "surface"
+      }
+    },
+    {
+      "id": "skeleton.behavior.borderRadius",
+      "value": "xs",
+      "type": "string",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "skeleton",
+      "themeValues": {
+        "LightTheme": "xs",
+        "DarkTheme": "xs"
+      }
+    },
+    {
+      "id": "skeleton.behavior.animation",
+      "value": "shimmer",
+      "type": "string",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "skeleton",
+      "themeValues": {
+        "LightTheme": "shimmer",
+        "DarkTheme": "shimmer"
+      }
+    },
+    {
+      "id": "skeleton.behavior.duration",
+      "value": 1.4,
+      "type": "number",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "skeleton",
+      "themeValues": {
+        "LightTheme": 1.4,
+        "DarkTheme": 1.4
+      }
+    },
+    {
+      "id": "skeleton.behavior.gap",
+      "value": "sm",
+      "type": "string",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "skeleton",
+      "themeValues": {
+        "LightTheme": "sm",
+        "DarkTheme": "sm"
+      }
+    },
+    {
       "id": "snackbar.behavior.bottomPosition",
       "value": 40,
       "type": "number",
@@ -7173,6 +8434,39 @@
           "transitionSpeed": 0.35,
           "elevation": "md"
         },
+        "breadcrumb": {
+          "typeface": "label",
+          "color": "on-background-variant",
+          "currentColor": "on-background",
+          "separatorSymbol": "chevron_right",
+          "gap": "xs"
+        },
+        "appBar": {
+          "color": "surface",
+          "height": 56,
+          "divider": "light",
+          "typeface": "title-large",
+          "padding": "md",
+          "gap": "md"
+        },
+        "drawer": {
+          "color": "surface",
+          "width": 280,
+          "divider": "light",
+          "elevation": "menu",
+          "padding": "md",
+          "backdrop": "{\"background\":\"rgba(0, 0, 0, 0.4)\"}"
+        },
+        "avatar": {
+          "borderRadius": "max",
+          "typeface": "subtitle-2",
+          "fallbackSymbol": "person"
+        },
+        "avatarGroup": {
+          "overlap": "sm",
+          "ringColor": "surface",
+          "ringWidth": 2
+        },
         "checkbox": {
           "size": 20
         },
@@ -7219,6 +8513,21 @@
           "paddingLeft": "sm",
           "focusOutline": "2px solid #6A6F8F",
           "focusOutlineOffset": 2
+        },
+        "textarea": {
+          "rows": 3,
+          "resize": "vertical"
+        },
+        "tabs": {
+          "typeface": "title-small",
+          "textColor": "on-surface-variant",
+          "activeTextColor": "primary",
+          "indicatorColor": "primary",
+          "indicatorThickness": "standard",
+          "divider": "light",
+          "gap": "sm",
+          "borderRadius": "none",
+          "padding": "md"
         },
         "multiSelectDropdown": {
           "textRole": "input",
@@ -7282,6 +8591,21 @@
           "pageBorderRadius": "xs",
           "currentPageBorder": "light",
           "currentPageBorderRadius": "xs"
+        },
+        "slider": {
+          "color": "primary",
+          "trackColor": "surface-variant",
+          "borderRadius": "max",
+          "trackHeight": 4,
+          "thumbSize": 16
+        },
+        "skeleton": {
+          "color": "surface-variant",
+          "highlightColor": "surface",
+          "borderRadius": "xs",
+          "animation": "shimmer",
+          "duration": 1.4,
+          "gap": "sm"
         },
         "snackbar": {
           "bottomPosition": 40,
@@ -7450,6 +8774,39 @@
           "transitionSpeed": 0.35,
           "elevation": "md"
         },
+        "breadcrumb": {
+          "typeface": "label",
+          "color": "on-background-variant",
+          "currentColor": "on-background",
+          "separatorSymbol": "chevron_right",
+          "gap": "xs"
+        },
+        "appBar": {
+          "color": "surface",
+          "height": 56,
+          "divider": "light",
+          "typeface": "title-large",
+          "padding": "md",
+          "gap": "md"
+        },
+        "drawer": {
+          "color": "surface",
+          "width": 280,
+          "divider": "light",
+          "elevation": "menu",
+          "padding": "md",
+          "backdrop": "{\"background\":\"rgba(0, 0, 0, 0.4)\"}"
+        },
+        "avatar": {
+          "borderRadius": "max",
+          "typeface": "subtitle-2",
+          "fallbackSymbol": "person"
+        },
+        "avatarGroup": {
+          "overlap": "sm",
+          "ringColor": "surface",
+          "ringWidth": 2
+        },
         "checkbox": {
           "size": 20
         },
@@ -7496,6 +8853,21 @@
           "paddingLeft": "sm",
           "focusOutline": "2px solid #AFB5D8",
           "focusOutlineOffset": 2
+        },
+        "textarea": {
+          "rows": 3,
+          "resize": "vertical"
+        },
+        "tabs": {
+          "typeface": "title-small",
+          "textColor": "on-surface-variant",
+          "activeTextColor": "primary",
+          "indicatorColor": "primary",
+          "indicatorThickness": "standard",
+          "divider": "light",
+          "gap": "sm",
+          "borderRadius": "none",
+          "padding": "md"
         },
         "multiSelectDropdown": {
           "textRole": "input",
@@ -7559,6 +8931,21 @@
           "pageBorderRadius": "xs",
           "currentPageBorder": "light",
           "currentPageBorderRadius": "xs"
+        },
+        "slider": {
+          "color": "primary",
+          "trackColor": "surface-variant",
+          "borderRadius": "max",
+          "trackHeight": 4,
+          "thumbSize": 16
+        },
+        "skeleton": {
+          "color": "surface-variant",
+          "highlightColor": "surface",
+          "borderRadius": "xs",
+          "animation": "shimmer",
+          "duration": 1.4,
+          "gap": "sm"
         },
         "snackbar": {
           "bottomPosition": 40,
