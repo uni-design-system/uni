@@ -1,0 +1,15 @@
+<uni-input-box [error]="showError()" height="auto">
+  <textarea
+    [value]="value()"
+    (input)="handleInput($event)"
+    [placeholder]="placeholder()"
+    [disabled]="disabled()"
+    (blur)="markAsTouched()"
+    [rows]="resolvedRows()"
+    [class]="textareaClass()"
+    [attr.aria-label]="label()"
+    [attr.aria-invalid]="showError() ? true : null"
+    [attr.aria-required]="required() ? true : null"
+    [attr.aria-describedby]="ariaDescribedBy() || null"
+  ></textarea>
+</uni-input-box>

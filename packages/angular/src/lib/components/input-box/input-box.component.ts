@@ -20,6 +20,8 @@ export class UniInputBoxComponent extends BaseComponent<UniInputBoxOptions> {
   disabled = input<boolean>(false);
   error = input<boolean>(false);
   minWidth = input<string>('0');
+  /** Override the themed field height, e.g. `'auto'` for multi-line fields. */
+  height = input<string | number | undefined>(undefined);
 
   protected readonly color = computed(() =>
     this.error() ? this.componentOptions().errorColor : this.componentOptions().color
@@ -41,7 +43,7 @@ export class UniInputBoxComponent extends BaseComponent<UniInputBoxOptions> {
         cursor: 'not-allowed !important',
       },
       {
-        '& input, select': {
+        '& input, select, textarea': {
           ...removeInputPlatformStyling,
           height: '100%',
           ...this.theme.paddingLeft(this.componentOptions().paddingLeft),
@@ -49,16 +51,23 @@ export class UniInputBoxComponent extends BaseComponent<UniInputBoxOptions> {
           ...this.theme.typeface(this.componentOptions().typeFace),
         },
 
-        '&:has(input:disabled, select:disabled)': {
+        // Multi-line fields size themselves (rows/resize), not from the box.
+        '& textarea': {
+          height: 'auto',
+          ...this.theme.paddingTop('xs'),
+          ...this.theme.paddingBottom('xs'),
+        },
+
+        '&:has(input:disabled, select:disabled, textarea:disabled)': {
           ...this.theme.color(this.componentOptions().disabledTextColor),
           ...this.theme.backgroundColor(this.componentOptions().disabledColor),
         },
 
-        '& input:disabled, select:disabled': {
+        '& input:disabled, select:disabled, textarea:disabled': {
           cursor: 'not-allowed !important',
         },
 
-        '&:has(input:focus, select:focus)': {
+        '&:has(input:focus, select:focus, textarea:focus)': {
           outline: this.componentOptions().focusOutline,
           outlineOffset: this.componentOptions().focusOutlineOffset,
         },

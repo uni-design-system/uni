@@ -181,6 +181,9 @@ const buildComponents = (c: Colors): ComponentThemes => ({
       focusOutlineOffset: 2,
     },
   },
+  // Field chrome (color/border/typeface/focus) comes from the shared `input`
+  // options via uni-input-box; these are the textarea-specific behaviors.
+  textarea: { options: { rows: 3, resize: 'vertical' } },
   multiSelectDropdown: {
     options: {
       textRole: 'input',
