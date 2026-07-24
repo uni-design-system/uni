@@ -286,12 +286,15 @@ const buildComponents = (c: Colors): ComponentThemes => ({
   },
   progressGauge: {
     fixed: { textFill: c['on-background'] },
+    // Track = the role's container token (the palette's soft tint of that
+    // role), arc = the role base — so gauges follow any brand palette instead
+    // of the fixed pastels they used to hardcode.
     variants: {
-      primary: { backgroundColor: '#b3d4ea', color: c.primary },
-      secondary: { backgroundColor: '#b3e7c2', color: c.secondary },
-      tertiary: { backgroundColor: '#ffe2b3', color: c.tertiary },
-      warn: { backgroundColor: '#ffc2b3', color: c.warn },
-      success: { backgroundColor: '#b3e7c2', color: c.success },
+      primary: { backgroundColor: c['primary-container'], color: c.primary },
+      secondary: { backgroundColor: c['secondary-container'], color: c.secondary },
+      tertiary: { backgroundColor: c['tertiary-container'], color: c.tertiary },
+      warn: { backgroundColor: c['warn-container'], color: c.warn },
+      success: { backgroundColor: c['success-container'], color: c.success },
     },
     sizes: {
       sm: { height: '54px' },

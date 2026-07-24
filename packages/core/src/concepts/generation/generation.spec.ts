@@ -243,6 +243,22 @@ describe('card token conformance', () => {
   });
 });
 
+describe('progressGauge token conformance', () => {
+  it('derives gauge tracks from container tokens, not hardcoded pastels', () => {
+    const theme = createTheme({ id: 'T', name: 'T', colors: lightColors });
+    const variants = theme.components.progressGauge?.variants as Record<
+      string,
+      { backgroundColor: string; color: string }
+    >;
+    for (const role of ['primary', 'secondary', 'tertiary', 'warn', 'success']) {
+      expect(variants[role].backgroundColor, role).toBe(lightColors[`${role}-container`]);
+      expect(variants[role].color, role).toBe(lightColors[role]);
+    }
+    // The old pastels made secondary and success identical; containers don't.
+    expect(variants['secondary'].backgroundColor).not.toBe(variants['success'].backgroundColor);
+  });
+});
+
 describe('createTheme overrides', () => {
   it('deep-merges custom border primitives and component overrides over derived defaults', () => {
     const theme = createTheme({
