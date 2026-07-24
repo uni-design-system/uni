@@ -3,6 +3,7 @@ import { Meta, Title } from '@storybook/addon-docs/blocks';
 import * as Stories from './textarea.stories';
 import { StoryUsage } from '../../../stories/blocks/StoryUsage';
 import { StoryExample } from '../../../stories/blocks/StoryExample';
+import { ThemeOptions } from '../../../stories/blocks/ThemeOptionsBlock';
 
 <Meta of={Stories} />
 <Title />
@@ -32,3 +33,12 @@ matching Input's behavior.
 ## Disabled
 
 <StoryExample of={Stories.Disabled} />
+
+## Theme options
+
+<ThemeOptions componentName="textarea" />
+
+## Accessibility
+
+- `label` is required and becomes the accessible name (`aria-label`).
+- Error state is exposed as `aria-invalid` once the field was touched or is dirty; wire your error text with `ariaDescribedBy`.

@@ -3,6 +3,7 @@ import { Meta, Title } from '@storybook/addon-docs/blocks';
 import * as Stories from './stat.stories';
 import { StoryUsage } from '../../../stories/blocks/StoryUsage';
 import { StoryExample } from '../../../stories/blocks/StoryExample';
+import { ThemeOptions } from '../../../stories/blocks/ThemeOptionsBlock';
 
 <Meta of={Stories} />
 <Title />
@@ -36,3 +37,16 @@ resolve from the theme's `stat` options.
 ## A dashboard's KPI row
 
 <StoryExample of={Stories.KpiRow} />
+
+## Theme options
+
+<ThemeOptions componentName="stat" />
+
+## Accessibility
+
+- The delta arrow is decorative; screen readers hear "up"/"down" in words instead.
+- The sparkline is `aria-hidden` — the value and delta carry the information.
+
+## Don't
+
+- Rely on delta color alone — the arrow + wording carry direction for everyone

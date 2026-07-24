@@ -3,6 +3,7 @@ import { Meta, Title } from '@storybook/addon-docs/blocks';
 import * as Stories from './avatar.stories';
 import { StoryUsage } from '../../../stories/blocks/StoryUsage';
 import { StoryExample } from '../../../stories/blocks/StoryExample';
+import { ThemeOptions } from '../../../stories/blocks/ThemeOptionsBlock';
 
 <Meta of={Stories} />
 <Title />
@@ -36,3 +37,14 @@ token — circles by default, squares under a `sharp` shape language.
 collapses the overflow into a "+N" chip — itself an avatar with verbatim `text`.
 
 <StoryExample of={Stories.Group} />
+
+## Theme options
+
+<ThemeOptions componentName="avatar" />
+
+<ThemeOptions componentName="avatarGroup" />
+
+## Accessibility
+
+- With a `name`, the avatar is `role="img"` labelled by that name; purely decorative avatars are `aria-hidden`.
+- The group is a `role="group"`; the "+N" chip reads as text.

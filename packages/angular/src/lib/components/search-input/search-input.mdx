@@ -2,6 +2,7 @@ import * as Stories from './search-input.stories';
 import { Meta, Title } from '@storybook/addon-docs/blocks';
 import { StoryUsage } from '../../../stories/blocks/StoryUsage';
 import { StoryExample } from '../../../stories/blocks/StoryExample';
+import { ThemeOptions } from '../../../stories/blocks/ThemeOptionsBlock';
 
 <Meta of={Stories} />
 
@@ -30,3 +31,13 @@ query. The suggestion list's surface, elevation and radius resolve from the them
 Feed `suggestions` from your data source on every `change` emission:
 
 <StoryExample of={Stories.TypeAhead} />
+
+## Theme options
+
+<ThemeOptions componentName="searchInput" />
+
+## Accessibility
+
+- The field is an ARIA combobox: `aria-expanded`, `aria-controls`, and `aria-activedescendant` track the suggestion listbox.
+- ArrowUp/ArrowDown move the active option, Enter selects, Escape closes the list first and clears the query second.
+- The magnifier is decorative; the clear button has an accessible name ("Clear search").

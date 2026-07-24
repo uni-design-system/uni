@@ -1,5 +1,6 @@
 import { Meta, Title } from '@storybook/addon-docs/blocks';
 import * as Stories from './text.stories';
+import { StoryUsage } from '../../../stories/blocks/StoryUsage';
 import { StoryExample } from '../../../stories/blocks/StoryExample';
 
 <Meta of={Stories} name="Overview" />
@@ -18,10 +19,25 @@ falling back to `title-small`), so plain semantic markup is correctly set with z
 configuration. `color` takes any theme color token; `align`, `nowrap`, `maxWidth`,
 and `ellipsis` handle common text layout.
 
-## The value shorthand
+## Usage
 
-<StoryExample of={Stories.ValueShorthand} />
+<StoryUsage of={Stories.ValueShorthand} />
 
 ## Element-aware defaults
 
 <StoryExample of={Stories.ElementAwareDefaults} />
+
+## Accessibility
+
+- Text never replaces your elements — headings stay `h1`–`h6`, paragraphs stay `p`,
+  so the document outline is real.
+- Type is styling only: pick the element for meaning, the typeface for appearance
+  (an `h2` can wear `display-small` without losing its heading semantics).
+
+## Do
+
+- Reach for semantic elements first and let the element-aware defaults set the type
+
+## Don't
+
+- Use `span uni-text="headline-large"` where a real heading belongs

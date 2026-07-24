@@ -1,7 +1,7 @@
 {
   "meta": {
     "version": "5.2.0",
-    "builtAt": "2026-07-24T14:22:17.208Z",
+    "builtAt": "2026-07-24T14:28:31.520Z",
     "frameworks": [
       "angular"
     ],
@@ -129,7 +129,10 @@
         "whenToUse": "Horizontal application bar for the top of a page or section. Project controls with the\n`leading` attribute (menu button, logo) and actions with `trailing` (pushed to the far\nedge); pass `title` or project your own center content. Surface color, height, the\ndivider rule, title typography and spacing all resolve from the theme's `appBar`\noptions, and `sticky` pins the bar to the top of its scroll container.\nPlace it inside your page's `<header>` landmark. It pairs with the Drawer — see the\nDrawer docs for the full dashboard-shell recipe.",
         "dos": [],
         "donts": [],
-        "accessibility": []
+        "accessibility": [
+          "The bar is a styled container, not a landmark — place it inside your page's `<header>` element.",
+          "Give leading/trailing icon buttons text content or `ariaLabel` so they announce."
+        ]
       },
       "relatedTokens": []
     },
@@ -191,7 +194,10 @@
         "whenToUse": "Identity avatar with a graceful fallback chain: the image when it loads, initials\nderived from `name` when it doesn't (or was never given), and a themed symbol as the\nlast resort. The name doubles as the accessible label; avatars with no name are marked\ndecorative automatically.\nVariants color initials from the role's container tokens, so avatars follow the brand\npalette in light and dark. The corner radius is the theme's `avatar.options.borderRadius`\ntoken — circles by default, squares under a `sharp` shape language.",
         "dos": [],
         "donts": [],
-        "accessibility": []
+        "accessibility": [
+          "With a `name`, the avatar is `role=\"img\"` labelled by that name; purely decorative avatars are `aria-hidden`.",
+          "The group is a `role=\"group\"`; the \"+N\" chip reads as text."
+        ]
       },
       "relatedTokens": [
         "avatar.behavior.borderRadius",
@@ -815,7 +821,12 @@
         "whenToUse": "Breadcrumbs show where the current page sits in the hierarchy and give one-click\npassage back up the trail. The component renders the WAI-ARIA pattern: a labelled\n`nav` landmark wrapping an ordered list, with the last item marked as the current page\nand separators hidden from assistive tech.\nItems with `href` render as real links. For SPA routing, omit `href` and handle\n`itemClicked` — items render as link-styled buttons instead. Typography, link and\ncurrent-page colors, the separator symbol, and spacing all resolve from the theme's\n`breadcrumb` options.",
         "dos": [],
         "donts": [],
-        "accessibility": []
+        "accessibility": [
+          "Renders the WAI-ARIA pattern: a labelled `nav` landmark wrapping an ordered list.",
+          "The last item is `aria-current=\"page\"` and not a link.",
+          "Separators are `aria-hidden` — screen readers hear the trail, not the chevrons.",
+          "Set `ariaLabel` when a page has more than one breadcrumb nav."
+        ]
       },
       "relatedTokens": [
         "breadcrumb.behavior.typeface",
@@ -1543,7 +1554,10 @@
         "whenToUse": "A themed text input that emits its `change` output only after the user pauses typing\n(400&nbsp;ms by default) and only when the value actually changed — a signal-based\ndebounce with no rxjs involved. The live value is exposed as the `value` signal, and\n`clear()` empties the field immediately (cancelling any pending emit).\nIt wears the shared input chrome (color, border, typeface, focus ring) via the input\nbox, and offers `pre-input` / `post-input` attribute slots for adornments plus ARIA\npassthrough inputs (`role`, `ariaExpanded`, `ariaControls`, `ariaActivedescendant`)\nso composite widgets can annotate the real input element.\nUsed by the [Search Input](?path=/docs/components-forms-search-input--docs), which\nprojects its magnifier and clear button through the slots and drives the combobox\nARIA through the passthroughs.",
         "dos": [],
         "donts": [],
-        "accessibility": []
+        "accessibility": [
+          "Set `label` — it becomes the accessible name (`aria-label`) of the inner input.",
+          "The ARIA passthrough inputs (`role`, `ariaExpanded`, `ariaControls`,"
+        ]
       },
       "relatedTokens": []
     },
@@ -1877,7 +1891,11 @@
         "whenToUse": "Navigation drawer with two modes sharing one content slot:\n- **`side`** renders an in-flow `<aside>` that pushes page content — the classic\n  dashboard sidenav. Opening and closing animates its width; a divider border primitive\n  separates it from the content, and it is hidden from assistive tech while closed.\n- **`over`** renders a native `<dialog>` in the top layer: focus trapping, Escape, and\n  the scrim backdrop come from the platform, and the panel slides in from its edge\n  (`position`: `start` or `end`).\n`[(open)]` is two-way; Escape and backdrop clicks keep it in sync. Surface, width,\ndivider, elevation, padding and backdrop all resolve from the theme's `drawer` options.",
         "dos": [],
         "donts": [],
-        "accessibility": []
+        "accessibility": [
+          "Overlay mode is a native `<dialog>`: focus is trapped by `showModal()`, Escape closes, and the backdrop click closes — all kept in sync with `[(open)]`.",
+          "Give the overlay an accessible name via `ariaLabel` (defaults to \"Navigation\").",
+          "A closed side drawer is `aria-hidden`, so its links leave the accessibility tree."
+        ]
       },
       "relatedTokens": [
         "drawer.behavior.color",
@@ -4039,7 +4057,11 @@
         "whenToUse": "Generic search field wearing the shared input chrome: a decorative leading magnifier,\na clear button while there's a query, and Enter to submit (`search`). `change` emits\ndebounced as the user types — use it to refresh results or the `suggestions` input.\nWith `suggestions`, the field becomes an ARIA combobox: entries render in a listbox\nunder the field, ArrowUp/Down move the highlight, Enter selects (emitting both\n`suggestionSelected` and `search`), and Escape closes the list first, then clears the\nquery. The suggestion list's surface, elevation and radius resolve from the theme's\n`searchInput` options, alongside the search/clear symbols.",
         "dos": [],
         "donts": [],
-        "accessibility": []
+        "accessibility": [
+          "The field is an ARIA combobox: `aria-expanded`, `aria-controls`, and `aria-activedescendant` track the suggestion listbox.",
+          "ArrowUp/ArrowDown move the active option, Enter selects, Escape closes the list first and clears the query second.",
+          "The magnifier is decorative; the clear button has an accessible name (\"Clear search\")."
+        ]
       },
       "relatedTokens": []
     },
@@ -4246,8 +4268,13 @@
       "guidelines": {
         "whenToUse": "Loading placeholder that sketches the shape of incoming content: `text` renders one or\nmore lines (ending on a short line, as real copy would), `rect` stands in for media and\ncharts, `circle` for avatars. Skeletons paint with the theme's surface tokens so they\nsit naturally on any brand in both modes, and the shimmer sweep only animates for users\nwho allow motion — under `prefers-reduced-motion` it degrades to calm static blocks.\nSkeletons are `aria-hidden`; announce loading on the container (e.g. `aria-busy`)\nwhere your app knows what is actually loading.",
         "dos": [],
-        "donts": [],
-        "accessibility": []
+        "donts": [
+          "Announce individual skeletons to assistive tech — they are decorative placeholders"
+        ],
+        "accessibility": [
+          "Skeletons are `aria-hidden` — announce loading on the container (e.g. `aria-busy`) where your app knows what is loading.",
+          "The shimmer respects `prefers-reduced-motion`, degrading to static blocks."
+        ]
       },
       "relatedTokens": [
         "skeleton.behavior.color",
@@ -4381,7 +4408,11 @@
         "whenToUse": "Range slider for picking a number within bounds. It renders a native\n`<input type=\"range\">`, so keyboard interaction (arrows, Home/End, Page Up/Down) and\nthe ARIA slider contract come from the platform. The same Signal Forms contract as\nInput applies — bind with the `[field]` directive or drive `[(value)]` directly.\nFill and thumb color, track color, radii and geometry resolve from the theme's\n`slider` options; the fill level rides a CSS custom property, so dragging never\nregenerates styles.",
         "dos": [],
         "donts": [],
-        "accessibility": []
+        "accessibility": [
+          "Native `<input type=\"range\">`: arrows, Home/End, and Page Up/Down come from the platform, and the ARIA slider contract (valuenow/min/max) is native.",
+          "`label` is required and becomes the accessible name.",
+          "Expose the current value textually nearby and link it with `ariaDescribedBy` when the number matters."
+        ]
       },
       "relatedTokens": [
         "slider.behavior.color",
@@ -4663,8 +4694,13 @@
       "guidelines": {
         "whenToUse": "The KPI tile a dashboard leads with: a muted label, a large headline value (numbers\nauto-compact — `48234` renders \"48.2K\"), an optional signed delta, and an optional\ndecorative sparkline.\nThe delta's color is decided by **direction × whether up is good**, never direction\nalone — set `upIsGood` to `false` for measures like churn, errors, or cost, and a\nfalling number correctly reads as good news. The arrow is accompanied by\nscreen-reader text (\"up\"/\"down\"), so state never relies on color alone, and `caption`\nnames the comparison period.\nFrame (surface, border primitive, radius), typography (the type scale's `stat` role\nfor values), delta inks (the semantic `success`/`error`), and sparkline colors all\nresolve from the theme's `stat` options.",
         "dos": [],
-        "donts": [],
-        "accessibility": []
+        "donts": [
+          "Rely on delta color alone — the arrow + wording carry direction for everyone"
+        ],
+        "accessibility": [
+          "The delta arrow is decorative; screen readers hear \"up\"/\"down\" in words instead.",
+          "The sparkline is `aria-hidden` — the value and delta carry the information."
+        ]
       },
       "relatedTokens": [
         "stat.behavior.labelTypeface",
@@ -5011,9 +5047,16 @@
       ],
       "guidelines": {
         "whenToUse": "The typography primitive, applied as an **attribute on any element** so your HTML\nsemantics stay intact. The attribute value is the typeface —\n`<h1 uni-text=\"display-small\">` — and `[uni-text]=\"role()\"` binds it dynamically.\nWith no value, the typeface is inferred from the host element (`h1` →\n`headline-large`, `p` → `body-1-long`, `small` → `caption`, `blockquote` → `quote`,\nfalling back to `title-small`), so plain semantic markup is correctly set with zero\nconfiguration. `color` takes any theme color token; `align`, `nowrap`, `maxWidth`,\nand `ellipsis` handle common text layout.",
-        "dos": [],
-        "donts": [],
-        "accessibility": []
+        "dos": [
+          "Reach for semantic elements first and let the element-aware defaults set the type"
+        ],
+        "donts": [
+          "Use `span uni-text=\"headline-large\"` where a real heading belongs"
+        ],
+        "accessibility": [
+          "Text never replaces your elements — headings stay `h1`–`h6`, paragraphs stay `p`,",
+          "Type is styling only: pick the element for meaning, the typeface for appearance"
+        ]
       },
       "relatedTokens": []
     },
@@ -5137,7 +5180,10 @@
         "whenToUse": "Multi-line text field with the same Signal Forms contract as Input — use it anywhere\nfree-form text runs past one line (comments, descriptions, feedback). It shares Input's\nthemed chrome (color, border, error state, focus outline, typeface) and adds\ntextarea-specific behavior from the theme's `textarea` options: default `rows` and the\nCSS `resize` mode. Bind it to a form with the `[field]` directive, or drive `[(value)]`\ndirectly.",
         "dos": [],
         "donts": [],
-        "accessibility": []
+        "accessibility": [
+          "`label` is required and becomes the accessible name (`aria-label`).",
+          "Error state is exposed as `aria-invalid` once the field was touched or is dirty; wire your error text with `ariaDescribedBy`."
+        ]
       },
       "relatedTokens": [
         "textarea.behavior.rows",

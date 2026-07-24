@@ -3,6 +3,7 @@ import { Meta, Title } from '@storybook/addon-docs/blocks';
 import * as Stories from './slider.stories';
 import { StoryUsage } from '../../../stories/blocks/StoryUsage';
 import { StoryExample } from '../../../stories/blocks/StoryExample';
+import { ThemeOptions } from '../../../stories/blocks/ThemeOptionsBlock';
 
 <Meta of={Stories} />
 <Title />
@@ -33,3 +34,13 @@ Fractional `step` values work naturally — the value model carries real numbers
 ## Disabled
 
 <StoryExample of={Stories.Disabled} />
+
+## Theme options
+
+<ThemeOptions componentName="slider" />
+
+## Accessibility
+
+- Native `<input type="range">`: arrows, Home/End, and Page Up/Down come from the platform, and the ARIA slider contract (valuenow/min/max) is native.
+- `label` is required and becomes the accessible name.
+- Expose the current value textually nearby and link it with `ariaDescribedBy` when the number matters.

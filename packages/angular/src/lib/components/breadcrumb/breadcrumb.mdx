@@ -3,6 +3,7 @@ import { Meta, Title } from '@storybook/addon-docs/blocks';
 import * as Stories from './breadcrumb.stories';
 import { StoryUsage } from '../../../stories/blocks/StoryUsage';
 import { StoryExample } from '../../../stories/blocks/StoryExample';
+import { ThemeOptions } from '../../../stories/blocks/ThemeOptionsBlock';
 
 <Meta of={Stories} />
 <Title />
@@ -28,3 +29,14 @@ current-page colors, the separator symbol, and spacing all resolve from the them
 ## Router-driven
 
 <StoryExample of={Stories.RouterDriven} />
+
+## Theme options
+
+<ThemeOptions componentName="breadcrumb" />
+
+## Accessibility
+
+- Renders the WAI-ARIA pattern: a labelled `nav` landmark wrapping an ordered list.
+- The last item is `aria-current="page"` and not a link.
+- Separators are `aria-hidden` — screen readers hear the trail, not the chevrons.
+- Set `ariaLabel` when a page has more than one breadcrumb nav.

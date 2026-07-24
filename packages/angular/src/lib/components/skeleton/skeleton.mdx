@@ -3,6 +3,7 @@ import { Meta, Title } from '@storybook/addon-docs/blocks';
 import * as Stories from './skeleton.stories';
 import { StoryUsage } from '../../../stories/blocks/StoryUsage';
 import { StoryExample } from '../../../stories/blocks/StoryExample';
+import { ThemeOptions } from '../../../stories/blocks/ThemeOptionsBlock';
 
 <Meta of={Stories} />
 <Title />
@@ -27,3 +28,16 @@ where your app knows what is actually loading.
 ## Composing a placeholder card
 
 <StoryExample of={Stories.CardPlaceholder} />
+
+## Theme options
+
+<ThemeOptions componentName="skeleton" />
+
+## Accessibility
+
+- Skeletons are `aria-hidden` — announce loading on the container (e.g. `aria-busy`) where your app knows what is loading.
+- The shimmer respects `prefers-reduced-motion`, degrading to static blocks.
+
+## Don't
+
+- Announce individual skeletons to assistive tech — they are decorative placeholders

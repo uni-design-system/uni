@@ -3,6 +3,7 @@ import { Meta, Title } from '@storybook/addon-docs/blocks';
 import * as Stories from './drawer.stories';
 import { StoryUsage } from '../../../stories/blocks/StoryUsage';
 import { StoryExample } from '../../../stories/blocks/StoryExample';
+import { ThemeOptions } from '../../../stories/blocks/ThemeOptionsBlock';
 
 <Meta of={Stories} />
 <Title />
@@ -32,3 +33,13 @@ App bar with a menu toggle, side drawer, content — the standard application sk
 ## Overlay mode
 
 <StoryExample of={Stories.Overlay} />
+
+## Theme options
+
+<ThemeOptions componentName="drawer" />
+
+## Accessibility
+
+- Overlay mode is a native `<dialog>`: focus is trapped by `showModal()`, Escape closes, and the backdrop click closes — all kept in sync with `[(open)]`.
+- Give the overlay an accessible name via `ariaLabel` (defaults to "Navigation").
+- A closed side drawer is `aria-hidden`, so its links leave the accessibility tree.
