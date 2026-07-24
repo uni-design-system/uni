@@ -138,6 +138,17 @@ const buildComponents = (c: Colors): ComponentThemes => ({
   alert: {
     options: { topPosition: 40, borderRadius: 'sm', transitionSpeed: 0.35, elevation: 'md' },
   },
+  // Trail typography, link/current colors, separator symbol and spacing are
+  // tokens; the current page reads in the stronger ink.
+  breadcrumb: {
+    options: {
+      typeface: 'label',
+      color: 'on-background-variant',
+      currentColor: 'on-background',
+      separatorSymbol: 'chevron_right',
+      gap: 'xs',
+    },
+  },
   // App shell: bar surface, divider, title type and spacing are all tokens.
   appBar: {
     options: {

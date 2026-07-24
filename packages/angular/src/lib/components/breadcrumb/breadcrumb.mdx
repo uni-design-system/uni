@@ -1,0 +1,30 @@
+import { Meta, Title } from '@storybook/addon-docs/blocks';
+
+import * as Stories from './breadcrumb.stories';
+import { StoryUsage } from '../../../stories/blocks/StoryUsage';
+import { StoryExample } from '../../../stories/blocks/StoryExample';
+
+<Meta of={Stories} />
+<Title />
+
+`import { UniBreadcrumbComponent } from '@uni-design-system/uni-angular';`
+
+## Overview
+
+Breadcrumbs show where the current page sits in the hierarchy and give one-click
+passage back up the trail. The component renders the WAI-ARIA pattern: a labelled
+`nav` landmark wrapping an ordered list, with the last item marked as the current page
+and separators hidden from assistive tech.
+
+Items with `href` render as real links. For SPA routing, omit `href` and handle
+`itemClicked` — items render as link-styled buttons instead. Typography, link and
+current-page colors, the separator symbol, and spacing all resolve from the theme's
+`breadcrumb` options.
+
+## Usage
+
+<StoryUsage of={Stories.Default} />
+
+## Router-driven
+
+<StoryExample of={Stories.RouterDriven} />

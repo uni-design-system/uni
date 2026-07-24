@@ -9,6 +9,7 @@ export type ComponentName =
   | 'avatar'
   | 'avatarGroup'
   | 'badge'
+  | 'breadcrumb'
   | 'button'
   | 'buttonGroup'
   | 'card'
