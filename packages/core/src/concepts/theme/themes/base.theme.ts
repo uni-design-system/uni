@@ -409,6 +409,18 @@ const buildComponents = (c: Colors): ComponentThemes => ({
       currentPageBorderRadius: 'xs',
     },
   },
+  // Loading placeholders paint with surface tokens so they sit naturally on
+  // any theme; the shimmer highlight sweeps in the lighter surface color.
+  skeleton: {
+    options: {
+      color: 'surface-variant',
+      highlightColor: 'surface',
+      borderRadius: 'xs',
+      animation: 'shimmer',
+      duration: 1.4,
+      gap: 'sm',
+    },
+  },
   snackbar: {
     options: { bottomPosition: 40, transitionDelay: '0.35s', autoCloseDelay: 35000 },
   },

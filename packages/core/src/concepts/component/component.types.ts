@@ -27,6 +27,7 @@ export type ComponentName =
   | 'paginator'
   | 'radio'
   | 'select'
+  | 'skeleton'
   | 'slider'
   | 'snackbar'
   | 'symbol'
