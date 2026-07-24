@@ -12,7 +12,7 @@ import type { SkeletonShape, UniSkeletonOptions } from './skeleton.model';
  */
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  selector: 'uni-skeleton, Skeleton',
+  selector: 'uni-skeleton',
   providers: [{ provide: COMPONENT_NAME, useValue: 'skeleton' }],
   host: { '[class]': 'className()', 'aria-hidden': 'true' },
   template: `

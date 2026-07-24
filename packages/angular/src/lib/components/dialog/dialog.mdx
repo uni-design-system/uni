@@ -38,11 +38,11 @@ Enhanced modal dialog that extends the native HTML `<dialog>` element with built
 
 ```html
 <dialog #dialog>
-  <DialogHeader>Dialog Title</DialogHeader>
+  <header uni-dialog-header>Dialog Title</header>
   <div>Dialog content goes here</div>
-  <DialogButtons>
+  <footer dialog-buttons>
     <button (click)="dialog.close()">Close</button>
-  </DialogButtons>
+  </footer>
 </dialog>
 
 <button (click)="dialog.open()">Open Dialog</button>
@@ -54,7 +54,7 @@ Enhanced modal dialog that extends the native HTML `<dialog>` element with built
 
 ```html
 <dialog #dialog [defaultCloseButton]="false">
-  <DialogHeader>
+  <header uni-dialog-header>
     Custom Header
     <button
       variant="ghost"
@@ -63,7 +63,7 @@ Enhanced modal dialog that extends the native HTML `<dialog>` element with built
     >
       Close
     </button>
-  </DialogHeader>
+  </header>
   <div>Dialog content with custom close button</div>
 </dialog>
 ```
@@ -72,11 +72,11 @@ Enhanced modal dialog that extends the native HTML `<dialog>` element with built
 
 ```html
 <dialog [show]="isDialogVisible" (showing)="dialogStateChanged($event)">
-  <DialogHeader>Controlled Dialog</DialogHeader>
+  <header uni-dialog-header>Controlled Dialog</header>
   <div>This dialog is controlled by the isDialogVisible property</div>
-  <DialogButtons>
+  <footer dialog-buttons>
     <button (click)="isDialogVisible = false">Close</button>
-  </DialogButtons>
+  </footer>
 </dialog>
 
 <button (click)="isDialogVisible = true">Open Dialog</button>

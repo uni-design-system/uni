@@ -11,7 +11,7 @@ import type { UniAvatarOptions } from './avatar.model';
  */
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  selector: 'uni-avatar, Avatar',
+  selector: 'uni-avatar',
   imports: [UniSymbolComponent],
   providers: [{ provide: COMPONENT_NAME, useValue: 'avatar' }],
   host: {
@@ -28,7 +28,7 @@ import type { UniAvatarOptions } from './avatar.model';
     } @else if (initials()) {
       <span>{{ initials() }}</span>
     } @else {
-      <Symbol [name]="componentOptions().fallbackSymbol ?? 'person'" />
+      <uni-symbol [name]="componentOptions().fallbackSymbol ?? 'person'" />
     }
   `,
 })

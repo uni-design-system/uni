@@ -15,7 +15,7 @@ import { UniInputBoxComponent } from '../input-box/input-box.component';
 import { UniMultiSelectDropdownOptions } from './multi-select-dropdown.model';
 
 @Component({
-  selector: 'uni-multi-select-dropdown, MultiSelectDropdown',
+  selector: 'uni-multi-select-dropdown',
   imports: [
     UniCheckboxComponent,
     UniBoxComponent,

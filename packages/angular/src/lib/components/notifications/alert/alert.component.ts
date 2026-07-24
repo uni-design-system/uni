@@ -26,7 +26,7 @@ import { UniTextComponent } from '../../text';
 import type { UniAlertOptions } from './alert.model';
 
 @Component({
-  selector: 'uni-alert, Alert',
+  selector: 'uni-alert',
   imports: [
     UniRowComponent,
     UniIconButtonComponent,

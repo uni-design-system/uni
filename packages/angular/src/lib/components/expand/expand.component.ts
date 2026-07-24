@@ -5,7 +5,7 @@ import { uniqueId } from '../../cdk';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  selector: 'uni-expand, Expand',
+  selector: 'uni-expand',
   imports: [],
   template: `@if (!collapsed()) {
     <div

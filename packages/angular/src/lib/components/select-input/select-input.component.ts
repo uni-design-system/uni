@@ -7,7 +7,7 @@ import { UniSymbolComponent } from '../symbol';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  selector: 'uni-select, SelectInput',
+  selector: 'uni-select',
   imports: [UniInputBoxComponent, UniSymbolComponent],
   templateUrl: './select-input.component.html',
 })

@@ -5,7 +5,7 @@ import { ThemeService } from '../../theming/theme.service';
 import type { ColorToken, Icons } from '@uni-design-system/uni-core';
 
 @Component({
-  selector: 'uni-icon, Icon',
+  selector: 'uni-icon',
   imports: [],
   template: '',
   styleUrls: ['./icon.component.scss'],

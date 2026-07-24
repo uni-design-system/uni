@@ -11,7 +11,7 @@ import type { UniAvatarGroupOptions } from './avatar.model';
  */
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  selector: 'uni-avatar-group, AvatarGroup',
+  selector: 'uni-avatar-group',
   imports: [UniAvatarComponent],
   providers: [{ provide: COMPONENT_NAME, useValue: 'avatarGroup' }],
   host: { '[class]': 'className()', role: 'group' },

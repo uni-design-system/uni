@@ -11,9 +11,9 @@ const meta: Meta<StoryType> = {
     return {
       props,
       template: `
-        <Badge color="${color}" [width]="${width}">
+        <div uni-badge color="${color}" [width]="${width}">
           ${ngContent}
-        </Badge>
+        </div>
       `,
     };
   },

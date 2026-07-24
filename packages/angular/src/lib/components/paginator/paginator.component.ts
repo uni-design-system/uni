@@ -9,7 +9,7 @@ import { UniTextComponent } from '../text/text.component';
 import type { UniPaginatorOptions } from './paginator.model';
 
 @Component({
-  selector: 'uni-paginator, Paginator',
+  selector: 'uni-paginator',
   imports: [UniRowComponent, UniIconButtonComponent, UniTextComponent],
   templateUrl: './paginator.component.html',
   providers: [{ provide: COMPONENT_NAME, useValue: 'paginator' }],

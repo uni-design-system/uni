@@ -18,7 +18,7 @@
     </div>
 
     <div box-layout [height]="height()" position="relative" [attr.aria-busy]="isLoading()">
-      <ScrollArea [verticalScrollPadding]="0" (scrollable)="handleScrollable($event)">
+      <div scroll-area [verticalScrollPadding]="0" (scrollable)="handleScrollable($event)">
         <table [class]="tableClass()">
           <thead>
             <tr>
@@ -101,7 +101,7 @@
             }
           </tbody>
         </table>
-      </ScrollArea>
+      </div>
 
       <!-- Loading Overlay -->
       @if (isLoading()) {

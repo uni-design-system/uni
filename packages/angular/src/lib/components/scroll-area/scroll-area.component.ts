@@ -31,7 +31,7 @@ type OptionalValue = string | number | undefined;
  * `scrollbar-width`/`scrollbar-color` fallback for Firefox.
  */
 @Component({
-  selector: 'div[uni-scroll-area], ScrollArea, div[scroll-area]',
+  selector: '[uni-scroll-area], [scroll-area]',
   imports: [],
   template: `<div #viewport [class]="viewportClassName()">
     <div

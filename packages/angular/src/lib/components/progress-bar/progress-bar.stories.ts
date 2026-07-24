@@ -16,7 +16,7 @@ const meta: Meta<StoryType> = {
     const { percent, ...props } = args;
     return {
       props,
-      template: `<ProgressBar percent="${percent}" ${argsToTemplate(props)}></ProgressBar>`,
+      template: `<uni-progress-bar percent="${percent}" ${argsToTemplate(props)}></uni-progress-bar>`,
     };
   },
   argTypes: {

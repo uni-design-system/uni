@@ -1,13 +1,12 @@
-<Alert
+<uni-alert
   [show]="showAlert()"
   (showing)="handleAlertShowingEvent($event)"
   [variant]="alert()?.variant || 'primary'"
   [iconName]="alert()?.iconName"
   [symbolName]="alert()?.symbolName"
-  >{{ alert()?.message }}</Alert
->
+  >{{ alert()?.message }}</uni-alert>
 
-<Snackbar
+<uni-snackbar
   [show]="showSnackbar()"
   (showing)="handleSnackbarShowingEvent($event)"
   [variant]="snackbar()?.variant || 'primary'"
@@ -16,11 +15,10 @@
   [timeout]="snackbar()?.timeout"
   [iconName]="snackbar()?.iconName"
   [symbolName]="snackbar()?.symbolName"
-  >{{ snackbar()?.message }}</Snackbar
->
+  >{{ snackbar()?.message }}</uni-snackbar>
 
-<Confirmation
+<uni-confirmation-dialog
   [show]="showConfirmation()"
   (showing)="handleConfirmationShowingEvent($event)"
   [confirmation]="confirmation()"
-></Confirmation>
+></uni-confirmation-dialog>

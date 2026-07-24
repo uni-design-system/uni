@@ -5,7 +5,7 @@ import { ThemeService } from '../../theming';
 export type ImagePosition = 'top' | 'bottom' | 'left' | 'right' | 'center' | string;
 
 @Component({
-  selector: 'uni-background, Background',
+  selector: 'uni-background',
   imports: [],
   template: `<ng-content></ng-content>`,
   host: { '[class]': 'className()' },

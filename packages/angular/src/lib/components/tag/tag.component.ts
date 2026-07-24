@@ -5,7 +5,7 @@ import { UniTextComponent } from '../text/text.component';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  selector: 'Tag, uni-tag',
+  selector: 'uni-tag',
   imports: [UniBoxComponent, UniIconButtonComponent, UniTextComponent, UniRowComponent],
   templateUrl: './tag.component.html',
 })

@@ -16,7 +16,7 @@ const meta: Meta<StoryType> = {
       undefined,
       template: `
           <div box-layout height="${size}px">
-            <Icon name="${name}" color="${color}" />
+            <uni-icon name="${name}" color="${color}" />
           </div>
       `,
     };

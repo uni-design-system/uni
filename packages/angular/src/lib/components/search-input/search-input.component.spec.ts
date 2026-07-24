@@ -29,7 +29,7 @@ describe('UniSearchInputComponent', () => {
 
   it('wears the input chrome with a decorative magnifier and combobox ARIA', () => {
     expect(host().querySelector('uni-input-box')).not.toBeNull();
-    expect(host().querySelector('symbol[aria-hidden="true"], Symbol[aria-hidden="true"]')).not.toBeNull();
+    expect(host().querySelector('uni-symbol[aria-hidden="true"]')).not.toBeNull();
     expect(inputEl().getAttribute('role')).toBe('combobox');
     expect(inputEl().getAttribute('aria-label')).toBe('Search docs');
     expect(inputEl().getAttribute('aria-expanded')).toBe('false');

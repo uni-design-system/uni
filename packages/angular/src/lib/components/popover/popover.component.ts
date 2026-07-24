@@ -23,7 +23,7 @@ import {
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  selector: 'uni-popover, Popover',
+  selector: 'uni-popover',
   imports: [],
   templateUrl: './popover.component.html',
 })

@@ -22,7 +22,7 @@ import { UniInputBoxComponent } from '../../input-box/input-box.component';
  */
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  selector: 'DebounceInput, uni-debounce-input',
+  selector: 'uni-debounce-input',
   imports: [UniInputBoxComponent],
   templateUrl: './debounce-input.component.html',
 })

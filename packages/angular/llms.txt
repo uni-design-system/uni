@@ -21,7 +21,7 @@ Inheritance (inputs listed once, available on all subclasses):
 - selector: `[uniBodyRender]`
 
 ## ConfirmationDialogComponent
-- selector: `uni-confirmation-dialog, Confirmation`
+- selector: `uni-confirmation-dialog`
 - inputs:
   - `show: boolean` = false
   - `confirmation: Confirmation`
@@ -34,13 +34,13 @@ Inheritance (inputs listed once, available on all subclasses):
   - `onFileDropped: FileList`
 
 ## NotificationsComponent
-- selector: `uni-notifications, Notifications`
+- selector: `uni-notifications`
 
 ## RippleDirective
 - selector: `[uniRipple]`
 
 ## UniAlertComponent
-- selector: `uni-alert, Alert`
+- selector: `uni-alert`
 - inputs:
   - `iconName: IconName | undefined` = undefined
   - `symbolName: string | undefined` = undefined
@@ -51,25 +51,25 @@ Inheritance (inputs listed once, available on all subclasses):
   - `showing: boolean`
 
 ## UniAppBarComponent
-- selector: `uni-app-bar, AppBar`
+- selector: `uni-app-bar`
 - inputs:
   - `title: string` — Bar title; alternatively project your own center content.
   - `sticky: boolean` = false — Stick the bar to the top of its scroll container.
 
 ## UniAvatarComponent
-- selector: `uni-avatar, Avatar`
+- selector: `uni-avatar`
 - inputs:
   - `src: string` — Image URL; on load error the avatar falls back to initials/symbol.
   - `name: string` — Person's name: drives the initials and the accessible label.
   - `text: string` — Verbatim text instead of derived initials (e.g. a group's “+3”).
 
 ## UniAvatarGroupComponent
-- selector: `uni-avatar-group, AvatarGroup`
+- selector: `uni-avatar-group`
 - inputs:
   - `max: number | undefined` = undefined — Show at most this many avatars; the rest collapse into a “+N” chip.
 
 ## UniBackgroundComponent
-- selector: `uni-background, Background`
+- selector: `uni-background`
 - inputs:
   - `image: string`
   - `imagePosition: ImagePosition`
@@ -78,7 +78,7 @@ Inheritance (inputs listed once, available on all subclasses):
   - `width: number | string`
 
 ## UniBadgeComponent
-- selector: `div[uni-badge], Badge`
+- selector: `[uni-badge]`
 - inputs:
   - `color: Variant | undefined` = undefined
   - `useVariant: boolean` = false
@@ -136,7 +136,7 @@ Inheritance (inputs listed once, available on all subclasses):
   - `zIndex: ZIndexableElements`
 
 ## UniBreadcrumbComponent
-- selector: `uni-breadcrumb, Breadcrumb`
+- selector: `uni-breadcrumb`
 - inputs:
   - `items: BreadcrumbItem[]` (required) — The trail, root first; the last item is the current page.
   - `ariaLabel: string` = 'Breadcrumb' — Landmark label distinguishing this nav from others on the page.
@@ -144,7 +144,7 @@ Inheritance (inputs listed once, available on all subclasses):
   - `itemClicked: BreadcrumbItem` — Emits the clicked ancestor item (also fires for `href` links).
 
 ## UniButtonComponent
-- selector: `button[uni-text-button], Button, button[text-button]`
+- selector: `button[uni-text-button], button[text-button]`
 - inputs:
   - `disable: boolean | undefined` = false
   - `loading: boolean | undefined` = false
@@ -153,16 +153,16 @@ Inheritance (inputs listed once, available on all subclasses):
   - `symbolRight: string`
 
 ## UniButtonGroupComponent
-- selector: `uni-button-group, ButtonGroup`
+- selector: `uni-button-group`
 
 ## UniCardComponent
-- selector: `uni-card, Card`
+- selector: `uni-card`
 
 ## UniCardContentComponent
-- selector: `uni-card-content, CardContent`
+- selector: `uni-card-content`
 
 ## UniCardHeaderComponent
-- selector: `uni-card-header, CardHeader`
+- selector: `uni-card-header`
 - inputs:
   - `title: string` = ''
   - `titleTextRole: Typeface` = 'title-large'
@@ -175,7 +175,7 @@ Inheritance (inputs listed once, available on all subclasses):
   - `alignItems: OptionalAlignItems` = 'center'
 
 ## UniCheckboxComponent
-- selector: `uni-checkbox, Checkbox`
+- selector: `uni-checkbox`
 - inputs:
   - `disabled: boolean` = false
   - `invalid: boolean` = false
@@ -196,7 +196,7 @@ Inheritance (inputs listed once, available on all subclasses):
   - `fields: string[]`
 
 ## UniDataTableComponent
-- selector: `uni-data-table, DataTable`
+- selector: `uni-data-table`
 - inputs:
   - `datasource: UniDatasource<T>` (required)
   - `columns: ColumnDefinition<T>[]` (required)
@@ -208,7 +208,7 @@ Inheritance (inputs listed once, available on all subclasses):
   - `rowClick: T`
 
 ## UniDebounceInputComponent
-- selector: `DebounceInput, uni-debounce-input`
+- selector: `uni-debounce-input`
 - inputs:
   - `inputName: string`
   - `inputId: string`
@@ -224,7 +224,7 @@ Inheritance (inputs listed once, available on all subclasses):
   - `change: string`
 
 ## UniDialogButtonsComponent
-- selector: `uni-dialog-buttons, DialogButtons, div[dialog-buttons]`
+- selector: `[uni-dialog-buttons], [dialog-buttons]`
 - inputs:
   - `confirmButtonText: string`
   - `confirmButtonVariant: Variant` = 'primary'
@@ -237,7 +237,7 @@ Inheritance (inputs listed once, available on all subclasses):
   - `confirmed: unknown`
 
 ## UniDialogComponent
-- selector: `dialog[uni-dialog], Dialog`
+- selector: `dialog[uni-dialog]`
 - inputs:
   - `ariaLabel: string` — Accessible name for dialogs without a DialogHeader. When a DialogHeader is present it labels the dialog automatically via aria-labelledby.
   - `initialFocus: string` — CSS selector for the element to focus when the dialog opens. Defaults to the browser's native behavior (first focusable element).
@@ -248,16 +248,16 @@ Inheritance (inputs listed once, available on all subclasses):
   - `showing: boolean` — Emits true once opened and false once the closing animation finishes.
 
 ## UniDialogHeaderComponent
-- selector: `div[uni-dialog-header], DialogHeader`
+- selector: `[uni-dialog-header]`
 
 ## UniDividerComponent
-- selector: `uni-divider, Divider`
+- selector: `uni-divider`
 - inputs:
   - `orientation: Orientation` = 'horizontal'
   - `border: Border` = 'primary'
 
 ## UniDrawerComponent
-- selector: `uni-drawer, Drawer`
+- selector: `uni-drawer`
 - inputs:
   - `mode: DrawerMode` = 'side'
   - `position: DrawerPosition` = 'start'
@@ -266,7 +266,7 @@ Inheritance (inputs listed once, available on all subclasses):
   - `open: boolean` = false — Two-way bindable open state: [(open)].
 
 ## UniDropdownComponent
-- selector: `uni-dropdown, Dropdown`
+- selector: `uni-dropdown`
 - inputs:
   - `trigger: HTMLElement` (required)
   - `placement: Placement` = 'bottom-start'
@@ -279,7 +279,7 @@ Inheritance (inputs listed once, available on all subclasses):
   - `dropdownHiding: boolean`
 
 ## UniExpandAreaComponent
-- selector: `uni-expand-area, ExpandArea`
+- selector: `uni-expand-area`
 - inputs:
   - `title: string` (required)
   - `initCollapsed: boolean` = false
@@ -288,12 +288,12 @@ Inheritance (inputs listed once, available on all subclasses):
   - `collapsed: boolean`
 
 ## UniExpandComponent
-- selector: `uni-expand, Expand`
+- selector: `uni-expand`
 - two-way models:
   - `collapsed: boolean` = true
 
 ## UniExpandToggleComponent
-- selector: `uni-expand-toggle, ExpandToggle`
+- selector: `uni-expand-toggle`
 - inputs:
   - `ariaControls: string` — Id of the Expand region this toggle controls (see UniExpandComponent.regionId).
 - two-way models:
@@ -344,7 +344,7 @@ Inheritance (inputs listed once, available on all subclasses):
   - `opticalSize: number` = 24
 
 ## UniIconComponent
-- selector: `uni-icon, Icon`
+- selector: `uni-icon`
 - inputs:
   - `color: ColorToken`
   - `name: keyof Icons` (required)
@@ -381,7 +381,7 @@ Inheritance (inputs listed once, available on all subclasses):
   - `selectOnClick: boolean` = true
 
 ## UniMenuComponent
-- selector: `Menu, uni-menu`
+- selector: `uni-menu`
 - inputs:
   - `menuItems: MenuItem[]` (required)
   - `activeItem: MenuItem`
@@ -390,7 +390,7 @@ Inheritance (inputs listed once, available on all subclasses):
   - `menuItemClicked: MenuItem`
 
 ## UniMenuItemComponent
-- selector: `div[uni-menu-item], div[menu-item]`
+- selector: `[uni-menu-item], [menu-item]`
 - inputs:
   - `display: OptionalDisplay` = 'flex'
   - `flexDirection: OptionalFlexDirection` = 'row'
@@ -406,7 +406,7 @@ Inheritance (inputs listed once, available on all subclasses):
   - `disabled: boolean` = false
 
 ## UniMultiSelectComponent
-- selector: `uni-multi-select, MultiSelect`
+- selector: `uni-multi-select`
 - inputs:
   - `options: Option<T>[]` = []
   - `selections: T[] | null | undefined` = undefined
@@ -416,7 +416,7 @@ Inheritance (inputs listed once, available on all subclasses):
   - `updates: T[] | undefined`
 
 ## UniMultiSelectDropdownComponent
-- selector: `uni-multi-select-dropdown, MultiSelectDropdown`
+- selector: `uni-multi-select-dropdown`
 - inputs:
   - `disabled: boolean` = false
   - `invalid: boolean` = false
@@ -441,7 +441,7 @@ Inheritance (inputs listed once, available on all subclasses):
   - `ariaLabel: string` — Screen-reader text for the badge (e.g. "5 unread messages"). Without it a sensible default is announced; a bare number or dot carries no meaning.
 
 ## UniPaginatorComponent
-- selector: `uni-paginator, Paginator`
+- selector: `uni-paginator`
 - inputs:
   - `datasource: UniDatasource<T>`
   - `initPageSize: number`
@@ -450,13 +450,13 @@ Inheritance (inputs listed once, available on all subclasses):
   - `showPageNumbers: boolean` = true
 
 ## UniPopoverComponent
-- selector: `uni-popover, Popover`
+- selector: `uni-popover`
 - inputs:
   - `placement: Placement` = 'bottom'
   - `autoClose: boolean` = true — Light-dismiss on outside click / Escape (native popover="auto").
 
 ## UniProgressBarComponent
-- selector: `uni-progress-bar, ProgressBar`
+- selector: `uni-progress-bar`
 - inputs:
   - `width: number` = 560
   - `height: number` = 24
@@ -464,13 +464,13 @@ Inheritance (inputs listed once, available on all subclasses):
   - `ariaLabel: string` — Accessible name describing what is progressing (e.g. "Upload progress").
 
 ## UniProgressGaugeComponent
-- selector: `uni-progress-gauge, ProgressGauge`
+- selector: `uni-progress-gauge`
 - inputs:
   - `percent: number` = 0
   - `ariaLabel: string` — Accessible name describing what is progressing.
 
 ## UniRadioComponent
-- selector: `uni-radio, Radio`
+- selector: `uni-radio`
 - inputs:
   - `disabled: boolean` = false
   - `invalid: boolean` = false
@@ -492,7 +492,7 @@ Inheritance (inputs listed once, available on all subclasses):
   - `minWidth: number | string | undefined` = 'fit-content' — Defaults to `fit-content` (guards content collapse). Set `[minWidth]="0"` when the row must shrink inside a constrained flex parent (scroll or text truncation containment).
 
 ## UniScrollAreaComponent
-- selector: `div[uni-scroll-area], ScrollArea, div[scroll-area]`
+- selector: `[uni-scroll-area], [scroll-area]`
 - inputs:
   - `color: ContainerColorToken`
   - `borderRadius: Radius` = 'sm'
@@ -513,7 +513,7 @@ Inheritance (inputs listed once, available on all subclasses):
   - `scrollable: boolean`
 
 ## UniSearchInputComponent
-- selector: `SearchInput, uni-search-input`
+- selector: `uni-search-input`
 - inputs:
   - `label: string` (required) — Accessible name for the field, also the placeholder fallback.
   - `placeholder: string`
@@ -526,7 +526,7 @@ Inheritance (inputs listed once, available on all subclasses):
   - `suggestionSelected: string`
 
 ## UniSelectComponent
-- selector: `uni-select, SelectInput`
+- selector: `uni-select`
 - inputs:
   - `disabled: boolean` = false
   - `invalid: boolean` = false
@@ -541,7 +541,7 @@ Inheritance (inputs listed once, available on all subclasses):
   - `touched: boolean` = false
 
 ## UniSkeletonComponent
-- selector: `uni-skeleton, Skeleton`
+- selector: `uni-skeleton`
 - inputs:
   - `shape: SkeletonShape` = 'text'
   - `width: string | number | undefined` = undefined — CSS width; defaults to 100% for text/rect and `height` for circles.
@@ -549,7 +549,7 @@ Inheritance (inputs listed once, available on all subclasses):
   - `lines: number` = 1 — Number of text lines (text shape only).
 
 ## UniSliderComponent
-- selector: `uni-slider, Slider`
+- selector: `uni-slider`
 - inputs:
   - `disabled: boolean` = false
   - `invalid: boolean` = false
@@ -565,7 +565,7 @@ Inheritance (inputs listed once, available on all subclasses):
   - `touched: boolean` = false
 
 ## UniSnackbarComponent
-- selector: `uni-snackbar, Snackbar`
+- selector: `uni-snackbar`
 - inputs:
   - `iconName: IconName`
   - `symbolName: string`
@@ -592,7 +592,7 @@ Inheritance (inputs listed once, available on all subclasses):
   - `minHeight: number | string | undefined` = 'fit-content' — Defaults to `fit-content` (guards content collapse). Set `[minHeight]="0"` when the stack must shrink inside a constrained flex parent (scroll containment).
 
 ## UniStatComponent
-- selector: `uni-stat, Stat`
+- selector: `uni-stat`
 - inputs:
   - `label: string` (required) — What is being measured, sentence case.
   - `value: string | number` (required) — The headline number: strings render verbatim, numbers auto-compact.
@@ -602,7 +602,7 @@ Inheritance (inputs listed once, available on all subclasses):
   - `trend: number[] | undefined` = undefined — Recent values for the decorative sparkline (12 points reads best).
 
 ## UniSymbolComponent
-- selector: `uni-symbol, Symbol`
+- selector: `uni-symbol`
 - inputs:
   - `name: string` (required)
   - `fill: SymbolFill`
@@ -611,18 +611,18 @@ Inheritance (inputs listed once, available on all subclasses):
   - `opticalSize: number`
 
 ## UniTabComponent
-- selector: `uni-tab, Tab`
+- selector: `uni-tab`
 - inputs:
   - `label: string` (required)
   - `disabled: boolean` = false
 
 ## UniTabsComponent
-- selector: `uni-tabs, Tabs`
+- selector: `uni-tabs`
 - two-way models:
   - `selectedIndex: number` = 0 — Index of the selected tab; two-way bindable.
 
 ## UniTagComponent
-- selector: `Tag, uni-tag`
+- selector: `uni-tag`
 - inputs:
   - `label: string`
   - `value: string | number`
@@ -660,7 +660,7 @@ Inheritance (inputs listed once, available on all subclasses):
 - selector: `uni-theme-builder`
 
 ## UniToggleComponent
-- selector: `uni-toggle, Toggle`
+- selector: `uni-toggle`
 - inputs:
   - `disabled: boolean` = false
   - `invalid: boolean` = false
@@ -673,7 +673,7 @@ Inheritance (inputs listed once, available on all subclasses):
   - `touched: boolean` = false
 
 ## UniTooltipComponent
-- selector: `uni-tooltip, Tooltip`
+- selector: `uni-tooltip`
 - inputs:
   - `hoverDelay: number` = 500
   - `label: string` (required)

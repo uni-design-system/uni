@@ -14,7 +14,7 @@ const meta: Meta<StoryType> = {
     return {
       props,
       template: `
-        <Paginator ${argsToTemplate(props)} />
+        <uni-paginator ${argsToTemplate(props)} />
         <div box-layout paddingTop="md">
           @for (record of datasource.records(); track record.id) {
             <div>{{ record.name }}</div>

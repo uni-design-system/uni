@@ -3,7 +3,7 @@ import { BaseComponent, COMPONENT_NAME } from '../../base/base.component';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  selector: 'uni-card-content, CardContent',
+  selector: 'uni-card-content',
   imports: [],
   templateUrl: './card-content.component.html',
   providers: [{ provide: COMPONENT_NAME, useValue: 'cardContent' }],

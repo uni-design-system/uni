@@ -22,7 +22,7 @@ import { UniTextComponent } from '../text/text.component';
 import { ColumnDefinition, type UniDataTableOptions } from './data-table.models';
 
 @Component({
-  selector: 'uni-data-table, DataTable',
+  selector: 'uni-data-table',
   imports: [
     NgTemplateOutlet,
     UniBoxComponent,

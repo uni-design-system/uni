@@ -8,7 +8,7 @@ import { uniqueId } from '../../cdk';
  */
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  selector: 'uni-tab, Tab',
+  selector: 'uni-tab',
   template: `<ng-template #content><ng-content /></ng-template>`,
 })
 export class UniTabComponent {

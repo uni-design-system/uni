@@ -29,7 +29,7 @@ import {
 } from '../../cdk';
 
 @Component({
-  selector: 'uni-tooltip, Tooltip',
+  selector: 'uni-tooltip',
   imports: [],
   // The bubble lives declaratively in the template as a manual popover: the
   // top layer escapes any overflow context (which made appendToBody obsolete)

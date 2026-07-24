@@ -19,8 +19,8 @@ const meta: Meta<StoryType> = {
     return {
       props,
       template: `
-        <Popover placement="${placement}" [autoClose]="${autoClose}" #popover>
-          <Button trigger>Open Popover</Button>
+        <uni-popover placement="${placement}" [autoClose]="${autoClose}" #popover>
+          <button text-button trigger>Open Popover</button>
           <div stack-layout gap="sm">
             <div>
               <span uni-text="title-small" display="block">
@@ -29,10 +29,10 @@ const meta: Meta<StoryType> = {
               It is possible to add any markup you want to a Popover.
             </div>
             <div>
-              <Button symbolLeft="thumb_up" size="sm" variant="secondary" (click)="popover.hidePopover()">OK!</Button>
+              <button text-button symbolLeft="thumb_up" size="sm" variant="secondary" (click)="popover.hidePopover()">OK!</button>
             </div>
           </div>
-        </Popover>
+        </uni-popover>
       `,
     };
   },

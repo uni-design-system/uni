@@ -1,7 +1,7 @@
 {
   "meta": {
     "version": "5.2.0",
-    "builtAt": "2026-07-24T11:51:52.919Z",
+    "builtAt": "2026-07-24T13:20:50.710Z",
     "frameworks": [
       "angular"
     ],
@@ -24,7 +24,7 @@
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
-          "selectorOrTag": "uni-alert, Alert",
+          "selectorOrTag": "uni-alert",
           "api": [
             {
               "name": "show",
@@ -71,7 +71,7 @@
         {
           "title": "Primary",
           "framework": "angular",
-          "code": "<!-- Storybook story: Primary -->\n<Button (click)=\"alert.open()\">Show Alert</Button>\n<Alert #alert ${argsToTemplate(props)}>\n  ${ngContent}\n</Alert>\n<!-- args:\n{\n    ngContent: 'This is an alert!',\n    variant: 'tertiary',\n    symbolName: 'privacy_tip',\n  }\n-->"
+          "code": "<!-- Storybook story: Primary -->\n<button text-button (click)=\"alert.open()\">Show Alert</button>\n<uni-alert #alert ${argsToTemplate(props)}>\n  ${ngContent}\n</uni-alert>\n<!-- args:\n{\n    ngContent: 'This is an alert!',\n    variant: 'tertiary',\n    symbolName: 'privacy_tip',\n  }\n-->"
         }
       ],
       "guidelines": {
@@ -98,7 +98,7 @@
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
-          "selectorOrTag": "uni-app-bar, AppBar",
+          "selectorOrTag": "uni-app-bar",
           "api": [
             {
               "name": "title",
@@ -144,7 +144,7 @@
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
-          "selectorOrTag": "uni-avatar, Avatar",
+          "selectorOrTag": "uni-avatar",
           "api": [
             {
               "name": "src",
@@ -210,7 +210,7 @@
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
-          "selectorOrTag": "uni-avatar-group, AvatarGroup",
+          "selectorOrTag": "uni-avatar-group",
           "api": [
             {
               "name": "max",
@@ -243,7 +243,7 @@
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
-          "selectorOrTag": "uni-background, Background",
+          "selectorOrTag": "uni-background",
           "api": [
             {
               "name": "image",
@@ -320,7 +320,7 @@
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
-          "selectorOrTag": "div[uni-badge], Badge",
+          "selectorOrTag": "[uni-badge]",
           "api": [
             {
               "name": "color",
@@ -352,12 +352,12 @@
         {
           "title": "Pass",
           "framework": "angular",
-          "code": "<!-- Storybook story: Pass -->\n<Badge color=\"${color}\" [width]=\"${width}\">\n  ${ngContent}\n</Badge>\n<!-- args:\n{\n    color: 'secondary',\n    ngContent: 'Pass',\n    width: 76,\n  }\n-->"
+          "code": "<!-- Storybook story: Pass -->\n<div uni-badge color=\"${color}\" [width]=\"${width}\">\n  ${ngContent}\n</div>\n<!-- args:\n{\n    color: 'secondary',\n    ngContent: 'Pass',\n    width: 76,\n  }\n-->"
         },
         {
           "title": "Fail",
           "framework": "angular",
-          "code": "<!-- Storybook story: Fail -->\n<Badge color=\"${color}\" [width]=\"${width}\">\n  ${ngContent}\n</Badge>\n<!-- args:\n{\n    color: 'warn',\n    ngContent: 'Fail',\n    width: 76,\n  }\n-->"
+          "code": "<!-- Storybook story: Fail -->\n<div uni-badge color=\"${color}\" [width]=\"${width}\">\n  ${ngContent}\n</div>\n<!-- args:\n{\n    color: 'warn',\n    ngContent: 'Fail',\n    width: 76,\n  }\n-->"
         }
       ],
       "guidelines": {
@@ -768,7 +768,7 @@
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
-          "selectorOrTag": "uni-breadcrumb, Breadcrumb",
+          "selectorOrTag": "uni-breadcrumb",
           "api": [
             {
               "name": "items",
@@ -832,7 +832,7 @@
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
-          "selectorOrTag": "button[uni-text-button], Button, button[text-button]",
+          "selectorOrTag": "button[uni-text-button], button[text-button]",
           "api": [
             {
               "name": "disable",
@@ -924,7 +924,7 @@
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
-          "selectorOrTag": "uni-button-group, ButtonGroup",
+          "selectorOrTag": "uni-button-group",
           "api": []
         }
       },
@@ -932,7 +932,7 @@
         {
           "title": "Primary",
           "framework": "angular",
-          "code": "<!-- Storybook story: Primary -->\n<ButtonGroup ${argsToTemplate(props)}>\n  <button icon-button symbolName=\"align_horizontal_left\" size=\"sm\"></button>\n  <button icon-button symbolName=\"align_horizontal_center\" size=\"sm\"></button>\n  <button icon-button symbolName=\"align_horizontal_right\" size=\"sm\"></button>\n</ButtonGroup>\n<!-- args:\n{}\n-->"
+          "code": "<!-- Storybook story: Primary -->\n<uni-button-group ${argsToTemplate(props)}>\n  <button icon-button symbolName=\"align_horizontal_left\" size=\"sm\"></button>\n  <button icon-button symbolName=\"align_horizontal_center\" size=\"sm\"></button>\n  <button icon-button symbolName=\"align_horizontal_right\" size=\"sm\"></button>\n</uni-button-group>\n<!-- args:\n{}\n-->"
         }
       ],
       "guidelines": {
@@ -954,7 +954,7 @@
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
-          "selectorOrTag": "uni-card, Card",
+          "selectorOrTag": "uni-card",
           "api": []
         }
       },
@@ -962,7 +962,7 @@
         {
           "title": "Primary",
           "framework": "angular",
-          "code": "<!-- Storybook story: Primary -->\n<Card variant=\"${variant}\">\n  <CardHeader title=\"Card Header\"></CardHeader>\n  <CardContent>\n    <span uni-text>${ngContent}</span>\n  </CardContent>\n</Card>\n<!-- args:\n{\n    variant: 'primary',\n    size: 'lg',\n    ngContent: 'Card content.',\n  }\n-->"
+          "code": "<!-- Storybook story: Primary -->\n<uni-card variant=\"${variant}\">\n  <uni-card-header title=\"Card Header\"></uni-card-header>\n  <uni-card-content>\n    <span uni-text>${ngContent}</span>\n  </uni-card-content>\n</uni-card>\n<!-- args:\n{\n    variant: 'primary',\n    size: 'lg',\n    ngContent: 'Card content.',\n  }\n-->"
         }
       ],
       "guidelines": {
@@ -986,7 +986,7 @@
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
-          "selectorOrTag": "uni-card-content, CardContent",
+          "selectorOrTag": "uni-card-content",
           "api": []
         }
       },
@@ -1010,7 +1010,7 @@
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
-          "selectorOrTag": "uni-card-header, CardHeader",
+          "selectorOrTag": "uni-card-header",
           "api": [
             {
               "name": "title",
@@ -1106,7 +1106,7 @@
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
-          "selectorOrTag": "uni-checkbox, Checkbox",
+          "selectorOrTag": "uni-checkbox",
           "api": [
             {
               "name": "checked",
@@ -1235,7 +1235,7 @@
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
-          "selectorOrTag": "uni-confirmation-dialog, Confirmation",
+          "selectorOrTag": "uni-confirmation-dialog",
           "api": [
             {
               "name": "show",
@@ -1340,7 +1340,7 @@
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
-          "selectorOrTag": "uni-data-table, DataTable",
+          "selectorOrTag": "uni-data-table",
           "api": [
             {
               "name": "datasource",
@@ -1437,7 +1437,7 @@
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
-          "selectorOrTag": "DebounceInput, uni-debounce-input",
+          "selectorOrTag": "uni-debounce-input",
           "api": [
             {
               "name": "inputName",
@@ -1527,7 +1527,7 @@
         {
           "title": "Primary",
           "framework": "angular",
-          "code": "<!-- Storybook story: Primary -->\n<DebounceInput ${argsToTemplate(props)} (change)=\"lastEmitted = $event\" #debounce />\n<div box-layout paddingTop=\"md\">\n  <div>Live value: {{ debounce.value() }}</div>\n  <div>Debounced value: {{ lastEmitted }}</div>\n</div>\n<!-- args:\n{\n    inputName: 'search',\n    debounceTime: 400,\n  }\n-->"
+          "code": "<!-- Storybook story: Primary -->\n<uni-debounce-input ${argsToTemplate(props)} (change)=\"lastEmitted = $event\" #debounce />\n<div box-layout paddingTop=\"md\">\n  <div>Live value: {{ debounce.value() }}</div>\n  <div>Debounced value: {{ lastEmitted }}</div>\n</div>\n<!-- args:\n{\n    inputName: 'search',\n    debounceTime: 400,\n  }\n-->"
         }
       ],
       "guidelines": {
@@ -1549,7 +1549,7 @@
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
-          "selectorOrTag": "dialog[uni-dialog], Dialog",
+          "selectorOrTag": "dialog[uni-dialog]",
           "api": [
             {
               "name": "show",
@@ -1594,7 +1594,7 @@
         {
           "title": "Primary",
           "framework": "angular",
-          "code": "<!-- Storybook story: Primary -->\n<Button (click)=\"dialog.open()\">Open Dialog</Button>\n<Dialog #dialog>\n  <DialogHeader color=\"primary\">Sample Dialog</DialogHeader>\n  <div center-layout [width]=\"300\" [height]=\"200\">\n    <span uni-text>Dialog</span>\n  </div>\n  <DialogButtons></DialogButtons>\n</Dialog>\n<!-- args:\n{}\n-->"
+          "code": "<!-- Storybook story: Primary -->\n<button text-button (click)=\"dialog.open()\">Open Dialog</button>\n<dialog uni-dialog #dialog>\n  <header uni-dialog-header color=\"primary\">Sample Dialog</header>\n  <div center-layout [width]=\"300\" [height]=\"200\">\n    <span uni-text>Dialog</span>\n  </div>\n  <footer dialog-buttons></footer>\n</dialog>\n<!-- args:\n{}\n-->"
         }
       ],
       "guidelines": {
@@ -1623,7 +1623,7 @@
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
-          "selectorOrTag": "uni-dialog-buttons, DialogButtons, div[dialog-buttons]",
+          "selectorOrTag": "[uni-dialog-buttons], [dialog-buttons]",
           "api": [
             {
               "name": "confirmButtonText",
@@ -1708,7 +1708,7 @@
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
-          "selectorOrTag": "div[uni-dialog-header], DialogHeader",
+          "selectorOrTag": "[uni-dialog-header]",
           "api": []
         }
       },
@@ -1732,7 +1732,7 @@
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
-          "selectorOrTag": "uni-divider, Divider",
+          "selectorOrTag": "uni-divider",
           "api": [
             {
               "name": "orientation",
@@ -1757,7 +1757,7 @@
         {
           "title": "Primary",
           "framework": "angular",
-          "code": "<!-- Storybook story: Primary -->\n<div center-layout height=\"200px\">\n  <Divider border=\"${border}\" orientation=\"${orientation}\" />\n</div>\n<!-- args:\n{\n    orientation: 'horizontal',\n    border: 'primary',\n  }\n-->"
+          "code": "<!-- Storybook story: Primary -->\n<div center-layout height=\"200px\">\n  <uni-divider border=\"${border}\" orientation=\"${orientation}\" />\n</div>\n<!-- args:\n{\n    orientation: 'horizontal',\n    border: 'primary',\n  }\n-->"
         }
       ],
       "guidelines": {
@@ -1811,7 +1811,7 @@
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
-          "selectorOrTag": "uni-drawer, Drawer",
+          "selectorOrTag": "uni-drawer",
           "api": [
             {
               "name": "open",
@@ -1886,7 +1886,7 @@
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
-          "selectorOrTag": "uni-dropdown, Dropdown",
+          "selectorOrTag": "uni-dropdown",
           "api": [
             {
               "name": "trigger",
@@ -1975,7 +1975,7 @@
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
-          "selectorOrTag": "uni-expand, Expand",
+          "selectorOrTag": "uni-expand",
           "api": [
             {
               "name": "collapsed",
@@ -1992,7 +1992,7 @@
         {
           "title": "Primary",
           "framework": "angular",
-          "code": "<!-- Storybook story: Primary -->\n<Card>\n<CardHeader title=\"Expandable Card\"><ExpandToggle #toggle /></CardHeader>\n<Expand [collapsed]=\"toggle.collapsed()\">\n  <CardContent>\n    <span uni-text>${ngContent}</span>\n  </CardContent>\n</Expand>\n</Card>\n<!-- args:\n{\n    collapsed: false,\n    ngContent: 'Expandable Content',\n  }\n-->"
+          "code": "<!-- Storybook story: Primary -->\n<uni-card>\n<uni-card-header title=\"Expandable Card\"><uni-expand-toggle #toggle /></uni-card-header>\n<uni-expand [collapsed]=\"toggle.collapsed()\">\n  <uni-card-content>\n    <span uni-text>${ngContent}</span>\n  </uni-card-content>\n</uni-expand>\n</uni-card>\n<!-- args:\n{\n    collapsed: false,\n    ngContent: 'Expandable Content',\n  }\n-->"
         }
       ],
       "guidelines": {
@@ -2014,7 +2014,7 @@
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
-          "selectorOrTag": "uni-expand-area, ExpandArea",
+          "selectorOrTag": "uni-expand-area",
           "api": [
             {
               "name": "title",
@@ -2053,7 +2053,7 @@
         {
           "title": "Primary",
           "framework": "angular",
-          "code": "<!-- Storybook story: Primary -->\n<ExpandArea title=\"${title}\" padding=\"${padding}\" initCollapsed=\"${initCollapsed}\" #expandArea>\n  <button text-button (click)=\"expandArea.toggleExpand()\" size=\"md\" variant=\"ghost\" symbolLeft=\"collapse_all\">Collapse area</button>\n</ExpandArea>\n<!-- args:\n{\n    title: 'Expand Area Title',\n    padding: 'sm',\n    initCollapsed: true,\n  }\n-->"
+          "code": "<!-- Storybook story: Primary -->\n<uni-expand-area title=\"${title}\" padding=\"${padding}\" initCollapsed=\"${initCollapsed}\" #expandArea>\n  <button text-button (click)=\"expandArea.toggleExpand()\" size=\"md\" variant=\"ghost\" symbolLeft=\"collapse_all\">Collapse area</button>\n</uni-expand-area>\n<!-- args:\n{\n    title: 'Expand Area Title',\n    padding: 'sm',\n    initCollapsed: true,\n  }\n-->"
         }
       ],
       "guidelines": {
@@ -2075,7 +2075,7 @@
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
-          "selectorOrTag": "uni-expand-toggle, ExpandToggle",
+          "selectorOrTag": "uni-expand-toggle",
           "api": [
             {
               "name": "collapsed",
@@ -2099,7 +2099,7 @@
         {
           "title": "Primary",
           "framework": "angular",
-          "code": "<!-- Storybook story: Primary -->\n<ExpandToggle [collapsed]=\"collapsed\" #toggle />\n<div>Collapsed: {{ toggle.collapsed() }}</div>\n<!-- args:\n{\n    collapsed: true,\n  }\n-->"
+          "code": "<!-- Storybook story: Primary -->\n<uni-expand-toggle [collapsed]=\"collapsed\" #toggle />\n<div>Collapsed: {{ toggle.collapsed() }}</div>\n<!-- args:\n{\n    collapsed: true,\n  }\n-->"
         }
       ],
       "guidelines": {
@@ -2355,7 +2355,7 @@
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
-          "selectorOrTag": "uni-icon, Icon",
+          "selectorOrTag": "uni-icon",
           "api": [
             {
               "name": "color",
@@ -2378,7 +2378,7 @@
         {
           "title": "Primary",
           "framework": "angular",
-          "code": "<!-- Storybook story: Primary -->\n<div box-layout height=\"${size}px\">\n    <Icon name=\"${name}\" color=\"${color}\" />\n  </div>\n<!-- args:\n{\n    name: 'checkCircle',\n  }\n-->"
+          "code": "<!-- Storybook story: Primary -->\n<div box-layout height=\"${size}px\">\n    <uni-icon name=\"${name}\" color=\"${color}\" />\n  </div>\n<!-- args:\n{\n    name: 'checkCircle',\n  }\n-->"
         }
       ],
       "guidelines": {
@@ -2773,7 +2773,7 @@
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
-          "selectorOrTag": "Menu, uni-menu",
+          "selectorOrTag": "uni-menu",
           "api": [
             {
               "name": "menuItems",
@@ -2811,7 +2811,7 @@
         {
           "title": "Primary",
           "framework": "angular",
-          "code": "<!-- Storybook story: Primary -->\n<div box-layout color=\"primary\" padding=\"sm\">\n  <Menu ${argsToTemplate(props)}>\n    <button text-button variant=\"ghost\" symbolRight=\"arrow_drop_down\">Menu</button>\n  </Menu>\n</div>\n<!-- args:\n{\n    menuItems: [\n      { label: 'Language', symbolName: 'translate' },\n      { label: 'Settings', symbolName: 'settings' },\n      { label: 'Logout', symbolName: 'logout' },\n    ],\n  }\n-->"
+          "code": "<!-- Storybook story: Primary -->\n<div box-layout color=\"primary\" padding=\"sm\">\n  <uni-menu ${argsToTemplate(props)}>\n    <button text-button variant=\"ghost\" symbolRight=\"arrow_drop_down\">Menu</button>\n  </uni-menu>\n</div>\n<!-- args:\n{\n    menuItems: [\n      { label: 'Language', symbolName: 'translate' },\n      { label: 'Settings', symbolName: 'settings' },\n      { label: 'Logout', symbolName: 'logout' },\n    ],\n  }\n-->"
         }
       ],
       "guidelines": {
@@ -2833,7 +2833,7 @@
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
-          "selectorOrTag": "div[uni-menu-item], div[menu-item]",
+          "selectorOrTag": "[uni-menu-item], [menu-item]",
           "api": [
             {
               "name": "display",
@@ -2949,7 +2949,7 @@
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
-          "selectorOrTag": "uni-multi-select, MultiSelect",
+          "selectorOrTag": "uni-multi-select",
           "api": [
             {
               "name": "options",
@@ -3034,7 +3034,7 @@
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
-          "selectorOrTag": "uni-multi-select-dropdown, MultiSelectDropdown",
+          "selectorOrTag": "uni-multi-select-dropdown",
           "api": [
             {
               "name": "value",
@@ -3291,7 +3291,7 @@
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
-          "selectorOrTag": "uni-notifications, Notifications",
+          "selectorOrTag": "uni-notifications",
           "api": []
         }
       },
@@ -3315,7 +3315,7 @@
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
-          "selectorOrTag": "uni-paginator, Paginator",
+          "selectorOrTag": "uni-paginator",
           "api": [
             {
               "name": "datasource",
@@ -3362,12 +3362,12 @@
         {
           "title": "Primary",
           "framework": "angular",
-          "code": "<!-- Storybook story: Primary -->\n<Paginator ${argsToTemplate(props)} />\n<div box-layout paddingTop=\"md\">\n  @for (record of datasource.records(); track record.id) {\n    <div>{{ record.name }}</div>\n  }\n</div>\n<!-- args:\n{\n    datasource: new UniRecordDatasource<any>(starWarsCharacters),\n    initPageSize: 5,\n    showPageSize: true,\n    showPageJumper: true,\n    showPageNumbers: true,\n  }\n-->"
+          "code": "<!-- Storybook story: Primary -->\n<uni-paginator ${argsToTemplate(props)} />\n<div box-layout paddingTop=\"md\">\n  @for (record of datasource.records(); track record.id) {\n    <div>{{ record.name }}</div>\n  }\n</div>\n<!-- args:\n{\n    datasource: new UniRecordDatasource<any>(starWarsCharacters),\n    initPageSize: 5,\n    showPageSize: true,\n    showPageJumper: true,\n    showPageNumbers: true,\n  }\n-->"
         },
         {
           "title": "Page Numbers Only",
           "framework": "angular",
-          "code": "<!-- Storybook story: Page Numbers Only -->\n<Paginator ${argsToTemplate(props)} />\n<div box-layout paddingTop=\"md\">\n  @for (record of datasource.records(); track record.id) {\n    <div>{{ record.name }}</div>\n  }\n</div>\n<!-- args:\n{\n    datasource: new UniRecordDatasource<any>(starWarsCharacters),\n    initPageSize: 5,\n    showPageSize: false,\n    showPageJumper: false,\n    showPageNumbers: true,\n  }\n-->"
+          "code": "<!-- Storybook story: Page Numbers Only -->\n<uni-paginator ${argsToTemplate(props)} />\n<div box-layout paddingTop=\"md\">\n  @for (record of datasource.records(); track record.id) {\n    <div>{{ record.name }}</div>\n  }\n</div>\n<!-- args:\n{\n    datasource: new UniRecordDatasource<any>(starWarsCharacters),\n    initPageSize: 5,\n    showPageSize: false,\n    showPageJumper: false,\n    showPageNumbers: true,\n  }\n-->"
         }
       ],
       "guidelines": {
@@ -3397,7 +3397,7 @@
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
-          "selectorOrTag": "uni-popover, Popover",
+          "selectorOrTag": "uni-popover",
           "api": [
             {
               "name": "placement",
@@ -3422,7 +3422,7 @@
         {
           "title": "Primary",
           "framework": "angular",
-          "code": "<!-- Storybook story: Primary -->\n<Popover placement=\"${placement}\" [autoClose]=\"${autoClose}\" #popover>\n  <Button trigger>Open Popover</Button>\n  <div stack-layout gap=\"sm\">\n    <div>\n      <span uni-text=\"title-small\" display=\"block\">\n      This is a Popover.\n      </span>\n      It is possible to add any markup you want to a Popover.\n    </div>\n    <div>\n      <Button symbolLeft=\"thumb_up\" size=\"sm\" variant=\"secondary\" (click)=\"popover.hidePopover()\">OK!</Button>\n    </div>\n  </div>\n</Popover>\n<!-- args:\n{\n    placement: 'right-start',\n    autoClose: true,\n  }\n-->"
+          "code": "<!-- Storybook story: Primary -->\n<uni-popover placement=\"${placement}\" [autoClose]=\"${autoClose}\" #popover>\n  <button text-button trigger>Open Popover</button>\n  <div stack-layout gap=\"sm\">\n    <div>\n      <span uni-text=\"title-small\" display=\"block\">\n      This is a Popover.\n      </span>\n      It is possible to add any markup you want to a Popover.\n    </div>\n    <div>\n      <button text-button symbolLeft=\"thumb_up\" size=\"sm\" variant=\"secondary\" (click)=\"popover.hidePopover()\">OK!</button>\n    </div>\n  </div>\n</uni-popover>\n<!-- args:\n{\n    placement: 'right-start',\n    autoClose: true,\n  }\n-->"
         }
       ],
       "guidelines": {
@@ -3444,7 +3444,7 @@
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
-          "selectorOrTag": "uni-progress-bar, ProgressBar",
+          "selectorOrTag": "uni-progress-bar",
           "api": [
             {
               "name": "width",
@@ -3484,7 +3484,7 @@
         {
           "title": "Default",
           "framework": "angular",
-          "code": "<!-- Storybook story: Default -->\n<ProgressBar percent=\"${percent}\" ${argsToTemplate(props)}></ProgressBar>\n<!-- args:\n{\n    percent: 60,\n  }\n-->"
+          "code": "<!-- Storybook story: Default -->\n<uni-progress-bar percent=\"${percent}\" ${argsToTemplate(props)}></uni-progress-bar>\n<!-- args:\n{\n    percent: 60,\n  }\n-->"
         }
       ],
       "guidelines": {
@@ -3506,7 +3506,7 @@
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
-          "selectorOrTag": "uni-progress-gauge, ProgressGauge",
+          "selectorOrTag": "uni-progress-gauge",
           "api": [
             {
               "name": "percent",
@@ -3530,7 +3530,7 @@
         {
           "title": "Default",
           "framework": "angular",
-          "code": "<!-- Storybook story: Default -->\n<ProgressGauge percent=\"${percent}\" variant=\"${variant}\" size=\"${size}\"></ProgressGauge>\n<!-- args:\n{\n    percent: 60,\n    size: 'lg',\n    variant: 'primary',\n  }\n-->"
+          "code": "<!-- Storybook story: Default -->\n<uni-progress-gauge percent=\"${percent}\" variant=\"${variant}\" size=\"${size}\"></uni-progress-gauge>\n<!-- args:\n{\n    percent: 60,\n    size: 'lg',\n    variant: 'primary',\n  }\n-->"
         }
       ],
       "guidelines": {
@@ -3552,7 +3552,7 @@
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
-          "selectorOrTag": "uni-radio, Radio",
+          "selectorOrTag": "uni-radio",
           "api": [
             {
               "name": "value",
@@ -3774,7 +3774,7 @@
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
-          "selectorOrTag": "div[uni-scroll-area], ScrollArea, div[scroll-area]",
+          "selectorOrTag": "[uni-scroll-area], [scroll-area]",
           "api": [
             {
               "name": "color",
@@ -3921,7 +3921,7 @@
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
-          "selectorOrTag": "SearchInput, uni-search-input",
+          "selectorOrTag": "uni-search-input",
           "api": [
             {
               "name": "label",
@@ -4016,7 +4016,7 @@
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
-          "selectorOrTag": "uni-select, SelectInput",
+          "selectorOrTag": "uni-select",
           "api": [
             {
               "name": "value",
@@ -4149,7 +4149,7 @@
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
-          "selectorOrTag": "uni-skeleton, Skeleton",
+          "selectorOrTag": "uni-skeleton",
           "api": [
             {
               "name": "shape",
@@ -4224,7 +4224,7 @@
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
-          "selectorOrTag": "uni-slider, Slider",
+          "selectorOrTag": "uni-slider",
           "api": [
             {
               "name": "value",
@@ -4357,7 +4357,7 @@
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
-          "selectorOrTag": "uni-snackbar, Snackbar",
+          "selectorOrTag": "uni-snackbar",
           "api": [
             {
               "name": "show",
@@ -4423,7 +4423,7 @@
         {
           "title": "Primary",
           "framework": "angular",
-          "code": "<!-- Storybook story: Primary -->\n<Button (click)=\"snackbar.open()\">Show Snackbar</Button>\n<Snackbar #snackbar ${argsToTemplate(props)}>\n  ${ngContent}\n</Snackbar>\n<!-- args:\n{\n    ngContent: 'The record has been removed.',\n    variant: 'warn',\n    actionLabel: 'undo',\n    timeout: '5000',\n    symbolName: 'delete_sweep',\n  }\n-->"
+          "code": "<!-- Storybook story: Primary -->\n<button text-button (click)=\"snackbar.open()\">Show Snackbar</button>\n<uni-snackbar #snackbar ${argsToTemplate(props)}>\n  ${ngContent}\n</uni-snackbar>\n<!-- args:\n{\n    ngContent: 'The record has been removed.',\n    variant: 'warn',\n    actionLabel: 'undo',\n    timeout: '5000',\n    symbolName: 'delete_sweep',\n  }\n-->"
         }
       ],
       "guidelines": {
@@ -4527,7 +4527,7 @@
         {
           "title": "Stacked Cards",
           "framework": "angular",
-          "code": "<!-- Storybook story: Stacked Cards -->\n<div stack-layout ${argsToTemplate(props)}>\n  <Card><CardContent><span uni-text>Card 1</span></CardContent></Card>\n  <Card><CardContent><span uni-text>Card 2</span></CardContent></Card>\n  <Card><CardContent><span uni-text>Card 3</span></CardContent></Card>\n  <Card><CardContent><span uni-text>Card 4</span></CardContent></Card>\n  <Card><CardContent><span uni-text>Card 5</span></CardContent></Card>\n</div>\n<!-- args:\n{ gap: 'lg' }\n-->"
+          "code": "<!-- Storybook story: Stacked Cards -->\n<div stack-layout ${argsToTemplate(props)}>\n  <uni-card><uni-card-content><span uni-text>Card 1</span></uni-card-content></uni-card>\n  <uni-card><uni-card-content><span uni-text>Card 2</span></uni-card-content></uni-card>\n  <uni-card><uni-card-content><span uni-text>Card 3</span></uni-card-content></uni-card>\n  <uni-card><uni-card-content><span uni-text>Card 4</span></uni-card-content></uni-card>\n  <uni-card><uni-card-content><span uni-text>Card 5</span></uni-card-content></uni-card>\n</div>\n<!-- args:\n{ gap: 'lg' }\n-->"
         }
       ],
       "guidelines": {
@@ -4549,7 +4549,7 @@
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
-          "selectorOrTag": "uni-stat, Stat",
+          "selectorOrTag": "uni-stat",
           "api": [
             {
               "name": "label",
@@ -4646,7 +4646,7 @@
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
-          "selectorOrTag": "uni-symbol, Symbol",
+          "selectorOrTag": "uni-symbol",
           "api": [
             {
               "name": "name",
@@ -4717,7 +4717,7 @@
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
-          "selectorOrTag": "uni-tab, Tab",
+          "selectorOrTag": "uni-tab",
           "api": [
             {
               "name": "label",
@@ -4757,7 +4757,7 @@
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
-          "selectorOrTag": "uni-tabs, Tabs",
+          "selectorOrTag": "uni-tabs",
           "api": [
             {
               "name": "selectedIndex",
@@ -4811,7 +4811,7 @@
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
-          "selectorOrTag": "Tag, uni-tag",
+          "selectorOrTag": "uni-tag",
           "api": [
             {
               "name": "label",
@@ -5130,7 +5130,7 @@
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
-          "selectorOrTag": "uni-toggle, Toggle",
+          "selectorOrTag": "uni-toggle",
           "api": [
             {
               "name": "checked",
@@ -5252,7 +5252,7 @@
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
-          "selectorOrTag": "uni-tooltip, Tooltip",
+          "selectorOrTag": "uni-tooltip",
           "api": [
             {
               "name": "hoverDelay",
@@ -5300,7 +5300,7 @@
         {
           "title": "Primary",
           "framework": "angular",
-          "code": "<!-- Storybook story: Primary -->\n<span uni-text>Here is some text with a <Tooltip ${argsToTemplate(props)}>tooltip</Tooltip> in the middle.\n</span>\n<!-- args:\n{\n    label: 'Bottom-start tooltip',\n    placement: 'bottom-start',\n    inlineText: true,\n  }\n-->"
+          "code": "<!-- Storybook story: Primary -->\n<span uni-text>Here is some text with a <uni-tooltip ${argsToTemplate(props)}>tooltip</uni-tooltip> in the middle.\n</span>\n<!-- args:\n{\n    label: 'Bottom-start tooltip',\n    placement: 'bottom-start',\n    inlineText: true,\n  }\n-->"
         }
       ],
       "guidelines": {

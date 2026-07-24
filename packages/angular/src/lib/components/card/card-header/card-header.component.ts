@@ -8,7 +8,7 @@ import type { Typeface } from '@uni-design-system/uni-core';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  selector: 'uni-card-header, CardHeader',
+  selector: 'uni-card-header',
   imports: [UniTextComponent, NgClass],
   templateUrl: './card-header.component.html',
   providers: [{ provide: COMPONENT_NAME, useValue: 'cardHeader' }],

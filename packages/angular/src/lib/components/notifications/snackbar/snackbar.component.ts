@@ -25,7 +25,7 @@ import { UniTextComponent } from '../../text';
 import type { UniSnackbarOptions } from './snackbar.model';
 
 @Component({
-  selector: 'uni-snackbar, Snackbar',
+  selector: 'uni-snackbar',
   imports: [
     UniRowComponent,
     UniBoxComponent,

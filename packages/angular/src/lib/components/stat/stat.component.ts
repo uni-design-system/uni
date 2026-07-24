@@ -16,7 +16,7 @@ const SPARK_HEIGHT = 28;
  */
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  selector: 'uni-stat, Stat',
+  selector: 'uni-stat',
   providers: [{ provide: COMPONENT_NAME, useValue: 'stat' }],
   host: { '[class]': 'className()' },
   template: `

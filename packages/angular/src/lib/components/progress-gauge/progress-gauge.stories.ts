@@ -16,7 +16,7 @@ const meta: Meta<ProgressGauge> = {
     return {
       props,
       template: `
-        <ProgressGauge percent="${percent}" variant="${variant}" size="${size}"></ProgressGauge>
+        <uni-progress-gauge percent="${percent}" variant="${variant}" size="${size}"></uni-progress-gauge>
     `,
     };
   },

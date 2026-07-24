@@ -8,7 +8,7 @@ import { UniTextComponent } from '../text/text.component';
 import type { UniToggleOptions } from './toggle.model';
 
 @Component({
-  selector: 'uni-toggle, Toggle',
+  selector: 'uni-toggle',
   imports: [UniTextComponent],
   templateUrl: './toggle.component.html',
   providers: [{ provide: COMPONENT_NAME, useValue: 'toggle' }],

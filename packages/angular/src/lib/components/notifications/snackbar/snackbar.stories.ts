@@ -20,10 +20,10 @@ const meta: Meta<StoryType> = {
     return {
       props,
       template: `
-        <Button (click)="snackbar.open()">Show Snackbar</Button>
-        <Snackbar #snackbar ${argsToTemplate(props)}>
+        <button text-button (click)="snackbar.open()">Show Snackbar</button>
+        <uni-snackbar #snackbar ${argsToTemplate(props)}>
           ${ngContent}
-        </Snackbar>
+        </uni-snackbar>
       `,
     };
   },

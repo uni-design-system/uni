@@ -3,7 +3,7 @@ import { css } from '@emotion/css';
 import { ThemeService } from '../../theming';
 
 @Component({
-  selector: 'uni-button-group, ButtonGroup',
+  selector: 'uni-button-group',
   imports: [],
   template: ` <ng-content></ng-content>`,
   host: { '[class]': 'className()' },

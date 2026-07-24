@@ -20,7 +20,7 @@ import { fadeIn, fadeOut } from '@uni-design-system/uni-core';
 import { uniqueId } from '../../cdk';
 
 @Component({
-  selector: 'dialog[uni-dialog], Dialog',
+  selector: 'dialog[uni-dialog]',
   imports: [UniIconButtonComponent, CommonModule],
   template: `
     @if (defaultCloseButton()) {

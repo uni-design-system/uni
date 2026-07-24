@@ -4,9 +4,9 @@ import { UniIconButtonComponent } from '../icon-button/icon-button.component';
 import { UniTooltipComponent } from '../tooltip/tooltip.component';
 
 @Component({
-  selector: 'uni-expand-toggle, ExpandToggle',
+  selector: 'uni-expand-toggle',
   imports: [UniIconButtonComponent, UniTooltipComponent],
-  template: `<Tooltip
+  template: `<uni-tooltip
     [label]="collapsed() ? 'Expand' : 'Collapse'"
     placement="right"
   >
@@ -19,7 +19,7 @@ import { UniTooltipComponent } from '../tooltip/tooltip.component';
     >
       {{ collapsed() ? 'Expand' : 'Collapse' }}
     </button>
-  </Tooltip>`,
+  </uni-tooltip>`,
   host: {
     '[class]': 'className()',
     '[attr.toggled]': 'collapsed() || null',

@@ -2,7 +2,7 @@
      wrapper itself stays out of the tab order. -->
 <!-- eslint-disable-next-line @angular-eslint/template/interactive-supports-focus -->
 <div (keydown)="onKeydown($event)" (focusout)="onFocusOut($event)">
-  <DebounceInput
+  <uni-debounce-input
     #searchField
     [label]="label()"
     [placeholder]="placeholder() ?? label()"
@@ -13,7 +13,7 @@
     [ariaActivedescendant]="activeOptionId()"
     (change)="handleChange($event)"
   >
-    <Symbol pre-input class="uni-search-lead" name="{{ componentOptions().searchSymbol ?? 'search' }}" aria-hidden="true" />
+    <uni-symbol pre-input class="uni-search-lead" name="{{ componentOptions().searchSymbol ?? 'search' }}" aria-hidden="true" />
     @if (hasQuery()) {
       <button
         post-input
@@ -26,7 +26,7 @@
         Clear search
       </button>
     }
-  </DebounceInput>
+  </uni-debounce-input>
 
   @if (showList()) {
     <ul [id]="listboxId" role="listbox" [attr.aria-label]="label()" [class]="listClass()">

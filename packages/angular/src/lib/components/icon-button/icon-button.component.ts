@@ -14,11 +14,11 @@ import type { RadiiSize, Size, Variant } from '@uni-design-system/uni-core';
   imports: [UniSymbolComponent, UniIconComponent],
   template: `
     @if (loading()) {
-      <Icon name="spinner" />
+      <uni-icon name="spinner" />
     } @else if (symbolName()) {
-      <Symbol [name]="symbolName()!" [opticalSize]="opticalSize()" />
+      <uni-symbol [name]="symbolName()!" [opticalSize]="opticalSize()" />
     } @else if (iconName()) {
-      <Icon [name]="iconName()!" />
+      <uni-icon [name]="iconName()!" />
     }
     <!-- Projected text is the button's accessible name (visually hidden) -->
     <span [class]="srOnlyClass"><ng-content /></span>

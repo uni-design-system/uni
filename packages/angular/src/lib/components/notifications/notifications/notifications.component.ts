@@ -13,7 +13,7 @@ import { UniSnackbarComponent } from '../snackbar/snackbar.component';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  selector: 'uni-notifications, Notifications',
+  selector: 'uni-notifications',
   imports: [UniAlertComponent, UniSnackbarComponent, ConfirmationDialogComponent],
   templateUrl: './notifications.component.html',
 })

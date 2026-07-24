@@ -21,7 +21,7 @@ import type { UniTabsOptions } from './tabs.model';
  */
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  selector: 'uni-tabs, Tabs',
+  selector: 'uni-tabs',
   imports: [NgTemplateOutlet],
   providers: [{ provide: COMPONENT_NAME, useValue: 'tabs' }],
   template: `

@@ -117,7 +117,7 @@ export const Primary: Story = {
     return {
       props,
       template: `
-      <DataTable ${argsToTemplate(props)} #dataTable>
+      <uni-data-table ${argsToTemplate(props)} #dataTable>
         <div row-layout ngProjectAs="data-table-header" justifyContent="space-between">
           <span uni-text>Data Table</span>
           <uni-paginator [datasource]="dataTable.datasource()" [initPageSize]="10" [showPageSize]="true" [showPageJumper]="true" [showPageNumbers]="false" />
@@ -125,7 +125,7 @@ export const Primary: Story = {
         <div row-layout ngProjectAs="data-table-footer" justifyContent="center">
           <uni-paginator [datasource]="dataTable.datasource()" [showPageSize]="false" [showPageJumper]="false" [showPageNumbers]="true" />
         </div>
-      </DataTable>
+      </uni-data-table>
       `,
     };
   },
@@ -156,9 +156,9 @@ export const WithHeader: Story = {
     return {
       props,
       template: `
-      <DataTable ${argsToTemplate(props)}>
+      <uni-data-table ${argsToTemplate(props)}>
         <div box-layout ngProjectAs="data-table-header">Data Table Header</div>
-      </DataTable>
+      </uni-data-table>
       `,
     };
   },
@@ -189,12 +189,12 @@ export const WithSearch: Story = {
     return {
       props,
       template: `
-      <DataTable ${argsToTemplate(props)} #dataTable>
+      <uni-data-table ${argsToTemplate(props)} #dataTable>
         <div row-layout ngProjectAs="data-table-header" justifyContent="space-between">
           <div box-layout ngProjectAs="data-table-header">Data Table Header</div>
           <uni-data-search [datasource]="dataTable.datasource()" [fields]="['name', 'homeworld']"></uni-data-search>
         </div>
-      </DataTable>
+      </uni-data-table>
       `,
     };
   },
@@ -226,12 +226,12 @@ export const WithDetailRow: Story = {
       props,
       template: `
 <button (click)="dataTable.toggleRow(1)">Expand</button>
-      <DataTable ${argsToTemplate(props)} #dataTable [detailRowTemplate]="detailRowTemplate">
+      <uni-data-table ${argsToTemplate(props)} #dataTable [detailRowTemplate]="detailRowTemplate">
         <div row-layout ngProjectAs="data-table-header" justifyContent="space-between">
           <div box-layout ngProjectAs="data-table-header">Data Table Header</div>
           <uni-data-search [datasource]="dataTable.datasource()" [fields]="['name', 'homeworld']"></uni-data-search>
         </div>
-      </DataTable>
+      </uni-data-table>
       <ng-template #detailRowTemplate let-record>
         <div>
           <p>Detail for {{ record.name }}</p>

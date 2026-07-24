@@ -17,7 +17,7 @@ import { UniButtonComponent, UniRowComponent } from '../../components';
       }
     </div>
     @if (test()) {
-      <Notifications></Notifications>
+      <uni-notifications></uni-notifications>
     }`,
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [NotificationsComponent, UniRowComponent, UniButtonComponent],

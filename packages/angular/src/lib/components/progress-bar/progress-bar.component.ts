@@ -3,7 +3,7 @@ import { css } from '@emotion/css';
 import { ThemeService } from '../../theming';
 
 @Component({
-  selector: 'uni-progress-bar, ProgressBar',
+  selector: 'uni-progress-bar',
   imports: [],
   templateUrl: './progress-bar.component.html',
   host: {

@@ -14,9 +14,9 @@
     @if (icon || symbol) {
       <div box-layout [height]="26" [width]="26" paddingLeft="sm">
         @if (icon) {
-          <Icon [name]="icon"></Icon>
+          <uni-icon [name]="icon"></uni-icon>
         } @else if (symbol) {
-          <Symbol [name]="symbol" [opticalSize]="26"></Symbol>
+          <uni-symbol [name]="symbol" [opticalSize]="26"></uni-symbol>
         }
       </div>
     }

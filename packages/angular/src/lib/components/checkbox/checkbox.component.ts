@@ -8,7 +8,7 @@ import { UniTextComponent } from '../text/text.component';
 import type { UniCheckboxOptions } from './checkbox.model';
 
 @Component({
-  selector: 'uni-checkbox, Checkbox',
+  selector: 'uni-checkbox',
   imports: [UniTextComponent],
   templateUrl: './checkbox.component.html',
   providers: [{ provide: COMPONENT_NAME, useValue: 'checkbox' }],

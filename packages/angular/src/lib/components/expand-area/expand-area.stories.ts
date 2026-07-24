@@ -19,9 +19,9 @@ const meta: Meta<StoryType> = {
     return {
       props,
       template: `
-        <ExpandArea title="${title}" padding="${padding}" initCollapsed="${initCollapsed}" #expandArea>
+        <uni-expand-area title="${title}" padding="${padding}" initCollapsed="${initCollapsed}" #expandArea>
           <button text-button (click)="expandArea.toggleExpand()" size="md" variant="ghost" symbolLeft="collapse_all">Collapse area</button>
-        </ExpandArea>
+        </uni-expand-area>
       `,
     };
   },

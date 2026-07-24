@@ -9,7 +9,7 @@ import type { UniRadioOption, UniRadioOptions } from './radio.model';
 import { uniqueId } from '../../cdk';
 
 @Component({
-  selector: 'uni-radio, Radio',
+  selector: 'uni-radio',
   imports: [UniTextComponent],
   templateUrl: './radio.component.html',
   providers: [{ provide: COMPONENT_NAME, useValue: 'radio' }],

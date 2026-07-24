@@ -12,7 +12,7 @@ import type { BreadcrumbItem, UniBreadcrumbOptions } from './breadcrumb.model';
  */
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  selector: 'uni-breadcrumb, Breadcrumb',
+  selector: 'uni-breadcrumb',
   imports: [UniSymbolComponent],
   providers: [{ provide: COMPONENT_NAME, useValue: 'breadcrumb' }],
   template: `
@@ -28,7 +28,7 @@ import type { BreadcrumbItem, UniBreadcrumbOptions } from './breadcrumb.model';
               <button type="button" (click)="itemClicked.emit(item)">{{ item.label }}</button>
             }
             @if (!last) {
-              <Symbol
+              <uni-symbol
                 aria-hidden="true"
                 [name]="componentOptions().separatorSymbol ?? 'chevron_right'"
               />

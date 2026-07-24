@@ -20,9 +20,9 @@ const meta: Meta<StoryType> = {
       props,
       template: `
         <div box-layout color="primary" padding="sm">
-          <Menu ${argsToTemplate(props)}>
+          <uni-menu ${argsToTemplate(props)}>
             <button text-button variant="ghost" symbolRight="arrow_drop_down">Menu</button>
-          </Menu>
+          </uni-menu>
         </div>
       `,
     };

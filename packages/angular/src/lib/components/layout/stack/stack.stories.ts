@@ -26,11 +26,11 @@ export const StackedCards: Story = {
       props,
       template: `
         <div stack-layout ${argsToTemplate(props)}>
-          <Card><CardContent><span uni-text>Card 1</span></CardContent></Card>
-          <Card><CardContent><span uni-text>Card 2</span></CardContent></Card>
-          <Card><CardContent><span uni-text>Card 3</span></CardContent></Card>
-          <Card><CardContent><span uni-text>Card 4</span></CardContent></Card>
-          <Card><CardContent><span uni-text>Card 5</span></CardContent></Card>
+          <uni-card><uni-card-content><span uni-text>Card 1</span></uni-card-content></uni-card>
+          <uni-card><uni-card-content><span uni-text>Card 2</span></uni-card-content></uni-card>
+          <uni-card><uni-card-content><span uni-text>Card 3</span></uni-card-content></uni-card>
+          <uni-card><uni-card-content><span uni-text>Card 4</span></uni-card-content></uni-card>
+          <uni-card><uni-card-content><span uni-text>Card 5</span></uni-card-content></uni-card>
         </div>`,
     };
   },

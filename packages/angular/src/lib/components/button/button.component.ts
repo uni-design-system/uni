@@ -9,16 +9,16 @@ import { UniSymbolComponent } from '../symbol';
 import { RippleDirective } from '../../directives/ripple';
 
 @Component({
-  selector: 'button[uni-text-button], Button, button[text-button]',
+  selector: 'button[uni-text-button], button[text-button]',
   template: `@if (loading()) {
       <div box-layout [class]="spinnerBox"><uni-icon name="spinner" /></div>
     }
     @if (symbolLeft()) {
-      <Symbol [name]="symbolLeft()!" class="symbolLeft" />
+      <uni-symbol [name]="symbolLeft()!" class="symbolLeft" />
     }
     <span><ng-content></ng-content></span>
     @if (symbolRight()) {
-      <Symbol [name]="symbolRight()!" class="symbolRight" />
+      <uni-symbol [name]="symbolRight()!" class="symbolRight" />
     } `,
   providers: [{ provide: COMPONENT_NAME, useValue: 'button' }],
   changeDetection: ChangeDetectionStrategy.OnPush,

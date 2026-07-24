@@ -9,7 +9,7 @@ import type { UniDialogHeaderOptions } from './dialog-header.model';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  selector: 'div[uni-dialog-header], DialogHeader',
+  selector: '[uni-dialog-header]',
   imports: [UniBoxComponent, UniIconButtonComponent, UniTextComponent, UniRowComponent],
   templateUrl: './dialog-header.component.html',
   providers: [{ provide: COMPONENT_NAME, useValue: 'dialogHeader' }],

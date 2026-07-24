@@ -12,7 +12,7 @@ import type { UniSliderOptions } from './slider.model';
  */
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  selector: 'uni-slider, Slider',
+  selector: 'uni-slider',
   providers: [{ provide: COMPONENT_NAME, useValue: 'slider' }],
   template: `
     <input

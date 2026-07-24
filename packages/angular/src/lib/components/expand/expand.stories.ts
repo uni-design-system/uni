@@ -25,14 +25,14 @@ const meta: Meta<StoryType> = {
     return {
       props,
       template: `
-      <Card>
-        <CardHeader title="Expandable Card"><ExpandToggle #toggle /></CardHeader>
-        <Expand [collapsed]="toggle.collapsed()">
-          <CardContent>
+      <uni-card>
+        <uni-card-header title="Expandable Card"><uni-expand-toggle #toggle /></uni-card-header>
+        <uni-expand [collapsed]="toggle.collapsed()">
+          <uni-card-content>
             <span uni-text>${ngContent}</span>
-          </CardContent>
-        </Expand>
-      </Card>
+          </uni-card-content>
+        </uni-expand>
+      </uni-card>
       `,
     };
   },

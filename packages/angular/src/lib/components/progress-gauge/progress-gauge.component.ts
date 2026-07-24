@@ -3,7 +3,7 @@ import { css, keyframes } from '@emotion/css';
 import { BaseComponent, COMPONENT_NAME } from '../base/base.component';
 
 @Component({
-  selector: 'uni-progress-gauge, ProgressGauge',
+  selector: 'uni-progress-gauge',
   imports: [],
   templateUrl: './progress-gauge.component.html',
   providers: [{ provide: COMPONENT_NAME, useValue: 'progressGauge' }],

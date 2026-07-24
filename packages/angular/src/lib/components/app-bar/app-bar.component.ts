@@ -12,7 +12,7 @@ import type { UniAppBarOptions } from './app-bar.model';
  */
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  selector: 'uni-app-bar, AppBar',
+  selector: 'uni-app-bar',
   providers: [{ provide: COMPONENT_NAME, useValue: 'appBar' }],
   host: { '[class]': 'className()' },
   template: `

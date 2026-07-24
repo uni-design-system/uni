@@ -29,7 +29,7 @@ import type { DrawerMode, DrawerPosition, UniDrawerOptions } from './drawer.mode
  */
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  selector: 'uni-drawer, Drawer',
+  selector: 'uni-drawer',
   imports: [NgTemplateOutlet],
   providers: [{ provide: COMPONENT_NAME, useValue: 'drawer' }],
   template: `

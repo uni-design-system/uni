@@ -26,7 +26,7 @@ import type { Variant } from '@uni-design-system/uni-core';
           <div box-layout [width]="220" justifyContent="right" alignItems="center" display="flex">
             <span uni-text display="block" align="right">{{ result.name }}:</span>
           </div>
-          <Badge [color]="result.colorToken" [width]="140">{{ result.state }}</Badge>
+          <div uni-badge [color]="result.colorToken" [width]="140">{{ result.state }}</div>
         </div>
       }
     </div>

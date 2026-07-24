@@ -4,7 +4,7 @@ import type { UniCardOptions } from './card.model';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  selector: 'uni-card, Card',
+  selector: 'uni-card',
   imports: [],
   templateUrl: './card.component.html',
   providers: [{ provide: COMPONENT_NAME, useValue: 'card' }],

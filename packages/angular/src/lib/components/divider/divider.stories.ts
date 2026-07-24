@@ -18,7 +18,7 @@ const meta: Meta<StoryType> = {
       props,
       template: `
         <div center-layout height="200px">
-          <Divider border="${border}" orientation="${orientation}" />
+          <uni-divider border="${border}" orientation="${orientation}" />
         </div>
       `,
     };

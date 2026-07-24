@@ -24,12 +24,12 @@ const meta: Meta<StoryType> = {
       props,
       template: `
 
-        <Card variant="${variant}">
-          <CardHeader title="Card Header"></CardHeader>
-          <CardContent>
+        <uni-card variant="${variant}">
+          <uni-card-header title="Card Header"></uni-card-header>
+          <uni-card-content>
             <span uni-text>${ngContent}</span>
-          </CardContent>
-        </Card>
+          </uni-card-content>
+        </uni-card>
 
       `,
     };

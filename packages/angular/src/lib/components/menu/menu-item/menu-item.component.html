@@ -1,7 +1,7 @@
 @let tpl = template();
 @let symbol = symbolName();
 @if (symbol) {
-  <Symbol [name]="symbol"></Symbol>
+  <uni-symbol [name]="symbol"></uni-symbol>
 }
 <div box-layout [grow]="1">
   @if (tpl) {
@@ -13,5 +13,5 @@
   }
 </div>
 @if (active()) {
-  <Symbol name="check"></Symbol>
+  <uni-symbol name="check"></uni-symbol>
 }

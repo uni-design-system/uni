@@ -4,9 +4,9 @@
     @if (iconName() || symbolName()) {
       <div box-layout [height]="26" [width]="26">
         @if (effectiveIconName()) {
-          <Icon [name]="effectiveIconName()!" />
+          <uni-icon [name]="effectiveIconName()!" />
         } @else {
-          <Symbol [name]="symbolName()!" [opticalSize]="26" />
+          <uni-symbol [name]="symbolName()!" [opticalSize]="26" />
         }
       </div>
     }

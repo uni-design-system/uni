@@ -12,7 +12,7 @@ const meta: Meta<StoryType> = {
     return {
       props,
       template: `
-        <DebounceInput ${argsToTemplate(props)} (change)="lastEmitted = $event" #debounce />
+        <uni-debounce-input ${argsToTemplate(props)} (change)="lastEmitted = $event" #debounce />
         <div box-layout paddingTop="md">
           <div>Live value: {{ debounce.value() }}</div>
           <div>Debounced value: {{ lastEmitted }}</div>

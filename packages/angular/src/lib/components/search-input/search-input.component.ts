@@ -23,7 +23,7 @@ import type { UniSearchInputOptions } from './search-input.model';
  * first, then clears the query.
  */
 @Component({
-  selector: 'SearchInput, uni-search-input',
+  selector: 'uni-search-input',
   imports: [UniDebounceInputComponent, UniIconButtonComponent, UniSymbolComponent],
   templateUrl: './search-input.component.html',
   providers: [{ provide: COMPONENT_NAME, useValue: 'searchInput' }],

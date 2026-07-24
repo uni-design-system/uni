@@ -7,7 +7,7 @@ import type { UniBadgeOptions } from './badge.model';
 import type { Variant } from '@uni-design-system/uni-core';
 
 @Component({
-  selector: 'div[uni-badge], Badge',
+  selector: '[uni-badge]',
   imports: [],
   template: `<ng-content></ng-content>`,
   providers: [{ provide: COMPONENT_NAME, useValue: 'badge' }],

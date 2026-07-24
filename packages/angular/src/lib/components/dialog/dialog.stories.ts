@@ -27,14 +27,14 @@ const meta: Meta<StoryType> = {
     return {
       props,
       template: `
-        <Button (click)="dialog.open()">Open Dialog</Button>
-        <Dialog #dialog>
-          <DialogHeader color="primary">Sample Dialog</DialogHeader>
+        <button text-button (click)="dialog.open()">Open Dialog</button>
+        <dialog uni-dialog #dialog>
+          <header uni-dialog-header color="primary">Sample Dialog</header>
           <div center-layout [width]="300" [height]="200">
             <span uni-text>Dialog</span>
           </div>
-          <DialogButtons></DialogButtons>
-        </Dialog>
+          <footer dialog-buttons></footer>
+        </dialog>
       `,
     };
   },

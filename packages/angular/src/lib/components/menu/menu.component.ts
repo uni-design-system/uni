@@ -15,7 +15,7 @@ import { MenuItem } from './menu-item/menu-item.model';
 import { UniDropdownComponent } from '../dropdown';
 
 @Component({
-  selector: 'Menu, uni-menu',
+  selector: 'uni-menu',
   imports: [UniMenuItemComponent, UniDropdownComponent],
   changeDetection: ChangeDetectionStrategy.OnPush, // Crucial for zoneless
   template: `
@@ -27,7 +27,7 @@ import { UniDropdownComponent } from '../dropdown';
     </div>
 
     @if (menuItems()) {
-      <Dropdown
+      <uni-dropdown
         [trigger]="trigger"
         [placement]="placement()"
         ariaHasPopup="menu"
@@ -53,7 +53,7 @@ import { UniDropdownComponent } from '../dropdown';
             ></div>
           }
         </div>
-      </Dropdown>
+      </uni-dropdown>
     }
   `,
   host: { '[class]': 'className()' },

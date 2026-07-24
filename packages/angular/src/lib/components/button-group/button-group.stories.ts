@@ -17,11 +17,11 @@ const meta: Meta<StoryType> = {
     return {
       props,
       template: `
-        <ButtonGroup ${argsToTemplate(props)}>
+        <uni-button-group ${argsToTemplate(props)}>
           <button icon-button symbolName="align_horizontal_left" size="sm"></button>
           <button icon-button symbolName="align_horizontal_center" size="sm"></button>
           <button icon-button symbolName="align_horizontal_right" size="sm"></button>
-        </ButtonGroup>
+        </uni-button-group>
       `,
     };
   },

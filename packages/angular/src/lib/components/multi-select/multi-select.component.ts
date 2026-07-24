@@ -7,7 +7,7 @@ import { UniBoxComponent } from '../layout';
 import { UniCheckboxComponent } from '../checkbox/checkbox.component';
 
 @Component({
-  selector: 'uni-multi-select, MultiSelect',
+  selector: 'uni-multi-select',
   imports: [UniCheckboxComponent, UniBoxComponent],
   templateUrl: './multi-select.component.html',
   host: { '[class]': 'className' },

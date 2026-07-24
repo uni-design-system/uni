@@ -20,10 +20,10 @@ const meta: Meta<StoryType> = {
     return {
       props,
       template: `
-        <Button (click)="alert.open()">Show Alert</Button>
-        <Alert #alert ${argsToTemplate(props)}>
+        <button text-button (click)="alert.open()">Show Alert</button>
+        <uni-alert #alert ${argsToTemplate(props)}>
           ${ngContent}
-        </Alert>
+        </uni-alert>
       `,
     };
   },

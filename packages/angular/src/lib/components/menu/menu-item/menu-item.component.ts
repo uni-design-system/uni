@@ -22,7 +22,7 @@ import type {
 } from '@uni-design-system/uni-core';
 
 @Component({
-  selector: 'div[uni-menu-item], div[menu-item]',
+  selector: '[uni-menu-item], [menu-item]',
   imports: [UniTextComponent, UniSymbolComponent, UniBoxComponent, NgTemplateOutlet],
   templateUrl: './menu-item.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,

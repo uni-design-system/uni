@@ -5,7 +5,7 @@ import { UniDialogComponent } from '../dialog.component';
 import type { JustifyContent, NullableSize, Variant } from '@uni-design-system/uni-core';
 
 @Component({
-  selector: 'uni-dialog-buttons, DialogButtons, div[dialog-buttons]',
+  selector: '[uni-dialog-buttons], [dialog-buttons]',
   imports: [UniRowComponent, UniButtonComponent],
   templateUrl: './dialog-buttons.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,

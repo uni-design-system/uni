@@ -7,7 +7,7 @@ import { UniTextComponent } from '../text/text.component';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  selector: 'uni-expand-area, ExpandArea',
+  selector: 'uni-expand-area',
   imports: [UniBoxComponent, UniTextComponent, UniExpandToggleComponent, UniExpandComponent],
   template: `
     <div box-layout color="tertiary-surface" borderRadius="sm" border="quaternary" overflow="hidden">
@@ -28,7 +28,7 @@ import { UniTextComponent } from '../text/text.component';
           </span>
         </div>
 
-        <ExpandToggle
+        <uni-expand-toggle
           #toggle
           style="display: inline-flex; margin: -2px"
           [collapsed]="initCollapsed()"
@@ -36,11 +36,11 @@ import { UniTextComponent } from '../text/text.component';
         />
       </div>
 
-      <Expand #expand [collapsed]="toggle.collapsed()">
+      <uni-expand #expand [collapsed]="toggle.collapsed()">
         <div box-layout [padding]="padding()">
           <ng-content></ng-content>
         </div>
-      </Expand>
+      </uni-expand>
     </div>
   `,
 })

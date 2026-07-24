@@ -4,7 +4,7 @@ import { ThemeService } from '../../theming';
 import type { Border, Orientation } from '@uni-design-system/uni-core';
 
 @Component({
-  selector: 'uni-divider, Divider',
+  selector: 'uni-divider',
   imports: [],
   template: ``,
   host: { '[class]': 'className()' },

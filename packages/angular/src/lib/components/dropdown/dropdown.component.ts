@@ -32,7 +32,7 @@ export type AriaHasPopup = 'menu' | 'listbox' | 'dialog' | 'grid' | 'tree' | 'tr
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  selector: 'uni-dropdown, Dropdown',
+  selector: 'uni-dropdown',
   imports: [UniBoxComponent],
   template: `
     <!-- 1. The native 'popover' attribute brings it to the top layer with native light-dismiss -->

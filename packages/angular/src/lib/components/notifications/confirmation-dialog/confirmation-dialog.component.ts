@@ -10,7 +10,7 @@ import { UniTextComponent } from '../../text';
 import type { Confirmation } from '../../../cdk/notification';
 
 @Component({
-  selector: 'uni-confirmation-dialog, Confirmation',
+  selector: 'uni-confirmation-dialog',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     UniDialogComponent,

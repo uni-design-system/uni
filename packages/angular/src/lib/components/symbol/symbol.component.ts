@@ -5,7 +5,7 @@ import type { SymbolFill, SymbolGrade, SymbolOptions, SymbolWeight } from './sym
 import { COMPONENT_NAME } from '../base/base.component';
 
 @Component({
-  selector: 'uni-symbol, Symbol',
+  selector: 'uni-symbol',
   imports: [],
   template: `{{ name() }}`,
   providers: [{ provide: COMPONENT_NAME, useValue: 'symbol' }],
