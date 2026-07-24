@@ -11,6 +11,7 @@ import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { UniThemes } from '@uni-design-system/uni-core';
 import { ingestAngular } from './angular-adapter.js';
+import { ingestMdx } from './mdx-adapter.js';
 import { ingestStorybook } from './storybook-adapter.js';
 import { ingestTokens } from './token-adapter.js';
 import { normalize } from './normalizer.js';
@@ -56,6 +57,9 @@ function main() {
     );
   }
 
+  // --- Authored guidelines from each component's co-located MDX docs page
+  const guidelines = ingestMdx({ srcRoot: join(angularRoot, 'src/lib'), pathToId });
+
   const index = normalize({
     version,
     frameworks: ['angular'],
@@ -63,6 +67,7 @@ function main() {
     examples,
     tokens,
     themes,
+    guidelines,
   });
 
   if (!existsSync(dirname(outFile))) mkdirSync(dirname(outFile), { recursive: true });

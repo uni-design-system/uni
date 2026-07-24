@@ -12,6 +12,7 @@ import type {
   TokenModel,
 } from '../schema.js';
 import type { ComponentFragment } from './angular-adapter.js';
+import type { MdxGuidelines } from './mdx-adapter.js';
 import type { StorybookExample } from './storybook-adapter.js';
 
 export type NormalizeInput = {
@@ -21,6 +22,7 @@ export type NormalizeInput = {
   examples: StorybookExample[];
   tokens: TokenModel[];
   themes: ThemeTemplateModel[];
+  guidelines?: Map<string, MdxGuidelines>;
 };
 
 export function normalize(input: NormalizeInput): UniIndex {
@@ -56,7 +58,12 @@ export function normalize(input: NormalizeInput): UniIndex {
       version: input.version,
       bindings: { angular: frag.binding },
       examples,
-      guidelines: { whenToUse: '', dos: [], donts: [], accessibility: [] },
+      guidelines: input.guidelines?.get(frag.id) ?? {
+        whenToUse: '',
+        dos: [],
+        donts: [],
+        accessibility: [],
+      },
       relatedTokens: behavioralByComponent.get(frag.id) ?? [],
     } satisfies ComponentModel;
   });

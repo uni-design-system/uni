@@ -1,7 +1,7 @@
 {
   "meta": {
     "version": "5.2.0",
-    "builtAt": "2026-07-24T13:20:50.710Z",
+    "builtAt": "2026-07-24T13:42:19.534Z",
     "frameworks": [
       "angular"
     ],
@@ -75,7 +75,7 @@
         }
       ],
       "guidelines": {
-        "whenToUse": "",
+        "whenToUse": "The Alert is used to communicate a state that affects a system, feature or page.\nFor instance, alerts can be used to display errors or any unexpected results from a user's action.",
         "dos": [],
         "donts": [],
         "accessibility": []
@@ -126,7 +126,7 @@
         }
       ],
       "guidelines": {
-        "whenToUse": "",
+        "whenToUse": "Horizontal application bar for the top of a page or section. Project controls with the\n`leading` attribute (menu button, logo) and actions with `trailing` (pushed to the far\nedge); pass `title` or project your own center content. Surface color, height, the\ndivider rule, title typography and spacing all resolve from the theme's `appBar`\noptions, and `sticky` pins the bar to the top of its scroll container.\nPlace it inside your page's `<header>` landmark. It pairs with the Drawer — see the\nDrawer docs for the full dashboard-shell recipe.",
         "dos": [],
         "donts": [],
         "accessibility": []
@@ -188,7 +188,7 @@
         }
       ],
       "guidelines": {
-        "whenToUse": "",
+        "whenToUse": "Identity avatar with a graceful fallback chain: the image when it loads, initials\nderived from `name` when it doesn't (or was never given), and a themed symbol as the\nlast resort. The name doubles as the accessible label; avatars with no name are marked\ndecorative automatically.\nVariants color initials from the role's container tokens, so avatars follow the brand\npalette in light and dark. The corner radius is the theme's `avatar.options.borderRadius`\ntoken — circles by default, squares under a `sharp` shape language.",
         "dos": [],
         "donts": [],
         "accessibility": []
@@ -302,10 +302,14 @@
         }
       ],
       "guidelines": {
-        "whenToUse": "",
+        "whenToUse": "The Background component is a flexible container that allows you to add and control background images in your application.\nIt provides various options for positioning and sizing the background image while maintaining a clean and responsive layout.",
         "dos": [],
         "donts": [],
-        "accessibility": []
+        "accessibility": [
+          "Ensure any text overlaid on the background has sufficient contrast",
+          "Don't rely on background images to convey important information",
+          "Consider providing alternative visual styles for users who prefer reduced motion"
+        ]
       },
       "relatedTokens": []
     },
@@ -361,7 +365,7 @@
         }
       ],
       "guidelines": {
-        "whenToUse": "",
+        "whenToUse": "Badges are used to highlight an item's status for quick recognition.",
         "dos": [],
         "donts": [],
         "accessibility": []
@@ -750,7 +754,7 @@
         }
       ],
       "guidelines": {
-        "whenToUse": "",
+        "whenToUse": "Box is the base Layout component. It is highly configurable.\nEach layout component extends the Box component while providing presets to support their application.",
         "dos": [],
         "donts": [],
         "accessibility": []
@@ -808,7 +812,7 @@
         }
       ],
       "guidelines": {
-        "whenToUse": "",
+        "whenToUse": "Breadcrumbs show where the current page sits in the hierarchy and give one-click\npassage back up the trail. The component renders the WAI-ARIA pattern: a labelled\n`nav` landmark wrapping an ordered list, with the last item marked as the current page\nand separators hidden from assistive tech.\nItems with `href` render as real links. For SPA routing, omit `href` and handle\n`itemClicked` — items render as link-styled buttons instead. Typography, link and\ncurrent-page colors, the separator symbol, and spacing all resolve from the theme's\n`breadcrumb` options.",
         "dos": [],
         "donts": [],
         "accessibility": []
@@ -903,7 +907,7 @@
         }
       ],
       "guidelines": {
-        "whenToUse": "",
+        "whenToUse": "Button is a clickable interactive element that triggers a response.\nYou can place text and icons inside of a button.\nButtons are often used for form submissions and to toggle elements into view.",
         "dos": [],
         "donts": [],
         "accessibility": []
@@ -936,7 +940,7 @@
         }
       ],
       "guidelines": {
-        "whenToUse": "",
+        "whenToUse": "The `ButtonGroup` component is used to group related buttons. It applies some base styling to the nested buttons.\nIf this is not desirable, consider using the `Row` component.",
         "dos": [],
         "donts": [],
         "accessibility": []
@@ -1088,7 +1092,7 @@
         }
       ],
       "guidelines": {
-        "whenToUse": "",
+        "whenToUse": "`Center` is a layout component that centers its child within itself.\n`Center` is an extension to the `Box` component and has all the `Box` attributes available to it.",
         "dos": [],
         "donts": [],
         "accessibility": []
@@ -1217,7 +1221,12 @@
         "whenToUse": "",
         "dos": [],
         "donts": [],
-        "accessibility": []
+        "accessibility": [
+          "The component uses semantic HTML with proper `<input type=\"checkbox\">` and `<label>` elements",
+          "Keyboard navigation is supported (Space to toggle)",
+          "Screen readers will announce the label and state correctly",
+          "The checkbox is properly associated with its label for accessibility"
+        ]
       },
       "relatedTokens": [
         "checkbox.behavior.size",
@@ -1322,7 +1331,7 @@
         }
       ],
       "guidelines": {
-        "whenToUse": "",
+        "whenToUse": "The Data Search input filters a `UniDatasource` as the user types. With a client-side\n`UniRecordDatasource` it applies a predicate over the record's fields; with a\n`UniServerSideDatasource` it sends a filter object to the data loader. Pass `fields` to\nrestrict the search to specific columns. A clear button resets the filter.\nIt pairs with the [Data Table](?path=/docs/components-data-table--docs) — see its\n\"With Search\" story.",
         "dos": [],
         "donts": [],
         "accessibility": []
@@ -1531,7 +1540,7 @@
         }
       ],
       "guidelines": {
-        "whenToUse": "",
+        "whenToUse": "A themed text input that emits its `change` output only after the user pauses typing\n(400&nbsp;ms by default) and only when the value actually changed — a signal-based\ndebounce with no rxjs involved. The live value is exposed as the `value` signal, and\n`clear()` empties the field immediately (cancelling any pending emit).\nIt wears the shared input chrome (color, border, typeface, focus ring) via the input\nbox, and offers `pre-input` / `post-input` attribute slots for adornments plus ARIA\npassthrough inputs (`role`, `ariaExpanded`, `ariaControls`, `ariaActivedescendant`)\nso composite widgets can annotate the real input element.\nUsed by the [Search Input](?path=/docs/components-forms-search-input--docs), which\nprojects its magnifier and clear button through the slots and drives the combobox\nARIA through the passthroughs.",
         "dos": [],
         "donts": [],
         "accessibility": []
@@ -1598,10 +1607,14 @@
         }
       ],
       "guidelines": {
-        "whenToUse": "",
+        "whenToUse": "Enhanced modal dialog that extends the native HTML `<dialog>` element with built-in animations, composition components, and accessibility features.\n### Features\n- **Native HTML Dialog**: Built on the standard dialog element with full semantic support\n- **Smooth Animations**: Automatic fade transitions for open/close states\n- **Composition Components**: Optional `DialogHeader` and `DialogButtons` for consistent layouts\n- **Programmatic Control**: Open/close methods plus show property binding\n- **Backdrop Handling**: Click-outside-to-close with customizable behavior\n- **Accessibility**: Full keyboard navigation, focus trapping, and screen reader support",
         "dos": [],
         "donts": [],
-        "accessibility": []
+        "accessibility": [
+          "Focus trapping and keyboard navigation (Tab, Escape, Enter)",
+          "Screen reader announcements",
+          "Semantic dialog roles"
+        ]
       },
       "relatedTokens": [
         "dialog.behavior.borderRadius",
@@ -1761,7 +1774,7 @@
         }
       ],
       "guidelines": {
-        "whenToUse": "",
+        "whenToUse": "Dividers are used to visually separate content in a list or group.",
         "dos": [],
         "donts": [],
         "accessibility": []
@@ -1861,7 +1874,7 @@
         }
       ],
       "guidelines": {
-        "whenToUse": "",
+        "whenToUse": "Navigation drawer with two modes sharing one content slot:\n- **`side`** renders an in-flow `<aside>` that pushes page content — the classic\n  dashboard sidenav. Opening and closing animates its width; a divider border primitive\n  separates it from the content, and it is hidden from assistive tech while closed.\n- **`over`** renders a native `<dialog>` in the top layer: focus trapping, Escape, and\n  the scrim backdrop come from the platform, and the panel slides in from its edge\n  (`position`: `start` or `end`).\n`[(open)]` is two-way; Escape and backdrop clicks keep it in sync. Surface, width,\ndivider, elevation, padding and backdrop all resolve from the theme's `drawer` options.",
         "dos": [],
         "donts": [],
         "accessibility": []
@@ -1996,7 +2009,7 @@
         }
       ],
       "guidelines": {
-        "whenToUse": "",
+        "whenToUse": "Expand is a group of components that can be used in concert to expand/collapse sections of information.\nThe Expand component is transparent in nature and can nest any element to collapse it out of view.\nThe Expand Toggle is an optional convenience element that can be used to trigger the expand/collapse animation.\nIt has been designed to work with the Card Header.",
         "dos": [],
         "donts": [],
         "accessibility": []
@@ -2103,7 +2116,7 @@
         }
       ],
       "guidelines": {
-        "whenToUse": "",
+        "whenToUse": "The Expand Toggle is a chevron icon button that controls collapsed/expanded state. It pairs\nwith the [Expand](?path=/docs/components-expand--docs) component: bind the toggle's\n`collapsed` model to the Expand's `collapsed` input to build collapsible sections.\nThe icon rotates 180° between states and shows an \"Expand\"/\"Collapse\" tooltip.",
         "dos": [],
         "donts": [],
         "accessibility": []
@@ -2231,7 +2244,7 @@
         }
       ],
       "guidelines": {
-        "whenToUse": "",
+        "whenToUse": "The File Drop Zone component is used in uploading files.",
         "dos": [],
         "donts": [],
         "accessibility": []
@@ -2305,7 +2318,7 @@
         }
       ],
       "guidelines": {
-        "whenToUse": "",
+        "whenToUse": "Grid is a layout component used for composing elements in a grid-like pattern.\nLike tables, grid layouts align elements into columns and rows.\nHowever, grids allow for more control when spanning elements across columns and rows.",
         "dos": [],
         "donts": [],
         "accessibility": []
@@ -2382,7 +2395,7 @@
         }
       ],
       "guidelines": {
-        "whenToUse": "",
+        "whenToUse": "Icons are adaptive svg images. Instead of defining a size or color attributes, Icons\nwill grow to the space allotted to them and use the current color of its parent element.\nHowever, it is possible to statically set the icon color.",
         "dos": [],
         "donts": [],
         "accessibility": []
@@ -2601,7 +2614,13 @@
         "whenToUse": "",
         "dos": [],
         "donts": [],
-        "accessibility": []
+        "accessibility": [
+          "Uses semantic HTML input element with proper labeling",
+          "Supports keyboard navigation and standard input interactions",
+          "Screen readers announce validation errors and field states",
+          "Follows WCAG accessibility guidelines for form inputs",
+          "Proper focus management and visual indicators"
+        ]
       },
       "relatedTokens": [
         "input.behavior.typeFace",
@@ -2685,7 +2704,7 @@
         }
       ],
       "guidelines": {
-        "whenToUse": "",
+        "whenToUse": "The Input Box is the themed shell shared by all text-like form controls\n([Input](?path=/docs/components-forms-input--docs),\n[Select](?path=/docs/components-forms-select--docs), Multi Select Dropdown). It projects any\nnative `input` or `select` element, strips the platform's default styling, and applies the\n`input` component theme options: colors, border, radius, focus outline, and the error and\ndisabled states.\nUse it directly when composing a custom form control that should match the design system's\ninput styling.",
         "dos": [],
         "donts": [],
         "accessibility": []
@@ -2755,7 +2774,7 @@
         }
       ],
       "guidelines": {
-        "whenToUse": "",
+        "whenToUse": "The JSON View component provides a simple way to display JSON data in a formatted, readable manner. It renders the JSON in a textarea element, making it easy for users to view and copy the content. The component automatically formats the JSON with proper indentation for better readability.",
         "dos": [],
         "donts": [],
         "accessibility": []
@@ -2815,7 +2834,7 @@
         }
       ],
       "guidelines": {
-        "whenToUse": "",
+        "whenToUse": "Menus can be linked to any component, but it is recommended to use either the `text-button` or `icon-button` component.\nMenus are populated by creating an array of Menu Items (`MenuItem[]`) and binding it to the `Menu` component.\nActions are optional as the `Menu` component also emits the clicked menu item via the `menuItemClicked` output attribute.\n### Menu Item Interface\n```\nMenuItem {\n  label: string;\n  symbolName?: string;\n  action?: () => void;\n}\n```",
         "dos": [],
         "donts": [],
         "accessibility": []
@@ -3019,7 +3038,12 @@
         "whenToUse": "",
         "dos": [],
         "donts": [],
-        "accessibility": []
+        "accessibility": [
+          "Uses semantic checkbox inputs with proper label associations",
+          "Supports keyboard navigation (Tab, Space)",
+          "Screen readers announce option labels and selection states",
+          "Follows WCAG accessibility guidelines"
+        ]
       },
       "relatedTokens": []
     },
@@ -3150,7 +3174,13 @@
         "whenToUse": "",
         "dos": [],
         "donts": [],
-        "accessibility": []
+        "accessibility": [
+          "Uses semantic dropdown and checkbox patterns with proper ARIA labeling",
+          "Supports keyboard navigation (Tab, Space, Enter, Arrow keys)",
+          "Screen readers announce dropdown state, option labels, and selection counts",
+          "Follows WCAG accessibility guidelines for multi-select controls",
+          "Search input is properly labeled for assistive technologies"
+        ]
       },
       "relatedTokens": []
     },
@@ -3371,7 +3401,7 @@
         }
       ],
       "guidelines": {
-        "whenToUse": "",
+        "whenToUse": "The Paginator drives page navigation for any `UniDatasource`: first/previous/next/last\nbuttons, truncated page numbers, an editable page size, and a page jumper. Each section can\nbe toggled independently, so it can render as a full control bar or a minimal pager — the\n[Data Table](?path=/docs/components-data-table--docs) stories use one paginator in the header\nfor page size and another in the footer for page numbers.",
         "dos": [],
         "donts": [],
         "accessibility": []
@@ -3426,7 +3456,7 @@
         }
       ],
       "guidelines": {
-        "whenToUse": "",
+        "whenToUse": "Popover is a non-modal dialog that floats around a trigger.\nAny type of content can be added inside a popover; however, it is most suitable for short callouts or compact actions.\n**Note:** It is important to add the `trigger` attribute to the item you want to open and be referenced to the Popover.",
         "dos": [],
         "donts": [],
         "accessibility": []
@@ -3488,7 +3518,7 @@
         }
       ],
       "guidelines": {
-        "whenToUse": "",
+        "whenToUse": "The progress bar is a graphical way of representing progress to completion.",
         "dos": [],
         "donts": [],
         "accessibility": []
@@ -3534,7 +3564,7 @@
         }
       ],
       "guidelines": {
-        "whenToUse": "",
+        "whenToUse": "The progress gauge is a graphical way of representing progress to completion as well as scoring or ranking.",
         "dos": [],
         "donts": [],
         "accessibility": []
@@ -3676,7 +3706,15 @@
         "whenToUse": "",
         "dos": [],
         "donts": [],
-        "accessibility": []
+        "accessibility": [
+          "The component uses semantic HTML with proper `<input type=\"radio\">` and `<label>` elements",
+          "All radio buttons in a group share the same `name` attribute for proper grouping",
+          "Keyboard navigation is supported (Arrow keys to navigate, Space to select)",
+          "Screen readers will announce the label and state correctly",
+          "Each radio option is properly associated with its label for accessibility",
+          "Focus indicators are provided for keyboard navigation",
+          "Disabled options are properly announced to screen readers"
+        ]
       },
       "relatedTokens": [
         "radio.behavior.size",
@@ -3756,7 +3794,7 @@
         }
       ],
       "guidelines": {
-        "whenToUse": "",
+        "whenToUse": "`Row` is a layout component used to group elements in a horizontal arrangement and applies a uniform space between them.\n`Row` is an extension to the `Box` component and has all the `Box` attributes available to it.",
         "dos": [],
         "donts": [],
         "accessibility": []
@@ -3998,7 +4036,7 @@
         }
       ],
       "guidelines": {
-        "whenToUse": "",
+        "whenToUse": "Generic search field wearing the shared input chrome: a decorative leading magnifier,\na clear button while there's a query, and Enter to submit (`search`). `change` emits\ndebounced as the user types — use it to refresh results or the `suggestions` input.\nWith `suggestions`, the field becomes an ARIA combobox: entries render in a listbox\nunder the field, ArrowUp/Down move the highlight, Enter selects (emitting both\n`suggestionSelected` and `search`), and Escape closes the list first, then clears the\nquery. The suggestion list's surface, elevation and radius resolve from the theme's\n`searchInput` options, alongside the search/clear symbols.",
         "dos": [],
         "donts": [],
         "accessibility": []
@@ -4134,7 +4172,14 @@
         "whenToUse": "",
         "dos": [],
         "donts": [],
-        "accessibility": []
+        "accessibility": [
+          "Uses semantic HTML select element with proper labeling",
+          "Supports keyboard navigation (Tab, Arrow keys, Enter, Space)",
+          "Screen readers announce option labels and selection state",
+          "Follows WCAG accessibility guidelines for form selects",
+          "Proper focus management and visual indicators",
+          "Dropdown arrow icon provides visual cue for interaction"
+        ]
       },
       "relatedTokens": []
     },
@@ -4199,7 +4244,7 @@
         }
       ],
       "guidelines": {
-        "whenToUse": "",
+        "whenToUse": "Loading placeholder that sketches the shape of incoming content: `text` renders one or\nmore lines (ending on a short line, as real copy would), `rect` stands in for media and\ncharts, `circle` for avatars. Skeletons paint with the theme's surface tokens so they\nsit naturally on any brand in both modes, and the shimmer sweep only animates for users\nwho allow motion — under `prefers-reduced-motion` it degrades to calm static blocks.\nSkeletons are `aria-hidden`; announce loading on the container (e.g. `aria-busy`)\nwhere your app knows what is actually loading.",
         "dos": [],
         "donts": [],
         "accessibility": []
@@ -4333,7 +4378,7 @@
         }
       ],
       "guidelines": {
-        "whenToUse": "",
+        "whenToUse": "Range slider for picking a number within bounds. It renders a native\n`<input type=\"range\">`, so keyboard interaction (arrows, Home/End, Page Up/Down) and\nthe ARIA slider contract come from the platform. The same Signal Forms contract as\nInput applies — bind with the `[field]` directive or drive `[(value)]` directly.\nFill and thumb color, track color, radii and geometry resolve from the theme's\n`slider` options; the fill level rides a CSS custom property, so dragging never\nregenerates styles.",
         "dos": [],
         "donts": [],
         "accessibility": []
@@ -4427,7 +4472,7 @@
         }
       ],
       "guidelines": {
-        "whenToUse": "",
+        "whenToUse": "The Snackbar component is used to give feedback to users after an action has taken place.\nIt appears near the bottom center of the screen temporarily and floats above the UI to not affect the application's layout.\nA side action can be defined (e.g. undoing a process or navigating to the details of a newly created record).",
         "dos": [],
         "donts": [],
         "accessibility": []
@@ -4476,7 +4521,7 @@
         }
       ],
       "guidelines": {
-        "whenToUse": "",
+        "whenToUse": "The Sort Header wraps a column heading and cycles the bound datasource's sort state\n(ascending → descending → unsorted) when clicked. An animated arrow indicates the current\nsort direction. It is used by the [Data Table](?path=/docs/components-data-table--docs)\nfor sortable columns, but can wrap any header content bound to a `UniDatasource`.",
         "dos": [],
         "donts": [],
         "accessibility": []
@@ -4531,7 +4576,7 @@
         }
       ],
       "guidelines": {
-        "whenToUse": "",
+        "whenToUse": "`Stack` is a layout component used to group elements in a vertical arrangement and applies a uniform space between them.\n`Stack` is an extension to the `Box` component and has all the `Box` attributes available to it.",
         "dos": [],
         "donts": [],
         "accessibility": []
@@ -4616,7 +4661,7 @@
         }
       ],
       "guidelines": {
-        "whenToUse": "",
+        "whenToUse": "The KPI tile a dashboard leads with: a muted label, a large headline value (numbers\nauto-compact — `48234` renders \"48.2K\"), an optional signed delta, and an optional\ndecorative sparkline.\nThe delta's color is decided by **direction × whether up is good**, never direction\nalone — set `upIsGood` to `false` for measures like churn, errors, or cost, and a\nfalling number correctly reads as good news. The arrow is accompanied by\nscreen-reader text (\"up\"/\"down\"), so state never relies on color alone, and `caption`\nnames the comparison period.\nFrame (surface, border primitive, radius), typography (the type scale's `stat` role\nfor values), delta inks (the semantic `success`/`error`), and sparkline colors all\nresolve from the theme's `stat` options.",
         "dos": [],
         "donts": [],
         "accessibility": []
@@ -4694,7 +4739,7 @@
         }
       ],
       "guidelines": {
-        "whenToUse": "",
+        "whenToUse": "The Symbol Component integrates the latest [Material Symbols](https://fonts.google.com/icons?icon.platform=web&icon.style=Rounded&icon.set=Material+Symbols&query=les).\nMaterial Symbols consolidates over 3,275 glyphs (icons) in a single font file with a wide range of design variants.\nSymbols are available in three styles and four adjustable variable font styles (fill, weight, grade, and optical size).",
         "dos": [],
         "donts": [],
         "accessibility": []
@@ -4783,7 +4828,7 @@
         }
       ],
       "guidelines": {
-        "whenToUse": "",
+        "whenToUse": "Tabs organize peer views behind a single switcher. Each `uni-tab` supplies a label and\nits panel content; only the selected panel is instantiated, so heavy tab content costs\nnothing until visited. The full WAI-ARIA tabs pattern is built in: arrow keys move\nbetween tabs (wrapping, skipping disabled tabs), Home/End jump to the extremes, and\nselection follows focus.\nEvery visual aspect resolves from the theme's `tabs` options — label typeface, colors,\nthe indicator's color and thickness, the divider, spacing, and radius. The default\ntokens render underline tabs; a theme that sets `borderRadius: 'max'` and an\n`activeColor` gets segmented pills without any component changes.",
         "dos": [],
         "donts": [],
         "accessibility": []
@@ -4955,7 +5000,7 @@
         }
       ],
       "guidelines": {
-        "whenToUse": "",
+        "whenToUse": "The typography primitive, applied as an **attribute on any element** so your HTML\nsemantics stay intact. The attribute value is the typeface —\n`<h1 uni-text=\"display-small\">` — and `[uni-text]=\"role()\"` binds it dynamically.\nWith no value, the typeface is inferred from the host element (`h1` →\n`headline-large`, `p` → `body-1-long`, `small` → `caption`, `blockquote` → `quote`,\nfalling back to `title-small`), so plain semantic markup is correctly set with zero\nconfiguration. `color` takes any theme color token; `align`, `nowrap`, `maxWidth`,\nand `ellipsis` handle common text layout.",
         "dos": [],
         "donts": [],
         "accessibility": []
@@ -5079,7 +5124,7 @@
         }
       ],
       "guidelines": {
-        "whenToUse": "",
+        "whenToUse": "Multi-line text field with the same Signal Forms contract as Input — use it anywhere\nfree-form text runs past one line (comments, descriptions, feedback). It shares Input's\nthemed chrome (color, border, error state, focus outline, typeface) and adds\ntextarea-specific behavior from the theme's `textarea` options: default `rows` and the\nCSS `resize` mode. Bind it to a form with the `[field]` directive, or drive `[(value)]`\ndirectly.",
         "dos": [],
         "donts": [],
         "accessibility": []
@@ -5233,7 +5278,13 @@
         "whenToUse": "",
         "dos": [],
         "donts": [],
-        "accessibility": []
+        "accessibility": [
+          "The component uses semantic HTML with proper `<input type=\"checkbox\">` and `<label>` elements",
+          "Keyboard navigation is supported (Space to toggle)",
+          "Screen readers will announce the label and state correctly",
+          "The toggle is properly associated with its label for accessibility",
+          "Focus indicators are provided for keyboard navigation"
+        ]
       },
       "relatedTokens": [
         "toggle.behavior.size",
@@ -5304,7 +5355,7 @@
         }
       ],
       "guidelines": {
-        "whenToUse": "",
+        "whenToUse": "A tooltip is a brief, informative message that appears when a user interacts with an element.\nIf using a tooltip within a body of text, set the `inlineText` option to `true`.",
         "dos": [],
         "donts": [],
         "accessibility": []
@@ -5356,7 +5407,7 @@
         }
       ],
       "guidelines": {
-        "whenToUse": "",
+        "whenToUse": "Used to add space between elements and wraps automatically if there isn't enough space.",
         "dos": [],
         "donts": [],
         "accessibility": []

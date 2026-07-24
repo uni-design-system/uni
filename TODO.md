@@ -73,9 +73,12 @@ audits: `packages/angular/TODO.md` (v4 audit) and `uni-theme-generation-plan.md`
 
 ## MCP server
 
-- [ ] **MDX guidelines adapter** — pipe component MDX Overview sections into the
-      index's empty `guidelines` field; 10+ thoughtful pages now exist, making this
-      the highest-value MCP item.
+- [x] ~~MDX guidelines adapter~~ — shipped 2026-07-24: Overview → whenToUse, optional
+      Do/Don't/Accessibility bullet sections; 48/70 components covered.
+- [ ] **Author guidelines for the skeleton MDX pages** — several older pages (card,
+      input, checkbox, radio, toggle, dropdown, select, data-table, tag, multi-select…)
+      have empty `## Overview` sections, so they contribute nothing to the MCP; write
+      real when-to-use prose (+ Do/Don't/Accessibility bullets now supported).
 - [ ] **DTCG export tool** — expose `emitDtcgTokens` (in core; playground already
       uses it) as an MCP tool.
 - [ ] React bindings in the index — gated on uni-react parity.
@@ -90,6 +93,11 @@ audits: `packages/angular/TODO.md` (v4 audit) and `uni-theme-generation-plan.md`
 
 ## Process / quality
 
+- [ ] **Story compile smoke-test in CI** — story templates are JIT-compiled at runtime,
+      so neither `build-storybook` nor vitest validates them (the selector sweep proved
+      it: only the ng-packagr AOT build catches template errors, and it doesn't see
+      stories). A test-env pass that TestBed-compiles every story render would close
+      the last unvalidated surface.
 - [ ] **Chromatic / visual regression** — deliberately gated on component-library
       maturity (maintainer decision 2026-07-23); revisit once Tier 2 lands.
 - [ ] Bundle-analysis CI check for the tree-shaking budget (engine ≈ 0 bytes for
