@@ -25,6 +25,8 @@
   "scripts": {
     "build-index": "tsx src/build/index.ts",
     "build": "tsup",
+    "test": "vitest run",
+    "test:watch": "vitest",
     "build:server": "tsup",
     "dev": "tsx watch src/server/stdio.ts",
     "serve:http": "tsx src/server/http.ts",
@@ -42,6 +44,7 @@
     "@uni-design-system/uni-core": "workspace:*",
     "tsup": "^8.5.0",
     "tsx": "^4.20.0",
-    "typescript": "~5.9.0"
+    "typescript": "~5.9.0",
+    "vitest": "^4.1.6"
   }
 }

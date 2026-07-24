@@ -79,7 +79,9 @@ them at scaffold time; the engine never runs in the browser. Enablers landed:
 - [x] **MCP**: `generate-uni-theme` tool in `packages/mcp` returns the static file +
       provider snippet + contrast report; server instructions teach the
       edit-the-static-file retheming workflow.
-  - [ ] Lint check rejecting raw hex in the MCP snippet corpus.
+  - [x] Raw-hex lint (2026-07-23): `integrity.spec.ts` in packages/mcp fails on hex in
+        example snippets, API metadata, guidelines, or generate-tool guidance (theme-file
+        content and generation inputs excluded); runs via `turbo run test` in CI.
 - [x] W3C DTCG JSON emitter (`emitDtcgTokens` in `concepts/generation`), consumed by the
       playground export; wiring it into an MCP tool remains open.
 
