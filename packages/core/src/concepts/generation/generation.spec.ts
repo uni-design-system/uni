@@ -226,6 +226,23 @@ describe('button token conformance', () => {
   });
 });
 
+describe('card token conformance', () => {
+  it('drives the card frame from tokens: variant-named borders, radii scale', () => {
+    const theme = createTheme({ id: 'T', name: 'T', colors: lightColors });
+    const options = theme.components.card?.options as { borderRadius: string };
+    expect(options.borderRadius).toBe('xs');
+    expect(theme.radii[options.borderRadius]).toBe('8px'); // classic card radius, now tokened
+    const fixed = theme.components.card?.fixed as Record<string, unknown>;
+    expect(fixed).not.toHaveProperty('borderRadius');
+    expect(fixed).not.toHaveProperty('borderStyle');
+    expect(fixed).not.toHaveProperty('borderWidth');
+    // Variant-follow works because border primitives are named after variants.
+    for (const variant of ['primary', 'secondary', 'tertiary', 'warn', 'success']) {
+      expect(theme.borders[variant], `borders.${variant}`).toBeDefined();
+    }
+  });
+});
+
 describe('createTheme overrides', () => {
   it('deep-merges custom border primitives and component overrides over derived defaults', () => {
     const theme = createTheme({

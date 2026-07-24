@@ -301,14 +301,12 @@ const buildComponents = (c: Colors): ComponentThemes => ({
     },
   },
   card: {
-    fixed: { borderStyle: 'solid', borderWidth: '1px', borderRadius: '8px', overflow: 'hidden' },
-    variants: {
-      primary: { borderColor: c.primary, backgroundColor: c.background },
-      secondary: { borderColor: c.secondary, backgroundColor: c.background },
-      tertiary: { borderColor: c.tertiary, backgroundColor: c.background },
-      warn: { borderColor: c.warn, backgroundColor: c.background },
-      success: { borderColor: c.success, backgroundColor: c.background },
-    },
+    // The frame is tokens: the border primitive named by the active variant
+    // (borders.primary … borders.success — override with `border` to pin all
+    // cards to one primitive, e.g. a custom 'brush-stroke'), the radii scale
+    // (`xs` = the classic 8px), and an optional elevation shadow.
+    options: { borderRadius: 'xs' },
+    fixed: { overflow: 'hidden', backgroundColor: c.background },
   },
   cardHeader: {
     fixed: { padding: '12px 24px' },

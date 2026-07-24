@@ -1,13 +1,13 @@
 {
   "meta": {
     "version": "5.0.0",
-    "builtAt": "2026-07-23T23:32:34.419Z",
+    "builtAt": "2026-07-23T23:42:21.484Z",
     "frameworks": [
       "angular"
     ],
     "counts": {
       "components": 59,
-      "tokens": 226,
+      "tokens": 227,
       "themes": 2,
       "examples": 107
     }
@@ -762,7 +762,9 @@
         "donts": [],
         "accessibility": []
       },
-      "relatedTokens": []
+      "relatedTokens": [
+        "card.behavior.borderRadius"
+      ]
     },
     {
       "id": "card-content",
@@ -6474,6 +6476,18 @@
       }
     },
     {
+      "id": "card.behavior.borderRadius",
+      "value": "xs",
+      "type": "string",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "card",
+      "themeValues": {
+        "LightTheme": "xs",
+        "DarkTheme": "xs"
+      }
+    },
+    {
       "id": "dataSearch.behavior.border",
       "value": "light",
       "type": "string",
@@ -7225,6 +7239,9 @@
         "iconButton": {
           "borderRadius": "max"
         },
+        "card": {
+          "borderRadius": "xs"
+        },
         "dataSearch": {
           "border": "light",
           "borderRadius": "xs",
@@ -7498,6 +7515,9 @@
         },
         "iconButton": {
           "borderRadius": "max"
+        },
+        "card": {
+          "borderRadius": "xs"
         },
         "dataSearch": {
           "border": "light",
