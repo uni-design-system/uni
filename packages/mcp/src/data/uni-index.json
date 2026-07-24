@@ -1,7 +1,7 @@
 {
   "meta": {
     "version": "5.2.0",
-    "builtAt": "2026-07-24T13:42:19.534Z",
+    "builtAt": "2026-07-24T14:22:17.208Z",
     "frameworks": [
       "angular"
     ],
@@ -4828,10 +4828,20 @@
         }
       ],
       "guidelines": {
-        "whenToUse": "Tabs organize peer views behind a single switcher. Each `uni-tab` supplies a label and\nits panel content; only the selected panel is instantiated, so heavy tab content costs\nnothing until visited. The full WAI-ARIA tabs pattern is built in: arrow keys move\nbetween tabs (wrapping, skipping disabled tabs), Home/End jump to the extremes, and\nselection follows focus.\nEvery visual aspect resolves from the theme's `tabs` options — label typeface, colors,\nthe indicator's color and thickness, the divider, spacing, and radius. The default\ntokens render underline tabs; a theme that sets `borderRadius: 'max'` and an\n`activeColor` gets segmented pills without any component changes.",
-        "dos": [],
-        "donts": [],
-        "accessibility": []
+        "whenToUse": "Tabs organize peer views behind a single switcher. Each `uni-tab` supplies a label and\nits panel content; only the selected panel is instantiated, so heavy tab content costs\nnothing until visited.\nThe default tokens render underline tabs; a theme that sets `borderRadius: 'max'` and\nan `activeColor` gets segmented pills without any component changes.",
+        "dos": [
+          "Use for peer views of the same subject (details, activity, settings)",
+          "Keep labels to one or two words"
+        ],
+        "donts": [
+          "Nest tabs inside tabs",
+          "Use tabs for sequential steps — that is a stepper"
+        ],
+        "accessibility": [
+          "Full WAI-ARIA tabs pattern: `tablist`/`tab`/`tabpanel` roles with wired",
+          "Arrow keys move between tabs with selection following focus, wrapping at the ends;",
+          "Roving tabindex: only the selected tab sits in the tab order; the panel itself is"
+        ]
       },
       "relatedTokens": [
         "tabs.behavior.typeface",

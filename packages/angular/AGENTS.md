@@ -74,10 +74,71 @@ Controls do **not** render validation messages; apps do, associating them via
 2. Register theme options under `COMPONENT_NAME` in uni-core's theme if themed.
 3. Spec file (`.spec.ts`, Vitest, decorator-free — see `vitest.config.ts` note)
    covering behavior **and** the ARIA contract.
-4. `.stories.ts` + `.mdx` docs — every code snippet must use real class names
-   and canonical selectors (CI-able via `pnpm docs:api` + the mdx audit).
+4. `.stories.ts` + `.mdx` docs following the canonical MDX structure below —
+   every code snippet must use real class names and canonical selectors
+   (CI-able via `pnpm docs:api` + the mdx audit).
 5. Update ACCESSIBILITY.md with the component's keyboard map.
 6. `pnpm lint && pnpm test && pnpm build && pnpm docs:api` all green.
+
+## Component docs (MDX) — canonical structure
+
+Every component MDX page follows one flow, in this order. The MDX is
+double-duty: it renders the Storybook docs page **and** feeds the MCP index
+(`## Overview` → `whenToUse`; `## Do` / `## Don't` / `## Accessibility`
+bullets → their guideline fields), so AI agents read exactly what humans read.
+
+```mdx
+import { Meta, Title } from '@storybook/addon-docs/blocks';
+import * as Stories from './<name>.stories';
+import { StoryUsage } from '../../../stories/blocks/StoryUsage';
+import { StoryExample } from '../../../stories/blocks/StoryExample';
+import { ThemeOptions } from '../../../stories/blocks/ThemeOptionsBlock';
+
+<Meta of={Stories} />
+<Title />
+
+`import { UniXComponent } from '@uni-design-system/uni-angular';`
+
+## Overview
+
+When-to-use prose (2 short paragraphs max): what it is, when to reach for it,
+what drives its styling. This text IS the MCP's when-to-use answer.
+
+## Usage
+
+<StoryUsage of={Stories.Primary} />
+
+## <Named variation>            <!-- zero or more, meaningful names -->
+
+<StoryExample of={Stories.Variation} />
+
+## Theme options
+
+<ThemeOptions componentName="<componentName>" />
+
+## Accessibility                 <!-- bullets; feeds the MCP -->
+
+- Keyboard/ARIA facts a consumer must know.
+
+## Do                            <!-- optional; bullets; feeds the MCP -->
+## Don't                         <!-- optional; bullets; feeds the MCP -->
+```
+
+Rules:
+
+- **No property/API tables.** `StoryUsage` renders the controls (knobs) with
+  descriptions from `argTypes` — that is the API reference. Sections named
+  `Properties`, `Props`, `API`, `Methods`, or `Events` are legacy; fold their
+  content into `argTypes` descriptions and delete them.
+- **`## Usage` is the compact playground** — exactly one `StoryUsage` per
+  page (story + source + knobs). Additional examples are `StoryExample`
+  (no knobs) under named headings.
+- **`## Theme options` is required** for any component with a `COMPONENT_NAME`
+  theme entry — it shows the per-theme option tokens (live from the active
+  theme), which the knobs cannot.
+- Story templates in `.stories.ts` use layout attributes and canonical
+  selectors — no inline `style="…"`, no raw hex (the MCP integrity lint
+  rejects hex in the example corpus).
 
 ## Commands
 

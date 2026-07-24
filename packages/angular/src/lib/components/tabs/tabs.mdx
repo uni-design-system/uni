@@ -3,6 +3,7 @@ import { Meta, Title } from '@storybook/addon-docs/blocks';
 import * as Stories from './tabs.stories';
 import { StoryUsage } from '../../../stories/blocks/StoryUsage';
 import { StoryExample } from '../../../stories/blocks/StoryExample';
+import { ThemeOptions } from '../../../stories/blocks/ThemeOptionsBlock';
 
 <Meta of={Stories} />
 <Title />
@@ -15,14 +16,10 @@ import { StoryExample } from '../../../stories/blocks/StoryExample';
 
 Tabs organize peer views behind a single switcher. Each `uni-tab` supplies a label and
 its panel content; only the selected panel is instantiated, so heavy tab content costs
-nothing until visited. The full WAI-ARIA tabs pattern is built in: arrow keys move
-between tabs (wrapping, skipping disabled tabs), Home/End jump to the extremes, and
-selection follows focus.
+nothing until visited.
 
-Every visual aspect resolves from the theme's `tabs` options — label typeface, colors,
-the indicator's color and thickness, the divider, spacing, and radius. The default
-tokens render underline tabs; a theme that sets `borderRadius: 'max'` and an
-`activeColor` gets segmented pills without any component changes.
+The default tokens render underline tabs; a theme that sets `borderRadius: 'max'` and
+an `activeColor` gets segmented pills without any component changes.
 
 ## Usage
 
@@ -33,3 +30,26 @@ tokens render underline tabs; a theme that sets `borderRadius: 'max'` and an
 Disabled tabs stay visible but can't be selected — pointer and keyboard both skip them.
 
 <StoryExample of={Stories.WithDisabledTab} />
+
+## Theme options
+
+<ThemeOptions componentName="tabs" />
+
+## Accessibility
+
+- Full WAI-ARIA tabs pattern: `tablist`/`tab`/`tabpanel` roles with wired
+  `aria-selected`, `aria-controls`, and `aria-labelledby`.
+- Arrow keys move between tabs with selection following focus, wrapping at the ends;
+  Home and End jump to the first and last enabled tab.
+- Roving tabindex: only the selected tab sits in the tab order; the panel itself is
+  focusable so keyboard users can scroll its content.
+
+## Do
+
+- Use for peer views of the same subject (details, activity, settings)
+- Keep labels to one or two words
+
+## Don't
+
+- Nest tabs inside tabs
+- Use tabs for sequential steps — that is a stepper
