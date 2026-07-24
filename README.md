@@ -31,10 +31,18 @@ uni/
 ├── packages/
 │   ├── core/       # Pure Design Tokens & Theme Logic (Vite)
 │   ├── react/      # React 18/19 Component Library (Vite)
-│   └── angular/    # Angular 21 Component Library (ng-packagr)
+│   ├── angular/    # Angular 21 Component Library (ng-packagr)
+│   └── mcp/        # MCP server for AI coding assistants (stdio + HTTP)
 ├── public/         # Shared assets (Favicons, Brand Logos)
 └── .storybook/     # Centralized Storybook configuration & themes
 ```
+
+### 🤖 Using Uni with an AI assistant?
+
+The [`@uni-design-system/uni-mcp`](packages/mcp/) server gives Claude Code,
+Cursor, and other MCP clients authoritative answers about Uni components,
+tokens, themes, and guidelines — and can generate a WCAG-AA brand theme for
+your app. See the [getting started guide](packages/mcp/README.md#getting-started).
 
 ### ⚡ Quick Start
 

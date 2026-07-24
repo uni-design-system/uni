@@ -6,18 +6,68 @@ authoritative, version-pinned interface to the **Uni Design System** — the rig
 component, the right props, the right tokens, and the sanctioned patterns instead
 of hallucinated APIs.
 
-It answers from a **built index** (`src/data/uni-index.json`) that is normalized
-from the monorepo's own sources at build time, then read at runtime:
+## Getting started
 
-| Source | Adapter | Feeds |
-|---|---|---|
-| `packages/angular` component sources (signals API) | `angular-adapter` | per-framework component API |
-| `@uni-design-system/uni-core` themes/tokens | `token-adapter` | tokens (style + behavioral) & theme templates |
-| `packages/angular/storybook-static/index.json` + story sources | `storybook-adapter` | copy-pasteable examples |
+You need a project that already uses Uni (e.g. `@uni-design-system/uni-angular`)
+and an MCP-capable assistant. The server runs locally over stdio via `npx` — no
+install, no build step, no API key.
 
-The model is **framework-aware by construction**: each component carries a
-`bindings` map (`angular` today; `react` fills in as `uni-react` reaches parity)
-so the same tool call returns the right usage per framework with no schema change.
+### Claude Code
+
+From your project root:
+
+```bash
+claude mcp add --scope project uni -- npx -y @uni-design-system/uni-mcp@latest
+```
+
+`--scope project` writes the config to a `.mcp.json` you can commit, so the
+whole team gets the server. Equivalent `.mcp.json`:
+
+```jsonc
+{
+  "mcpServers": {
+    "uni": {
+      "command": "npx",
+      "args": ["-y", "@uni-design-system/uni-mcp@latest"]
+    }
+  }
+}
+```
+
+### Cursor / Claude Desktop / Continue
+
+All share the same config shape as the `.mcp.json` above — put it in
+`.cursor/mcp.json` (Cursor), `claude_desktop_config.json` (Claude Desktop), or
+your client's MCP settings.
+
+### Pin it to your installed Uni version
+
+All Uni packages release under one coordinated version number. The server
+answers from an index stamped with the release it was built from, so for
+answers that exactly match the APIs you have installed, replace `@latest` with
+the version of `@uni-design-system/uni-angular` in your `package.json`:
+
+```jsonc
+"args": ["-y", "@uni-design-system/uni-mcp@4.3.0"]
+```
+
+`@latest` is fine when you track current Uni releases.
+
+### Verify and try it
+
+In Claude Code, `/mcp` should list **uni** as connected. Then ask things like:
+
+- *"What Uni components are available for collecting user input?"*
+- *"Show me the props and a working example for `uni-button`."*
+- *"Which Uni theme tokens should style a card's background and border?"*
+- *"When should I use a drawer vs a dialog? Any accessibility requirements?"*
+- *"Generate a Uni theme from our brand color `#0052FF` and wire it up."*
+
+That last one uses the `generate-uni-theme` tool: it returns a complete
+WCAG-AA light + dark `uni-theme.ts` file (plus the `UNI_THEMES` provider
+snippet and a contrast report). The generated file is plain, editable data and
+becomes your app's styling source of truth — restyle later by editing its
+tokens, never by hardcoding hex values in components.
 
 ## Tools
 
@@ -31,10 +81,59 @@ so the same tool call returns the right usage per framework with no schema chang
 | `get-guidelines` | when-to-use, do/don't, accessibility |
 | `list-themes` | theme templates |
 | `get-theme-template` | **style overrides** (→ Emotion CSS) and **component options** (→ props), kept distinct |
+| `generate-uni-theme` | complete WCAG-AA light+dark `uni-theme.ts` from brand hex color(s), with vibe/scheme/shape options, provider registration snippet, and contrast report |
 | `search` | keyword search across components, tokens, themes, guidelines |
 
 Resources: `uni://meta`, `uni://components/{id}`, `uni://tokens/{id}`,
 `uni://themes/{id}`, `uni://guidelines/{id}`.
+
+## Remote endpoint (Streamable HTTP, hosted on Render)
+
+The same server core runs behind HTTP for a shared, always-current team
+endpoint — useful when you'd rather not run node processes per client.
+
+- `GET /health` → status + index counts (used by Render's health check)
+- `POST /mcp` → JSON-RPC (Streamable HTTP, stateless)
+
+Client config:
+
+```jsonc
+{
+  "mcpServers": {
+    "uni": {
+      "url": "https://uni-mcp.onrender.com/mcp",
+      "headers": { "Authorization": "Bearer <UNI_MCP_TOKEN>" }
+    }
+  }
+}
+```
+
+Environment:
+
+| Var | Purpose | Default |
+|---|---|---|
+| `PORT` | bind port (Render sets this) | `8080` |
+| `HOST` | bind address | `0.0.0.0` |
+| `UNI_MCP_TOKEN` | if set, require `Authorization: Bearer <token>` | _(none)_ |
+| `UNI_ALLOWED_HOSTS` | comma list enabling DNS-rebinding protection | _(none)_ |
+
+Deploy with the repo-root [`render.yaml`](../../render.yaml) blueprint.
+
+## How it's built
+
+The server answers from a **built index** (`src/data/uni-index.json`) that is
+normalized from the monorepo's own sources at build time, then read at runtime:
+
+| Source | Adapter | Feeds |
+|---|---|---|
+| `packages/angular` component sources (signals API) | `angular-adapter` | per-framework component API |
+| `@uni-design-system/uni-core` themes/tokens | `token-adapter` | tokens (style + behavioral) & theme templates |
+| component `.mdx` docs pages (`## Overview` / `## Do` / `## Don't` / `## Accessibility`) | `mdx-adapter` | authored guidelines |
+| `packages/angular/storybook-static/index.json` + story sources | `storybook-adapter` | copy-pasteable examples |
+
+The model is **framework-aware by construction**: each component carries a
+`bindings` map (`angular` today; `react` fills in as `uni-react` reaches parity)
+so the same tool call returns the right usage per framework with no schema change.
 
 ## Develop
 
@@ -48,52 +147,6 @@ pnpm --filter @uni-design-system/uni-mcp serve:http    # local HTTP server
 `build` runs `build-index` then bundles with `tsup`. Examples require
 `packages/angular/storybook-static/index.json` to exist (`pnpm build-storybook`);
 without it the index still builds, just with no examples.
-
-## Use it — local (stdio)
-
-Claude Code / Claude Desktop / Cursor / Continue all share the same config shape:
-
-```jsonc
-{
-  "mcpServers": {
-    "uni": {
-      "command": "npx",
-      "args": ["-y", "@uni-design-system/uni-mcp@latest"]
-    }
-  }
-}
-```
-
-Or run the built bin directly: `node packages/mcp/dist/stdio.js`.
-
-## Use it — remote (Streamable HTTP, hosted on Render)
-
-The same server core runs behind HTTP for a shared, always-current team endpoint.
-
-- `GET /health` → status + index counts (used by Render's health check)
-- `POST /mcp` → JSON-RPC (Streamable HTTP, stateless)
-
-Environment:
-
-| Var | Purpose | Default |
-|---|---|---|
-| `PORT` | bind port (Render sets this) | `8080` |
-| `HOST` | bind address | `0.0.0.0` |
-| `UNI_MCP_TOKEN` | if set, require `Authorization: Bearer <token>` | _(none)_ |
-| `UNI_ALLOWED_HOSTS` | comma list enabling DNS-rebinding protection | _(none)_ |
-
-Deploy with the repo-root [`render.yaml`](../../render.yaml) blueprint. Client config:
-
-```jsonc
-{
-  "mcpServers": {
-    "uni": {
-      "url": "https://uni-mcp.onrender.com/mcp",
-      "headers": { "Authorization": "Bearer <UNI_MCP_TOKEN>" }
-    }
-  }
-}
-```
 
 ## How answers stay current
 
