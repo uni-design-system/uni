@@ -1,5 +1,137 @@
 # @uni-design-system/uni-angular
 
+## 6.0.0
+
+### Major Changes
+
+- [`a02afee`](https://github.com/uni-design-system/uni/commit/a02afee3c1c4721ff626445684f41de432443731) Thanks [@gaenglish](https://github.com/gaenglish)! - Layout components are attribute-only, on any element
+
+  **Breaking:** the shorthand element selectors `Box`, `Stack`, `Row`, `Grid`, `Wrap`,
+  and `GridArea` are removed — a concept inherited from another library that conflicted
+  with semantic HTML. Migrate to the attribute form: `<Box padding="md">` →
+  `<div box-layout padding="md">` (GridArea → `grid-area-layout`).
+
+  In exchange, the attribute selectors now apply to **any element**, not just `div` —
+  layout and semantics compose: `<main box-layout [grow]="1" padding="md">`,
+  `<nav stack-layout gap="sm">`, `<section stack-layout>`.
+
+  Also documented, unchanged in behavior: the sizing convention (number = px via
+  binding, `[height]="420"`; plain attribute = CSS length, `height="420px"`) and
+  Stack/Row's `fit-content` min-size defaults (set `[minHeight]="0"` / `[minWidth]="0"`
+  for scroll containment). All internal usages, stories, and docs are migrated —
+  including the Divider story's `<Center>`, which had silently never rendered (Center
+  never had an element selector).
+
+- [`f1796fb`](https://github.com/uni-design-system/uni/commit/f1796fbb42015dafb3a122f6effe69bc2b07d525) Thanks [@gaenglish](https://github.com/gaenglish)! - Selector unification: one form per component
+
+  **Breaking:** every PascalCase alias selector is removed (`Card`, `Menu`, `Symbol`,
+  `Icon`, `Dialog`, `Button`, `Tabs`, `Snackbar`, `SelectInput`, `Confirmation`, … — a
+  concept inherited from another library). Each component now has exactly one canonical
+  form, chosen by what the component is:
+  - **Widgets and content-renderers** keep their `uni-*` element: `<uni-card>`,
+    `<uni-menu>`, `<uni-symbol>`, `<uni-icon>`, `<uni-tabs>`, `<uni-select>`,
+    `<uni-confirmation-dialog>`, …
+  - **Decorators of native elements** are attribute-only, and their `div`-locks are
+    lifted: `[uni-badge]`, `[uni-dialog-header]` (e.g. on `<header>`),
+    `[uni-dialog-buttons]`/`[dialog-buttons]` (e.g. on `<footer>`),
+    `[uni-scroll-area]`/`[scroll-area]`, `[uni-menu-item]`/`[menu-item]` (e.g. on
+    `<li>`).
+  - **Host-locked selectors stay host-locked** where the native element carries the
+    behavior: `dialog[uni-dialog]`, `button[uni-text-button]`/`button[text-button]`,
+    `button[uni-icon-button]`/`button[icon-button]`.
+
+  Migration is mechanical: `<Card>` → `<uni-card>`, `<Button …>` →
+  `<button text-button …>`, `<Dialog …>` → `<dialog uni-dialog …>`, `<Badge …>` →
+  `<div uni-badge …>`, `<ScrollArea …>` → `<div scroll-area …>`. All internal usages,
+  stories, and docs are migrated; `llms.txt` and the MCP index reflect the canonical
+  forms.
+
+- [`a62e9b1`](https://github.com/uni-design-system/uni/commit/a62e9b116f0b57cf2a1e647155bc2fbc02b02b87) Thanks [@gaenglish](https://github.com/gaenglish)! - Text is attribute-only, with a value shorthand and element-aware defaults
+
+  **Breaking:** the `uni-text` and `Text` element selectors are removed. Text is now the
+  attribute `[uni-text]` on any element, keeping your HTML semantics:
+  - **Value shorthand** — the attribute value is the typeface:
+    `<h1 uni-text="display-small">`, `<span uni-text="caption">`, dynamic via
+    `[uni-text]="role()"`. The explicit `typeface` input still works (the attribute
+    value wins when both are set).
+  - **Element-aware defaults** — with no value, the typeface is inferred from the host:
+    `h1`→headline-large, `h2`→headline-medium, `h3`→headline-small, `h4`→title-large,
+    `p`→body-1-long, `small`/`figcaption`→caption, `blockquote`→quote, `label`→label,
+    else title-small. Plain semantic markup is correctly set with zero configuration.
+
+  Migrate `<uni-text typeface="body-1-long">…</uni-text>` →
+  `<p uni-text>…</p>` (or `<span uni-text="body-1-long">` where no semantic element
+  fits). All internal usages, stories, and docs are migrated.
+
+### Minor Changes
+
+- [`5a6fc60`](https://github.com/uni-design-system/uni/commit/5a6fc601952e0cbda80810a1c9062588c675d89f) Thanks [@gaenglish](https://github.com/gaenglish)! - Search input stripped back and made generic; debounce input dressed in the shared chrome
+  - **`uni-debounce-input`** now wears the themed input chrome via `uni-input-box`
+    (color, border, typeface, focus ring) and gains `label` (accessible name),
+    `placeholder`, `disabled`, `pre-input`/`post-input` attribute slots for adornments,
+    ARIA passthroughs (`role`, `ariaExpanded`, `ariaControls`, `ariaActivedescendant`)
+    for composite widgets, and `clear()`/`focus()` methods. Debounce behavior unchanged.
+  - **`uni-search-input` redesigned**: the opinionated solid-primary pill bar with the
+    embedded `title-large` label is gone. It's now a standard themed field — decorative
+    leading magnifier, clear button while a query exists (refocusing on clear), Enter
+    emits `search`, Escape closes/clears.
+  - **Type-ahead added**: pass `suggestions` (refresh from `change`) and the field
+    becomes an ARIA combobox — keyboard-navigable listbox (ArrowUp/Down, Enter selects,
+    emitting `suggestionSelected` + `search`), `aria-activedescendant` wiring, focus-out
+    closing. New `searchInput` theme options: `searchSymbol`, `clearSymbol`, suggestion
+    list `listColor`/`listShadow`/`listBorderRadius`, `maxSuggestions`.
+  - Visual breaking change for SearchInput consumers (deliberate strip-back); code API
+    is compatible (`label`/`width`/`change`/`search` retained; `label` is now the
+    accessible name + placeholder fallback rather than displayed text).
+
+- [`8953d59`](https://github.com/uni-design-system/uni/commit/8953d59aa5f5eed57801534c7cbf5ff05453c316) Thanks [@gaenglish](https://github.com/gaenglish)! - Checkbox, radio, and toggle conform to theme tokens
+  - The last hardcoded control colors (`#FFF`, `#ccc`, `#d0d0d0`, `#e0e0e0`,
+    `rgba(0,0,0,0.2)`) are gone. Chrome now resolves from new option tokens —
+    checkbox `boxColor: 'surface'`; radio `ringColor: 'outline'` / `fillColor:
+'surface'` (radio gains a theme entry for the first time); toggle `trackColor:
+'surface-variant'` / `knobColor: 'surface'` — so all three finally render
+    correctly on dark and brand themes.
+  - The checkbox's check/dash strokes wear the variant's paired on-color
+    (`on-primary`, `on-warn`, …) instead of assuming white; disabled states use the
+    `disabled`/`on-disabled` tokens; the toggle knob's shadow is the theme's
+    brand-tinted `raised` stack, and its hover uses the button convention's
+    brightness filter instead of a fixed grey.
+
+- [`7a6da4f`](https://github.com/uni-design-system/uni/commit/7a6da4f60979795f10e85493d1d13543f6a5a0e1) Thanks [@gaenglish](https://github.com/gaenglish)! - New `uni-stat` KPI tile
+  - Muted label + large headline value (numbers auto-compact via
+    `Intl.NumberFormat`: `48234` → "48.2K") set in a new `stat` type-scale role
+    (32px semibold, proportional figures).
+  - Optional signed `delta` whose ink is decided by direction × `upIsGood` — churn
+    going down reads green, tickets going up reads red — with the arrow glyph
+    accompanied by screen-reader "up"/"down" text so state never rides color alone;
+    `caption` names the comparison period.
+  - Optional decorative 12-point sparkline (`trend` input): stroke in the outline hue,
+    endpoint dotted in the accent, `aria-hidden`.
+  - Fully token-driven via `stat.options`: card-recipe frame (`color`/`border`/
+    `borderRadius`), `labelTypeface`/`valueTypeface`, `positiveColor`/`negativeColor`
+    (the semantic inks, AA-guaranteed on surface), `trendColor`/`trendAccent`, spacing.
+
+- [`fea0b2e`](https://github.com/uni-design-system/uni/commit/fea0b2e78da327f3acea144958af2d0dbbefb699) Thanks [@gaenglish](https://github.com/gaenglish)! - Fix invisible icons; icons become first-class theme primitives
+  - **Bug**: `uni-icon` resolves icons from `theme.icons`, but every theme shipped
+    `icons: {}` — the icon record was never wired in, so all icons (dialog close, button
+    spinner, search/clear affordances) rendered nothing.
+  - **Fix + pattern**: the default icon set now lives in core (`BaseIcons`, in
+    `concepts/iconography`) and `createTheme` merges a theme's `icons` over it — themes
+    can override or add icons under any name (inline SVG data URIs, masked with
+    `currentColor` so they recolor with the theme). The angular `icons` record re-exports
+    `BaseIcons` (deprecated).
+  - `uni-icon` also sets the standard `mask-image` (was webkit-only, so icons were
+    invisible in Firefox regardless) and renders nothing for unknown names instead of a
+    broken `url("undefined")`.
+  - The emitted `uni-theme.ts` gains an editable `icons` section, and the MCP's
+    `generate-uni-theme` guidance instructs agents: never inline SVG in components —
+    define an icon once in the theme's `icons` map and render it via `<uni-icon>`.
+
+### Patch Changes
+
+- Updated dependencies [[`5a6fc60`](https://github.com/uni-design-system/uni/commit/5a6fc601952e0cbda80810a1c9062588c675d89f), [`8953d59`](https://github.com/uni-design-system/uni/commit/8953d59aa5f5eed57801534c7cbf5ff05453c316), [`7a6da4f`](https://github.com/uni-design-system/uni/commit/7a6da4f60979795f10e85493d1d13543f6a5a0e1), [`fea0b2e`](https://github.com/uni-design-system/uni/commit/fea0b2e78da327f3acea144958af2d0dbbefb699)]:
+  - @uni-design-system/uni-core@6.0.0
+
 ## 5.2.0
 
 ### Minor Changes

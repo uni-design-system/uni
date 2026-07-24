@@ -1,5 +1,71 @@
 # @uni-design-system/uni-core
 
+## 6.0.0
+
+### Minor Changes
+
+- [`5a6fc60`](https://github.com/uni-design-system/uni/commit/5a6fc601952e0cbda80810a1c9062588c675d89f) Thanks [@gaenglish](https://github.com/gaenglish)! - Search input stripped back and made generic; debounce input dressed in the shared chrome
+  - **`uni-debounce-input`** now wears the themed input chrome via `uni-input-box`
+    (color, border, typeface, focus ring) and gains `label` (accessible name),
+    `placeholder`, `disabled`, `pre-input`/`post-input` attribute slots for adornments,
+    ARIA passthroughs (`role`, `ariaExpanded`, `ariaControls`, `ariaActivedescendant`)
+    for composite widgets, and `clear()`/`focus()` methods. Debounce behavior unchanged.
+  - **`uni-search-input` redesigned**: the opinionated solid-primary pill bar with the
+    embedded `title-large` label is gone. It's now a standard themed field — decorative
+    leading magnifier, clear button while a query exists (refocusing on clear), Enter
+    emits `search`, Escape closes/clears.
+  - **Type-ahead added**: pass `suggestions` (refresh from `change`) and the field
+    becomes an ARIA combobox — keyboard-navigable listbox (ArrowUp/Down, Enter selects,
+    emitting `suggestionSelected` + `search`), `aria-activedescendant` wiring, focus-out
+    closing. New `searchInput` theme options: `searchSymbol`, `clearSymbol`, suggestion
+    list `listColor`/`listShadow`/`listBorderRadius`, `maxSuggestions`.
+  - Visual breaking change for SearchInput consumers (deliberate strip-back); code API
+    is compatible (`label`/`width`/`change`/`search` retained; `label` is now the
+    accessible name + placeholder fallback rather than displayed text).
+
+- [`8953d59`](https://github.com/uni-design-system/uni/commit/8953d59aa5f5eed57801534c7cbf5ff05453c316) Thanks [@gaenglish](https://github.com/gaenglish)! - Checkbox, radio, and toggle conform to theme tokens
+  - The last hardcoded control colors (`#FFF`, `#ccc`, `#d0d0d0`, `#e0e0e0`,
+    `rgba(0,0,0,0.2)`) are gone. Chrome now resolves from new option tokens —
+    checkbox `boxColor: 'surface'`; radio `ringColor: 'outline'` / `fillColor:
+'surface'` (radio gains a theme entry for the first time); toggle `trackColor:
+'surface-variant'` / `knobColor: 'surface'` — so all three finally render
+    correctly on dark and brand themes.
+  - The checkbox's check/dash strokes wear the variant's paired on-color
+    (`on-primary`, `on-warn`, …) instead of assuming white; disabled states use the
+    `disabled`/`on-disabled` tokens; the toggle knob's shadow is the theme's
+    brand-tinted `raised` stack, and its hover uses the button convention's
+    brightness filter instead of a fixed grey.
+
+- [`7a6da4f`](https://github.com/uni-design-system/uni/commit/7a6da4f60979795f10e85493d1d13543f6a5a0e1) Thanks [@gaenglish](https://github.com/gaenglish)! - New `uni-stat` KPI tile
+  - Muted label + large headline value (numbers auto-compact via
+    `Intl.NumberFormat`: `48234` → "48.2K") set in a new `stat` type-scale role
+    (32px semibold, proportional figures).
+  - Optional signed `delta` whose ink is decided by direction × `upIsGood` — churn
+    going down reads green, tickets going up reads red — with the arrow glyph
+    accompanied by screen-reader "up"/"down" text so state never rides color alone;
+    `caption` names the comparison period.
+  - Optional decorative 12-point sparkline (`trend` input): stroke in the outline hue,
+    endpoint dotted in the accent, `aria-hidden`.
+  - Fully token-driven via `stat.options`: card-recipe frame (`color`/`border`/
+    `borderRadius`), `labelTypeface`/`valueTypeface`, `positiveColor`/`negativeColor`
+    (the semantic inks, AA-guaranteed on surface), `trendColor`/`trendAccent`, spacing.
+
+- [`fea0b2e`](https://github.com/uni-design-system/uni/commit/fea0b2e78da327f3acea144958af2d0dbbefb699) Thanks [@gaenglish](https://github.com/gaenglish)! - Fix invisible icons; icons become first-class theme primitives
+  - **Bug**: `uni-icon` resolves icons from `theme.icons`, but every theme shipped
+    `icons: {}` — the icon record was never wired in, so all icons (dialog close, button
+    spinner, search/clear affordances) rendered nothing.
+  - **Fix + pattern**: the default icon set now lives in core (`BaseIcons`, in
+    `concepts/iconography`) and `createTheme` merges a theme's `icons` over it — themes
+    can override or add icons under any name (inline SVG data URIs, masked with
+    `currentColor` so they recolor with the theme). The angular `icons` record re-exports
+    `BaseIcons` (deprecated).
+  - `uni-icon` also sets the standard `mask-image` (was webkit-only, so icons were
+    invisible in Firefox regardless) and renders nothing for unknown names instead of a
+    broken `url("undefined")`.
+  - The emitted `uni-theme.ts` gains an editable `icons` section, and the MCP's
+    `generate-uni-theme` guidance instructs agents: never inline SVG in components —
+    define an icon once in the theme's `icons` map and render it via `<uni-icon>`.
+
 ## 5.2.0
 
 ### Minor Changes
