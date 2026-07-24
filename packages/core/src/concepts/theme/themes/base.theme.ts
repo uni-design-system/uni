@@ -445,6 +445,17 @@ const buildComponents = (c: Colors): ComponentThemes => ({
       currentPageBorderRadius: 'xs',
     },
   },
+  // Range input: fill/thumb in the accent, track in the muted surface, both
+  // radius-tokened — geometry knobs are plain numbers.
+  slider: {
+    options: {
+      color: 'primary',
+      trackColor: 'surface-variant',
+      borderRadius: 'max',
+      trackHeight: 4,
+      thumbSize: 16,
+    },
+  },
   // Loading placeholders paint with surface tokens so they sit naturally on
   // any theme; the shimmer highlight sweeps in the lighter surface color.
   skeleton: {

@@ -1,0 +1,35 @@
+import { Meta, Title } from '@storybook/addon-docs/blocks';
+
+import * as Stories from './slider.stories';
+import { StoryUsage } from '../../../stories/blocks/StoryUsage';
+import { StoryExample } from '../../../stories/blocks/StoryExample';
+
+<Meta of={Stories} />
+<Title />
+
+`import { UniSliderComponent } from '@uni-design-system/uni-angular';`
+
+## Overview
+
+Range slider for picking a number within bounds. It renders a native
+`<input type="range">`, so keyboard interaction (arrows, Home/End, Page Up/Down) and
+the ARIA slider contract come from the platform. The same Signal Forms contract as
+Input applies — bind with the `[field]` directive or drive `[(value)]` directly.
+
+Fill and thumb color, track color, radii and geometry resolve from the theme's
+`slider` options; the fill level rides a CSS custom property, so dragging never
+regenerates styles.
+
+## Usage
+
+<StoryUsage of={Stories.Default} />
+
+## Stepped range
+
+Fractional `step` values work naturally — the value model carries real numbers.
+
+<StoryExample of={Stories.SteppedRange} />
+
+## Disabled
+
+<StoryExample of={Stories.Disabled} />

@@ -42,6 +42,7 @@ export * from './scroll-area';
 export * from './search-input';
 export * from './select-input';
 export * from './skeleton';
+export * from './slider';
 export * from './tabs';
 export * from './textarea';
 export * from './sort-header';
