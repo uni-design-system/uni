@@ -1,5 +1,6 @@
 import { argsToTemplate, Meta, moduleMetadata, StoryObj } from '@storybook/angular';
 import { UniToggleComponent as ToggleComponent } from './toggle.component';
+import { UniBoxComponent, UniRowComponent, UniStackComponent } from '../layout';
 
 type StoryType = ToggleComponent;
 
@@ -8,7 +9,7 @@ const meta: Meta<StoryType> = {
   component: ToggleComponent,
   decorators: [
     moduleMetadata({
-      imports: [],
+      imports: [UniStackComponent, UniRowComponent, UniBoxComponent, ],
     }),
   ],
   render: (args) => ({
@@ -78,7 +79,7 @@ export const Disabled: Story = {
 export const Variants: Story = {
   render: () => ({
     template: `
-      <div style="display: flex; flex-direction: column; gap: 16px;">
+      <div stack-layout gap="md">
         <uni-toggle label="Primary" variant="primary"></uni-toggle>
         <uni-toggle label="Secondary" variant="secondary"></uni-toggle>
         <uni-toggle label="Success" variant="success"></uni-toggle>
@@ -99,10 +100,10 @@ export const WithChangeEvent: Story = {
           (checkedChange)="onToggleChange($event)"
           variant="primary">
         </uni-toggle>
-        <div style="margin-top: 16px;">
+        <div box-layout paddingTop="md">
           Current state: {{ isChecked ? 'On' : 'Off' }}
         </div>
-        <div style="margin-top: 8px;">
+        <div box-layout paddingTop="sm">
           Last change: {{ lastChangeValue }}
         </div>
       </div>
@@ -130,27 +131,26 @@ export const FormSignals: Story = {
           [invalid]="isInvalid"
           [touched]="isTouched">
         </uni-toggle>
-        <div style="margin-top: 16px;">
+        <div box-layout paddingTop="md">
           <p>Checked: {{ isChecked }}</p>
           <p>Touched: {{ isTouched }}</p>
           <p>Invalid: {{ isInvalid }}</p>
           <p>Disabled: {{ isDisabled }}</p>
         </div>
+        <div row-layout gap="sm" paddingTop="sm">
         <button
-          (click)="isTouched = true"
-          style="margin-top: 8px; margin-right: 8px;">
+          (click)="isTouched = true">
           Mark as Touched
         </button>
         <button
-          (click)="isDisabled = !isDisabled"
-          style="margin-top: 8px; margin-right: 8px;">
+          (click)="isDisabled = !isDisabled">
           Toggle Disabled
         </button>
         <button
-          (click)="isInvalid = !isInvalid"
-          style="margin-top: 8px;">
+          (click)="isInvalid = !isInvalid">
           Toggle Invalid
         </button>
+        </div>
       </div>
     `,
     props: {

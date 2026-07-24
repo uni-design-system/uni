@@ -1,8 +1,9 @@
-import { Meta, StoryObj } from '@storybook/angular';
+import { Meta, StoryObj, moduleMetadata } from '@storybook/angular';
 
 import { UniIconComponent as Icon } from './icon.component';
 import { icons } from './icon.record';
 import type { ContainerColorToken } from '@uni-design-system/uni-core';
+import { UniBoxComponent } from '../layout';
 
 type StoryType = Icon & { size?: number; containerColor?: ContainerColorToken };
 
@@ -14,12 +15,13 @@ const meta: Meta<StoryType> = {
     return {
       undefined,
       template: `
-          <div style="height: ${size + 'px'}">
+          <div box-layout height="${size}px">
             <Icon name="${name}" color="${color}" />
           </div>
       `,
     };
   },
+  decorators: [moduleMetadata({ imports: [UniBoxComponent] })],
   argTypes: {
     size: {
       description: 'Adjust the size of the container to se how the icon will scale.',

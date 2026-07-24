@@ -8,7 +8,7 @@ import type {
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  selector: 'div[uni-center-layout], div[center-layout]',
+  selector: '[uni-center-layout], [center-layout]',
   imports: [],
   template: `<ng-content></ng-content>`,
 })

@@ -1,5 +1,6 @@
 import { argsToTemplate, Meta, moduleMetadata, StoryObj } from '@storybook/angular';
 import { UniRadioComponent as RadioComponent } from './radio.component';
+import { UniBoxComponent, UniRowComponent, UniStackComponent } from '../layout';
 
 type StoryType = RadioComponent;
 
@@ -8,7 +9,7 @@ const meta: Meta<StoryType> = {
   component: RadioComponent,
   decorators: [
     moduleMetadata({
-      imports: [],
+      imports: [UniStackComponent, UniRowComponent, UniBoxComponent, ],
     }),
   ],
   render: (args) => ({
@@ -110,7 +111,7 @@ export const WithDisabledOptions: Story = {
 export const Variants: Story = {
   render: () => ({
     template: `
-      <div style="display: flex; flex-direction: column; gap: 24px;">
+      <div stack-layout gap="md">
         <uni-radio label="Primary" variant="primary" [options]="options" name="primary-group"></uni-radio>
         <uni-radio label="Secondary" variant="secondary" [options]="options" name="secondary-group"></uni-radio>
         <uni-radio label="Success" variant="success" [options]="options" name="success-group"></uni-radio>
@@ -136,10 +137,10 @@ export const WithChangeEvent: Story = {
           variant="primary"
           name="favorites">
         </uni-radio>
-        <div style="margin-top: 16px;">
+        <div box-layout paddingTop="md">
           Current selection: {{ selectedValue || 'None' }}
         </div>
-        <div style="margin-top: 8px;">
+        <div box-layout paddingTop="sm">
           Last change: {{ lastChangeValue }}
         </div>
       </div>
@@ -174,27 +175,26 @@ export const FormSignals: Story = {
           [touched]="isTouched"
           name="signals-demo">
         </uni-radio>
-        <div style="margin-top: 16px;">
+        <div box-layout paddingTop="md">
           <p>Value: {{ currentValue }}</p>
           <p>Touched: {{ isTouched }}</p>
           <p>Invalid: {{ isInvalid }}</p>
           <p>Disabled: {{ isDisabled }}</p>
         </div>
+        <div row-layout gap="sm" paddingTop="sm">
         <button
-          (click)="isTouched = true"
-          style="margin-top: 8px; margin-right: 8px;">
+          (click)="isTouched = true">
           Mark as Touched
         </button>
         <button
-          (click)="isDisabled = !isDisabled"
-          style="margin-top: 8px; margin-right: 8px;">
+          (click)="isDisabled = !isDisabled">
           Toggle Disabled
         </button>
         <button
-          (click)="isInvalid = !isInvalid"
-          style="margin-top: 8px;">
+          (click)="isInvalid = !isInvalid">
           Toggle Invalid
         </button>
+        </div>
       </div>
     `,
     props: {

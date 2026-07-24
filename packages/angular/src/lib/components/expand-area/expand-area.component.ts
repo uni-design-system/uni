@@ -10,8 +10,8 @@ import { UniTextComponent } from '../text/text.component';
   selector: 'uni-expand-area, ExpandArea',
   imports: [UniBoxComponent, UniTextComponent, UniExpandToggleComponent, UniExpandComponent],
   template: `
-    <Box color="tertiary-surface" borderRadius="sm" border="quaternary" overflow="hidden">
-      <Box
+    <div box-layout color="tertiary-surface" borderRadius="sm" border="quaternary" overflow="hidden">
+      <div box-layout
         border="quaternary"
         borderRadius="sm"
         color="primary-surface"
@@ -21,12 +21,12 @@ import { UniTextComponent } from '../text/text.component';
         display="flex"
         alignItems="center"
       >
-        <Box [width]="36"></Box>
-        <Box paddingHorizontal="md">
+        <div box-layout [width]="36"></div>
+        <div box-layout paddingHorizontal="md">
           <Text typeface="title-small" display="block">
             {{ title() }}
           </Text>
-        </Box>
+        </div>
 
         <ExpandToggle
           #toggle
@@ -34,14 +34,14 @@ import { UniTextComponent } from '../text/text.component';
           [collapsed]="initCollapsed()"
           [ariaControls]="expand.regionId"
         />
-      </Box>
+      </div>
 
       <Expand #expand [collapsed]="toggle.collapsed()">
-        <Box [padding]="padding()">
+        <div box-layout [padding]="padding()">
           <ng-content></ng-content>
-        </Box>
+        </div>
       </Expand>
-    </Box>
+    </div>
   `,
 })
 export class UniExpandAreaComponent {

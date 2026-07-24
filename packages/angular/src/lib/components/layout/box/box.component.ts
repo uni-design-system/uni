@@ -24,8 +24,18 @@ import type {
 
 import { ThemeService } from '../../../theming';
 
+/**
+ * The base layout primitive, applied as an attribute to any element so
+ * semantics stay yours: `<main box-layout [grow]="1" padding="md">`.
+ * Exception: other components' host elements (`<uni-card box-layout>` would
+ * put two components on one element) — wrap those in a `<div box-layout>`.
+ *
+ * Sizing convention (height/width/min/max/inset): a **number is px and needs
+ * a binding** — `[height]="420"`; a **plain attribute is a CSS length
+ * string** — `height="420px"`. Spacing/radius/color inputs take theme tokens.
+ */
 @Component({
-  selector: 'div[uni-box-layout], Box, div[box-layout]',
+  selector: '[uni-box-layout], [box-layout]',
   imports: [],
   template: `<ng-content></ng-content>`,
   host: { '[class]': 'boxClassName()' },
@@ -62,9 +72,11 @@ export class UniBoxComponent {
   display = input<OptionalDisplay>();
   position = input<OptionalPosition>();
   inset = input<number | string>();
+  /** Number = px via binding (`[height]="420"`); string = CSS length (`height="420px"`). */
   height = input<number | string>();
   minHeight = input<number | string>();
   maxHeight = input<number | string>();
+  /** Number = px via binding (`[width]="420"`); string = CSS length (`width="50%"`). */
   width = input<number | string>();
   minWidth = input<number | string>();
   maxWidth = input<number | string>();

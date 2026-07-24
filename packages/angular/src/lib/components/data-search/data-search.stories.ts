@@ -1,7 +1,8 @@
-import { argsToTemplate, Meta, StoryObj } from '@storybook/angular';
+import { argsToTemplate, Meta, StoryObj, moduleMetadata } from '@storybook/angular';
 import { starWarsCharacters } from '../../../stories/data/star-wars-characters';
 import { UniRecordDatasource } from '../../cdk';
 import { UniDataSearchComponent as DataSearch } from './data-search.component';
+import { UniBoxComponent } from '../layout';
 
 type StoryType = DataSearch<any>;
 
@@ -14,7 +15,7 @@ const meta: Meta<StoryType> = {
       props,
       template: `
         <uni-data-search ${argsToTemplate(props)} />
-        <div style="margin-top: 16px;">
+        <div box-layout paddingTop="md">
           @for (record of datasource.records(); track record.id) {
             <div>{{ record.name }} — {{ record.homeworld }}</div>
           }
@@ -22,6 +23,7 @@ const meta: Meta<StoryType> = {
       `,
     };
   },
+  decorators: [moduleMetadata({ imports: [UniBoxComponent] })],
   argTypes: {
     datasource: {
       description: 'The UniDatasource instance to filter as the user types.',

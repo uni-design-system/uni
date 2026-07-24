@@ -1,6 +1,7 @@
 import { type Meta, moduleMetadata, type StoryObj } from '@storybook/angular';
 import { UniButtonComponent } from '../button';
 import { UniNotificationBadgeComponent } from './notification-badge';
+import { UniBoxComponent, UniCenterComponent, UniWrapComponent } from '../layout';
 
 const meta: Meta<UniNotificationBadgeComponent> = {
   title: 'Components/Notification Badge',
@@ -8,7 +9,7 @@ const meta: Meta<UniNotificationBadgeComponent> = {
   tags: ['experimental'],
   decorators: [
     moduleMetadata({
-      imports: [UniButtonComponent],
+      imports: [UniWrapComponent, UniCenterComponent, UniBoxComponent, UniButtonComponent],
     }),
   ],
   argTypes: {
@@ -52,7 +53,7 @@ const meta: Meta<UniNotificationBadgeComponent> = {
   render: (args) => ({
     props: args,
     template: `
-      <div style="margin: 20px;">
+      <div box-layout padding="md">
         <uni-notification-badge
           [count]="count"
           [maxCount]="maxCount"
@@ -128,7 +129,7 @@ export const LargeCount: Story = {
 export const DifferentColors: Story = {
   render: () => ({
     template: `
-      <div style="display: flex; gap: 20px; margin: 20px; flex-wrap: wrap;">
+      <div wrap-layout gap="md" padding="md">
         <uni-notification-badge [count]="3" color="primary" position="top-right">
           <button uni-text-button>Primary</button>
         </uni-notification-badge>
@@ -155,24 +156,24 @@ export const DifferentColors: Story = {
 export const DifferentPositions: Story = {
   render: () => ({
     template: `
-      <div style="display: flex; gap: 30px; margin: 50px; flex-wrap: wrap;">
+      <div wrap-layout gap="lg" padding="lg">
         <uni-notification-badge [count]="1" position="top-right">
-          <div style="width: 60px; height: 60px; background: #f0f0f0; border: 1px solid #ccc; border-radius: 8px; display: flex; align-items: center; justify-content: center;">
+          <div center-layout [width]="60" [height]="60" color="surface-variant" border="light" borderRadius="xs">
             Top Right
           </div>
         </uni-notification-badge>
         <uni-notification-badge [count]="2" position="top-left">
-          <div style="width: 60px; height: 60px; background: #f0f0f0; border: 1px solid #ccc; border-radius: 8px; display: flex; align-items: center; justify-content: center;">
+          <div center-layout [width]="60" [height]="60" color="surface-variant" border="light" borderRadius="xs">
             Top Left
           </div>
         </uni-notification-badge>
         <uni-notification-badge [count]="3" position="bottom-right">
-          <div style="width: 60px; height: 60px; background: #f0f0f0; border: 1px solid #ccc; border-radius: 8px; display: flex; align-items: center; justify-content: center;">
+          <div center-layout [width]="60" [height]="60" color="surface-variant" border="light" borderRadius="xs">
             Bottom Right
           </div>
         </uni-notification-badge>
         <uni-notification-badge [count]="4" position="bottom-left">
-          <div style="width: 60px; height: 60px; background: #f0f0f0; border: 1px solid #ccc; border-radius: 8px; display: flex; align-items: center; justify-content: center;">
+          <div center-layout [width]="60" [height]="60" color="surface-variant" border="light" borderRadius="xs">
             Bottom Left
           </div>
         </uni-notification-badge>
@@ -184,19 +185,19 @@ export const DifferentPositions: Story = {
 export const VariantComparison: Story = {
   render: () => ({
     template: `
-      <div style="display: flex; gap: 30px; margin: 50px; flex-wrap: wrap;">
+      <div wrap-layout gap="lg" padding="lg">
         <uni-notification-badge badgeVariant="dot">
-          <div style="width: 80px; height: 80px; background: #f0f0f0; border: 1px solid #ccc; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 12px; text-align: center;">
+          <div center-layout [width]="80" [height]="80" color="surface-variant" border="light" borderRadius="xs">
             Dot Variant
           </div>
         </uni-notification-badge>
         <uni-notification-badge [count]="8" badgeVariant="count">
-          <div style="width: 80px; height: 80px; background: #f0f0f0; border: 1px solid #ccc; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 12px; text-align: center;">
+          <div center-layout [width]="80" [height]="80" color="surface-variant" border="light" borderRadius="xs">
             Count Variant
           </div>
         </uni-notification-badge>
         <uni-notification-badge [count]="123" badgeVariant="pill" [maxCount]="99">
-          <div style="width: 80px; height: 80px; background: #f0f0f0; border: 1px solid #ccc; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 12px; text-align: center;">
+          <div center-layout [width]="80" [height]="80" color="surface-variant" border="light" borderRadius="xs">
             Pill Variant
           </div>
         </uni-notification-badge>
@@ -208,19 +209,19 @@ export const VariantComparison: Story = {
 export const WithIcons: Story = {
   render: () => ({
     template: `
-      <div style="display: flex; gap: 30px; margin: 50px; flex-wrap: wrap;">
+      <div wrap-layout gap="lg" padding="lg">
         <uni-notification-badge [count]="12">
-          <div style="width: 48px; height: 48px; background: #f0f0f0; border: 1px solid #ccc; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 20px;">
+          <div center-layout [width]="48" [height]="48" color="surface-variant" border="light" borderRadius="max">
             📧
           </div>
         </uni-notification-badge>
         <uni-notification-badge badgeVariant="dot">
-          <div style="width: 48px; height: 48px; background: #f0f0f0; border: 1px solid #ccc; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 20px;">
+          <div center-layout [width]="48" [height]="48" color="surface-variant" border="light" borderRadius="max">
             🔔
           </div>
         </uni-notification-badge>
         <uni-notification-badge [count]="999" [maxCount]="99" badgeVariant="pill">
-          <div style="width: 48px; height: 48px; background: #f0f0f0; border: 1px solid #ccc; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 20px;">
+          <div center-layout [width]="48" [height]="48" color="surface-variant" border="light" borderRadius="max">
             💬
           </div>
         </uni-notification-badge>

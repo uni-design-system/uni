@@ -1,13 +1,14 @@
 import { Meta, StoryObj, moduleMetadata } from '@storybook/angular';
 import { UniSkeletonComponent } from './skeleton.component';
 import { UniCardComponent } from '../card';
+import { UniBoxComponent, UniRowComponent } from '../layout';
 
 type StoryType = UniSkeletonComponent;
 
 const meta: Meta<StoryType> = {
   title: 'Components/Feedback/Skeleton',
   component: UniSkeletonComponent,
-  decorators: [moduleMetadata({ imports: [UniCardComponent] })],
+  decorators: [moduleMetadata({ imports: [UniRowComponent, UniBoxComponent, UniCardComponent] })],
   argTypes: {
     shape: {
       control: 'select',
@@ -33,15 +34,19 @@ export const TextLines: Story = {
 export const CardPlaceholder: Story = {
   render: () => ({
     template: `
-      <uni-card style="max-width: 360px; display: block;">
-        <div style="display: flex; gap: 12px; align-items: center; padding: 16px;">
-          <uni-skeleton shape="circle" [height]="40" />
-          <div style="flex: 1;">
-            <uni-skeleton [lines]="2" />
+      <div box-layout maxWidth="360px">
+        <uni-card>
+          <div row-layout gap="sm" alignItems="center" padding="md">
+            <uni-skeleton shape="circle" [height]="40" />
+            <div box-layout [grow]="1">
+              <uni-skeleton [lines]="2" />
+            </div>
           </div>
-        </div>
-        <uni-skeleton shape="rect" [height]="120" style="display: block; padding: 0 16px 16px;" />
-      </uni-card>
+          <div box-layout paddingHorizontal="md" paddingBottom="md">
+            <uni-skeleton shape="rect" [height]="120" />
+          </div>
+        </uni-card>
+      </div>
     `,
   }),
 };

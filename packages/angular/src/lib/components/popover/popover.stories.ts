@@ -21,7 +21,7 @@ const meta: Meta<StoryType> = {
       template: `
         <Popover placement="${placement}" [autoClose]="${autoClose}" #popover>
           <Button trigger>Open Popover</Button>
-          <Stack gap="sm">
+          <div stack-layout gap="sm">
             <div>
               <Text typeface="title-small" display="block">
               This is a Popover.
@@ -31,7 +31,7 @@ const meta: Meta<StoryType> = {
             <div>
               <Button symbolLeft="thumb_up" size="sm" variant="secondary" (click)="popover.hidePopover()">OK!</Button>
             </div>
-          </Stack>
+          </div>
         </Popover>
       `,
     };

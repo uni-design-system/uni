@@ -1,5 +1,6 @@
-import { argsToTemplate, Meta, StoryObj } from '@storybook/angular';
+import { argsToTemplate, Meta, StoryObj, moduleMetadata } from '@storybook/angular';
 import { UniDebounceInputComponent as DebounceInput } from './debounce-input.component';
+import { UniBoxComponent } from '../../layout';
 
 type StoryType = DebounceInput;
 
@@ -12,13 +13,14 @@ const meta: Meta<StoryType> = {
       props,
       template: `
         <DebounceInput ${argsToTemplate(props)} (change)="lastEmitted = $event" #debounce />
-        <div style="margin-top: 16px;">
+        <div box-layout paddingTop="md">
           <div>Live value: {{ debounce.value() }}</div>
           <div>Debounced value: {{ lastEmitted }}</div>
         </div>
       `,
     };
   },
+  decorators: [moduleMetadata({ imports: [UniBoxComponent] })],
   argTypes: {
     inputName: {
       control: 'text',

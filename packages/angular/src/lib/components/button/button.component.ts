@@ -11,7 +11,7 @@ import { RippleDirective } from '../../directives/ripple';
 @Component({
   selector: 'button[uni-text-button], Button, button[text-button]',
   template: `@if (loading()) {
-      <Box [class]="spinnerBox"><uni-icon name="spinner" /></Box>
+      <div box-layout [class]="spinnerBox"><uni-icon name="spinner" /></div>
     }
     @if (symbolLeft()) {
       <Symbol [name]="symbolLeft()!" class="symbolLeft" />

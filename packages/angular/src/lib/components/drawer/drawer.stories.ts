@@ -3,6 +3,7 @@ import { UniDrawerComponent } from './drawer.component';
 import { UniAppBarComponent } from '../app-bar';
 import { UniButtonComponent } from '../button';
 import { UniIconButtonComponent } from '../icon-button';
+import { UniBoxComponent, UniRowComponent, UniStackComponent } from '../layout';
 import { UniTextComponent } from '../text';
 
 type StoryType = UniDrawerComponent;
@@ -12,7 +13,15 @@ const meta: Meta<StoryType> = {
   component: UniDrawerComponent,
   decorators: [
     moduleMetadata({
-      imports: [UniAppBarComponent, UniButtonComponent, UniIconButtonComponent, UniTextComponent],
+      imports: [
+        UniAppBarComponent,
+        UniButtonComponent,
+        UniIconButtonComponent,
+        UniBoxComponent,
+        UniRowComponent,
+        UniStackComponent,
+        UniTextComponent,
+      ],
     }),
   ],
   argTypes: {
@@ -38,25 +47,27 @@ export const DashboardShell: Story = {
   render: () => ({
     props: { open: true },
     template: `
-      <div style="display: flex; flex-direction: column; height: 420px; overflow: hidden;">
+      <section stack-layout height="420px" overflow="hidden">
         <uni-app-bar title="Console">
           <button leading icon-button symbolName="menu" (click)="open = !open">Toggle navigation</button>
           <button trailing icon-button symbolName="account_circle">Account</button>
         </uni-app-bar>
-        <div style="display: flex; flex: 1; min-height: 0;">
+        <div row-layout [grow]="1" [minHeight]="0">
           <uni-drawer mode="side" [(open)]="open">
-            <uni-text typeface="title-small" display="block">Dashboard</uni-text>
-            <uni-text typeface="title-small" display="block">Reports</uni-text>
-            <uni-text typeface="title-small" display="block">Settings</uni-text>
+            <nav stack-layout gap="sm" aria-label="Main">
+              <uni-text typeface="title-small" display="block">Dashboard</uni-text>
+              <uni-text typeface="title-small" display="block">Reports</uni-text>
+              <uni-text typeface="title-small" display="block">Settings</uni-text>
+            </nav>
           </uni-drawer>
-          <main style="flex: 1; padding: 16px; min-width: 0;">
+          <main box-layout [grow]="1" padding="md" [minWidth]="0">
             <uni-text typeface="headline-small">Content</uni-text>
             <uni-text typeface="body-1-long" display="block">
               The side drawer pushes this content; toggle it from the app bar.
             </uni-text>
           </main>
         </div>
-      </div>
+      </section>
     `,
   }),
 };

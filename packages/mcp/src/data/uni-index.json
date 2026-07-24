@@ -1,7 +1,7 @@
 {
   "meta": {
     "version": "5.2.0",
-    "builtAt": "2026-07-24T10:37:46.736Z",
+    "builtAt": "2026-07-24T11:17:10.758Z",
     "frameworks": [
       "angular"
     ],
@@ -174,17 +174,17 @@
         {
           "title": "Initials",
           "framework": "angular",
-          "code": "<!-- Storybook story: Initials -->\n<div style=\"display: flex; gap: 12px; align-items: center;\">\n<uni-avatar name=\"Ada Lovelace\" size=\"sm\" />\n<uni-avatar name=\"Grace Hopper\" size=\"md\" variant=\"secondary\" />\n<uni-avatar name=\"Katherine Johnson\" size=\"lg\" variant=\"tertiary\" />\n<uni-avatar name=\"Annie Easley\" size=\"xl\" variant=\"success\" />\n<uni-avatar size=\"lg\" variant=\"quaternary\" />\n</div>\n<!-- args:\n{ name: 'Grace Hopper', variant: 'primary', size: 'lg' }\n-->"
+          "code": "<!-- Storybook story: Initials -->\n<div row-layout gap=\"sm\" alignItems=\"center\">\n<uni-avatar name=\"Ada Lovelace\" size=\"sm\" />\n<uni-avatar name=\"Grace Hopper\" size=\"md\" variant=\"secondary\" />\n<uni-avatar name=\"Katherine Johnson\" size=\"lg\" variant=\"tertiary\" />\n<uni-avatar name=\"Annie Easley\" size=\"xl\" variant=\"success\" />\n<uni-avatar size=\"lg\" variant=\"quaternary\" />\n</div>\n<!-- args:\n{ name: 'Grace Hopper', variant: 'primary', size: 'lg' }\n-->"
         },
         {
           "title": "Sizes And Variants",
           "framework": "angular",
-          "code": "<!-- Storybook story: Sizes And Variants -->\n<div style=\"display: flex; gap: 12px; align-items: center;\">\n<uni-avatar name=\"Ada Lovelace\" size=\"sm\" />\n<uni-avatar name=\"Grace Hopper\" size=\"md\" variant=\"secondary\" />\n<uni-avatar name=\"Katherine Johnson\" size=\"lg\" variant=\"tertiary\" />\n<uni-avatar name=\"Annie Easley\" size=\"xl\" variant=\"success\" />\n<uni-avatar size=\"lg\" variant=\"quaternary\" />\n</div>"
+          "code": "<!-- Storybook story: Sizes And Variants -->\n<div row-layout gap=\"sm\" alignItems=\"center\">\n<uni-avatar name=\"Ada Lovelace\" size=\"sm\" />\n<uni-avatar name=\"Grace Hopper\" size=\"md\" variant=\"secondary\" />\n<uni-avatar name=\"Katherine Johnson\" size=\"lg\" variant=\"tertiary\" />\n<uni-avatar name=\"Annie Easley\" size=\"xl\" variant=\"success\" />\n<uni-avatar size=\"lg\" variant=\"quaternary\" />\n</div>"
         },
         {
           "title": "Group",
           "framework": "angular",
-          "code": "<!-- Storybook story: Group -->\n<div style=\"display: flex; gap: 12px; align-items: center;\">\n<uni-avatar name=\"Ada Lovelace\" size=\"sm\" />\n<uni-avatar name=\"Grace Hopper\" size=\"md\" variant=\"secondary\" />\n<uni-avatar name=\"Katherine Johnson\" size=\"lg\" variant=\"tertiary\" />\n<uni-avatar name=\"Annie Easley\" size=\"xl\" variant=\"success\" />\n<uni-avatar size=\"lg\" variant=\"quaternary\" />\n</div>"
+          "code": "<!-- Storybook story: Group -->\n<div row-layout gap=\"sm\" alignItems=\"center\">\n<uni-avatar name=\"Ada Lovelace\" size=\"sm\" />\n<uni-avatar name=\"Grace Hopper\" size=\"md\" variant=\"secondary\" />\n<uni-avatar name=\"Katherine Johnson\" size=\"lg\" variant=\"tertiary\" />\n<uni-avatar name=\"Annie Easley\" size=\"xl\" variant=\"success\" />\n<uni-avatar size=\"lg\" variant=\"quaternary\" />\n</div>"
         }
       ],
       "guidelines": {
@@ -405,7 +405,7 @@
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
-          "selectorOrTag": "div[uni-box-layout], Box, div[box-layout]",
+          "selectorOrTag": "[uni-box-layout], [box-layout]",
           "api": [
             {
               "name": "color",
@@ -609,7 +609,7 @@
               "kind": "input",
               "type": "number | string",
               "required": false,
-              "description": ""
+              "description": "Number = px via binding (`[height]=\"420\"`); string = CSS length (`height=\"420px\"`)."
             },
             {
               "name": "minHeight",
@@ -630,7 +630,7 @@
               "kind": "input",
               "type": "number | string",
               "required": false,
-              "description": ""
+              "description": "Number = px via binding (`[width]=\"420\"`); string = CSS length (`width=\"50%\"`)."
             },
             {
               "name": "minWidth",
@@ -1051,7 +1051,7 @@
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
-          "selectorOrTag": "div[uni-center-layout], div[center-layout]",
+          "selectorOrTag": "[uni-center-layout], [center-layout]",
           "api": [
             {
               "name": "display",
@@ -1313,12 +1313,12 @@
         {
           "title": "Primary",
           "framework": "angular",
-          "code": "<!-- Storybook story: Primary -->\n<uni-data-search ${argsToTemplate(props)} />\n<div style=\"margin-top: 16px;\">\n  @for (record of datasource.records(); track record.id) {\n    <div>{{ record.name }} — {{ record.homeworld }}</div>\n  }\n</div>\n<!-- args:\n{\n    datasource: new UniRecordDatasource<any>(starWarsCharacters.slice(0, 10)),\n    placeholder: 'Search characters',\n  }\n-->"
+          "code": "<!-- Storybook story: Primary -->\n<uni-data-search ${argsToTemplate(props)} />\n<div box-layout paddingTop=\"md\">\n  @for (record of datasource.records(); track record.id) {\n    <div>{{ record.name }} — {{ record.homeworld }}</div>\n  }\n</div>\n<!-- args:\n{\n    datasource: new UniRecordDatasource<any>(starWarsCharacters.slice(0, 10)),\n    placeholder: 'Search characters',\n  }\n-->"
         },
         {
           "title": "Field Scoped",
           "framework": "angular",
-          "code": "<!-- Storybook story: Field Scoped -->\n<uni-data-search ${argsToTemplate(props)} />\n<div style=\"margin-top: 16px;\">\n  @for (record of datasource.records(); track record.id) {\n    <div>{{ record.name }} — {{ record.homeworld }}</div>\n  }\n</div>\n<!-- args:\n{\n    datasource: new UniRecordDatasource<any>(starWarsCharacters.slice(0, 10)),\n    placeholder: 'Search by name only',\n    fields: ['name'],\n  }\n-->"
+          "code": "<!-- Storybook story: Field Scoped -->\n<uni-data-search ${argsToTemplate(props)} />\n<div box-layout paddingTop=\"md\">\n  @for (record of datasource.records(); track record.id) {\n    <div>{{ record.name }} — {{ record.homeworld }}</div>\n  }\n</div>\n<!-- args:\n{\n    datasource: new UniRecordDatasource<any>(starWarsCharacters.slice(0, 10)),\n    placeholder: 'Search by name only',\n    fields: ['name'],\n  }\n-->"
         }
       ],
       "guidelines": {
@@ -1527,7 +1527,7 @@
         {
           "title": "Primary",
           "framework": "angular",
-          "code": "<!-- Storybook story: Primary -->\n<DebounceInput ${argsToTemplate(props)} (change)=\"lastEmitted = $event\" #debounce />\n<div style=\"margin-top: 16px;\">\n  <div>Live value: {{ debounce.value() }}</div>\n  <div>Debounced value: {{ lastEmitted }}</div>\n</div>\n<!-- args:\n{\n    inputName: 'search',\n    debounceTime: 400,\n  }\n-->"
+          "code": "<!-- Storybook story: Primary -->\n<DebounceInput ${argsToTemplate(props)} (change)=\"lastEmitted = $event\" #debounce />\n<div box-layout paddingTop=\"md\">\n  <div>Live value: {{ debounce.value() }}</div>\n  <div>Debounced value: {{ lastEmitted }}</div>\n</div>\n<!-- args:\n{\n    inputName: 'search',\n    debounceTime: 400,\n  }\n-->"
         }
       ],
       "guidelines": {
@@ -1757,7 +1757,7 @@
         {
           "title": "Primary",
           "framework": "angular",
-          "code": "<!-- Storybook story: Primary -->\n<Center height=\"200px\">\n  <Divider border=\"${border}\" orientation=\"${orientation}\" />\n</Center>\n<!-- args:\n{\n    orientation: 'horizontal',\n    border: 'primary',\n  }\n-->"
+          "code": "<!-- Storybook story: Primary -->\n<div center-layout height=\"200px\">\n  <Divider border=\"${border}\" orientation=\"${orientation}\" />\n</div>\n<!-- args:\n{\n    orientation: 'horizontal',\n    border: 'primary',\n  }\n-->"
         }
       ],
       "guidelines": {
@@ -1852,12 +1852,12 @@
         {
           "title": "Dashboard Shell",
           "framework": "angular",
-          "code": "<!-- Storybook story: Dashboard Shell -->\n<div style=\"display: flex; flex-direction: column; height: 420px; overflow: hidden;\">\n<uni-app-bar title=\"Console\">\n  <button leading icon-button symbolName=\"menu\" (click)=\"open = !open\">Toggle navigation</button>\n  <button trailing icon-button symbolName=\"account_circle\">Account</button>\n</uni-app-bar>\n<div style=\"display: flex; flex: 1; min-height: 0;\">\n  <uni-drawer mode=\"side\" [(open)]=\"open\">\n    <uni-text typeface=\"title-small\" display=\"block\">Dashboard</uni-text>\n    <uni-text typeface=\"title-small\" display=\"block\">Reports</uni-text>\n    <uni-text typeface=\"title-small\" display=\"block\">Settings</uni-text>\n  </uni-drawer>\n  <main style=\"flex: 1; padding: 16px; min-width: 0;\">\n    <uni-text typeface=\"headline-small\">Content</uni-text>\n    <uni-text typeface=\"body-1-long\" display=\"block\">\n      The side drawer pushes this content; toggle it from the app bar.\n    </uni-text>\n  </main>\n</div>\n</div>"
+          "code": "<!-- Storybook story: Dashboard Shell -->\n<section stack-layout height=\"420px\" overflow=\"hidden\">\n<uni-app-bar title=\"Console\">\n  <button leading icon-button symbolName=\"menu\" (click)=\"open = !open\">Toggle navigation</button>\n  <button trailing icon-button symbolName=\"account_circle\">Account</button>\n</uni-app-bar>\n<div row-layout [grow]=\"1\" [minHeight]=\"0\">\n  <uni-drawer mode=\"side\" [(open)]=\"open\">\n    <nav stack-layout gap=\"sm\" aria-label=\"Main\">\n      <uni-text typeface=\"title-small\" display=\"block\">Dashboard</uni-text>\n      <uni-text typeface=\"title-small\" display=\"block\">Reports</uni-text>\n      <uni-text typeface=\"title-small\" display=\"block\">Settings</uni-text>\n    </nav>\n  </uni-drawer>\n  <main box-layout [grow]=\"1\" padding=\"md\" [minWidth]=\"0\">\n    <uni-text typeface=\"headline-small\">Content</uni-text>\n    <uni-text typeface=\"body-1-long\" display=\"block\">\n      The side drawer pushes this content; toggle it from the app bar.\n    </uni-text>\n  </main>\n</div>\n</section>"
         },
         {
           "title": "Overlay",
           "framework": "angular",
-          "code": "<!-- Storybook story: Overlay -->\n<div style=\"display: flex; flex-direction: column; height: 420px; overflow: hidden;\">\n<uni-app-bar title=\"Console\">\n  <button leading icon-button symbolName=\"menu\" (click)=\"open = !open\">Toggle navigation</button>\n  <button trailing icon-button symbolName=\"account_circle\">Account</button>\n</uni-app-bar>\n<div style=\"display: flex; flex: 1; min-height: 0;\">\n  <uni-drawer mode=\"side\" [(open)]=\"open\">\n    <uni-text typeface=\"title-small\" display=\"block\">Dashboard</uni-text>\n    <uni-text typeface=\"title-small\" display=\"block\">Reports</uni-text>\n    <uni-text typeface=\"title-small\" display=\"block\">Settings</uni-text>\n  </uni-drawer>\n  <main style=\"flex: 1; padding: 16px; min-width: 0;\">\n    <uni-text typeface=\"headline-small\">Content</uni-text>\n    <uni-text typeface=\"body-1-long\" display=\"block\">\n      The side drawer pushes this content; toggle it from the app bar.\n    </uni-text>\n  </main>\n</div>\n</div>"
+          "code": "<!-- Storybook story: Overlay -->\n<section stack-layout height=\"420px\" overflow=\"hidden\">\n<uni-app-bar title=\"Console\">\n  <button leading icon-button symbolName=\"menu\" (click)=\"open = !open\">Toggle navigation</button>\n  <button trailing icon-button symbolName=\"account_circle\">Account</button>\n</uni-app-bar>\n<div row-layout [grow]=\"1\" [minHeight]=\"0\">\n  <uni-drawer mode=\"side\" [(open)]=\"open\">\n    <nav stack-layout gap=\"sm\" aria-label=\"Main\">\n      <uni-text typeface=\"title-small\" display=\"block\">Dashboard</uni-text>\n      <uni-text typeface=\"title-small\" display=\"block\">Reports</uni-text>\n      <uni-text typeface=\"title-small\" display=\"block\">Settings</uni-text>\n    </nav>\n  </uni-drawer>\n  <main box-layout [grow]=\"1\" padding=\"md\" [minWidth]=\"0\">\n    <uni-text typeface=\"headline-small\">Content</uni-text>\n    <uni-text typeface=\"body-1-long\" display=\"block\">\n      The side drawer pushes this content; toggle it from the app bar.\n    </uni-text>\n  </main>\n</div>\n</section>"
         }
       ],
       "guidelines": {
@@ -2249,7 +2249,7 @@
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
-          "selectorOrTag": "div[uni-grid-layout], Grid, div[grid-layout]",
+          "selectorOrTag": "[uni-grid-layout], [grid-layout]",
           "api": [
             {
               "name": "display",
@@ -2323,7 +2323,7 @@
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
-          "selectorOrTag": "GridArea",
+          "selectorOrTag": "[uni-grid-area-layout], [grid-area-layout]",
           "api": [
             {
               "name": "area",
@@ -2378,7 +2378,7 @@
         {
           "title": "Primary",
           "framework": "angular",
-          "code": "<!-- Storybook story: Primary -->\n<div style=\"height: ${size + 'px'}\">\n    <Icon name=\"${name}\" color=\"${color}\" />\n  </div>\n<!-- args:\n{\n    name: 'checkCircle',\n  }\n-->"
+          "code": "<!-- Storybook story: Primary -->\n<div box-layout height=\"${size}px\">\n    <Icon name=\"${name}\" color=\"${color}\" />\n  </div>\n<!-- args:\n{\n    name: 'checkCircle',\n  }\n-->"
         }
       ],
       "guidelines": {
@@ -3229,47 +3229,47 @@
         {
           "title": "Default",
           "framework": "angular",
-          "code": "<!-- Storybook story: Default -->\n<div style=\"margin: 20px;\">\n<uni-notification-badge\n  [count]=\"count\"\n  [maxCount]=\"maxCount\"\n  [badgeVariant]=\"badgeVariant\"\n  [color]=\"color\"\n  [position]=\"position\"\n  [show]=\"show\">\n  <button uni-text-button>\n    Button with Badge\n  </button>\n</uni-notification-badge>\n</div>\n<!-- args:\n{\n    count: 5,\n    badgeVariant: 'count',\n    color: 'warn',\n    position: 'top-right',\n    show: true,\n    maxCount: 99,\n  }\n-->"
+          "code": "<!-- Storybook story: Default -->\n<div box-layout padding=\"md\">\n<uni-notification-badge\n  [count]=\"count\"\n  [maxCount]=\"maxCount\"\n  [badgeVariant]=\"badgeVariant\"\n  [color]=\"color\"\n  [position]=\"position\"\n  [show]=\"show\">\n  <button uni-text-button>\n    Button with Badge\n  </button>\n</uni-notification-badge>\n</div>\n<!-- args:\n{\n    count: 5,\n    badgeVariant: 'count',\n    color: 'warn',\n    position: 'top-right',\n    show: true,\n    maxCount: 99,\n  }\n-->"
         },
         {
           "title": "Dot",
           "framework": "angular",
-          "code": "<!-- Storybook story: Dot -->\n<div style=\"margin: 20px;\">\n<uni-notification-badge\n  [count]=\"count\"\n  [maxCount]=\"maxCount\"\n  [badgeVariant]=\"badgeVariant\"\n  [color]=\"color\"\n  [position]=\"position\"\n  [show]=\"show\">\n  <button uni-text-button>\n    Button with Badge\n  </button>\n</uni-notification-badge>\n</div>\n<!-- args:\n{\n    badgeVariant: 'dot',\n    color: 'warn',\n    position: 'top-right',\n    show: true,\n  }\n-->"
+          "code": "<!-- Storybook story: Dot -->\n<div box-layout padding=\"md\">\n<uni-notification-badge\n  [count]=\"count\"\n  [maxCount]=\"maxCount\"\n  [badgeVariant]=\"badgeVariant\"\n  [color]=\"color\"\n  [position]=\"position\"\n  [show]=\"show\">\n  <button uni-text-button>\n    Button with Badge\n  </button>\n</uni-notification-badge>\n</div>\n<!-- args:\n{\n    badgeVariant: 'dot',\n    color: 'warn',\n    position: 'top-right',\n    show: true,\n  }\n-->"
         },
         {
           "title": "Count",
           "framework": "angular",
-          "code": "<!-- Storybook story: Count -->\n<div style=\"margin: 20px;\">\n<uni-notification-badge\n  [count]=\"count\"\n  [maxCount]=\"maxCount\"\n  [badgeVariant]=\"badgeVariant\"\n  [color]=\"color\"\n  [position]=\"position\"\n  [show]=\"show\">\n  <button uni-text-button>\n    Button with Badge\n  </button>\n</uni-notification-badge>\n</div>\n<!-- args:\n{\n    count: 12,\n    badgeVariant: 'count',\n    color: 'warn',\n    position: 'top-right',\n    show: true,\n    maxCount: 99,\n  }\n-->"
+          "code": "<!-- Storybook story: Count -->\n<div box-layout padding=\"md\">\n<uni-notification-badge\n  [count]=\"count\"\n  [maxCount]=\"maxCount\"\n  [badgeVariant]=\"badgeVariant\"\n  [color]=\"color\"\n  [position]=\"position\"\n  [show]=\"show\">\n  <button uni-text-button>\n    Button with Badge\n  </button>\n</uni-notification-badge>\n</div>\n<!-- args:\n{\n    count: 12,\n    badgeVariant: 'count',\n    color: 'warn',\n    position: 'top-right',\n    show: true,\n    maxCount: 99,\n  }\n-->"
         },
         {
           "title": "Pill",
           "framework": "angular",
-          "code": "<!-- Storybook story: Pill -->\n<div style=\"margin: 20px;\">\n<uni-notification-badge\n  [count]=\"count\"\n  [maxCount]=\"maxCount\"\n  [badgeVariant]=\"badgeVariant\"\n  [color]=\"color\"\n  [position]=\"position\"\n  [show]=\"show\">\n  <button uni-text-button>\n    Button with Badge\n  </button>\n</uni-notification-badge>\n</div>\n<!-- args:\n{\n    count: 1234,\n    badgeVariant: 'pill',\n    color: 'warn',\n    position: 'top-right',\n    show: true,\n    maxCount: 999,\n  }\n-->"
+          "code": "<!-- Storybook story: Pill -->\n<div box-layout padding=\"md\">\n<uni-notification-badge\n  [count]=\"count\"\n  [maxCount]=\"maxCount\"\n  [badgeVariant]=\"badgeVariant\"\n  [color]=\"color\"\n  [position]=\"position\"\n  [show]=\"show\">\n  <button uni-text-button>\n    Button with Badge\n  </button>\n</uni-notification-badge>\n</div>\n<!-- args:\n{\n    count: 1234,\n    badgeVariant: 'pill',\n    color: 'warn',\n    position: 'top-right',\n    show: true,\n    maxCount: 999,\n  }\n-->"
         },
         {
           "title": "Large Count",
           "framework": "angular",
-          "code": "<!-- Storybook story: Large Count -->\n<div style=\"margin: 20px;\">\n<uni-notification-badge\n  [count]=\"count\"\n  [maxCount]=\"maxCount\"\n  [badgeVariant]=\"badgeVariant\"\n  [color]=\"color\"\n  [position]=\"position\"\n  [show]=\"show\">\n  <button uni-text-button>\n    Button with Badge\n  </button>\n</uni-notification-badge>\n</div>\n<!-- args:\n{\n    count: 150,\n    badgeVariant: 'count',\n    color: 'warn',\n    position: 'top-right',\n    show: true,\n    maxCount: 99,\n  }\n-->"
+          "code": "<!-- Storybook story: Large Count -->\n<div box-layout padding=\"md\">\n<uni-notification-badge\n  [count]=\"count\"\n  [maxCount]=\"maxCount\"\n  [badgeVariant]=\"badgeVariant\"\n  [color]=\"color\"\n  [position]=\"position\"\n  [show]=\"show\">\n  <button uni-text-button>\n    Button with Badge\n  </button>\n</uni-notification-badge>\n</div>\n<!-- args:\n{\n    count: 150,\n    badgeVariant: 'count',\n    color: 'warn',\n    position: 'top-right',\n    show: true,\n    maxCount: 99,\n  }\n-->"
         },
         {
           "title": "Different Colors",
           "framework": "angular",
-          "code": "<!-- Storybook story: Different Colors -->\n<div style=\"margin: 20px;\">\n<uni-notification-badge\n  [count]=\"count\"\n  [maxCount]=\"maxCount\"\n  [badgeVariant]=\"badgeVariant\"\n  [color]=\"color\"\n  [position]=\"position\"\n  [show]=\"show\">\n  <button uni-text-button>\n    Button with Badge\n  </button>\n</uni-notification-badge>\n</div>"
+          "code": "<!-- Storybook story: Different Colors -->\n<div box-layout padding=\"md\">\n<uni-notification-badge\n  [count]=\"count\"\n  [maxCount]=\"maxCount\"\n  [badgeVariant]=\"badgeVariant\"\n  [color]=\"color\"\n  [position]=\"position\"\n  [show]=\"show\">\n  <button uni-text-button>\n    Button with Badge\n  </button>\n</uni-notification-badge>\n</div>"
         },
         {
           "title": "Different Positions",
           "framework": "angular",
-          "code": "<!-- Storybook story: Different Positions -->\n<div style=\"margin: 20px;\">\n<uni-notification-badge\n  [count]=\"count\"\n  [maxCount]=\"maxCount\"\n  [badgeVariant]=\"badgeVariant\"\n  [color]=\"color\"\n  [position]=\"position\"\n  [show]=\"show\">\n  <button uni-text-button>\n    Button with Badge\n  </button>\n</uni-notification-badge>\n</div>"
+          "code": "<!-- Storybook story: Different Positions -->\n<div box-layout padding=\"md\">\n<uni-notification-badge\n  [count]=\"count\"\n  [maxCount]=\"maxCount\"\n  [badgeVariant]=\"badgeVariant\"\n  [color]=\"color\"\n  [position]=\"position\"\n  [show]=\"show\">\n  <button uni-text-button>\n    Button with Badge\n  </button>\n</uni-notification-badge>\n</div>"
         },
         {
           "title": "Variant Comparison",
           "framework": "angular",
-          "code": "<!-- Storybook story: Variant Comparison -->\n<div style=\"margin: 20px;\">\n<uni-notification-badge\n  [count]=\"count\"\n  [maxCount]=\"maxCount\"\n  [badgeVariant]=\"badgeVariant\"\n  [color]=\"color\"\n  [position]=\"position\"\n  [show]=\"show\">\n  <button uni-text-button>\n    Button with Badge\n  </button>\n</uni-notification-badge>\n</div>"
+          "code": "<!-- Storybook story: Variant Comparison -->\n<div box-layout padding=\"md\">\n<uni-notification-badge\n  [count]=\"count\"\n  [maxCount]=\"maxCount\"\n  [badgeVariant]=\"badgeVariant\"\n  [color]=\"color\"\n  [position]=\"position\"\n  [show]=\"show\">\n  <button uni-text-button>\n    Button with Badge\n  </button>\n</uni-notification-badge>\n</div>"
         },
         {
           "title": "With Icons",
           "framework": "angular",
-          "code": "<!-- Storybook story: With Icons -->\n<div style=\"margin: 20px;\">\n<uni-notification-badge\n  [count]=\"count\"\n  [maxCount]=\"maxCount\"\n  [badgeVariant]=\"badgeVariant\"\n  [color]=\"color\"\n  [position]=\"position\"\n  [show]=\"show\">\n  <button uni-text-button>\n    Button with Badge\n  </button>\n</uni-notification-badge>\n</div>"
+          "code": "<!-- Storybook story: With Icons -->\n<div box-layout padding=\"md\">\n<uni-notification-badge\n  [count]=\"count\"\n  [maxCount]=\"maxCount\"\n  [badgeVariant]=\"badgeVariant\"\n  [color]=\"color\"\n  [position]=\"position\"\n  [show]=\"show\">\n  <button uni-text-button>\n    Button with Badge\n  </button>\n</uni-notification-badge>\n</div>"
         }
       ],
       "guidelines": {
@@ -3362,12 +3362,12 @@
         {
           "title": "Primary",
           "framework": "angular",
-          "code": "<!-- Storybook story: Primary -->\n<Paginator ${argsToTemplate(props)} />\n<div style=\"margin-top: 16px;\">\n  @for (record of datasource.records(); track record.id) {\n    <div>{{ record.name }}</div>\n  }\n</div>\n<!-- args:\n{\n    datasource: new UniRecordDatasource<any>(starWarsCharacters),\n    initPageSize: 5,\n    showPageSize: true,\n    showPageJumper: true,\n    showPageNumbers: true,\n  }\n-->"
+          "code": "<!-- Storybook story: Primary -->\n<Paginator ${argsToTemplate(props)} />\n<div box-layout paddingTop=\"md\">\n  @for (record of datasource.records(); track record.id) {\n    <div>{{ record.name }}</div>\n  }\n</div>\n<!-- args:\n{\n    datasource: new UniRecordDatasource<any>(starWarsCharacters),\n    initPageSize: 5,\n    showPageSize: true,\n    showPageJumper: true,\n    showPageNumbers: true,\n  }\n-->"
         },
         {
           "title": "Page Numbers Only",
           "framework": "angular",
-          "code": "<!-- Storybook story: Page Numbers Only -->\n<Paginator ${argsToTemplate(props)} />\n<div style=\"margin-top: 16px;\">\n  @for (record of datasource.records(); track record.id) {\n    <div>{{ record.name }}</div>\n  }\n</div>\n<!-- args:\n{\n    datasource: new UniRecordDatasource<any>(starWarsCharacters),\n    initPageSize: 5,\n    showPageSize: false,\n    showPageJumper: false,\n    showPageNumbers: true,\n  }\n-->"
+          "code": "<!-- Storybook story: Page Numbers Only -->\n<Paginator ${argsToTemplate(props)} />\n<div box-layout paddingTop=\"md\">\n  @for (record of datasource.records(); track record.id) {\n    <div>{{ record.name }}</div>\n  }\n</div>\n<!-- args:\n{\n    datasource: new UniRecordDatasource<any>(starWarsCharacters),\n    initPageSize: 5,\n    showPageSize: false,\n    showPageJumper: false,\n    showPageNumbers: true,\n  }\n-->"
         }
       ],
       "guidelines": {
@@ -3422,7 +3422,7 @@
         {
           "title": "Primary",
           "framework": "angular",
-          "code": "<!-- Storybook story: Primary -->\n<Popover placement=\"${placement}\" [autoClose]=\"${autoClose}\" #popover>\n  <Button trigger>Open Popover</Button>\n  <Stack gap=\"sm\">\n    <div>\n      <Text typeface=\"title-small\" display=\"block\">\n      This is a Popover.\n      </Text>\n      It is possible to add any markup you want to a Popover.\n    </div>\n    <div>\n      <Button symbolLeft=\"thumb_up\" size=\"sm\" variant=\"secondary\" (click)=\"popover.hidePopover()\">OK!</Button>\n    </div>\n  </Stack>\n</Popover>\n<!-- args:\n{\n    placement: 'right-start',\n    autoClose: true,\n  }\n-->"
+          "code": "<!-- Storybook story: Primary -->\n<Popover placement=\"${placement}\" [autoClose]=\"${autoClose}\" #popover>\n  <Button trigger>Open Popover</Button>\n  <div stack-layout gap=\"sm\">\n    <div>\n      <Text typeface=\"title-small\" display=\"block\">\n      This is a Popover.\n      </Text>\n      It is possible to add any markup you want to a Popover.\n    </div>\n    <div>\n      <Button symbolLeft=\"thumb_up\" size=\"sm\" variant=\"secondary\" (click)=\"popover.hidePopover()\">OK!</Button>\n    </div>\n  </div>\n</Popover>\n<!-- args:\n{\n    placement: 'right-start',\n    autoClose: true,\n  }\n-->"
         }
       ],
       "guidelines": {
@@ -3719,7 +3719,7 @@
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
-          "selectorOrTag": "div[uni-row-layout], Row, div[row-layout]",
+          "selectorOrTag": "[uni-row-layout], [row-layout]",
           "api": [
             {
               "name": "display",
@@ -3743,7 +3743,7 @@
               "type": "number | string | undefined",
               "required": false,
               "default": "'fit-content'",
-              "description": ""
+              "description": "Defaults to `fit-content` (guards content collapse). Set `[minWidth]=\"0\"` when the row must shrink inside a constrained flex parent (scroll or text truncation containment)."
             }
           ]
         }
@@ -3989,12 +3989,12 @@
         {
           "title": "Primary",
           "framework": "angular",
-          "code": "<!-- Storybook story: Primary -->\n<uni-search-input\nlabel=\"Search the docs\"\n[debounceTime]=\"200\"\n[suggestions]=\"suggestions\"\n(change)=\"filter($event)\"\n(search)=\"log($event)\"\nstyle=\"max-width: 420px;\"\n></uni-search-input>\n<!-- args:\n{ label: 'Search' }\n-->"
+          "code": "<!-- Storybook story: Primary -->\n<div box-layout maxWidth=\"420px\">\n<uni-search-input\n  label=\"Search the docs\"\n  [debounceTime]=\"200\"\n  [suggestions]=\"suggestions\"\n  (change)=\"filter($event)\"\n  (search)=\"log($event)\"\n></uni-search-input>\n</div>\n<!-- args:\n{ label: 'Search' }\n-->"
         },
         {
           "title": "Type-ahead",
           "framework": "angular",
-          "code": "<!-- Storybook story: Type-ahead -->\n<uni-search-input\nlabel=\"Search the docs\"\n[debounceTime]=\"200\"\n[suggestions]=\"suggestions\"\n(change)=\"filter($event)\"\n(search)=\"log($event)\"\nstyle=\"max-width: 420px;\"\n></uni-search-input>"
+          "code": "<!-- Storybook story: Type-ahead -->\n<div box-layout maxWidth=\"420px\">\n<uni-search-input\n  label=\"Search the docs\"\n  [debounceTime]=\"200\"\n  [suggestions]=\"suggestions\"\n  (change)=\"filter($event)\"\n  (search)=\"log($event)\"\n></uni-search-input>\n</div>"
         }
       ],
       "guidelines": {
@@ -4190,12 +4190,12 @@
         {
           "title": "Text Lines",
           "framework": "angular",
-          "code": "<!-- Storybook story: Text Lines -->\n<uni-card style=\"max-width: 360px; display: block;\">\n<div style=\"display: flex; gap: 12px; align-items: center; padding: 16px;\">\n  <uni-skeleton shape=\"circle\" [height]=\"40\" />\n  <div style=\"flex: 1;\">\n    <uni-skeleton [lines]=\"2\" />\n  </div>\n</div>\n<uni-skeleton shape=\"rect\" [height]=\"120\" style=\"display: block; padding: 0 16px 16px;\" />\n</uni-card>\n<!-- args:\n{ shape: 'text', lines: 3 }\n-->"
+          "code": "<!-- Storybook story: Text Lines -->\n<div box-layout maxWidth=\"360px\">\n<uni-card>\n  <div row-layout gap=\"sm\" alignItems=\"center\" padding=\"md\">\n    <uni-skeleton shape=\"circle\" [height]=\"40\" />\n    <div box-layout [grow]=\"1\">\n      <uni-skeleton [lines]=\"2\" />\n    </div>\n  </div>\n  <div box-layout paddingHorizontal=\"md\" paddingBottom=\"md\">\n    <uni-skeleton shape=\"rect\" [height]=\"120\" />\n  </div>\n</uni-card>\n</div>\n<!-- args:\n{ shape: 'text', lines: 3 }\n-->"
         },
         {
           "title": "Card Placeholder",
           "framework": "angular",
-          "code": "<!-- Storybook story: Card Placeholder -->\n<uni-card style=\"max-width: 360px; display: block;\">\n<div style=\"display: flex; gap: 12px; align-items: center; padding: 16px;\">\n  <uni-skeleton shape=\"circle\" [height]=\"40\" />\n  <div style=\"flex: 1;\">\n    <uni-skeleton [lines]=\"2\" />\n  </div>\n</div>\n<uni-skeleton shape=\"rect\" [height]=\"120\" style=\"display: block; padding: 0 16px 16px;\" />\n</uni-card>"
+          "code": "<!-- Storybook story: Card Placeholder -->\n<div box-layout maxWidth=\"360px\">\n<uni-card>\n  <div row-layout gap=\"sm\" alignItems=\"center\" padding=\"md\">\n    <uni-skeleton shape=\"circle\" [height]=\"40\" />\n    <div box-layout [grow]=\"1\">\n      <uni-skeleton [lines]=\"2\" />\n    </div>\n  </div>\n  <div box-layout paddingHorizontal=\"md\" paddingBottom=\"md\">\n    <uni-skeleton shape=\"rect\" [height]=\"120\" />\n  </div>\n</uni-card>\n</div>"
         }
       ],
       "guidelines": {
@@ -4472,7 +4472,7 @@
         {
           "title": "Primary",
           "framework": "angular",
-          "code": "<!-- Storybook story: Primary -->\n<uni-sort-header [datasource]=\"datasource\" [column]=\"column\">\n  <Text typeface=\"title-small\">Name</Text>\n</uni-sort-header>\n<div style=\"margin-top: 16px;\">\n  @for (record of datasource.records().slice(0, 5); track record.id) {\n    <div>{{ record.name }}</div>\n  }\n</div>\n<!-- args:\n{\n    column: 'name',\n    datasource: new UniRecordDatasource<any>(starWarsCharacters),\n  }\n-->"
+          "code": "<!-- Storybook story: Primary -->\n<uni-sort-header [datasource]=\"datasource\" [column]=\"column\">\n  <Text typeface=\"title-small\">Name</Text>\n</uni-sort-header>\n<div box-layout paddingTop=\"md\">\n  @for (record of datasource.records().slice(0, 5); track record.id) {\n    <div>{{ record.name }}</div>\n  }\n</div>\n<!-- args:\n{\n    column: 'name',\n    datasource: new UniRecordDatasource<any>(starWarsCharacters),\n  }\n-->"
         }
       ],
       "guidelines": {
@@ -4494,7 +4494,7 @@
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
-          "selectorOrTag": "div[uni-stack-layout], Stack, div[stack-layout]",
+          "selectorOrTag": "[uni-stack-layout], [stack-layout]",
           "api": [
             {
               "name": "display",
@@ -4518,7 +4518,7 @@
               "type": "number | string | undefined",
               "required": false,
               "default": "'fit-content'",
-              "description": ""
+              "description": "Defaults to `fit-content` (guards content collapse). Set `[minHeight]=\"0\"` when the stack must shrink inside a constrained flex parent (scroll containment)."
             }
           ]
         }
@@ -5308,7 +5308,7 @@
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
-          "selectorOrTag": "div[uni-wrap-layout], Wrap, div[wrap-layout]",
+          "selectorOrTag": "[uni-wrap-layout], [wrap-layout]",
           "api": [
             {
               "name": "display",

@@ -6,8 +6,8 @@
   alignItems="center"
   paddingHorizontal="sm"
 >
-  <Box [width]="26"></Box>
-  <Box [grow]="1" [attr.id]="titleId">
+  <div box-layout [width]="26"></div>
+  <div box-layout [grow]="1" [attr.id]="titleId">
     <Text
       [typeface]="componentOptions().textRole"
       [color]="componentOptions().textColor"
@@ -15,7 +15,7 @@
       [align]="componentOptions().textAlign || 'center'"
       ><ng-content></ng-content
     ></Text>
-  </Box>
+  </div>
   <button
     icon-button
     [iconName]="componentOptions().closeButtonIcon"

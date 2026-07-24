@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, computed, input } from '@angular/co
 import { css } from '@emotion/css';
 
 @Component({
-  selector: 'GridArea',
+  selector: '[uni-grid-area-layout], [grid-area-layout]',
   imports: [],
   template: `<ng-content></ng-content>`,
   changeDetection: ChangeDetectionStrategy.OnPush,

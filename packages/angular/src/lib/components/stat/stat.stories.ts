@@ -1,5 +1,6 @@
-import { argsToTemplate, Meta, StoryObj } from '@storybook/angular';
+import { argsToTemplate, Meta, StoryObj, moduleMetadata } from '@storybook/angular';
 import { UniStatComponent } from './stat.component';
+import { UniGridComponent } from '../layout';
 
 type StoryType = UniStatComponent;
 
@@ -10,6 +11,7 @@ const meta: Meta<StoryType> = {
     const { ...props } = args;
     return { props, template: `<uni-stat ${argsToTemplate(props)}></uni-stat>` };
   },
+  decorators: [moduleMetadata({ imports: [UniGridComponent] })],
   argTypes: {
     label: { control: 'text', description: 'What is being measured, sentence case.' },
     value: {
@@ -55,7 +57,7 @@ export const KpiRow: Story = {
   name: 'KPI row',
   render: () => ({
     template: `
-      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 14px;">
+      <div grid-layout templateColumns="repeat(auto-fit, minmax(210px, 1fr))" gap="sm">
         <uni-stat label="Monthly recurring revenue" [value]="48234" delta="+12.4%" caption="vs last month" [trend]="[31,34,33,38,37,41,40,44,43,46,47,48]" />
         <uni-stat label="Active users" [value]="12900" delta="+3.1%" caption="vs last week" [trend]="[9,10,10,11,10,11,12,11,12,12,13,12.9]" />
         <uni-stat label="Churn rate" value="2.1%" delta="-0.4%" [upIsGood]="false" caption="vs last month" />

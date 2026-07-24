@@ -1,13 +1,14 @@
 import { Meta, StoryObj, moduleMetadata } from '@storybook/angular';
 import { UniAvatarComponent } from './avatar.component';
 import { UniAvatarGroupComponent } from './avatar-group.component';
+import { UniRowComponent } from '../layout';
 
 type StoryType = UniAvatarComponent;
 
 const meta: Meta<StoryType> = {
   title: 'Components/Data Display/Avatar',
   component: UniAvatarComponent,
-  decorators: [moduleMetadata({ imports: [UniAvatarGroupComponent] })],
+  decorators: [moduleMetadata({ imports: [UniRowComponent, UniAvatarGroupComponent] })],
   argTypes: {
     name: {
       control: 'text',
@@ -44,7 +45,7 @@ export const Initials: Story = {
 export const SizesAndVariants: Story = {
   render: () => ({
     template: `
-      <div style="display: flex; gap: 12px; align-items: center;">
+      <div row-layout gap="sm" alignItems="center">
         <uni-avatar name="Ada Lovelace" size="sm" />
         <uni-avatar name="Grace Hopper" size="md" variant="secondary" />
         <uni-avatar name="Katherine Johnson" size="lg" variant="tertiary" />

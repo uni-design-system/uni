@@ -3,6 +3,7 @@ import { starWarsCharacters } from '../../../stories/data/star-wars-characters';
 import { UniRecordDatasource } from '../../cdk';
 import { UniTextComponent } from '../text/text.component';
 import { UniSortHeaderComponent as SortHeader } from './sort-header.component';
+import { UniBoxComponent } from '../layout';
 
 type StoryType = SortHeader<any>;
 
@@ -11,7 +12,7 @@ const meta: Meta<StoryType> = {
   component: SortHeader,
   decorators: [
     moduleMetadata({
-      imports: [UniTextComponent],
+      imports: [UniBoxComponent, UniTextComponent],
     }),
   ],
   argTypes: {
@@ -31,7 +32,7 @@ const meta: Meta<StoryType> = {
         <uni-sort-header [datasource]="datasource" [column]="column">
           <Text typeface="title-small">Name</Text>
         </uni-sort-header>
-        <div style="margin-top: 16px;">
+        <div box-layout paddingTop="md">
           @for (record of datasource.records().slice(0, 5); track record.id) {
             <div>{{ record.name }}</div>
           }

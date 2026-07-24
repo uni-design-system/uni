@@ -5,7 +5,7 @@ import { UniBoxComponent } from '../box/box.component';
 import type { OptionalDisplay, Thickness, Variant } from '@uni-design-system/uni-core';
 
 @Component({
-  selector: 'div[uni-grid-layout], Grid, div[grid-layout]',
+  selector: '[uni-grid-layout], [grid-layout]',
   imports: [],
   template: `<ng-content></ng-content>`,
   changeDetection: ChangeDetectionStrategy.OnPush,
