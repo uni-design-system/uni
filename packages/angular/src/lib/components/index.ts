@@ -1,3 +1,4 @@
+export * from './app-bar';
 export * from './avatar';
 export * from './background';
 export * from './badge';
@@ -10,6 +11,7 @@ export * from './data-search';
 export * from './data-table';
 export * from './dialog';
 export * from './divider';
+export * from './drawer';
 export * from './dropdown';
 export * from './expand';
 export * from './expand-area';

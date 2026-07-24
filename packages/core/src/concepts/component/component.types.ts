@@ -5,6 +5,7 @@ import type { StyleExpression } from '../style';
 export type ComponentName =
   | 'undefined'
   | 'alert'
+  | 'appBar'
   | 'avatar'
   | 'avatarGroup'
   | 'badge'
@@ -18,6 +19,7 @@ export type ComponentName =
   | 'dataTable'
   | 'dialog'
   | 'dialogHeader'
+  | 'drawer'
   | 'dropdown'
   | 'footer'
   | 'iconButton'

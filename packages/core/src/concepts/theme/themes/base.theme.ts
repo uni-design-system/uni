@@ -138,6 +138,31 @@ const buildComponents = (c: Colors): ComponentThemes => ({
   alert: {
     options: { topPosition: 40, borderRadius: 'sm', transitionSpeed: 0.35, elevation: 'md' },
   },
+  // App shell: bar surface, divider, title type and spacing are all tokens.
+  appBar: {
+    options: {
+      color: 'surface',
+      height: 56,
+      divider: 'light',
+      typeface: 'title-large',
+      padding: 'md',
+      gap: 'md',
+      elevation: undefined,
+    },
+  },
+  // Navigation drawer: shares the dialog's native-<dialog> machinery in
+  // 'over' mode (elevation + scrim backdrop); 'side' mode is an in-flow
+  // aside separated by the divider border primitive.
+  drawer: {
+    options: {
+      color: 'surface',
+      width: 280,
+      divider: 'light',
+      elevation: 'menu',
+      padding: 'md',
+      backdrop: { background: 'rgba(0, 0, 0, 0.4)' },
+    },
+  },
   // Initials/icon avatars color from the role's container tokens; the radius
   // token makes them circles by default and squares under a 'sharp' theme.
   avatar: {
