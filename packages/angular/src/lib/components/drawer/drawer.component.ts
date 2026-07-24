@@ -39,6 +39,10 @@ import type { DrawerMode, DrawerPosition, UniDrawerOptions } from './drawer.mode
         <ng-container [ngTemplateOutlet]="contentTemplate()" />
       </aside>
     } @else {
+      <!-- Click handles the ::backdrop only (target check); keyboard closing
+           is the native dialog cancel event, and focus is trapped by
+           showModal — the element needs no tabindex of its own. -->
+      <!-- eslint-disable-next-line @angular-eslint/template/click-events-have-key-events, @angular-eslint/template/interactive-supports-focus -->
       <dialog
         #overlay
         [class]="overClass()"

@@ -25,6 +25,9 @@ import type { UniTabsOptions } from './tabs.model';
   imports: [NgTemplateOutlet],
   providers: [{ provide: COMPONENT_NAME, useValue: 'tabs' }],
   template: `
+    <!-- Roving-tabindex composite: focus lives on the tab buttons; keydown
+         bubbles to the tablist, which itself must stay out of the tab order. -->
+    <!-- eslint-disable-next-line @angular-eslint/template/interactive-supports-focus -->
     <div role="tablist" [class]="tablistClass()" (keydown)="onKeydown($event)">
       @for (tab of tabs(); track tab.id; let i = $index) {
         <button
