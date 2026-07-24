@@ -243,6 +243,21 @@ describe('card token conformance', () => {
   });
 });
 
+describe('selection-control token conformance', () => {
+  it('checkbox/radio/toggle chrome colors are theme option tokens', () => {
+    const theme = createTheme({ id: 'T', name: 'T', colors: lightColors });
+    expect(theme.components.checkbox?.options).toMatchObject({ boxColor: 'surface' });
+    expect(theme.components.radio?.options).toMatchObject({
+      ringColor: 'outline',
+      fillColor: 'surface',
+    });
+    expect(theme.components.toggle?.options).toMatchObject({
+      trackColor: 'surface-variant',
+      knobColor: 'surface',
+    });
+  });
+});
+
 describe('progressGauge token conformance', () => {
   it('derives gauge tracks from container tokens, not hardcoded pastels', () => {
     const theme = createTheme({ id: 'T', name: 'T', colors: lightColors });

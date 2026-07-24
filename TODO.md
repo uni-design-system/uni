@@ -36,8 +36,9 @@ audits: `packages/angular/TODO.md` (v4 audit) and `uni-theme-generation-plan.md`
 
 ## Token conformance & component housekeeping
 
-- [ ] **Hardcoded colors in checkbox / radio / toggle** (`#FFF`, `#ccc`, `#d0d0d0`,
-      `#e0e0e0`) — replace with theme tokens; the last big conformance offenders.
+- [x] ~~Hardcoded colors in checkbox / radio / toggle~~ — tokenized 2026-07-24
+      (`boxColor`/`ringColor`/`fillColor`/`trackColor`/`knobColor` options; on-color
+      pairs for check strokes; `disabled` tokens; themed knob shadow).
 - [ ] **`footer`** — declared in `ComponentName` with theme options but unbuilt;
       build it (app-bar sibling) or remove the declaration.
 - [ ] **Input `typeFace` option casing** → `typeface` (tooltip/button/tabs precedent),

@@ -205,7 +205,10 @@ const buildComponents = (c: Colors): ComponentThemes => ({
   // Overlap is a spacing token; the ring separates stacked avatars using the
   // surface color so groups read on any background.
   avatarGroup: { options: { overlap: 'sm', ringColor: 'surface', ringWidth: 2 } },
-  checkbox: { options: { size: 20 } },
+  // Selection controls: chrome colors are tokens (accent fill/ring follows the
+  // component's variant; its on-color pairs are derived in the component).
+  checkbox: { options: { size: 20, boxColor: 'surface' } },
+  radio: { options: { size: 20, ringColor: 'outline', fillColor: 'surface' } },
   dialog: {
     options: {
       borderRadius: 'lg',
@@ -499,7 +502,7 @@ const buildComponents = (c: Colors): ComponentThemes => ({
     options: { bottomPosition: 40, transitionDelay: '0.35s', autoCloseDelay: 35000 },
   },
   symbol: { options: { fill: 0, weight: 400, grade: 0, opticalSize: 24 } },
-  toggle: { options: { size: 20 } },
+  toggle: { options: { size: 20, trackColor: 'surface-variant', knobColor: 'surface' } },
   tooltip: {
     options: {
       border: undefined,

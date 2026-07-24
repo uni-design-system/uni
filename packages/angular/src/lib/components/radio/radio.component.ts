@@ -81,10 +81,14 @@ export class UniRadioComponent
         width: outerCircleSize,
         height: outerCircleSize,
         borderRadius: '50%',
-        border: `2px solid ${this.disabled() ? '#ccc' : '#d0d0d0'}`,
+        border: `2px solid ${
+          this.disabled()
+            ? this.getThemeColor('on-disabled')
+            : this.getThemeColor(this.componentOptions().ringColor ?? 'outline')
+        }`,
         position: 'relative',
         transition: 'all 0.3s ease',
-        backgroundColor: '#fff',
+        backgroundColor: this.getThemeColor(this.componentOptions().fillColor ?? 'surface'),
         flexShrink: 0,
       },
 
@@ -111,7 +115,7 @@ export class UniRadioComponent
         opacity: 0.6,
 
         '& .radio-button': {
-          borderColor: '#ccc',
+          borderColor: this.getThemeColor('on-disabled'),
         },
       },
     });

@@ -82,7 +82,7 @@ export class UniCheckboxComponent
       },
 
       '& .checkbox svg .checkbox-box': {
-        fill: '#FFF',
+        fill: this.getThemeColor(this.componentOptions().boxColor ?? 'surface'),
         stroke: this.getThemeColor(this.variant()),
         strokeWidth: 2,
         rx: this.componentOptions().borderRadius || 2,
@@ -90,9 +90,10 @@ export class UniCheckboxComponent
         transition: 'all 0.2s ease',
       },
 
+      // Check/dash draw on the variant-filled box, so they wear its on-color.
       '& .checkbox svg .checkbox-check': {
         fill: 'none',
-        stroke: '#FFF',
+        stroke: this.getOnColor(this.variant()),
         strokeWidth: 2,
         strokeLinecap: 'round',
         strokeLinejoin: 'round',
@@ -102,7 +103,7 @@ export class UniCheckboxComponent
       },
 
       '& .checkbox svg .checkbox-dash': {
-        stroke: '#FFF',
+        stroke: this.getOnColor(this.variant()),
         strokeWidth: 2,
         strokeLinecap: 'round',
         opacity: 0,
@@ -163,5 +164,11 @@ export class UniCheckboxComponent
   getThemeColor(token: ColorToken) {
     const colors = this.theme.colors();
     return colors[token] ? colors[token] : colors['primary'];
+  }
+
+  /** The content color paired with a variant fill (on-primary, on-warn, …). */
+  getOnColor(variant: ColorToken) {
+    const colors = this.theme.colors();
+    return colors[`on-${variant}`] ?? colors['on-primary'];
   }
 }

@@ -74,7 +74,9 @@ export class UniToggleComponent
       '& .toggle-switch': {
         width: toggleWidth,
         height: toggleSize,
-        backgroundColor: this.disabled() ? '#ccc' : '#e0e0e0',
+        backgroundColor: this.disabled()
+          ? this.getThemeColor('disabled')
+          : this.getThemeColor(this.componentOptions().trackColor ?? 'surface-variant'),
         borderRadius: toggleSize / 2,
         position: 'relative',
         transition: 'all 0.3s ease',
@@ -83,19 +85,20 @@ export class UniToggleComponent
       '& .toggle-slider': {
         width: sliderSize,
         height: sliderSize,
-        backgroundColor: '#fff',
+        backgroundColor: this.getThemeColor(this.componentOptions().knobColor ?? 'surface'),
         borderRadius: '50%',
         position: 'absolute',
         top: sliderOffset,
         left: sliderOffset,
         transition: 'all 0.3s ease',
-        boxShadow: '0 2px 4px rgba(0, 0, 0, 0.2)',
+        ...this.theme.boxShadow('raised'),
       },
 
+      // Hover darkens whatever the token resolves to — the button convention.
       '&:hover .toggle-switch': this.disabled()
         ? {}
         : {
-            backgroundColor: '#d0d0d0',
+            filter: 'brightness(0.95)',
           },
     });
   });
