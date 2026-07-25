@@ -51,5 +51,6 @@ export * from './symbol';
 export * from './tag';
 export * from './text';
 export * from './theme-builder';
+export * from './theme-switch';
 export * from './toggle';
 export * from './tooltip';

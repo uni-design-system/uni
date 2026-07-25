@@ -4,9 +4,12 @@
   [borderRadius]="componentOptions().borderRadius"
   [height]="componentOptions().height"
   alignItems="center"
-  paddingHorizontal="sm"
+  [paddingHorizontal]="componentOptions().paddingHorizontal ?? 'sm'"
 >
-  <div box-layout [width]="26"></div>
+  <!-- Balance spacer: only centered titles need to offset the close button. -->
+  @if ((componentOptions().textAlign || 'center') === 'center') {
+    <div box-layout [width]="26"></div>
+  }
   <div box-layout [grow]="1" [attr.id]="titleId">
     <span uni-text
       [typeface]="componentOptions().textRole"

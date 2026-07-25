@@ -1,0 +1,64 @@
+import { Meta, Title, Story } from '@storybook/addon-docs/blocks';
+import * as Stories from './theme-switch.stories';
+import { StoryUsage } from '../../../stories/blocks/StoryUsage';
+
+<Meta of={Stories} name="Documentation" />
+<Title />
+
+`import { UniThemeSwitchComponent } from '@uni-design-system/uni-angular';`
+
+## Overview
+
+Drop-in switcher for every theme registered via `UNI_THEMES`. Renders a `uni-select` over
+`ThemeService.themeOptions` and applies the choice through `ThemeService.selectTheme`, so the
+selection persists across reloads exactly like any other theme change. Use it wherever an app
+offers a theme choice — a settings page, an app-bar action, or a light/dark toggle backed by two
+registered themes. Because it reads the registry from the injected `UNI_THEMES` token, adding a
+new theme to the registry is all it takes for the switcher to offer it.
+
+<Story of={Stories.Primary} />
+
+## Usage
+
+<StoryUsage of={Stories.Primary} />
+
+### Basic Usage
+
+```html
+<uni-theme-switch />
+```
+
+### Reacting to changes
+
+```html
+<uni-theme-switch ariaLabel="Color theme" (themeChanged)="onTheme($event)" />
+```
+
+### Registering the themes it offers
+
+```ts
+// app.config.ts — the switcher lists whatever UNI_THEMES holds; first key is the default.
+import { UNI_THEMES } from '@uni-design-system/uni-angular';
+import { UniThemes } from '@uni-design-system/uni-core';
+import { BrandThemes } from './uni-theme';
+
+providers: [{ provide: UNI_THEMES, useValue: { ...UniThemes, ...BrandThemes } }];
+```
+
+## Do
+
+- Register every selectable theme in `UNI_THEMES`; the switcher derives its options from the registry.
+- Give the control a meaningful `ariaLabel` when "Theme" is ambiguous in context (e.g. "Editor color theme").
+- Use `themeChanged` for side effects like analytics or syncing a user preference to a backend.
+
+## Don't
+
+- Don't call `ThemeService.theme.set()` alongside the switcher — bypassing `selectTheme` skips persistence and leaves the select out of sync.
+- Don't hardcode theme ids in app logic; read `ThemeService.selectedThemeKey()` instead.
+- Don't use it for the palette-generation workflow — that's the Theme Builder; the switcher only picks among registered themes.
+
+## Accessibility
+
+- Built on a native `<select>` (via `uni-select`), so keyboard and screen-reader interaction come from the platform.
+- Exposes `ariaLabel` (default "Theme") as the accessible name for the control.
+- Theme changes restyle in place without moving focus or reloading, so context is preserved for assistive tech.

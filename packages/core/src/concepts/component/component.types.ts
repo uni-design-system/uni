@@ -19,6 +19,7 @@ export type ComponentName =
   | 'dataSearch'
   | 'dataTable'
   | 'dialog'
+  | 'dialogButtons'
   | 'dialogHeader'
   | 'drawer'
   | 'dropdown'

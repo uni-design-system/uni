@@ -1,6 +1,7 @@
 import {
   type ContainerColorToken,
   ContentColorToken,
+  type NullableSize,
   type Radius,
   Size,
   TextRole,
@@ -11,6 +12,8 @@ export interface UniDialogHeaderOptions {
   borderRadius?: Radius;
   color?: ContainerColorToken;
   height?: number;
+  /** Horizontal inset of the header row, as a spacing token. */
+  paddingHorizontal?: NullableSize;
   textRole: TextRole;
   textColor?: ContentColorToken;
   textAlign?: 'left' | 'center' | 'right';

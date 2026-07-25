@@ -1,13 +1,13 @@
 {
   "meta": {
     "version": "6.0.1",
-    "builtAt": "2026-07-24T15:08:54.365Z",
+    "builtAt": "2026-07-25T01:48:09.842Z",
     "frameworks": [
       "angular"
     ],
     "counts": {
-      "components": 70,
-      "tokens": 296,
+      "components": 71,
+      "tokens": 305,
       "themes": 2,
       "examples": 132
     }
@@ -1676,13 +1676,19 @@
               "kind": "input",
               "type": "Variant",
               "required": false,
-              "default": "'primary'",
               "description": ""
             },
             {
               "name": "cancelButtonText",
               "kind": "input",
               "type": "string",
+              "required": false,
+              "description": ""
+            },
+            {
+              "name": "cancelButtonVariant",
+              "kind": "input",
+              "type": "Variant",
               "required": false,
               "description": ""
             },
@@ -1698,7 +1704,6 @@
               "kind": "input",
               "type": "NullableSize",
               "required": false,
-              "default": "'md'",
               "description": ""
             },
             {
@@ -1706,7 +1711,6 @@
               "kind": "input",
               "type": "NullableSize",
               "required": false,
-              "default": "'lg'",
               "description": ""
             },
             {
@@ -1714,7 +1718,6 @@
               "kind": "input",
               "type": "JustifyContent",
               "required": false,
-              "default": "'center'",
               "description": ""
             },
             {
@@ -5253,6 +5256,58 @@
       "relatedTokens": []
     },
     {
+      "id": "theme-switch",
+      "name": "ThemeSwitch",
+      "status": "stable",
+      "summary": "",
+      "description": "",
+      "category": "components",
+      "version": "6.0.1",
+      "bindings": {
+        "angular": {
+          "importPath": "@uni-design-system/uni-angular",
+          "selectorOrTag": "uni-theme-switch",
+          "api": [
+            {
+              "name": "ariaLabel",
+              "kind": "input",
+              "type": "string",
+              "required": false,
+              "default": "'Theme'",
+              "description": "Accessible name for the underlying select."
+            },
+            {
+              "name": "themeChanged",
+              "kind": "output",
+              "type": "ThemeName",
+              "required": false,
+              "description": "Emits the selected theme key after it has been applied."
+            }
+          ]
+        }
+      },
+      "examples": [],
+      "guidelines": {
+        "whenToUse": "Drop-in switcher for every theme registered via `UNI_THEMES`. Renders a `uni-select` over\n`ThemeService.themeOptions` and applies the choice through `ThemeService.selectTheme`, so the\nselection persists across reloads exactly like any other theme change. Use it wherever an app\noffers a theme choice — a settings page, an app-bar action, or a light/dark toggle backed by two\nregistered themes. Because it reads the registry from the injected `UNI_THEMES` token, adding a\nnew theme to the registry is all it takes for the switcher to offer it.",
+        "dos": [
+          "Register every selectable theme in `UNI_THEMES`; the switcher derives its options from the registry.",
+          "Give the control a meaningful `ariaLabel` when \"Theme\" is ambiguous in context (e.g. \"Editor color theme\").",
+          "Use `themeChanged` for side effects like analytics or syncing a user preference to a backend."
+        ],
+        "donts": [
+          "Don't call `ThemeService.theme.set()` alongside the switcher — bypassing `selectTheme` skips persistence and leaves the select out of sync.",
+          "Don't hardcode theme ids in app logic; read `ThemeService.selectedThemeKey()` instead.",
+          "Don't use it for the palette-generation workflow — that's the Theme Builder; the switcher only picks among registered themes."
+        ],
+        "accessibility": [
+          "Built on a native `<select>` (via `uni-select`), so keyboard and screen-reader interaction come from the platform.",
+          "Exposes `ariaLabel` (default \"Theme\") as the accessible name for the control.",
+          "Theme changes restyle in place without moving focus or reloading, so context is preserved for assistive tech."
+        ]
+      },
+      "relatedTokens": []
+    },
+    {
       "id": "toggle",
       "name": "Toggle",
       "status": "stable",
@@ -6425,13 +6480,13 @@
     },
     {
       "id": "spacing.none",
-      "value": "none",
+      "value": 0,
       "type": "spacing",
       "kind": "style",
       "target": "emotion-css",
       "themeValues": {
-        "LightTheme": "none",
-        "DarkTheme": "none"
+        "LightTheme": 0,
+        "DarkTheme": 0
       }
     },
     {
@@ -7488,6 +7543,114 @@
       "themeValues": {
         "LightTheme": "{\"background\":\"rgba(255, 255, 255, 0.6)\",\"backdropFilter\":\"blur(2px)\"}",
         "DarkTheme": "{\"background\":\"rgba(255, 255, 255, 0.6)\",\"backdropFilter\":\"blur(2px)\"}"
+      }
+    },
+    {
+      "id": "dialogButtons.behavior.gap",
+      "value": "md",
+      "type": "string",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "dialogButtons",
+      "themeValues": {
+        "LightTheme": "md",
+        "DarkTheme": "md"
+      }
+    },
+    {
+      "id": "dialogButtons.behavior.padding",
+      "value": "md",
+      "type": "string",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "dialogButtons",
+      "themeValues": {
+        "LightTheme": "md",
+        "DarkTheme": "md"
+      }
+    },
+    {
+      "id": "dialogButtons.behavior.paddingBottom",
+      "value": "lg",
+      "type": "string",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "dialogButtons",
+      "themeValues": {
+        "LightTheme": "lg",
+        "DarkTheme": "lg"
+      }
+    },
+    {
+      "id": "dialogButtons.behavior.justifyContent",
+      "value": "center",
+      "type": "string",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "dialogButtons",
+      "themeValues": {
+        "LightTheme": "center",
+        "DarkTheme": "center"
+      }
+    },
+    {
+      "id": "dialogButtons.behavior.confirmButtonVariant",
+      "value": "primary",
+      "type": "string",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "dialogButtons",
+      "themeValues": {
+        "LightTheme": "primary",
+        "DarkTheme": "primary"
+      }
+    },
+    {
+      "id": "dialogButtons.behavior.cancelButtonVariant",
+      "value": "warn",
+      "type": "string",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "dialogButtons",
+      "themeValues": {
+        "LightTheme": "warn",
+        "DarkTheme": "warn"
+      }
+    },
+    {
+      "id": "dialogButtons.behavior.buttonSize",
+      "value": "lg",
+      "type": "string",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "dialogButtons",
+      "themeValues": {
+        "LightTheme": "lg",
+        "DarkTheme": "lg"
+      }
+    },
+    {
+      "id": "dialogButtons.behavior.stretch",
+      "value": false,
+      "type": "boolean",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "dialogButtons",
+      "themeValues": {
+        "LightTheme": false,
+        "DarkTheme": false
+      }
+    },
+    {
+      "id": "dialogButtons.behavior.reverseOrder",
+      "value": false,
+      "type": "boolean",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "dialogButtons",
+      "themeValues": {
+        "LightTheme": false,
+        "DarkTheme": false
       }
     },
     {
@@ -9020,7 +9183,7 @@
         "radius.md": "24px",
         "radius.lg": "32px",
         "radius.max": "999px",
-        "spacing.none": "none",
+        "spacing.none": 0,
         "spacing.xxs": "2px",
         "spacing.xs": "4px",
         "spacing.sm": "8px",
@@ -9134,6 +9297,17 @@
           "padding": "sm",
           "elevation": "dialog",
           "backdrop": "{\"background\":\"rgba(255, 255, 255, 0.6)\",\"backdropFilter\":\"blur(2px)\"}"
+        },
+        "dialogButtons": {
+          "gap": "md",
+          "padding": "md",
+          "paddingBottom": "lg",
+          "justifyContent": "center",
+          "confirmButtonVariant": "primary",
+          "cancelButtonVariant": "warn",
+          "buttonSize": "lg",
+          "stretch": false,
+          "reverseOrder": false
         },
         "dialogHeader": {
           "borderRadius": "max",
@@ -9390,7 +9564,7 @@
         "radius.md": "24px",
         "radius.lg": "32px",
         "radius.max": "999px",
-        "spacing.none": "none",
+        "spacing.none": 0,
         "spacing.xxs": "2px",
         "spacing.xs": "4px",
         "spacing.sm": "8px",
@@ -9504,6 +9678,17 @@
           "padding": "sm",
           "elevation": "dialog",
           "backdrop": "{\"background\":\"rgba(255, 255, 255, 0.6)\",\"backdropFilter\":\"blur(2px)\"}"
+        },
+        "dialogButtons": {
+          "gap": "md",
+          "padding": "md",
+          "paddingBottom": "lg",
+          "justifyContent": "center",
+          "confirmButtonVariant": "primary",
+          "cancelButtonVariant": "warn",
+          "buttonSize": "lg",
+          "stretch": false,
+          "reverseOrder": false
         },
         "dialogHeader": {
           "borderRadius": "max",

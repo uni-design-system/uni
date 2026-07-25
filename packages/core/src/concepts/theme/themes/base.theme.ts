@@ -107,7 +107,9 @@ const BaseShadows: Shadows = {
 };
 
 const BaseSpacing: Spacing = {
-  none: 'none',
+  // 0, not 'none': `padding: none` is invalid CSS and gets dropped, which let
+  // user-agent defaults (e.g. <dialog>'s 1em padding) leak through the token.
+  none: 0,
   xxs: '2px',
   xs: '4px',
   sm: '8px',
@@ -230,6 +232,22 @@ const buildComponents = (c: Colors): ComponentThemes => ({
       padding: 'sm',
       elevation: 'dialog',
       backdrop: { background: 'rgba(255, 255, 255, 0.6)', backdropFilter: 'blur(2px)' },
+    },
+  },
+  // Footer action row: every layout knob is a token so a theme can move from
+  // the default centered pill pair to e.g. Carbon-style full-bleed halves
+  // (stretch + reverseOrder + 'none' spacing) without touching the component.
+  dialogButtons: {
+    options: {
+      gap: 'md',
+      padding: 'md',
+      paddingBottom: 'lg',
+      justifyContent: 'center',
+      confirmButtonVariant: 'primary',
+      cancelButtonVariant: 'warn',
+      buttonSize: 'lg',
+      stretch: false,
+      reverseOrder: false,
     },
   },
   dialogHeader: {
