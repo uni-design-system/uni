@@ -19,6 +19,18 @@ However, it is possible to statically set the icon color.
 
 <StoryUsage of={Stories.Primary} />
 
+## The icon set
+
+The built-in set is Material Symbols Outlined at weight 300, normalized to a single
+`0 -960 960 960` grid so every glyph shares one optical weight. Names are flat camelCase
+and grouped by intent — navigation (`menu`, `chevronDown`, `arrowLeft`, `externalLink`),
+actions (`search`, `close`, `edit`, `delete`, `share`, `filter`), feedback (`checkCircle`,
+`warning`, `alertCircle`, `lock`) and user/system (`profile`, `settings`, `notification`).
+
+`IconName` autocompletes the built-ins while still accepting any name a theme adds
+through `createTheme({ icons })`. The set is generated — regenerate it rather than
+hand-editing `BaseIcons`.
+
 ## Accessibility
 
 - Icons are decorative (`aria-hidden`) — the parent control carries the accessible name.

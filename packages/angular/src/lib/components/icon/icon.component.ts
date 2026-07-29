@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, computed, inject, input } from '@an
 import { css } from '@emotion/css';
 
 import { ThemeService } from '../../theming/theme.service';
-import type { ColorToken, Icons } from '@uni-design-system/uni-core';
+import type { ColorToken, IconName } from '@uni-design-system/uni-core';
 
 @Component({
   selector: 'uni-icon',
@@ -22,7 +22,7 @@ export class UniIconComponent {
   private themeService = inject(ThemeService);
 
   color = input<ColorToken>();
-  name = input.required<keyof Icons>();
+  name = input.required<IconName>();
 
   /** Resolved from the theme's icon primitives; unknown names render nothing. */
   protected readonly path = computed(() => {
