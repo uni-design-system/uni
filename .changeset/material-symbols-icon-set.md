@@ -4,7 +4,7 @@
 '@uni-design-system/uni-mcp': minor
 ---
 
-Replace `BaseIcons` with a normalized 34-icon Material Symbols set
+Replace `BaseIcons` with a normalized 59-icon Material Symbols set
 
 The built-in icon set was 11 glyphs drawn from four different grids
 (`0 0 24 24`, `0 0 50 50`, `0 0 64 64`, `0 -960 960 960`), so `checkCircle` and
@@ -13,15 +13,30 @@ oversized `close` — three optical weights in one set.
 
 - `BaseIcons` is now Material Symbols Outlined at weight 300, every glyph on a
   single `0 -960 960 960` grid, grouped by intent: navigation (`menu`,
-  `chevronUp/Down/Left/Right`, `arrowLeft/Right`, `home`, `externalLink`),
-  actions (`search`, `close`, `plus`, `minus`, `more`, `delete`, `edit`,
-  `download`, `upload`, `share`, `filter`), feedback (`check`, `checkCircle`,
-  `xCircle`, `alertCircle`, `info`, `warning`, `lock`) and user/system
-  (`profile`, `settings`, `notification`, `favorite`, `help`, `calendar`).
+  `chevronUp/Down/Left/Right`, `arrowLeft/Right`, `home`, `externalLink`,
+  `link`, `expand`, `gridView`, `listView`), actions (`search`, `close`,
+  `plus`, `minus`, `more`, `moreHorizontal`, `delete`, `edit`, `copy`,
+  `download`, `upload`, `share`, `send`, `filter`, `refresh`, `dragHandle`,
+  `qrCode`), feedback (`check`, `checkCircle`, `xCircle`, `alertCircle`,
+  `info`, `warning`, `lock`, `star`, `verified`) and user/system (`profile`,
+  `group`, `shieldPerson`, `settings`, `notification`, `favorite`, `help`,
+  `calendar`, `clock`, `mail`, `chat`, `image`, `document`, `payment`, `bank`,
+  `trendingUp`, `extension`, `webhook`, `logout`).
+- The set is sized to cover a real application, not just the library's own
+  components — it is what lets an app drop inline `<svg>` and, in Angular,
+  retire `uni-symbol` (which waits on a variable font and so renders late)
+  in favour of `uni-icon`, whose mask paints on the first frame.
 - All 11 previously shipped names are preserved, so existing `<uni-icon>` call
   sites and theme overrides keep working. Their **appearance changes**: the
   filled `checkCircle`/`xCircle` are now outlined, and the set reads lighter
   overall. `spinner` is carried over verbatim, keyframes intact.
+- `uni-icon` gains an optional `size` input (`CssLength` — bare numbers are px,
+  strings pass through). Unset, nothing changes: the icon still fills its
+  container, which is what lets a themed control size its own glyph through
+  padding. Set, it applies width/height as inline styles so it beats the
+  fill-the-container rule regardless of style injection order. This removes the
+  per-call-site `width`/`height` CSS rule that migrating an inline `<svg>` to
+  `<uni-icon>` would otherwise need.
 - New `IconName` and `BaseIconName` types. `IconName` is
   `BaseIconName | (string & {})`, so built-ins autocomplete and typos surface
   while themes can still register arbitrary names via `createTheme({ icons })`.

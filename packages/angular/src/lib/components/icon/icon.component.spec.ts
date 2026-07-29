@@ -25,4 +25,44 @@ describe('UniIconComponent', () => {
       'none'
     );
   });
+
+  describe('size', () => {
+    const host = () => fixture.nativeElement as HTMLElement;
+
+    it('sets no inline size by default, so the icon fills its container', () => {
+      // The container-driven default is what lets a themed control size its
+      // own glyph through padding — setting a size here would break that.
+      expect(host().style.width).toBe('');
+      expect(host().style.height).toBe('');
+    });
+
+    it('treats a bare number as px', () => {
+      fixture.componentRef.setInput('size', 20);
+      fixture.detectChanges();
+      expect(host().style.width).toBe('20px');
+      expect(host().style.height).toBe('20px');
+    });
+
+    it('passes a CSS length string through untouched', () => {
+      fixture.componentRef.setInput('size', '1.25rem');
+      fixture.detectChanges();
+      expect(host().style.width).toBe('1.25rem');
+      expect(host().style.height).toBe('1.25rem');
+    });
+
+    it('reverts to filling the container when the size is cleared', () => {
+      fixture.componentRef.setInput('size', 20);
+      fixture.detectChanges();
+      fixture.componentRef.setInput('size', undefined);
+      fixture.detectChanges();
+      expect(host().style.width).toBe('');
+      expect(host().style.height).toBe('');
+    });
+
+    it('keeps masking and colour intact when sized', () => {
+      fixture.componentRef.setInput('size', 16);
+      fixture.detectChanges();
+      expect(host().style.getPropertyValue('mask-image')).toContain('data:image/svg+xml');
+    });
+  });
 });

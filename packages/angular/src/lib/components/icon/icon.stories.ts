@@ -1,31 +1,37 @@
 import { Meta, StoryObj, moduleMetadata } from '@storybook/angular';
 
 import { UniIconComponent as Icon } from './icon.component';
-import { icons } from './icon.record';
+import { BaseIcons } from '@uni-design-system/uni-core';
 import type { ContainerColorToken } from '@uni-design-system/uni-core';
 import { UniBoxComponent } from '../layout';
 
-type StoryType = Icon & { size?: number; containerColor?: ContainerColorToken };
+type StoryType = Icon & { containerSize?: number; containerColor?: ContainerColorToken };
 
 const meta: Meta<StoryType> = {
   title: 'Components/Icon',
   component: Icon,
   render: (args) => {
-    const { name, color, size } = args;
+    const { name, color, size, containerSize } = args;
     return {
       undefined,
       template: `
-          <div box-layout height="${size}px">
-            <uni-icon name="${name}" color="${color}" />
+          <div box-layout height="${containerSize}px">
+            <uni-icon name="${name}" color="${color}" ${size ? `size="${size}"` : ''} />
           </div>
       `,
     };
   },
   decorators: [moduleMetadata({ imports: [UniBoxComponent] })],
   argTypes: {
-    size: {
-      description: 'Adjust the size of the container to se how the icon will scale.',
+    containerSize: {
+      description: 'Size of the surrounding box. With no `size` set, the icon scales to fill it.',
       control: { type: 'range', min: 20, max: 56, step: 4 },
+    },
+    size: {
+      description:
+        'Explicit square size for the icon itself, overriding the container. Numbers are px; ' +
+        'strings pass through (`1.25rem`). Leave empty to fill the container.',
+      control: { type: 'text' },
     },
     containerColor: {
       description:
@@ -41,7 +47,7 @@ const meta: Meta<StoryType> = {
     },
     name: {
       description: 'The name of the icon to display.',
-      options: Object.keys(icons),
+      options: Object.keys(BaseIcons),
       control: { type: 'select' },
     },
     color: {
@@ -50,7 +56,7 @@ const meta: Meta<StoryType> = {
     },
   },
   args: {
-    size: 48,
+    containerSize: 48,
     containerColor: 'primary-container',
     name: 'checkCircle',
   },
@@ -59,8 +65,21 @@ const meta: Meta<StoryType> = {
 export default meta;
 type Story = StoryObj<StoryType>;
 
+/** The default: no `size`, so the icon grows to whatever box holds it. */
 export const Primary: Story = {
   args: {
     name: 'checkCircle',
+  },
+};
+
+/**
+ * With `size` set, the icon ignores the container box — useful at call sites
+ * that would otherwise need a width/height rule just to size one glyph.
+ */
+export const ExplicitSize: Story = {
+  args: {
+    name: 'checkCircle',
+    size: 20,
+    containerSize: 48,
   },
 };

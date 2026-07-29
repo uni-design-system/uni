@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, computed, inject, input } from '@an
 import { css } from '@emotion/css';
 
 import { ThemeService } from '../../theming/theme.service';
-import type { ColorToken, IconName } from '@uni-design-system/uni-core';
+import type { ColorToken, CssLength, IconName } from '@uni-design-system/uni-core';
 
 @Component({
   selector: 'uni-icon',
@@ -16,6 +16,10 @@ import type { ColorToken, IconName } from '@uni-design-system/uni-core';
     '[class]': 'className()',
     '[style.mask-image]': 'path()',
     '[style.-webkit-mask-image]': 'path()',
+    // Inline styles, so an explicit size always beats the fill-the-container
+    // rule in the stylesheet regardless of style injection order.
+    '[style.width]': 'sizeValue()',
+    '[style.height]': 'sizeValue()',
   },
 })
 export class UniIconComponent {
@@ -24,10 +28,28 @@ export class UniIconComponent {
   color = input<ColorToken>();
   name = input.required<IconName>();
 
+  /**
+   * Explicit square size. Bare numbers are px; strings pass through, so any CSS
+   * length works (`'1.25rem'`, `'1em'`, `'clamp(…)'`).
+   *
+   * Leave it unset to keep the default behaviour — the icon fills its
+   * container, which is what lets a themed control size its own glyph through
+   * padding. Set it at call sites that would otherwise need a width/height
+   * rule just to size one icon.
+   */
+  size = input<CssLength>();
+
   /** Resolved from the theme's icon primitives; unknown names render nothing. */
   protected readonly path = computed(() => {
     const icon = this.themeService.theme().icons[this.name()];
     return icon ? `url("${icon}")` : 'none';
+  });
+
+  /** `null` leaves the styles off entirely, falling back to the stylesheet. */
+  protected readonly sizeValue = computed(() => {
+    const size = this.size();
+    if (size === undefined || size === null || size === '') return null;
+    return typeof size === 'number' ? `${size}px` : size;
   });
 
   protected readonly className = computed(() =>

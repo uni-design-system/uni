@@ -1,7 +1,7 @@
 {
   "meta": {
     "version": "6.1.0",
-    "builtAt": "2026-07-24T17:43:21.929Z",
+    "builtAt": "2026-07-29T17:52:27.299Z",
     "frameworks": [
       "angular"
     ],
@@ -2038,7 +2038,7 @@
         {
           "title": "Primary",
           "framework": "angular",
-          "code": "<!-- Storybook story: Primary -->\n<uni-card>\n<uni-card-header title=\"Expandable Card\"><uni-expand-toggle #toggle /></uni-card-header>\n<uni-expand [collapsed]=\"toggle.collapsed()\">\n  <uni-card-content>\n    <span uni-text>${ngContent}</span>\n  </uni-card-content>\n</uni-expand>\n</uni-card>\n<!-- args:\n{\n    collapsed: false,\n    ngContent: 'Expandable Content',\n  }\n-->"
+          "code": "<!-- Storybook story: Primary -->\n<uni-card>\n<uni-card-header title=\"Expandable Card\"><uni-expand-toggle #toggle /></uni-card-header>\n<uni-expand [collapsed]=\"toggle.collapsed()\">\n  <uni-card-content>\n    <span uni-text>${ngContent}</span>\n  </uni-card-content>\n</uni-expand>\n</uni-card>\n<!-- args:\n{\n    ngContent: 'Expandable Content',\n  }\n-->"
         }
       ],
       "guidelines": {
@@ -2074,9 +2074,9 @@
             {
               "name": "initCollapsed",
               "kind": "input",
-              "type": "boolean",
+              "type": "unknown",
               "required": false,
-              "default": "false",
+              "default": "false, { transform: booleanAttribute }",
               "description": ""
             },
             {
@@ -2101,7 +2101,7 @@
         {
           "title": "Primary",
           "framework": "angular",
-          "code": "<!-- Storybook story: Primary -->\n<uni-expand-area title=\"${title}\" padding=\"${padding}\" initCollapsed=\"${initCollapsed}\" #expandArea>\n  <button text-button (click)=\"expandArea.toggleExpand()\" size=\"md\" variant=\"ghost\" symbolLeft=\"collapse_all\">Collapse area</button>\n</uni-expand-area>\n<!-- args:\n{\n    title: 'Expand Area Title',\n    padding: 'sm',\n    initCollapsed: true,\n  }\n-->"
+          "code": "<!-- Storybook story: Primary -->\n<uni-expand-area title=\"${title}\" padding=\"${padding}\" [initCollapsed]=\"initCollapsed\" #expandArea>\n  <button text-button (click)=\"expandArea.toggleExpand()\" size=\"md\" variant=\"ghost\" symbolLeft=\"collapse_all\">Collapse area</button>\n</uni-expand-area>\n<!-- args:\n{\n    title: 'Expand Area Title',\n    padding: 'sm',\n    initCollapsed: true,\n  }\n-->"
         }
       ],
       "guidelines": {
@@ -2417,9 +2417,16 @@
             {
               "name": "name",
               "kind": "input",
-              "type": "keyof Icons",
+              "type": "IconName",
               "required": true,
               "description": ""
+            },
+            {
+              "name": "size",
+              "kind": "input",
+              "type": "CssLength",
+              "required": false,
+              "description": "Explicit square size. Bare numbers are px; strings pass through, so any CSS length works (`'1.25rem'`, `'1em'`, `'clamp(…)'`). Leave it unset to keep the default behaviour — the icon fills its container, which is what lets a themed control size its own glyph through padding. Set it at call sites that would otherwise need a width/height rule just to size one icon."
             }
           ]
         }
@@ -2428,11 +2435,11 @@
         {
           "title": "Primary",
           "framework": "angular",
-          "code": "<!-- Storybook story: Primary -->\n<div box-layout height=\"${size}px\">\n    <uni-icon name=\"${name}\" color=\"${color}\" />\n  </div>\n<!-- args:\n{\n    name: 'checkCircle',\n  }\n-->"
+          "code": "<!-- Storybook story: Primary -->\n<div box-layout height=\"${containerSize}px\">\n    <uni-icon name=\"${name}\" color=\"${color}\" ${size ?\n<!-- args:\n{\n    name: 'checkCircle',\n  }\n-->"
         }
       ],
       "guidelines": {
-        "whenToUse": "Icons are adaptive svg images. Instead of defining a size or color attributes, Icons\nwill grow to the space allotted to them and use the current color of its parent element.\nHowever, it is possible to statically set the icon color.",
+        "whenToUse": "Icons are adaptive svg images. By default they grow to the space allotted to them and\nuse the current color of the parent element — so a themed control can size its own glyph\nthrough padding, and recoloring the container recolors the icon.\nBoth defaults can be overridden:\n- `color` statically sets the icon color, ignoring `currentColor`.\n- `size` sets an explicit square size, for call sites that would otherwise need a\n  width/height CSS rule just to size one icon. Bare numbers are px; strings pass\n  through, so any CSS length works.\n```html\n```\nLeave `size` off wherever the container already defines the box — that is still the\npreferred form, and it is what keeps a themed `icon-button` in control of its glyph.",
         "dos": [],
         "donts": [],
         "accessibility": [
@@ -5262,7 +5269,7 @@
       "summary": "",
       "description": "",
       "category": "components",
-      "version": "6.0.1",
+      "version": "6.1.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",

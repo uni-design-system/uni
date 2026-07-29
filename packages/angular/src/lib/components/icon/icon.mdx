@@ -10,10 +10,27 @@ import { StoryUsage } from '../../../stories/blocks/StoryUsage';
 
 ## Overview
 
-Icons are adaptive svg images. Instead of defining a size or color attributes, Icons
-will grow to the space allotted to them and use the current color of its parent element.
+Icons are adaptive svg images. By default they grow to the space allotted to them and
+use the current color of the parent element — so a themed control can size its own glyph
+through padding, and recoloring the container recolors the icon.
 
-However, it is possible to statically set the icon color.
+Both defaults can be overridden:
+
+- `color` statically sets the icon color, ignoring `currentColor`.
+- `size` sets an explicit square size, for call sites that would otherwise need a
+  width/height CSS rule just to size one icon. Bare numbers are px; strings pass
+  through, so any CSS length works.
+
+```html
+<uni-icon name="search" />
+<!-- fills its container -->
+<uni-icon name="search" size="20" />
+<!-- 20px -->
+<uni-icon name="search" size="1.25rem" color="primary" />
+```
+
+Leave `size` off wherever the container already defines the box — that is still the
+preferred form, and it is what keeps a themed `icon-button` in control of its glyph.
 
 ## Usage
 
