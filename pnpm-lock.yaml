@@ -192,6 +192,9 @@ importers:
       '@uni-design-system/tsconfig':
         specifier: workspace:*
         version: link:../tsconfig
+      prettier:
+        specifier: ^3.8.3
+        version: 3.8.3
       typescript:
         specifier: ^5.0.0
         version: 5.9.3
