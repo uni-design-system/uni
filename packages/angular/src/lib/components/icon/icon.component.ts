@@ -49,7 +49,13 @@ export class UniIconComponent {
   protected readonly sizeValue = computed(() => {
     const size = this.size();
     if (size === undefined || size === null || size === '') return null;
-    return typeof size === 'number' ? `${size}px` : size;
+    if (typeof size === 'number') return `${size}px`;
+
+    // A static attribute (`size="24"`) arrives as a string, so a bare number
+    // has to mean px here too — otherwise it emits the invalid `width: 24`,
+    // which the browser drops, silently falling back to filling the container.
+    const trimmed = size.trim();
+    return /^-?\d*\.?\d+$/.test(trimmed) ? `${trimmed}px` : trimmed;
   });
 
   protected readonly className = computed(() =>

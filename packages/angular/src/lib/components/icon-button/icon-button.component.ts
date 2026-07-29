@@ -18,7 +18,7 @@ import type { RadiiSize, Size, Variant } from '@uni-design-system/uni-core';
     } @else if (symbolName()) {
       <uni-symbol [name]="symbolName()!" [opticalSize]="opticalSize()" />
     } @else if (iconName()) {
-      <uni-icon [name]="iconName()!" />
+      <uni-icon [name]="iconName()!" [size]="glyphSize()" />
     }
     <!-- Projected text is the button's accessible name (visually hidden) -->
     <span [class]="srOnlyClass"><ng-content /></span>
@@ -52,6 +52,21 @@ export class UniIconButtonComponent {
   opticalSize = input(24);
 
   protected readonly srOnlyClass = css(visuallyHidden);
+
+  /**
+   * Sizes `iconName` from the size token's `fontSize`, the same value that sizes
+   * a `symbolName` ligature — so the two paths render the same glyph size and
+   * `symbolName` → `iconName` is a like-for-like swap. Without it a masked icon
+   * fills the whole button box, since the base size tokens carry no padding.
+   * Themes that do use padding (Carbon) set a matching `fontSize`, so they land
+   * on the same glyph either way.
+   */
+  protected readonly glyphSize = computed(() => {
+    // Size tokens are Emotion style objects, so `fontSize` is typed wider than
+    // a CSS length; anything exotic falls back to filling the button as before.
+    const fontSize = this.config().sizes?.[this.size()]?.fontSize;
+    return typeof fontSize === 'number' || typeof fontSize === 'string' ? fontSize : undefined;
+  });
 
   protected readonly className = computed(() => {
     const { sizes, variants } = this.config();

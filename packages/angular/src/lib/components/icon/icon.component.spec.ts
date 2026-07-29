@@ -50,6 +50,40 @@ describe('UniIconComponent', () => {
       expect(host().style.height).toBe('1.25rem');
     });
 
+    /**
+     * `size="24"` in a template is a static attribute, so it arrives as a
+     * string. Treating it as unitless emitted the invalid `width: 24`, which the
+     * browser drops — the icon then silently filled its container instead, and
+     * collapsed to nothing inside a content-sized flex row.
+     */
+    it('treats a bare numeric string as px, like the static attribute form', () => {
+      fixture.componentRef.setInput('size', '24');
+      fixture.detectChanges();
+      expect(host().style.width).toBe('24px');
+      expect(host().style.height).toBe('24px');
+    });
+
+    it('handles a fractional numeric string and stray whitespace', () => {
+      fixture.componentRef.setInput('size', ' 13.5 ');
+      fixture.detectChanges();
+      expect(host().style.width).toBe('13.5px');
+    });
+
+    it.each(['1.25rem', '2em', '50%'])('leaves the CSS length %s alone', (value) => {
+      fixture.componentRef.setInput('size', value);
+      fixture.detectChanges();
+      expect(host().style.width).toBe(value);
+    });
+
+    it('does not px-suffix a function-valued length', () => {
+      // Exact serialisation is the DOM's business — browsers reorder `calc()`
+      // terms — so assert only that the value survives as a function.
+      fixture.componentRef.setInput('size', 'calc(1rem + 2px)');
+      fixture.detectChanges();
+      expect(host().style.width).toContain('calc(');
+      expect(host().style.width).not.toMatch(/^\d+px$/);
+    });
+
     it('reverts to filling the container when the size is cleared', () => {
       fixture.componentRef.setInput('size', 20);
       fixture.detectChanges();
