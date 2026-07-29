@@ -1,5 +1,7 @@
 # @uni-design-system/uni-react
 
+## 7.1.0
+
 ## 7.0.0
 
 ## 6.1.0
