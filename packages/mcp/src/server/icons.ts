@@ -90,11 +90,24 @@ export function formatIconTokens(icons: IconTokenInput[]): string {
   out.push('');
 
   if (encoded.length) {
+    // Apps routinely hand-draw their own `close`, `check` or `plus`. Encoding
+    // those into tokens works, but adds redundant artwork on a foreign grid
+    // when the theme already ships the glyph. Names alone cannot detect it —
+    // the caller has to recognise the shape — so list what is already there.
+    out.push('## First: are any of these already built in?');
+    out.push('');
+    out.push('Every theme ships these icons. If a glyph below *depicts* one of them, do not');
+    out.push('add a token — delete the inline `<svg>` and use `<uni-icon name="…" />` with the');
+    out.push('built-in name. Only genuinely app-specific artwork belongs in `icons`.');
+    out.push('');
+    out.push(`> ${Object.keys(BaseIcons).join(', ')}`);
+    out.push('');
+
     out.push('## Add to `uni-theme.ts`');
     out.push('');
-    out.push('Merge these into the `icons` const. They are merged over the built-in set per');
-    out.push('name, then rendered anywhere with `<uni-icon name="…" />` — delete the inline');
-    out.push('`<svg>` from the component.');
+    out.push('Merge whatever survives that check into the `icons` const. They are merged over');
+    out.push('the built-in set per name, then rendered anywhere with `<uni-icon name="…" />` —');
+    out.push('delete the inline `<svg>` from the component.');
     out.push('');
     out.push('```ts');
     out.push('const icons: Icons = {');

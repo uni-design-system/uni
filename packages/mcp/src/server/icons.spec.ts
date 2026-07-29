@@ -128,6 +128,24 @@ describe('formatIconTokens', () => {
     expect(formatIconTokens([{ name: 'a', svg: mark() }])).toContain('monochrome');
   });
 
+  it('lists the built-in icons so redundant tokens are caught before they are added', () => {
+    // Apps hand-draw their own close/check/plus constantly. The tool cannot
+    // recognise the shape, so it has to hand the caller the list to check
+    // against — otherwise a migration silently duplicates the built-in set.
+    const out = formatIconTokens([{ name: 'myClose', svg: mark() }]);
+
+    expect(out).toContain('already built in');
+    for (const name of ['check', 'close', 'plus', 'search', 'download', 'warning']) {
+      expect(out).toContain(name);
+    }
+    expect(out).toMatch(/use `<uni-icon name="…" \/>` with the\s*built-in name/);
+  });
+
+  it('omits the built-in check when nothing encoded', () => {
+    const out = formatIconTokens([{ name: 'broken', svg: '<div>nope</div>' }]);
+    expect(out).not.toContain('already built in');
+  });
+
   it('guides the caller when handed nothing', () => {
     expect(formatIconTokens([])).toContain('No icons supplied');
   });
