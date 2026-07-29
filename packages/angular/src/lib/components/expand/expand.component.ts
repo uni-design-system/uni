@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, model } from '@angular/core';
+import { afterNextRender, ChangeDetectionStrategy, Component, model, signal } from '@angular/core';
 import { css, keyframes } from '@emotion/css';
 import { collapseFadeOut, expandFadeIn } from '@uni-design-system/uni-core';
 import { uniqueId } from '../../cdk';
@@ -9,7 +9,7 @@ import { uniqueId } from '../../cdk';
   imports: [],
   template: `@if (!collapsed()) {
     <div
-      [animate.enter]="expandAnimation"
+      [animate.enter]="ready() ? expandAnimation : ''"
       [animate.leave]="collapseAnimation"
       [class]="expandClassName"
     >
@@ -27,6 +27,17 @@ export class UniExpandComponent {
 
   /** Referenced by the controlling toggle's aria-controls. */
   readonly regionId = uniqueId('uni-expand');
+
+  /**
+   * animate.enter has no initial-render guard, so an expand initialized with
+   * collapsed = false would play the enter animation on load. Enable
+   * animations only after the first render, i.e. on real state changes.
+   */
+  protected readonly ready = signal(false);
+
+  constructor() {
+    afterNextRender(() => this.ready.set(true));
+  }
 
   toggle() {
     this.collapsed.update((collapsed) => !collapsed);

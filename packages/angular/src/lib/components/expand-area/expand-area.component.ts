@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, input, output, viewChild } from '@angular/core';
+import { booleanAttribute, ChangeDetectionStrategy, Component, input, output, viewChild } from '@angular/core';
 import type { NullableSize } from '@uni-design-system/uni-core';
 import { UniExpandToggleComponent } from '../expand-toggle/expand-toggle.component';
 import { UniExpandComponent } from '../expand/expand.component';
@@ -46,7 +46,7 @@ import { UniTextComponent } from '../text/text.component';
 })
 export class UniExpandAreaComponent {
   title = input.required<string>();
-  initCollapsed = input(false);
+  initCollapsed = input(false, { transform: booleanAttribute });
   padding = input<NullableSize>('md');
 
   collapsed = output<boolean>();

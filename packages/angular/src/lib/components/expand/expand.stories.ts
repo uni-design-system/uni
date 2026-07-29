@@ -43,7 +43,6 @@ type Story = StoryObj<StoryType>;
 
 export const Primary: Story = {
   args: {
-    collapsed: false,
     ngContent: 'Expandable Content',
   },
 };

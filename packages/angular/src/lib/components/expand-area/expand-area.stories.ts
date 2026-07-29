@@ -15,11 +15,11 @@ const meta: Meta<StoryType> = {
     }),
   ],
   render: (args) => {
-    const { title, padding, initCollapsed, ...props } = args;
+    const { title, padding, ...props } = args;
     return {
       props,
       template: `
-        <uni-expand-area title="${title}" padding="${padding}" initCollapsed="${initCollapsed}" #expandArea>
+        <uni-expand-area title="${title}" padding="${padding}" [initCollapsed]="initCollapsed" #expandArea>
           <button text-button (click)="expandArea.toggleExpand()" size="md" variant="ghost" symbolLeft="collapse_all">Collapse area</button>
         </uni-expand-area>
       `,
