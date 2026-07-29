@@ -83,7 +83,8 @@ const themeExport = (
  */
 export const emitThemeFile = (input: ThemeFileInput): EmittedThemeFile => {
   const { darkMode = true, name = 'Brand' } = input;
-  const { lightColors, darkColors, radii, lightShadows, darkShadows, report } = generateThemes(input);
+  const { lightColors, darkColors, radii, lightShadows, darkShadows, report } =
+    generateThemes(input);
   const id = (name.replace(/\W+/g, '') || 'Brand') as string;
 
   const seeds = Array.isArray(input.seed) ? input.seed : [input.seed];
@@ -150,9 +151,15 @@ export const emitThemeFile = (input: ThemeFileInput): EmittedThemeFile => {
     '  type UniTheme,',
     "} from '@uni-design-system/uni-core';",
     '',
-    ...modes.map(({ colorsConst, colors }) => `const ${colorsConst}: Colors = {\n${recordLiteral(colors as Record<string, string>, '  ')}\n};\n`),
+    ...modes.map(
+      ({ colorsConst, colors }) =>
+        `const ${colorsConst}: Colors = {\n${recordLiteral(colors as Record<string, string>, '  ')}\n};\n`
+    ),
     '/** Brand-tinted elevation shadows — theme-scoped, edit freely. */',
-    ...modes.map(({ shadowsConst, shadows }) => `const ${shadowsConst}: Shadows = {\n${recordLiteral(shadows as Record<string, string>, '  ')}\n};\n`),
+    ...modes.map(
+      ({ shadowsConst, shadows }) =>
+        `const ${shadowsConst}: Shadows = {\n${recordLiteral(shadows as Record<string, string>, '  ')}\n};\n`
+    ),
     bordersLiteral(),
     '',
     '/**',
@@ -164,16 +171,31 @@ export const emitThemeFile = (input: ThemeFileInput): EmittedThemeFile => {
     'const components = (colors: Colors): ComponentThemes => ({});',
     '',
     '/**',
-    ' * Icon primitives, merged over the built-in set (close, search, spinner,',
-    ' * chevrons, …). Define an icon ONCE here as an inline SVG data URI — it is',
-    ' * masked with currentColor, so it recolors with the theme — and render it',
-    " * anywhere via `<uni-icon name='…'/>`. Never inline SVG in components.",
-    " * Example: logo: \"data:image/svg+xml,%3Csvg xmlns='…' viewBox='0 0 24 24'%3E…%3C/svg%3E\",",
+    ' * Icon primitives, merged over the built-in 34-icon set per name: reuse a',
+    ' * built-in name to reskin it, or add any new name. Define an icon ONCE here',
+    " * and render it anywhere via `<uni-icon name='…'/>` — never inline SVG in",
+    ' * components.',
+    ' *',
+    ' * Encode your own SVGs with `svgToIconUri` rather than by hand — it strips',
+    ' * fixed width/height, escapes the URI and rejects artwork that cannot',
+    ' * survive masking:',
+    ' *',
+    " *   import { svgToIconUri } from '@uni-design-system/uni-core';",
+    " *   const icons: Icons = { logo: svgToIconUri(readFileSync('logo.svg', 'utf8')) };",
+    ' *',
+    ' * Icons are masked with currentColor, so they recolor with the theme — but',
+    ' * that also means they are MONOCHROME: the mask uses the alpha channel, so a',
+    ' * multi-color mark flattens to its silhouette. Keep one grid (viewBox) across',
+    ' * your set, or the glyphs will not share an optical weight.',
     ' */',
     'const icons: Icons = {};',
     '',
     ...(radii
-      ? [`/** Shape language: '${input.shape}'. */`, `const radii = {\n${recordLiteral(radii as Record<string, string>, '  ')}\n};`, '']
+      ? [
+          `/** Shape language: '${input.shape}'. */`,
+          `const radii = {\n${recordLiteral(radii as Record<string, string>, '  ')}\n};`,
+          '',
+        ]
       : []),
     ...modes.map(
       ({ exportName, displayName, colorsConst, shadowsConst }) =>

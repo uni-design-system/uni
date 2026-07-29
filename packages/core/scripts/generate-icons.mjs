@@ -234,6 +234,14 @@ function validate(name, svg) {
 
 // --- encoding --------------------------------------------------------------
 
+// These mirror `svgToIconUri` in src/concepts/iconography/icon.helper.ts — the
+// public helper brand teams use for their own SVGs. They are duplicated rather
+// than imported because this script must run without a prior build (the helper
+// is TypeScript, and importing from dist/ would make generation depend on the
+// very package it generates). The duplication is not trusted: the helper's spec
+// asserts `svgToIconUri` reproduces every committed BaseIcon byte-for-byte, so
+// any drift between the two fails the test suite.
+
 /** Strip the fixed pixel size so the mask scales to whatever box it's given. */
 const normalize = (svg) =>
   svg

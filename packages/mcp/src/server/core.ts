@@ -7,6 +7,7 @@ import { McpServer, ResourceTemplate } from '@modelcontextprotocol/sdk/server/mc
 import { z } from 'zod';
 import * as store from './store.js';
 import { formatGeneratedTheme } from './generate.js';
+import { formatIconTokens } from './icons.js';
 
 const FrameworkArg = z.enum(['angular', 'react']);
 
@@ -16,7 +17,9 @@ function text(body: string) {
 }
 
 function notFound(kind: string, id: string) {
-  return text(`No ${kind} found with id \`${id}\`. Use the matching list/search tool to discover valid ids.`);
+  return text(
+    `No ${kind} found with id \`${id}\`. Use the matching list/search tool to discover valid ids.`
+  );
 }
 
 export function createUniServer(): McpServer {
@@ -32,8 +35,11 @@ export function createUniServer(): McpServer {
         '`get-theme-template` (style overrides go through Emotion, component options are props). ' +
         'To brand an app, call `generate-uni-theme` once and write the returned static ' +
         '`uni-theme.ts`; to change look and feel afterwards (colors, borders, per-component ' +
-        'styling), edit that file\'s tokens directly — shared tokens propagate everywhere.',
-    },
+        "styling), edit that file's tokens directly — shared tokens propagate everywhere. " +
+        'Never inline `<svg>` in a component: when you meet inline SVG, or a brand icon set ' +
+        'to import, call `create-icon-tokens` to convert it into theme icon tokens, add them ' +
+        'to `uni-theme.ts`, and render with `<uni-icon name="…" />`.',
+    }
   );
 
   // -- list-components -------------------------------------------------------
@@ -51,7 +57,7 @@ export function createUniServer(): McpServer {
       },
     },
     async ({ framework, category, status }) =>
-      text(store.formatComponentList(store.listComponents({ framework, category, status }))),
+      text(store.formatComponentList(store.listComponents({ framework, category, status })))
   );
 
   // -- get-component ---------------------------------------------------------
@@ -63,12 +69,15 @@ export function createUniServer(): McpServer {
         'Full reference for one component: description, per-framework import + selector/tag, ' +
         'complete API (inputs/outputs or props/events), related tokens, and a sample. ' +
         'Pass `framework` to scope to Angular or React.',
-      inputSchema: { id: z.string().describe('component id, e.g. "button"'), framework: FrameworkArg.optional() },
+      inputSchema: {
+        id: z.string().describe('component id, e.g. "button"'),
+        framework: FrameworkArg.optional(),
+      },
     },
     async ({ id, framework }) => {
       const c = store.getComponent(id);
       return c ? text(store.formatComponent(c, framework)) : notFound('component', id);
-    },
+    }
   );
 
   // -- get-component-examples ------------------------------------------------
@@ -76,13 +85,14 @@ export function createUniServer(): McpServer {
     'get-component-examples',
     {
       title: 'Get component examples',
-      description: 'Working, copy-pasteable code snippets for a component (from Storybook stories), with deep links.',
+      description:
+        'Working, copy-pasteable code snippets for a component (from Storybook stories), with deep links.',
       inputSchema: { id: z.string(), framework: FrameworkArg.optional() },
     },
     async ({ id, framework }) => {
       const c = store.getComponent(id);
       return c ? text(store.formatExamples(c, framework)) : notFound('component', id);
-    },
+    }
   );
 
   // -- list-tokens -----------------------------------------------------------
@@ -99,7 +109,8 @@ export function createUniServer(): McpServer {
         theme: z.string().optional(),
       },
     },
-    async ({ type, kind, theme }) => text(store.formatTokenList(store.listTokens({ type, kind, theme }))),
+    async ({ type, kind, theme }) =>
+      text(store.formatTokenList(store.listTokens({ type, kind, theme })))
   );
 
   // -- get-token -------------------------------------------------------------
@@ -107,13 +118,16 @@ export function createUniServer(): McpServer {
     'get-token',
     {
       title: 'Get a design token',
-      description: 'Resolved value, type, style/behavioral classification, alias chain, and per-theme values for one token.',
-      inputSchema: { id: z.string().describe('token id, e.g. "color.primary" or "input.behavior.height"') },
+      description:
+        'Resolved value, type, style/behavioral classification, alias chain, and per-theme values for one token.',
+      inputSchema: {
+        id: z.string().describe('token id, e.g. "color.primary" or "input.behavior.height"'),
+      },
     },
     async ({ id }) => {
       const t = store.getToken(id);
       return t ? text(store.formatToken(t)) : notFound('token', id);
-    },
+    }
   );
 
   // -- get-guidelines --------------------------------------------------------
@@ -121,20 +135,24 @@ export function createUniServer(): McpServer {
     'get-guidelines',
     {
       title: 'Get component guidelines',
-      description: 'Authored when-to-use, do/don\'t, and accessibility guidance for a component.',
+      description: "Authored when-to-use, do/don't, and accessibility guidance for a component.",
       inputSchema: { id: z.string() },
     },
     async ({ id }) => {
       const c = store.getComponent(id);
       return c ? text(store.formatGuidelines(c)) : notFound('component', id);
-    },
+    }
   );
 
   // -- list-themes -----------------------------------------------------------
   server.registerTool(
     'list-themes',
-    { title: 'List theme templates', description: 'Available Uni theme templates.', inputSchema: {} },
-    async () => text(store.formatThemeList(store.listThemes())),
+    {
+      title: 'List theme templates',
+      description: 'Available Uni theme templates.',
+      inputSchema: {},
+    },
+    async () => text(store.formatThemeList(store.listThemes()))
   );
 
   // -- get-theme-template ----------------------------------------------------
@@ -150,7 +168,7 @@ export function createUniServer(): McpServer {
     async ({ id }) => {
       const t = store.getTheme(id);
       return t ? text(store.formatTheme(t)) : notFound('theme', id);
-    },
+    }
   );
 
   // -- generate-uni-theme ----------------------------------------------------
@@ -168,7 +186,9 @@ export function createUniServer(): McpServer {
       inputSchema: {
         brand: z
           .union([z.string(), z.array(z.string()).min(1).max(3)])
-          .describe('Brand hex color(s), e.g. "#0052FF". 2–3 colors map to primary/secondary/tertiary.'),
+          .describe(
+            'Brand hex color(s), e.g. "#0052FF". 2–3 colors map to primary/secondary/tertiary.'
+          ),
         vibe: z
           .enum(['jewel', 'pastel', 'earth', 'neutral', 'florescent'])
           .optional()
@@ -176,7 +196,9 @@ export function createUniServer(): McpServer {
         scheme: z
           .enum(['monochromatic', 'analogous', 'complimentary', 'splitComplimentary', 'triadic'])
           .optional()
-          .describe('Hue-wheel relationship for generated roles; auto-classified for multi-color input.'),
+          .describe(
+            'Hue-wheel relationship for generated roles; auto-classified for multi-color input.'
+          ),
         shape: z
           .enum(['sharp', 'modern', 'playful'])
           .optional()
@@ -185,7 +207,46 @@ export function createUniServer(): McpServer {
         darkMode: z.boolean().optional().describe('Emit the dark theme too. Defaults to true.'),
       },
     },
-    async (args) => text(formatGeneratedTheme(args)),
+    async (args) => text(formatGeneratedTheme(args))
+  );
+
+  // -- create-icon-tokens ----------------------------------------------------
+  server.registerTool(
+    'create-icon-tokens',
+    {
+      title: 'Convert SVGs into Uni icon tokens',
+      description:
+        'Convert raw SVG source into theme icon tokens and return a paste-ready `icons` map for ' +
+        '`uni-theme.ts`. Use this whenever an app has inline `<svg>` in a component, or a brand ' +
+        'icon set to import: move the artwork into the theme once, then render it anywhere with ' +
+        '`<uni-icon name="…" />`. Encodes to a `currentColor`-masked data URI (identical to the ' +
+        'built-in set), reports which names override built-ins, flags artwork that cannot be ' +
+        'masked (multi-color, gradients, no viewBox, raster or external references), and warns ' +
+        'when a set mixes viewBox grids. Icons are monochrome — a multi-color logo flattens to a ' +
+        'silhouette. Safe to re-run: already-encoded data URIs pass through unchanged.',
+      inputSchema: {
+        icons: z
+          .array(
+            z.object({
+              name: z
+                .string()
+                .describe('Token name, e.g. "acmeLogo". Converted to flat camelCase if needed.'),
+              svg: z
+                .string()
+                .describe('Raw SVG source, or an already-encoded data:image/svg+xml URI.'),
+              allowMultiColor: z
+                .boolean()
+                .optional()
+                .describe(
+                  'Accept multi-color artwork, knowing the mask flattens it to a silhouette.'
+                ),
+            })
+          )
+          .min(1)
+          .describe('The icons to convert. Pass the whole set at once so grids can be compared.'),
+      },
+    },
+    async ({ icons }) => text(formatIconTokens(icons))
   );
 
   // -- search ----------------------------------------------------------------
@@ -193,13 +254,14 @@ export function createUniServer(): McpServer {
     'search',
     {
       title: 'Search the design system',
-      description: 'Keyword search across components, tokens, themes, and guidelines. Narrow with `kind`.',
+      description:
+        'Keyword search across components, tokens, themes, and guidelines. Narrow with `kind`.',
       inputSchema: {
         query: z.string(),
         kind: z.enum(['component', 'token', 'theme', 'guideline']).optional(),
       },
     },
-    async ({ query, kind }) => text(store.formatSearch(query, store.search(query, kind))),
+    async ({ query, kind }) => text(store.formatSearch(query, store.search(query, kind)))
   );
 
   registerResources(server);
@@ -211,65 +273,127 @@ function registerResources(server: McpServer): void {
   server.registerResource(
     'meta',
     'uni://meta',
-    { title: 'Uni index metadata', description: 'Index version, Uni release, framework coverage, counts, build time.', mimeType: 'application/json' },
+    {
+      title: 'Uni index metadata',
+      description: 'Index version, Uni release, framework coverage, counts, build time.',
+      mimeType: 'application/json',
+    },
     async (uri) => ({
-      contents: [{ uri: uri.href, mimeType: 'application/json', text: JSON.stringify(store.meta, null, 2) }],
-    }),
+      contents: [
+        { uri: uri.href, mimeType: 'application/json', text: JSON.stringify(store.meta, null, 2) },
+      ],
+    })
   );
 
   server.registerResource(
     'component',
     new ResourceTemplate('uni://components/{id}', {
       list: async () => ({
-        resources: store.listComponents().map((c) => ({ uri: `uni://components/${c.id}`, name: c.name, description: c.summary })),
+        resources: store
+          .listComponents()
+          .map((c) => ({ uri: `uni://components/${c.id}`, name: c.name, description: c.summary })),
       }),
     }),
-    { title: 'Uni component', description: 'A component reference card.', mimeType: 'text/markdown' },
+    {
+      title: 'Uni component',
+      description: 'A component reference card.',
+      mimeType: 'text/markdown',
+    },
     async (uri, { id }) => {
       const c = store.getComponent(String(id));
-      return { contents: [{ uri: uri.href, mimeType: 'text/markdown', text: c ? store.formatComponent(c) : `Unknown component: ${id}` }] };
-    },
+      return {
+        contents: [
+          {
+            uri: uri.href,
+            mimeType: 'text/markdown',
+            text: c ? store.formatComponent(c) : `Unknown component: ${id}`,
+          },
+        ],
+      };
+    }
   );
 
   server.registerResource(
     'token',
     new ResourceTemplate('uni://tokens/{id}', {
       list: async () => ({
-        resources: store.listTokens().map((t) => ({ uri: `uni://tokens/${t.id}`, name: t.id, description: `${t.type} = ${t.value}` })),
+        resources: store.listTokens().map((t) => ({
+          uri: `uni://tokens/${t.id}`,
+          name: t.id,
+          description: `${t.type} = ${t.value}`,
+        })),
       }),
     }),
     { title: 'Uni token', description: 'A design token.', mimeType: 'text/markdown' },
     async (uri, { id }) => {
       const t = store.getToken(String(id));
-      return { contents: [{ uri: uri.href, mimeType: 'text/markdown', text: t ? store.formatToken(t) : `Unknown token: ${id}` }] };
-    },
+      return {
+        contents: [
+          {
+            uri: uri.href,
+            mimeType: 'text/markdown',
+            text: t ? store.formatToken(t) : `Unknown token: ${id}`,
+          },
+        ],
+      };
+    }
   );
 
   server.registerResource(
     'theme',
     new ResourceTemplate('uni://themes/{id}', {
       list: async () => ({
-        resources: store.listThemes().map((t) => ({ uri: `uni://themes/${t.id}`, name: t.name, description: t.description })),
+        resources: store
+          .listThemes()
+          .map((t) => ({ uri: `uni://themes/${t.id}`, name: t.name, description: t.description })),
       }),
     }),
-    { title: 'Uni theme template', description: 'A theme template (style + component options).', mimeType: 'text/markdown' },
+    {
+      title: 'Uni theme template',
+      description: 'A theme template (style + component options).',
+      mimeType: 'text/markdown',
+    },
     async (uri, { id }) => {
       const t = store.getTheme(String(id));
-      return { contents: [{ uri: uri.href, mimeType: 'text/markdown', text: t ? store.formatTheme(t) : `Unknown theme: ${id}` }] };
-    },
+      return {
+        contents: [
+          {
+            uri: uri.href,
+            mimeType: 'text/markdown',
+            text: t ? store.formatTheme(t) : `Unknown theme: ${id}`,
+          },
+        ],
+      };
+    }
   );
 
   server.registerResource(
     'guidelines',
     new ResourceTemplate('uni://guidelines/{id}', {
       list: async () => ({
-        resources: store.listComponents().map((c) => ({ uri: `uni://guidelines/${c.id}`, name: `${c.name} guidelines`, description: c.summary })),
+        resources: store.listComponents().map((c) => ({
+          uri: `uni://guidelines/${c.id}`,
+          name: `${c.name} guidelines`,
+          description: c.summary,
+        })),
       }),
     }),
-    { title: 'Uni guidelines', description: 'Authored usage guidance for a component.', mimeType: 'text/markdown' },
+    {
+      title: 'Uni guidelines',
+      description: 'Authored usage guidance for a component.',
+      mimeType: 'text/markdown',
+    },
     async (uri, { id }) => {
       const c = store.getComponent(String(id));
-      return { contents: [{ uri: uri.href, mimeType: 'text/markdown', text: c ? store.formatGuidelines(c) : `Unknown component: ${id}` }] };
-    },
+      return {
+        contents: [
+          {
+            uri: uri.href,
+            mimeType: 'text/markdown',
+            text: c ? store.formatGuidelines(c) : `Unknown component: ${id}`,
+          },
+        ],
+      };
+    }
   );
 }

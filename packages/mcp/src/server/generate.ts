@@ -68,6 +68,10 @@ export function formatGeneratedTheme(args: GenerateThemeArgs): string {
     '  A built-in set of 34 icons ships with every theme (navigation, actions, feedback,',
     '  user/system) — check `BaseIcons` before adding one; names are flat camelCase',
     '  (`chevronDown`, `checkCircle`, `externalLink`) and `IconName` autocompletes them.',
+    '  To add your own, encode with `svgToIconUri` from uni-core rather than hand-writing',
+    '  a data URI — it strips fixed width/height, escapes the URI, and throws on artwork',
+    '  that cannot be masked. Icons are MONOCHROME (the mask uses the alpha channel), so a',
+    '  multi-color logo flattens to a silhouette; keep one viewBox grid across the set.',
     '- Never hardcode hex values in application components: style through `ThemeService`',
     '  accessors and semantic token names so themes stay swappable.',
   ].join('\n');
