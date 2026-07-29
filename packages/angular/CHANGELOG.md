@@ -1,5 +1,7 @@
 # @uni-design-system/uni-angular
 
+## 6.1.0
+
 ## 6.0.1
 
 ### Patch Changes
