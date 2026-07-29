@@ -65,7 +65,7 @@ export function formatGeneratedTheme(args: GenerateThemeArgs): string {
     "- **Icons**: never inline SVG in components. Define an icon ONCE in the theme file's",
     '  `icons` map as an inline SVG data URI — it is masked with `currentColor`, so it',
     "  recolors with the theme — then render it anywhere with `<uni-icon name='…'/>`.",
-    '  A built-in set of 34 icons ships with every theme (navigation, actions, feedback,',
+    '  A built-in set of 59 icons ships with every theme (navigation, actions, feedback,',
     '  user/system) — check `BaseIcons` before adding one; names are flat camelCase',
     '  (`chevronDown`, `checkCircle`, `externalLink`) and `IconName` autocompletes them.',
     '  To add your own, encode with `svgToIconUri` from uni-core rather than hand-writing',
