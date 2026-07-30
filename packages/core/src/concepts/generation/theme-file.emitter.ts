@@ -171,7 +171,7 @@ export const emitThemeFile = (input: ThemeFileInput): EmittedThemeFile => {
     'const components = (colors: Colors): ComponentThemes => ({});',
     '',
     '/**',
-    ' * Icon primitives, merged over the built-in 59-icon set per name: reuse a',
+    ' * Icon primitives, merged over the built-in 61-icon set per name: reuse a',
     ' * built-in name to reskin it, or add any new name. Define an icon ONCE here',
     " * and render it anywhere via `<uni-icon name='…'/>` — never inline SVG in",
     ' * components.',

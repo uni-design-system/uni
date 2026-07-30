@@ -52,6 +52,8 @@ const GROUPS = [
       arrowLeft: 'arrow_back',
       arrowRight: 'arrow_forward',
       home: 'home',
+      // Pairs with `home` for residential-vs-commercial distinctions.
+      building: 'apartment',
       externalLink: 'open_in_new',
       link: 'link',
       expand: 'open_in_full',
@@ -78,6 +80,9 @@ const GROUPS = [
       share: 'share',
       send: 'send',
       filter: 'filter_list',
+      // `filter` is the stacked-lines metaphor; `funnel` is the shape apps reach
+      // for when the feature itself is called a funnel.
+      funnel: 'filter_alt',
       refresh: 'refresh',
       dragHandle: 'drag_indicator',
       qrCode: 'qr_code',

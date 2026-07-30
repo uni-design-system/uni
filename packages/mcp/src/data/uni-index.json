@@ -1,7 +1,7 @@
 {
   "meta": {
     "version": "7.1.0",
-    "builtAt": "2026-07-29T18:07:05.414Z",
+    "builtAt": "2026-07-30T02:02:19.632Z",
     "frameworks": [
       "angular"
     ],
@@ -9,7 +9,7 @@
       "components": 71,
       "tokens": 305,
       "themes": 2,
-      "examples": 134
+      "examples": 132
     }
   },
   "components": [
@@ -2436,11 +2436,6 @@
           "title": "Primary",
           "framework": "angular",
           "code": "<!-- Storybook story: Primary -->\n<div box-layout height=\"${containerSize}px\">\n    <uni-icon name=\"${name}\" color=\"${color}\" ${size ?\n<!-- args:\n{\n    name: 'checkCircle',\n  }\n-->"
-        },
-        {
-          "title": "Explicit Size",
-          "framework": "angular",
-          "code": "<!-- Storybook story: Explicit Size -->\n<div box-layout height=\"${containerSize}px\">\n    <uni-icon name=\"${name}\" color=\"${color}\" ${size ?\n<!-- args:\n{\n    name: 'checkCircle',\n    size: 20,\n    containerSize: 48,\n  }\n-->"
         }
       ],
       "guidelines": {
@@ -5298,13 +5293,7 @@
           ]
         }
       },
-      "examples": [
-        {
-          "title": "Primary",
-          "framework": "angular",
-          "code": "<!-- Storybook story: Primary -->\n<div stack-layout gap=\"md\" [width]=\"420\">\n<uni-theme-switch></uni-theme-switch>\n<uni-card>\n  <uni-card-header>Live preview</uni-card-header>\n  <uni-card-content>\n    <div stack-layout gap=\"md\">\n      <span uni-text typeface=\"body-2-long\">\n        Pick a theme above — every registered theme (UNI_THEMES) restyles\n        this card and these buttons instantly.\n      </span>\n      <div row-layout gap=\"sm\">\n        <button text-button variant=\"primary\">Primary</button>\n        <button text-button variant=\"secondary\">Secondary</button>\n        <button text-button variant=\"warn\">Danger</button>\n      </div>\n    </div>\n  </uni-card-content>\n</uni-card>\n</div>\n<!-- args:\n{}\n-->"
-        }
-      ],
+      "examples": [],
       "guidelines": {
         "whenToUse": "Drop-in switcher for every theme registered via `UNI_THEMES`. Renders a `uni-select` over\n`ThemeService.themeOptions` and applies the choice through `ThemeService.selectTheme`, so the\nselection persists across reloads exactly like any other theme change. Use it wherever an app\noffers a theme choice — a settings page, an app-bar action, or a light/dark toggle backed by two\nregistered themes. Because it reads the registry from the injected `UNI_THEMES` token, adding a\nnew theme to the registry is all it takes for the switcher to offer it.",
         "dos": [
