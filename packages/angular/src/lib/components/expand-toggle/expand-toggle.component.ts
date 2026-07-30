@@ -28,9 +28,7 @@ import { UniTooltipComponent } from '../tooltip/tooltip.component';
         [attr.aria-expanded]="!collapsed()"
         [attr.aria-controls]="ariaControls() || null"
       >
-        <span [class]="chevronClassName()">
-          <uni-icon name="chevronUp" />
-        </span>
+        <uni-icon name="chevronUp" size="1em" />
         <span [class]="labelClassName">
           <span uni-text="label">{{ label() }}</span>
           @if (sublabel()) {
@@ -70,23 +68,35 @@ export class UniExpandToggleComponent {
   /** Muted qualifier beside the label ("for POs & custom orders"). Needs `label`. */
   sublabel = input<string>();
 
+  /**
+   * The glyph rotates, never the host.
+   *
+   * The host is the tooltip's positioning box — `uni-tooltip` puts its
+   * `anchor-name` on its own element, nested inside ours — so rotating the
+   * host swings the anchor through the turn and the bubble visibly bobs. The
+   * host is also taller than the glyph (an inline-level box reserves baseline
+   * descender space), so spinning it about its own centre walks the glyph
+   * off-centre. `uni-icon` is a centred square sized to the glyph, which makes
+   * it the only box here that rotates symmetrically. It also keeps a label
+   * from turning upside down with the chevron.
+   */
+  private readonly glyphStyles = computed(() => ({
+    '& uni-icon': {
+      flexShrink: 0,
+      ...motionSafe({ transition: 'transform 350ms ease-in-out' }),
+      transform: this.collapsed() ? 'rotate(-180deg)' : 'rotate(0)',
+    },
+  }));
+
   protected readonly className = computed(() => {
-    // Labelled: the host is a plain block; the inner chevron does the rotating,
-    // so the label doesn't turn upside down with it.
     if (this.label()) {
-      return css({ display: 'block' });
+      return css({ display: 'block', ...this.glyphStyles() });
     }
 
     return css({
       display: 'inline-flex',
       cursor: 'pointer',
-
-      ...motionSafe({ transition: 'transform 350ms ease-in-out' }),
-      transform: 'rotate(0)',
-
-      '&[toggled]': {
-        transform: 'rotate(-180deg)',
-      },
+      ...this.glyphStyles(),
     });
   });
 
@@ -103,15 +113,6 @@ export class UniExpandToggleComponent {
     textAlign: 'left',
     cursor: 'pointer',
   });
-
-  protected readonly chevronClassName = computed(() =>
-    css({
-      display: 'inline-flex',
-      flexShrink: 0,
-      ...motionSafe({ transition: 'transform 350ms ease-in-out' }),
-      transform: this.collapsed() ? 'rotate(-180deg)' : 'rotate(0)',
-    }),
-  );
 
   protected readonly labelClassName = css({
     display: 'flex',

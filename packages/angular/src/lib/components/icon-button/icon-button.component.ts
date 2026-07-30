@@ -84,7 +84,15 @@ export class UniIconButtonComponent {
         // Token-driven radius (`max` = circle) with the legacy 999 fallback
         // for hand-authored themes that predate iconButton options.
         ...(this.theme.radius(this.config().options?.borderRadius) ?? { borderRadius: 999 }),
-        display: 'block',
+        // Block-level, but centring: the size tokens make the box bigger than
+        // the glyph (an `sm` button is 22px around an 18px icon), so a plain
+        // `display: block` parks the glyph in the top-left corner. Flex is
+        // still block-level, so nothing about the button's own layout changes.
+        // The accessible-name span is absolutely positioned and so stays out
+        // of the flex flow.
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
 
         '&:disabled': {
           cursor: 'not-allowed !important',

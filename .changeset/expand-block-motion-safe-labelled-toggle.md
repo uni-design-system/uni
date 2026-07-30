@@ -2,10 +2,34 @@
 '@uni-design-system/uni-angular': minor
 ---
 
-Make `expand` block-level and motion-safe, and give `expand-toggle` a label
+Centre `icon-button`'s glyph, fix `expand-toggle`'s rotation, make `expand`
+block-level and motion-safe, and give `expand-toggle` a label
 
-Three gaps found while building collapsible sections in a consuming app, where
-each one had to be worked around locally.
+Gaps found while building collapsible sections in a consuming app, where each
+one had to be worked around locally.
+
+- **`icon-button` centres its glyph.** Sizing `iconName` from the size token
+  (shipped in the previous release) made the glyph smaller than the button —
+  an `sm` button is a 22px box around an 18px icon — but the button was
+  `display: block`, so the glyph sat in the top-left corner with all the slack
+  on its right and bottom. It is now a centring flex box; flex is still
+  block-level, so the button's own layout is unchanged, and the
+  absolutely-positioned accessible-name span stays out of the flex flow.
+  **Visual change** for every `icon-button`: glyphs shift to the middle of the
+  box. `symbolName` ligatures centre too, which also means the known
+  oversized-ligature case (a 24px glyph in a 22px `sm` box) now clips evenly on
+  all sides instead of only bottom-right. Covered by a test.
+
+- **`expand-toggle` rotates the glyph instead of its host.** This is a fix to
+  existing behaviour, visible in 7.1.0 and earlier: the 180° turn was applied to
+  the component host, which is both the tooltip's positioning box (`uni-tooltip`
+  sets `anchor-name` on its own element, nested inside the host) and taller than
+  the glyph, since an inline-level box reserves baseline descender space. So the
+  bubble bobbed along an arc as the chevron turned, and the chevron itself
+  drifted off-centre rather than spinning in place. The transform now lands on
+  `uni-icon` — a centred square sized to the glyph, and the only box here that
+  rotates symmetrically. The host keeps its `toggled` attribute, so any consumer
+  styling keyed on it still works.
 
 - **`uni-expand` is now `display: block`.** As a custom element it defaulted to
   `display: inline`, so its animated grid laid out as a block-in-inline box and

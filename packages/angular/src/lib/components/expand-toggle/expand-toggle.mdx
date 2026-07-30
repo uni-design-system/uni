@@ -14,6 +14,8 @@ with the [Expand](?path=/docs/components-expand--docs) component: bind the toggl
 `collapsed` model to the Expand's `collapsed` input to build collapsible sections.
 
 The icon rotates 180° between states and shows an "Expand"/"Collapse" tooltip.
+The transform is applied to the glyph, not to the component host — the host is
+the tooltip's anchor, so rotating it would carry the bubble around with it.
 
 ## Usage
 

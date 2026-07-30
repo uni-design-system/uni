@@ -70,6 +70,22 @@ describe('UniIconButtonComponent', () => {
       expect(getComputedStyle(symbolEl()!).fontSize).toBe('24px');
     });
 
+    /**
+     * Sizing the glyph below the button box (the test above) only looks right
+     * if the box also centres it — otherwise the glyph sits in the top-left
+     * corner with all the slack on its right and bottom.
+     */
+    it('centres the glyph in the button box', () => {
+      fixture.componentRef.setInput('size', 'sm');
+      fixture.componentRef.setInput('iconName', 'close');
+      fixture.detectChanges();
+
+      const style = getComputedStyle(fixture.nativeElement as HTMLElement);
+      expect(style.display).toBe('flex');
+      expect(style.alignItems).toBe('center');
+      expect(style.justifyContent).toBe('center');
+    });
+
     it('tracks the size token, not a fixed value', () => {
       fixture.componentRef.setInput('iconName', 'close');
       fixture.componentRef.setInput('size', 'sm');
