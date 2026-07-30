@@ -1,7 +1,7 @@
 import { afterNextRender, ChangeDetectionStrategy, Component, model, signal } from '@angular/core';
 import { css, keyframes } from '@emotion/css';
 import { collapseFadeOut, expandFadeIn } from '@uni-design-system/uni-core';
-import { uniqueId } from '../../cdk';
+import { motionSafe, uniqueId } from '../../cdk';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -20,6 +20,7 @@ import { uniqueId } from '../../cdk';
   }`,
   host: {
     '[attr.id]': 'regionId',
+    '[class]': 'hostClassName',
   },
 })
 export class UniExpandComponent {
@@ -43,6 +44,16 @@ export class UniExpandComponent {
     this.collapsed.update((collapsed) => !collapsed);
   }
 
+  /**
+   * A custom element is `display: inline` by default, which would lay the
+   * animated grid out as a block-in-inline box and distort the revealed
+   * content's spacing. Every consumer would otherwise have to write
+   * `uni-expand { display: block }` themselves.
+   */
+  protected readonly hostClassName = css({
+    display: 'block',
+  });
+
   expandClassName = css({
     display: 'grid',
   });
@@ -54,13 +65,26 @@ export class UniExpandComponent {
   private expand = keyframes({ ...expandFadeIn });
   private collapse = keyframes({ ...collapseFadeOut });
 
-  expandAnimation = css({
-    overflow: 'hidden',
-    animation: `${this.expand} ease-in 350ms`,
-  });
+  /**
+   * Reveal is motion-safe (WCAG 2.3.3): under `prefers-reduced-motion` these
+   * classes are empty, so the region appears and disappears instantly.
+   * `overflow: hidden` rides inside the guard deliberately — it exists to clip
+   * the growing box mid-animation, and leaving it applied at rest would crop
+   * decorations that legitimately paint outside the region (focus rings,
+   * offset outlines). Angular removes a leaving node on the next frame when it
+   * detects no animation, so nothing hangs when the guard strips them.
+   */
+  expandAnimation = css(
+    motionSafe({
+      overflow: 'hidden',
+      animation: `${this.expand} ease-in 350ms`,
+    }),
+  );
 
-  collapseAnimation = css({
-    overflow: 'hidden',
-    animation: `${this.collapse} ease-in 350ms`,
-  });
+  collapseAnimation = css(
+    motionSafe({
+      overflow: 'hidden',
+      animation: `${this.collapse} ease-in 350ms`,
+    }),
+  );
 }

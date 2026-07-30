@@ -20,6 +20,16 @@ It has been designed to work with the Card Header.
 
 <StoryUsage of={Stories.Primary} exclude={['expandClassName']} />
 
+Expand is `display: block`, so it can be dropped anywhere without the host
+collapsing to an inline box around its animated grid.
+
+Collapsed content is removed from the DOM, not hidden — the region is a `@if`,
+so nothing inside it is reachable, focusable, or rendered while collapsed. Keep
+state that must survive collapsing (form models, fetched data) outside the
+region.
+
 ## Accessibility
 
 - The toggle carries `aria-expanded` and `aria-controls` for its region (wired automatically inside Expand Area).
+- The reveal is motion-safe (WCAG 2.3.3): under `prefers-reduced-motion` the
+  region appears and disappears instantly instead of animating.

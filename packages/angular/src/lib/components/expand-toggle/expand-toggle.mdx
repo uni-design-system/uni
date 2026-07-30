@@ -18,3 +18,24 @@ The icon rotates 180° between states and shows an "Expand"/"Collapse" tooltip.
 ## Usage
 
 <StoryUsage of={Stories.Primary} />
+
+## Labelled
+
+Set `label` (and optionally `sublabel`) and the toggle becomes a full-width row:
+chevron, label, muted qualifier. Most disclosures need to name the section they
+control, and hand-building that row is what consumers were otherwise forced to
+do. The labelled shape is a single button whose accessible name is the label,
+so screen readers announce "Dimensions & Materials, collapsed" rather than a
+bare "Expand" next to unrelated text. The tooltip is dropped here — the label
+already says what the region is.
+
+Only the chevron rotates, not the row, so the label stays upright.
+
+<StoryUsage of={Stories.Labelled} />
+
+## Accessibility
+
+- `aria-expanded` is set for you from `collapsed`.
+- Pass `ariaControls` the Expand's `regionId` so the trigger points at its
+  region: `<uni-expand #region /><uni-expand-toggle [ariaControls]="region.regionId" />`.
+- Rotation is motion-safe — it does not animate under `prefers-reduced-motion`.
