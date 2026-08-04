@@ -1,6 +1,9 @@
-import { ChangeDetectionStrategy, Component, computed, input, model } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, input, model } from '@angular/core';
 import { css } from '@emotion/css';
+import { EXPAND_DEFAULT_SPEED } from '@uni-design-system/uni-core';
 import { motionSafe } from '../../cdk';
+import { ThemeService } from '../../theming';
+import type { UniExpandOptions } from '../expand/expand.model';
 import { UniIconComponent } from '../icon/icon.component';
 import { UniIconButtonComponent } from '../icon-button/icon-button.component';
 import { UniTextComponent } from '../text/text.component';
@@ -69,6 +72,20 @@ export class UniExpandToggleComponent {
   sublabel = input<string>();
 
   /**
+   * Rotation duration in seconds. Expand Area binds the region's resolved
+   * `duration` here so chevron and reveal share one clock even when the
+   * region is size-scaled or overridden per instance.
+   */
+  transitionSpeed = input<number>();
+
+  /** Fallback clock when no `transitionSpeed` is bound: the `expand` theme options' `transitionSpeed`. */
+  private readonly expandOptions = inject(ThemeService).getComponentOptions<UniExpandOptions>('expand');
+
+  private readonly speed = computed(
+    () => this.transitionSpeed() ?? this.expandOptions().transitionSpeed ?? EXPAND_DEFAULT_SPEED,
+  );
+
+  /**
    * The glyph rotates, never the host.
    *
    * The host is the tooltip's positioning box — `uni-tooltip` puts its
@@ -83,7 +100,9 @@ export class UniExpandToggleComponent {
   private readonly glyphStyles = computed(() => ({
     '& uni-icon': {
       flexShrink: 0,
-      ...motionSafe({ transition: 'transform 350ms ease-in-out' }),
+      ...motionSafe({
+        transition: `transform ${this.speed()}s ease-in-out`,
+      }),
       transform: this.collapsed() ? 'rotate(-180deg)' : 'rotate(0)',
     },
   }));

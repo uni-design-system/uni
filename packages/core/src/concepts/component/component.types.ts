@@ -23,6 +23,7 @@ export type ComponentName =
   | 'dialogHeader'
   | 'drawer'
   | 'dropdown'
+  | 'expand'
   | 'footer'
   | 'iconButton'
   | 'input'

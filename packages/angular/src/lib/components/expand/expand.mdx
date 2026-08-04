@@ -1,6 +1,8 @@
 import { Meta, Title } from '@storybook/addon-docs/blocks';
 import * as Stories from './expand.stories';
 import { StoryUsage } from '../../../stories/blocks/StoryUsage';
+import { StoryExample } from '../../../stories/blocks/StoryExample';
+import { ThemeOptions } from '../../../stories/blocks/ThemeOptionsBlock';
 
 <Meta of={Stories} name="Overview" />
 <Title />
@@ -18,7 +20,7 @@ It has been designed to work with the Card Header.
 
 ## Usage
 
-<StoryUsage of={Stories.Primary} exclude={['expandClassName']} />
+<StoryUsage of={Stories.Primary} exclude={['expandClassName', 'duration', 'variant', 'size']} />
 
 Expand is `display: block`, so it can be dropped anywhere without the host
 collapsing to an inline box around its animated grid.
@@ -27,6 +29,42 @@ Collapsed content is removed from the DOM, not hidden — the region is a `@if`,
 so nothing inside it is reachable, focusable, or rendered while collapsed. Keep
 state that must survive collapsing (form models, fetched data) outside the
 region.
+
+## Speed
+
+The reveal's base duration is the `expand` theme options' `transitionSpeed`
+(seconds; the default theme uses `0.35`). The actual duration scales with the
+region's content height — √-of-height around a 240px reference, clamped to
+roughly 0.15–0.6s at the default speed — so a two-line region snaps open while
+a full-page region gets the time its distance deserves, and perceived speed
+stays steady.
+
+<StoryExample of={Stories.Tall} />
+
+The `transitionSpeed` input sets an exact per-instance duration, bypassing the
+scaling — `<uni-expand [transitionSpeed]="0.15">`:
+
+<StoryExample of={Stories.Snappy} />
+
+The Expand Toggle's chevron rotation defaults to the same theme token, and the
+toggle accepts its own `transitionSpeed` input. Bind it to the region's
+resolved `duration` so chevron and reveal share one clock even when the region
+is size-scaled or overridden
+(`<uni-expand-toggle [transitionSpeed]="expand.duration()" />` — Expand Area
+wires this automatically).
+
+The resolved duration is exposed as the public `duration` signal (seconds).
+To move other styling on the reveal's clock — a tint, a divider — bind it
+like any other signal:
+`<div [style.transition-duration]="expand.duration() + 's'">`. The base token
+is also readable from
+`ThemeService.getComponentOptions<UniExpandOptions>('expand')`. All timing
+flows from the theme through signals, so live theme switches retime
+everything and there is no custom CSS to write.
+
+## Theme options
+
+<ThemeOptions componentName="expand" />
 
 ## Accessibility
 

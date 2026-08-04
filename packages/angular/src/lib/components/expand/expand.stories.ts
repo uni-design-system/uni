@@ -26,8 +26,8 @@ const meta: Meta<StoryType> = {
       props,
       template: `
       <uni-card>
-        <uni-card-header title="Expandable Card"><uni-expand-toggle #toggle /></uni-card-header>
-        <uni-expand [collapsed]="toggle.collapsed()">
+        <uni-card-header title="Expandable Card"><uni-expand-toggle #toggle [transitionSpeed]="expand.duration()" /></uni-card-header>
+        <uni-expand #expand [collapsed]="toggle.collapsed()" [transitionSpeed]="transitionSpeed">
           <uni-card-content>
             <span uni-text>${ngContent}</span>
           </uni-card-content>
@@ -44,5 +44,30 @@ type Story = StoryObj<StoryType>;
 export const Primary: Story = {
   args: {
     ngContent: 'Expandable Content',
+  },
+};
+
+/**
+ * Exact per-instance duration. Overrides the `expand` theme options'
+ * `transitionSpeed` and bypasses size-aware scaling.
+ */
+export const Snappy: Story = {
+  args: {
+    ngContent: 'Reveals in exactly 150ms, regardless of content height.',
+    transitionSpeed: 0.15,
+  },
+};
+
+/**
+ * Duration scales with content height (√-of-height, clamped), so this tall
+ * region takes longer than Primary's single line — perceived speed stays
+ * steady instead of tall content rushing past.
+ */
+export const Tall: Story = {
+  args: {
+    ngContent: Array.from(
+      { length: 12 },
+      (_, i) => `Row ${i + 1} of a tall reveal, timed to its height.`,
+    ).join('<br>'),
   },
 };

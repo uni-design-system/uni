@@ -264,6 +264,11 @@ const buildComponents = (c: Colors): ComponentThemes => ({
   dropdown: {
     options: { border: 'none', borderRadius: 'xxs', color: 'primary-surface', shadow: 'menu' },
   },
+  // Base reveal/collapse duration (seconds, matching alert/card
+  // `transitionSpeed`) at a 240px-tall region; actual duration scales with
+  // content height (√-of-height, clamped ~0.15–0.6s at this speed — see
+  // `expandDuration`). The toggle's chevron rotation shares the clock.
+  expand: { options: { transitionSpeed: 0.35 } },
   footer: { options: { height: 52, color: 'primary', logoHeight: 18.6, logoPadding: 'md' } },
   input: {
     options: {

@@ -33,6 +33,7 @@ import { UniTextComponent } from '../text/text.component';
           style="display: inline-flex; margin: -2px"
           [collapsed]="initCollapsed()"
           [ariaControls]="expand.regionId"
+          [transitionSpeed]="expand.duration()"
         />
       </div>
 

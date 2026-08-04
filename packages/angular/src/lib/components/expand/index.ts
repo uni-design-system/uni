@@ -5,3 +5,4 @@
  */
 
 export { UniExpandComponent } from './expand.component';
+export type { UniExpandOptions } from './expand.model';
