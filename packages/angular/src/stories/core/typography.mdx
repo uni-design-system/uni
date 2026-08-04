@@ -1,0 +1,31 @@
+import { Meta, Title, Story } from '@storybook/addon-docs/blocks';
+import * as Stories from './typography.stories';
+
+<Meta of={Stories} name="Overview" />
+<Title />
+
+## Overview
+
+Type in Uni is a single numeric scale on the theme — `theme.typography` — keyed by
+role (`display-large`, `body-1-long`, `caption`, …). CSS-ready typefaces are
+**derived** from that scale on read via `toTypefaces()`, never stored twice, and
+every consumer resolves through the same map:
+
+- The [`uni-text` attribute](?path=/docs/components-text--overview) applies a
+  typeface to any element: `<h1 uni-text="display-small">`.
+- Components reference typefaces **by token name** in their theme options
+  (`appBar: { typeface: 'title-large' }`), so re-theming type is a token swap,
+  not a stylesheet edit.
+- `ThemeService.typeface(role)` returns the resolved definition for custom
+  Emotion styles.
+
+Themes may also register typefaces beyond the canonical roles — product extras
+like `stat`, `tag`, or `input` — and they appear in the manifest below under
+**Component**.
+
+## Manifest
+
+Every typeface registered in the **active theme**, with its resolved tokens.
+Switch the theme in the toolbar and the specimens and specs update live.
+
+<Story of={Stories.Manifest} />

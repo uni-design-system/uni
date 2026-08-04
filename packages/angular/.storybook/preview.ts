@@ -14,6 +14,11 @@ const AllThemes = { ...UniThemes, ...CarbonThemes };
 
 const preview: Preview = {
   parameters: {
+    options: {
+      // Pin the Core section to the top of the sidebar; everything else
+      // keeps the default alphabetical order.
+      storySort: { order: ['Core', '*'] },
+    },
     controls: {
       matchers: {
         color: /(background|color)$/i,
