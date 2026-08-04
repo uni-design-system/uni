@@ -1,0 +1,87 @@
+import { Meta, Title, Story } from '@storybook/addon-docs/blocks';
+import * as Stories from './theme.stories';
+
+<Meta of={Stories} name="Overview" />
+<Title />
+
+## Overview
+
+A theme is one plain object — the `UniTheme` contract — and everything a
+component renders resolves from it by **token name**. Nine fields:
+
+- `id`, `name` — identity; `name` is what theme switchers display.
+- `colors` — the **sole color source of truth**. Every other color-bearing
+  token derives from it.
+- `typography` — the numeric type scale; CSS-ready typefaces are derived on
+  read — see [Typography](?path=/docs/core-typography--overview).
+- `borders` — named border shorthands, derived from `colors` (plus any
+  overrides).
+- `radii` — corner radius scale, `none` → `max`.
+- `shadows` — named elevation shadows.
+- `spacing` — the spatial scale, `none` → `xl`.
+- `thicknesses` — line weights: `thin`, `standard`, `thick`.
+- `icons` — icon primitives as data-URI masks — see
+  [Iconography](?path=/docs/core-iconography--overview).
+- `components` — per-component theming: a fixed base, state-aware `variants`,
+  `sizes`, and named `options` that re-point the token scales above.
+
+## Creating a theme
+
+`createTheme({ id, name, colors, … })` is the assembly line, and **colors is
+the only required raw material**: borders and the color-bearing parts of
+`components` are built from it (`buildBorders`, `buildComponents`), typography,
+spacing, and thicknesses come from the shared base scales, radii and shadows
+take the base set unless overridden, and `icons` merge over `BaseIcons`.
+`createThemeFromPalette` goes one step earlier — a seed + scheme + category
+generates the `colors` record itself, which is how the Theme Builder and the
+custom brand flow produce complete themes from a single brand color.
+
+Themes register in the `UNI_THEMES` injection token and apply through
+`ThemeService.selectTheme()`; every token below re-resolves live when the
+theme changes — try the toolbar.
+
+## Colors
+
+Container tokens pair with `on-` content tokens (`primary-container` /
+`on-primary-container`); swatches showing **Aa** render their paired content
+color, so each pair's contrast is visible at a glance.
+
+<Story of={Stories.Colors} />
+
+## Spacing
+
+<Story of={Stories.Spacing} />
+
+## Radii
+
+<Story of={Stories.Radii} />
+
+## Borders
+
+Derived from `colors` — a theme only overrides these to change style, not to
+keep them in sync.
+
+<Story of={Stories.Borders} />
+
+## Shadows
+
+<Story of={Stories.Shadows} />
+
+## Thicknesses
+
+<Story of={Stories.Thicknesses} />
+
+## Component theming
+
+Each entry in `components` layers on the scales above: `fixed` styles always
+apply, `variants` restyle by state or emphasis, `sizes` scale dimensions, and
+`options` are the named knobs a theme re-points (a typeface token here, a
+radius token there) — every component docs page lists its own under **Theme
+options**. This is what makes re-theming a token swap instead of a stylesheet
+edit.
+
+## Roadmap
+
+Custom theme representation and validation (surfacing Theme Builder /
+`createThemeFromPalette` output in these docs, and validating hand-written
+themes against the contract) is planned as a follow-up to this page.

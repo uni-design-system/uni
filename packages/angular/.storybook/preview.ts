@@ -15,9 +15,9 @@ const AllThemes = { ...UniThemes, ...CarbonThemes };
 const preview: Preview = {
   parameters: {
     options: {
-      // Pin the Core section to the top of the sidebar; everything else
-      // keeps the default alphabetical order.
-      storySort: { order: ['Core', '*'] },
+      // Pin the Core section to the top of the sidebar — Theme (the umbrella
+      // concept) first within it — everything else keeps alphabetical order.
+      storySort: { order: ['Core', ['Theme', 'Typography', 'Iconography'], '*'] },
     },
     controls: {
       matchers: {
