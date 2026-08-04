@@ -66,10 +66,23 @@ const specSummary = (face: TypeFaceDefinition): string => {
       </section>
     }
   `,
+  host: { '[class]': 'hostClass()' },
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SbTypographyManifestComponent {
   protected readonly theme = inject(ThemeService);
+
+  // The docs canvas doesn't take the theme background, so the manifest paints
+  // its own surface — dark themes stay legible on the white docs page.
+  protected readonly hostClass = computed(() =>
+    css({
+      display: 'block',
+      padding: '24px',
+      borderRadius: '12px',
+      backgroundColor: this.theme.colors()['background'],
+      color: this.theme.colors()['on-background'],
+    })
+  );
   protected readonly specimen = 'The quick brown fox jumps over the lazy dog';
 
   protected readonly groups = computed<FaceGroup[]>(() => {
