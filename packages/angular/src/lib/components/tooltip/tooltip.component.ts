@@ -50,7 +50,7 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
     '[class]': 'className()',
-    '(click)': 'toggleTooltip()',
+    '(click)': 'onClick($event)',
     '(mouseenter)': 'mouseenter()',
     '(mouseleave)': 'mouseleave()',
     '(focusin)': 'onFocusIn($event)',
@@ -67,6 +67,14 @@ export class UniTooltipComponent extends BaseComponent<UniTooltipOptions> {
 
   /** Whether the bubble is currently shown (or fading out). */
   private readonly visible = signal(false);
+
+  /**
+   * Set when the wrapped control is activated: clicking a button is not a
+   * request to toggle the bubble, and re-showing it right away makes a
+   * state-flipping label ("Expand" → "Collapse") blink back mid-interaction.
+   * Re-arms when the pointer leaves or focus moves away.
+   */
+  private readonly suppressed = signal(false);
 
   readonly tooltipId = uniqueId('uni-tooltip');
   private readonly anchorName = newAnchorName();
@@ -89,7 +97,7 @@ export class UniTooltipComponent extends BaseComponent<UniTooltipOptions> {
       const mouseInside = this.isMouseInside();
 
       // If the timer finished and the mouse is still inside, show tooltip
-      if (!timerActive && mouseInside) {
+      if (!timerActive && mouseInside && !this.suppressed()) {
         this.showTooltip();
       }
       // If the mouse left and the timer is not running, hide tooltip
@@ -120,6 +128,7 @@ export class UniTooltipComponent extends BaseComponent<UniTooltipOptions> {
   }
 
   onFocusOut() {
+    this.suppressed.set(false);
     if (!this.isMouseInside()) {
       this.hideTooltip();
     }
@@ -130,6 +139,23 @@ export class UniTooltipComponent extends BaseComponent<UniTooltipOptions> {
       // Dismiss only the tooltip, not an enclosing dialog/popover
       event.stopPropagation();
       this.hideTooltip();
+    }
+  }
+
+  /**
+   * A click on an interactive element inside the host is an activation of
+   * that control — hide the bubble and stay suppressed until re-arm. A click
+   * anywhere else (inline-text tooltips, tap on a non-interactive host)
+   * keeps the tap-to-toggle behavior.
+   */
+  protected onClick(event: Event) {
+    const host = this.elRef.nativeElement as HTMLElement;
+    const control = (event.target as HTMLElement).closest(FOCUSABLE_SELECTOR);
+    if (control && control !== host && host.contains(control)) {
+      this.suppressed.set(true);
+      this.hideTooltip();
+    } else {
+      this.toggleTooltip();
     }
   }
 
@@ -148,6 +174,7 @@ export class UniTooltipComponent extends BaseComponent<UniTooltipOptions> {
 
   mouseleave() {
     this.isMouseInside.set(false);
+    this.suppressed.set(false);
     this.timer.stop();
   }
 

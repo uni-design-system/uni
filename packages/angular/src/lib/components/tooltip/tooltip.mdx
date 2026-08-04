@@ -13,6 +13,12 @@ import { ThemeOptions } from '../../../stories/blocks/ThemeOptionsBlock';
 A tooltip is a brief, informative message that appears when a user interacts with an element.
 If using a tooltip within a body of text, set the `inlineText` option to `true`.
 
+Wrapping an interactive control (a button, a link) is supported: activating
+the control hides the bubble and keeps it hidden until the pointer leaves and
+returns, so a label that changes with the control's state ("Expand" →
+"Collapse") never blinks back mid-interaction. Tapping a non-interactive
+tooltip (inline text) still toggles the bubble.
+
 ## Usage
 
 <StoryUsage

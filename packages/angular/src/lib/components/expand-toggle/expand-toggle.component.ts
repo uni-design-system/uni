@@ -7,7 +7,6 @@ import type { UniExpandOptions } from '../expand/expand.model';
 import { UniIconComponent } from '../icon/icon.component';
 import { UniIconButtonComponent } from '../icon-button/icon-button.component';
 import { UniTextComponent } from '../text/text.component';
-import { UniTooltipComponent } from '../tooltip/tooltip.component';
 
 /**
  * Trigger for a {@link UniExpandComponent} region.
@@ -21,7 +20,7 @@ import { UniTooltipComponent } from '../tooltip/tooltip.component';
  */
 @Component({
   selector: 'uni-expand-toggle',
-  imports: [UniIconComponent, UniIconButtonComponent, UniTextComponent, UniTooltipComponent],
+  imports: [UniIconComponent, UniIconButtonComponent, UniTextComponent],
   template: `
     @if (label()) {
       <button
@@ -40,17 +39,15 @@ import { UniTooltipComponent } from '../tooltip/tooltip.component';
         </span>
       </button>
     } @else {
-      <uni-tooltip [label]="collapsed() ? 'Expand' : 'Collapse'" placement="right">
-        <button
-          icon-button
-          iconName="chevronUp"
-          (click)="toggle()"
-          [attr.aria-expanded]="!collapsed()"
-          [attr.aria-controls]="ariaControls() || null"
-        >
-          {{ collapsed() ? 'Expand' : 'Collapse' }}
-        </button>
-      </uni-tooltip>
+      <button
+        icon-button
+        iconName="chevronUp"
+        (click)="toggle()"
+        [attr.aria-expanded]="!collapsed()"
+        [attr.aria-controls]="ariaControls() || null"
+      >
+        {{ collapsed() ? 'Expand' : 'Collapse' }}
+      </button>
     }
   `,
   host: {
@@ -88,10 +85,7 @@ export class UniExpandToggleComponent {
   /**
    * The glyph rotates, never the host.
    *
-   * The host is the tooltip's positioning box — `uni-tooltip` puts its
-   * `anchor-name` on its own element, nested inside ours — so rotating the
-   * host swings the anchor through the turn and the bubble visibly bobs. The
-   * host is also taller than the glyph (an inline-level box reserves baseline
+   * The host is taller than the glyph (an inline-level box reserves baseline
    * descender space), so spinning it about its own centre walks the glyph
    * off-centre. `uni-icon` is a centred square sized to the glyph, which makes
    * it the only box here that rotates symmetrically. It also keeps a label
