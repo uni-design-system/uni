@@ -1,15 +1,9 @@
-import { DocsContext } from '@storybook/addon-docs/blocks';
-import React, { useContext } from 'react';
-import { type ComponentName, LightTheme, UniThemes } from '@uni-design-system/uni-core';
+import React from 'react';
+import { type ComponentName } from '@uni-design-system/uni-core';
+import { useActiveTheme } from './ThemedSurface';
 
 export const ThemeDataBlock = ({ componentName }: { componentName: ComponentName }) => {
-  const context = useContext(DocsContext) as any;
-  const globals = context?.store?.userGlobals?.globals || {};
-  const themeData = UniThemes[globals.themeName] || LightTheme;
-
-  if (!themeData) {
-    return <div>No theme data received yet...</div>;
-  }
+  const themeData = useActiveTheme();
 
   return (
     <div style={{ padding: '1rem', border: '1px solid #ccc', borderRadius: '4px' }}>

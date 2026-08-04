@@ -2,6 +2,7 @@ import { Controls, Source, Story, StoryProps } from '@storybook/addon-docs/block
 import { ReactElement } from 'react';
 import { sourceTransform } from '../addons/source-transform';
 import { CommonControlExcludes } from './helpers';
+import { ThemedSurface } from './ThemedSurface';
 
 export function StoryUsage({
   of,
@@ -15,7 +16,9 @@ export function StoryUsage({
 
   return (
     <div>
-      <Story of={of} />
+      <ThemedSurface>
+        <Story of={of} />
+      </ThemedSurface>
       <Source of={of} dark={true} transform={sourceTransform} />
       <Controls of={of} exclude={excludedControls} />
     </div>

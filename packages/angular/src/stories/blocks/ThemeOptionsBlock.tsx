@@ -1,6 +1,6 @@
-import { DocsContext } from '@storybook/addon-docs/blocks';
-import React, { useContext } from 'react';
-import { type ComponentName, LightTheme, UniThemes } from '@uni-design-system/uni-core';
+import React from 'react';
+import { type ComponentName } from '@uni-design-system/uni-core';
+import { useActiveTheme } from './ThemedSurface';
 
 const cell: React.CSSProperties = {
   padding: '6px 12px',
@@ -24,11 +24,7 @@ const isColor = (value: unknown): value is string =>
  * knobs are per-instance inputs, these are per-theme options.
  */
 export const ThemeOptions = ({ componentName }: { componentName: ComponentName }) => {
-  const context = useContext(DocsContext) as {
-    store?: { userGlobals?: { globals?: Record<string, string> } };
-  };
-  const themeName = context?.store?.userGlobals?.globals?.['themeName'] ?? '';
-  const theme = UniThemes[themeName] || LightTheme;
+  const theme = useActiveTheme();
   const options = (theme.components[componentName]?.options ?? {}) as Record<string, unknown>;
   const entries = Object.entries(options);
 
