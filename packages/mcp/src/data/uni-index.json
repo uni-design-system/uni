@@ -1,15 +1,15 @@
 {
   "meta": {
-    "version": "7.2.0",
-    "builtAt": "2026-07-30T18:45:09.864Z",
+    "version": "7.3.0",
+    "builtAt": "2026-08-07T18:04:49.589Z",
     "frameworks": [
       "angular"
     ],
     "counts": {
       "components": 71,
-      "tokens": 305,
+      "tokens": 319,
       "themes": 2,
-      "examples": 135
+      "examples": 138
     }
   },
   "components": [
@@ -20,7 +20,7 @@
       "summary": "",
       "description": "",
       "category": "feedback",
-      "version": "7.2.0",
+      "version": "7.3.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -94,7 +94,7 @@
       "summary": "",
       "description": "",
       "category": "components",
-      "version": "7.2.0",
+      "version": "7.3.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -143,7 +143,7 @@
       "summary": "",
       "description": "",
       "category": "components",
-      "version": "7.2.0",
+      "version": "7.3.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -212,7 +212,7 @@
       "summary": "",
       "description": "",
       "category": "components",
-      "version": "7.2.0",
+      "version": "7.3.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -245,7 +245,7 @@
       "summary": "",
       "description": "",
       "category": "primitives",
-      "version": "7.2.0",
+      "version": "7.3.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -326,7 +326,7 @@
       "summary": "",
       "description": "",
       "category": "feedback",
-      "version": "7.2.0",
+      "version": "7.3.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -387,7 +387,7 @@
       "summary": "",
       "description": "",
       "category": "directives",
-      "version": "7.2.0",
+      "version": "7.3.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -411,7 +411,7 @@
       "summary": "",
       "description": "",
       "category": "layout",
-      "version": "7.2.0",
+      "version": "7.3.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -774,7 +774,7 @@
       "summary": "",
       "description": "",
       "category": "components",
-      "version": "7.2.0",
+      "version": "7.3.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -843,7 +843,7 @@
       "summary": "",
       "description": "",
       "category": "primitives",
-      "version": "7.2.0",
+      "version": "7.3.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -938,7 +938,7 @@
       "summary": "",
       "description": "",
       "category": "primitives",
-      "version": "7.2.0",
+      "version": "7.3.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -970,7 +970,7 @@
       "summary": "",
       "description": "",
       "category": "layout",
-      "version": "7.2.0",
+      "version": "7.3.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -1002,7 +1002,7 @@
       "summary": "",
       "description": "",
       "category": "layout",
-      "version": "7.2.0",
+      "version": "7.3.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -1026,7 +1026,7 @@
       "summary": "",
       "description": "",
       "category": "layout",
-      "version": "7.2.0",
+      "version": "7.3.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -1067,7 +1067,7 @@
       "summary": "",
       "description": "",
       "category": "layout",
-      "version": "7.2.0",
+      "version": "7.3.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -1122,7 +1122,7 @@
       "summary": "",
       "description": "",
       "category": "forms",
-      "version": "7.2.0",
+      "version": "7.3.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -1259,7 +1259,7 @@
       "summary": "",
       "description": "",
       "category": "feedback",
-      "version": "7.2.0",
+      "version": "7.3.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -1306,7 +1306,7 @@
       "summary": "",
       "description": "",
       "category": "forms",
-      "version": "7.2.0",
+      "version": "7.3.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -1364,7 +1364,7 @@
       "summary": "",
       "description": "",
       "category": "data",
-      "version": "7.2.0",
+      "version": "7.3.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -1465,7 +1465,7 @@
       "summary": "",
       "description": "",
       "category": "forms",
-      "version": "7.2.0",
+      "version": "7.3.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -1580,7 +1580,7 @@
       "summary": "",
       "description": "",
       "category": "feedback",
-      "version": "7.2.0",
+      "version": "7.3.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -1658,7 +1658,7 @@
       "summary": "",
       "description": "",
       "category": "feedback",
-      "version": "7.2.0",
+      "version": "7.3.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -1746,7 +1746,7 @@
       "summary": "",
       "description": "",
       "category": "feedback",
-      "version": "7.2.0",
+      "version": "7.3.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -1770,7 +1770,7 @@
       "summary": "",
       "description": "",
       "category": "layout",
-      "version": "7.2.0",
+      "version": "7.3.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -1817,7 +1817,7 @@
       "summary": "",
       "description": "",
       "category": "directives",
-      "version": "7.2.0",
+      "version": "7.3.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -1849,7 +1849,7 @@
       "summary": "",
       "description": "",
       "category": "components",
-      "version": "7.2.0",
+      "version": "7.3.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -1928,7 +1928,7 @@
       "summary": "",
       "description": "",
       "category": "components",
-      "version": "7.2.0",
+      "version": "7.3.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -1980,6 +1980,34 @@
               "description": ""
             },
             {
+              "name": "border",
+              "kind": "input",
+              "type": "Border | undefined",
+              "required": false,
+              "description": ""
+            },
+            {
+              "name": "borderRadius",
+              "kind": "input",
+              "type": "Radius | undefined",
+              "required": false,
+              "description": ""
+            },
+            {
+              "name": "shadow",
+              "kind": "input",
+              "type": "Shadow | undefined",
+              "required": false,
+              "description": ""
+            },
+            {
+              "name": "color",
+              "kind": "input",
+              "type": "ContainerColorToken | undefined",
+              "required": false,
+              "description": ""
+            },
+            {
               "name": "dropdownShowing",
               "kind": "output",
               "type": "boolean",
@@ -2017,7 +2045,7 @@
       "summary": "",
       "description": "",
       "category": "layout",
-      "version": "7.2.0",
+      "version": "7.3.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -2030,6 +2058,13 @@
               "required": false,
               "default": "true",
               "description": ""
+            },
+            {
+              "name": "transitionSpeed",
+              "kind": "input",
+              "type": "number",
+              "required": false,
+              "description": "Exact per-instance duration in seconds. Bypasses size-aware scaling — an explicit number means the consumer wants that number. Omitted, the duration derives from the `expand` theme options' `transitionSpeed` scaled by content height (see `duration`)."
             }
           ]
         }
@@ -2038,7 +2073,17 @@
         {
           "title": "Primary",
           "framework": "angular",
-          "code": "<!-- Storybook story: Primary -->\n<uni-card>\n<uni-card-header title=\"Expandable Card\"><uni-expand-toggle #toggle /></uni-card-header>\n<uni-expand [collapsed]=\"toggle.collapsed()\">\n  <uni-card-content>\n    <span uni-text>${ngContent}</span>\n  </uni-card-content>\n</uni-expand>\n</uni-card>\n<!-- args:\n{\n    ngContent: 'Expandable Content',\n  }\n-->"
+          "code": "<!-- Storybook story: Primary -->\n<uni-card>\n<uni-card-header title=\"Expandable Card\"><uni-expand-toggle #toggle [transitionSpeed]=\"expand.duration()\" /></uni-card-header>\n<uni-expand #expand [collapsed]=\"toggle.collapsed()\" [transitionSpeed]=\"transitionSpeed\">\n  <uni-card-content>\n    <span uni-text>${ngContent}</span>\n  </uni-card-content>\n</uni-expand>\n</uni-card>\n<!-- args:\n{\n    ngContent: 'Expandable Content',\n  }\n-->"
+        },
+        {
+          "title": "Snappy",
+          "framework": "angular",
+          "code": "<!-- Storybook story: Snappy -->\n<uni-card>\n<uni-card-header title=\"Expandable Card\"><uni-expand-toggle #toggle [transitionSpeed]=\"expand.duration()\" /></uni-card-header>\n<uni-expand #expand [collapsed]=\"toggle.collapsed()\" [transitionSpeed]=\"transitionSpeed\">\n  <uni-card-content>\n    <span uni-text>${ngContent}</span>\n  </uni-card-content>\n</uni-expand>\n</uni-card>\n<!-- args:\n{\n    ngContent: 'Reveals in exactly 150ms, regardless of content height.',\n    transitionSpeed: 0.15,\n  }\n-->"
+        },
+        {
+          "title": "Tall",
+          "framework": "angular",
+          "code": "<!-- Storybook story: Tall -->\n<uni-card>\n<uni-card-header title=\"Expandable Card\"><uni-expand-toggle #toggle [transitionSpeed]=\"expand.duration()\" /></uni-card-header>\n<uni-expand #expand [collapsed]=\"toggle.collapsed()\" [transitionSpeed]=\"transitionSpeed\">\n  <uni-card-content>\n    <span uni-text>${ngContent}</span>\n  </uni-card-content>\n</uni-expand>\n</uni-card>\n<!-- args:\n{\n    ngContent: Array.from(\n      { length: 12 },\n      (_, i) => `Row ${i + 1} of a tall reveal, timed to its height.`,\n    ).join('<br>'),\n  }\n-->"
         }
       ],
       "guidelines": {
@@ -2050,7 +2095,9 @@
           "The reveal is motion-safe (WCAG 2.3.3): under `prefers-reduced-motion` the"
         ]
       },
-      "relatedTokens": []
+      "relatedTokens": [
+        "expand.behavior.transitionSpeed"
+      ]
     },
     {
       "id": "expand-area",
@@ -2059,7 +2106,7 @@
       "summary": "",
       "description": "",
       "category": "layout",
-      "version": "7.2.0",
+      "version": "7.3.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -2120,7 +2167,7 @@
       "summary": "",
       "description": "",
       "category": "forms",
-      "version": "7.2.0",
+      "version": "7.3.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -2154,6 +2201,13 @@
               "type": "string",
               "required": false,
               "description": "Muted qualifier beside the label (\"for POs & custom orders\"). Needs `label`."
+            },
+            {
+              "name": "transitionSpeed",
+              "kind": "input",
+              "type": "number",
+              "required": false,
+              "description": "Rotation duration in seconds. Expand Area binds the region's resolved `duration` here so chevron and reveal share one clock even when the region is size-scaled or overridden per instance."
             }
           ]
         }
@@ -2189,7 +2243,7 @@
       "summary": "",
       "description": "",
       "category": "forms",
-      "version": "7.2.0",
+      "version": "7.3.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -2319,7 +2373,7 @@
       "summary": "",
       "description": "",
       "category": "layout",
-      "version": "7.2.0",
+      "version": "7.3.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -2393,7 +2447,7 @@
       "summary": "",
       "description": "",
       "category": "layout",
-      "version": "7.2.0",
+      "version": "7.3.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -2425,7 +2479,7 @@
       "summary": "",
       "description": "",
       "category": "primitives",
-      "version": "7.2.0",
+      "version": "7.3.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -2485,7 +2539,7 @@
       "summary": "",
       "description": "",
       "category": "primitives",
-      "version": "7.2.0",
+      "version": "7.3.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -2578,7 +2632,7 @@
       "summary": "",
       "description": "",
       "category": "forms",
-      "version": "7.2.0",
+      "version": "7.3.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -2723,7 +2777,7 @@
       "summary": "",
       "description": "",
       "category": "forms",
-      "version": "7.2.0",
+      "version": "7.3.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -2796,7 +2850,7 @@
       "summary": "",
       "description": "",
       "category": "components",
-      "version": "7.2.0",
+      "version": "7.3.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -2866,7 +2920,7 @@
       "summary": "",
       "description": "",
       "category": "layout",
-      "version": "7.2.0",
+      "version": "7.3.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -2909,10 +2963,15 @@
           "title": "Primary",
           "framework": "angular",
           "code": "<!-- Storybook story: Primary -->\n<div box-layout color=\"primary\" padding=\"sm\">\n  <uni-menu ${argsToTemplate(props)}>\n    <button text-button variant=\"ghost\" symbolRight=\"arrow_drop_down\">Menu</button>\n  </uni-menu>\n</div>\n<!-- args:\n{\n    menuItems: [\n      { label: 'Language', symbolName: 'translate' },\n      { label: 'Settings', symbolName: 'settings' },\n      { label: 'Logout', symbolName: 'logout' },\n    ],\n  }\n-->"
+        },
+        {
+          "title": "Tones",
+          "framework": "angular",
+          "code": "<!-- Storybook story: Tones -->\n<div box-layout color=\"primary\" padding=\"sm\">\n  <uni-menu ${argsToTemplate(props)}>\n    <button text-button variant=\"ghost\" symbolRight=\"arrow_drop_down\">Menu</button>\n  </uni-menu>\n</div>\n<!-- args:\n{\n    menuItems: [\n      { label: 'Rename', symbolName: 'edit' },\n      { label: 'Duplicate', symbolName: 'content_copy' },\n      { label: 'Share', symbolName: 'share', disabled: true },\n      { divider: true },\n      { label: 'Delete', symbolName: 'delete', variant: 'warn' },\n    ],\n  }\n-->"
         }
       ],
       "guidelines": {
-        "whenToUse": "Menus can be linked to any component, but it is recommended to use either the `text-button` or `icon-button` component.\nMenus are populated by creating an array of Menu Items (`MenuItem[]`) and binding it to the `Menu` component.\nActions are optional as the `Menu` component also emits the clicked menu item via the `menuItemClicked` output attribute.\n### Menu Item Interface\n```\nMenuItem {\n  label: string;\n  symbolName?: string;\n  action?: () => void;\n}\n```",
+        "whenToUse": "Menus can be linked to any component, but it is recommended to use either the `text-button` or `icon-button` component.\nMenus are populated by creating an array of Menu Items (`MenuItem[]`) and binding it to the `Menu` component.\nActions are optional as the `Menu` component also emits the clicked menu item via the `menuItemClicked` output attribute.\n### Menu Item Interface\nAn item is either a labeled action, a templated action, or a divider:\n```\nMenuItem =\n  | { label: string; symbolName?: string; action?: () => void;\n      variant?: Variant; disabled?: boolean }\n  | { template: TemplateRef<T>; context: T; symbolName?: string;\n      action?: () => void; variant?: Variant; disabled?: boolean }\n  | { divider: true }\n```\n- `variant` routes through the theme's `menuItem` variants — e.g. `variant: 'warn'`\n  renders the item in the theme's destructive tone.\n- `disabled` items render with the disabled color and are skipped by keyboard\n  navigation.\n- `{ divider: true }` renders a `role=\"separator\"` rule styled by the `menu`\n  theme options.",
         "dos": [],
         "donts": [],
         "accessibility": [
@@ -2920,7 +2979,13 @@
           "ArrowDown/ArrowUp on the trigger opens onto the first/last item; focus returns to the trigger on close."
         ]
       },
-      "relatedTokens": []
+      "relatedTokens": [
+        "menu.behavior.minWidth",
+        "menu.behavior.paddingVertical",
+        "menu.behavior.paddingHorizontal",
+        "menu.behavior.dividerBorder",
+        "menu.behavior.dividerSpacing"
+      ]
     },
     {
       "id": "menu-item",
@@ -2929,52 +2994,12 @@
       "summary": "",
       "description": "",
       "category": "layout",
-      "version": "7.2.0",
+      "version": "7.3.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
           "selectorOrTag": "[uni-menu-item], [menu-item]",
           "api": [
-            {
-              "name": "display",
-              "kind": "input",
-              "type": "OptionalDisplay",
-              "required": false,
-              "default": "'flex'",
-              "description": ""
-            },
-            {
-              "name": "flexDirection",
-              "kind": "input",
-              "type": "OptionalFlexDirection",
-              "required": false,
-              "default": "'row'",
-              "description": ""
-            },
-            {
-              "name": "alignItems",
-              "kind": "input",
-              "type": "OptionalAlignItems",
-              "required": false,
-              "default": "'center'",
-              "description": ""
-            },
-            {
-              "name": "paddingHorizontal",
-              "kind": "input",
-              "type": "OptionalSize",
-              "required": false,
-              "default": "'md'",
-              "description": ""
-            },
-            {
-              "name": "gap",
-              "kind": "input",
-              "type": "OptionalSize",
-              "required": false,
-              "default": "'md'",
-              "description": ""
-            },
             {
               "name": "label",
               "kind": "input",
@@ -3011,12 +3036,18 @@
               "description": ""
             },
             {
+              "name": "variant",
+              "kind": "input",
+              "type": "Variant | undefined",
+              "required": false,
+              "description": "Tone routed through the theme's `menuItem` variants (e.g. 'warn')."
+            },
+            {
               "name": "hoverColor",
               "kind": "input",
-              "type": "ContainerColorToken",
+              "type": "ContainerColorToken | undefined",
               "required": false,
-              "default": "'primary-container'",
-              "description": ""
+              "description": "Per-instance override of the theme's `menuItem.hoverColor`."
             },
             {
               "name": "disabled",
@@ -3045,7 +3076,7 @@
       "summary": "",
       "description": "",
       "category": "forms",
-      "version": "7.2.0",
+      "version": "7.3.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -3133,7 +3164,7 @@
       "summary": "",
       "description": "",
       "category": "forms",
-      "version": "7.2.0",
+      "version": "7.3.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -3268,7 +3299,7 @@
       "summary": "",
       "description": "",
       "category": "feedback",
-      "version": "7.2.0",
+      "version": "7.3.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -3399,7 +3430,7 @@
       "summary": "",
       "description": "",
       "category": "feedback",
-      "version": "7.2.0",
+      "version": "7.3.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -3423,7 +3454,7 @@
       "summary": "",
       "description": "",
       "category": "data",
-      "version": "7.2.0",
+      "version": "7.3.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -3508,7 +3539,7 @@
       "summary": "",
       "description": "",
       "category": "layout",
-      "version": "7.2.0",
+      "version": "7.3.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -3557,7 +3588,7 @@
       "summary": "",
       "description": "",
       "category": "feedback",
-      "version": "7.2.0",
+      "version": "7.3.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -3621,7 +3652,7 @@
       "summary": "",
       "description": "",
       "category": "feedback",
-      "version": "7.2.0",
+      "version": "7.3.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -3669,7 +3700,7 @@
       "summary": "",
       "description": "",
       "category": "forms",
-      "version": "7.2.0",
+      "version": "7.3.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -3820,7 +3851,7 @@
       "summary": "",
       "description": "",
       "category": "directives",
-      "version": "7.2.0",
+      "version": "7.3.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -3844,7 +3875,7 @@
       "summary": "",
       "description": "",
       "category": "layout",
-      "version": "7.2.0",
+      "version": "7.3.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -3899,7 +3930,7 @@
       "summary": "",
       "description": "",
       "category": "layout",
-      "version": "7.2.0",
+      "version": "7.3.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -4046,7 +4077,7 @@
       "summary": "",
       "description": "",
       "category": "forms",
-      "version": "7.2.0",
+      "version": "7.3.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -4145,7 +4176,7 @@
       "summary": "",
       "description": "",
       "category": "forms",
-      "version": "7.2.0",
+      "version": "7.3.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -4281,7 +4312,7 @@
       "summary": "",
       "description": "",
       "category": "components",
-      "version": "7.2.0",
+      "version": "7.3.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -4361,7 +4392,7 @@
       "summary": "",
       "description": "",
       "category": "forms",
-      "version": "7.2.0",
+      "version": "7.3.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -4498,7 +4529,7 @@
       "summary": "",
       "description": "",
       "category": "feedback",
-      "version": "7.2.0",
+      "version": "7.3.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -4590,7 +4621,7 @@
       "summary": "",
       "description": "",
       "category": "data",
-      "version": "7.2.0",
+      "version": "7.3.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -4635,7 +4666,7 @@
       "summary": "",
       "description": "",
       "category": "layout",
-      "version": "7.2.0",
+      "version": "7.3.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -4690,7 +4721,7 @@
       "summary": "",
       "description": "",
       "category": "components",
-      "version": "7.2.0",
+      "version": "7.3.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -4792,7 +4823,7 @@
       "summary": "",
       "description": "",
       "category": "primitives",
-      "version": "7.2.0",
+      "version": "7.3.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -4865,7 +4896,7 @@
       "summary": "",
       "description": "",
       "category": "components",
-      "version": "7.2.0",
+      "version": "7.3.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -4905,7 +4936,7 @@
       "summary": "",
       "description": "",
       "category": "components",
-      "version": "7.2.0",
+      "version": "7.3.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -4969,7 +5000,7 @@
       "summary": "",
       "description": "",
       "category": "data",
-      "version": "7.2.0",
+      "version": "7.3.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -5036,7 +5067,7 @@
       "summary": "",
       "description": "",
       "category": "primitives",
-      "version": "7.2.0",
+      "version": "7.3.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -5138,7 +5169,7 @@
       "summary": "",
       "description": "",
       "category": "primitives",
-      "version": "7.2.0",
+      "version": "7.3.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -5268,7 +5299,7 @@
       "summary": "",
       "description": "",
       "category": "primitives",
-      "version": "7.2.0",
+      "version": "7.3.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -5298,7 +5329,7 @@
       "summary": "",
       "description": "",
       "category": "components",
-      "version": "7.2.0",
+      "version": "7.3.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -5356,7 +5387,7 @@
       "summary": "",
       "description": "",
       "category": "forms",
-      "version": "7.2.0",
+      "version": "7.3.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -5486,7 +5517,7 @@
       "summary": "",
       "description": "",
       "category": "feedback",
-      "version": "7.2.0",
+      "version": "7.3.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -5542,7 +5573,7 @@
         }
       ],
       "guidelines": {
-        "whenToUse": "A tooltip is a brief, informative message that appears when a user interacts with an element.\nIf using a tooltip within a body of text, set the `inlineText` option to `true`.",
+        "whenToUse": "A tooltip is a brief, informative message that appears when a user interacts with an element.\nIf using a tooltip within a body of text, set the `inlineText` option to `true`.\nWrapping an interactive control (a button, a link) is supported: activating\nthe control hides the bubble and keeps it hidden until the pointer leaves and\nreturns, so a label that changes with the control's state (\"Expand\" →\n\"Collapse\") never blinks back mid-interaction. Tapping a non-interactive\ntooltip (inline text) still toggles the bubble.",
         "dos": [],
         "donts": [],
         "accessibility": [
@@ -5565,7 +5596,7 @@
       "summary": "",
       "description": "",
       "category": "layout",
-      "version": "7.2.0",
+      "version": "7.3.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -7828,6 +7859,174 @@
       }
     },
     {
+      "id": "menu.behavior.minWidth",
+      "value": 184,
+      "type": "number",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "menu",
+      "themeValues": {
+        "LightTheme": 184,
+        "DarkTheme": 184
+      }
+    },
+    {
+      "id": "menu.behavior.paddingVertical",
+      "value": "xs",
+      "type": "string",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "menu",
+      "themeValues": {
+        "LightTheme": "xs",
+        "DarkTheme": "xs"
+      }
+    },
+    {
+      "id": "menu.behavior.paddingHorizontal",
+      "value": "none",
+      "type": "string",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "menu",
+      "themeValues": {
+        "LightTheme": "none",
+        "DarkTheme": "none"
+      }
+    },
+    {
+      "id": "menu.behavior.dividerBorder",
+      "value": "light",
+      "type": "string",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "menu",
+      "themeValues": {
+        "LightTheme": "light",
+        "DarkTheme": "light"
+      }
+    },
+    {
+      "id": "menu.behavior.dividerSpacing",
+      "value": "xs",
+      "type": "string",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "menu",
+      "themeValues": {
+        "LightTheme": "xs",
+        "DarkTheme": "xs"
+      }
+    },
+    {
+      "id": "menuItem.behavior.height",
+      "value": 38,
+      "type": "number",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "menuItem",
+      "themeValues": {
+        "LightTheme": 38,
+        "DarkTheme": 38
+      }
+    },
+    {
+      "id": "menuItem.behavior.paddingHorizontal",
+      "value": "md",
+      "type": "string",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "menuItem",
+      "themeValues": {
+        "LightTheme": "md",
+        "DarkTheme": "md"
+      }
+    },
+    {
+      "id": "menuItem.behavior.gap",
+      "value": "md",
+      "type": "string",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "menuItem",
+      "themeValues": {
+        "LightTheme": "md",
+        "DarkTheme": "md"
+      }
+    },
+    {
+      "id": "menuItem.behavior.borderRadius",
+      "value": "none",
+      "type": "string",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "menuItem",
+      "themeValues": {
+        "LightTheme": "none",
+        "DarkTheme": "none"
+      }
+    },
+    {
+      "id": "menuItem.behavior.typeface",
+      "value": "label",
+      "type": "string",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "menuItem",
+      "themeValues": {
+        "LightTheme": "label",
+        "DarkTheme": "label"
+      }
+    },
+    {
+      "id": "menuItem.behavior.hoverColor",
+      "value": "primary-container",
+      "type": "string",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "menuItem",
+      "themeValues": {
+        "LightTheme": "primary-container",
+        "DarkTheme": "primary-container"
+      }
+    },
+    {
+      "id": "menuItem.behavior.activeSymbol",
+      "value": "check",
+      "type": "string",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "menuItem",
+      "themeValues": {
+        "LightTheme": "check",
+        "DarkTheme": "check"
+      }
+    },
+    {
+      "id": "menuItem.behavior.transitionSpeed",
+      "value": 0.35,
+      "type": "number",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "menuItem",
+      "themeValues": {
+        "LightTheme": 0.35,
+        "DarkTheme": 0.35
+      }
+    },
+    {
+      "id": "expand.behavior.transitionSpeed",
+      "value": 0.35,
+      "type": "number",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "expand",
+      "themeValues": {
+        "LightTheme": 0.35,
+        "DarkTheme": 0.35
+      }
+    },
+    {
       "id": "footer.behavior.height",
       "value": 52,
       "type": "number",
@@ -9366,6 +9565,26 @@
           "color": "primary-surface",
           "shadow": "menu"
         },
+        "menu": {
+          "minWidth": 184,
+          "paddingVertical": "xs",
+          "paddingHorizontal": "none",
+          "dividerBorder": "light",
+          "dividerSpacing": "xs"
+        },
+        "menuItem": {
+          "height": 38,
+          "paddingHorizontal": "md",
+          "gap": "md",
+          "borderRadius": "none",
+          "typeface": "label",
+          "hoverColor": "primary-container",
+          "activeSymbol": "check",
+          "transitionSpeed": 0.35
+        },
+        "expand": {
+          "transitionSpeed": 0.35
+        },
         "footer": {
           "height": 52,
           "color": "primary",
@@ -9746,6 +9965,26 @@
           "borderRadius": "xxs",
           "color": "primary-surface",
           "shadow": "menu"
+        },
+        "menu": {
+          "minWidth": 184,
+          "paddingVertical": "xs",
+          "paddingHorizontal": "none",
+          "dividerBorder": "light",
+          "dividerSpacing": "xs"
+        },
+        "menuItem": {
+          "height": 38,
+          "paddingHorizontal": "md",
+          "gap": "md",
+          "borderRadius": "none",
+          "typeface": "label",
+          "hoverColor": "primary-container",
+          "activeSymbol": "check",
+          "transitionSpeed": 0.35
+        },
+        "expand": {
+          "transitionSpeed": 0.35
         },
         "footer": {
           "height": 52,

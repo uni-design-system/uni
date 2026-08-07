@@ -1,5 +1,97 @@
 # @uni-design-system/uni-angular
 
+## 7.3.0
+
+### Minor Changes
+
+- [`c828982`](https://github.com/uni-design-system/uni/commit/c828982442e5bdc1d6884551160bbceac8ecf8f7) Thanks [@gaenglish](https://github.com/gaenglish)! - `expand` gains a themable, size-aware speed
+
+  The reveal/collapse duration was hardcoded at 350ms, so a consumer wanting a
+  snappier disclosure — or wanting adjacent styling to fade on the same clock —
+  had nothing to reference. A fixed duration also reads differently at different
+  sizes: sluggish on a two-line region, rushed on a full-page one.
+  - **New `transitionSpeed` option in the `expand` theme options** (seconds,
+    default `0.35`, matching alert/card `transitionSpeed`) sets the base
+    duration. `'expand'` joins core's `ComponentName` union, so custom and
+    derived themes can type an `expand` entry.
+  - **Duration scales with content height.** The actual duration is
+    `transitionSpeed × √(height ÷ 240px)`, clamped to ~0.15–0.6s at the default
+    speed (the envelope scales proportionally with a themed speed), so perceived
+    speed stays steady across region sizes. The curve and its constants
+    (`expandDuration`, `EXPAND_DEFAULT_SPEED`, `EXPAND_MIN_DURATION`,
+    `EXPAND_MAX_DURATION`, `EXPAND_REFERENCE_HEIGHT`) are exported from
+    uni-core.
+  - **New per-instance `transitionSpeed` input** sets an exact duration for one
+    region, bypassing the scaling: `<uni-expand [transitionSpeed]="0.15">`.
+  - **The resolved duration is exposed as the public `duration` signal** on
+    `uni-expand`, so adjacent styling can move on the reveal's clock with a
+    plain binding — `[style.transition-duration]="expand.duration() + 's'"` —
+    keeping all timing in the theme/signal pipeline, with no custom CSS.
+  - **`expand-toggle` gains a matching `transitionSpeed` input** and otherwise
+    follows the theme token instead of its own hardcoded 350ms. Expand Area
+    binds the region's resolved `duration` to its toggle, keeping chevron and
+    reveal on one clock even when size-scaled or overridden.
+  - **Speed is theme-reactive**: swapping themes at runtime retimes regions and
+    chevrons live.
+  - **Enter/leave easing is now `ease-in-out`** (was `ease-in`), matching the
+    chevron rotation so trigger and region decelerate together.
+  - **`UniExpandOptions` is exported** from uni-angular for
+    `getComponentOptions<UniExpandOptions>('expand')` consumers.
+
+- [`6e8b429`](https://github.com/uni-design-system/uni/commit/6e8b4297190ce6974114d7fc6c52e37866902633) Thanks [@gaenglish](https://github.com/gaenglish)! - Menus join the theme model: `menu` + `menuItem` component options, item tones, and dividers
+
+  The menu was the only composite component with no theme surface of its own —
+  panel chrome came from the shared `dropdown` entry and every item-level knob
+  (height 38, `primary-container` hover, `check` active symbol, `label` type
+  role) was hardcoded. Every Uni menu therefore looked identical, and the gaps a
+  real product hits first (a red Delete, a separator before it, disabled rows)
+  were only reachable via `::ng-deep`.
+  - **New `menu` theme options** (`'menu'` joins core's `ComponentName` union):
+    `minWidth`, panel `color`/`border`/`borderRadius`/`shadow` (each falling
+    back to the `dropdown` options when unset, so menus follow generic popovers
+    until a theme deliberately splits them), `paddingVertical`/
+    `paddingHorizontal` (panel inset — `xs` inset plus item `borderRadius`
+    yields the "hover pill" look; `none` yields full-bleed rows), and
+    `dividerBorder`/`dividerSpacing` for separators.
+  - **New `menuItem` theme options + variants** (`'menuItem'` joins
+    `ComponentName`): `height`, `paddingHorizontal`, `gap`, `borderRadius`,
+    `typeface`, `textColor`, `hoverColor`, `activeSymbol` (undefined removes the
+    trailing check), and `transitionSpeed`. Theme `variants` on `menuItem` carry
+    tones — the base theme ships a `warn` tone for destructive actions.
+  - **`MenuItem` grows `variant`, `disabled`, and `{ divider: true }`.**
+    `variant: 'warn'` routes through the theme's `menuItem` variants; `disabled`
+    items render in the disabled color, carry `aria-disabled`, and are skipped
+    by keyboard navigation; dividers render as `role="separator"` rules styled
+    by the `menu` options. `isDivider` and the `UniMenuOptions`/
+    `UniMenuItemOptions` interfaces are exported from uni-angular.
+  - **`uni-dropdown` panel chrome is now input-overridable**
+    (`border`/`borderRadius`/`shadow`/`color`), falling back to the `dropdown`
+    theme options — this is the mechanism `uni-menu` uses; other consumers are
+    unchanged.
+  - **Default-rendering change:** menus now have `minWidth: 184` from the base
+    theme (previously they sized to the widest item). All other defaults
+    reproduce the previous look, including the 0.35s hover transition.
+  - **The Carbon experiment themes gain menu styling** (sharp full-bleed 40px
+    rows, IBM Plex, `$layer-hover`, red danger option, ~110ms motion) with a new
+    Carbon Menu story demonstrating that the same component renders both
+    aesthetics untouched.
+
+### Patch Changes
+
+- [`ba4e38d`](https://github.com/uni-design-system/uni/commit/ba4e38d88ad65bbba8badf2b42115acfd4d433e2) Thanks [@gaenglish](https://github.com/gaenglish)! - Tooltip no longer blinks after activating a wrapped control
+
+  Clicking a button inside `uni-tooltip` used to fall through to the bubble's
+  tap-to-toggle handler and then re-show on the still-hovering pointer — a
+  state-flipping label ("Expand" → "Collapse") visibly blinked off and back on
+  after the click.
+  - **Activating an interactive element inside the host now hides the bubble
+    and suppresses it** until the pointer leaves and returns (or focus moves
+    away). Tap-to-toggle is unchanged for non-interactive hosts (inline text).
+  - **`expand-toggle` drops its icon-only tooltip.** The rotating chevron plus
+    `aria-expanded` and the button's accessible name already say everything the
+    bubble restated; use the `label` input when a disclosure needs a visible
+    name.
+
 ## 7.2.0
 
 ### Minor Changes
