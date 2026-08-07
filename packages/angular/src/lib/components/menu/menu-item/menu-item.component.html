@@ -7,9 +7,7 @@
   @if (tpl) {
     <ng-container [ngTemplateOutlet]="tpl" [ngTemplateOutletContext]="context()"></ng-container>
   } @else {
-    <span [uni-text]="labelTypeface()" display="block" [nowrap]="true">
-      {{ label() }}
-    </span>
+    <span [class]="LabelClassName">{{ label() }}</span>
   }
 </div>
 @let activeSym = activeSymbol();

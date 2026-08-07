@@ -11,7 +11,6 @@ import {
 import { css } from '@emotion/css';
 
 import { UniBoxComponent } from '../../layout';
-import { UniTextComponent } from '../../text';
 import { UniSymbolComponent } from '../../symbol';
 import { ThemeService } from '../../../theming';
 import type { ContainerColorToken, Variant } from '@uni-design-system/uni-core';
@@ -19,7 +18,7 @@ import type { UniMenuItemOptions } from './menu-item.model';
 
 @Component({
   selector: '[uni-menu-item], [menu-item]',
-  imports: [UniTextComponent, UniSymbolComponent, UniBoxComponent, NgTemplateOutlet],
+  imports: [UniSymbolComponent, UniBoxComponent, NgTemplateOutlet],
   templateUrl: './menu-item.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
@@ -51,7 +50,8 @@ export class UniMenuItemComponent<T = any> {
 
   protected readonly activeSymbol = computed(() => this.options().activeSymbol);
 
-  protected readonly labelTypeface = computed(() => this.options().typeface ?? 'label');
+  /** Typography comes from the host's themed typeface; the span only lays out. */
+  protected readonly LabelClassName = css({ display: 'block', whiteSpace: 'nowrap' });
 
   protected readonly menuItemClassName = computed(() => {
     const options = this.options();
