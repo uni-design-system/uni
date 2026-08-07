@@ -18,7 +18,13 @@ import { BaseComponent } from '../base';
 import { COMPONENT_NAME } from '../base/base.component';
 import { UniBoxComponent } from '../layout';
 import type { UniDropdownOptions } from './dropdown.model';
-import type { NullableSize } from '@uni-design-system/uni-core';
+import type {
+  Border,
+  ContainerColorToken,
+  NullableSize,
+  Radius,
+  Shadow,
+} from '@uni-design-system/uni-core';
 import {
   anchorStyles,
   newAnchorName,
@@ -39,12 +45,12 @@ export type AriaHasPopup = 'menu' | 'listbox' | 'dialog' | 'grid' | 'tree' | 'tr
     <div #dropdown popover="auto" [id]="popoverId" [class]="dropdownClass()">
       <div
         box-layout
-        [border]="componentOptions().border"
-        [borderRadius]="componentOptions().borderRadius"
+        [border]="border() ?? componentOptions().border"
+        [borderRadius]="borderRadius() ?? componentOptions().borderRadius"
         [paddingVertical]="paddingVertical()"
         [paddingHorizontal]="paddingHorizontal()"
-        [color]="componentOptions().color"
-        [shadow]="componentOptions().shadow"
+        [color]="color() ?? componentOptions().color"
+        [shadow]="shadow() ?? componentOptions().shadow"
       >
         <ng-content></ng-content>
       </div>
@@ -81,6 +87,14 @@ export class UniDropdownComponent
 
   paddingVertical = input<NullableSize>();
   paddingHorizontal = input<NullableSize>();
+
+  // Per-instance panel-chrome overrides; undefined falls back to the theme's
+  // `dropdown` options, so hosts like uni-menu can restyle their panel
+  // without forking the shared dropdown entry.
+  border = input<Border | undefined>();
+  borderRadius = input<Radius | undefined>();
+  shadow = input<Shadow | undefined>();
+  color = input<ContainerColorToken | undefined>();
 
   dropdownShowing = output<boolean>();
   dropdownHiding = output<boolean>();

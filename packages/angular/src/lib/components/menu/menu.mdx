@@ -17,39 +17,42 @@ Actions are optional as the `Menu` component also emits the clicked menu item vi
 
 ### Menu Item Interface
 
+An item is either a labeled action, a templated action, or a divider:
+
 ```
-MenuItem {
-  label: string;
-  symbolName?: string;
-  action?: () => void;
-}
+MenuItem =
+  | { label: string; symbolName?: string; action?: () => void;
+      variant?: Variant; disabled?: boolean }
+  | { template: TemplateRef<T>; context: T; symbolName?: string;
+      action?: () => void; variant?: Variant; disabled?: boolean }
+  | { divider: true }
 ```
+
+- `variant` routes through the theme's `menuItem` variants — e.g. `variant: 'warn'`
+  renders the item in the theme's destructive tone.
+- `disabled` items render with the disabled color and are skipped by keyboard
+  navigation.
+- `{ divider: true }` renders a `role="separator"` rule styled by the `menu`
+  theme options.
 
 ## Usage
 
-<StoryUsage
-  of={Stories.Primary}
-  exclude={[
-    'showClassName',
-    'arrowClassName',
-    'popoverClassName',
-    'spanClassName',
-    'createArrow',
-    'createTooltip',
-    'setPosition',
-    'arrow',
-    'tooltip',
-    'spanClassName',
-    'delay',
-    'arrowRef',
-    'popoverRef',
-    'triggerRef',
-    'TriggerClassName',
-    'handleMenuItemClick',
-  ]}
-/>
+<StoryUsage of={Stories.Primary} exclude={['TriggerClassName', 'handleMenuItemClick']} />
+
+## Tones
+
+<StoryUsage of={Stories.Tones} exclude={['TriggerClassName', 'handleMenuItemClick']} />
 
 ## Theme options
+
+Panel chrome and item anatomy are themed via the `menu` and `menuItem`
+component entries. The `menu` panel colors (`color`/`border`/`borderRadius`/`shadow`)
+fall back to the shared `dropdown` options when unset, so menus follow generic
+popovers until a theme deliberately splits them.
+
+<ThemeOptions componentName="menu" />
+
+<ThemeOptions componentName="menuItem" />
 
 <ThemeOptions componentName="dropdown" />
 

@@ -7,11 +7,12 @@
   @if (tpl) {
     <ng-container [ngTemplateOutlet]="tpl" [ngTemplateOutletContext]="context()"></ng-container>
   } @else {
-    <span uni-text="label" display="block" [nowrap]="true">
+    <span [uni-text]="labelTypeface()" display="block" [nowrap]="true">
       {{ label() }}
     </span>
   }
 </div>
-@if (active()) {
-  <uni-symbol name="check"></uni-symbol>
+@let activeSym = activeSymbol();
+@if (active() && activeSym) {
+  <uni-symbol [name]="activeSym"></uni-symbol>
 }

@@ -264,6 +264,50 @@ const buildComponents = (c: Colors): ComponentThemes => ({
   dropdown: {
     options: { border: 'none', borderRadius: 'xxs', color: 'primary-surface', shadow: 'menu' },
   },
+  // Menu panel chrome. The undefined color/border/borderRadius/shadow fall
+  // back to the `dropdown` options above, so menus follow generic popovers
+  // until a theme deliberately splits them. Panel padding + item borderRadius
+  // together select the archetype: full-bleed rows (padding none) vs. the
+  // inset "hover pill" look (padding xs + menuItem borderRadius).
+  menu: {
+    options: {
+      minWidth: 184,
+      color: undefined,
+      border: undefined,
+      borderRadius: undefined,
+      shadow: undefined,
+      paddingVertical: 'xs',
+      paddingHorizontal: 'none',
+      dividerBorder: 'light',
+      dividerSpacing: 'xs',
+    },
+  },
+  // Item anatomy: every density/shape/type knob is a token, and `variants`
+  // carry tones — an item declares `variant: 'warn'` and the theme decides
+  // what a destructive action looks like. `activeSymbol` marks the selected
+  // item; set it to undefined to drop the trailing symbol entirely.
+  menuItem: {
+    options: {
+      height: 38,
+      paddingHorizontal: 'md',
+      gap: 'md',
+      borderRadius: 'none',
+      typeface: 'label',
+      textColor: undefined,
+      hoverColor: 'primary-container',
+      activeSymbol: 'check',
+      transitionSpeed: 0.35,
+    },
+    variants: {
+      warn: {
+        color: c.warn,
+        '&:hover, &:focus': {
+          backgroundColor: c['warn-container'],
+          color: c['on-warn-container'],
+        },
+      },
+    },
+  },
   // Base reveal/collapse duration (seconds, matching alert/card
   // `transitionSpeed`) at a 240px-tall region; actual duration scales with
   // content height (√-of-height, clamped ~0.15–0.6s at this speed — see

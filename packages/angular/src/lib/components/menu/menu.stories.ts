@@ -42,3 +42,21 @@ export const Primary: Story = {
     ],
   },
 };
+
+/**
+ * Item tones and structure come from the data, styling from the theme: a
+ * divider groups the destructive action, `variant: 'warn'` renders it in the
+ * theme's danger tone, and `disabled` items are skipped by keyboard
+ * navigation.
+ */
+export const Tones: Story = {
+  args: {
+    menuItems: [
+      { label: 'Rename', symbolName: 'edit' },
+      { label: 'Duplicate', symbolName: 'content_copy' },
+      { label: 'Share', symbolName: 'share', disabled: true },
+      { divider: true },
+      { label: 'Delete', symbolName: 'delete', variant: 'warn' },
+    ],
+  },
+};

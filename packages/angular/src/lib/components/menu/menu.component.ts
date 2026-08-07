@@ -2,6 +2,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   computed,
+  inject,
   input,
   output,
   viewChild,
@@ -11,8 +12,10 @@ import { css } from '@emotion/css';
 import { type Placement } from '../../cdk';
 
 import { UniMenuItemComponent } from './menu-item/menu-item.component';
-import { MenuItem } from './menu-item/menu-item.model';
+import { isDivider, MenuItem } from './menu-item/menu-item.model';
+import type { UniMenuOptions } from './menu.model';
 import { UniDropdownComponent } from '../dropdown';
+import { ThemeService } from '../../theming';
 
 @Component({
   selector: 'uni-menu',
@@ -31,7 +34,12 @@ import { UniDropdownComponent } from '../dropdown';
         [trigger]="trigger"
         [placement]="placement()"
         ariaHasPopup="menu"
-        paddingVertical="xs"
+        [color]="menuOptions().color"
+        [border]="menuOptions().border"
+        [borderRadius]="menuOptions().borderRadius"
+        [shadow]="menuOptions().shadow"
+        [paddingVertical]="menuOptions().paddingVertical"
+        [paddingHorizontal]="menuOptions().paddingHorizontal"
         #dropdown
         (dropdownShowing)="onOpened()"
       >
@@ -39,18 +47,24 @@ import { UniDropdownComponent } from '../dropdown';
              the focused item (menu-item hosts carry tabindex="-1"), and
              Enter/Space activation is dispatched from onMenuKeydown. -->
         <!-- eslint-disable-next-line @angular-eslint/template/interactive-supports-focus -->
-        <div role="menu" (keydown)="onMenuKeydown($event, dropdown)">
+        <div role="menu" [class]="menuClassName()" (keydown)="onMenuKeydown($event, dropdown)">
           @for (item of menuItems(); track item) {
-            <!-- eslint-disable-next-line @angular-eslint/template/click-events-have-key-events, @angular-eslint/template/interactive-supports-focus -->
-            <div
-              menu-item
-              [label]="item.label"
-              [symbolName]="item.symbolName"
-              [active]="activeItem() === item"
-              [template]="item.template"
-              [context]="item.context"
-              (click)="handleMenuItemClick(item, dropdown)"
-            ></div>
+            @if (isDivider(item)) {
+              <div role="separator" [class]="dividerClassName()"></div>
+            } @else {
+              <!-- eslint-disable-next-line @angular-eslint/template/click-events-have-key-events -->
+              <div
+                menu-item
+                [label]="item.label"
+                [symbolName]="item.symbolName"
+                [active]="activeItem() === item"
+                [template]="item.template"
+                [context]="item.context"
+                [variant]="item.variant"
+                [disabled]="item.disabled ?? false"
+                (click)="handleMenuItemClick(item, dropdown)"
+              ></div>
+            }
           }
         </div>
       </uni-dropdown>
@@ -59,6 +73,8 @@ import { UniDropdownComponent } from '../dropdown';
   host: { '[class]': 'className()' },
 })
 export class UniMenuComponent {
+  private theme = inject(ThemeService);
+
   // Modern Signal Inputs for perfect Zoneless tracking
   menuItems = input.required<MenuItem[]>();
   activeItem = input<MenuItem>();
@@ -68,6 +84,29 @@ export class UniMenuComponent {
   menuItemClicked = output<MenuItem>();
 
   TriggerClassName = css({ display: 'inline-block' });
+
+  /** Type guard for the template: dividers render as separators, not items. */
+  protected readonly isDivider = isDivider;
+
+  protected readonly menuOptions = computed(() =>
+    this.theme.getComponentOptions<UniMenuOptions>('menu')()
+  );
+
+  protected readonly menuClassName = computed(() =>
+    css({ minWidth: this.menuOptions().minWidth })
+  );
+
+  protected readonly dividerClassName = computed(() => {
+    const { dividerBorder, dividerSpacing } = this.menuOptions();
+    // Read spacing directly: getSpacing('none') yields the string 'none',
+    // which is invalid as a margin and must resolve to 0 instead.
+    const spacing = this.theme.spacing()[dividerSpacing ?? 'none'];
+    return css({
+      ...this.theme.borderTop(dividerBorder),
+      marginBlock: spacing,
+      marginInline: spacing,
+    });
+  });
 
   private itemComponents = viewChildren(UniMenuItemComponent);
   private dropdownComponent = viewChild(UniDropdownComponent);
@@ -83,7 +122,7 @@ export class UniMenuComponent {
   });
 
   handleMenuItemClick(item: MenuItem, dropdown: UniDropdownComponent) {
-    if (item.action) {
+    if (!isDivider(item) && item.action) {
       item.action();
     }
 

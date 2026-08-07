@@ -376,6 +376,44 @@ const components = (colors: Colors): ComponentThemes => ({
   input: {
     options: { borderRadius: 'none', border: 'strong' },
   },
+  // Carbon v11 overflow/context menu: sharp full-bleed panel on $layer with
+  // the 0 2px 6px menu shadow, no panel inset, full-bleed 1px dividers.
+  menu: {
+    options: {
+      minWidth: 160,
+      color: 'primary-surface',
+      border: 'none',
+      borderRadius: 'none',
+      shadow: 'menu',
+      paddingVertical: 'none',
+      paddingHorizontal: 'none',
+      dividerBorder: 'subtle',
+      dividerSpacing: 'none',
+    },
+  },
+  // 40px options in body-compact-01, $text-secondary resting, $layer-hover on
+  // hover, and Carbon's productive motion (~110ms). The warn tone mirrors the
+  // "danger" option: red text, solid danger fill on hover.
+  menuItem: {
+    options: {
+      height: 40,
+      typeface: 'body-2-short',
+      textColor: 'on-primary-surface-variant',
+      hoverColor: 'secondary-container',
+      borderRadius: 'none',
+      activeSymbol: 'check',
+      transitionSpeed: 0.11,
+    },
+    variants: {
+      warn: {
+        color: colors.warn,
+        '&:hover, &:focus': {
+          backgroundColor: colors['danger-hover'],
+          color: colors['on-warn'],
+        },
+      },
+    },
+  },
 });
 
 const withCarbonTypography = (theme: UniTheme): UniTheme => ({

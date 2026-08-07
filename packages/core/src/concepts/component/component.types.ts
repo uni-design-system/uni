@@ -27,6 +27,8 @@ export type ComponentName =
   | 'footer'
   | 'iconButton'
   | 'input'
+  | 'menu'
+  | 'menuItem'
   | 'multiSelectDropdown'
   | 'notificationBadge'
   | 'paginator'
