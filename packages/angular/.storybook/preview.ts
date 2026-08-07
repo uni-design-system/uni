@@ -17,7 +17,9 @@ const preview: Preview = {
     options: {
       // Pin the Core section to the top of the sidebar — Theme (the umbrella
       // concept) first within it — everything else keeps alphabetical order.
-      storySort: { order: ['Core', ['Theme', 'Typography', 'Iconography'], '*'] },
+      storySort: {
+        order: ['Core', ['Introduction', 'Theme', 'Typography', 'Iconography'], '*'],
+      },
     },
     controls: {
       matchers: {

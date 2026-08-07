@@ -1,0 +1,82 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Core/Introduction" />
+
+# Build with tokens, not CSS
+
+Uni is an opinionated design system for modern Angular — signals-only,
+zoneless, **zero runtime dependencies** — built on one idea: every visual
+decision is a **theme token**, and the theme is a single live object the whole
+application re-renders from. That idea is what makes Uni unusually good at two
+things most component libraries can't do: restyling a running app in
+milliseconds, and being driven by AI agents.
+
+## You never write CSS
+
+There are no stylesheets to import, no class names to invent, no specificity
+wars to referee. Components style themselves from the active theme through
+Emotion atomic classes, and application code composes **primitives**, not CSS:
+
+- **Layout** — `box-layout` (fifty-plus token-driven inputs: padding, borders,
+  radius, color pairs, flex, grid, gap, shadows) with `stack`, `row`, `center`,
+  `wrap`, and `grid` presets.
+- **[Type](?path=/docs/core-typography--overview)** — `uni-text` on any element;
+  semantic HTML gets the right typeface free.
+- **[Icons](?path=/docs/core-iconography--overview)** — theme-token masks over
+  `currentColor`; recolor with the theme automatically.
+- **Component chrome** — buttons, cards, dialogs, tables draw every color,
+  radius, and typeface from [theme tokens](?path=/docs/core-theme--overview),
+  re-pointable per theme without touching call sites.
+
+The discipline is deliberate: there's no style escape hatch to leak one-off CSS
+through, which is exactly why a theme swap restyles *everything*.
+
+## One theme object, applied live
+
+A [theme](?path=/docs/core-theme--overview) is a plain object — colors,
+typography, spacing, radii, borders, shadows, thicknesses, icons, component
+options. Swap it at runtime and every component re-resolves through Angular
+signals; no rebuild, no reload, no flash of unstyled anything.
+
+Behind it sits a **perceptual color engine**: give it one brand color (or a
+seed + scheme + category) and it generates complete light *and* dark palettes
+in OKLCH space — deterministic, dependency-free, in under 15 milliseconds —
+with a WCAG guard-rail that walks tones until contrast passes, verified
+against a 1,080-seed corpus in CI. `ThemeService.applyPalette()` applies the
+result to a live application. Try the Theme Builder in this Storybook: build a
+brand palette, and every other story reskins.
+
+## Built for AI agents
+
+Uni treats agents as first-class consumers. The **MCP server**
+(`@uni-design-system/uni-mcp`) gives any MCP-capable agent tools to list and
+inspect components, search tokens and usage guidelines, fetch working
+examples, and generate WCAG-audited theme files from a brand color. Alongside
+it: a generated `llms.txt` API reference, `AGENTS.md` conventions, and `ng add`
+schematics that scaffold a themed app in one step. An agent can go from "make
+me an app in Acme's brand" to themed, token-correct Angular without ever
+emitting a line of CSS — which is the point: **constraining generation to
+tokens is what keeps generated UI on-system**.
+
+## Toward generative UI
+
+The trajectory is personalization all the way down: not one theme per brand,
+but a theme per *user*, generated and applied at runtime. Today that works for
+color, radius, and elevation — a seed in, an accessible palette out, applied
+live. The roadmap extends the same treatment to the rest of the system:
+
+- **Typography, spacing, and thickness personalization** — today these scales
+  are fixed; opening them to `createTheme` and the palette pipeline is next.
+- **A validated theme contract** — a schema any generated theme is checked
+  against, with contrast results surfaced (not just computed) at runtime, so
+  an agent-emitted theme can be accepted or rejected with reasons.
+- **Runtime theme registration** — generated themes joining the switchable
+  theme set without a rebuild.
+- **Richer agent metadata** — structured MCP output and content-projection
+  ("what goes inside this component") data, so agents can compose layouts, not
+  just configure components.
+
+The core sections — [Theme](?path=/docs/core-theme--overview),
+[Typography](?path=/docs/core-typography--overview), and
+[Iconography](?path=/docs/core-iconography--overview) — document the token
+system all of this stands on.
