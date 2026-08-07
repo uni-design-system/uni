@@ -7,10 +7,11 @@ import {
 import { UNI_THEMES } from '../src/lib/theming';
 import { UniThemes } from '@uni-design-system/uni-core';
 import { CarbonThemes } from '../src/stories/themes/carbon.theme';
+import { WellsourcedThemes } from '../src/stories/themes/wellsourced.theme';
 import { SbUniThemeComponent } from './theme-provider.component';
 
 /** Every theme the toolbar can switch to; first key is the default. */
-const AllThemes = { ...UniThemes, ...CarbonThemes };
+const AllThemes = { ...UniThemes, ...CarbonThemes, ...WellsourcedThemes };
 
 const preview: Preview = {
   parameters: {
