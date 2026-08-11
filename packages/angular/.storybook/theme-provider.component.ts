@@ -1,4 +1,4 @@
-import { Component, effect, inject, input } from '@angular/core';
+import { Component, effect, inject, input, untracked } from '@angular/core';
 import { ThemeService } from '../src/lib/theming';
 
 /**
@@ -16,9 +16,16 @@ export class SbUniThemeComponent {
   uniTheme = input<string>();
 
   constructor() {
+    // On mount, an active custom brand theme (rehydrated from the Theme
+    // Builder's palette) wins over the toolbar default — stamping the toolbar
+    // theme here persisted it and silently clobbered the brand theme on every
+    // story navigation. Toolbar *changes* still apply normally.
+    let firstRun = true;
     effect(() => {
       const themeKey = this.uniTheme();
-      if (themeKey) this.theme.selectTheme(themeKey);
+      const keepCustom = firstRun && untracked(() => this.theme.isCustomTheme());
+      firstRun = false;
+      if (themeKey && !keepCustom) this.theme.selectTheme(themeKey);
     });
   }
 }

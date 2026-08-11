@@ -49,4 +49,37 @@ describe('UniThemeSwitchComponent', () => {
     expect(theme.theme().id).toBe(UniThemes[nextKey].id);
     expect(emitted).toBe(nextKey);
   });
+
+  it('lists a runtime-registered brand theme and shows it selected', () => {
+    theme.applyPalette({ seed: '#2C3E35', scheme: 'triadic', category: 'earth' });
+    fixture.detectChanges();
+
+    const options = [...fixture.nativeElement.querySelectorAll('option')].map((o) =>
+      o.textContent?.trim()
+    );
+    expect(options).toContain('Your Brand');
+
+    const select: HTMLSelectElement = fixture.nativeElement.querySelector('select');
+    const keys = theme.themeOptions().map((option) => option.value);
+    expect(select.value).toBe(keys.indexOf(ThemeService.CUSTOM_KEY).toString());
+  });
+
+  it('round-trips between a built-in theme and the brand theme', () => {
+    theme.applyPalette({ seed: '#2C3E35', scheme: 'triadic', category: 'earth' });
+    fixture.detectChanges();
+
+    const select: HTMLSelectElement = fixture.nativeElement.querySelector('select');
+    const keys = theme.themeOptions().map((option) => option.value);
+
+    select.value = keys.indexOf('DarkTheme').toString();
+    select.dispatchEvent(new Event('change'));
+    fixture.detectChanges();
+    expect(theme.isCustomTheme()).toBe(false);
+
+    select.value = keys.indexOf(ThemeService.CUSTOM_KEY).toString();
+    select.dispatchEvent(new Event('change'));
+    fixture.detectChanges();
+    expect(theme.isCustomTheme()).toBe(true);
+    expect(theme.selectedThemeKey()).toBe(ThemeService.CUSTOM_KEY);
+  });
 });

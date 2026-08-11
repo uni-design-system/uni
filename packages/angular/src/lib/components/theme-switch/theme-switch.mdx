@@ -45,15 +45,30 @@ import { BrandThemes } from './uni-theme';
 providers: [{ provide: UNI_THEMES, useValue: { ...UniThemes, ...BrandThemes } }];
 ```
 
+### Registering themes at runtime
+
+`themeOptions` is reactive: themes registered after bootstrap appear in the
+switcher immediately. Every registration is validated — a malformed theme is
+rejected with the complete list of reasons instead of rendering as broken CSS.
+
+```ts
+const result = themeService.registerTheme(fetchedTheme, { select: true });
+if (!result.success) console.warn(result.issues); // [{ path: 'colors.primary', message: 'is required' }, …]
+```
+
+A brand palette applied through the Theme Builder (`applyPalette`) registers
+itself the same way, so "Your Brand" shows up as an ordinary option and users
+can switch away and back.
+
 ## Do
 
-- Register every selectable theme in `UNI_THEMES`; the switcher derives its options from the registry.
+- Register every selectable theme in `UNI_THEMES` (bootstrap) or via `registerTheme` (runtime); the switcher derives its options from the registry.
 - Give the control a meaningful `ariaLabel` when "Theme" is ambiguous in context (e.g. "Editor color theme").
 - Use `themeChanged` for side effects like analytics or syncing a user preference to a backend.
 
 ## Don't
 
-- Don't call `ThemeService.theme.set()` alongside the switcher — bypassing `selectTheme` skips persistence and leaves the select out of sync.
+- Don't try to write `ThemeService.theme` directly — it's a readonly signal. Go through `selectTheme`/`registerTheme` (persisted, listed) or `setTheme` (validated, unlisted) instead.
 - Don't hardcode theme ids in app logic; read `ThemeService.selectedThemeKey()` instead.
 - Don't use it for the palette-generation workflow — that's the Theme Builder; the switcher only picks among registered themes.
 

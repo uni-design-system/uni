@@ -33,6 +33,13 @@ import {
   type Shadow,
 } from '@uni-design-system/uni-core';
 
+import {
+  formatThemeIssues,
+  parseTheme,
+  type Themes,
+  type ThemeParseResult,
+} from '@uni-design-system/uni-core';
+
 import { UNI_THEMES } from './theme.token';
 import { safeParseInt } from '../cdk/helpers/number.helper';
 
@@ -58,11 +65,24 @@ export class ThemeService {
   /** localStorage key holding the serialized brand palette config. */
   static readonly PALETTE_KEY = 'uni-custom-palette';
 
-  private themes = inject(UNI_THEMES);
   private localStorage = inject(LocalStorageService);
 
-  theme = signal<UniTheme>(LightTheme);
-  themeOptions = signal<Options<ThemeName>>([]);
+  /**
+   * The live theme registry: the injected {@link UNI_THEMES} map (validated
+   * at construction) plus anything added via {@link registerTheme} — including
+   * the custom brand theme, which registers under {@link CUSTOM_KEY} so it is
+   * an ordinary, selectable entry.
+   */
+  private readonly registry = signal<Themes>({});
+
+  private readonly _theme = signal<UniTheme>(LightTheme);
+  /** The active theme. Write via {@link setTheme}/{@link selectTheme} — every write is validated. */
+  readonly theme = this._theme.asReadonly();
+
+  /** Selectable themes, derived from the registry — reactive to registration. */
+  readonly themeOptions = computed<Options<ThemeName>>(() =>
+    Object.entries(this.registry()).map(([value, theme]) => ({ label: theme.name, value }))
+  );
 
   components = computed(() => this.theme().components);
   component = <T>(componentName: ComponentName): Signal<ComponentTheme<T>> =>
@@ -92,11 +112,20 @@ export class ThemeService {
       }
     `;
 
-    this.themeOptions.set(
-      Object.keys(this.themes).map((key) => {
-        return { label: this.themes[key].name, value: key };
-      })
-    );
+    // Seed the registry from the injected map, excluding (with reasons) any
+    // theme that fails the structural contract — a malformed theme would
+    // otherwise render as silent `undefined` CSS.
+    const injected = inject(UNI_THEMES);
+    const registry: Themes = {};
+    for (const [key, candidate] of Object.entries(injected)) {
+      const result = parseTheme(candidate);
+      if (result.success) {
+        registry[key] = result.theme;
+      } else {
+        console.warn(`Uni theme '${key}' rejected: ${formatThemeIssues(result.issues)}`);
+      }
+    }
+    this.registry.set(registry);
 
     // Rehydrate a custom brand theme if one is active — this is what lets a
     // palette built in one story reskin every other story: each story spins up
@@ -106,14 +135,65 @@ export class ThemeService {
     if (savedTheme === ThemeService.CUSTOM_KEY && savedPalette) {
       this.applyPalette(savedPalette, false);
     } else {
-      this.selectTheme(savedTheme || Object.keys(this.themes)[0] || 'base');
+      this.selectTheme(savedTheme || Object.keys(registry)[0] || 'base');
     }
   }
 
-  public selectTheme(themeName: ThemeName): void {
+  /**
+   * Activate a registered theme. Returns false — touching nothing, persisting
+   * nothing — when the name is unknown (previously this silently kept the old
+   * theme while still recording the bad key).
+   */
+  public selectTheme(themeName: ThemeName): boolean {
+    const theme = this.registry()[themeName];
+    if (!theme) return false;
+
+    // Registered themes were validated at registration; set directly.
+    this._theme.set(theme);
     this.selectedThemeKey.set(themeName);
-    if (this.themes[themeName]) this.theme.set(this.themes[themeName]);
     this.localStorage.setItem('theme', themeName);
+    return true;
+  }
+
+  /**
+   * Validate and activate a theme without registering it. The result carries
+   * acceptance or the complete list of rejection reasons; on rejection the
+   * active theme is unchanged.
+   */
+  public setTheme(input: unknown): ThemeParseResult {
+    const result = parseTheme(input);
+    if (result.success) {
+      this._theme.set(result.theme);
+      this.selectedThemeKey.set(result.theme.id);
+    }
+    return result;
+  }
+
+  /**
+   * Validate and add a theme to the registry (keyed by its `id`), making it
+   * selectable and listed in {@link themeOptions}. On rejection the registry
+   * is unchanged and the result lists every reason.
+   */
+  public registerTheme(input: unknown, opts?: { select?: boolean }): ThemeParseResult {
+    const result = parseTheme(input);
+    if (result.success) {
+      const theme = result.theme;
+      this.registry.update((themes) => ({ ...themes, [theme.id]: theme }));
+      if (opts?.select) this.selectTheme(theme.id);
+    }
+    return result;
+  }
+
+  /** Remove a registered theme; falls back to the first remaining theme if it was active. */
+  public unregisterTheme(id: string): void {
+    if (!(id in this.registry())) return;
+    this.registry.update((themes) => {
+      const { [id]: _removed, ...rest } = themes;
+      return rest;
+    });
+    if (this.selectedThemeKey() === id) {
+      this.selectTheme(Object.keys(this.registry())[0] || 'base');
+    }
   }
 
   /** The live brand palette config, when a custom theme is active. */
@@ -127,9 +207,15 @@ export class ThemeService {
    */
   public applyPalette(config: BrandPaletteConfig, persist = true): void {
     this.customPalette.set(config);
-    this.theme.set(
+    // Registering (rather than only setting) makes 'Your Brand' an ordinary
+    // registry entry: it appears in themeOptions/uni-theme-switch and can be
+    // switched away from and back to.
+    const result = this.registerTheme(
       createThemeFromPalette({ ...config, id: ThemeService.CUSTOM_KEY, name: 'Your Brand' })
     );
+    if (!result.success) return;
+
+    this._theme.set(result.theme);
     this.selectedThemeKey.set(ThemeService.CUSTOM_KEY);
     if (persist) {
       this.localStorage.setItem(ThemeService.PALETTE_KEY, config);
@@ -137,11 +223,11 @@ export class ThemeService {
     }
   }
 
-  /** Drop the custom brand theme and fall back to the first built-in theme. */
+  /** Drop the custom brand theme and fall back to the first registered theme. */
   public clearCustomPalette(): void {
     this.customPalette.set(null);
     this.localStorage.removeItem(ThemeService.PALETTE_KEY);
-    this.selectTheme(Object.keys(this.themes)[0] || 'base');
+    this.unregisterTheme(ThemeService.CUSTOM_KEY);
   }
 
   public selectedThemeName = computed(() => this.theme().name);

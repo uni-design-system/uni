@@ -247,7 +247,6 @@ const shadows: Shadows = {
   card: '0 2px 4px rgba(0, 0, 0, 0.03), 0 8px 16px rgba(0, 0, 0, 0.06)',
   'card-hover': '0 4px 6px rgba(0, 0, 0, 0.04), 0 20px 30px rgba(0, 0, 0, 0.08)',
   menu: '0 2px 4px rgba(0, 0, 0, 0.04),  0 12px 24px rgba(0, 0, 0, 0.08)',
-  rowmenu: '0 16px 44px rgba(0, 0, 0, 0.17)',
   dialog: '0 10px 20px rgba(0, 0, 0, 0.05),  0 30px 60px rgba(0, 0, 0, 0.12)',
   warn: '0 0 5px rgba(255, 0, 0, 0.5), inset 0 0 5px rgba(255, 0, 0, 0.3)',
 };
@@ -350,7 +349,13 @@ const typography = (base: Typography): Typography => ({
     textTransform: 'uppercase',
   },
   tag: { fontFamily: INTER, fontSize: 15, lineHeight: 20, fontWeight: 600 },
-  note: { fontFamily: ITALIANA, fontSize: 16, lineHeight: 22, fontStyle: 'italic', fontWeight: 600 },
+  note: {
+    fontFamily: ITALIANA,
+    fontSize: 16,
+    lineHeight: 22,
+    fontStyle: 'italic',
+    fontWeight: 600,
+  },
   input: { fontFamily: INTER, fontSize: 14, lineHeight: 24 },
   tab: { fontFamily: INTER, fontSize: 11, lineHeight: 11, letterSpacing: 1.26 },
   // The old `.rowmenu button` type: 12.5px/500 working sans.
@@ -419,7 +424,7 @@ const components = (p: WellsourcedPalette): ComponentThemes => ({
       color: 'primary-surface', // #fff panel
       border: 'menu', // 1px solid rgba(26,26,26,.14) — the old --c-border-2
       borderRadius: 'menu', // 10px
-      shadow: 'rowmenu', // 0 16px 44px rgba(0,0,0,.17)
+      shadow: 'menu', // 0 16px 44px rgba(0,0,0,.17)
       paddingVertical: 'xs',
       paddingHorizontal: 'xs',
       dividerBorder: 'light', // 1px solid rgba(26,26,26,.08) — the old --c-border

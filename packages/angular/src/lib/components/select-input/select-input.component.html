@@ -16,7 +16,11 @@
     }
 
     @for (opt of options(); track opt.label; let i = $index) {
-      <option [value]="i">
+      <!-- [selected] evaluates during the option's own render, so a selection
+           pointing at an option added in the same change-detection pass still
+           applies (the select-level [value] write lands before new options
+           exist and is ignored by the browser). -->
+      <option [value]="i" [selected]="currentSelectedIndex() === i.toString()">
         {{ opt.label }}
       </option>
     }

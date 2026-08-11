@@ -40,6 +40,23 @@ Themes register in the `UNI_THEMES` injection token and apply through
 `ThemeService.selectTheme()`; every token below re-resolves live when the
 theme changes — try the toolbar.
 
+## Validation & runtime registration
+
+Every theme write is validated against the structural contract in uni-core:
+`parseTheme(input)` collects **every** issue (`{ path, message }`, e.g.
+`colors.primary is required`) instead of letting a malformed theme render as
+silent `undefined` CSS; `assertTheme` is the throwing variant. The required
+token sets (`REQUIRED_COLOR_TOKENS`, `REQUIRED_TEXT_ROLES`, …) are exported
+for tooling. Because a `UniTheme` is plain serializable data, the same
+contract validates a theme fetched as JSON — the basis for theme distribution
+and generative-UI flows.
+
+The registry is live: `ThemeService.registerTheme(theme, { select? })` adds a
+validated theme (it appears in `themeOptions` and `uni-theme-switch`
+immediately), `unregisterTheme(id)` removes it, and `setTheme(theme)`
+validates and applies without registering. `ThemeService.theme` is a readonly
+signal — all writes funnel through these validated paths.
+
 ## Colors
 
 Container tokens pair with `on-` content tokens (`primary-container` /
