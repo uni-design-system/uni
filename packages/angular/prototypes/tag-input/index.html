@@ -1,0 +1,1268 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Uni — Tag &amp; Tag Input prototype</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Red+Hat+Display:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      /* ============================================================
+         Tokens — the real generated Uni palettes (seed #4F46E5,
+         triadic / neutral), dumped from @uni-design-system/uni-core.
+         Nothing here is invented: swap the block, reskin the proto.
+         ============================================================ */
+      :root {
+        --primary: #6a6f8f;
+        --on-primary: #f9faff;
+        --primary-container: #dbddea;
+        --on-primary-container: #1a1c37;
+        --on-primary-container-variant: #5b5d68;
+        --on-primary-container-border: #6a6f8f;
+        --primary-surface: #f3f5fd;
+        --on-primary-surface: #1e1f25;
+        --on-primary-surface-variant: #6a6f8f;
+        --secondary: #8c685d;
+        --on-secondary: #fff8f6;
+        --secondary-container: #e9dad6;
+        --on-secondary-container: #33160d;
+        --on-secondary-container-border: #8c685d;
+        --tertiary: #597b66;
+        --on-tertiary: #f0fff5;
+        --tertiary-container: #d5e2d9;
+        --on-tertiary-container: #052615;
+        --on-tertiary-container-border: #597b66;
+        --error: #cc2827;
+        --on-error: #fff8f7;
+        --error-container: #ffd2cc;
+        --on-error-container: #331512;
+        --warn: #ac5700;
+        --on-warn: #fff9f5;
+        --warn-container: #fdd5ba;
+        --on-warn-container: #311805;
+        --on-warn-container-border: #ac5700;
+        --success: #008341;
+        --on-success: #f1fef4;
+        --success-container: #c3eacc;
+        --on-success-container: #092613;
+        --on-success-container-border: #008341;
+        --background: #fdfdff;
+        --on-background: #202127;
+        --on-background-variant: #5c5d65;
+        --surface: #f9faff;
+        --surface-variant: #e9ebf3;
+        --on-surface-variant: #36373e;
+        --outline: #7e8088;
+        --disabled: rgba(0, 0, 0, 0.12);
+        --on-disabled: rgba(0, 0, 0, 0.38);
+        --disabled-container: #eff1fa;
+        --on-disabled-container: rgba(0, 0, 0, 0.38);
+        --shadow-menu: rgba(0, 0, 0, 0.2) 0 3px 3px -2px, rgba(0, 0, 0, 0.14) 0 3px 4px 0,
+          rgba(0, 0, 0, 0.12) 0 1px 8px 0;
+
+        /* radii + spacing scales, verbatim from base.theme.ts */
+        --radius-xxs: 4px;
+        --radius-xs: 8px;
+        --radius-sm: 16px;
+        --radius-max: 999px;
+        --space-xxs: 2px;
+        --space-xs: 4px;
+        --space-sm: 8px;
+        --space-md: 16px;
+        --space-lg: 32px;
+      }
+
+      html[data-theme='dark'] {
+        --primary: #afb5d8;
+        --on-primary: #11132c;
+        --primary-container: #4a4c57;
+        --on-primary-container: #f9faff;
+        --on-primary-container-variant: #bcbecb;
+        --on-primary-container-border: #afb5d8;
+        --primary-surface: #22242a;
+        --on-primary-surface: #f9faff;
+        --on-primary-surface-variant: #afb5d8;
+        --secondary: #d5ada1;
+        --on-secondary: #280c05;
+        --secondary-container: #564a46;
+        --on-secondary-container: #fff8f7;
+        --on-secondary-container-border: #d5ada1;
+        --tertiary: #9ec2ab;
+        --on-tertiary: #001c0d;
+        --tertiary-container: #465049;
+        --on-tertiary-container: #f0fff5;
+        --on-tertiary-container-border: #9ec2ab;
+        --error: #ff968a;
+        --on-error: #290b09;
+        --error-container: #69413c;
+        --on-error-container: #fff8f7;
+        --warn: #ff9b51;
+        --on-warn: #270e00;
+        --warn-container: #66442e;
+        --on-warn-container: #fff9f5;
+        --on-warn-container-border: #ff9b51;
+        --success: #59d483;
+        --on-success: #011c0a;
+        --success-container: #34563d;
+        --on-success-container: #f1fef4;
+        --on-success-container-border: #59d483;
+        --background: #101117;
+        --on-background: #e5e7f0;
+        --on-background-variant: #afb0b9;
+        --surface: #17181e;
+        --surface-variant: #313239;
+        --on-surface-variant: #afb0b9;
+        --outline: #90929a;
+        --disabled: rgba(255, 255, 255, 0.12);
+        --on-disabled: rgba(255, 255, 255, 0.38);
+        --disabled-container: #2c2d34;
+        --on-disabled-container: rgba(255, 255, 255, 0.38);
+      }
+
+      /* ============================================================
+         Page chrome (prototype only — not part of the component)
+         ============================================================ */
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        padding: 0 0 96px;
+        font-family: 'Red Hat Display', system-ui, sans-serif;
+        background: var(--background);
+        color: var(--on-background);
+        -webkit-font-smoothing: antialiased;
+      }
+      .page { max-width: 940px; margin: 0 auto; padding: 0 24px; }
+      header.top {
+        position: sticky; top: 0; z-index: 30;
+        background: var(--background);
+        border-bottom: 1px solid var(--surface-variant);
+        margin-bottom: 32px;
+      }
+      header.top .page {
+        display: flex; align-items: center; gap: 16px;
+        padding-top: 18px; padding-bottom: 18px;
+      }
+      h1 { font-size: 20px; margin: 0; font-weight: 700; letter-spacing: -0.2px; }
+      h1 small { display: block; font-size: 13px; font-weight: 400; color: var(--on-background-variant); }
+      h2 {
+        font-size: 15px; text-transform: uppercase; letter-spacing: 0.08em;
+        color: var(--on-background-variant); font-weight: 600;
+        margin: 48px 0 4px; padding-top: 24px;
+        border-top: 1px solid var(--surface-variant);
+      }
+      h3 { font-size: 14px; font-weight: 600; margin: 28px 0 10px; }
+      p.lede { color: var(--on-background-variant); font-size: 14px; line-height: 1.6; margin: 0 0 20px; max-width: 68ch; }
+      .toggle {
+        margin-left: auto; display: inline-flex; align-items: center; gap: 6px;
+        height: 32px; padding: 0 14px; cursor: pointer;
+        border-radius: var(--radius-max); border: 1px solid var(--outline);
+        background: transparent; color: inherit;
+        font-family: inherit; font-size: 13px; font-weight: 600;
+      }
+      .toggle:hover { background: var(--surface-variant); }
+      .panel {
+        background: var(--surface); border: 1px solid var(--surface-variant);
+        border-radius: var(--radius-xs); padding: 20px 22px; margin-bottom: 16px;
+      }
+      .row { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
+      .row + .row { margin-top: 14px; }
+      .row .rowlabel {
+        width: 76px; flex: none; font-size: 11px; font-weight: 600;
+        text-transform: uppercase; letter-spacing: 0.06em; color: var(--on-background-variant);
+      }
+      code, kbd { font-family: ui-monospace, 'SF Mono', Menlo, monospace; }
+      kbd {
+        display: inline-block; padding: 1px 6px; font-size: 11.5px;
+        border: 1px solid var(--outline); border-bottom-width: 2px;
+        border-radius: var(--radius-xxs); background: var(--surface-variant);
+        white-space: nowrap;
+      }
+      table.keys { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+      table.keys th {
+        text-align: left; font-size: 11px; text-transform: uppercase; letter-spacing: 0.06em;
+        color: var(--on-background-variant); padding: 6px 10px; border-bottom: 1px solid var(--surface-variant);
+      }
+      table.keys td { padding: 7px 10px; border-bottom: 1px solid var(--surface-variant); vertical-align: top; }
+      table.keys td:first-child { width: 190px; white-space: nowrap; }
+      .log {
+        font-family: ui-monospace, Menlo, monospace; font-size: 12px; line-height: 1.7;
+        background: var(--primary-surface); color: var(--on-primary-surface-variant);
+        border-radius: var(--radius-xxs); padding: 10px 12px; height: 116px; overflow: auto;
+      }
+      .log b { color: var(--on-background); font-weight: 600; }
+      .field-label {
+        display: block; font-size: 12px; font-weight: 600; margin-bottom: 6px;
+        color: var(--on-background-variant);
+      }
+      .hint { font-size: 12px; color: var(--on-background-variant); margin: 8px 0 0; }
+      .ghostbtn {
+        height: 28px; padding: 0 12px; cursor: pointer; font-family: inherit;
+        font-size: 12px; font-weight: 600; border-radius: var(--radius-max);
+        border: 1px solid var(--outline); background: transparent; color: inherit;
+      }
+      .ghostbtn:hover { background: var(--surface-variant); }
+      .sr-only {
+        position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+        overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+      }
+      .uni-icon { width: 1em; height: 1em; display: block; flex: none; }
+
+      /* ============================================================
+         uni-tag v2
+         Two style axes: data-variant (colour role) × tone-* (archetype).
+         Geometry comes from data-size only.
+         ============================================================ */
+      .uni-tag {
+        --tag-h: 24px; --tag-fs: 13px; --tag-px: 10px; --tag-gap: 4px; --tag-lead: 18px;
+        display: inline-flex; align-items: center; max-width: 100%;
+        height: var(--tag-h);
+        border: 1px solid transparent;
+        border-radius: var(--radius-max);
+        font-family: 'Red Hat Display', sans-serif;
+        font-size: var(--tag-fs); font-weight: 600; line-height: 1;
+        transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+        vertical-align: middle;
+      }
+      .uni-tag[data-size='sm'] { --tag-h: 20px; --tag-fs: 12px; --tag-px: 8px; --tag-lead: 14px; }
+      .uni-tag[data-size='md'] { --tag-h: 24px; --tag-fs: 13px; --tag-px: 10px; --tag-lead: 18px; }
+      .uni-tag[data-size='lg'] { --tag-h: 32px; --tag-fs: 15px; --tag-px: 12px; --tag-gap: 6px; --tag-lead: 26px; }
+      /* Square language: one token flip on the theme's borderRadius option. */
+      .uni-tag[data-shape='rect'] { border-radius: var(--radius-xxs); }
+
+      /* colour role → the four slots every tone reads from */
+      .uni-tag[data-variant='primary'] {
+        --tag-base: var(--primary); --tag-on-base: var(--on-primary);
+        --tag-container: var(--primary-container); --tag-on-container: var(--on-primary-container);
+        --tag-line: var(--on-primary-container-border);
+      }
+      .uni-tag[data-variant='secondary'] {
+        --tag-base: var(--secondary); --tag-on-base: var(--on-secondary);
+        --tag-container: var(--secondary-container); --tag-on-container: var(--on-secondary-container);
+        --tag-line: var(--on-secondary-container-border);
+      }
+      .uni-tag[data-variant='tertiary'] {
+        --tag-base: var(--tertiary); --tag-on-base: var(--on-tertiary);
+        --tag-container: var(--tertiary-container); --tag-on-container: var(--on-tertiary-container);
+        --tag-line: var(--on-tertiary-container-border);
+      }
+      .uni-tag[data-variant='warn'] {
+        --tag-base: var(--warn); --tag-on-base: var(--on-warn);
+        --tag-container: var(--warn-container); --tag-on-container: var(--on-warn-container);
+        --tag-line: var(--on-warn-container-border);
+      }
+      .uni-tag[data-variant='success'] {
+        --tag-base: var(--success); --tag-on-base: var(--on-success);
+        --tag-container: var(--success-container); --tag-on-container: var(--on-success-container);
+        --tag-line: var(--on-success-container-border);
+      }
+      .uni-tag[data-variant='ghost'] {
+        --tag-base: var(--on-background-variant); --tag-on-base: var(--background);
+        --tag-container: var(--surface-variant); --tag-on-container: var(--on-surface-variant);
+        --tag-line: var(--outline);
+      }
+
+      .uni-tag.tone-soft { background: var(--tag-container); color: var(--tag-on-container); }
+      .uni-tag.tone-solid { background: var(--tag-base); color: var(--tag-on-base); }
+      .uni-tag.tone-outline {
+        background: transparent; color: var(--tag-base); border-color: var(--tag-line);
+      }
+      html[data-theme='dark'] .uni-tag.tone-outline { color: var(--tag-line); }
+
+      .uni-tag__body {
+        display: inline-flex; align-items: center; gap: var(--tag-gap);
+        min-width: 0; height: 100%;
+        padding: 0 var(--tag-px);
+        border: 0; background: none; color: inherit; font: inherit;
+        border-radius: inherit; text-align: left;
+      }
+      .uni-tag--removable .uni-tag__body { padding-right: calc(var(--tag-gap) / 2); }
+      button.uni-tag__body { cursor: pointer; }
+      .uni-tag__label { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+      .uni-tag__lead {
+        flex: none; width: var(--tag-lead); height: var(--tag-lead);
+        border-radius: var(--radius-max); overflow: hidden;
+        display: grid; place-items: center;
+        font-size: calc(var(--tag-lead) * 0.42); font-weight: 700; line-height: 1;
+        background: var(--tag-base); color: var(--tag-on-base);
+        margin-left: calc(var(--tag-px) * -0.45);
+      }
+      .uni-tag.tone-solid .uni-tag__lead { background: rgba(255, 255, 255, 0.28); color: inherit; }
+      .uni-tag__lead img { width: 100%; height: 100%; object-fit: cover; display: block; }
+      .uni-tag__lead .uni-icon { width: calc(var(--tag-lead) * 0.68); height: calc(var(--tag-lead) * 0.68); }
+      .uni-tag__dot {
+        flex: none; width: 8px; height: 8px; border-radius: var(--radius-max);
+        background: var(--tag-base);
+      }
+      .uni-tag.tone-solid .uni-tag__dot { background: currentColor; }
+      .uni-tag__sym { flex: none; display: grid; opacity: 0.85; }
+      .uni-tag__sym .uni-icon { width: calc(var(--tag-fs) * 1.25); height: calc(var(--tag-fs) * 1.25); }
+
+      .uni-tag__remove {
+        flex: none; display: grid; place-items: center; cursor: pointer;
+        width: calc(var(--tag-h) - 8px); height: calc(var(--tag-h) - 8px);
+        margin-right: calc(var(--tag-px) * 0.4);
+        border: 0; padding: 0; border-radius: var(--radius-max);
+        background: transparent; color: inherit; opacity: 0.65;
+      }
+      .uni-tag__remove .uni-icon { width: calc(var(--tag-h) - 11px); height: calc(var(--tag-h) - 11px); }
+      .uni-tag__remove:hover { opacity: 1; background: rgba(0, 0, 0, 0.12); }
+      html[data-theme='dark'] .uni-tag__remove:hover { background: rgba(255, 255, 255, 0.18); }
+
+      /* --- states --- */
+      .uni-tag--interactive:hover { filter: brightness(0.96); }
+      html[data-theme='dark'] .uni-tag--interactive:hover { filter: brightness(1.12); }
+      .uni-tag__body:focus-visible,
+      .uni-tag__remove:focus-visible {
+        outline: 2px solid var(--primary); outline-offset: 2px;
+      }
+      .uni-tag--selected { background: var(--tag-base); color: var(--tag-on-base); border-color: transparent; }
+      .uni-tag--selected .uni-tag__lead { background: rgba(255, 255, 255, 0.28); color: inherit; }
+      /* wins over .uni-tag[data-variant='…'] on the custom-property cascade */
+      .uni-tag[data-variant].uni-tag--invalid {
+        --tag-base: var(--error); --tag-on-base: var(--on-error);
+        --tag-container: var(--error-container); --tag-on-container: var(--on-error-container);
+        --tag-line: var(--error);
+        /* colour alone can't say "malformed" — WCAG 1.4.1 */
+        text-decoration: underline dashed var(--error) 1.5px;
+        text-underline-offset: 3px;
+      }
+      .uni-tag--disabled {
+        background: var(--disabled-container) !important;
+        color: var(--on-disabled-container) !important;
+        border-color: transparent !important;
+        text-decoration: none;
+      }
+      .uni-tag--disabled .uni-tag__lead { background: var(--disabled); color: var(--on-disabled); }
+      .uni-tag--disabled .uni-tag__body { cursor: not-allowed; }
+
+      @keyframes uni-tag-in { from { opacity: 0; transform: scale(0.86); } to { opacity: 1; transform: none; } }
+      @keyframes uni-tag-pulse {
+        0%, 100% { transform: none; }
+        30% { transform: scale(1.07); }
+        60% { transform: scale(0.99); }
+      }
+      .uni-tag--entering { animation: uni-tag-in 0.14s ease-out; }
+      .uni-tag--pulse { animation: uni-tag-pulse 0.4s ease-in-out; }
+      @media (prefers-reduced-motion: reduce) {
+        .uni-tag, .uni-tag--entering, .uni-tag--pulse { animation: none !important; transition: none !important; }
+      }
+
+      /* ============================================================
+         uni-tag-input — chrome mirrors uni-input-box with height:auto
+         ============================================================ */
+      .uni-taginput { position: relative; }
+      .uni-taginput__field {
+        display: flex; flex-wrap: wrap; align-items: center;
+        gap: var(--space-xs);
+        min-height: 38px; padding: 5px var(--space-sm);
+        background: var(--primary-surface);
+        color: var(--on-primary-surface);
+        border: 1px solid var(--outline);
+        border-radius: var(--radius-xs);
+        cursor: text;
+      }
+      .uni-taginput__field:focus-within { outline: 2px solid var(--primary); outline-offset: 2px; }
+      .uni-taginput--error .uni-taginput__field {
+        border-color: var(--error);
+        box-shadow: 0 0 5px rgba(204, 40, 39, 0.35), inset 0 0 5px rgba(204, 40, 39, 0.2);
+      }
+      .uni-taginput--disabled .uni-taginput__field {
+        background: var(--disabled-container); color: var(--on-disabled);
+        cursor: not-allowed; border-color: transparent;
+      }
+      .uni-taginput__chips { display: contents; margin: 0; padding: 0; list-style: none; }
+      .uni-taginput__chips li { display: contents; }
+      .uni-taginput__input {
+        flex: 1 1 12ch; min-width: 12ch; height: 26px;
+        border: 0; outline: 0; background: transparent; color: inherit;
+        font-family: 'Red Hat Display', sans-serif; font-size: 14px;
+      }
+      .uni-taginput__input::placeholder { color: var(--on-primary-surface-variant); opacity: 0.75; }
+
+      .uni-taginput__list {
+        position: absolute; top: calc(100% + 4px); left: 0; right: 0; z-index: 20;
+        margin: 0; padding: 4px; list-style: none;
+        max-height: 264px; overflow-y: auto;
+        background: var(--primary-surface);
+        border-radius: var(--radius-xs);
+        box-shadow: var(--shadow-menu);
+      }
+      .uni-taginput__list [role='option'] {
+        display: flex; align-items: center; gap: 10px;
+        padding: 7px 10px; border-radius: var(--radius-xxs); cursor: pointer;
+      }
+      .uni-taginput__list [role='option'].active,
+      .uni-taginput__list [role='option']:hover {
+        background: var(--primary-container); color: var(--on-primary-container);
+      }
+      .opt-avatar {
+        flex: none; width: 28px; height: 28px; border-radius: var(--radius-max);
+        overflow: hidden; display: grid; place-items: center;
+        background: var(--secondary-container); color: var(--on-secondary-container);
+        font-size: 11px; font-weight: 700;
+      }
+      .opt-avatar img { width: 100%; height: 100%; object-fit: cover; display: block; }
+      .opt-text { min-width: 0; }
+      .opt-name { font-size: 13.5px; font-weight: 600; }
+      .opt-mail { font-size: 12px; color: var(--on-primary-surface-variant); }
+      .opt-empty { padding: 10px; font-size: 13px; color: var(--on-primary-surface-variant); }
+    </style>
+  </head>
+
+  <body>
+    <header class="top">
+      <div class="page">
+        <h1>
+          Tag &amp; Tag Input
+          <small>Uni Design System — prototype, not shipped code</small>
+        </h1>
+        <button class="toggle" id="themeToggle" type="button">
+          <svg class="uni-icon" style="width:16px;height:16px" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21q-3.75 0-6.37-2.63T3 12q0-3.75 2.63-6.37T12 3q.35 0 .69.03.34.02.67.07-1.03.73-1.64 1.9-.62 1.16-.62 2.5 0 2.25 1.57 3.82Q14.25 12.9 16.5 12.9q1.35 0 2.51-.62 1.16-.61 1.86-1.64.05.33.09.67.03.34.03.69 0 3.75-2.62 6.37Q15.75 21 12 21z" fill="currentColor"/></svg>
+          <span id="themeToggleText">Dark</span>
+        </button>
+      </div>
+    </header>
+
+    <main class="page">
+      <p class="lede">
+        A fresh <code>uni-tag</code> with two style axes — <b>variant</b> (colour role, from the
+        theme) × <b>tone</b> (soft / solid / outline) — plus sizes, a leading slot, and real
+        states. <code>uni-tag-input</code> composes it into a token field; the first application
+        is the email recipient pattern below. Everything on this page uses the live Uni palette
+        generated from seed <code>#4F46E5</code>.
+      </p>
+
+      <!-- ================= 1. Email recipient field ================= -->
+      <h2>1 · Email recipient input</h2>
+      <p class="lede">
+        Type a name or address, or paste a whole list. <kbd>Enter</kbd> <kbd>,</kbd>
+        <kbd>;</kbd> <kbd>Space</kbd> commit · <kbd>Backspace</kbd> on an empty field steps back
+        into the chips · <kbd>Enter</kbd> or double-click a chip to edit it.
+      </p>
+
+      <div class="panel">
+        <label class="field-label" for="to-input">To</label>
+        <div id="toHost"></div>
+        <p class="hint">
+          Try: <code>alice</code> · <code>zz@nope</code> (invalid) ·
+          paste <code>Priya Raman &lt;priya@uni.dev&gt;, sam@uni.dev; nope@@x</code>
+        </p>
+        <div class="row" style="margin-top: 14px">
+          <button class="ghostbtn" id="btnPaste" type="button">Simulate paste of 4 addresses</button>
+          <button class="ghostbtn" id="btnPrefill" type="button">Prefill 6 recipients</button>
+          <button class="ghostbtn" id="btnClear" type="button">Clear</button>
+          <button class="ghostbtn" id="btnDisable" type="button">Toggle disabled</button>
+        </div>
+      </div>
+
+      <div class="panel">
+        <h3 style="margin-top: 0">Value (what the form gets)</h3>
+        <div class="log" id="valueLog"></div>
+        <h3>Events</h3>
+        <div class="log" id="eventLog"></div>
+      </div>
+
+      <div class="panel">
+        <h3 style="margin-top: 0">Capped field — <code>max="3"</code>, no duplicates</h3>
+        <label class="field-label" for="cc-input">Cc</label>
+        <div id="ccHost"></div>
+        <p class="hint">
+          Over-max and duplicate commits are rejected: the existing chip pulses, and the live
+          region announces the reason.
+        </p>
+      </div>
+
+      <!-- ================= 2. Tag gallery ================= -->
+      <h2>2 · The tag, on its own</h2>
+
+      <div class="panel">
+        <h3 style="margin-top: 0">Tone × variant</h3>
+        <div class="row"><span class="rowlabel">Soft</span><span id="galSoft"></span></div>
+        <div class="row"><span class="rowlabel">Solid</span><span id="galSolid"></span></div>
+        <div class="row"><span class="rowlabel">Outline</span><span id="galOutline"></span></div>
+        <p class="hint">
+          <b>Soft is the default.</b> A dense list of solid chips shouts; the container tokens
+          keep a filter bar quiet while staying on-palette.
+        </p>
+      </div>
+
+      <div class="panel">
+        <h3 style="margin-top: 0">Sizes &amp; shape</h3>
+        <div class="row"><span class="rowlabel">sm / md / lg</span><span id="galSizes"></span></div>
+        <div class="row">
+          <span class="rowlabel">Rect</span><span id="galRect"></span>
+        </div>
+        <p class="hint">
+          Shape is one theme option (<code>borderRadius: 'max' | 'xxs'</code>) — pill or label,
+          system-wide, no component change.
+        </p>
+      </div>
+
+      <div class="panel">
+        <h3 style="margin-top: 0">Leading slot</h3>
+        <div class="row"><span class="rowlabel">Lead</span><span id="galLeads"></span></div>
+      </div>
+
+      <div class="panel">
+        <h3 style="margin-top: 0">States</h3>
+        <div class="row"><span class="rowlabel">States</span><span id="galStates"></span></div>
+        <p class="hint">
+          Invalid carries a dashed underline as well as colour. Disabled chips lose their remove
+          button entirely rather than rendering a dead one.
+        </p>
+      </div>
+
+      <div class="panel">
+        <h3 style="margin-top: 0">Interactive — filter chips (toggle)</h3>
+        <div class="row"><span class="rowlabel">Filters</span><span id="galFilters"></span></div>
+        <p class="hint">
+          Interactive chips are real <code>&lt;button&gt;</code>s with <code>aria-pressed</code>.
+          The remove button, when present, is a <em>sibling</em> — never nested inside another
+          button.
+        </p>
+      </div>
+
+      <!-- ================= 3. Keyboard ================= -->
+      <h2>3 · Keyboard map</h2>
+      <div class="panel">
+        <h3 style="margin-top: 0">Focus in the text input</h3>
+        <table class="keys">
+          <thead><tr><th>Key</th><th>Behaviour</th></tr></thead>
+          <tbody>
+            <tr><td><kbd>Enter</kbd></td><td>Commits the highlighted suggestion, else the typed text</td></tr>
+            <tr><td><kbd>,</kbd> <kbd>;</kbd> <kbd>Space</kbd></td><td>Commits the typed text (space only under the <code>email</code> preset)</td></tr>
+            <tr><td><kbd>Tab</kbd></td><td>Commits the typed text, then moves on — never traps focus</td></tr>
+            <tr><td><kbd>↓</kbd> <kbd>↑</kbd></td><td>Moves through suggestions, wrapping</td></tr>
+            <tr><td><kbd>Backspace</kbd></td><td>On an empty field: focuses the last chip. It does <em>not</em> delete blind</td></tr>
+            <tr><td><kbd>←</kbd></td><td>With the caret at position 0: focuses the last chip</td></tr>
+            <tr><td><kbd>Esc</kbd></td><td>Closes the list; if already closed, clears the typed text</td></tr>
+            <tr><td>paste</td><td>Splits on <code>,</code> <code>;</code> newline/tab, unwraps <code>Name &lt;a@b.com&gt;</code>, keeps an unterminated tail in the field</td></tr>
+            <tr><td>blur</td><td>Commits the typed text, marks touched</td></tr>
+          </tbody>
+        </table>
+
+        <h3>Focus on a chip</h3>
+        <table class="keys">
+          <thead><tr><th>Key</th><th>Behaviour</th></tr></thead>
+          <tbody>
+            <tr><td><kbd>←</kbd> <kbd>→</kbd></td><td>Previous / next chip; right past the last returns to the input</td></tr>
+            <tr><td><kbd>Home</kbd> <kbd>End</kbd></td><td>First / last chip</td></tr>
+            <tr><td><kbd>Backspace</kbd></td><td>Removes it, focus moves <b>left</b></td></tr>
+            <tr><td><kbd>Delete</kbd></td><td>Removes it, focus moves <b>right</b></td></tr>
+            <tr><td><kbd>Enter</kbd> <kbd>F2</kbd></td><td>Edits — the chip is lifted back into the input as text</td></tr>
+            <tr><td><kbd>Esc</kbd></td><td>Returns focus to the input</td></tr>
+            <tr><td>any character</td><td>Returns to the input and types it there</td></tr>
+          </tbody>
+        </table>
+        <p class="hint">
+          Two deletion keys with opposite focus outcomes is what makes pruning a long recipient
+          list feel right: hold <kbd>Backspace</kbd> to eat backwards, <kbd>Delete</kbd> to eat
+          forwards, without the caret jumping.
+        </p>
+      </div>
+    </main>
+
+    <script>
+      /* ==========================================================
+         Tag renderer — mirrors the proposed uni-tag v2 API 1:1.
+         ========================================================== */
+      /* In the real component these are <uni-symbol name="close"> ligatures from
+         Material Symbols Rounded. Inlined as SVG here so the prototype renders
+         identically offline and in screenshots. */
+      const ICON_PATHS = {
+        close: 'M6.4 19 5 17.6l5.6-5.6L5 6.4 6.4 5l5.6 5.6L17.6 5 19 6.4 13.4 12l5.6 5.6-1.4 1.4-5.6-5.6z',
+        check: 'M9.55 17.6 4 12l1.4-1.4 4.15 4.15 9.05-9.05L20 7.1z',
+        attach_file:
+          'M17.5 16.5q0 2.3-1.6 3.9T12 22q-2.3 0-3.9-1.6T6.5 16.5V6.25q0-1.65 1.18-2.83T10.5 2.25q1.65 0 2.83 1.17T14.5 6.25V16q0 1.05-.72 1.78T12 18.5q-1.05 0-1.78-.72T9.5 16V6.5H11V16q0 .43.28.72T12 17q.43 0 .72-.28T13 16V6.25q0-1.05-.73-1.78T10.5 3.75q-1.05 0-1.78.72T8 6.25V16.5q0 1.65 1.18 2.83T12 20.5q1.65 0 2.83-1.17T16 16.5V6.5h1.5z',
+        dark_mode:
+          'M12 21q-3.75 0-6.37-2.63T3 12q0-3.75 2.63-6.37T12 3q.35 0 .69.03.34.02.67.07-1.03.73-1.64 1.9-.62 1.16-.62 2.5 0 2.25 1.57 3.82Q14.25 12.9 16.5 12.9q1.35 0 2.51-.62 1.16-.61 1.86-1.64.05.33.09.67.03.34.03.69 0 3.75-2.62 6.37Q15.75 21 12 21z',
+      };
+      const SYM = (name, cls) =>
+        `<svg class="uni-icon ${cls || ''}" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="${ICON_PATHS[name] || ''}" fill="currentColor"/></svg>`;
+
+      const initialsOf = (name) => {
+        const w = (name || '').trim().split(/\s+/).filter(Boolean);
+        if (!w.length) return '';
+        return ((w[0][0] || '') + (w.length > 1 ? w[w.length - 1][0] : '')).toUpperCase();
+      };
+
+      const esc = (s) =>
+        String(s).replace(/[&<>"']/g, (c) =>
+          ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]
+        );
+
+      function tagMarkup(o) {
+        const {
+          label = '', variant = 'primary', tone = 'soft', size = 'md', shape = 'pill',
+          avatarSrc, avatarName, symbolName, dot, removable, interactive, selected,
+          invalid, disabled, maxWidth, removeLabel, tabindex = 0, id = '', describedby = '',
+        } = o;
+
+        let lead = '';
+        if (avatarSrc) lead = `<span class="uni-tag__lead"><img src="${esc(avatarSrc)}" alt="" /></span>`;
+        else if (avatarName) lead = `<span class="uni-tag__lead">${esc(initialsOf(avatarName))}</span>`;
+        else if (selected && !symbolName) lead = `<span class="uni-tag__sym">${SYM('check')}</span>`;
+        else if (symbolName) lead = `<span class="uni-tag__sym">${SYM(symbolName)}</span>`;
+        else if (dot) lead = `<span class="uni-tag__dot"></span>`;
+
+        const cls = [
+          'uni-tag', `tone-${tone}`,
+          removable ? 'uni-tag--removable' : '',
+          interactive ? 'uni-tag--interactive' : '',
+          selected ? 'uni-tag--selected' : '',
+          invalid ? 'uni-tag--invalid' : '',
+          disabled ? 'uni-tag--disabled' : '',
+        ].filter(Boolean).join(' ');
+
+        const bodyAttrs = interactive
+          ? `type="button" aria-pressed="${!!selected}" tabindex="${tabindex}"${disabled ? ' disabled' : ''}`
+          : `tabindex="${tabindex}"`;
+        const bodyTag = interactive || o.focusable ? 'button' : 'span';
+        const bodyOpen = bodyTag === 'button'
+          ? `<button class="uni-tag__body" ${bodyAttrs}${describedby ? ` aria-describedby="${describedby}"` : ''}${invalid ? ' aria-invalid="true"' : ''}>`
+          : `<span class="uni-tag__body">`;
+
+        const remove = removable && !disabled
+          ? `<button class="uni-tag__remove" type="button" tabindex="${o.removeTabindex ?? 0}"
+               aria-label="${esc(removeLabel || 'Remove ' + label)}" data-act="remove">${SYM('close')}</button>`
+          : '';
+
+        return `<span class="${cls}" data-variant="${variant}" data-size="${size}"
+            data-shape="${shape === 'rect' ? 'rect' : 'pill'}"${id ? ` data-id="${esc(id)}"` : ''}
+            ${maxWidth ? `style="max-width:${maxWidth}"` : ''}>
+            ${bodyOpen}${lead}<span class="uni-tag__label">${esc(label)}</span></${bodyTag}>${remove}</span>`;
+      }
+
+      /* ==========================================================
+         Email helpers — what the `email` preset would wire up
+         ========================================================== */
+      const EMAIL_RE = /^[^\s@,;<>]+@[^\s@,;<>]+\.[A-Za-z]{2,}$/;
+      const isEmail = (v) => EMAIL_RE.test(v.trim());
+
+      /** Split a pasted blob into raw tokens. */
+      function parseEmails(text) {
+        return text
+          .split(/[,;\n\r\t]+/)
+          .map((s) => s.trim())
+          .filter(Boolean);
+      }
+
+      /** "Alice Chen <a@b.com>" | '"Alice" <a@b.com>' | "a@b.com" → item */
+      function toItem(raw) {
+        const t = raw.trim();
+        const m = t.match(/^\s*"?([^"<]*?)"?\s*<\s*([^>]+)\s*>\s*$/);
+        const value = (m ? m[2] : t).trim();
+        const label = m && m[1].trim() ? m[1].trim() : value;
+        return { value, label, invalid: !isEmail(value) };
+      }
+
+      /* ==========================================================
+         Contact directory for the suggestion list
+         ========================================================== */
+      const AVATARS = {
+        alice: 'data:image/svg+xml;utf8,' + encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#8C685D"/><stop offset="1" stop-color="#E9DAD6"/></linearGradient></defs><rect width="64" height="64" fill="url(%23g)"/><circle cx="32" cy="25" r="11" fill="#fff" opacity=".85"/><path d="M8 64c4-16 12-22 24-22s20 6 24 22z" fill="#fff" opacity=".85"/></svg>`),
+        ben: 'data:image/svg+xml;utf8,' + encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#597B66"/><stop offset="1" stop-color="#D5E2D9"/></linearGradient></defs><rect width="64" height="64" fill="url(%23g)"/><circle cx="32" cy="25" r="11" fill="#fff" opacity=".85"/><path d="M8 64c4-16 12-22 24-22s20 6 24 22z" fill="#fff" opacity=".85"/></svg>`),
+      };
+
+      const CONTACTS = [
+        { value: 'alice@uni.dev', label: 'Alice Chen', avatarSrc: AVATARS.alice },
+        { value: 'ben.ortiz@uni.dev', label: 'Ben Ortiz', avatarSrc: AVATARS.ben },
+        { value: 'carol@uni.dev', label: 'Carol Nwosu' },
+        { value: 'dmitri@partners.io', label: 'Dmitri Volkov' },
+        { value: 'priya@uni.dev', label: 'Priya Raman' },
+        { value: 'sam@uni.dev', label: 'Sam Okafor' },
+        { value: 'design-team@uni.dev', label: 'Design Team' },
+        { value: 'accessibility@uni.dev', label: 'Accessibility Guild' },
+      ];
+
+      /* ==========================================================
+         UniTagInput — the prototype of the component's behaviour.
+         Focus model: the whole field is ONE tab stop (the text
+         input). Chips are tabindex=-1 and reached with Backspace /
+         ArrowLeft, announced once via the field's describedby.
+         ========================================================== */
+      let uid = 0;
+      class UniTagInput {
+        constructor(host, opts = {}) {
+          this.host = host;
+          this.o = Object.assign(
+            {
+              label: 'To',
+              placeholder: '',
+              preset: 'email',
+              max: undefined,
+              allowDuplicates: false,
+              suggestions: [],
+              tagVariant: 'primary',
+              tagTone: 'soft',
+              tagSize: 'md',
+              onChange: () => {},
+              onEvent: () => {},
+            },
+            opts
+          );
+          this.items = (opts.value || []).map((i) => this.normalize(i));
+          this.disabled = false;
+          this.focusIndex = -1; // -1 === the text input
+          this.activeOption = -1;
+          this.open = false;
+          this.filtered = [];
+          this.id = 'uti' + ++uid;
+          this.build();
+          this.render();
+        }
+
+        normalize(i) {
+          const item = typeof i === 'string' ? toItem(i) : Object.assign({}, i);
+          item.label = item.label || item.value;
+          if (item.invalid === undefined && this.o.preset === 'email') item.invalid = !isEmail(item.value);
+          item.id = item.id || 'tag' + ++uid;
+          return item;
+        }
+
+        build() {
+          this.host.innerHTML = `
+            <div class="uni-taginput" id="${this.id}">
+              <div class="uni-taginput__field" data-role="field">
+                <ul class="uni-taginput__chips" data-role="chips" aria-label="${esc(this.o.label)} recipients"></ul>
+                <input class="uni-taginput__input" data-role="input"
+                  id="${this.o.inputId || this.id + '-input'}"
+                  type="text" autocomplete="off" spellcheck="false"
+                  role="combobox" aria-expanded="false" aria-autocomplete="list"
+                  aria-controls="${this.id}-list"
+                  aria-label="${esc(this.o.label)}"
+                  aria-describedby="${this.id}-hint"
+                  placeholder="${esc(this.o.placeholder)}" />
+              </div>
+              <ul class="uni-taginput__list" id="${this.id}-list" role="listbox"
+                  aria-label="${esc(this.o.label)} suggestions" hidden></ul>
+              <span class="sr-only" id="${this.id}-hint">
+                Press Backspace or Left Arrow to step back into the added recipients, then
+                Backspace or Delete to remove one.
+              </span>
+              <span class="sr-only" role="status" aria-live="polite" data-role="live"></span>
+            </div>`;
+
+          this.root = this.host.firstElementChild;
+          this.field = this.root.querySelector('[data-role=field]');
+          this.chips = this.root.querySelector('[data-role=chips]');
+          this.input = this.root.querySelector('[data-role=input]');
+          this.list = this.root.querySelector('[data-role=list], .uni-taginput__list');
+          this.live = this.root.querySelector('[data-role=live]');
+
+          // Clicking the field's empty area lands in the input, never on a chip.
+          this.field.addEventListener('mousedown', (e) => {
+            if (e.target === this.field || e.target === this.chips) {
+              e.preventDefault();
+              this.focusInput();
+            }
+          });
+
+          this.input.addEventListener('keydown', (e) => this.onInputKeydown(e));
+          this.input.addEventListener('input', () => this.onType());
+          this.input.addEventListener('paste', (e) => this.onPaste(e));
+          this.input.addEventListener('focus', () => this.onType());
+          this.input.addEventListener('blur', () => {
+            // Let a click on an option win the race.
+            setTimeout(() => {
+              if (this.root.contains(document.activeElement)) return;
+              this.closeList();
+              if (this.input.value.trim()) this.commit(this.input.value);
+            }, 120);
+          });
+
+          this.chips.addEventListener('keydown', (e) => this.onChipKeydown(e));
+          this.chips.addEventListener('click', (e) => {
+            const removeBtn = e.target.closest('[data-act=remove]');
+            const chip = e.target.closest('.uni-tag');
+            if (!chip) return;
+            const idx = [...this.chips.querySelectorAll('.uni-tag')].indexOf(chip);
+            if (removeBtn) {
+              e.preventDefault();
+              this.removeAt(idx, 'left');
+            }
+          });
+          this.chips.addEventListener('dblclick', (e) => {
+            const chip = e.target.closest('.uni-tag');
+            if (!chip || e.target.closest('[data-act=remove]')) return;
+            this.editAt([...this.chips.querySelectorAll('.uni-tag')].indexOf(chip));
+          });
+
+          this.list.addEventListener('mousedown', (e) => e.preventDefault());
+          this.list.addEventListener('click', (e) => {
+            const opt = e.target.closest('[role=option]');
+            if (!opt) return;
+            this.commitItem(this.filtered[+opt.dataset.i]);
+            this.focusInput();
+          });
+        }
+
+        /* ---------- state ---------- */
+        setDisabled(v) {
+          this.disabled = v;
+          this.input.disabled = v;
+          this.root.classList.toggle('uni-taginput--disabled', v);
+          this.render();
+        }
+        setValue(items) {
+          this.items = items.map((i) => this.normalize(i));
+          this.render();
+          this.emitChange();
+        }
+        get value() {
+          return this.items.map(({ value, label, invalid, disabled }) => ({ value, label, invalid, disabled }));
+        }
+        get hasInvalid() {
+          return this.items.some((i) => i.invalid);
+        }
+
+        announce(msg) {
+          this.live.textContent = '';
+          setTimeout(() => (this.live.textContent = msg), 30);
+        }
+        emitChange() {
+          this.root.classList.toggle('uni-taginput--error', this.hasInvalid);
+          this.o.onChange(this.value);
+        }
+
+        /* ---------- commit / remove / edit ---------- */
+        commit(raw, { silent } = {}) {
+          const tokens = this.o.preset === 'email' ? parseEmails(raw) : [raw.trim()].filter(Boolean);
+          let added = 0;
+          for (const t of tokens) if (this.commitItem(toItem(t), { silent: true })) added++;
+          this.input.value = '';
+          this.closeList();
+          if (!silent && added > 1) this.announce(`${added} recipients added. ${this.items.length} total.`);
+          return added;
+        }
+
+        commitItem(item, { silent } = {}) {
+          if (!item || !item.value) return false;
+          const norm = this.normalize(item);
+
+          const dupeIndex = this.items.findIndex(
+            (i) => i.value.toLowerCase() === norm.value.toLowerCase()
+          );
+          if (!this.o.allowDuplicates && dupeIndex > -1) {
+            this.pulse(dupeIndex);
+            this.announce(`${norm.label} is already added.`);
+            this.o.onEvent('rejected', { raw: norm.value, reason: 'duplicate' });
+            this.input.value = '';
+            return false;
+          }
+          if (this.o.max !== undefined && this.items.length >= this.o.max) {
+            this.announce(`Limit of ${this.o.max} reached. ${norm.label} was not added.`);
+            this.o.onEvent('rejected', { raw: norm.value, reason: 'max' });
+            return false;
+          }
+
+          // Enrich from the directory so a typed address picks up its name/avatar.
+          const known = CONTACTS.find((c) => c.value.toLowerCase() === norm.value.toLowerCase());
+          if (known && norm.label === norm.value) {
+            norm.label = known.label;
+            norm.avatarSrc = known.avatarSrc;
+          }
+
+          norm.entering = true;
+          this.items.push(norm);
+          this.input.value = '';
+          this.render();
+          this.emitChange();
+          this.o.onEvent('added', norm);
+          if (!silent) {
+            this.announce(
+              `${norm.label} added${norm.invalid ? ', not a valid address' : ''}. ${this.items.length} recipient${this.items.length === 1 ? '' : 's'}.`
+            );
+          }
+          return true;
+        }
+
+        removeAt(i, dir = 'left') {
+          const item = this.items[i];
+          if (!item || item.disabled) return;
+          this.items.splice(i, 1);
+          this.o.onEvent('removed', item);
+          this.announce(
+            `${item.label} removed. ${this.items.length} recipient${this.items.length === 1 ? '' : 's'}.`
+          );
+          const next = dir === 'left' ? i - 1 : i;
+          this.focusIndex = next >= 0 && next < this.items.length ? next : -1;
+          this.render();
+          this.emitChange();
+          this.applyFocus();
+        }
+
+        editAt(i) {
+          const item = this.items[i];
+          if (!item || item.disabled) return;
+          this.items.splice(i, 1);
+          this.render();
+          this.emitChange();
+          const text = item.label && item.label !== item.value ? `${item.label} <${item.value}>` : item.value;
+          this.input.value = text;
+          this.focusIndex = -1;
+          this.focusInput();
+          this.input.setSelectionRange(text.length, text.length);
+          this.announce(`Editing ${item.label}.`);
+          this.o.onEvent('editing', item);
+        }
+
+        pulse(i) {
+          const chip = this.chips.querySelectorAll('.uni-tag')[i];
+          if (!chip) return;
+          chip.classList.remove('uni-tag--pulse');
+          void chip.offsetWidth;
+          chip.classList.add('uni-tag--pulse');
+        }
+
+        /* ---------- focus ---------- */
+        focusInput() {
+          this.focusIndex = -1;
+          this.applyFocus();
+          this.input.focus();
+        }
+        applyFocus() {
+          const bodies = [...this.chips.querySelectorAll('.uni-tag__body')];
+          bodies.forEach((b, i) => (b.tabIndex = i === this.focusIndex ? 0 : -1));
+          if (this.focusIndex >= 0 && bodies[this.focusIndex]) bodies[this.focusIndex].focus();
+        }
+        focusChip(i) {
+          if (!this.items.length) return;
+          this.focusIndex = Math.max(0, Math.min(i, this.items.length - 1));
+          this.closeList();
+          this.applyFocus();
+        }
+
+        /* ---------- suggestions ---------- */
+        onType() {
+          const q = this.input.value.trim().toLowerCase();
+          const taken = new Set(this.items.map((i) => i.value.toLowerCase()));
+          this.filtered = this.o.suggestions
+            .filter((c) => !taken.has(c.value.toLowerCase()))
+            .filter((c) => !q || c.label.toLowerCase().includes(q) || c.value.toLowerCase().includes(q))
+            .slice(0, 8);
+          this.activeOption = -1;
+          this.open = this.filtered.length > 0 && document.activeElement === this.input;
+          this.renderList();
+          this.o.onEvent('query', this.input.value);
+        }
+        closeList() {
+          this.open = false;
+          this.activeOption = -1;
+          this.renderList();
+        }
+        moveOption(delta) {
+          if (!this.filtered.length) return;
+          this.open = true;
+          const n = this.filtered.length;
+          this.activeOption = (this.activeOption + delta + n) % n;
+          this.renderList();
+        }
+
+        /* ---------- keyboard ---------- */
+        onInputKeydown(e) {
+          const val = this.input.value;
+          const sepKeys = this.o.preset === 'email' ? [',', ';', ' '] : [',', ';'];
+
+          if (e.key === 'Enter') {
+            e.preventDefault();
+            if (this.open && this.activeOption > -1) this.commitItem(this.filtered[this.activeOption]);
+            else if (val.trim()) this.commit(val);
+            return;
+          }
+          if (sepKeys.includes(e.key)) {
+            if (!val.trim()) { if (e.key === ' ') e.preventDefault(); return; }
+            e.preventDefault();
+            this.commit(val);
+            return;
+          }
+          if (e.key === 'Tab') {
+            if (val.trim()) this.commit(val);
+            this.closeList();
+            return; // never trap
+          }
+          if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
+            if (!this.filtered.length) return;
+            e.preventDefault();
+            this.moveOption(e.key === 'ArrowDown' ? 1 : -1);
+            return;
+          }
+          if (e.key === 'Escape') {
+            if (this.open) this.closeList();
+            else if (val) this.input.value = '';
+            return;
+          }
+          if (e.key === 'Backspace' && val === '' && this.items.length) {
+            e.preventDefault();
+            this.focusChip(this.items.length - 1);
+            return;
+          }
+          if (e.key === 'ArrowLeft' && this.input.selectionStart === 0 && val === '' && this.items.length) {
+            e.preventDefault();
+            this.focusChip(this.items.length - 1);
+          }
+        }
+
+        onChipKeydown(e) {
+          const i = this.focusIndex;
+          if (i < 0) return;
+          switch (e.key) {
+            case 'ArrowLeft':
+              e.preventDefault();
+              if (i > 0) this.focusChip(i - 1);
+              break;
+            case 'ArrowRight':
+              e.preventDefault();
+              if (i < this.items.length - 1) this.focusChip(i + 1);
+              else this.focusInput();
+              break;
+            case 'Home': e.preventDefault(); this.focusChip(0); break;
+            case 'End': e.preventDefault(); this.focusChip(this.items.length - 1); break;
+            case 'Backspace': e.preventDefault(); this.removeAt(i, 'left'); break;
+            case 'Delete': e.preventDefault(); this.removeAt(i, 'right'); break;
+            case 'Enter':
+            case 'F2': e.preventDefault(); this.editAt(i); break;
+            case 'Escape': e.preventDefault(); this.focusInput(); break;
+            default:
+              // A printable character means "I'd rather be typing".
+              if (e.key.length === 1 && !e.metaKey && !e.ctrlKey && !e.altKey) {
+                e.preventDefault();
+                this.focusInput();
+                this.input.value += e.key;
+                this.onType();
+              }
+          }
+        }
+
+        onPaste(e) {
+          if (this.o.preset !== 'email') return;
+          const text = (e.clipboardData || window.clipboardData).getData('text');
+          if (!text) return;
+          e.preventDefault();
+          const tokens = parseEmails(text);
+          // An unterminated tail stays in the field so the user can keep typing.
+          const endsClean = /[,;\n\r\t]\s*$/.test(text);
+          const tail = endsClean ? null : tokens.pop();
+          let added = 0;
+          tokens.forEach((t) => { if (this.commitItem(toItem(t), { silent: true })) added++; });
+          this.input.value = tail || '';
+          this.onType();
+          this.announce(`${added} recipient${added === 1 ? '' : 's'} added from paste. ${this.items.length} total.`);
+        }
+
+        /* ---------- render ---------- */
+        render() {
+          this.chips.innerHTML = this.items
+            .map((item, i) =>
+              `<li>${tagMarkup({
+                label: item.label,
+                variant: this.o.tagVariant,
+                tone: this.o.tagTone,
+                size: this.o.tagSize,
+                avatarSrc: item.avatarSrc,
+                avatarName: item.avatarSrc ? undefined : item.label,
+                invalid: item.invalid,
+                disabled: item.disabled || this.disabled,
+                removable: !item.disabled && !this.disabled,
+                focusable: true,
+                tabindex: -1,
+                removeTabindex: -1,
+                maxWidth: '22ch',
+                id: item.id,
+                describedby: this.id + '-hint',
+              })}</li>`
+            )
+            .join('');
+
+          // one-shot enter animation
+          this.items.forEach((item, i) => {
+            if (!item.entering) return;
+            item.entering = false;
+            const chip = this.chips.querySelectorAll('.uni-tag')[i];
+            if (chip) chip.classList.add('uni-tag--entering');
+          });
+
+          this.applyFocus();
+          this.input.placeholder = this.items.length ? '' : this.o.placeholder;
+        }
+
+        renderList() {
+          const show = this.open && this.filtered.length > 0 && !this.disabled;
+          this.list.hidden = !show;
+          this.input.setAttribute('aria-expanded', String(show));
+          if (this.activeOption > -1 && show) {
+            this.input.setAttribute('aria-activedescendant', `${this.id}-opt-${this.activeOption}`);
+          } else {
+            this.input.removeAttribute('aria-activedescendant');
+          }
+          if (!show) { this.list.innerHTML = ''; return; }
+
+          this.list.innerHTML = this.filtered
+            .map((c, i) => {
+              const av = c.avatarSrc
+                ? `<span class="opt-avatar"><img src="${esc(c.avatarSrc)}" alt="" /></span>`
+                : `<span class="opt-avatar">${esc(initialsOf(c.label))}</span>`;
+              return `<li role="option" id="${this.id}-opt-${i}" data-i="${i}"
+                        class="${i === this.activeOption ? 'active' : ''}"
+                        aria-selected="${i === this.activeOption}">
+                        ${av}
+                        <span class="opt-text">
+                          <span class="opt-name">${esc(c.label)}</span><br />
+                          <span class="opt-mail">${esc(c.value)}</span>
+                        </span>
+                      </li>`;
+            })
+            .join('');
+        }
+      }
+
+      /* ==========================================================
+         Wire up the demos
+         ========================================================== */
+      const valueLog = document.getElementById('valueLog');
+      const eventLog = document.getElementById('eventLog');
+      const logEvent = (name, payload) => {
+        const line = document.createElement('div');
+        line.innerHTML = `<b>${esc(name)}</b> ${esc(JSON.stringify(payload))}`;
+        eventLog.prepend(line);
+      };
+      const showValue = (v) => {
+        valueLog.textContent = JSON.stringify(v, null, 1);
+      };
+
+      const to = new UniTagInput(document.getElementById('toHost'), {
+        label: 'To',
+        inputId: 'to-input',
+        placeholder: 'Name or email address',
+        preset: 'email',
+        suggestions: CONTACTS,
+        value: [
+          { value: 'alice@uni.dev', label: 'Alice Chen', avatarSrc: AVATARS.alice },
+          { value: 'ben.ortiz@uni.dev', label: 'Ben Ortiz', avatarSrc: AVATARS.ben },
+          { value: 'nope@@broken', label: 'nope@@broken' },
+        ],
+        onChange: showValue,
+        onEvent: (n, p) => logEvent(n, n === 'query' ? p : { value: p.value ?? p.raw, reason: p.reason }),
+      });
+      showValue(to.value);
+
+      const cc = new UniTagInput(document.getElementById('ccHost'), {
+        label: 'Cc',
+        inputId: 'cc-input',
+        placeholder: 'Up to 3 recipients',
+        preset: 'email',
+        max: 3,
+        tagVariant: 'tertiary',
+        suggestions: CONTACTS,
+        value: [{ value: 'design-team@uni.dev', label: 'Design Team', disabled: true }],
+      });
+
+      document.getElementById('btnPaste').onclick = () => {
+        to.commit('Priya Raman <priya@uni.dev>, sam@uni.dev; carol@uni.dev, nope@@x');
+        to.focusInput();
+      };
+      document.getElementById('btnPrefill').onclick = () => {
+        to.setValue([
+          { value: 'alice@uni.dev', label: 'Alice Chen', avatarSrc: AVATARS.alice },
+          { value: 'ben.ortiz@uni.dev', label: 'Ben Ortiz', avatarSrc: AVATARS.ben },
+          { value: 'carol@uni.dev', label: 'Carol Nwosu' },
+          { value: 'dmitri@partners.io', label: 'Dmitri Volkov' },
+          { value: 'accessibility@uni.dev', label: 'Accessibility Guild' },
+          { value: 'a-very-long-address-for-truncation@enterprise-example.com' },
+        ]);
+      };
+      document.getElementById('btnClear').onclick = () => to.setValue([]);
+      document.getElementById('btnDisable').onclick = () => to.setDisabled(!to.disabled);
+
+      /* ---------- gallery ---------- */
+      const VARIANTS = ['primary', 'secondary', 'tertiary', 'warn', 'success', 'ghost'];
+      const put = (id, html) => (document.getElementById(id).innerHTML = html);
+      const spread = (tone) =>
+        VARIANTS.map((v) => tagMarkup({ label: v, variant: v, tone })).join(' ');
+
+      put('galSoft', spread('soft'));
+      put('galSolid', spread('solid'));
+      put('galOutline', spread('outline'));
+
+      put(
+        'galSizes',
+        ['sm', 'md', 'lg']
+          .map((s) => tagMarkup({ label: `size ${s}`, size: s, removable: true }))
+          .join(' ') +
+          ' ' +
+          ['sm', 'md', 'lg']
+            .map((s) => tagMarkup({ label: 'Alice Chen', size: s, avatarName: 'Alice Chen', variant: 'secondary' }))
+            .join(' ')
+      );
+      put(
+        'galRect',
+        VARIANTS.slice(0, 4)
+          .map((v) => tagMarkup({ label: v, variant: v, tone: 'soft', shape: 'rect' }))
+          .join(' ') +
+          ' ' +
+          tagMarkup({ label: 'needs-triage', variant: 'warn', tone: 'outline', shape: 'rect', removable: true })
+      );
+      put(
+        'galLeads',
+        [
+          tagMarkup({ label: 'Alice Chen', avatarSrc: AVATARS.alice, variant: 'secondary' }),
+          tagMarkup({ label: 'Ben Ortiz', avatarName: 'Ben Ortiz', variant: 'tertiary' }),
+          tagMarkup({ label: 'Attachment', symbolName: 'attach_file' }),
+          tagMarkup({ label: 'Deployed', dot: true, variant: 'success', tone: 'outline' }),
+          tagMarkup({ label: 'Degraded', dot: true, variant: 'warn', tone: 'outline' }),
+          tagMarkup({ label: 'Truncates at 12ch because the label is very long', maxWidth: '12ch', removable: true }),
+        ].join(' ')
+      );
+      put(
+        'galStates',
+        [
+          tagMarkup({ label: 'Rest' }),
+          tagMarkup({ label: 'Selected', selected: true, interactive: true }),
+          tagMarkup({ label: 'nope@@broken', invalid: true, removable: true }),
+          tagMarkup({ label: 'Locked (owner)', disabled: true, avatarName: 'Owner' }),
+          tagMarkup({ label: 'Removable', removable: true, variant: 'secondary' }),
+          tagMarkup({ label: 'Interactive', interactive: true, variant: 'tertiary' }),
+          tagMarkup({ label: 'Both', interactive: true, removable: true, variant: 'tertiary' }),
+        ].join(' ')
+      );
+
+      const FILTERS = [
+        { label: 'Unread', on: true },
+        { label: 'Starred', on: false },
+        { label: 'Has attachment', on: true },
+        { label: 'From team', on: false },
+      ];
+      const paintFilters = () =>
+        put(
+          'galFilters',
+          FILTERS.map((f, i) =>
+            tagMarkup({
+              label: f.label, interactive: true, selected: f.on,
+              variant: 'primary', tone: f.on ? 'solid' : 'outline', id: 'f' + i,
+            })
+          ).join(' ')
+        );
+      paintFilters();
+      document.getElementById('galFilters').addEventListener('click', (e) => {
+        const chip = e.target.closest('.uni-tag');
+        if (!chip) return;
+        const i = +chip.dataset.id.slice(1);
+        FILTERS[i].on = !FILTERS[i].on;
+        paintFilters();
+      });
+
+      /* ---------- theme toggle ---------- */
+      const html = document.documentElement;
+      document.getElementById('themeToggle').onclick = () => {
+        const dark = html.dataset.theme === 'dark';
+        html.dataset.theme = dark ? 'light' : 'dark';
+        document.getElementById('themeToggleText').textContent = dark ? 'Dark' : 'Light';
+      };
+    </script>
+  </body>
+</html>
