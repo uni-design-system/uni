@@ -25,7 +25,22 @@ renders. Three changesets are staged. **Not committed.**
 
 ## 1. Immediate — close out the current blast radius
 
-### 1a. Menu phantom highlight (`menu/menu_update.md`) — do this first
+### 1a. Menu phantom highlight (`menu/menu_update.md`) — ✅ DONE 2026-08-11
+
+Shipped: the highlight keys on `:focus-visible`, and the selector now has one
+name — `HOVER_OR_KEYBOARD_FOCUS`, exported from uni-core — so the base rule and
+every theme variant agree by construction instead of by careful spelling. All
+five acceptance criteria verified in-browser; two specs added and
+mutation-tested (they fail when the bug is reintroduced). Changeset:
+`menu-item-focus-visible.md`. `menu_update.md` can be deleted.
+
+One thing worth knowing: `:focus-visible` is a browser heuristic, so a click
+that follows keyboard navigation still shows the highlight (Blink propagates
+focus-visible through programmatic focus when the previously focused element
+had it). That is the intended "this person is using the keyboard" behaviour,
+not a leftover bug. A pure-mouse session shows no highlight at all.
+
+<details><summary>Original analysis</summary>
 
 The filed bug: opening a menu by mouse leaves the first item pre-highlighted,
 because roving focus calls `.focus()` on open and the item styles paint `:focus`
@@ -50,6 +65,8 @@ that is the regression this coupling invites. Worth considering whether the
 override contract should stop depending on key spelling at all (a `hover`/`focus`
 option pair the component composes, rather than a raw selector), since any theme
 author hits the same trap.
+
+</details>
 
 ### 1b. `uni-tag` has zero specs
 
@@ -153,6 +170,6 @@ room.
 
 ## Suggested order
 
-1a (menu fix, small and mine to clean up) → 1b (tag characterization) →
-**decide SPEC.md Q4** → 2 (tag + tag-input) → 4's test-depth sweep on the
-zero-spec components → 3 (date picker, planned deliberately).
+~~1a (menu fix)~~ ✅ → **1b (tag characterization)** ← next → **decide SPEC.md
+Q4** → 2 (tag + tag-input) → 4's test-depth sweep on the zero-spec components →
+3 (date picker, planned deliberately).

@@ -12,6 +12,7 @@
  */
 import {
   createTheme,
+  HOVER_OR_KEYBOARD_FOCUS,
   type Borders,
   type Colors,
   type ComponentThemes,
@@ -407,7 +408,7 @@ const components = (colors: Colors): ComponentThemes => ({
     variants: {
       warn: {
         color: colors.warn,
-        '&:hover, &:focus': {
+        [HOVER_OR_KEYBOARD_FOCUS]: {
           backgroundColor: colors['danger-hover'],
           color: colors['on-warn'],
         },

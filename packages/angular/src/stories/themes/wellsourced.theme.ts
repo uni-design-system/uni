@@ -16,6 +16,7 @@
 import {
   BaseTheme,
   createTheme,
+  HOVER_OR_KEYBOARD_FOCUS,
   type Borders,
   type Colors,
   type ComponentThemes,
@@ -450,7 +451,7 @@ const components = (p: WellsourcedPalette): ComponentThemes => ({
       // fill and the danger color stays put.
       warn: {
         color: p.warn,
-        '&:hover, &:focus': { backgroundColor: p.canvas, color: p.warn },
+        [HOVER_OR_KEYBOARD_FOCUS]: { backgroundColor: p.canvas, color: p.warn },
       },
     },
   },

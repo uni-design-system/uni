@@ -57,6 +57,35 @@ describe('UniMenuItemComponent', () => {
     expect(stylesFor(className)).toContain('font-size');
   });
 
+  describe('highlight state', () => {
+    /** Selector text that would paint on programmatic (pointer-open) focus. */
+    const BARE_FOCUS = /:focus(?![-\w])/;
+
+    it('paints on hover and keyboard focus, never on programmatic focus', () => {
+      const styles = stylesFor((fixture.nativeElement as HTMLElement).className);
+      expect(styles).toContain(':focus-visible');
+      // `onOpened()` focuses an item on every open, including pointer opens —
+      // a bare `:focus` rule would highlight an item the mouse user never
+      // touched, reading as a preselected default.
+      expect(styles).not.toMatch(BARE_FOCUS);
+    });
+
+    it('keeps variant tones on the same selector so they still override', () => {
+      fixture.componentRef.setInput('variant', 'warn');
+      fixture.detectChanges();
+
+      const className = (fixture.nativeElement as HTMLElement).className;
+      const styles = stylesFor(className);
+      const warnContainer = TestBed.inject(ThemeService).colors()['warn-container'];
+
+      // Emotion merges by exact selector text: a variant keyed `&:hover,
+      // &:focus` would miss the override *and* reintroduce the phantom
+      // highlight, so the tone must ride the same selector as the base rule.
+      expect(styles).toContain(warnContainer);
+      expect(styles).not.toMatch(BARE_FOCUS);
+    });
+  });
+
   it('lets the hoverColor input override the theme option', () => {
     const themedClass = (fixture.nativeElement as HTMLElement).className;
 

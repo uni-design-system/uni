@@ -3,6 +3,7 @@ import { generatePalette, type PaletteConfig } from '../../color';
 import type { GenerateColorsConfig } from '../../generation/palette.factory';
 import { generateShadows } from '../../generation/shadow.generator';
 import { BaseIcons } from '../../iconography/icon.records';
+import { HOVER_OR_KEYBOARD_FOCUS } from '../../style/selectors.constants';
 import type { TextRole, TextStyle } from '../../typography';
 import type {
   Borders,
@@ -301,7 +302,8 @@ const buildComponents = (c: Colors): ComponentThemes => ({
     variants: {
       warn: {
         color: c.warn,
-        '&:hover, &:focus': {
+        // Must key the highlight with the shared constant — see its doc.
+        [HOVER_OR_KEYBOARD_FOCUS]: {
           backgroundColor: c['warn-container'],
           color: c['on-warn-container'],
         },

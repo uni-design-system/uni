@@ -13,7 +13,7 @@ import { css } from '@emotion/css';
 import { UniBoxComponent } from '../../layout';
 import { UniSymbolComponent } from '../../symbol';
 import { ThemeService } from '../../../theming';
-import type { ContainerColorToken, Variant } from '@uni-design-system/uni-core';
+import { HOVER_OR_KEYBOARD_FOCUS, type ContainerColorToken, type Variant } from '@uni-design-system/uni-core';
 import type { UniMenuItemOptions } from './menu-item.model';
 
 @Component({
@@ -75,8 +75,13 @@ export class UniMenuItemComponent<T = any> {
         ...this.theme.typeface(options.typeface),
         ...this.theme.color(options.textColor),
 
-        // Roving focus highlights items the same way hover does
-        '&:hover, &:focus': {
+        // Roving focus highlights items the same way hover does — but only
+        // when focus is keyboard-driven. `onOpened()` focuses an item on every
+        // open, including pointer opens, and plain `:focus` would paint that
+        // as a highlight the mouse user never asked for, reading as a
+        // preselected item. `:focus-visible` excludes programmatic focus that
+        // follows a click while still matching keyboard navigation.
+        [HOVER_OR_KEYBOARD_FOCUS]: {
           ...this.theme.colorPair(this.hoverColor() ?? options.hoverColor),
           outline: 'none',
         },
@@ -87,8 +92,10 @@ export class UniMenuItemComponent<T = any> {
         },
       },
       transitionSpeed > 0 && { transition: `all ${transitionSpeed}s ease` },
-      // Variant tones override the base look; a same-key '&:hover, &:focus'
-      // in the variant replaces the default hover pair outright.
+      // Variant tones override the base look. A variant that restyles the
+      // highlight must key it with HOVER_OR_KEYBOARD_FOCUS — Emotion merges by
+      // exact selector text, so a variant spelling it `&:hover, &:focus`
+      // would both miss the override and reintroduce the phantom highlight.
       { ...variantStyle },
     ]);
   });
