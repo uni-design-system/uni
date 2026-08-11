@@ -1,14 +1,14 @@
 import { Meta, Title, Story } from '@storybook/addon-docs/blocks';
 import * as Stories from './iconography.stories';
 
-<Meta of={Stories} name="Overview" />
+<Meta of={Stories} name="Iconography" />
 <Title />
 
 ## Overview
 
 Icons in Uni are **theme primitives**, not inlined SVG. Each icon is an SVG data
 URI stored on the theme's `icons` record and rendered by
-[`uni-icon`](?path=/docs/components-icon--overview) as a CSS **mask over
+[`uni-icon`](?path=/docs/components-primitives-icon--icon) as a CSS **mask over
 `currentColor`** — so every icon recolors with the theme, a color token, or its
 container's text color automatically, and no third-party icon font or SVG markup
 ever enters your templates.

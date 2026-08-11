@@ -4,7 +4,7 @@ import { UniWrapComponent } from './wrap.component';
 type StoryType = UniWrapComponent;
 
 const meta: Meta<StoryType> = {
-  title: 'Layout/Wrap',
+  title: 'Components/Layout/Wrap',
   component: UniWrapComponent,
 };
 

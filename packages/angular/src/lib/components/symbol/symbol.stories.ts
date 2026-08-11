@@ -4,7 +4,7 @@ import { UniSymbolComponent as Symbol } from './symbol.component';
 type StoryType = Symbol;
 
 const meta: Meta<StoryType> = {
-  title: 'Components/Symbol',
+  title: 'Components/Primitives/Symbol',
   component: Symbol,
   argTypes: {
     name: { description: '' },

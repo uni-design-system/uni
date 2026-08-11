@@ -8,7 +8,7 @@ import { UniThemeSwitchComponent as ThemeSwitch } from './theme-switch.component
 type StoryType = ThemeSwitch;
 
 const meta: Meta<StoryType> = {
-  title: 'Components/ThemeSwitch',
+  title: 'Core/Theme Switch',
   component: ThemeSwitch,
   decorators: [
     moduleMetadata({

@@ -4,7 +4,7 @@ import { UniJsonViewComponent } from './json-view.component';
 type StoryType = UniJsonViewComponent;
 
 const meta: Meta<StoryType> = {
-  title: 'Components/JSON View',
+  title: 'Components/Data Display/JSON View',
   component: UniJsonViewComponent,
   argTypes: {
     json: {

@@ -4,7 +4,7 @@ import { UniMultiSelectDropdownComponent as MultiSelectDropdown } from './multi-
 type StoryType = MultiSelectDropdown;
 
 const meta: Meta<StoryType> = {
-  title: 'Components/Forms/Multi Select',
+  title: 'Components/Forms/Multi Select Dropdown',
   component: MultiSelectDropdown,
   render: (args) => {
     const { ...props } = args;

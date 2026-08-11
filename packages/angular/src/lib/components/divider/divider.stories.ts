@@ -5,7 +5,7 @@ import { UniDividerComponent as Divider } from './divider.component';
 type StoryType = Divider;
 
 const meta: Meta<StoryType> = {
-  title: 'Components/Divider',
+  title: 'Components/Primitives/Divider',
   component: Divider,
   decorators: [
     moduleMetadata({

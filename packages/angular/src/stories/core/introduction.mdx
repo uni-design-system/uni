@@ -1,6 +1,6 @@
 import { Meta } from '@storybook/addon-docs/blocks';
 
-<Meta title="Core/Introduction" />
+<Meta title="Core/Introduction" name="Introduction" />
 
 # Build with tokens, not CSS
 
@@ -20,12 +20,12 @@ Emotion atomic classes, and application code composes **primitives**, not CSS:
 - **Layout** — `box-layout` (fifty-plus token-driven inputs: padding, borders,
   radius, color pairs, flex, grid, gap, shadows) with `stack`, `row`, `center`,
   `wrap`, and `grid` presets.
-- **[Type](?path=/docs/core-typography--overview)** — `uni-text` on any element;
+- **[Type](?path=/docs/core-typography--typography)** — `uni-text` on any element;
   semantic HTML gets the right typeface free.
-- **[Icons](?path=/docs/core-iconography--overview)** — theme-token masks over
+- **[Icons](?path=/docs/core-iconography--iconography)** — theme-token masks over
   `currentColor`; recolor with the theme automatically.
 - **Component chrome** — buttons, cards, dialogs, tables draw every color,
-  radius, and typeface from [theme tokens](?path=/docs/core-theme--overview),
+  radius, and typeface from [theme tokens](?path=/docs/core-theme--theme),
   re-pointable per theme without touching call sites.
 
 The discipline is deliberate: there's no style escape hatch to leak one-off CSS
@@ -33,7 +33,7 @@ through, which is exactly why a theme swap restyles *everything*.
 
 ## One theme object, applied live
 
-A [theme](?path=/docs/core-theme--overview) is a plain object — colors,
+A [theme](?path=/docs/core-theme--theme) is a plain object — colors,
 typography, spacing, radii, borders, shadows, thicknesses, icons, component
 options. Swap it at runtime and every component re-resolves through Angular
 signals; no rebuild, no reload, no flash of unstyled anything.
@@ -76,7 +76,7 @@ live. The roadmap extends the same treatment to the rest of the system:
   ("what goes inside this component") data, so agents can compose layouts, not
   just configure components.
 
-The core sections — [Theme](?path=/docs/core-theme--overview),
-[Typography](?path=/docs/core-typography--overview), and
-[Iconography](?path=/docs/core-iconography--overview) — document the token
+The core sections — [Theme](?path=/docs/core-theme--theme),
+[Typography](?path=/docs/core-typography--typography), and
+[Iconography](?path=/docs/core-iconography--iconography) — document the token
 system all of this stands on.

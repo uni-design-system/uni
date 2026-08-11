@@ -5,7 +5,7 @@ type StoryType = ProgressBar;
 
 // More on how to set up stories at: https://storybook.js.org/docs/angular/writing-stories/introduction
 const meta: Meta<StoryType> = {
-  title: 'Components/Progress Bar',
+  title: 'Components/Feedback/Progress Bar',
   component: ProgressBar,
   decorators: [
     applicationConfig({

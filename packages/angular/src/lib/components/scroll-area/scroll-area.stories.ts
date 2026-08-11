@@ -6,7 +6,7 @@ import { UniScrollAreaComponent as ScrollArea } from './scroll-area.component';
 type StoryType = ScrollArea & { ngContent?: string };
 
 const meta: Meta<StoryType> = {
-  title: 'Components/Scroll Area',
+  title: 'Components/Surfaces/Scroll Area',
   component: ScrollArea,
   decorators: [
     moduleMetadata({

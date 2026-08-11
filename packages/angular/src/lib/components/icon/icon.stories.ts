@@ -8,7 +8,7 @@ import { UniBoxComponent } from '../layout';
 type StoryType = Icon & { containerSize?: number; containerColor?: ContainerColorToken };
 
 const meta: Meta<StoryType> = {
-  title: 'Components/Icon',
+  title: 'Components/Primitives/Icon',
   component: Icon,
   render: (args) => {
     const { name, color, size, containerSize } = args;

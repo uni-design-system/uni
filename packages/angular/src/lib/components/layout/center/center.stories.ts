@@ -6,7 +6,7 @@ import { UniTextComponent } from '../../text';
 type StoryType = Center & { ngContent?: string };
 
 const meta: Meta<StoryType> = {
-  title: 'Layout/Center',
+  title: 'Components/Layout/Center',
   component: Center,
   decorators: [moduleMetadata({ imports: [UniTextComponent] })],
   render: (args) => {

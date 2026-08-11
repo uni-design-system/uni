@@ -7,7 +7,7 @@ import { UniCardComponent, UniCardContentComponent } from '../../card';
 type StoryType = Stack;
 
 const meta: Meta<StoryType> = {
-  title: 'Layout/Stack',
+  title: 'Components/Layout/Stack',
   component: Stack,
   decorators: [
     moduleMetadata({

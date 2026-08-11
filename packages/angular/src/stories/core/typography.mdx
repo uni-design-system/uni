@@ -1,7 +1,7 @@
 import { Meta, Title, Story } from '@storybook/addon-docs/blocks';
 import * as Stories from './typography.stories';
 
-<Meta of={Stories} name="Overview" />
+<Meta of={Stories} name="Typography" />
 <Title />
 
 ## Overview
@@ -11,7 +11,7 @@ role (`display-large`, `body-1-long`, `caption`, …). CSS-ready typefaces are
 **derived** from that scale on read via `toTypefaces()`, never stored twice, and
 every consumer resolves through the same map:
 
-- The [`uni-text` attribute](?path=/docs/components-text--overview) applies a
+- The [`uni-text` attribute](?path=/docs/components-primitives-text--text) applies a
   typeface to any element: `<h1 uni-text="display-small">`.
 - Components reference typefaces **by token name** in their theme options
   (`appBar: { typeface: 'title-large' }`), so re-theming type is a token swap,

@@ -2,7 +2,7 @@ import { Meta, StoryObj } from '@storybook/angular';
 import { UniBackgroundComponent } from './background.component';
 
 const meta: Meta<UniBackgroundComponent> = {
-  title: 'Components/Background',
+  title: 'Components/Surfaces/Background',
   component: UniBackgroundComponent,
   argTypes: {
     image: {

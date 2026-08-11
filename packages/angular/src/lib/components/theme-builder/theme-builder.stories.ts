@@ -2,7 +2,7 @@ import { Meta, StoryObj } from '@storybook/angular';
 import { UniThemeBuilderComponent } from './theme-builder.component';
 
 const meta: Meta<UniThemeBuilderComponent> = {
-  title: 'Theme Builder/Color',
+  title: 'Core/Theme Builder',
   component: UniThemeBuilderComponent,
   parameters: {
     layout: 'fullscreen',

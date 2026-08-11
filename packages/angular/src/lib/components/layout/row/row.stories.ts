@@ -6,7 +6,7 @@ import { UniButtonComponent } from '../../button';
 type StoryType = Row;
 
 const meta: Meta<StoryType> = {
-  title: 'Layout/Row',
+  title: 'Components/Layout/Row',
   component: Row,
   decorators: [
     moduleMetadata({

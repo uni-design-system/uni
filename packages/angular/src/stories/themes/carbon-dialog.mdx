@@ -1,0 +1,44 @@
+import { Meta, Title, Story } from '@storybook/addon-docs/blocks';
+import * as Stories from './carbon-dialog.stories';
+
+<Meta of={Stories} name="Carbon Dialog" />
+<Title />
+
+## Overview
+
+An experiment in re-theming reach: Uni's dialog wearing
+[IBM Carbon's modal pattern](https://carbondesignsystem.com/patterns/dialog-pattern/),
+produced **entirely through a derived theme**. There is no dialog-specific
+styling in these stories and no change to the component — sharp corners, the
+gray `$layer` surface, the left-aligned heading with a flush ghost close, and
+the full-bleed 50/50 footer come from `carbon.theme.ts` alone.
+
+That is the point of the exercise: if a component library can only be recoloured,
+its own look leaks through and gives it away. Everything structural here is a
+theme token, so the Carbon dialog is a Uni dialog.
+
+## Transactional modal
+
+Passive copy, Cancel plus a primary action.
+
+<Story of={Stories.Transactional} />
+
+## Danger modal
+
+The destructive confirmation, with the danger action in Carbon's red.
+
+<Story of={Stories.Danger} />
+
+## Gray 90
+
+The same dialog under Carbon's dark theme — a second palette over the same
+component options.
+
+<Story of={Stories.DarkGray90} />
+
+## How it is built
+
+`src/stories/themes/carbon.theme.ts` was scaffolded by the `generate-uni-theme`
+MCP tool and then hand-tuned to Carbon v11 token values. The dialog family is
+the focus, but the same file also re-themes buttons, inputs and menus — see
+[Carbon Menu](?path=/docs/experiments-carbon-menu--carbon-menu).

@@ -16,7 +16,7 @@ import { UniDataTableComponent as DataTable } from './data-table.component';
 type StoryType = DataTable<any>;
 
 const meta: Meta<StoryType> = {
-  title: 'Components/Data Table',
+  title: 'Components/Data Display/Data Table',
   component: DataTable,
   decorators: [
     moduleMetadata({

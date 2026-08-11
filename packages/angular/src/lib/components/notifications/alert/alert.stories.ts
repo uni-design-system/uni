@@ -8,7 +8,7 @@ import { UniAlertComponent as Alert } from './alert.component';
 type StoryType = Alert & { ngContent?: string };
 
 const meta: Meta<StoryType> = {
-  title: 'Components/Notifications/Alert',
+  title: 'Components/Feedback/Alert',
   component: Alert,
   decorators: [
     moduleMetadata({

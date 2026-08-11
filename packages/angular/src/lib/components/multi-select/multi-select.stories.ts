@@ -4,7 +4,7 @@ import { UniMultiSelectComponent } from './multi-select.component';
 type StoryType = UniMultiSelectComponent;
 
 const meta: Meta<StoryType> = {
-  title: 'Components/Multi Select',
+  title: 'Components/Forms/Multi Select',
   component: UniMultiSelectComponent,
   render: (args) => {
     const { ...props } = args;

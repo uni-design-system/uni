@@ -7,7 +7,7 @@ import { UniGridComponent as Grid } from './grid.component';
 type StoryType = Grid;
 
 const meta: Meta<StoryType> = {
-  title: 'Layout/Grid',
+  title: 'Components/Layout/Grid',
   component: Grid,
   decorators: [
     moduleMetadata({

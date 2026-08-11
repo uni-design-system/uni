@@ -4,7 +4,7 @@ import { UniNotificationBadgeComponent } from './notification-badge';
 import { UniBoxComponent, UniCenterComponent, UniWrapComponent } from '../layout';
 
 const meta: Meta<UniNotificationBadgeComponent> = {
-  title: 'Components/Notification Badge',
+  title: 'Components/Feedback/Notification Badge',
   component: UniNotificationBadgeComponent,
   tags: ['experimental'],
   decorators: [

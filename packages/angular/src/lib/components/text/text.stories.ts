@@ -5,7 +5,7 @@ import { UniBoxComponent, UniStackComponent } from '../layout';
 type StoryType = UniTextComponent;
 
 const meta: Meta<StoryType> = {
-  title: 'Components/Text',
+  title: 'Components/Primitives/Text',
   component: UniTextComponent,
   decorators: [moduleMetadata({ imports: [UniBoxComponent, UniStackComponent] })],
   argTypes: {

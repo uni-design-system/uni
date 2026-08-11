@@ -7,7 +7,7 @@ import { UniMenuComponent as Menu } from './menu.component';
 type StoryType = Menu;
 
 const meta: Meta<StoryType> = {
-  title: 'Components/Menu',
+  title: 'Components/Actions/Menu',
   component: Menu,
   decorators: [
     moduleMetadata({

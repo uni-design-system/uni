@@ -1,15 +1,15 @@
 {
   "meta": {
     "version": "7.2.0",
-    "builtAt": "2026-07-30T18:45:09.864Z",
+    "builtAt": "2026-08-11T19:47:07.901Z",
     "frameworks": [
       "angular"
     ],
     "counts": {
-      "components": 71,
-      "tokens": 305,
+      "components": 72,
+      "tokens": 331,
       "themes": 2,
-      "examples": 135
+      "examples": 150
     }
   },
   "components": [
@@ -1350,7 +1350,7 @@
         }
       ],
       "guidelines": {
-        "whenToUse": "The Data Search input filters a `UniDatasource` as the user types. With a client-side\n`UniRecordDatasource` it applies a predicate over the record's fields; with a\n`UniServerSideDatasource` it sends a filter object to the data loader. Pass `fields` to\nrestrict the search to specific columns. A clear button resets the filter.\nIt pairs with the [Data Table](?path=/docs/components-data-table--docs) — see its\n\"With Search\" story.",
+        "whenToUse": "The Data Search input filters a `UniDatasource` as the user types. With a client-side\n`UniRecordDatasource` it applies a predicate over the record's fields; with a\n`UniServerSideDatasource` it sends a filter object to the data loader. Pass `fields` to\nrestrict the search to specific columns. A clear button resets the filter.\nIt pairs with the [Data Table](?path=/docs/components-data-display-data-table--data-table) — see its\n\"With Search\" story.",
         "dos": [],
         "donts": [],
         "accessibility": []
@@ -1563,7 +1563,7 @@
         }
       ],
       "guidelines": {
-        "whenToUse": "A themed text input that emits its `change` output only after the user pauses typing\n(400&nbsp;ms by default) and only when the value actually changed — a signal-based\ndebounce with no rxjs involved. The live value is exposed as the `value` signal, and\n`clear()` empties the field immediately (cancelling any pending emit).\nIt wears the shared input chrome (color, border, typeface, focus ring) via the input\nbox, and offers `pre-input` / `post-input` attribute slots for adornments plus ARIA\npassthrough inputs (`role`, `ariaExpanded`, `ariaControls`, `ariaActivedescendant`)\nso composite widgets can annotate the real input element.\nUsed by the [Search Input](?path=/docs/components-forms-search-input--docs), which\nprojects its magnifier and clear button through the slots and drives the combobox\nARIA through the passthroughs.",
+        "whenToUse": "A themed text input that emits its `change` output only after the user pauses typing\n(400&nbsp;ms by default) and only when the value actually changed — a signal-based\ndebounce with no rxjs involved. The live value is exposed as the `value` signal, and\n`clear()` empties the field immediately (cancelling any pending emit).\nIt wears the shared input chrome (color, border, typeface, focus ring) via the input\nbox, and offers `pre-input` / `post-input` attribute slots for adornments plus ARIA\npassthrough inputs (`role`, `ariaExpanded`, `ariaControls`, `ariaActivedescendant`)\nso composite widgets can annotate the real input element.\nUsed by the [Search Input](?path=/docs/components-forms-search-input--search-input), which\nprojects its magnifier and clear button through the slots and drives the combobox\nARIA through the passthroughs.",
         "dos": [],
         "donts": [],
         "accessibility": [
@@ -1980,6 +1980,34 @@
               "description": ""
             },
             {
+              "name": "border",
+              "kind": "input",
+              "type": "Border | undefined",
+              "required": false,
+              "description": ""
+            },
+            {
+              "name": "borderRadius",
+              "kind": "input",
+              "type": "Radius | undefined",
+              "required": false,
+              "description": ""
+            },
+            {
+              "name": "shadow",
+              "kind": "input",
+              "type": "Shadow | undefined",
+              "required": false,
+              "description": ""
+            },
+            {
+              "name": "color",
+              "kind": "input",
+              "type": "ContainerColorToken | undefined",
+              "required": false,
+              "description": ""
+            },
+            {
               "name": "dropdownShowing",
               "kind": "output",
               "type": "boolean",
@@ -2030,6 +2058,13 @@
               "required": false,
               "default": "true",
               "description": ""
+            },
+            {
+              "name": "transitionSpeed",
+              "kind": "input",
+              "type": "number",
+              "required": false,
+              "description": "Exact per-instance duration in seconds. Bypasses size-aware scaling — an explicit number means the consumer wants that number. Omitted, the duration derives from the `expand` theme options' `transitionSpeed` scaled by content height (see `duration`)."
             }
           ]
         }
@@ -2038,7 +2073,17 @@
         {
           "title": "Primary",
           "framework": "angular",
-          "code": "<!-- Storybook story: Primary -->\n<uni-card>\n<uni-card-header title=\"Expandable Card\"><uni-expand-toggle #toggle /></uni-card-header>\n<uni-expand [collapsed]=\"toggle.collapsed()\">\n  <uni-card-content>\n    <span uni-text>${ngContent}</span>\n  </uni-card-content>\n</uni-expand>\n</uni-card>\n<!-- args:\n{\n    ngContent: 'Expandable Content',\n  }\n-->"
+          "code": "<!-- Storybook story: Primary -->\n<uni-card>\n<uni-card-header title=\"Expandable Card\"><uni-expand-toggle #toggle [transitionSpeed]=\"expand.duration()\" /></uni-card-header>\n<uni-expand #expand [collapsed]=\"toggle.collapsed()\" [transitionSpeed]=\"transitionSpeed\">\n  <uni-card-content>\n    <span uni-text>${ngContent}</span>\n  </uni-card-content>\n</uni-expand>\n</uni-card>\n<!-- args:\n{\n    ngContent: 'Expandable Content',\n  }\n-->"
+        },
+        {
+          "title": "Snappy",
+          "framework": "angular",
+          "code": "<!-- Storybook story: Snappy -->\n<uni-card>\n<uni-card-header title=\"Expandable Card\"><uni-expand-toggle #toggle [transitionSpeed]=\"expand.duration()\" /></uni-card-header>\n<uni-expand #expand [collapsed]=\"toggle.collapsed()\" [transitionSpeed]=\"transitionSpeed\">\n  <uni-card-content>\n    <span uni-text>${ngContent}</span>\n  </uni-card-content>\n</uni-expand>\n</uni-card>\n<!-- args:\n{\n    ngContent: 'Reveals in exactly 150ms, regardless of content height.',\n    transitionSpeed: 0.15,\n  }\n-->"
+        },
+        {
+          "title": "Tall",
+          "framework": "angular",
+          "code": "<!-- Storybook story: Tall -->\n<uni-card>\n<uni-card-header title=\"Expandable Card\"><uni-expand-toggle #toggle [transitionSpeed]=\"expand.duration()\" /></uni-card-header>\n<uni-expand #expand [collapsed]=\"toggle.collapsed()\" [transitionSpeed]=\"transitionSpeed\">\n  <uni-card-content>\n    <span uni-text>${ngContent}</span>\n  </uni-card-content>\n</uni-expand>\n</uni-card>\n<!-- args:\n{\n    ngContent: Array.from(\n      { length: 12 },\n      (_, i) => `Row ${i + 1} of a tall reveal, timed to its height.`,\n    ).join('<br>'),\n  }\n-->"
         }
       ],
       "guidelines": {
@@ -2050,7 +2095,9 @@
           "The reveal is motion-safe (WCAG 2.3.3): under `prefers-reduced-motion` the"
         ]
       },
-      "relatedTokens": []
+      "relatedTokens": [
+        "expand.behavior.transitionSpeed"
+      ]
     },
     {
       "id": "expand-area",
@@ -2154,6 +2201,13 @@
               "type": "string",
               "required": false,
               "description": "Muted qualifier beside the label (\"for POs & custom orders\"). Needs `label`."
+            },
+            {
+              "name": "transitionSpeed",
+              "kind": "input",
+              "type": "number",
+              "required": false,
+              "description": "Rotation duration in seconds. Expand Area binds the region's resolved `duration` here so chevron and reveal share one clock even when the region is size-scaled or overridden per instance."
             }
           ]
         }
@@ -2171,7 +2225,7 @@
         }
       ],
       "guidelines": {
-        "whenToUse": "The Expand Toggle is a chevron icon button that controls collapsed/expanded state. It pairs\nwith the [Expand](?path=/docs/components-expand--docs) component: bind the toggle's\n`collapsed` model to the Expand's `collapsed` input to build collapsible sections.\nThe icon rotates 180° between states and shows an \"Expand\"/\"Collapse\" tooltip.\nThe transform is applied to the glyph, not to the component host — the host is\nthe tooltip's anchor, so rotating it would carry the bubble around with it.",
+        "whenToUse": "The Expand Toggle is a chevron icon button that controls collapsed/expanded state. It pairs\nwith the [Expand](?path=/docs/components-surfaces-expand--expand) component: bind the toggle's\n`collapsed` model to the Expand's `collapsed` input to build collapsible sections.\nThe icon rotates 180° between states and shows an \"Expand\"/\"Collapse\" tooltip.\nThe transform is applied to the glyph, not to the component host — the host is\nthe tooltip's anchor, so rotating it would carry the bubble around with it.",
         "dos": [],
         "donts": [],
         "accessibility": [
@@ -2782,7 +2836,7 @@
         }
       ],
       "guidelines": {
-        "whenToUse": "The Input Box is the themed shell shared by all text-like form controls\n([Input](?path=/docs/components-forms-input--docs),\n[Select](?path=/docs/components-forms-select--docs), Multi Select Dropdown). It projects any\nnative `input` or `select` element, strips the platform's default styling, and applies the\n`input` component theme options: colors, border, radius, focus outline, and the error and\ndisabled states.\nUse it directly when composing a custom form control that should match the design system's\ninput styling.",
+        "whenToUse": "The Input Box is the themed shell shared by all text-like form controls\n([Input](?path=/docs/components-forms-input--input),\n[Select](?path=/docs/components-forms-select--select), Multi Select Dropdown). It projects any\nnative `input` or `select` element, strips the platform's default styling, and applies the\n`input` component theme options: colors, border, radius, focus outline, and the error and\ndisabled states.\nUse it directly when composing a custom form control that should match the design system's\ninput styling.",
         "dos": [],
         "donts": [],
         "accessibility": []
@@ -2909,10 +2963,15 @@
           "title": "Primary",
           "framework": "angular",
           "code": "<!-- Storybook story: Primary -->\n<div box-layout color=\"primary\" padding=\"sm\">\n  <uni-menu ${argsToTemplate(props)}>\n    <button text-button variant=\"ghost\" symbolRight=\"arrow_drop_down\">Menu</button>\n  </uni-menu>\n</div>\n<!-- args:\n{\n    menuItems: [\n      { label: 'Language', symbolName: 'translate' },\n      { label: 'Settings', symbolName: 'settings' },\n      { label: 'Logout', symbolName: 'logout' },\n    ],\n  }\n-->"
+        },
+        {
+          "title": "Tones",
+          "framework": "angular",
+          "code": "<!-- Storybook story: Tones -->\n<div box-layout color=\"primary\" padding=\"sm\">\n  <uni-menu ${argsToTemplate(props)}>\n    <button text-button variant=\"ghost\" symbolRight=\"arrow_drop_down\">Menu</button>\n  </uni-menu>\n</div>\n<!-- args:\n{\n    menuItems: [\n      { label: 'Rename', symbolName: 'edit' },\n      { label: 'Duplicate', symbolName: 'content_copy' },\n      { label: 'Share', symbolName: 'share', disabled: true },\n      { divider: true },\n      { label: 'Delete', symbolName: 'delete', variant: 'warn' },\n    ],\n  }\n-->"
         }
       ],
       "guidelines": {
-        "whenToUse": "Menus can be linked to any component, but it is recommended to use either the `text-button` or `icon-button` component.\nMenus are populated by creating an array of Menu Items (`MenuItem[]`) and binding it to the `Menu` component.\nActions are optional as the `Menu` component also emits the clicked menu item via the `menuItemClicked` output attribute.\n### Menu Item Interface\n```\nMenuItem {\n  label: string;\n  symbolName?: string;\n  action?: () => void;\n}\n```",
+        "whenToUse": "Menus can be linked to any component, but it is recommended to use either the `text-button` or `icon-button` component.\nMenus are populated by creating an array of Menu Items (`MenuItem[]`) and binding it to the `Menu` component.\nActions are optional as the `Menu` component also emits the clicked menu item via the `menuItemClicked` output attribute.\n### Menu Item Interface\nAn item is either a labeled action, a templated action, or a divider:\n```\nMenuItem =\n  | { label: string; symbolName?: string; action?: () => void;\n      variant?: Variant; disabled?: boolean }\n  | { template: TemplateRef<T>; context: T; symbolName?: string;\n      action?: () => void; variant?: Variant; disabled?: boolean }\n  | { divider: true }\n```\n- `variant` routes through the theme's `menuItem` variants — e.g. `variant: 'warn'`\n  renders the item in the theme's destructive tone.\n- `disabled` items render with the disabled color and are skipped by keyboard\n  navigation.\n- `{ divider: true }` renders a `role=\"separator\"` rule styled by the `menu`\n  theme options.",
         "dos": [],
         "donts": [],
         "accessibility": [
@@ -2920,7 +2979,13 @@
           "ArrowDown/ArrowUp on the trigger opens onto the first/last item; focus returns to the trigger on close."
         ]
       },
-      "relatedTokens": []
+      "relatedTokens": [
+        "menu.behavior.minWidth",
+        "menu.behavior.paddingVertical",
+        "menu.behavior.paddingHorizontal",
+        "menu.behavior.dividerBorder",
+        "menu.behavior.dividerSpacing"
+      ]
     },
     {
       "id": "menu-item",
@@ -2935,46 +3000,6 @@
           "importPath": "@uni-design-system/uni-angular",
           "selectorOrTag": "[uni-menu-item], [menu-item]",
           "api": [
-            {
-              "name": "display",
-              "kind": "input",
-              "type": "OptionalDisplay",
-              "required": false,
-              "default": "'flex'",
-              "description": ""
-            },
-            {
-              "name": "flexDirection",
-              "kind": "input",
-              "type": "OptionalFlexDirection",
-              "required": false,
-              "default": "'row'",
-              "description": ""
-            },
-            {
-              "name": "alignItems",
-              "kind": "input",
-              "type": "OptionalAlignItems",
-              "required": false,
-              "default": "'center'",
-              "description": ""
-            },
-            {
-              "name": "paddingHorizontal",
-              "kind": "input",
-              "type": "OptionalSize",
-              "required": false,
-              "default": "'md'",
-              "description": ""
-            },
-            {
-              "name": "gap",
-              "kind": "input",
-              "type": "OptionalSize",
-              "required": false,
-              "default": "'md'",
-              "description": ""
-            },
             {
               "name": "label",
               "kind": "input",
@@ -3011,12 +3036,18 @@
               "description": ""
             },
             {
+              "name": "variant",
+              "kind": "input",
+              "type": "Variant | undefined",
+              "required": false,
+              "description": "Tone routed through the theme's `menuItem` variants (e.g. 'warn')."
+            },
+            {
               "name": "hoverColor",
               "kind": "input",
-              "type": "ContainerColorToken",
+              "type": "ContainerColorToken | undefined",
               "required": false,
-              "default": "'primary-container'",
-              "description": ""
+              "description": "Per-instance override of the theme's `menuItem.hoverColor`."
             },
             {
               "name": "disabled",
@@ -3208,6 +3239,21 @@
               "required": false,
               "default": "''",
               "description": ""
+            },
+            {
+              "name": "label",
+              "kind": "input",
+              "type": "string",
+              "required": false,
+              "description": "What the field is for, e.g. \"Fruits\". Rendered visually hidden inside the trigger so its accessible name reads \"Fruits, Apple, Pear\" — without it a screen reader announces only the current selection, with no clue which field it belongs to."
+            },
+            {
+              "name": "debounceTime",
+              "kind": "input",
+              "type": "number",
+              "required": false,
+              "default": "200",
+              "description": "Debounce for the filter box, matching the library's input debounce."
             }
           ]
         }
@@ -3483,7 +3529,7 @@
         }
       ],
       "guidelines": {
-        "whenToUse": "The Paginator drives page navigation for any `UniDatasource`: first/previous/next/last\nbuttons, truncated page numbers, an editable page size, and a page jumper. Each section can\nbe toggled independently, so it can render as a full control bar or a minimal pager — the\n[Data Table](?path=/docs/components-data-table--docs) stories use one paginator in the header\nfor page size and another in the footer for page numbers.",
+        "whenToUse": "The Paginator drives page navigation for any `UniDatasource`: first/previous/next/last\nbuttons, truncated page numbers, an editable page size, and a page jumper. Each section can\nbe toggled independently, so it can render as a full control bar or a minimal pager — the\n[Data Table](?path=/docs/components-data-display-data-table--data-table) stories use one paginator in the header\nfor page size and another in the footer for page numbers.",
         "dos": [],
         "donts": [],
         "accessibility": [
@@ -4621,7 +4667,7 @@
         }
       ],
       "guidelines": {
-        "whenToUse": "The Sort Header wraps a column heading and cycles the bound datasource's sort state\n(ascending → descending → unsorted) when clicked. An animated arrow indicates the current\nsort direction. It is used by the [Data Table](?path=/docs/components-data-table--docs)\nfor sortable columns, but can wrap any header content bound to a `UniDatasource`.",
+        "whenToUse": "The Sort Header wraps a column heading and cycles the bound datasource's sort state\n(ascending → descending → unsorted) when clicked. An animated arrow indicates the current\nsort direction. It is used by the [Data Table](?path=/docs/components-data-display-data-table--data-table)\nfor sortable columns, but can wrap any header content bound to a `UniDatasource`.",
         "dos": [],
         "donts": [],
         "accessibility": []
@@ -4976,6 +5022,22 @@
           "selectorOrTag": "uni-tag",
           "api": [
             {
+              "name": "size",
+              "kind": "input",
+              "type": "Size",
+              "required": false,
+              "default": "'md'",
+              "description": ""
+            },
+            {
+              "name": "tone",
+              "kind": "input",
+              "type": "TagTone",
+              "required": false,
+              "default": "'soft'",
+              "description": ""
+            },
+            {
               "name": "label",
               "kind": "input",
               "type": "string",
@@ -4990,9 +5052,114 @@
               "description": ""
             },
             {
-              "name": "close",
-              "kind": "output",
+              "name": "maxWidth",
+              "kind": "input",
               "type": "string | number",
+              "required": false,
+              "description": "Truncation budget, e.g. `'14ch'`. A number is treated as px."
+            },
+            {
+              "name": "avatarSrc",
+              "kind": "input",
+              "type": "string",
+              "required": false,
+              "description": ""
+            },
+            {
+              "name": "avatarName",
+              "kind": "input",
+              "type": "string",
+              "required": false,
+              "description": "Initials fallback when `avatarSrc` is absent or fails to load."
+            },
+            {
+              "name": "iconName",
+              "kind": "input",
+              "type": "IconName",
+              "required": false,
+              "description": "Theme icon primitive — the preferred glyph path."
+            },
+            {
+              "name": "symbolName",
+              "kind": "input",
+              "type": "string",
+              "required": false,
+              "description": "Material Symbols ligature, for glyphs the theme's icon set doesn't carry."
+            },
+            {
+              "name": "dot",
+              "kind": "input",
+              "type": "boolean",
+              "required": false,
+              "default": "false",
+              "description": "Status dot in the current colour."
+            },
+            {
+              "name": "removable",
+              "kind": "input",
+              "type": "boolean",
+              "required": false,
+              "default": "false",
+              "description": ""
+            },
+            {
+              "name": "interactive",
+              "kind": "input",
+              "type": "boolean",
+              "required": false,
+              "default": "false",
+              "description": ""
+            },
+            {
+              "name": "selected",
+              "kind": "input",
+              "type": "boolean | undefined",
+              "required": false,
+              "default": "undefined",
+              "description": "Toggle state. Left undefined the chip carries no `aria-pressed` at all — an interactive chip is not always a toggle (inside a tag input it is focusable so it can be removed), and announcing \"not pressed\" on a recipient chip is worse than announcing nothing."
+            },
+            {
+              "name": "invalid",
+              "kind": "input",
+              "type": "boolean",
+              "required": false,
+              "default": "false",
+              "description": ""
+            },
+            {
+              "name": "disabled",
+              "kind": "input",
+              "type": "boolean",
+              "required": false,
+              "default": "false",
+              "description": ""
+            },
+            {
+              "name": "removeLabel",
+              "kind": "input",
+              "type": "string",
+              "required": false,
+              "description": "Accessible-name override for the remove button."
+            },
+            {
+              "name": "controlTabIndex",
+              "kind": "input",
+              "type": "number",
+              "required": false,
+              "default": "0",
+              "description": "Tab position of the chip's controls. A composite that owns its own roving focus — `uni-tag-input`, where the whole field is one tab stop — passes `-1` so Tab does not walk through every chip to reach the next control."
+            },
+            {
+              "name": "removed",
+              "kind": "output",
+              "type": "UniTagValue",
+              "required": false,
+              "description": ""
+            },
+            {
+              "name": "activated",
+              "kind": "output",
+              "type": "UniTagValue",
               "required": false,
               "description": ""
             }
@@ -5003,29 +5170,319 @@
         {
           "title": "Primary",
           "framework": "angular",
-          "code": "<!-- Storybook story: Primary -->\n<!-- args:\n{\n    label: 'Primary Tag',\n    value: '1',\n  }\n-->"
+          "code": "<!-- Storybook story: Primary -->\n<div box-layout gap=\"sm\">\n@for (tone of ['soft', 'solid', 'outline']; track tone) {\n  <div row-layout gap=\"sm\" alignItems=\"center\" style=\"margin-bottom:8px\">\n    @for (variant of ['primary', 'secondary', 'tertiary', 'warn', 'success', 'ghost']; track variant) {\n      <uni-tag [variant]=\"variant\" [tone]=\"tone\" [label]=\"variant\" />\n    }\n  </div>\n}\n</div>\n<!-- args:\n{ removable: true }\n-->"
         },
         {
-          "title": "Numeric Value",
+          "title": "Variants And Tones",
           "framework": "angular",
-          "code": "<!-- Storybook story: Numeric Value -->\n<!-- args:\n{\n    label: 'Numeric Tag',\n    value: 42,\n  }\n-->"
+          "code": "<!-- Storybook story: Variants And Tones -->\n<div box-layout gap=\"sm\">\n@for (tone of ['soft', 'solid', 'outline']; track tone) {\n  <div row-layout gap=\"sm\" alignItems=\"center\" style=\"margin-bottom:8px\">\n    @for (variant of ['primary', 'secondary', 'tertiary', 'warn', 'success', 'ghost']; track variant) {\n      <uni-tag [variant]=\"variant\" [tone]=\"tone\" [label]=\"variant\" />\n    }\n  </div>\n}\n</div>\n<!-- args:\n{ removable: true }\n-->"
         },
         {
-          "title": "Long Label",
+          "title": "Sizes",
           "framework": "angular",
-          "code": "<!-- Storybook story: Long Label -->\n<!-- args:\n{\n    label: 'This is a very long tag label that might need truncation',\n    value: 'long',\n  }\n-->"
+          "code": "<!-- Storybook story: Sizes -->\n<div box-layout gap=\"sm\">\n@for (tone of ['soft', 'solid', 'outline']; track tone) {\n  <div row-layout gap=\"sm\" alignItems=\"center\" style=\"margin-bottom:8px\">\n    @for (variant of ['primary', 'secondary', 'tertiary', 'warn', 'success', 'ghost']; track variant) {\n      <uni-tag [variant]=\"variant\" [tone]=\"tone\" [label]=\"variant\" />\n    }\n  </div>\n}\n</div>\n<!-- args:\n{ removable: true }\n-->"
         },
         {
-          "title": "Without Value",
+          "title": "Removable",
           "framework": "angular",
-          "code": "<!-- Storybook story: Without Value -->\n<!-- args:\n{\n    label: 'Tag without value',\n  }\n-->"
+          "code": "<!-- Storybook story: Removable -->\n<div box-layout gap=\"sm\">\n@for (tone of ['soft', 'solid', 'outline']; track tone) {\n  <div row-layout gap=\"sm\" alignItems=\"center\" style=\"margin-bottom:8px\">\n    @for (variant of ['primary', 'secondary', 'tertiary', 'warn', 'success', 'ghost']; track variant) {\n      <uni-tag [variant]=\"variant\" [tone]=\"tone\" [label]=\"variant\" />\n    }\n  </div>\n}\n</div>\n<!-- args:\n{ removable: true }\n-->"
+        },
+        {
+          "title": "Interactive",
+          "framework": "angular",
+          "code": "<!-- Storybook story: Interactive -->\n<div box-layout gap=\"sm\">\n@for (tone of ['soft', 'solid', 'outline']; track tone) {\n  <div row-layout gap=\"sm\" alignItems=\"center\" style=\"margin-bottom:8px\">\n    @for (variant of ['primary', 'secondary', 'tertiary', 'warn', 'success', 'ghost']; track variant) {\n      <uni-tag [variant]=\"variant\" [tone]=\"tone\" [label]=\"variant\" />\n    }\n  </div>\n}\n</div>\n<!-- args:\n{ interactive: true, removable: true, selected: false }\n-->"
+        },
+        {
+          "title": "Selected",
+          "framework": "angular",
+          "code": "<!-- Storybook story: Selected -->\n<div box-layout gap=\"sm\">\n@for (tone of ['soft', 'solid', 'outline']; track tone) {\n  <div row-layout gap=\"sm\" alignItems=\"center\" style=\"margin-bottom:8px\">\n    @for (variant of ['primary', 'secondary', 'tertiary', 'warn', 'success', 'ghost']; track variant) {\n      <uni-tag [variant]=\"variant\" [tone]=\"tone\" [label]=\"variant\" />\n    }\n  </div>\n}\n</div>\n<!-- args:\n{ interactive: true, selected: true, tone: 'solid' }\n-->"
+        },
+        {
+          "title": "Lead Elements",
+          "framework": "angular",
+          "code": "<!-- Storybook story: Lead Elements -->\n<div box-layout gap=\"sm\">\n@for (tone of ['soft', 'solid', 'outline']; track tone) {\n  <div row-layout gap=\"sm\" alignItems=\"center\" style=\"margin-bottom:8px\">\n    @for (variant of ['primary', 'secondary', 'tertiary', 'warn', 'success', 'ghost']; track variant) {\n      <uni-tag [variant]=\"variant\" [tone]=\"tone\" [label]=\"variant\" />\n    }\n  </div>\n}\n</div>\n<!-- args:\n{ label: 'nope@@x', invalid: true, removable: true, variant: 'warn' }\n-->"
+        },
+        {
+          "title": "Invalid",
+          "framework": "angular",
+          "code": "<!-- Storybook story: Invalid -->\n<div box-layout gap=\"sm\">\n@for (tone of ['soft', 'solid', 'outline']; track tone) {\n  <div row-layout gap=\"sm\" alignItems=\"center\" style=\"margin-bottom:8px\">\n    @for (variant of ['primary', 'secondary', 'tertiary', 'warn', 'success', 'ghost']; track variant) {\n      <uni-tag [variant]=\"variant\" [tone]=\"tone\" [label]=\"variant\" />\n    }\n  </div>\n}\n</div>\n<!-- args:\n{ label: 'nope@@x', invalid: true, removable: true, variant: 'warn' }\n-->"
+        },
+        {
+          "title": "Disabled",
+          "framework": "angular",
+          "code": "<!-- Storybook story: Disabled -->\n<div box-layout gap=\"sm\">\n@for (tone of ['soft', 'solid', 'outline']; track tone) {\n  <div row-layout gap=\"sm\" alignItems=\"center\" style=\"margin-bottom:8px\">\n    @for (variant of ['primary', 'secondary', 'tertiary', 'warn', 'success', 'ghost']; track variant) {\n      <uni-tag [variant]=\"variant\" [tone]=\"tone\" [label]=\"variant\" />\n    }\n  </div>\n}\n</div>\n<!-- args:\n{ label: 'Locked', disabled: true, removable: true }\n-->"
+        },
+        {
+          "title": "Truncated",
+          "framework": "angular",
+          "code": "<!-- Storybook story: Truncated -->\n<div box-layout gap=\"sm\">\n@for (tone of ['soft', 'solid', 'outline']; track tone) {\n  <div row-layout gap=\"sm\" alignItems=\"center\" style=\"margin-bottom:8px\">\n    @for (variant of ['primary', 'secondary', 'tertiary', 'warn', 'success', 'ghost']; track variant) {\n      <uni-tag [variant]=\"variant\" [tone]=\"tone\" [label]=\"variant\" />\n    }\n  </div>\n}\n</div>\n<!-- args:\n{\n    label: 'A very long tag label that has to be truncated somewhere',\n    maxWidth: '18ch',\n    removable: true,\n  }\n-->"
         }
       ],
       "guidelines": {
-        "whenToUse": "Compact label for classifying content — categories, states, filters. Tags are\ndisplay-only chips that wear the active variant's colors; for removable,\ntype-to-add chips (a future input variant), see the roadmap.",
+        "whenToUse": "Compact chip for categories, states, filters and tokens. Two orthogonal style\naxes: **`variant`** picks the colour role and **`tone`** picks the archetype\n(`soft`, `solid`, `outline`). Both resolve from the theme's `tag` entry, so a\ntheme restyles every chip in the app without touching markup.",
+        "dos": [
+          "Use `variant` for meaning (a `warn` chip for a problem) and `tone` for emphasis.",
+          "Give `removable` chips a `value` so the handler knows which one to drop.",
+          "Set `maxWidth` when user-supplied text could be arbitrarily long."
+        ],
+        "donts": [
+          "Don't make a whole chip clickable *and* nest the remove control inside it —",
+          "Don't rely on chip colour alone to convey state.",
+          "Don't put a remove control on a chip that is purely a label."
+        ],
+        "accessibility": [
+          "A static tag is **text, not a widget**: no role, no tab stop. Screen readers",
+          "`removable` adds one real `<button>` named `Remove {label}`, overridable with",
+          "`interactive` makes the body a `<button type=\"button\">`; `selected` maps to",
+          "Icons, avatars, initials and dots are `aria-hidden` — the chip's text is its",
+          "`invalid` sets `aria-invalid` and adds a non-colour cue."
+        ]
+      },
+      "relatedTokens": [
+        "tag.behavior.borderRadius",
+        "tag.behavior.typeface",
+        "tag.behavior.gap",
+        "tag.behavior.removeIcon",
+        "tag.behavior.selectedIcon"
+      ]
+    },
+    {
+      "id": "tag-input",
+      "name": "TagInput",
+      "status": "stable",
+      "summary": "",
+      "description": "",
+      "category": "forms",
+      "version": "7.2.0",
+      "bindings": {
+        "angular": {
+          "importPath": "@uni-design-system/uni-angular",
+          "selectorOrTag": "uni-tag-input",
+          "api": [
+            {
+              "name": "value",
+              "kind": "model",
+              "type": "UniTagItem[]",
+              "required": false,
+              "default": "[]",
+              "description": ""
+            },
+            {
+              "name": "disabled",
+              "kind": "input",
+              "type": "boolean",
+              "required": false,
+              "default": "false",
+              "description": ""
+            },
+            {
+              "name": "touched",
+              "kind": "model",
+              "type": "boolean",
+              "required": false,
+              "default": "false",
+              "description": ""
+            },
+            {
+              "name": "invalid",
+              "kind": "input",
+              "type": "boolean",
+              "required": false,
+              "default": "false",
+              "description": ""
+            },
+            {
+              "name": "dirty",
+              "kind": "input",
+              "type": "boolean",
+              "required": false,
+              "default": "false",
+              "description": ""
+            },
+            {
+              "name": "required",
+              "kind": "input",
+              "type": "boolean",
+              "required": false,
+              "default": "false",
+              "description": ""
+            },
+            {
+              "name": "ariaDescribedBy",
+              "kind": "input",
+              "type": "string",
+              "required": false,
+              "description": ""
+            },
+            {
+              "name": "label",
+              "kind": "input",
+              "type": "string",
+              "required": true,
+              "description": "Accessible name for the field, e.g. \"To\"."
+            },
+            {
+              "name": "placeholder",
+              "kind": "input",
+              "type": "string",
+              "required": false,
+              "description": ""
+            },
+            {
+              "name": "preset",
+              "kind": "input",
+              "type": "'text' | 'email'",
+              "required": false,
+              "default": "'text'",
+              "description": "`email` wires an address validator, paste parser and space separator."
+            },
+            {
+              "name": "separators",
+              "kind": "input",
+              "type": "string[]",
+              "required": false,
+              "default": "[',', ';']",
+              "description": ""
+            },
+            {
+              "name": "commitOnBlur",
+              "kind": "input",
+              "type": "boolean",
+              "required": false,
+              "default": "true",
+              "description": ""
+            },
+            {
+              "name": "allowDuplicates",
+              "kind": "input",
+              "type": "boolean",
+              "required": false,
+              "default": "false",
+              "description": ""
+            },
+            {
+              "name": "max",
+              "kind": "input",
+              "type": "number",
+              "required": false,
+              "description": ""
+            },
+            {
+              "name": "tagVariant",
+              "kind": "input",
+              "type": "Variant",
+              "required": false,
+              "default": "'primary'",
+              "description": ""
+            },
+            {
+              "name": "tagTone",
+              "kind": "input",
+              "type": "TagTone",
+              "required": false,
+              "default": "'soft'",
+              "description": ""
+            },
+            {
+              "name": "tagSize",
+              "kind": "input",
+              "type": "Size",
+              "required": false,
+              "description": ""
+            },
+            {
+              "name": "suggestions",
+              "kind": "input",
+              "type": "UniTagSuggestion[]",
+              "required": false,
+              "default": "[]",
+              "description": ""
+            },
+            {
+              "name": "query",
+              "kind": "output",
+              "type": "string",
+              "required": false,
+              "description": "Debounced text the app should filter `suggestions` from."
+            },
+            {
+              "name": "debounceTime",
+              "kind": "input",
+              "type": "number",
+              "required": false,
+              "default": "250",
+              "description": ""
+            },
+            {
+              "name": "added",
+              "kind": "output",
+              "type": "UniTagItem",
+              "required": false,
+              "description": ""
+            },
+            {
+              "name": "removed",
+              "kind": "output",
+              "type": "UniTagItem",
+              "required": false,
+              "description": ""
+            },
+            {
+              "name": "rejected",
+              "kind": "output",
+              "type": "UniTagRejection",
+              "required": false,
+              "description": ""
+            }
+          ]
+        }
+      },
+      "examples": [
+        {
+          "title": "Primary",
+          "framework": "angular",
+          "code": "<!-- Storybook story: Primary -->\n<uni-tag-input\nlabel=\"To\"\npreset=\"email\"\nplaceholder=\"Name or address…\"\n[value]=\"value\"\n[suggestions]=\"suggestions\"\n(query)=\"onQuery($event)\"\n/>\n<!-- args:\n{ value: [{ value: 'alice@uni.dev', label: 'Alice Chen' }] }\n-->"
+        },
+        {
+          "title": "Email Recipients",
+          "framework": "angular",
+          "code": "<!-- Storybook story: Email Recipients -->\n<uni-tag-input\nlabel=\"To\"\npreset=\"email\"\nplaceholder=\"Name or address…\"\n[value]=\"value\"\n[suggestions]=\"suggestions\"\n(query)=\"onQuery($event)\"\n/>\n<!-- args:\n{ value: [{ value: 'alice@uni.dev', label: 'Alice Chen' }] }\n-->"
+        },
+        {
+          "title": "Invalid Entry",
+          "framework": "angular",
+          "code": "<!-- Storybook story: Invalid Entry -->\n<uni-tag-input\nlabel=\"To\"\npreset=\"email\"\nplaceholder=\"Name or address…\"\n[value]=\"value\"\n[suggestions]=\"suggestions\"\n(query)=\"onQuery($event)\"\n/>\n<!-- args:\n{\n    preset: 'email',\n    value: [\n      { value: 'alice@uni.dev', label: 'Alice Chen' },\n      { value: 'nope@@x', invalid: true },\n    ],\n  }\n-->"
+        },
+        {
+          "title": "Locked Entry",
+          "framework": "angular",
+          "code": "<!-- Storybook story: Locked Entry -->\n<uni-tag-input\nlabel=\"To\"\npreset=\"email\"\nplaceholder=\"Name or address…\"\n[value]=\"value\"\n[suggestions]=\"suggestions\"\n(query)=\"onQuery($event)\"\n/>\n<!-- args:\n{\n    value: [\n      { value: 'owner@uni.dev', label: 'Thread owner', disabled: true },\n      { value: 'bob@uni.dev', label: 'Bob Ferrari' },\n    ],\n  }\n-->"
+        },
+        {
+          "title": "With Maximum",
+          "framework": "angular",
+          "code": "<!-- Storybook story: With Maximum -->\n<uni-tag-input\nlabel=\"To\"\npreset=\"email\"\nplaceholder=\"Name or address…\"\n[value]=\"value\"\n[suggestions]=\"suggestions\"\n(query)=\"onQuery($event)\"\n/>\n<!-- args:\n{ max: 3, value: [{ value: 'alpha' }, { value: 'beta' }] }\n-->"
+        },
+        {
+          "title": "Disabled",
+          "framework": "angular",
+          "code": "<!-- Storybook story: Disabled -->\n<uni-tag-input\nlabel=\"To\"\npreset=\"email\"\nplaceholder=\"Name or address…\"\n[value]=\"value\"\n[suggestions]=\"suggestions\"\n(query)=\"onQuery($event)\"\n/>\n<!-- args:\n{ disabled: true, value: [{ value: 'alpha' }, { value: 'beta' }] }\n-->"
+        }
+      ],
+      "guidelines": {
+        "whenToUse": "Type-to-add chip field: recipients, filters, labels. It is the **open-set**\ncontrol — anything the user types can become a token, whether or not it matches\na suggestion. For picking from a fixed list, use `uni-select` or\n`uni-multi-select-dropdown` instead.",
         "dos": [],
-        "donts": [],
-        "accessibility": []
+        "donts": [
+          "Don't use it to pick from a closed list — that is `uni-multi-select-dropdown`.",
+          "Don't filter `suggestions` inside the component; drive them from `(query)`.",
+          "Don't set `preset=\"email\"` for people's names: Space would split them."
+        ],
+        "accessibility": [
+          "The text input is `role=\"combobox\"` with `aria-expanded`, `aria-controls` and",
+          "Every add, remove and rejection announces through a `role=\"status\"` live",
+          "The removal route is described **once** for the field through",
+          "`aria-invalid` is gated on `invalid && (touched || dirty)`, per the library's"
+        ]
       },
       "relatedTokens": []
     },
@@ -5332,12 +5789,12 @@
       "guidelines": {
         "whenToUse": "Drop-in switcher for every theme registered via `UNI_THEMES`. Renders a `uni-select` over\n`ThemeService.themeOptions` and applies the choice through `ThemeService.selectTheme`, so the\nselection persists across reloads exactly like any other theme change. Use it wherever an app\noffers a theme choice — a settings page, an app-bar action, or a light/dark toggle backed by two\nregistered themes. Because it reads the registry from the injected `UNI_THEMES` token, adding a\nnew theme to the registry is all it takes for the switcher to offer it.",
         "dos": [
-          "Register every selectable theme in `UNI_THEMES`; the switcher derives its options from the registry.",
+          "Register every selectable theme in `UNI_THEMES` (bootstrap) or via `registerTheme` (runtime); the switcher derives its options from the registry.",
           "Give the control a meaningful `ariaLabel` when \"Theme\" is ambiguous in context (e.g. \"Editor color theme\").",
           "Use `themeChanged` for side effects like analytics or syncing a user preference to a backend."
         ],
         "donts": [
-          "Don't call `ThemeService.theme.set()` alongside the switcher — bypassing `selectTheme` skips persistence and leaves the select out of sync.",
+          "Don't try to write `ThemeService.theme` directly — it's a readonly signal. Go through `selectTheme`/`registerTheme` (persisted, listed) or `setTheme` (validated, unlisted) instead.",
           "Don't hardcode theme ids in app logic; read `ThemeService.selectedThemeKey()` instead.",
           "Don't use it for the palette-generation workflow — that's the Theme Builder; the switcher only picks among registered themes."
         ],
@@ -5542,7 +5999,7 @@
         }
       ],
       "guidelines": {
-        "whenToUse": "A tooltip is a brief, informative message that appears when a user interacts with an element.\nIf using a tooltip within a body of text, set the `inlineText` option to `true`.",
+        "whenToUse": "A tooltip is a brief, informative message that appears when a user interacts with an element.\nIf using a tooltip within a body of text, set the `inlineText` option to `true`.\nWrapping an interactive control (a button, a link) is supported: activating\nthe control hides the bubble and keeps it hidden until the pointer leaves and\nreturns, so a label that changes with the control's state (\"Expand\" →\n\"Collapse\") never blinks back mid-interaction. Tapping a non-interactive\ntooltip (inline text) still toggles the bubble.",
         "dos": [],
         "donts": [],
         "accessibility": [
@@ -7828,6 +8285,174 @@
       }
     },
     {
+      "id": "menu.behavior.minWidth",
+      "value": 184,
+      "type": "number",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "menu",
+      "themeValues": {
+        "LightTheme": 184,
+        "DarkTheme": 184
+      }
+    },
+    {
+      "id": "menu.behavior.paddingVertical",
+      "value": "xs",
+      "type": "string",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "menu",
+      "themeValues": {
+        "LightTheme": "xs",
+        "DarkTheme": "xs"
+      }
+    },
+    {
+      "id": "menu.behavior.paddingHorizontal",
+      "value": "none",
+      "type": "string",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "menu",
+      "themeValues": {
+        "LightTheme": "none",
+        "DarkTheme": "none"
+      }
+    },
+    {
+      "id": "menu.behavior.dividerBorder",
+      "value": "light",
+      "type": "string",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "menu",
+      "themeValues": {
+        "LightTheme": "light",
+        "DarkTheme": "light"
+      }
+    },
+    {
+      "id": "menu.behavior.dividerSpacing",
+      "value": "xs",
+      "type": "string",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "menu",
+      "themeValues": {
+        "LightTheme": "xs",
+        "DarkTheme": "xs"
+      }
+    },
+    {
+      "id": "menuItem.behavior.height",
+      "value": 38,
+      "type": "number",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "menuItem",
+      "themeValues": {
+        "LightTheme": 38,
+        "DarkTheme": 38
+      }
+    },
+    {
+      "id": "menuItem.behavior.paddingHorizontal",
+      "value": "md",
+      "type": "string",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "menuItem",
+      "themeValues": {
+        "LightTheme": "md",
+        "DarkTheme": "md"
+      }
+    },
+    {
+      "id": "menuItem.behavior.gap",
+      "value": "md",
+      "type": "string",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "menuItem",
+      "themeValues": {
+        "LightTheme": "md",
+        "DarkTheme": "md"
+      }
+    },
+    {
+      "id": "menuItem.behavior.borderRadius",
+      "value": "none",
+      "type": "string",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "menuItem",
+      "themeValues": {
+        "LightTheme": "none",
+        "DarkTheme": "none"
+      }
+    },
+    {
+      "id": "menuItem.behavior.typeface",
+      "value": "label",
+      "type": "string",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "menuItem",
+      "themeValues": {
+        "LightTheme": "label",
+        "DarkTheme": "label"
+      }
+    },
+    {
+      "id": "menuItem.behavior.hoverColor",
+      "value": "primary-container",
+      "type": "string",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "menuItem",
+      "themeValues": {
+        "LightTheme": "primary-container",
+        "DarkTheme": "primary-container"
+      }
+    },
+    {
+      "id": "menuItem.behavior.activeSymbol",
+      "value": "check",
+      "type": "string",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "menuItem",
+      "themeValues": {
+        "LightTheme": "check",
+        "DarkTheme": "check"
+      }
+    },
+    {
+      "id": "menuItem.behavior.transitionSpeed",
+      "value": 0.35,
+      "type": "number",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "menuItem",
+      "themeValues": {
+        "LightTheme": 0.35,
+        "DarkTheme": 0.35
+      }
+    },
+    {
+      "id": "expand.behavior.transitionSpeed",
+      "value": 0.35,
+      "type": "number",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "expand",
+      "themeValues": {
+        "LightTheme": 0.35,
+        "DarkTheme": 0.35
+      }
+    },
+    {
       "id": "footer.behavior.height",
       "value": 52,
       "type": "number",
@@ -8257,6 +8882,150 @@
       "themeValues": {
         "LightTheme": "xxs",
         "DarkTheme": "xxs"
+      }
+    },
+    {
+      "id": "tag.behavior.borderRadius",
+      "value": "max",
+      "type": "string",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "tag",
+      "themeValues": {
+        "LightTheme": "max",
+        "DarkTheme": "max"
+      }
+    },
+    {
+      "id": "tag.behavior.typeface",
+      "value": "tag",
+      "type": "string",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "tag",
+      "themeValues": {
+        "LightTheme": "tag",
+        "DarkTheme": "tag"
+      }
+    },
+    {
+      "id": "tag.behavior.gap",
+      "value": "xs",
+      "type": "string",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "tag",
+      "themeValues": {
+        "LightTheme": "xs",
+        "DarkTheme": "xs"
+      }
+    },
+    {
+      "id": "tag.behavior.removeIcon",
+      "value": "close",
+      "type": "string",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "tag",
+      "themeValues": {
+        "LightTheme": "close",
+        "DarkTheme": "close"
+      }
+    },
+    {
+      "id": "tag.behavior.selectedIcon",
+      "value": "check",
+      "type": "string",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "tag",
+      "themeValues": {
+        "LightTheme": "check",
+        "DarkTheme": "check"
+      }
+    },
+    {
+      "id": "tagInput.behavior.chipGap",
+      "value": "xs",
+      "type": "string",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "tagInput",
+      "themeValues": {
+        "LightTheme": "xs",
+        "DarkTheme": "xs"
+      }
+    },
+    {
+      "id": "tagInput.behavior.chipSize",
+      "value": "md",
+      "type": "string",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "tagInput",
+      "themeValues": {
+        "LightTheme": "md",
+        "DarkTheme": "md"
+      }
+    },
+    {
+      "id": "tagInput.behavior.minInputWidth",
+      "value": "12ch",
+      "type": "string",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "tagInput",
+      "themeValues": {
+        "LightTheme": "12ch",
+        "DarkTheme": "12ch"
+      }
+    },
+    {
+      "id": "tagInput.behavior.listColor",
+      "value": "primary-surface",
+      "type": "string",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "tagInput",
+      "themeValues": {
+        "LightTheme": "primary-surface",
+        "DarkTheme": "primary-surface"
+      }
+    },
+    {
+      "id": "tagInput.behavior.listShadow",
+      "value": "menu",
+      "type": "string",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "tagInput",
+      "themeValues": {
+        "LightTheme": "menu",
+        "DarkTheme": "menu"
+      }
+    },
+    {
+      "id": "tagInput.behavior.listBorderRadius",
+      "value": "xs",
+      "type": "string",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "tagInput",
+      "themeValues": {
+        "LightTheme": "xs",
+        "DarkTheme": "xs"
+      }
+    },
+    {
+      "id": "tagInput.behavior.maxSuggestions",
+      "value": 8,
+      "type": "number",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "tagInput",
+      "themeValues": {
+        "LightTheme": 8,
+        "DarkTheme": 8
       }
     },
     {
@@ -9366,6 +10135,26 @@
           "color": "primary-surface",
           "shadow": "menu"
         },
+        "menu": {
+          "minWidth": 184,
+          "paddingVertical": "xs",
+          "paddingHorizontal": "none",
+          "dividerBorder": "light",
+          "dividerSpacing": "xs"
+        },
+        "menuItem": {
+          "height": 38,
+          "paddingHorizontal": "md",
+          "gap": "md",
+          "borderRadius": "none",
+          "typeface": "label",
+          "hoverColor": "primary-container",
+          "activeSymbol": "check",
+          "transitionSpeed": 0.35
+        },
+        "expand": {
+          "transitionSpeed": 0.35
+        },
         "footer": {
           "height": 52,
           "color": "primary",
@@ -9413,6 +10202,22 @@
         },
         "badge": {
           "borderRadius": "xxs"
+        },
+        "tag": {
+          "borderRadius": "max",
+          "typeface": "tag",
+          "gap": "xs",
+          "removeIcon": "close",
+          "selectedIcon": "check"
+        },
+        "tagInput": {
+          "chipGap": "xs",
+          "chipSize": "md",
+          "minInputWidth": "12ch",
+          "listColor": "primary-surface",
+          "listShadow": "menu",
+          "listBorderRadius": "xs",
+          "maxSuggestions": 8
         },
         "button": {
           "borderRadius": "max",
@@ -9747,6 +10552,26 @@
           "color": "primary-surface",
           "shadow": "menu"
         },
+        "menu": {
+          "minWidth": 184,
+          "paddingVertical": "xs",
+          "paddingHorizontal": "none",
+          "dividerBorder": "light",
+          "dividerSpacing": "xs"
+        },
+        "menuItem": {
+          "height": 38,
+          "paddingHorizontal": "md",
+          "gap": "md",
+          "borderRadius": "none",
+          "typeface": "label",
+          "hoverColor": "primary-container",
+          "activeSymbol": "check",
+          "transitionSpeed": 0.35
+        },
+        "expand": {
+          "transitionSpeed": 0.35
+        },
         "footer": {
           "height": 52,
           "color": "primary",
@@ -9794,6 +10619,22 @@
         },
         "badge": {
           "borderRadius": "xxs"
+        },
+        "tag": {
+          "borderRadius": "max",
+          "typeface": "tag",
+          "gap": "xs",
+          "removeIcon": "close",
+          "selectedIcon": "check"
+        },
+        "tagInput": {
+          "chipGap": "xs",
+          "chipSize": "md",
+          "minInputWidth": "12ch",
+          "listColor": "primary-surface",
+          "listShadow": "menu",
+          "listBorderRadius": "xs",
+          "maxSuggestions": 8
         },
         "button": {
           "borderRadius": "max",

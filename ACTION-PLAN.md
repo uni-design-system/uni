@@ -229,6 +229,29 @@ component depends on the new one.
 
 ---
 
+## 2b. Storybook navigation ✅ DONE 2026-08-11
+
+Retitled all 68 stories into four top-level sections (`Core · Components ·
+Utilities · Experiments`) with eight purpose-based groups under Components, and
+named all 67 MDX pages after their component so each renders as **one flat
+sidebar item** instead of a folder containing a `Docs` child. Added the two
+missing Experiments pages (that section rendered nothing before), and a
+`scripts/check-doc-links.mjs` guard wired to the build — it caught 3 links that
+were already dead plus the 19 the retitling moved.
+
+**Undocumented components — follow-up work.** These are real exported
+components with no story and no MDX, so they are invisible in the sidebar no
+matter how it is organized:
+
+- `components/dropdown` — `UniDropdownComponent`, the popover primitive behind
+  menu and multi-select
+- `components/notifications/confirmation-dialog` — `UniConfirmationDialogComponent`
+- `components/notifications/notifications` — `UniNotificationsComponent`, which
+  the Utilities/Notifications page tells you to place in your layout
+
+Also undocumented: `src/lib/directives/` (body-render, drag-and-drop, ripple)
+has no sidebar presence at all.
+
 ## 3. Table-stakes gaps
 
 The old build order (textarea → tabs → avatar → skeleton → drawer + app bar) is

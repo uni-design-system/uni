@@ -1,13 +1,14 @@
 import { Meta, Story } from '@storybook/addon-docs/blocks';
 import * as Stories from './notification.stories';
 
-<Meta title="CDK/Notifications" />
+<Meta of={Stories} name="Notifications" />
 
 # Notifications
 
-The Notification service is designed to be used in conjunction with one instance of the `<Notification>` component.
-If using the [`<Page>` component](?path=/docs/pages-page--docs) for you layout, an instance of the `<uni-notifications>` component will
-already be implemented and you only need to call the methods on the notification service to present the various notifications.
+The Notification service is designed to be used alongside a single instance of
+the `<uni-notifications>` component, which renders whatever the service emits.
+Place one near the root of your layout, then call the service's methods from
+anywhere to present the notifications below.
 
 ## Example Implementations
 
@@ -15,7 +16,7 @@ already be implemented and you only need to call the methods on the notification
 
 <Story of={Stories.Alert} />
 
-_Note: The [alert component](?path=/docs/components-notifications-alert--alert) can be implemented independently._
+_Note: The [alert component](?path=/docs/components-feedback-alert--alert) can be implemented independently._
 
 ```
 import { NotificationService, Alert } from '@uni-design-system/uni-angular';

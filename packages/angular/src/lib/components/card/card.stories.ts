@@ -8,7 +8,7 @@ import { UniTextComponent } from '../text';
 type StoryType = Card & { ngContent?: string };
 
 const meta: Meta<StoryType> = {
-  title: 'Components/Card',
+  title: 'Components/Surfaces/Card',
   component: Card,
   decorators: [
     moduleMetadata({

@@ -7,7 +7,7 @@ import { UniBoxComponent } from '../layout';
 type StoryType = Paginator<any>;
 
 const meta: Meta<StoryType> = {
-  title: 'Components/Paginator',
+  title: 'Components/Data Display/Paginator',
   component: Paginator,
   render: (args) => {
     const { ...props } = args;

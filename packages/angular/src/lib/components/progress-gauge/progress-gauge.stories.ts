@@ -4,7 +4,7 @@ import { UniProgressGaugeComponent as ProgressGauge } from './progress-gauge.com
 
 // More on how to set up stories at: https://storybook.js.org/docs/angular/writing-stories/introduction
 const meta: Meta<ProgressGauge> = {
-  title: 'Components/Progress Gauge',
+  title: 'Components/Feedback/Progress Gauge',
   component: ProgressGauge,
   decorators: [
     applicationConfig({

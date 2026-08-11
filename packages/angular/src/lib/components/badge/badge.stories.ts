@@ -4,7 +4,7 @@ import { UniBadgeComponent as Badge } from './badge.component';
 type StoryType = Badge & { ngContent?: string };
 
 const meta: Meta<StoryType> = {
-  title: 'Components/Badge',
+  title: 'Components/Data Display/Badge',
   component: Badge,
   render: (args) => {
     const { ngContent, color, width, ...props } = args;

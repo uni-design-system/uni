@@ -9,7 +9,7 @@ import { UniDialogComponent as Dialog } from './dialog.component';
 type StoryType = Dialog;
 
 const meta: Meta<StoryType> = {
-  title: 'Components/Dialog',
+  title: 'Components/Surfaces/Dialog',
   component: Dialog,
   decorators: [
     moduleMetadata({

@@ -1,7 +1,7 @@
 import { Meta, Title, Story } from '@storybook/addon-docs/blocks';
 import * as Stories from './theme.stories';
 
-<Meta of={Stories} name="Overview" />
+<Meta of={Stories} name="Theme" />
 <Title />
 
 ## Overview
@@ -13,7 +13,7 @@ component renders resolves from it by **token name**. Nine fields:
 - `colors` — the **sole color source of truth**. Every other color-bearing
   token derives from it.
 - `typography` — the numeric type scale; CSS-ready typefaces are derived on
-  read — see [Typography](?path=/docs/core-typography--overview).
+  read — see [Typography](?path=/docs/core-typography--typography).
 - `borders` — named border shorthands, derived from `colors` (plus any
   overrides).
 - `radii` — corner radius scale, `none` → `max`.
@@ -21,7 +21,7 @@ component renders resolves from it by **token name**. Nine fields:
 - `spacing` — the spatial scale, `none` → `xl`.
 - `thicknesses` — line weights: `thin`, `standard`, `thick`.
 - `icons` — icon primitives as data-URI masks — see
-  [Iconography](?path=/docs/core-iconography--overview).
+  [Iconography](?path=/docs/core-iconography--iconography).
 - `components` — per-component theming: a fixed base, state-aware `variants`,
   `sizes`, and named `options` that re-point the token scales above.
 

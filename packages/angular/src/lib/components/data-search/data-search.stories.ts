@@ -7,7 +7,7 @@ import { UniBoxComponent } from '../layout';
 type StoryType = DataSearch<any>;
 
 const meta: Meta<StoryType> = {
-  title: 'Components/Data Search',
+  title: 'Components/Data Display/Data Search',
   component: DataSearch,
   render: (args) => {
     const { ...props } = args;

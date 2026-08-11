@@ -8,7 +8,7 @@ import { UniSnackbarComponent as Snackbar } from './snackbar.component';
 type StoryType = Snackbar & { ngContent?: string };
 
 const meta: Meta<StoryType> = {
-  title: 'Components/Notifications/Snackbar',
+  title: 'Components/Feedback/Snackbar',
   component: Snackbar,
   decorators: [
     moduleMetadata({

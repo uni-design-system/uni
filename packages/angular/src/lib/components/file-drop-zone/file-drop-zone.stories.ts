@@ -6,7 +6,7 @@ import { UniFileDropZoneComponent as FileDropZone } from './file-drop-zone.compo
 type StoryType = FileDropZone;
 
 const meta: Meta<StoryType> = {
-  title: 'Components/File Drop Zone',
+  title: 'Components/Forms/File Drop Zone',
   component: FileDropZone,
   decorators: [
     moduleMetadata({

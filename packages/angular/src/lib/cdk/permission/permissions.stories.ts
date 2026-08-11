@@ -5,7 +5,7 @@ import { PermissionService } from './permission.service';
 type StoryType = PermissionsStoryComponent;
 
 const meta: Meta<StoryType> = {
-  title: 'CDK/Permissions API',
+  title: 'Utilities/Permissions',
   component: PermissionsStoryComponent,
   decorators: [
     moduleMetadata({

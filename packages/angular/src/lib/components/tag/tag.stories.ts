@@ -3,7 +3,7 @@ import { UniBoxComponent, UniRowComponent } from '../layout';
 import { UniTagComponent } from './tag.component';
 
 const meta: Meta<UniTagComponent> = {
-  title: 'Components/Tag',
+  title: 'Components/Data Display/Tag',
   component: UniTagComponent,
   decorators: [moduleMetadata({ imports: [UniBoxComponent, UniRowComponent] })],
   args: { label: 'Design', value: 'design' },

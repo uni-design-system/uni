@@ -5,7 +5,7 @@ import { UniTooltipComponent as Tooltip } from './tooltip.component';
 type StoryType = Tooltip;
 
 const meta: Meta<StoryType> = {
-  title: 'Components/Tooltip',
+  title: 'Components/Feedback/Tooltip',
   component: Tooltip,
   decorators: [
     moduleMetadata({

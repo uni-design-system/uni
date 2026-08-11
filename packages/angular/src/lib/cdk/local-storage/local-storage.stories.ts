@@ -4,7 +4,7 @@ import { LocalStorageStoryComponent } from './local-storage.component';
 type StoryType = LocalStorageStoryComponent;
 
 const meta: Meta<StoryType> = {
-  title: 'CDK/LocalStorage',
+  title: 'Utilities/Local Storage',
   component: LocalStorageStoryComponent,
 };
 

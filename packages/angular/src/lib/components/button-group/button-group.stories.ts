@@ -5,7 +5,7 @@ import { UniButtonGroupComponent as ButtonGroup } from './button-group.component
 type StoryType = ButtonGroup & { ngContent?: string };
 
 const meta: Meta<StoryType> = {
-  title: 'Components/Button Group',
+  title: 'Components/Actions/Button Group',
   component: ButtonGroup,
   decorators: [
     moduleMetadata({

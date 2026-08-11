@@ -4,7 +4,7 @@ import { UniExpandToggleComponent as ExpandToggle } from './expand-toggle.compon
 type StoryType = ExpandToggle;
 
 const meta: Meta<StoryType> = {
-  title: 'Components/Expand Toggle',
+  title: 'Components/Surfaces/Expand Toggle',
   component: ExpandToggle,
   render: (args) => {
     const { ...props } = args;

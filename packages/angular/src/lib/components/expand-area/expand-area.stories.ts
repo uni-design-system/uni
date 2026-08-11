@@ -7,7 +7,7 @@ import { UniExpandAreaComponent as ExpandArea } from './expand-area.component';
 type StoryType = ExpandArea;
 
 const meta: Meta<StoryType> = {
-  title: 'Components/Expand Area',
+  title: 'Components/Surfaces/Expand Area',
   component: ExpandArea,
   decorators: [
     moduleMetadata({

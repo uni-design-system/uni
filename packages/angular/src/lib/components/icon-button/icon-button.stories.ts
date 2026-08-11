@@ -5,7 +5,7 @@ import { UniIconButtonComponent as IconButton } from './icon-button.component';
 type StoryType = IconButton;
 
 const meta: Meta<StoryType> = {
-  title: 'Components/Icon Button',
+  title: 'Components/Actions/Icon Button',
   component: IconButton,
   argTypes: {
     variant: {

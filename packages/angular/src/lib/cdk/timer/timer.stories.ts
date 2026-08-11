@@ -4,7 +4,7 @@ import { TimerStoryComponent } from './timer.component';
 type StoryType = TimerStoryComponent;
 
 const meta: Meta<StoryType> = {
-  title: 'CDK/Timer',
+  title: 'Utilities/Timer',
   component: TimerStoryComponent,
 };
 

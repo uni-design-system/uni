@@ -2,7 +2,7 @@ import { Meta, StoryObj } from '@storybook/angular';
 import { DatasourceStoryComponent } from './datasource.component';
 
 const meta: Meta<DatasourceStoryComponent> = {
-  title: 'CDK/Datasource',
+  title: 'Utilities/Datasource',
   component: DatasourceStoryComponent,
   parameters: {
     layout: 'centered',

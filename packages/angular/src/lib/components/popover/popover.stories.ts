@@ -7,7 +7,7 @@ import { UniPopoverComponent as Popover } from './popover.component';
 type StoryType = Popover;
 
 const meta: Meta<StoryType> = {
-  title: 'Components/Popover',
+  title: 'Components/Surfaces/Popover',
   component: Popover,
   decorators: [
     moduleMetadata({

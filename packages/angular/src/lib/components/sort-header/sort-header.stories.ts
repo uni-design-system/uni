@@ -8,7 +8,7 @@ import { UniBoxComponent } from '../layout';
 type StoryType = SortHeader<any>;
 
 const meta: Meta<StoryType> = {
-  title: 'Components/Sort Header',
+  title: 'Components/Data Display/Sort Header',
   component: SortHeader,
   decorators: [
     moduleMetadata({

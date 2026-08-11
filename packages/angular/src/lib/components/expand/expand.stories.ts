@@ -7,7 +7,7 @@ import { UniExpandComponent as Expand } from './expand.component';
 type StoryType = Expand & { ngContent?: string };
 
 const meta: Meta<StoryType> = {
-  title: 'Components/Expand',
+  title: 'Components/Surfaces/Expand',
   component: Expand,
   decorators: [
     moduleMetadata({

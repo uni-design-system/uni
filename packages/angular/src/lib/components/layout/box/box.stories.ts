@@ -6,7 +6,7 @@ import { UniTextComponent } from '../../text';
 type StoryType = Box & { ngContent?: string };
 
 const meta: Meta<StoryType> = {
-  title: 'Layout/Box',
+  title: 'Components/Layout/Box',
   component: Box,
   tags: ['layout'],
   decorators: [

@@ -4,7 +4,7 @@ import { NotificationStoryComponent } from './notification.component';
 type StoryType = NotificationStoryComponent;
 
 const meta: Meta<StoryType> = {
-  title: 'CDK/Notifications',
+  title: 'Utilities/Notifications',
   component: NotificationStoryComponent,
 };
 

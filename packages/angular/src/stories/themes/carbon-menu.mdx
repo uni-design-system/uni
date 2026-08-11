@@ -1,0 +1,39 @@
+import { Meta, Title, Story } from '@storybook/addon-docs/blocks';
+import * as Stories from './carbon-menu.stories';
+
+<Meta of={Stories} name="Carbon Menu" />
+<Title />
+
+## Overview
+
+Uni's menu wearing
+[IBM Carbon's overflow menu](https://carbondesignsystem.com/components/overflow-menu/usage/),
+built **only** from the `menu` and `menuItem` theme options — no menu-specific
+styling in these stories.
+
+Menus are where a component library usually gives itself away: panel radius,
+row density, hover tint and the divider treatment are the tells. Here the same
+component that renders the default theme's rounded, inset menu renders Carbon's
+sharp full-bleed one.
+
+<Story of={Stories.OverflowMenu} />
+
+## Gray 90
+
+<Story of={Stories.DarkGray90} />
+
+## What the theme changes
+
+| Token | Default | Carbon |
+| --- | --- | --- |
+| `menu.borderRadius` | rounded | `none` — Carbon has no rounded corners |
+| `menu.paddingVertical` | `xs` inset | `none` — rows run edge to edge |
+| `menu.minWidth` | 184 | 160 |
+| `menuItem.height` | 38 | 40 |
+| `menuItem.typeface` | `label` | `body-2-short` (14px IBM Plex) |
+| `menuItem.hoverColor` | `primary-container` | `secondary-container` (`$layer-hover`) |
+| `menuItem.transitionSpeed` | 0.35s | 0.11s — Carbon productive motion |
+| `menuItem.variants.warn` | container tint | solid `$danger-hover` fill |
+
+Every one of those is a theme value, so an app adopting this look writes no CSS.
+The dialog counterpart is [Carbon Dialog](?path=/docs/experiments-carbon-dialog--carbon-dialog).
