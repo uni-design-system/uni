@@ -44,9 +44,14 @@ would leave the inner control unreachable for keyboard users.
 ### Lead elements
 
 Convenience inputs cover the common cases — `avatarSrc`, `avatarName` (initials
-fallback), `symbolName`, `dot`. Anything richer goes in the `[tag-lead]` slot.
+fallback), `iconName`, `dot`. Anything richer goes in the `[tag-lead]` slot.
 Lead elements size themselves from the chip height, and all of them are
 `aria-hidden`, so the chip's text stays its accessible name.
+
+Prefer **`iconName`** — theme icon primitives mask `currentColor`, so they
+recolour with the chip's tone, a theme can swap the artwork, and they add no
+text to the DOM. `symbolName` remains for Material Symbols ligatures the
+theme's icon set doesn't carry.
 
 <Story of={Stories.LeadElements} />
 

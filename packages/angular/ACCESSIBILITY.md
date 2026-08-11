@@ -137,6 +137,20 @@ All controls implement `FormValueControl`/`FormCheckboxControl` and set
 - `invalid` sets `aria-invalid` and adds a dashed underline, so the state is not
   carried by colour alone (WCAG 1.4.1).
 
+### TagInput
+- The text input is `role="combobox"` with `aria-expanded`, `aria-controls` and
+  `aria-activedescendant` over a `role="listbox"` popup — the same contract as
+  SearchInput, shared through the CDK's `ListboxNavigation`.
+- **One tab stop for the whole field.** Chips and their remove buttons carry
+  `tabindex="-1"`; the keyboard route in is Backspace or ArrowLeft, so Tab never
+  walks through every recipient to reach the next control.
+- Adds, removes and rejections announce through a `role="status"` live region —
+  keyboard removal and the rejection pulse are otherwise silent.
+- The removal route is described once per field via `aria-describedby`, not
+  repeated on every chip.
+- `aria-invalid` is gated on `invalid && (touched || dirty)`; per-chip
+  invalidity shows immediately, since it describes a token just typed.
+
 ## Known gaps (tracked in TODO.md)
 
 - No automated contrast verification of theme token pairs.

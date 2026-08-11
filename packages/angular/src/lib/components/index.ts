@@ -49,6 +49,7 @@ export * from './textarea';
 export * from './sort-header';
 export * from './symbol';
 export * from './tag';
+export * from './tag-input';
 export * from './text';
 export * from './theme-builder';
 export * from './theme-switch';

@@ -4,12 +4,11 @@ import {
   computed,
   input,
   output,
-  signal,
   viewChild,
 } from '@angular/core';
 import { css } from '@emotion/css';
 import { BaseComponent, COMPONENT_NAME } from '../base/base.component';
-import { uniqueId } from '../../cdk';
+import { createListboxNavigation } from '../../cdk';
 import { UniDebounceInputComponent } from '../forms/debounce-input/debounce-input.component';
 import { UniIconButtonComponent } from '../icon-button/icon-button.component';
 import { UniSymbolComponent } from '../symbol';
@@ -51,84 +50,68 @@ export class UniSearchInputComponent extends BaseComponent<UniSearchInputOptions
 
   protected readonly field = viewChild.required(UniDebounceInputComponent);
 
-  readonly listboxId = uniqueId('uni-search-listbox');
-  protected readonly listOpen = signal(false);
-  protected readonly activeIndex = signal(-1);
-
   protected readonly visibleSuggestions = computed(() =>
     this.suggestions().slice(0, this.componentOptions().maxSuggestions ?? 8)
   );
 
-  protected readonly showList = computed(
-    () => this.listOpen() && this.visibleSuggestions().length > 0
-  );
+  /** Shared combobox bookkeeping: open state, active option, ARIA ids. */
+  protected readonly list = createListboxNavigation({
+    count: () => this.visibleSuggestions().length,
+    idPrefix: 'uni-search-listbox',
+  });
 
-  protected readonly activeOptionId = computed(() =>
-    this.activeIndex() >= 0 ? `${this.listboxId}-${this.activeIndex()}` : undefined
-  );
+  readonly listboxId = this.list.listboxId;
 
   protected readonly hasQuery = computed(() => !!this.field()?.value());
 
   protected handleChange(value: string) {
-    this.listOpen.set(true);
-    this.activeIndex.set(-1);
+    this.list.show();
+    this.list.setActive(-1);
     this.change.emit(value);
   }
 
   protected submit() {
-    const active = this.activeIndex();
-    if (this.showList() && active >= 0) {
+    const active = this.list.activeIndex();
+    if (this.list.open() && active >= 0) {
       this.select(this.visibleSuggestions()[active]);
       return;
     }
-    this.listOpen.set(false);
+    this.list.hide();
     this.search.emit(this.field().value() ?? '');
   }
 
   protected select(suggestion: string) {
     this.field().value.set(suggestion);
-    this.listOpen.set(false);
-    this.activeIndex.set(-1);
+    this.list.hide();
     this.suggestionSelected.emit(suggestion);
     this.search.emit(suggestion);
   }
 
   protected clear() {
     this.field().clear();
-    this.listOpen.set(false);
-    this.activeIndex.set(-1);
+    this.list.hide();
     this.field().focus();
   }
 
   protected onKeydown(event: KeyboardEvent) {
+    // Arrows and Home/End belong to the shared listbox contract.
+    if (this.list.navigate(event)) return;
+
     switch (event.key) {
       case 'Enter':
         event.preventDefault();
         this.submit();
         break;
-      case 'ArrowDown':
-      case 'ArrowUp': {
-        const count = this.visibleSuggestions().length;
-        if (count === 0) return;
-        event.preventDefault();
-        this.listOpen.set(true);
-        const delta = event.key === 'ArrowDown' ? 1 : -1;
-        this.activeIndex.set((this.activeIndex() + delta + count) % count);
-        break;
-      }
       case 'Escape':
-        if (this.showList()) this.listOpen.set(false);
+        // Escape backs out one layer at a time: close the list, then clear.
+        if (this.list.open()) this.list.hide();
         else if (this.hasQuery()) this.clear();
         break;
     }
   }
 
   protected onFocusOut(event: FocusEvent) {
-    // Close unless focus moved somewhere inside the component.
-    const next = event.relatedTarget as Node | null;
-    if (!next || !(event.currentTarget as HTMLElement).contains(next)) {
-      this.listOpen.set(false);
-    }
+    this.list.closeOnFocusOut(event);
   }
 
   protected readonly className = computed(() =>

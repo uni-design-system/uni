@@ -2,14 +2,16 @@
 <ng-template #body>
   <ng-content select="[tag-lead]"></ng-content>
 
-  @if (selected() && componentOptions().selectedSymbol; as selectedSymbol) {
-    <uni-symbol [name]="selectedSymbol" [style.font-size.px]="leadSize()" />
+  @if (selected() && componentOptions().selectedIcon; as selectedIcon) {
+    <uni-icon [name]="selectedIcon" [size]="leadSize()" />
   } @else if (avatarSrc(); as src) {
     <span [class]="leadClass()" aria-hidden="true">
       <img [src]="src" alt="" />
     </span>
   } @else if (initials(); as text) {
     <span [class]="leadClass()" aria-hidden="true">{{ text }}</span>
+  } @else if (iconName(); as icon) {
+    <uni-icon [name]="icon" [size]="leadSize()" />
   } @else if (symbolName(); as symbol) {
     <uni-symbol [name]="symbol" [style.font-size.px]="leadSize()" />
   } @else if (dot()) {
@@ -30,7 +32,8 @@
     type="button"
     [class]="bodyClass()"
     [disabled]="disabled()"
-    [attr.aria-pressed]="selected()"
+    [attr.aria-pressed]="selected() ?? null"
+    [attr.tabindex]="controlTabIndex()"
     (click)="activate()"
   >
     <ng-container [ngTemplateOutlet]="body"></ng-container>
@@ -46,8 +49,9 @@
     uni-icon-button
     variant="ghost"
     size="sm"
-    [symbolName]="componentOptions().removeSymbol ?? 'close'"
+    [iconName]="componentOptions().removeIcon ?? 'close'"
     [disable]="disabled()"
+    [attr.tabindex]="controlTabIndex()"
     (click)="remove()"
   >
     {{ removeLabel() ?? 'Remove ' + (label() ?? '') }}

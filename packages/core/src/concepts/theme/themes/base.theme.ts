@@ -395,8 +395,10 @@ const buildComponents = (c: Colors): ComponentThemes => ({
       borderRadius: 'max', // 'xs' switches the whole set to rectangular labels
       typeface: 'tag',
       gap: 'xs',
-      removeSymbol: 'close',
-      selectedSymbol: 'check',
+      // Icon primitives, not Material ligatures: they mask `currentColor`, so
+      // they recolour with the chip's tone and a theme can swap the artwork.
+      removeIcon: 'close',
+      selectedIcon: 'check',
     },
     fixed: {
       display: 'inline-flex',
@@ -429,6 +431,21 @@ const buildComponents = (c: Colors): ComponentThemes => ({
       sm: { height: 20, fontSize: 12, padding: '0 8px' },
       md: { height: 24, fontSize: 13, padding: '0 10px' },
       lg: { height: 32, fontSize: 15, padding: '0 12px' },
+    },
+  },
+  // Chip field. Field chrome (colour, border, radius, focus outline) is NOT
+  // duplicated here — it comes from `input` via uni-input-box, so a tag input
+  // restyles with every other field. These are the chip-field specifics.
+  tagInput: {
+    options: {
+      chipGap: 'xs',
+      chipSize: 'md',
+      // The text input never collapses to a sliver next to wrapped chips.
+      minInputWidth: '12ch',
+      listColor: 'primary-surface',
+      listShadow: 'menu',
+      listBorderRadius: 'xs',
+      maxSuggestions: 8,
     },
   },
 

@@ -1,0 +1,85 @@
+<!-- Focusout rides the bubbling event so the list closes only when focus
+     leaves the whole field, not while moving between chips and the input. -->
+<div style="position: relative" (focusout)="onFocusOut($event)">
+  <uni-input-box [error]="showError()" height="auto">
+    <ul [class]="fieldClass()">
+      @for (item of value(); track item.value; let i = $index) {
+        <!-- The focusable element is the chip's own button; this <li> only
+             receives keys bubbling up from it, so it must stay out of the tab
+             order (same delegation the menu uses for its roving focus). -->
+        <!-- eslint-disable-next-line @angular-eslint/template/interactive-supports-focus -->
+        <li #chip (keydown)="onChipKeydown($event, i)" (dblclick)="editChip(i)">
+          <uni-tag
+            [label]="labelOf(item)"
+            [value]="item.value"
+            [avatarSrc]="item.avatarSrc"
+            [variant]="item.invalid ? 'warn' : tagVariant()"
+            [tone]="tagTone()"
+            [size]="tagSize() ?? componentOptions().chipSize ?? 'md'"
+            [invalid]="!!item.invalid"
+            [disabled]="!!item.disabled || disabled()"
+            [interactive]="true"
+            [removable]="!item.disabled && !disabled()"
+            [controlTabIndex]="-1"
+            (removed)="removeAt(i)"
+          />
+        </li>
+      }
+
+      <li [class]="inputClass()">
+        <!-- The field is one tab stop: chips carry tabindex="-1" and are
+             entered with Backspace/ArrowLeft, so Tab never walks through
+             eight recipients to reach the next control. -->
+        <input
+          #field
+          type="text"
+          role="combobox"
+          autocomplete="off"
+          [class]="inputClass()"
+          [disabled]="disabled()"
+          [placeholder]="placeholder() ?? ''"
+          [attr.aria-label]="label()"
+          [attr.aria-expanded]="list.open()"
+          [attr.aria-controls]="list.listboxId"
+          [attr.aria-activedescendant]="list.activeDescendantId()"
+          [attr.aria-describedby]="describedBy()"
+          [attr.aria-invalid]="showError() ? true : null"
+          [attr.aria-required]="required() ? true : null"
+          (keydown)="onInputKeydown($event)"
+          (input)="onInput($any($event.target).value)"
+          (paste)="onPaste($event)"
+          (blur)="onBlur()"
+        />
+      </li>
+    </ul>
+  </uni-input-box>
+
+  @if (list.open()) {
+    <ul [id]="list.listboxId" role="listbox" [attr.aria-label]="label()" [class]="listClass()">
+      @for (suggestion of visibleSuggestions(); track suggestion.value; let i = $index) {
+        <!-- eslint-disable-next-line @angular-eslint/template/click-events-have-key-events, @angular-eslint/template/interactive-supports-focus -->
+        <li
+          role="option"
+          [id]="list.optionId(i)"
+          [class.active]="i === list.activeIndex()"
+          [attr.aria-selected]="i === list.activeIndex()"
+          (mousedown)="$event.preventDefault()"
+          (click)="selectSuggestion(suggestion)"
+        >
+          {{ labelOf(suggestion) }}
+          @if (suggestion.description) {
+            <span [class]="srOnly">{{ suggestion.description }}</span>
+          }
+        </li>
+      }
+    </ul>
+  }
+
+  <!-- Said once for the whole field, rather than every chip advertising it. -->
+  <span [id]="hintId" [class]="srOnly">
+    Press Backspace to reach the last entry, then Backspace again to remove it.
+  </span>
+
+  <!-- Adds and removes are otherwise silent for a screen reader. -->
+  <span role="status" aria-live="polite" [class]="srOnly">{{ announcement() }}</span>
+</div>

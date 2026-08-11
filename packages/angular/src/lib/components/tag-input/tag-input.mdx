@@ -1,0 +1,126 @@
+import { Meta, Title, Story } from '@storybook/addon-docs/blocks';
+import * as Stories from './tag-input.stories';
+import { StoryUsage } from '../../../stories/blocks/StoryUsage';
+import { ThemeOptions } from '../../../stories/blocks/ThemeOptionsBlock';
+
+<Meta of={Stories} />
+<Title />
+
+`import { UniTagInputComponent } from '@uni-design-system/uni-angular';`
+
+## Overview
+
+Type-to-add chip field: recipients, filters, labels. It is the **open-set**
+control — anything the user types can become a token, whether or not it matches
+a suggestion. For picking from a fixed list, use `uni-select` or
+`uni-multi-select-dropdown` instead.
+
+<Story of={Stories.EmailRecipients} />
+
+## Usage
+
+<StoryUsage of={Stories.Primary} />
+
+### Value shape
+
+```ts
+interface UniTagItem {
+  value: string;      // canonical — what a form submits
+  label?: string;     // display; falls back to value
+  avatarSrc?: string;
+  invalid?: boolean;  // failed validate(), kept so it can be fixed
+  disabled?: boolean; // locked token, no remove control
+}
+```
+
+`{ value: 'a@b.com' }` is a complete item, so the least you have to write is
+`[value]="[{ value: 'a@b.com' }]"`. It implements
+`FormValueControl<UniTagItem[]>`, so it drops into Signal Forms like any other
+field.
+
+### Invalid entries stay in the value
+
+A field that silently swallows a typo'd address is worse than one that shows it
+in red. `validate()` marks an entry `invalid` rather than refusing it, and the
+user can press Enter on the chip to lift it back into the input and fix it.
+
+<Story of={Stories.InvalidEntry} />
+
+Duplicates and over-`max` entries *are* refused, and report why through
+`(rejected)` — `{ raw, reason: 'duplicate' | 'max' | 'invalid' }`.
+
+### Suggestions
+
+Same contract as `uni-search-input`: the app filters. Refresh `suggestions`
+from the debounced `(query)` output. Entries already committed are hidden
+automatically.
+
+### Presets
+
+`preset="email"` wires an address validator, a paste parser that splits on
+`,` `;` newline and tab and unwraps `Name <a@b.com>`, and adds Space as a
+separator — correct for addresses, wrong for names, which is why it is not the
+default.
+
+## Theme options
+
+<ThemeOptions componentName="tagInput" />
+
+Field chrome — colour, border, radius, focus outline — is **not** duplicated
+here. It comes from the `input` entry via `uni-input-box`, so a tag input
+restyles along with every other field. Chip appearance comes from the `tag`
+entry.
+
+## Keyboard
+
+The whole field is **one tab stop**. Chips carry `tabindex="-1"` and are
+entered with Backspace or ArrowLeft, so Tab never walks through eight
+recipients to reach the Send button.
+
+**In the text input**
+
+| Key | Behaviour |
+| --- | --- |
+| `Enter` | commits the highlighted suggestion, else the typed text |
+| `,` `;` (and Space for `email`) | commits the typed text |
+| `Tab` | commits the typed text, then moves on — never traps |
+| `ArrowDown` / `ArrowUp` / `Home` / `End` | moves through suggestions |
+| `Backspace` (empty field) | focuses the last chip — does **not** delete it |
+| `ArrowLeft` (caret at 0) | focuses the last chip |
+| `Escape` | closes the list; if already closed, clears the typed text |
+| paste | commits every complete token, leaves an unterminated tail typed |
+
+**On a chip**
+
+| Key | Behaviour |
+| --- | --- |
+| `ArrowLeft` / `ArrowRight` | previous / next chip; Right past the last returns to the input |
+| `Home` / `End` | first / last chip |
+| `Backspace` | removes it, focus moves **left** |
+| `Delete` | removes it, focus moves **right** |
+| `Enter` / `F2` / double-click | lifts the chip back into the input for editing |
+| `Escape` | returns focus to the input |
+| any printable key | returns to the input and starts typing |
+
+Two deletion keys with different focus outcomes is what makes pruning a
+recipient list feel right: hold Backspace to eat backwards, Delete to eat
+forwards, without the cursor jumping.
+
+## Accessibility
+
+- The text input is `role="combobox"` with `aria-expanded`, `aria-controls` and
+  `aria-activedescendant` — the same pattern as `uni-search-input`, so it is
+  learned once.
+- Every add, remove and rejection announces through a `role="status"` live
+  region. Without it, keyboard removal and the rejection pulse are silent.
+- The removal route is described **once** for the field through
+  `aria-describedby`, rather than every chip advertising it.
+- `aria-invalid` is gated on `invalid && (touched || dirty)`, per the library's
+  form-control rule. Per-chip invalidity shows immediately — it is feedback
+  about a token the user just typed.
+
+## Don't
+
+- Don't use it to pick from a closed list — that is `uni-multi-select-dropdown`.
+- Don't filter `suggestions` inside the component; drive them from `(query)`.
+- Don't set `preset="email"` for people's names: Space would split them.

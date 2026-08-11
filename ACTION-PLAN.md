@@ -126,8 +126,25 @@ a browser rather than by testing: the remove button was 22px inside a 24px chip
 (now sizes from the chip), and `ngTemplateOutlet` was used without importing
 `NgTemplateOutlet`, which silently rendered no body at all.
 
-**Still to do here:** the shared CDK listbox extraction, then `uni-tag-input`
-itself, then the `multi-select-dropdown` upgrade.
+**Shared CDK listbox shipped 2026-08-11.** `createListboxNavigation` in
+`cdk/listbox/` owns open state, the active option, wrap-around arithmetic,
+Home/End, and `aria-activedescendant` wiring that can never dangle when a
+narrowing filter shrinks the list. 15 specs. `uni-search-input` was refactored
+onto it — its 5 existing specs pass unchanged, proving the extraction, and it
+gained Home/End for free.
+
+**`uni-tag-input` shipped 2026-08-11.** `FormValueControl<UniTagItem[]>`, the
+full keyboard contract from SPEC.md (separators, Tab-commits-without-trapping,
+Backspace-focuses-then-removes, Backspace/Delete moving focus in opposite
+directions, Enter/F2 to edit), paste with `Name <address>` unwrapping and tail
+retention, `email` preset, live-region announcements, one tab stop for the whole
+field. 42 specs ported from the prototype's Playwright suite; verified in a real
+browser end to end. `'tagInput'` in `ComponentName` + theme entry; field chrome
+still comes from `input` via `uni-input-box`.
+
+**Still to do here:** the `multi-select-dropdown` upgrade — give it
+`role="combobox"` + `aria-activedescendant` on the shared `ListboxNavigation`,
+and specs (it still has none). That closes the roadmap's combobox item.
 
 `packages/angular/prototypes/tag-input/` is unusually ready: a full spec, a
 behaviour-complete vanilla prototype, and `test.mjs` asserting 32 behaviours

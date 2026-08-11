@@ -41,10 +41,17 @@ component and the building block `uni-tag-input` composes.
 - **`interactive`** turns the chip body into a `<button>` with `selected` mapped
   to `aria-pressed`, keeping the remove control a sibling — nesting them would
   be invalid HTML and would strand the inner control for keyboard users.
-- **Lead slot**: `avatarSrc`, `avatarName` (initials fallback), `symbolName` and
-  `dot` convenience inputs, plus a `[tag-lead]` slot for anything richer. Lead
-  elements size from the chip height, and all are `aria-hidden` so the chip's
-  text stays its accessible name.
+- **Lead slot**: `avatarSrc`, `avatarName` (initials fallback), `iconName`,
+  `symbolName` and `dot` convenience inputs, plus a `[tag-lead]` slot for
+  anything richer. Lead elements size from the chip height, and all are
+  `aria-hidden` so the chip's text stays its accessible name.
+- **Glyphs are theme icon primitives, not Material ligatures.** The remove and
+  selected affordances resolve through the new `removeIcon` / `selectedIcon`
+  theme options (defaulting to the built-in `close` and `check`), so they mask
+  `currentColor`, recolour with the chip's tone, and can be swapped per theme.
+  They also contribute no text to the DOM, which a ligature does — one less way
+  for an accessible name to be polluted. `symbolName` remains as the escape
+  hatch for glyphs the theme's icon set doesn't carry.
 - **`invalid`** sets `aria-invalid` and a dashed underline, so the state does
   not rely on colour alone (WCAG 1.4.1); `disabled`, `maxWidth` truncation with
   a `title`, and `removeLabel` for overriding the remove button's name.

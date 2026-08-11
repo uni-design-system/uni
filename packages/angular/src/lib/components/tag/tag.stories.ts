@@ -79,7 +79,7 @@ export const LeadElements: Story = {
     template: `
       <div row-layout gap="sm" alignItems="center">
         <uni-tag label="Alice Chen" avatarName="Alice Chen" removable="true" />
-        <uni-tag label="Starred" symbolName="star" />
+        <uni-tag label="Starred" iconName="star" />
         <uni-tag label="Live" [dot]="true" variant="success" />
         <uni-tag label="Custom lead">
           <span tag-lead aria-hidden="true">🎨</span>

@@ -37,6 +37,15 @@ describe('UniTagComponent', () => {
     return (clone.textContent ?? '').replace(/\s+/g, ' ').trim();
   };
 
+  /**
+   * The lead icon's resolved `name` input. A signal input never reflects to
+   * the DOM, so read it off the component instance.
+   */
+  const leadIconName = (): string | undefined =>
+    fixture.debugElement
+      .query((de) => (de.nativeElement as HTMLElement)?.tagName === 'UNI-ICON')
+      ?.componentInstance.name();
+
   const emissions = (output: 'removed' | 'activated') => {
     const seen: unknown[] = [];
     fixture.componentInstance[output].subscribe((v) => seen.push(v));
@@ -133,11 +142,20 @@ describe('UniTagComponent', () => {
   describe('as an interactive chip', () => {
     beforeEach(() => setInputs({ label: 'Design', value: 'design', interactive: true }));
 
-    it('makes the body a real button carrying the pressed state', () => {
+    it('makes the body a real button', () => {
       const body = bodyButton();
       expect(body).not.toBeNull();
       expect(body!.getAttribute('type')).toBe('button');
-      expect(body!.getAttribute('aria-pressed')).toBe('false');
+    });
+
+    it('carries aria-pressed only when it is actually a toggle', () => {
+      // An interactive chip is not always a toggle — inside a tag input it is
+      // focusable so it can be removed. Announcing "not pressed" there is
+      // worse than announcing nothing.
+      expect(bodyButton()!.getAttribute('aria-pressed')).toBeNull();
+
+      setInputs({ selected: false });
+      expect(bodyButton()!.getAttribute('aria-pressed')).toBe('false');
 
       setInputs({ selected: true });
       expect(bodyButton()!.getAttribute('aria-pressed')).toBe('true');
@@ -223,9 +241,26 @@ describe('UniTagComponent', () => {
       expect(accessibleName(host)).toBe('Alice Chen');
     });
 
-    it('shows the selected symbol ahead of other lead content', () => {
+    it('shows the selected icon ahead of other lead content', () => {
       setInputs({ label: 'Design', avatarName: 'Alice Chen', selected: true });
-      expect(host.textContent).toContain('check');
+
+      expect(leadIconName()).toBe('check');
+      expect(host.textContent).not.toContain('AC');
+    });
+
+    it('renders a theme icon via iconName', () => {
+      setInputs({ label: 'Starred', iconName: 'star' });
+      expect(leadIconName()).toBe('star');
+    });
+
+    it('keeps glyphs out of the text content entirely', () => {
+      setInputs({ label: 'Design', iconName: 'star', removable: true });
+
+      // Icon primitives are CSS masks, so unlike a Material ligature they
+      // contribute no text — the accessible name needs no aria-hidden rescue.
+      expect(host.textContent).not.toContain('star');
+      expect(host.textContent).not.toContain('close');
+      expect(accessibleName(removeButton()!)).toBe('Remove Design');
     });
 
     it('renders a status dot without announcing it', () => {

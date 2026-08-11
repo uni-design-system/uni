@@ -1,9 +1,10 @@
 import { NgTemplateOutlet } from '@angular/common';
 import { ChangeDetectionStrategy, Component, computed, input, output } from '@angular/core';
 import { css } from '@emotion/css';
-import type { Size, TagTone } from '@uni-design-system/uni-core';
+import type { IconName, Size, TagTone } from '@uni-design-system/uni-core';
 
 import { BaseComponent, COMPONENT_NAME } from '../base/base.component';
+import { UniIconComponent } from '../icon';
 import { UniIconButtonComponent } from '../icon-button/icon-button.component';
 import { UniSymbolComponent } from '../symbol';
 import type { UniTagOptions, UniTagValue } from './tag.model';
@@ -23,7 +24,7 @@ import type { UniTagOptions, UniTagValue } from './tag.model';
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'uni-tag',
-  imports: [NgTemplateOutlet, UniIconButtonComponent, UniSymbolComponent],
+  imports: [NgTemplateOutlet, UniIconComponent, UniIconButtonComponent, UniSymbolComponent],
   templateUrl: './tag.component.html',
   providers: [{ provide: COMPONENT_NAME, useValue: 'tag' }],
   host: {
@@ -45,6 +46,9 @@ export class UniTagComponent extends BaseComponent<UniTagOptions> {
   avatarSrc = input<string>();
   /** Initials fallback when `avatarSrc` is absent or fails to load. */
   avatarName = input<string>();
+  /** Theme icon primitive — the preferred glyph path. */
+  iconName = input<IconName>();
+  /** Material Symbols ligature, for glyphs the theme's icon set doesn't carry. */
   symbolName = input<string>();
   /** Status dot in the current colour. */
   dot = input<boolean>(false);
@@ -52,11 +56,24 @@ export class UniTagComponent extends BaseComponent<UniTagOptions> {
   // Behaviour
   removable = input(false);
   interactive = input(false);
-  selected = input(false);
+  /**
+   * Toggle state. Left undefined the chip carries no `aria-pressed` at all —
+   * an interactive chip is not always a toggle (inside a tag input it is
+   * focusable so it can be removed), and announcing "not pressed" on a
+   * recipient chip is worse than announcing nothing.
+   */
+  selected = input<boolean | undefined>(undefined);
   invalid = input(false);
   disabled = input(false);
   /** Accessible-name override for the remove button. */
   removeLabel = input<string>();
+  /**
+   * Tab position of the chip's controls. A composite that owns its own
+   * roving focus — `uni-tag-input`, where the whole field is one tab stop —
+   * passes `-1` so Tab does not walk through every chip to reach the next
+   * control.
+   */
+  controlTabIndex = input<number>(0);
 
   removed = output<UniTagValue>();
   activated = output<UniTagValue>();
@@ -75,6 +92,11 @@ export class UniTagComponent extends BaseComponent<UniTagOptions> {
     const height = Number(this.themeStyle()['height'] ?? 24);
     return Number.isFinite(height) ? Math.max(height - 6, 0) : 18;
   });
+
+  /** Remove glyph, proportional to the chip rather than to the icon-button. */
+  protected readonly removeGlyphSize = computed(() =>
+    Math.max(Math.round(this.leadSize() * 0.8), 10)
+  );
 
   protected readonly initials = computed(() =>
     (this.avatarName() ?? '')
@@ -109,7 +131,15 @@ export class UniTagComponent extends BaseComponent<UniTagOptions> {
           height: this.leadSize(),
           minHeight: this.leadSize(),
           padding: 0,
-          fontSize: Math.max(Math.round(this.leadSize() * 0.8), 10),
+          fontSize: this.removeGlyphSize(),
+          // uni-icon writes width/height as *inline* styles, sized from the
+          // icon-button's own `sm` token (18px — wider than an `sm` chip).
+          // Only !important can reach past an inline style to keep the glyph
+          // proportional to the chip.
+          '& uni-icon': {
+            width: `${this.removeGlyphSize()}px !important`,
+            height: `${this.removeGlyphSize()}px !important`,
+          },
         },
       },
       this.invalid() && {
