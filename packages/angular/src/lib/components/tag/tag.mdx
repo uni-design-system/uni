@@ -1,6 +1,7 @@
-import { Meta, Title, Description } from '@storybook/addon-docs/blocks';
+import { Meta, Title, Story } from '@storybook/addon-docs/blocks';
 import * as Stories from './tag.stories';
 import { StoryUsage } from '../../../stories/blocks/StoryUsage';
+import { ThemeOptions } from '../../../stories/blocks/ThemeOptionsBlock';
 
 <Meta of={Stories} />
 <Title />
@@ -9,10 +10,91 @@ import { StoryUsage } from '../../../stories/blocks/StoryUsage';
 
 ## Overview
 
-Compact label for classifying content — categories, states, filters. Tags are
-display-only chips that wear the active variant's colors; for removable,
-type-to-add chips (a future input variant), see the roadmap.
+Compact chip for categories, states, filters and tokens. Two orthogonal style
+axes: **`variant`** picks the colour role and **`tone`** picks the archetype
+(`soft`, `solid`, `outline`). Both resolve from the theme's `tag` entry, so a
+theme restyles every chip in the app without touching markup.
+
+<Story of={Stories.VariantsAndTones} />
 
 ## Usage
 
-<StoryUsage of={Stories.Primary} exclude={['handleClose']} />
+<StoryUsage of={Stories.Primary} />
+
+### Removal is opt-in
+
+A tag is display-only until you ask for a remove control. A category label
+should not ship a dead "Remove …" button into the accessibility tree.
+
+```html
+<uni-tag label="Design" value="design" [removable]="true" (removed)="drop($event)" />
+```
+
+<Story of={Stories.Removable} />
+
+### Interactive chips
+
+`interactive` turns the chip **body** into a `<button>` and `selected` maps to
+`aria-pressed` — a filter chip you can toggle. The remove control stays a
+sibling of the body, never nested inside it: nesting would be invalid HTML and
+would leave the inner control unreachable for keyboard users.
+
+<Story of={Stories.Interactive} />
+
+### Lead elements
+
+Convenience inputs cover the common cases — `avatarSrc`, `avatarName` (initials
+fallback), `symbolName`, `dot`. Anything richer goes in the `[tag-lead]` slot.
+Lead elements size themselves from the chip height, and all of them are
+`aria-hidden`, so the chip's text stays its accessible name.
+
+<Story of={Stories.LeadElements} />
+
+### States
+
+<Story of={Stories.Invalid} />
+
+An invalid chip stays **in** the value rather than being rejected — a field
+that silently swallows a typo is worse than one that shows it in red. The
+dashed underline carries that meaning without relying on colour (WCAG 1.4.1).
+
+## Theme options
+
+<ThemeOptions componentName="tag" />
+
+Colours live in the theme's `tag` **variants**, with tones as nested
+`&.tone-*` selectors, so one entry covers both axes. Sizes carry geometry only —
+family and weight come from the `typeface` option.
+
+## Accessibility
+
+- A static tag is **text, not a widget**: no role, no tab stop. Screen readers
+  read the label as content.
+- `removable` adds one real `<button>` named `Remove {label}`, overridable with
+  `removeLabel`.
+- `interactive` makes the body a `<button type="button">`; `selected` maps to
+  `aria-pressed`.
+- Icons, avatars, initials and dots are `aria-hidden` — the chip's text is its
+  accessible name.
+- `invalid` sets `aria-invalid` and adds a non-colour cue.
+
+## Migrating from v1
+
+| v1 | v2 |
+| --- | --- |
+| `(close)` | `(removed)` |
+| remove button always present | `[removable]="true"` |
+| `close` skipped when `value` was `''` or `0` | every value emits, including falsy ones |
+
+## Do
+
+- Use `variant` for meaning (a `warn` chip for a problem) and `tone` for emphasis.
+- Give `removable` chips a `value` so the handler knows which one to drop.
+- Set `maxWidth` when user-supplied text could be arbitrarily long.
+
+## Don't
+
+- Don't make a whole chip clickable *and* nest the remove control inside it —
+  use `interactive`, which keeps them siblings.
+- Don't rely on chip colour alone to convey state.
+- Don't put a remove control on a chip that is purely a label.

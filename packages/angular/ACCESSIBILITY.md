@@ -124,7 +124,18 @@ All controls implement `FormValueControl`/`FormCheckboxControl` and set
   "Progress" — set `ariaLabel` to describe *what* is progressing.
 
 ### Tag
-- The remove affordance is announced as "Remove {label}".
+- A static tag is **text, not a widget**: no role and no tab stop, so screen
+  readers read the label as content.
+- `removable` adds one real `<button>` announced as "Remove {label}", or
+  `removeLabel` when that name needs to differ.
+- `interactive` makes the chip **body** a `<button type="button">` and maps
+  `selected` to `aria-pressed`. The remove button stays a *sibling* of the body,
+  never nested inside it — nesting would be invalid HTML and would leave the
+  inner control unreachable by keyboard.
+- Lead content (avatar, initials, symbol, status dot) is `aria-hidden`, so the
+  chip's text remains its accessible name.
+- `invalid` sets `aria-invalid` and adds a dashed underline, so the state is not
+  carried by colour alone (WCAG 1.4.1).
 
 ## Known gaps (tracked in TODO.md)
 

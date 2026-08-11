@@ -147,6 +147,25 @@ const buildBorders = (c: Colors): Borders => ({
   dotted: `1px dotted ${c['on-background']}`,
 });
 
+/**
+ * One tag colour role across all three tones. `soft` is the resting look (the
+ * container pair), `solid` fills with the role itself, `outline` keeps the
+ * surface and draws the edge — so every role stays consistent and a theme can
+ * still override any single cell.
+ */
+const tagVariant = (c: Colors, role: 'primary' | 'secondary' | 'tertiary' | 'warn' | 'success') => ({
+  [role]: {
+    backgroundColor: c[`${role}-container`],
+    color: c[`on-${role}-container`],
+    '&.tone-solid': { backgroundColor: c[role], color: c[`on-${role}`] },
+    '&.tone-outline': {
+      backgroundColor: 'transparent',
+      color: c[role],
+      borderColor: c[`on-${role}-container-border`] ?? c[role],
+    },
+  },
+});
+
 const buildComponents = (c: Colors): ComponentThemes => ({
   alert: {
     options: { topPosition: 40, borderRadius: 'sm', transitionSpeed: 0.35, elevation: 'md' },
@@ -365,6 +384,53 @@ const buildComponents = (c: Colors): ComponentThemes => ({
     },
   },
   badge: { options: { borderRadius: 'xxs' } },
+
+  // Chips. Two orthogonal axes: `variant` picks the colour role, `tone` picks
+  // the archetype (soft fill / solid fill / outline). Tones are nested
+  // `&.tone-*` selectors inside each variant so a theme author restyles both
+  // axes in one place — the same trick `button` uses for `&:hover` — rather
+  // than hunting for colour decisions inside `options`.
+  tag: {
+    options: {
+      borderRadius: 'max', // 'xs' switches the whole set to rectangular labels
+      typeface: 'tag',
+      gap: 'xs',
+      removeSymbol: 'close',
+      selectedSymbol: 'check',
+    },
+    fixed: {
+      display: 'inline-flex',
+      alignItems: 'center',
+      maxWidth: '100%',
+      border: '1px solid transparent',
+      transition: 'background-color .2s ease, color .2s ease',
+    },
+    variants: {
+      ...tagVariant(c, 'primary'),
+      ...tagVariant(c, 'secondary'),
+      ...tagVariant(c, 'tertiary'),
+      ...tagVariant(c, 'warn'),
+      ...tagVariant(c, 'success'),
+      ghost: {
+        backgroundColor: 'transparent',
+        color: c['on-background'],
+        '&.tone-solid': { backgroundColor: c['surface-variant'], color: c['on-surface-variant'] },
+        '&.tone-outline': { backgroundColor: 'transparent', borderColor: c.outline },
+      },
+      disabled: {
+        backgroundColor: c['disabled-container'],
+        color: c['on-disabled'],
+        '&.tone-solid': { backgroundColor: c.disabled, color: c['on-disabled'] },
+        '&.tone-outline': { backgroundColor: 'transparent', borderColor: c.disabled },
+      },
+    },
+    // Geometry only — family and weight come from the `typeface` option.
+    sizes: {
+      sm: { height: 20, fontSize: 12, padding: '0 8px' },
+      md: { height: 24, fontSize: 13, padding: '0 10px' },
+      lg: { height: 32, fontSize: 15, padding: '0 12px' },
+    },
+  },
 
   // ---- Buttons: variants are structural archetypes with interaction states ----
   button: {

@@ -1,91 +1,108 @@
-import { Meta, StoryObj } from '@storybook/angular';
+import { Meta, moduleMetadata, StoryObj } from '@storybook/angular';
+import { UniBoxComponent, UniRowComponent } from '../layout';
 import { UniTagComponent } from './tag.component';
 
 const meta: Meta<UniTagComponent> = {
   title: 'Components/Tag',
   component: UniTagComponent,
+  decorators: [moduleMetadata({ imports: [UniBoxComponent, UniRowComponent] })],
+  args: { label: 'Design', value: 'design' },
   argTypes: {
-    // Input properties
-    label: {
-      description: 'The text content to be displayed within the tag',
-      control: 'text',
-      type: { name: 'string', required: true },
+    variant: {
+      control: 'select',
+      options: ['primary', 'secondary', 'tertiary', 'warn', 'success', 'ghost', 'disabled'],
+      description: 'Colour role, resolved from the theme’s `tag` variants.',
     },
-    value: {
-      description:
-        'A unique identifier or value associated with the tag, used when handling close events',
-      control: 'text',
-      type: {
-        name: 'union',
-        value: [{ name: 'string' }, { name: 'number' }],
-      },
+    tone: {
+      control: 'inline-radio',
+      options: ['soft', 'solid', 'outline'],
+      description: 'Style archetype, orthogonal to the colour role.',
     },
-    // Output properties
-    close: {
-      description: "Event emitted when the tag's close button is clicked, emits the tag's value",
-      control: false,
-      table: {
-        type: { summary: 'event' },
-      },
-    },
-  },
-  args: {
-    label: 'Sample Tag',
-    value: '1',
+    size: { control: 'inline-radio', options: ['sm', 'md', 'lg'] },
   },
   parameters: {
-    componentSubtitle: 'A compact component for displaying deletable labels or categories',
-    docs: {
-      description: {
-        component: `
-The Tag component is used to display labels, categories, or metadata in a compact form.
-Each tag can be removed via a close button, making it ideal for displaying selected filters,
-applied categories, or other removable items.
-
-## Features
-- Compact, pill-shaped design
-- Built-in close button
-- Supports both string and numeric values
-- Emits close events with associated values
-- Integrates with the design system's theme
-
-## Usage Guidelines
-- Use tags for displaying selected filters or categories
-- Each tag should have a unique value for identification
-- Keep label text concise and clear
-- Handle close events to manage tag removal
-`,
-      },
-    },
+    componentSubtitle: 'Compact chip for categories, states, filters and tokens',
   },
 };
 
 export default meta;
 type Story = StoryObj<UniTagComponent>;
 
-export const Primary: Story = {
-  args: {
-    label: 'Primary Tag',
-    value: '1',
-  },
+export const Primary: Story = {};
+
+/** The two style axes: colour role across the top, tone down the side. */
+export const VariantsAndTones: Story = {
+  render: () => ({
+    template: `
+      <div box-layout gap="sm">
+        @for (tone of ['soft', 'solid', 'outline']; track tone) {
+          <div row-layout gap="sm" alignItems="center" style="margin-bottom:8px">
+            @for (variant of ['primary', 'secondary', 'tertiary', 'warn', 'success', 'ghost']; track variant) {
+              <uni-tag [variant]="variant" [tone]="tone" [label]="variant" />
+            }
+          </div>
+        }
+      </div>
+    `,
+  }),
 };
 
-export const NumericValue: Story = {
-  args: {
-    label: 'Numeric Tag',
-    value: 42,
-  },
+export const Sizes: Story = {
+  render: () => ({
+    template: `
+      <div row-layout gap="sm" alignItems="center">
+        <uni-tag size="sm" label="Small" />
+        <uni-tag size="md" label="Medium" />
+        <uni-tag size="lg" label="Large" />
+      </div>
+    `,
+  }),
 };
 
-export const LongLabel: Story = {
-  args: {
-    label: 'This is a very long tag label that might need truncation',
-    value: 'long',
-  },
+/** Removal is opt-in — a category label ships no dead control. */
+export const Removable: Story = {
+  args: { removable: true },
 };
 
-export const WithoutValue: Story = {
+/** An interactive chip's body is a button; the remove control stays a sibling. */
+export const Interactive: Story = {
+  args: { interactive: true, removable: true, selected: false },
+};
+
+export const Selected: Story = {
+  args: { interactive: true, selected: true, tone: 'solid' },
+};
+
+/** Lead slot: avatar, initials fallback, symbol, or status dot. */
+export const LeadElements: Story = {
+  render: () => ({
+    template: `
+      <div row-layout gap="sm" alignItems="center">
+        <uni-tag label="Alice Chen" avatarName="Alice Chen" removable="true" />
+        <uni-tag label="Starred" symbolName="star" />
+        <uni-tag label="Live" [dot]="true" variant="success" />
+        <uni-tag label="Custom lead">
+          <span tag-lead aria-hidden="true">🎨</span>
+        </uni-tag>
+      </div>
+    `,
+  }),
+};
+
+/** Invalid entries stay visible and fixable, with a non-colour cue. */
+export const Invalid: Story = {
+  args: { label: 'nope@@x', invalid: true, removable: true, variant: 'warn' },
+};
+
+export const Disabled: Story = {
+  args: { label: 'Locked', disabled: true, removable: true },
+};
+
+/** A truncation budget keeps one long token from dominating the row. */
+export const Truncated: Story = {
   args: {
-    label: 'Tag without value',
+    label: 'A very long tag label that has to be truncated somewhere',
+    maxWidth: '18ch',
+    removable: true,
   },
 };

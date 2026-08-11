@@ -40,6 +40,7 @@ export type ComponentName =
   | 'snackbar'
   | 'stat'
   | 'symbol'
+  | 'tag'
   | 'progressBar'
   | 'progressGauge'
   | 'tabs'

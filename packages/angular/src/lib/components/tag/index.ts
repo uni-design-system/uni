@@ -5,3 +5,4 @@
  */
 
 export { UniTagComponent } from './tag.component';
+export * from './tag.model';

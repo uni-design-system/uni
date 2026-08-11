@@ -1,8 +1,55 @@
-<div box-layout color="primary" borderRadius="max" display="inline-block">
-  <div row-layout paddingLeft="sm" gap="xs">
-    <span uni-text display="block" typeface="tag">{{ label() }}</span>
-    <button icon-button symbolName="close" size="sm" (click)="handleClose()">
-      Remove {{ label() }}
-    </button>
-  </div>
-</div>
+<!-- Lead + label. Shared so the static and interactive bodies stay identical. -->
+<ng-template #body>
+  <ng-content select="[tag-lead]"></ng-content>
+
+  @if (selected() && componentOptions().selectedSymbol; as selectedSymbol) {
+    <uni-symbol [name]="selectedSymbol" [style.font-size.px]="leadSize()" />
+  } @else if (avatarSrc(); as src) {
+    <span [class]="leadClass()" aria-hidden="true">
+      <img [src]="src" alt="" />
+    </span>
+  } @else if (initials(); as text) {
+    <span [class]="leadClass()" aria-hidden="true">{{ text }}</span>
+  } @else if (symbolName(); as symbol) {
+    <uni-symbol [name]="symbol" [style.font-size.px]="leadSize()" />
+  } @else if (dot()) {
+    <span [class]="dotClass()" aria-hidden="true"></span>
+  }
+
+  @if (label(); as text) {
+    <span [class]="labelClass" [attr.title]="maxWidth() ? text : null">{{ text }}</span>
+  } @else {
+    <span [class]="labelClass"><ng-content></ng-content></span>
+  }
+</ng-template>
+
+<!-- An interactive chip's body is the button; a static chip is plain text with
+     no role and no tab stop, so screen readers read it as content. -->
+@if (interactive()) {
+  <button
+    type="button"
+    [class]="bodyClass()"
+    [disabled]="disabled()"
+    [attr.aria-pressed]="selected()"
+    (click)="activate()"
+  >
+    <ng-container [ngTemplateOutlet]="body"></ng-container>
+  </button>
+} @else {
+  <span [class]="bodyClass()">
+    <ng-container [ngTemplateOutlet]="body"></ng-container>
+  </span>
+}
+
+@if (removable()) {
+  <button
+    uni-icon-button
+    variant="ghost"
+    size="sm"
+    [symbolName]="componentOptions().removeSymbol ?? 'close'"
+    [disable]="disabled()"
+    (click)="remove()"
+  >
+    {{ removeLabel() ?? 'Remove ' + (label() ?? '') }}
+  </button>
+}

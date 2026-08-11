@@ -108,7 +108,26 @@ No changeset: tests only, no consumer-visible change.
 
 ---
 
-## 2. Next component — `uni-tag` v2 + `uni-tag-input`
+## 2. Next component — `uni-tag` v2 ✅ + `uni-tag-input`
+
+**Q4 decided 2026-08-11: keep them separate.** `uni-tag-input` is the open-set
+control with its own `UniTagItem[]` value; the roadmap's combobox item is
+satisfied by upgrading `multi-select-dropdown` rather than adding a third
+overlapping component. Extract the shared listbox behaviour as the work
+proceeds. Reasoning in the decision brief below.
+
+**`uni-tag` v2 shipped 2026-08-11.** `'tag'` in `ComponentName` + `TagTone` in
+core, full theme entry (variants × tones as nested `&.tone-*`, sizes as geometry
+only), component rewritten with opt-in `removable`, `interactive` body button,
+lead slot, `invalid`/`disabled`/`maxWidth`, `(close)` → `(removed)`, and the
+falsy-value bug fixed. 21 specs (from zero), stories, MDX, ACCESSIBILITY.md, and
+a major changeset with the codemod described. Two bugs found by looking at it in
+a browser rather than by testing: the remove button was 22px inside a 24px chip
+(now sizes from the chip), and `ngTemplateOutlet` was used without importing
+`NgTemplateOutlet`, which silently rendered no body at all.
+
+**Still to do here:** the shared CDK listbox extraction, then `uni-tag-input`
+itself, then the `multi-select-dropdown` upgrade.
 
 `packages/angular/prototypes/tag-input/` is unusually ready: a full spec, a
 behaviour-complete vanilla prototype, and `test.mjs` asserting 32 behaviours
@@ -122,6 +141,54 @@ now whether `uni-tag-input` *is* the multi-select combobox determines its API;
 deciding later means either a second overlapping component or a breaking change
 to this one. The other three open questions (the `tone` axis, Space as a
 separator, local filtering) can be settled during implementation.
+
+#### Decision brief (Q4)
+
+**The axis that matters is open vs. closed set, not chips vs. no chips.** A
+multi-select combobox picks from a *closed* list — every value corresponds to
+an option, and the option list is the source of truth, so the value can stay
+`T[]` of keys. A tag input accepts *open* values: SPEC.md is explicit that a
+typo'd address stays in the value as an invalid chip. That forces the value to
+carry its own label and metadata (`UniTagItem`), because an entry may have no
+matching option — and it is what makes `validate`, `parse`, `separators` and
+`rejected` meaningful. Those five API members are dead weight in a closed-set
+control. One component covering both means one of the two use cases carries an
+API it can never use.
+
+**What already exists** (nothing here renders selected values as chips, and
+`uni-tag` currently has zero consumers):
+
+| | value | forms | ARIA combobox | specs |
+|---|---|---|---|---|
+| `search-input` | `string` | ✗ | **✓ complete** | 5 tests |
+| `select-input` | `T \| null` key | ✓ | ✗ (native select) | 2 tests |
+| `multi-select-dropdown` | `T[]` keys | ✓ | ✗ (`haspopup=dialog` + checkboxes) | **none** |
+| proposed `tag-input` | `UniTagItem[]` | ✓ | ✓ (spec'd) | 32 prototype behaviours |
+
+**Recommended: keep them separate, but do not build a third component.** Build
+`uni-tag-input` as specced (open set, its own value type), and satisfy the
+roadmap's combobox item by *upgrading `multi-select-dropdown`* rather than
+adding a new control — it is already `T[]` + `FormValueControl` with internal
+filtering, and it is the weakest component in the library on exactly the axes a
+combobox needs (no `role="combobox"`, no `aria-activedescendant`, no accessible
+name on its trigger, zero specs). That closes a real quality gap instead of
+opening a new surface.
+
+**Do this while building, or the split becomes divergence:** extract the
+listbox behaviour — active-descendant tracking, arrow/Home/End traversal,
+open/close, the `role="listbox"`/`role="option"` markup — into a shared CDK
+piece that `search-input`, `tag-input` and the upgraded `multi-select-dropdown`
+all use. Three hand-rolled copies of the combobox keyboard contract is the same
+trap that produced four overlapping theme tools.
+
+**Flag regardless of the decision — option shapes are proliferating.** The
+library would carry four: `Option<T> = {label, value}` (select, multi-select),
+bare `string` (search-input suggestions), `UniTagSuggestion = {value, label?,
+description?, avatarSrc?}` and `UniTagItem` (both proposed). `UniTagSuggestion`
+inverts `Option<T>`'s required field — `value` required, `label` optional —
+which is defensible for tags but means two option types disagree about which
+half is mandatory. Worth reconciling to one generic shape before a second
+component depends on the new one.
 
 **Sequencing notes.**
 - `uni-tag` v2 is a breaking change (`close` → `removed`): major changeset for

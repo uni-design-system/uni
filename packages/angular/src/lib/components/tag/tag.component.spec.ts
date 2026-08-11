@@ -1,13 +1,12 @@
 /**
- * Characterization specs for `uni-tag` v1, written ahead of the v2 rewrite
- * (`packages/angular/prototypes/tag-input/SPEC.md`). The component shipped with
- * no coverage at all, so these pin down what it *actually does today* — the
- * contract v2 must keep, and, separately, the defects v2 is meant to fix.
+ * `uni-tag` v2. Grew out of the v1 characterization specs: each `DEFECT:` case
+ * there is now a corrected expectation here, marked FIXED so the migration is
+ * traceable.
  *
- * Deliberately not asserted: colors, radii and spacing. They are welded into
- * the template today and v2 moves them behind a `tag` theme entry, so pinning
- * them would only manufacture failures the rewrite has to delete. Structure is
- * asserted just firmly enough to notice if a part disappears.
+ * Deliberately not asserted: exact colours and spacing. They live in the `tag`
+ * theme entry, so pinning them here would test the theme rather than the
+ * component. The tone/variant *wiring* is asserted instead — that the host
+ * carries the class the theme's nested `&.tone-*` rules key on.
  */
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { UniTagComponent } from './tag.component';
@@ -23,24 +22,25 @@ describe('UniTagComponent', () => {
     fixture.detectChanges();
   };
 
-  /** Emissions of the `close` output, in order. */
-  const closeEmissions = () => {
-    const seen: (string | number)[] = [];
-    fixture.componentInstance.close.subscribe((v) => seen.push(v));
-    return seen;
-  };
-
-  const removeButton = () => host.querySelector('button')!;
+  const removeButton = () => host.querySelector<HTMLButtonElement>('button[uni-icon-button]');
+  const bodyButton = () => host.querySelector<HTMLButtonElement>('button:not([uni-icon-button])');
 
   /**
    * What a screen reader announces: text content minus `aria-hidden` parts.
    * The icon ligature (`uni-symbol` renders the literal text "close") sits
-   * inside the button and must stay out of the announced name.
+   * inside the button and must stay out of the announced name — and v2's lead
+   * slot adds avatars and dots that must stay out of it too.
    */
-  const accessibleName = (el: HTMLElement) => {
+  const accessibleName = (el: Element) => {
     const clone = el.cloneNode(true) as HTMLElement;
     clone.querySelectorAll('[aria-hidden="true"]').forEach((node) => node.remove());
     return (clone.textContent ?? '').replace(/\s+/g, ' ').trim();
+  };
+
+  const emissions = (output: 'removed' | 'activated') => {
+    const seen: unknown[] = [];
+    fixture.componentInstance[output].subscribe((v) => seen.push(v));
+    return seen;
   };
 
   beforeEach(async () => {
@@ -54,90 +54,183 @@ describe('UniTagComponent', () => {
     expect(fixture.componentInstance).toBeTruthy();
   });
 
-  describe('contract v2 should preserve', () => {
-    it('renders the label', () => {
-      setInputs({ label: 'Design', value: 'design' });
+  describe('as a static chip', () => {
+    it('renders the label as plain text, with no widget semantics', () => {
+      setInputs({ label: 'Design' });
+
       expect(host.textContent).toContain('Design');
+      // A static tag is content, not a control: no role, no tab stop.
+      expect(host.getAttribute('role')).toBeNull();
+      expect(host.getAttribute('tabindex')).toBeNull();
+      expect(bodyButton()).toBeNull();
     });
 
-    it('offers a remove control with an accessible name naming the tag', () => {
-      setInputs({ label: 'Design', value: 'design' });
-      const button = removeButton();
-
-      expect(button).not.toBeNull();
-      // uni-icon-button renders projected text into a visually hidden span,
-      // so the icon-only control is still announced — and the decorative
-      // ligature is excluded because uni-symbol is aria-hidden.
-      expect(accessibleName(button)).toBe('Remove Design');
+    it('FIXED: ships no remove control unless asked — removal is opt-in', () => {
+      setInputs({ label: 'Category' });
+      expect(removeButton()).toBeNull();
     });
 
-    it('emits the value when the remove control is clicked', () => {
-      const emitted = closeEmissions();
-      setInputs({ label: 'Design', value: 'design' });
+    it('carries the tone class the theme keys its nested rules on', () => {
+      setInputs({ label: 'Design' });
+      expect(host.className).toContain('tone-soft');
 
-      removeButton().click();
-
-      expect(emitted).toEqual(['design']);
-    });
-
-    it('emits numbers as numbers, not stringified', () => {
-      const emitted = closeEmissions();
-      setInputs({ label: 'Answer', value: 42 });
-
-      removeButton().click();
-
-      expect(emitted).toEqual([42]);
-      expect(typeof emitted[0]).toBe('number');
-    });
-
-    it('emits once per click', () => {
-      const emitted = closeEmissions();
-      setInputs({ label: 'Design', value: 'design' });
-
-      removeButton().click();
-      removeButton().click();
-
-      expect(emitted).toEqual(['design', 'design']);
+      setInputs({ tone: 'outline' });
+      expect(host.className).toContain('tone-outline');
+      expect(host.className).not.toContain('tone-soft');
     });
   });
 
-  /**
-   * Behaviour that is wrong today and that the v2 rewrite is expected to
-   * change. These exist so the rewrite is a deliberate decision rather than an
-   * accident: when v2 lands, each of these should fail and be rewritten as the
-   * corrected expectation.
-   */
-  describe('known v1 defects (SPEC.md "What is wrong with v1")', () => {
-    it('DEFECT: a falsy value cannot be removed — the guard drops the emission', () => {
-      const emitted = closeEmissions();
+  describe('removal', () => {
+    beforeEach(() => setInputs({ label: 'Design', value: 'design', removable: true }));
 
-      setInputs({ label: 'Empty string', value: '' });
-      removeButton().click();
-
-      setInputs({ label: 'Zero', value: 0 });
-      removeButton().click();
-
-      // `handleClose` guards with `if (v)`, so a tag keyed by '' or 0 is
-      // undeletable. v2 must emit for any defined value.
-      expect(emitted).toEqual([]);
+    it('names the remove control after the tag', () => {
+      expect(accessibleName(removeButton()!)).toBe('Remove Design');
     });
 
-    it('DEFECT: the remove button is unconditional, so display-only tags ship a dead control', () => {
-      // The docs call tags "display-only chips", yet every tag puts a
-      // "Remove …" button in the a11y tree — and with no value it cannot even
-      // do anything. v2 makes removal opt-in; not emitting without a value is
-      // the one correct half of this behaviour and should survive.
-      const emitted = closeEmissions();
-      setInputs({ label: 'Category' });
-
-      expect(removeButton()).not.toBeNull();
-      removeButton().click();
-      expect(emitted).toEqual([]);
+    it('lets removeLabel override the accessible name', () => {
+      setInputs({ removeLabel: 'Dismiss the design filter' });
+      expect(accessibleName(removeButton()!)).toBe('Dismiss the design filter');
     });
 
-    it('DEFECT: with no label the remove button is announced as a dangling "Remove"', () => {
-      setInputs({ value: 'x' });
-      expect(accessibleName(removeButton())).toBe('Remove');
+    it('emits the value on click', () => {
+      const removed = emissions('removed');
+      removeButton()!.click();
+      expect(removed).toEqual(['design']);
+    });
+
+    it('emits numbers as numbers, not stringified', () => {
+      const removed = emissions('removed');
+      setInputs({ value: 42 });
+
+      removeButton()!.click();
+
+      expect(removed).toEqual([42]);
+      expect(typeof removed[0]).toBe('number');
+    });
+
+    it('FIXED: a falsy value is removable — v1 dropped these emissions', () => {
+      const removed = emissions('removed');
+
+      setInputs({ value: '' });
+      removeButton()!.click();
+
+      setInputs({ value: 0 });
+      removeButton()!.click();
+
+      expect(removed).toEqual(['', 0]);
+    });
+
+    it('still emits (as undefined) when the tag carries no value', () => {
+      const removed = emissions('removed');
+      setInputs({ value: undefined });
+
+      removeButton()!.click();
+
+      expect(removed).toEqual([undefined]);
+    });
+  });
+
+  describe('as an interactive chip', () => {
+    beforeEach(() => setInputs({ label: 'Design', value: 'design', interactive: true }));
+
+    it('makes the body a real button carrying the pressed state', () => {
+      const body = bodyButton();
+      expect(body).not.toBeNull();
+      expect(body!.getAttribute('type')).toBe('button');
+      expect(body!.getAttribute('aria-pressed')).toBe('false');
+
+      setInputs({ selected: true });
+      expect(bodyButton()!.getAttribute('aria-pressed')).toBe('true');
+    });
+
+    it('emits activated with the value', () => {
+      const activated = emissions('activated');
+      bodyButton()!.click();
+      expect(activated).toEqual(['design']);
+    });
+
+    it('keeps the remove control a sibling, never nested inside the body', () => {
+      setInputs({ removable: true });
+
+      // Nesting would be invalid HTML and would make the inner control
+      // unreachable for keyboard users.
+      expect(bodyButton()!.querySelector('button')).toBeNull();
+      expect(removeButton()!.closest('button')).toBe(removeButton());
+    });
+  });
+
+  describe('when disabled', () => {
+    beforeEach(() =>
+      setInputs({ label: 'Locked', value: 'locked', removable: true, interactive: true, disabled: true })
+    );
+
+    it('disables both controls', () => {
+      expect(bodyButton()!.disabled).toBe(true);
+      expect(removeButton()!.disabled).toBe(true);
+    });
+
+    it('emits nothing even if a click is dispatched', () => {
+      const removed = emissions('removed');
+      const activated = emissions('activated');
+
+      removeButton()!.click();
+      bodyButton()!.click();
+
+      expect(removed).toEqual([]);
+      expect(activated).toEqual([]);
+    });
+  });
+
+  describe('invalid state', () => {
+    it('exposes aria-invalid and does not rely on colour alone', () => {
+      setInputs({ label: 'nope@@x' });
+      const restingClass = host.className;
+
+      setInputs({ invalid: true });
+
+      expect(host.getAttribute('aria-invalid')).toBe('true');
+      // Styling actually changes — not just the ARIA attribute.
+      expect(host.className).not.toBe(restingClass);
+      // WCAG 1.4.1: the dashed underline carries "malformed" without colour.
+      const allStyles = Array.from(document.querySelectorAll('style'))
+        .map((style) => style.textContent ?? '')
+        .join('');
+      expect(allStyles).toContain('underline dashed');
+    });
+
+    it('is absent by default', () => {
+      setInputs({ label: 'fine' });
+      expect(host.getAttribute('aria-invalid')).toBeNull();
+    });
+  });
+
+  describe('lead slot', () => {
+    it('renders an avatar image when given a source', () => {
+      setInputs({ label: 'Alice Chen', avatarSrc: 'alice.png' });
+      const img = host.querySelector('img');
+
+      expect(img?.getAttribute('src')).toBe('alice.png');
+      // Decorative: the chip's own text is the accessible name.
+      expect(img?.getAttribute('alt')).toBe('');
+      expect(accessibleName(host)).toBe('Alice Chen');
+    });
+
+    it('falls back to initials from avatarName', () => {
+      setInputs({ label: 'Alice Chen', avatarName: 'Alice Chen' });
+
+      expect(host.textContent).toContain('AC');
+      // Initials are decorative too — they must not pollute the name.
+      expect(accessibleName(host)).toBe('Alice Chen');
+    });
+
+    it('shows the selected symbol ahead of other lead content', () => {
+      setInputs({ label: 'Design', avatarName: 'Alice Chen', selected: true });
+      expect(host.textContent).toContain('check');
+    });
+
+    it('renders a status dot without announcing it', () => {
+      setInputs({ label: 'Live', dot: true });
+      expect(accessibleName(host)).toBe('Live');
     });
   });
 });
