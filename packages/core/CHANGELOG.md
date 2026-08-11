@@ -1,5 +1,171 @@
 # @uni-design-system/uni-core
 
+## 8.0.0
+
+### Minor Changes
+
+- [`3279186`](https://github.com/uni-design-system/uni/commit/3279186e2cee806056cfb446699ab108d30fb608) Thanks [@gaenglish](https://github.com/gaenglish)! - Menu items no longer look preselected when opened with the mouse
+
+  Opening a `uni-menu` by click left the first item highlighted before the
+  pointer had touched it, reading as a preselected default. Two correct
+  behaviours combined badly: `onOpened()` implements ARIA roving focus by calling
+  `.focus()` on an item every open, and the item styles deliberately painted
+  `:focus` the same as `:hover`. Nothing was wrong with the focus itself — only
+  with painting it after a pointer open.
+  - **The highlight now keys on `:focus-visible`.** Programmatic focus following a
+    click doesn't match it, while keyboard-driven focus does — so mouse users get
+    no phantom highlight, and keyboard users keep the focus cursor. Roving-focus
+    bookkeeping is untouched: a mouse open still moves focus to the first item, so
+    screen readers announce it exactly as before.
+  - **New `HOVER_OR_KEYBOARD_FOCUS` constant exported from uni-core**, holding
+    that selector. Emotion merges styles by _exact selector text_, so a component's
+    base rule and any theme variant restyling it have to agree character for
+    character — a variant keyed `'&:hover, &:focus'` would both fail to override
+    and reintroduce the phantom highlight. Naming the selector once removes the
+    trap; the base theme's `menuItem.warn` tone and the Carbon/Wellsourced
+    showcase themes now use it.
+
+  Themes with their own `menuItem` variants should key the highlight with
+  `HOVER_OR_KEYBOARD_FOCUS`. Note that `:focus-visible` is a browser heuristic:
+  after a user has been navigating by keyboard, a subsequent click may still show
+  the highlight, which is the intended "this person is using the keyboard"
+  behaviour rather than a regression.
+
+- [`de83fe4`](https://github.com/uni-design-system/uni/commit/de83fe497a2f48569a7c49eea2e7ca640d931254) Thanks [@gaenglish](https://github.com/gaenglish)! - New `uni-tag-input`, plus a shared listbox contract in the CDK
+
+  The type-to-add chip field — recipients, filters, labels. It is the **open-set**
+  control: anything typed can become a token, whether or not it matches a
+  suggestion. Closed-set picking stays with `uni-select` /
+  `uni-multi-select-dropdown`, which is the deliberate split — the two look alike
+  but differ on the one thing that decides the value type, so a single component
+  would force one of them to carry an API it can never use.
+  - **`FormValueControl<UniTagItem[]>`.** `{ value: 'a@b.com' }` is a complete
+    item; `label`, `avatarSrc`, `invalid` and `disabled` are optional enrichment.
+  - **Invalid entries stay in the value, flagged**, rather than being dropped — a
+    field that silently swallows a typo'd address is worse than one that shows it
+    in red, and Enter on the chip lifts it back into the input to fix. Duplicates
+    and over-`max` entries are refused through `(rejected)` with a reason.
+  - **Full keyboard contract**: separators commit, Tab commits without trapping,
+    Backspace on an empty field _focuses_ the last chip rather than deleting it
+    blind, and on a chip Backspace and Delete both remove but move focus in
+    opposite directions — what makes pruning a list feel right.
+  - **The whole field is one tab stop.** Chips carry `tabindex="-1"`, so Tab never
+    walks through eight recipients to reach the next control.
+  - **Announces through a `role="status"` live region** on every add, remove and
+    rejection; the removal route is described once per field rather than by every
+    chip.
+  - **`preset="email"`** wires an address validator, a paste parser that unwraps
+    `Name <a@b.com>` and keeps an unterminated tail in the field, and Space as a
+    separator.
+  - **`'tagInput'` joins core's `ComponentName`** with a theme entry for the chip
+    field's own tokens. Field chrome is not duplicated — it comes from `input` via
+    `uni-input-box`, so a tag input restyles with every other field.
+
+  **Also in this release**
+  - **`ListboxNavigation` in the CDK** (`createListboxNavigation`) owns the
+    combobox bookkeeping every type-ahead control needs: open state, active
+    option, wrap-around arithmetic, Home/End, and `aria-activedescendant` wiring
+    that can never point at an option a narrowing filter has removed.
+    `uni-search-input` now uses it — behaviour unchanged, and it gains Home/End
+    for free — and the multi-select combobox upgrade will too. Three hand-rolled
+    copies of one keyboard contract is how they drift.
+  - **`uni-tag` gains `controlTabIndex`**, so a composite that owns its own roving
+    focus can take its chips out of the tab order, and **`selected` is now
+    optional**: an interactive chip carries `aria-pressed` only when it is
+    genuinely a toggle. Announcing "not pressed" on a recipient chip is worse than
+    announcing nothing.
+
+- [`760b761`](https://github.com/uni-design-system/uni/commit/760b761ad77533e7e01f7a56731f74e470bbd948) Thanks [@gaenglish](https://github.com/gaenglish)! - `uni-tag` v2: themable, opt-in removal, two style axes
+
+  v1 was a single hardcoded look with the palette welded into its template, an
+  unconditional remove button, and no theme entry — a filter chip, a status pill
+  and a recipient token all rendered identically. v2 makes the chip a real themed
+  component and the building block `uni-tag-input` composes.
+
+  **Breaking (uni-angular)**
+  - **`(close)` is now `(removed)`.** The old name shadowed the native `close`
+    event and needed an eslint suppression to compile.
+  - **The remove button is opt-in** — set `[removable]="true"`. Previously every
+    tag, including a plain category label, shipped a "Remove …" button into the
+    accessibility tree.
+  - Codemod: rename `(close)` → `(removed)` and add `[removable]="true"` wherever
+    a `(close)` handler exists.
+
+  **Fixed**
+  - **A falsy value can now be removed.** `handleClose` guarded with `if (v)`, so
+    a tag keyed `''` or `0` silently could not be dismissed. Every defined value
+    emits, and a tag with no value emits `undefined`.
+  - The remove control now sizes from the chip instead of the icon-button's own
+    `sm` size — it was 22px inside a 24px chip, and taller than an `sm` chip
+    entirely.
+
+  **New**
+  - **Two orthogonal style axes**: `variant` picks the colour role, `tone` picks
+    the archetype (`soft` / `solid` / `outline`). Both resolve from the new `tag`
+    theme entry, with tones as nested `&.tone-*` selectors inside each variant so
+    a theme author restyles both axes in one place.
+  - **`'tag'` joins core's `ComponentName`**, with a `TagTone` type and a full
+    theme entry (`options` for radius/typeface/gap/symbols, `variants` per colour
+    role, `sizes` carrying geometry only).
+  - **`interactive`** turns the chip body into a `<button>` with `selected` mapped
+    to `aria-pressed`, keeping the remove control a sibling — nesting them would
+    be invalid HTML and would strand the inner control for keyboard users.
+  - **Lead slot**: `avatarSrc`, `avatarName` (initials fallback), `iconName`,
+    `symbolName` and `dot` convenience inputs, plus a `[tag-lead]` slot for
+    anything richer. Lead elements size from the chip height, and all are
+    `aria-hidden` so the chip's text stays its accessible name.
+  - **Glyphs are theme icon primitives, not Material ligatures.** The remove and
+    selected affordances resolve through the new `removeIcon` / `selectedIcon`
+    theme options (defaulting to the built-in `close` and `check`), so they mask
+    `currentColor`, recolour with the chip's tone, and can be swapped per theme.
+    They also contribute no text to the DOM, which a ligature does — one less way
+    for an accessible name to be polluted. `symbolName` remains as the escape
+    hatch for glyphs the theme's icon set doesn't carry.
+  - **`invalid`** sets `aria-invalid` and a dashed underline, so the state does
+    not rely on colour alone (WCAG 1.4.1); `disabled`, `maxWidth` truncation with
+    a `title`, and `removeLabel` for overriding the remove button's name.
+  - The component ships with 21 specs, having previously had none.
+
+- [`6a4c7da`](https://github.com/uni-design-system/uni/commit/6a4c7da4c7c3f5758d8c66d1be714319c983e39e) Thanks [@gaenglish](https://github.com/gaenglish)! - Theme validation contract: `parseTheme` / `assertTheme` / `isUniTheme`
+
+  Every theme scale is `Partial<Record<…>>`, so a malformed theme — hand
+  written, generated, or fetched as JSON — rendered as silent `undefined` CSS
+  with no diagnosis. Core now ships a **dependency-free** structural validator
+  (core stays zero-dep; no zod outside the MCP):
+  - **`parseTheme(input): ThemeParseResult`** collects every issue rather than
+    failing fast: `{ success, theme?, issues: [{ path, message }] }` with dotted
+    paths like `colors.primary` or `typography.label.fontSize`. Acceptance /
+    rejection **with reasons** is the API.
+  - **`assertTheme(input)`** throws with all reasons; **`isUniTheme`** is the
+    type-guard form; **`formatThemeIssues`** renders issues for logs.
+  - The contract requires what components can't render without: 16
+    `REQUIRED_COLOR_TOKENS`, all 22 canonical `REQUIRED_TEXT_ROLES` (with
+    `fontFamily`/`fontSize`/`lineHeight`), the spacing/radii/shadow/thickness
+    scale keys, and recursively-valid component style expressions. All
+    `REQUIRED_*` sets are exported for tooling (MCP, docs, registries). Themes
+    remain free to add arbitrary named primitives on every scale.
+  - Because a `UniTheme` is plain serializable data, the same contract
+    validates JSON round-trips — the foundation for theme distribution and
+    runtime theme registries (ROADMAP Track 1).
+
+- [`5414517`](https://github.com/uni-design-system/uni/commit/5414517d52d17943a4730752ab5d90c304c37062) Thanks [@gaenglish](https://github.com/gaenglish)! - A wire format for themes: `hydrateTheme` / `dehydrateTheme`
+
+  A `UniTheme` is plain serializable data, which makes JSON the natural transport
+  for distributing themes — but a serialized theme is ~50 KB and **~71% of that is
+  the 61 built-in icon data URIs that every uni-core consumer already ships**.
+  - **`dehydrateTheme(theme)`** returns the wire form: icons identical to
+    `BaseIcons` are dropped, genuine overrides kept. A theme goes from ~50 KB to
+    ~14 KB, and still passes `parseTheme`.
+  - **`hydrateTheme(theme)`** restores the built-in set on the way in, applying
+    the same `{...BaseIcons, ...icons}` contract `createTheme` applies at
+    construction — the theme's own icons win, built-ins fill the rest.
+  - **`generateUniThemes` now returns the `ContrastReport`** alongside the
+    light/dark pair, so a caller can generate registration-ready themes and their
+    WCAG audit in one call instead of falling back to `emitThemeFile` (which
+    returns TypeScript source) just to see the report.
+  - **`summarizeContrast(report)`** is extracted and exported, so the generated
+    theme file's header and every other consumer word the audit identically.
+
 ## 7.3.0
 
 ### Minor Changes
