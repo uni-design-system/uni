@@ -1,5 +1,219 @@
 # @uni-design-system/uni-angular
 
+## 8.0.0
+
+### Major Changes
+
+- [`760b761`](https://github.com/uni-design-system/uni/commit/760b761ad77533e7e01f7a56731f74e470bbd948) Thanks [@gaenglish](https://github.com/gaenglish)! - `uni-tag` v2: themable, opt-in removal, two style axes
+
+  v1 was a single hardcoded look with the palette welded into its template, an
+  unconditional remove button, and no theme entry — a filter chip, a status pill
+  and a recipient token all rendered identically. v2 makes the chip a real themed
+  component and the building block `uni-tag-input` composes.
+
+  **Breaking (uni-angular)**
+  - **`(close)` is now `(removed)`.** The old name shadowed the native `close`
+    event and needed an eslint suppression to compile.
+  - **The remove button is opt-in** — set `[removable]="true"`. Previously every
+    tag, including a plain category label, shipped a "Remove …" button into the
+    accessibility tree.
+  - Codemod: rename `(close)` → `(removed)` and add `[removable]="true"` wherever
+    a `(close)` handler exists.
+
+  **Fixed**
+  - **A falsy value can now be removed.** `handleClose` guarded with `if (v)`, so
+    a tag keyed `''` or `0` silently could not be dismissed. Every defined value
+    emits, and a tag with no value emits `undefined`.
+  - The remove control now sizes from the chip instead of the icon-button's own
+    `sm` size — it was 22px inside a 24px chip, and taller than an `sm` chip
+    entirely.
+
+  **New**
+  - **Two orthogonal style axes**: `variant` picks the colour role, `tone` picks
+    the archetype (`soft` / `solid` / `outline`). Both resolve from the new `tag`
+    theme entry, with tones as nested `&.tone-*` selectors inside each variant so
+    a theme author restyles both axes in one place.
+  - **`'tag'` joins core's `ComponentName`**, with a `TagTone` type and a full
+    theme entry (`options` for radius/typeface/gap/symbols, `variants` per colour
+    role, `sizes` carrying geometry only).
+  - **`interactive`** turns the chip body into a `<button>` with `selected` mapped
+    to `aria-pressed`, keeping the remove control a sibling — nesting them would
+    be invalid HTML and would strand the inner control for keyboard users.
+  - **Lead slot**: `avatarSrc`, `avatarName` (initials fallback), `iconName`,
+    `symbolName` and `dot` convenience inputs, plus a `[tag-lead]` slot for
+    anything richer. Lead elements size from the chip height, and all are
+    `aria-hidden` so the chip's text stays its accessible name.
+  - **Glyphs are theme icon primitives, not Material ligatures.** The remove and
+    selected affordances resolve through the new `removeIcon` / `selectedIcon`
+    theme options (defaulting to the built-in `close` and `check`), so they mask
+    `currentColor`, recolour with the chip's tone, and can be swapped per theme.
+    They also contribute no text to the DOM, which a ligature does — one less way
+    for an accessible name to be polluted. `symbolName` remains as the escape
+    hatch for glyphs the theme's icon set doesn't carry.
+  - **`invalid`** sets `aria-invalid` and a dashed underline, so the state does
+    not rely on colour alone (WCAG 1.4.1); `disabled`, `maxWidth` truncation with
+    a `title`, and `removeLabel` for overriding the remove button's name.
+  - The component ships with 21 specs, having previously had none.
+
+- [`6a4c7da`](https://github.com/uni-design-system/uni/commit/6a4c7da4c7c3f5758d8c66d1be714319c983e39e) Thanks [@gaenglish](https://github.com/gaenglish)! - `ThemeService`: validated writes, runtime theme registration, live options
+
+  The theme registry was bootstrap-frozen and nothing validated theme writes —
+  and a brand theme applied via `applyPalette` never appeared in
+  `uni-theme-switch`, leaving the select on a bogus value with no way back.
+
+  **Breaking**
+  - `ThemeService.theme` is now a **readonly signal**. Direct `theme.set(...)`
+    calls (already discouraged in the docs) must move to `setTheme(input)`,
+    which validates and returns `ThemeParseResult` — acceptance or the complete
+    list of rejection reasons — leaving the active theme untouched on rejection.
+  - `selectTheme(name)` now returns `boolean` and, for an unknown name, **does
+    nothing** — previously it silently kept the old theme while still recording
+    the bad key in `selectedThemeKey` and localStorage.
+  - `themeOptions` is now a `computed` (was a once-written writable signal).
+
+  **New**
+  - **`registerTheme(input, { select? })`** validates and adds a theme to the
+    live registry — it appears in `themeOptions`/`uni-theme-switch` immediately.
+    **`unregisterTheme(id)`** removes it, falling back to the first remaining
+    theme when it was active. Themes injected via `UNI_THEMES` are validated at
+    startup; malformed entries are excluded with a console warning listing every
+    reason.
+  - **`applyPalette` registers the generated theme under `CustomTheme`**, so
+    "Your Brand" is an ordinary, selectable option: it shows in the switcher,
+    survives switching away and back, and `clearCustomPalette` unregisters it.
+  - **`uni-select` fix:** a selection pointing at an option added in the same
+    change-detection pass now applies (per-option `[selected]` binding; the
+    select-level `[value]` write landed before new options existed and was
+    ignored by the browser) — any consumer with a growing options list was
+    affected.
+
+### Minor Changes
+
+- [`970c36d`](https://github.com/uni-design-system/uni/commit/970c36d3d2f57e3cc2ad18fc1b5498eb382c45d4) Thanks [@gaenglish](https://github.com/gaenglish)! - `uni-multi-select-dropdown`: a real accessible name, keyboard navigation, debounced filtering — and its first specs
+
+  This was the weakest component in the library on exactly the axes the roadmap's
+  combobox item names, and it had **no spec file at all**, which is why the
+  missing accessible name survived since it was written.
+  - **New `label` input, and the trigger finally names the field.** Its
+    accessible name now reads "Fruits, 2 selected, Apple, Cherry". Previously it
+    announced only the current selection — a screen reader user heard
+    "Option 1, Option 3" with no way to tell which field it belonged to. The
+    selection count comes along, so "how many did I pick" is not left to counting
+    commas.
+  - **Arrow keys, Home and End walk the options** from anywhere in the panel,
+    including the filter box. Reaching the last of thirty options previously
+    meant thirty `Tab` presses. Wrapping and the index arithmetic come from the
+    CDK's shared `ListboxNavigation`, so the keys behave exactly as they do in
+    `uni-search-input` and `uni-tag-input`.
+  - **The filter is debounced** (new `debounceTime`, default 200ms) instead of
+    re-filtering on every keystroke — the open item in TODO.md.
+  - **An empty filter result says so** through `role="status"`, rather than
+    leaving the panel blank.
+  - **The options are grouped** as a `role="group"` labelled from `label`.
+  - **20 specs**, covering the accessible name, selection and toggling, disabled
+    behaviour, filtering and debounce, keyboard navigation, and the form-control
+    contract.
+
+  **A deliberate non-change:** the options stay real checkboxes rather than
+  becoming a multi-selectable `listbox`. APG notes that multi-select listboxes are
+  handled inconsistently across screen readers and suggests a checkbox group
+  instead, and real checkboxes keep each option's state announced natively — so
+  converting would have traded a well-supported pattern for a fashionable one,
+  and duplicated the checkbox's animated visual into this component where it
+  would drift.
+
+- [`de83fe4`](https://github.com/uni-design-system/uni/commit/de83fe497a2f48569a7c49eea2e7ca640d931254) Thanks [@gaenglish](https://github.com/gaenglish)! - New `uni-tag-input`, plus a shared listbox contract in the CDK
+
+  The type-to-add chip field — recipients, filters, labels. It is the **open-set**
+  control: anything typed can become a token, whether or not it matches a
+  suggestion. Closed-set picking stays with `uni-select` /
+  `uni-multi-select-dropdown`, which is the deliberate split — the two look alike
+  but differ on the one thing that decides the value type, so a single component
+  would force one of them to carry an API it can never use.
+  - **`FormValueControl<UniTagItem[]>`.** `{ value: 'a@b.com' }` is a complete
+    item; `label`, `avatarSrc`, `invalid` and `disabled` are optional enrichment.
+  - **Invalid entries stay in the value, flagged**, rather than being dropped — a
+    field that silently swallows a typo'd address is worse than one that shows it
+    in red, and Enter on the chip lifts it back into the input to fix. Duplicates
+    and over-`max` entries are refused through `(rejected)` with a reason.
+  - **Full keyboard contract**: separators commit, Tab commits without trapping,
+    Backspace on an empty field _focuses_ the last chip rather than deleting it
+    blind, and on a chip Backspace and Delete both remove but move focus in
+    opposite directions — what makes pruning a list feel right.
+  - **The whole field is one tab stop.** Chips carry `tabindex="-1"`, so Tab never
+    walks through eight recipients to reach the next control.
+  - **Announces through a `role="status"` live region** on every add, remove and
+    rejection; the removal route is described once per field rather than by every
+    chip.
+  - **`preset="email"`** wires an address validator, a paste parser that unwraps
+    `Name <a@b.com>` and keeps an unterminated tail in the field, and Space as a
+    separator.
+  - **`'tagInput'` joins core's `ComponentName`** with a theme entry for the chip
+    field's own tokens. Field chrome is not duplicated — it comes from `input` via
+    `uni-input-box`, so a tag input restyles with every other field.
+
+  **Also in this release**
+  - **`ListboxNavigation` in the CDK** (`createListboxNavigation`) owns the
+    combobox bookkeeping every type-ahead control needs: open state, active
+    option, wrap-around arithmetic, Home/End, and `aria-activedescendant` wiring
+    that can never point at an option a narrowing filter has removed.
+    `uni-search-input` now uses it — behaviour unchanged, and it gains Home/End
+    for free — and the multi-select combobox upgrade will too. Three hand-rolled
+    copies of one keyboard contract is how they drift.
+  - **`uni-tag` gains `controlTabIndex`**, so a composite that owns its own roving
+    focus can take its chips out of the tab order, and **`selected` is now
+    optional**: an interactive chip carries `aria-pressed` only when it is
+    genuinely a toggle. Announcing "not pressed" on a recipient chip is worse than
+    announcing nothing.
+
+- [`5414517`](https://github.com/uni-design-system/uni/commit/5414517d52d17943a4730752ab5d90c304c37062) Thanks [@gaenglish](https://github.com/gaenglish)! - Themes registered from JSON get the built-in icons back
+
+  `registerTheme` and `setTheme` now hydrate a theme's icons on the way in: the
+  built-in set is merged _under_ whatever icons the payload carries, so the
+  theme's own icons still win.
+
+  This is what makes a theme fetched as JSON usable. Transports elide `BaseIcons`
+  — roughly 71% of a serialized theme, and bytes the consumer already ships — so
+  without hydration a fetched theme would validate cleanly and then render no
+  icons at all. The rule is the same one `createTheme` already applies at
+  construction (`{...BaseIcons, ...icons}`), so a theme behaves identically
+  whether it was built in-process or arrived over the wire.
+
+  Themes provided through `UNI_THEMES` are unaffected: they already carry the full
+  set, so hydration is a no-op.
+
+### Patch Changes
+
+- [`3279186`](https://github.com/uni-design-system/uni/commit/3279186e2cee806056cfb446699ab108d30fb608) Thanks [@gaenglish](https://github.com/gaenglish)! - Menu items no longer look preselected when opened with the mouse
+
+  Opening a `uni-menu` by click left the first item highlighted before the
+  pointer had touched it, reading as a preselected default. Two correct
+  behaviours combined badly: `onOpened()` implements ARIA roving focus by calling
+  `.focus()` on an item every open, and the item styles deliberately painted
+  `:focus` the same as `:hover`. Nothing was wrong with the focus itself — only
+  with painting it after a pointer open.
+  - **The highlight now keys on `:focus-visible`.** Programmatic focus following a
+    click doesn't match it, while keyboard-driven focus does — so mouse users get
+    no phantom highlight, and keyboard users keep the focus cursor. Roving-focus
+    bookkeeping is untouched: a mouse open still moves focus to the first item, so
+    screen readers announce it exactly as before.
+  - **New `HOVER_OR_KEYBOARD_FOCUS` constant exported from uni-core**, holding
+    that selector. Emotion merges styles by _exact selector text_, so a component's
+    base rule and any theme variant restyling it have to agree character for
+    character — a variant keyed `'&:hover, &:focus'` would both fail to override
+    and reintroduce the phantom highlight. Naming the selector once removes the
+    trap; the base theme's `menuItem.warn` tone and the Carbon/Wellsourced
+    showcase themes now use it.
+
+  Themes with their own `menuItem` variants should key the highlight with
+  `HOVER_OR_KEYBOARD_FOCUS`. Note that `:focus-visible` is a browser heuristic:
+  after a user has been navigating by keyboard, a subsequent click may still show
+  the highlight, which is the intended "this person is using the keyboard"
+  behaviour rather than a regression.
+
+- Updated dependencies [[`3279186`](https://github.com/uni-design-system/uni/commit/3279186e2cee806056cfb446699ab108d30fb608), [`de83fe4`](https://github.com/uni-design-system/uni/commit/de83fe497a2f48569a7c49eea2e7ca640d931254), [`760b761`](https://github.com/uni-design-system/uni/commit/760b761ad77533e7e01f7a56731f74e470bbd948), [`6a4c7da`](https://github.com/uni-design-system/uni/commit/6a4c7da4c7c3f5758d8c66d1be714319c983e39e), [`5414517`](https://github.com/uni-design-system/uni/commit/5414517d52d17943a4730752ab5d90c304c37062)]:
+  - @uni-design-system/uni-core@8.0.0
+
 ## 7.3.0
 
 ### Minor Changes
