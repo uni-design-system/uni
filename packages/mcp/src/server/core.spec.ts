@@ -6,6 +6,7 @@
 import { describe, expect, it } from 'vitest';
 import { Client } from '@modelcontextprotocol/sdk/client/index.js';
 import { InMemoryTransport } from '@modelcontextprotocol/sdk/inMemory.js';
+import { parseTheme } from '@uni-design-system/uni-core';
 import { createUniServer } from './core.js';
 
 async function connect() {
@@ -28,6 +29,47 @@ describe('createUniServer', () => {
 
     expect(names).toContain('create-icon-tokens');
     expect(names).toContain('generate-uni-theme');
+    expect(names).toContain('generate-runtime-theme');
+    expect(names).toContain('get-runtime-theme');
+    await client.close();
+  });
+
+  it('advertises an output schema on the runtime theme tools', async () => {
+    const client = await connect();
+    const { tools } = await client.listTools();
+
+    for (const name of ['generate-runtime-theme', 'get-runtime-theme']) {
+      const tool = tools.find((t) => t.name === name);
+      expect(tool?.outputSchema, name).toBeDefined();
+      expect(Object.keys(tool!.outputSchema!.properties ?? {}), name).toContain('themes');
+    }
+    await client.close();
+  });
+
+  it('delivers a registerable theme as structured content', async () => {
+    const client = await connect();
+    const result = (await client.callTool({
+      name: 'generate-runtime-theme',
+      arguments: { brand: '#0052FF', name: 'Acme', darkMode: false },
+    })) as { structuredContent?: { themes: { id: string; theme: unknown }[] } };
+
+    const themes = result.structuredContent?.themes ?? [];
+    expect(themes).toHaveLength(1);
+    expect(themes[0].id).toBe('AcmeLight');
+    // The promise of the tool: what arrives passes the consumer's validator.
+    expect(parseTheme(themes[0].theme).issues).toEqual([]);
+    await client.close();
+  });
+
+  it('surfaces an unknown theme id as a tool error', async () => {
+    const client = await connect();
+    const result = (await client.callTool({
+      name: 'get-runtime-theme',
+      arguments: { id: 'Nope' },
+    })) as { isError?: boolean };
+
+    expect(result.isError).toBe(true);
+    expect(textOf(result)).toContain('LightTheme');
     await client.close();
   });
 

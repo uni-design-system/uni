@@ -8,12 +8,88 @@ import { z } from 'zod';
 import * as store from './store.js';
 import { formatGeneratedTheme } from './generate.js';
 import { formatIconTokens } from './icons.js';
+import {
+  buildGeneratedTheme,
+  buildStoredTheme,
+  summarizeEnvelope,
+  type BuildResult,
+} from './theme-json.js';
 
 const FrameworkArg = z.enum(['angular', 'react']);
 
 /** `{ content: [text] }` — the shape every tool returns. */
 function text(body: string) {
   return { content: [{ type: 'text' as const, text: body }] };
+}
+
+/** Brand-seed inputs, shared by the file and runtime theme generators. */
+const ThemeGenerationInput = {
+  brand: z
+    .union([z.string(), z.array(z.string()).min(1).max(3)])
+    .describe('Brand hex color(s), e.g. "#0052FF". 2–3 colors map to primary/secondary/tertiary.'),
+  vibe: z
+    .enum(['jewel', 'pastel', 'earth', 'neutral', 'florescent'])
+    .optional()
+    .describe('Tonal character; defaults to a category inferred from the seed chroma.'),
+  scheme: z
+    .enum(['monochromatic', 'analogous', 'complimentary', 'splitComplimentary', 'triadic'])
+    .optional()
+    .describe('Hue-wheel relationship for generated roles; auto-classified for multi-color input.'),
+  name: z.string().optional().describe('Theme display name, defaults to "Brand".'),
+};
+
+/**
+ * Output contract for the runtime theme tools. The theme itself is typed as an
+ * opaque object on purpose: uni-core's `parseTheme` is the single source of
+ * truth for theme shape, and a zod mirror here would drift from it.
+ */
+const RuntimeThemeOutput = {
+  themes: z
+    .array(
+      z.object({
+        id: z.string(),
+        name: z.string(),
+        mode: z.enum(['light', 'dark']),
+        theme: z
+          .record(z.string(), z.unknown())
+          .describe('A validated UniTheme with the built-in icon set elided.'),
+      })
+    )
+    .describe('Registration-ready themes.'),
+  contrast: z
+    .object({
+      summary: z.string(),
+      pass: z.boolean(),
+      worstRatio: z.number(),
+      failing: z.array(
+        z.object({
+          mode: z.string(),
+          foreground: z.string(),
+          background: z.string(),
+          ratio: z.number(),
+          required: z.number(),
+        })
+      ),
+    })
+    .optional()
+    .describe('WCAG audit of the generated colors; absent for themes that ship with Uni.'),
+  apply: z
+    .object({ snippet: z.string(), note: z.string() })
+    .describe('How to register the theme, including the icon-hydration rule.'),
+  iconsElided: z.literal(true),
+};
+
+/**
+ * Structured results carry the payload; the text block is a short summary
+ * rather than a duplicate serialization (the spec's SHOULD), because repeating
+ * ~14 KB of theme JSON would double the cost of every call.
+ */
+function runtimeTheme(result: BuildResult) {
+  if (!result.ok) return { content: [{ type: 'text' as const, text: result.error }], isError: true };
+  return {
+    content: [{ type: 'text' as const, text: summarizeEnvelope(result.envelope) }],
+    structuredContent: result.envelope as unknown as Record<string, unknown>,
+  };
 }
 
 function notFound(kind: string, id: string) {
@@ -31,11 +107,13 @@ export function createUniServer(): McpServer {
         'recalling component APIs or token values from memory: names, props, and tokens ' +
         'here match the exact Uni release the developer installed. Start with ' +
         '`list-components` or `search`, then `get-component` / `get-component-examples`. ' +
-        'Use real token ids (via `list-tokens`) instead of raw hex; apply themes with ' +
-        '`get-theme-template` (style overrides go through Emotion, component options are props). ' +
-        'To brand an app, call `generate-uni-theme` once and write the returned static ' +
-        '`uni-theme.ts`; to change look and feel afterwards (colors, borders, per-component ' +
-        "styling), edit that file's tokens directly — shared tokens propagate everywhere. " +
+        'Use real token ids (via `list-tokens`) instead of raw hex. Theming has four tools, ' +
+        'split by what you need: to brand an app permanently, call `generate-uni-theme` once ' +
+        'and write the returned static `uni-theme.ts` — then change look and feel by editing ' +
+        "that file's tokens directly, since shared tokens propagate everywhere; to apply a " +
+        'theme immediately with no build step (previews, per-tenant theming, generated UI), ' +
+        'call `generate-runtime-theme` or `get-runtime-theme` and register the JSON they ' +
+        'return; to read a theme\'s token values without applying one, use `get-theme-template`. ' +
         'Never inline `<svg>` in a component: when you meet inline SVG, or a brand icon set ' +
         'to import, call `create-icon-tokens` to convert it into theme icon tokens, add them ' +
         'to `uni-theme.ts`, and render with `<uni-icon name="…" />`.',
@@ -184,30 +262,62 @@ export function createUniServer(): McpServer {
         'tokens (colors, named border primitives, sparse component overrides) — not calling ' +
         'this tool again. Never hardcode hex in components; reference theme tokens.',
       inputSchema: {
-        brand: z
-          .union([z.string(), z.array(z.string()).min(1).max(3)])
-          .describe(
-            'Brand hex color(s), e.g. "#0052FF". 2–3 colors map to primary/secondary/tertiary.'
-          ),
-        vibe: z
-          .enum(['jewel', 'pastel', 'earth', 'neutral', 'florescent'])
-          .optional()
-          .describe('Tonal character; defaults to a category inferred from the seed chroma.'),
-        scheme: z
-          .enum(['monochromatic', 'analogous', 'complimentary', 'splitComplimentary', 'triadic'])
-          .optional()
-          .describe(
-            'Hue-wheel relationship for generated roles; auto-classified for multi-color input.'
-          ),
+        ...ThemeGenerationInput,
         shape: z
           .enum(['sharp', 'modern', 'playful'])
           .optional()
           .describe('Shape language — emits a radii override into the file.'),
-        name: z.string().optional().describe('Theme display name, defaults to "Brand".'),
         darkMode: z.boolean().optional().describe('Emit the dark theme too. Defaults to true.'),
       },
     },
     async (args) => text(formatGeneratedTheme(args))
+  );
+
+  // -- generate-runtime-theme ------------------------------------------------
+  server.registerTool(
+    'generate-runtime-theme',
+    {
+      title: 'Generate a Uni brand theme as runtime JSON',
+      description:
+        'Generate a WCAG-AA light+dark Uni theme from brand hex color(s) and return it as ' +
+        'validated JSON data, ready to register live via `ThemeService.registerTheme(theme, ' +
+        '{ select: true })` — no file to write, no rebuild. Use this when a theme should apply ' +
+        'immediately (previewing a brand, per-tenant theming, generated UI). To brand an app ' +
+        'permanently, use `generate-uni-theme` instead: it returns an editable `uni-theme.ts` ' +
+        'that becomes the source of truth. The built-in icon set is elided from the payload and ' +
+        'restored on registration.',
+      inputSchema: {
+        ...ThemeGenerationInput,
+        shape: z
+          .enum(['sharp', 'modern', 'playful'])
+          .optional()
+          .describe('Shape language — sets the radii scale on the returned themes.'),
+        darkMode: z
+          .boolean()
+          .optional()
+          .describe('Include the dark theme too. Defaults to true.'),
+      },
+      outputSchema: RuntimeThemeOutput,
+    },
+    async (args) => runtimeTheme(buildGeneratedTheme(args))
+  );
+
+  // -- get-runtime-theme -----------------------------------------------------
+  server.registerTool(
+    'get-runtime-theme',
+    {
+      title: 'Get a built-in Uni theme as runtime JSON',
+      description:
+        'A theme that ships with Uni, as a complete validated `UniTheme` ready to register at ' +
+        'runtime. Differs from `get-theme-template`, which returns a flat read-only projection ' +
+        'of token values for inspection — this returns the real theme object. The built-in icon ' +
+        'set is elided from the payload and restored on registration.',
+      inputSchema: {
+        id: z.string().describe('Theme id, e.g. "LightTheme" or "DarkTheme".'),
+      },
+      outputSchema: RuntimeThemeOutput,
+    },
+    async ({ id }) => runtimeTheme(buildStoredTheme(id))
   );
 
   // -- create-icon-tokens ----------------------------------------------------

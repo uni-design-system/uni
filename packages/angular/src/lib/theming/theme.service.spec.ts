@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { DarkTheme, LightTheme } from '@uni-design-system/uni-core';
+import { BaseIcons, DarkTheme, dehydrateTheme, LightTheme } from '@uni-design-system/uni-core';
 
 import { ThemeService } from './theme.service';
 import { UNI_THEMES } from './theme.token';
@@ -103,6 +103,41 @@ describe('ThemeService', () => {
       expect(service.themeOptions().map((option) => option.value)).not.toContain('Custom');
       expect(service.selectedThemeKey()).toBe('LightTheme');
       expect(service.theme().id).toBe(LightTheme.id);
+    });
+  });
+
+  describe('themes that arrive as JSON', () => {
+    /** The wire form the MCP tools and theme registry serve. */
+    const wire = () =>
+      JSON.parse(JSON.stringify(dehydrateTheme({ ...LightTheme, id: 'Wire', name: 'Wire' })));
+
+    it('restores the built-in icons a JSON payload elided', () => {
+      const service = setup();
+      const payload = wire();
+      expect(payload.icons).toEqual({});
+
+      const result = service.registerTheme(payload, { select: true });
+
+      expect(result.success).toBe(true);
+      expect(Object.keys(service.theme().icons)).toHaveLength(Object.keys(BaseIcons).length);
+      expect(service.theme().icons).toEqual(LightTheme.icons);
+    });
+
+    it("keeps the payload's own icons over the built-ins", () => {
+      const service = setup();
+      const [firstName] = Object.keys(BaseIcons);
+      const payload = { ...wire(), icons: { [firstName]: 'data:image/svg+xml,mine' } };
+
+      service.registerTheme(payload, { select: true });
+
+      expect(service.theme().icons[firstName]).toBe('data:image/svg+xml,mine');
+      expect(Object.keys(service.theme().icons)).toHaveLength(Object.keys(BaseIcons).length);
+    });
+
+    it('hydrates through setTheme too', () => {
+      const service = setup();
+      service.setTheme(wire());
+      expect(Object.keys(service.theme().icons)).toHaveLength(Object.keys(BaseIcons).length);
     });
   });
 

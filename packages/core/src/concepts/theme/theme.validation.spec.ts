@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 
-import { BaseTheme, createTheme } from './themes/base.theme';
+import { BaseIcons } from '../iconography/icon.records';
+import { BaseTheme, createTheme, dehydrateTheme, hydrateTheme } from './themes/base.theme';
 import { DarkTheme } from './themes/dark.theme';
 import { LightTheme } from './themes/light.theme';
 import {
@@ -135,6 +136,41 @@ describe('assertTheme / isUniTheme', () => {
   it('isUniTheme narrows', () => {
     expect(isUniTheme(LightTheme)).toBe(true);
     expect(isUniTheme({})).toBe(false);
+  });
+});
+
+describe('hydrateTheme / dehydrateTheme (the wire format)', () => {
+  const iconCount = Object.keys(BaseIcons).length;
+
+  it('dehydrating drops the built-in icons and stays a valid theme', () => {
+    const wire = dehydrateTheme(LightTheme);
+    expect(Object.keys(wire.icons)).toEqual([]);
+    expect(parseTheme(JSON.parse(JSON.stringify(wire))).success).toBe(true);
+  });
+
+  it('dehydrating cuts the serialized payload by ~70%', () => {
+    const full = JSON.stringify(LightTheme).length;
+    const wire = JSON.stringify(dehydrateTheme(LightTheme)).length;
+    expect(wire).toBeLessThan(full * 0.35);
+  });
+
+  it('keeps genuine icon overrides on the wire', () => {
+    const custom = { ...LightTheme, icons: { ...LightTheme.icons, acmeLogo: 'data:image/svg+xml,x' } };
+    expect(dehydrateTheme(custom).icons).toEqual({ acmeLogo: 'data:image/svg+xml,x' });
+  });
+
+  it('round-trips through JSON back to the full icon set', () => {
+    const revived = JSON.parse(JSON.stringify(dehydrateTheme(LightTheme)));
+    const restored = hydrateTheme(revived);
+    expect(Object.keys(restored.icons)).toHaveLength(iconCount);
+    expect(restored.icons).toEqual(LightTheme.icons);
+  });
+
+  it("hydration lets the theme's own icons win over built-ins", () => {
+    const [firstName] = Object.keys(BaseIcons);
+    const restored = hydrateTheme({ ...LightTheme, icons: { [firstName]: 'data:image/svg+xml,mine' } });
+    expect(restored.icons[firstName]).toBe('data:image/svg+xml,mine');
+    expect(Object.keys(restored.icons)).toHaveLength(iconCount);
   });
 });
 

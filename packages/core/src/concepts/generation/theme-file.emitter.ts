@@ -1,5 +1,5 @@
 import type { Colors, Shadows } from '../theme/theme.model';
-import { generateThemes } from './theme.generator';
+import { generateThemes, summarizeContrast } from './theme.generator';
 import type { ContrastReport, GenerationInput } from './generation.types';
 
 export interface ThemeFileInput extends GenerationInput {
@@ -98,9 +98,7 @@ export const emitThemeFile = (input: ThemeFileInput): EmittedThemeFile => {
     .filter(Boolean)
     .join(' ');
 
-  const reportSummary = `${report.checks.length} contrast pairs checked · worst ${report.worstRatio}:1 · ${
-    report.pass ? 'all AA' : `${report.checks.filter((c) => !c.pass).length} failing`
-  }`;
+  const reportSummary = summarizeContrast(report);
 
   const modes: {
     exportName: string;

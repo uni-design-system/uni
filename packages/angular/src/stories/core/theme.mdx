@@ -57,6 +57,24 @@ immediately), `unregisterTheme(id)` removes it, and `setTheme(theme)`
 validates and applies without registering. `ThemeService.theme` is a readonly
 signal — all writes funnel through these validated paths.
 
+### Applying a theme fetched at runtime
+
+A theme can therefore arrive as data and be applied without a build step —
+from the `generate-runtime-theme` / `get-runtime-theme` MCP tools, or the
+theme registry the MCP server hosts:
+
+```ts
+const { themes } = await fetch('https://uni-mcp.onrender.com/themes/DarkTheme.json').then((r) => r.json());
+const result = themeService.registerTheme(themes[0].theme, { select: true });
+if (!result.success) console.warn(result.issues);
+```
+
+Those payloads omit the built-in icon set — it is roughly 71% of a serialized
+theme, and every uni-core consumer already ships it. `registerTheme` and
+`setTheme` restore it on the way in, applying the same `{...BaseIcons,
+...icons}` rule `createTheme` uses, so a theme's own icons still win. Outside
+Angular, call `hydrateTheme()` from uni-core yourself.
+
 ## Colors
 
 Container tokens pair with `on-` content tokens (`primary-container` /

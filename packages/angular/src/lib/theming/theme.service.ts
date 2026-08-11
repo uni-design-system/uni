@@ -35,6 +35,7 @@ import {
 
 import {
   formatThemeIssues,
+  hydrateTheme,
   parseTheme,
   type Themes,
   type ThemeParseResult,
@@ -161,7 +162,7 @@ export class ThemeService {
    * active theme is unchanged.
    */
   public setTheme(input: unknown): ThemeParseResult {
-    const result = parseTheme(input);
+    const result = this.accept(input);
     if (result.success) {
       this._theme.set(result.theme);
       this.selectedThemeKey.set(result.theme.id);
@@ -175,13 +176,26 @@ export class ThemeService {
    * is unchanged and the result lists every reason.
    */
   public registerTheme(input: unknown, opts?: { select?: boolean }): ThemeParseResult {
-    const result = parseTheme(input);
+    const result = this.accept(input);
     if (result.success) {
       const theme = result.theme;
       this.registry.update((themes) => ({ ...themes, [theme.id]: theme }));
       if (opts?.select) this.selectTheme(theme.id);
     }
     return result;
+  }
+
+  /**
+   * The gate every externally-supplied theme passes: validate, then restore
+   * any built-in icons the payload left out. Themes that travel as JSON (the
+   * MCP theme tools, a theme registry) omit the built-in icon set — it is
+   * ~71% of the bytes and every consumer already ships it — so hydration
+   * applies the same `{...BaseIcons, ...icons}` contract `createTheme` uses:
+   * the theme's own icons win, built-ins fill the rest.
+   */
+  private accept(input: unknown): ThemeParseResult {
+    const result = parseTheme(input);
+    return result.success ? { ...result, theme: hydrateTheme(result.theme) } : result;
   }
 
   /** Remove a registered theme; falls back to the first remaining theme if it was active. */

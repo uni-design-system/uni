@@ -12,18 +12,36 @@ const HEX = /^#[0-9a-fA-F]{6}$/;
 
 export type GenerateThemeArgs = Omit<ThemeFileInput, 'seed'> & { brand: string | string[] };
 
-export function formatGeneratedTheme(args: GenerateThemeArgs): string {
-  const seeds = (Array.isArray(args.brand) ? args.brand : [args.brand]).map((s) =>
+/**
+ * Normalize brand input into the engine's `seed`, or explain what was wrong.
+ * Shared by every theme tool so the file and runtime paths accept exactly the
+ * same input and reject it with the same message.
+ */
+export type SeedResult =
+  | { ok: true; seed: string | string[] }
+  | { ok: false; error: string };
+
+export function resolveSeed(brand: string | string[]): SeedResult {
+  const seeds = (Array.isArray(brand) ? brand : [brand]).map((s) =>
     s.startsWith('#') ? s : `#${s}`
   );
   const invalid = seeds.filter((s) => !HEX.test(s));
   if (invalid.length) {
-    return `Invalid brand color(s): ${invalid.join(', ')}. Pass 6-digit hex values, e.g. "#0052FF" (1–3 colors: primary, secondary, tertiary).`;
+    return {
+      ok: false,
+      error: `Invalid brand color(s): ${invalid.join(', ')}. Pass 6-digit hex values, e.g. "#0052FF" (1–3 colors: primary, secondary, tertiary).`,
+    };
   }
+  return { ok: true, seed: seeds.length === 1 ? seeds[0] : seeds };
+}
+
+export function formatGeneratedTheme(args: GenerateThemeArgs): string {
+  const resolved = resolveSeed(args.brand);
+  if (!resolved.ok) return resolved.error;
 
   const { content, providerSnippet, reportSummary, report } = emitThemeFile({
     ...args,
-    seed: seeds.length === 1 ? seeds[0] : seeds,
+    seed: resolved.seed,
   });
 
   const failing = report.checks.filter((c) => !c.pass);

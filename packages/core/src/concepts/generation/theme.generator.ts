@@ -7,6 +7,7 @@ import { CategoryChroma, generateColors } from './palette.factory';
 import { generateShadows } from './shadow.generator';
 import type {
   ContrastCheck,
+  ContrastReport,
   GeneratedThemeConfig,
   GenerationInput,
   ThemeShape,
@@ -94,11 +95,24 @@ export const generateThemes = (input: GenerationInput): GeneratedThemeConfig => 
 };
 
 /**
- * Convenience wrapper: {@link generateThemes} piped through `createTheme()`,
- * returning a registration-ready light/dark {@link UniTheme} pair.
+ * One-line human summary of a {@link ContrastReport}. Shared so the generated
+ * theme file's header and the MCP's theme tools report identical wording.
  */
-export const generateUniThemes = (input: GenerationInput): { light: UniTheme; dark: UniTheme } => {
-  const { lightColors, darkColors, radii, lightShadows, darkShadows } = generateThemes(input);
+export const summarizeContrast = (report: ContrastReport): string =>
+  `${report.checks.length} contrast pairs checked · worst ${report.worstRatio}:1 · ${
+    report.pass ? 'all AA' : `${report.checks.filter((check) => !check.pass).length} failing`
+  }`;
+
+/**
+ * Convenience wrapper: {@link generateThemes} piped through `createTheme()`,
+ * returning a registration-ready light/dark {@link UniTheme} pair alongside
+ * the contrast report the colors were audited against.
+ */
+export const generateUniThemes = (
+  input: GenerationInput
+): { light: UniTheme; dark: UniTheme; report: ContrastReport } => {
+  const { lightColors, darkColors, radii, lightShadows, darkShadows, report } =
+    generateThemes(input);
   const name = input.name ?? 'Brand';
   const id = name.replace(/\W+/g, '') || 'Brand';
   return {
@@ -116,5 +130,6 @@ export const generateUniThemes = (input: GenerationInput): { light: UniTheme; da
       radii,
       shadows: darkShadows,
     }),
+    report,
   };
 };

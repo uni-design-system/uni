@@ -665,6 +665,32 @@ export const createTheme = ({
 });
 
 /**
+ * Re-attach the built-in icon set to a theme that traveled without it.
+ *
+ * A serialized theme is ~50 KB, ~71% of which is {@link BaseIcons} — bytes
+ * every uni-core consumer already ships. Transports (MCP tool results, theme
+ * JSON over HTTP) send the {@link dehydrateTheme} form and the receiver
+ * hydrates, applying exactly the `{...BaseIcons, ...icons}` contract
+ * {@link createTheme} applies at construction: the theme's own icons win,
+ * built-ins fill the rest.
+ */
+export const hydrateTheme = (theme: UniTheme): UniTheme => ({
+  ...theme,
+  icons: { ...BaseIcons, ...theme.icons },
+});
+
+/**
+ * The wire form of a theme: icons identical to the built-in set are dropped,
+ * so only genuine overrides travel. Reverse with {@link hydrateTheme}.
+ */
+export const dehydrateTheme = (theme: UniTheme): UniTheme => ({
+  ...theme,
+  icons: Object.fromEntries(
+    Object.entries(theme.icons).filter(([name, uri]) => BaseIcons[name as never] !== uri)
+  ),
+});
+
+/**
  * Build a full {@link UniTheme} straight from a {@link PaletteConfig} — the
  * one-call path a theme builder uses to turn a brand color (or a seed +
  * scheme + category) into a complete, ready-to-apply theme.

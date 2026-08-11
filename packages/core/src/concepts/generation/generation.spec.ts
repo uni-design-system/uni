@@ -4,7 +4,13 @@ import { contrastRatio, hexToRgb } from '../color/color.helper';
 import { generatePalette } from '../color/color.factory';
 import { createTheme, lightColors } from '../theme/themes/base.theme';
 import { hexToOklch, oklchToHex } from './oklch.helper';
-import { classifyScheme, generateThemes, generateUniThemes, ShapeRadii } from './theme.generator';
+import {
+  classifyScheme,
+  generateThemes,
+  generateUniThemes,
+  ShapeRadii,
+  summarizeContrast,
+} from './theme.generator';
 import { emitThemeFile } from './theme-file.emitter';
 import { emitDtcgTokens } from './dtcg.emitter';
 
@@ -152,6 +158,16 @@ describe('generateUniThemes', () => {
     expect(light.radii).toEqual(ShapeRadii.sharp);
     expect(light.borders.primary).toContain(light.colors.primary);
     expect(light.components.button?.variants?.primary?.backgroundColor).toBe(light.colors.primary);
+  });
+
+  it('surfaces the contrast report the colors were audited against', () => {
+    const { report } = generateUniThemes({ seed: '#0052FF', name: 'Acme' });
+    expect(report.checks.length).toBeGreaterThan(0);
+    expect(report.worstRatio).toBeGreaterThan(0);
+    // Same audit the file emitter reports on, worded identically.
+    expect(summarizeContrast(report)).toBe(
+      emitThemeFile({ seed: '#0052FF', name: 'Acme' }).reportSummary
+    );
   });
 });
 

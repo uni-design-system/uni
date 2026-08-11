@@ -82,7 +82,24 @@ tokens, never by hardcoding hex values in components.
 | `list-themes` | theme templates |
 | `get-theme-template` | **style overrides** (→ Emotion CSS) and **component options** (→ props), kept distinct |
 | `generate-uni-theme` | complete WCAG-AA light+dark `uni-theme.ts` from brand hex color(s), with vibe/scheme/shape options, provider registration snippet, and contrast report |
+| `generate-runtime-theme` | the same generated theme as validated JSON for `registerTheme()` — applies immediately, no file, no rebuild |
+| `get-runtime-theme` | a theme that ships with Uni (`LightTheme`, `DarkTheme`) as a registerable `UniTheme` |
+| `create-icon-tokens` | convert raw SVG into `currentColor`-masked theme icon tokens |
 | `search` | keyword search across components, tokens, themes, guidelines |
+
+### Which theme tool?
+
+`generate-uni-theme` brands an app **permanently**: it returns an editable
+`uni-theme.ts` that becomes the source of truth, so later restyling means
+editing that file. The two `*-runtime-theme` tools return theme **data** for
+`ThemeService.registerTheme(theme, { select: true })` — use them when a theme
+should apply immediately with no build step (brand previews, per-tenant
+theming, generated UI). `get-theme-template` neither brands nor applies: it
+reports a theme's token values for inspection.
+
+Runtime theme payloads omit the 61 built-in icons — ~71% of a serialized
+theme, and bytes every uni-core consumer already ships. `ThemeService` restores
+them on registration; outside Angular, call `hydrateTheme()` from uni-core.
 
 Resources: `uni://meta`, `uni://components/{id}`, `uni://tokens/{id}`,
 `uni://themes/{id}`, `uni://guidelines/{id}`.
@@ -94,6 +111,17 @@ endpoint — useful when you'd rather not run node processes per client.
 
 - `GET /health` → status + index counts (used by Render's health check)
 - `POST /mcp` → JSON-RPC (Streamable HTTP, stateless)
+- `GET /themes` → the ids available as runtime theme JSON
+- `GET /themes/{id}.json` → one registerable theme, same payload as `get-runtime-theme`
+
+The theme routes are the registry channel for apps that fetch a theme without
+speaking MCP. They are public, read-only and CORS-enabled so a browser can
+fetch them directly; `/mcp` stays token-guarded and same-origin.
+
+```ts
+const { themes } = await fetch('https://uni-mcp.onrender.com/themes/DarkTheme.json').then((r) => r.json());
+themeService.registerTheme(themes[0].theme, { select: true });
+```
 
 Client config:
 
