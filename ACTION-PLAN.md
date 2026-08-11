@@ -142,9 +142,21 @@ field. 42 specs ported from the prototype's Playwright suite; verified in a real
 browser end to end. `'tagInput'` in `ComponentName` + theme entry; field chrome
 still comes from `input` via `uni-input-box`.
 
-**Still to do here:** the `multi-select-dropdown` upgrade — give it
-`role="combobox"` + `aria-activedescendant` on the shared `ListboxNavigation`,
-and specs (it still has none). That closes the roadmap's combobox item.
+**`multi-select-dropdown` upgraded 2026-08-11 — section 2 complete.** New
+`label` input so the trigger names the field (its accessible name was missing
+entirely); arrow/Home/End navigation over the options via the shared
+`ListboxNavigation`; debounced filtering (closing the TODO.md item); an
+announced empty-result state; and 20 specs where it had none.
+
+**Deliberately not converted to a multi-selectable `listbox`**, despite that
+being the literal phrasing of the roadmap item. APG notes multi-select
+listboxes are handled inconsistently by screen readers and recommends a
+checkbox group; real checkboxes also keep each option's state announced
+natively, and converting would have duplicated the checkbox's animated SVG into
+this component where it would drift. The substantive defects — no accessible
+name, no keyboard path, no tests — are fixed, which is what the item was
+actually for. Worth a second opinion if you disagree; it is a one-file change
+to revisit.
 
 `packages/angular/prototypes/tag-input/` is unusually ready: a full spec, a
 behaviour-complete vanilla prototype, and `test.mjs` asserting 32 behaviours

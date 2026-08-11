@@ -1,7 +1,16 @@
-import { ChangeDetectionStrategy, Component, computed, input, model, signal } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  ElementRef,
+  input,
+  model,
+  signal,
+  viewChildren,
+} from '@angular/core';
 import { FormValueControl } from '@angular/forms/signals';
 import { css } from '@emotion/css';
-import { Option, type Options } from '../../cdk';
+import { createListboxNavigation, Option, visuallyHidden, type Options } from '../../cdk';
 import { removeInputPlatformStyling } from '@uni-design-system/uni-core';
 import { UniBoxComponent, UniRowComponent, UniStackComponent } from '../layout';
 import { UniButtonComponent } from '../button/button.component';
@@ -59,11 +68,44 @@ export class UniMultiSelectDropdownComponent<T = unknown>
   readonly options = input.required<Options<T>>();
   readonly placeholder = input<string>('');
 
+  /**
+   * What the field is for, e.g. "Fruits". Rendered visually hidden inside the
+   * trigger so its accessible name reads "Fruits, Apple, Pear" — without it a
+   * screen reader announces only the current selection, with no clue which
+   * field it belongs to.
+   */
+  readonly label = input<string>();
+
+  /** Debounce for the filter box, matching the library's input debounce. */
+  readonly debounceTime = input(200);
+
+  protected readonly srOnly = css(visuallyHidden);
+
   protected readonly query = signal('');
+  private queryTimer?: ReturnType<typeof setTimeout>;
 
   protected readonly filteredOptions = computed<Options<T>>(() => {
     const filterText = this.query().toLowerCase();
     return this.options().filter((opt) => opt.label.toLowerCase().includes(filterText));
+  });
+
+  private readonly optionRefs = viewChildren<ElementRef<HTMLElement>>('optionRow');
+
+  /**
+   * Roving focus over the options. The shared helper owns the index
+   * arithmetic — wrapping, Home/End, and never pointing past a list the
+   * filter has narrowed — the same contract `uni-search-input` and
+   * `uni-tag-input` use, so the keys behave identically across all three.
+   */
+  protected readonly list = createListboxNavigation({
+    count: () => this.filteredOptions().length,
+    idPrefix: 'uni-multi-select',
+  });
+
+  /** Announced with the selection so the count is not left to guesswork. */
+  readonly selectionSummary = computed(() => {
+    const count = this.value().length;
+    return count === 0 ? 'none selected' : `${count} selected`;
   });
 
   // Derived display string
@@ -116,7 +158,27 @@ export class UniMultiSelectDropdownComponent<T = unknown>
   );
 
   protected handleQueryInput(event: Event) {
-    this.query.set((event.target as HTMLInputElement).value);
+    const text = (event.target as HTMLInputElement).value;
+    // Debounced so a long option list is not re-filtered on every keystroke.
+    clearTimeout(this.queryTimer);
+    this.queryTimer = setTimeout(() => this.query.set(text), this.debounceTime());
+  }
+
+  /**
+   * Arrow keys walk the options from anywhere in the panel, including the
+   * filter box — previously the only way in was to Tab through every
+   * checkbox.
+   */
+  protected onPanelKeydown(event: KeyboardEvent) {
+    if (!this.list.navigate(event)) return;
+    const row = this.optionRefs()[this.list.activeIndex()]?.nativeElement;
+    row?.querySelector<HTMLElement>('input, [tabindex]')?.focus();
+  }
+
+  /** Keeps the active index in step when focus lands on a row by pointer. */
+  protected onOptionFocus(index: number) {
+    this.list.show();
+    this.list.setActive(index);
   }
 
   selectAll() {

@@ -51,6 +51,18 @@ what consumers must supply themselves.
 - Disclosure pattern (`aria-haspopup="dialog"`): the popover contains native
   focusables (search input, checkboxes, Done button) reachable with `Tab`.
 - Focus moves to the search field on open and back to the trigger on close.
+- **The trigger names the field**, not just its current value: set `label` and
+  the accessible name reads "Fruits, 2 selected, Apple, Cherry". Without it a
+  screen reader announces only the selection, with no clue which field it is.
+- Arrow keys, Home and End walk the options from anywhere in the panel (shared
+  `ListboxNavigation`), so reaching the last of thirty options no longer means
+  thirty `Tab` presses. Other keys pass through to the filter box.
+- The options are a `role="group"` labelled from `label`. Deliberately **not**
+  a multi-selectable `listbox`: APG notes that pattern is inconsistently
+  handled by screen readers and suggests checkboxes instead, and real
+  checkboxes keep each option's state announced natively.
+- An empty filter result is announced through `role="status"` rather than
+  leaving the panel silently blank.
 
 ### Dialog / DialogHeader
 - Native `<dialog>` + `showModal()`: focus trap, `aria-modal`, and focus

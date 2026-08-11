@@ -7,6 +7,10 @@
   [attr.aria-describedby]="ariaDescribedBy() || null"
   (click)="!disabled() && touched.set(true)"
 >
+  @if (label(); as fieldLabel) {
+    <span [class]="srOnly">{{ fieldLabel }},</span>
+  }
+  <span [class]="srOnly">{{ selectionSummary() }}</span>
   <uni-input-box [error]="showError()" [disabled]="disabled()">
     <div
       row-layout
@@ -34,6 +38,8 @@
   (dropdownShowing)="$event && searchInput.focus()"
   (dropdownHiding)="$event && trigger.focus()"
 >
+  <!-- eslint-disable-next-line @angular-eslint/template/interactive-supports-focus -->
+  <div (keydown)="onPanelKeydown($event)">
   <div box-layout gap="xs" padding="xs">
     <input
       #searchInput
@@ -50,16 +56,27 @@
 
   <uni-divider [border]="componentOptions().dividerBorder" />
 
-  <div stack-layout gap="xs" padding="xs">
-    @for (option of filteredOptions(); track option.value) {
-      <uni-checkbox
-        [label]="option.label"
-        [checked]="isOptionSelected(option)()"
-        (checkedChange)="toggleOption(option, $event)"
-        variant="primary"
-        [disabled]="disabled()"
-      >
-      </uni-checkbox>
+  <div
+    stack-layout
+    gap="xs"
+    padding="xs"
+    role="group"
+    [attr.aria-label]="label() ? label() + ' options' : 'Options'"
+  >
+    @for (option of filteredOptions(); track option.value; let i = $index) {
+      <div #optionRow (focusin)="onOptionFocus(i)">
+        <uni-checkbox
+          [label]="option.label"
+          [checked]="isOptionSelected(option)()"
+          (checkedChange)="toggleOption(option, $event)"
+          variant="primary"
+          [disabled]="disabled()"
+        >
+        </uni-checkbox>
+      </div>
+    }
+    @if (filteredOptions().length === 0) {
+      <span uni-text="label" role="status">No options match.</span>
     }
   </div>
 
@@ -67,5 +84,6 @@
 
   <div row-layout gap="xs" justifyContent="space-around" padding="xs">
     <button text-button (click)="dropdown.hideDropdown()" size="sm" variant="ghost">Done</button>
+  </div>
   </div>
 </uni-dropdown>
