@@ -68,11 +68,43 @@ author hits the same trap.
 
 </details>
 
-### 1b. `uni-tag` has zero specs
+### 1b. `uni-tag` has zero specs — ✅ DONE 2026-08-11
 
-`components/tag/` ships with no spec file at all, and section 2 is about to
-rewrite it. Characterize the current behaviour first, or accept that the v2
-rewrite lands unguarded.
+`tag.component.spec.ts` now characterizes v1 in 9 specs, split into two groups
+so the rewrite is a deliberate decision rather than an accident:
+
+- **Contract v2 should preserve** — label rendering, the remove control's
+  accessible name, emission of the value on click, numbers staying numbers,
+  one emission per click.
+- **Known v1 defects**, named `DEFECT:` in the test title and cross-referenced
+  to SPEC.md. When v2 lands each should *fail* and be rewritten as the
+  corrected expectation. Mutation-verified: applying the v2 falsy-value fix
+  (`if (v)` → `if (v !== undefined)`) fails that spec and leaves every contract
+  spec green, which is exactly the signal the rewrite needs.
+
+Colors, radii and spacing are deliberately not asserted — they are welded into
+the template today and v2 moves them behind a `tag` theme entry, so pinning
+them would only manufacture failures the rewrite has to delete.
+
+**Three things the characterization turned up, all of which affect Part 1 of
+SPEC.md:**
+
+1. **The accessible name is assembled, not declared.** `uni-symbol` renders its
+   ligature as literal text (`close`) *inside* the remove button, and the name
+   only comes out right because the symbol is `aria-hidden` and the projected
+   "Remove {label}" sits in a visually hidden span. v2's anatomy adds a lead
+   slot (avatar / symbol / dot) inside the chip body — if any of that lands
+   un-hidden the announced name silently becomes "AC Alice Chen", so the spec
+   asserts the announced name with `aria-hidden` content stripped rather than
+   raw `textContent`. Keep that helper.
+2. **The docs and the implementation disagree.** `tag.mdx` calls tags
+   "display-only chips" while every tag ships a remove button and a `close`
+   output. v2's opt-in removal resolves it; the MDX needs rewriting either way.
+3. **`label` is documented as required** in `tag.stories.ts` `argTypes` but is
+   an optional `input<string>()`, and with no label the button is announced as
+   a bare "Remove". v2 should decide whether label is genuinely required.
+
+No changeset: tests only, no consumer-visible change.
 
 ---
 
@@ -170,6 +202,7 @@ room.
 
 ## Suggested order
 
-~~1a (menu fix)~~ ✅ → **1b (tag characterization)** ← next → **decide SPEC.md
-Q4** → 2 (tag + tag-input) → 4's test-depth sweep on the zero-spec components →
-3 (date picker, planned deliberately).
+~~1a (menu fix)~~ ✅ → ~~1b (tag characterization)~~ ✅ → **decide SPEC.md Q4**
+← next, and it is a decision, not a build → 2 (tag + tag-input) → 4's
+test-depth sweep on the zero-spec components → 3 (date picker, planned
+deliberately).
