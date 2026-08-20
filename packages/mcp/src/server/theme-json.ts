@@ -17,6 +17,7 @@
  */
 import {
   dehydrateTheme,
+  emitDtcgTokens,
   generateUniThemes,
   parseTheme,
   summarizeContrast,
@@ -149,6 +150,29 @@ export function buildStoredTheme(id: string): BuildResult {
   return envelope([
     { id: theme.id, name: theme.name, mode: modeOf(id), theme: dehydrateTheme(theme) },
   ]);
+}
+
+/**
+ * W3C DTCG (Style Dictionary compatible) export of a built-in theme's colors,
+ * radius and spacing scales. The interop layer for external token pipelines;
+ * the `UniTheme` JSON the runtime-theme tools serve stays the lossless
+ * primary format.
+ */
+export function buildDtcgTokens(
+  id: string
+): { ok: true; json: string } | { ok: false; error: string } {
+  const theme = (UniThemes as Record<string, UniTheme | undefined>)[id];
+  if (!theme) {
+    const ids = Object.keys(UniThemes).join(', ');
+    return { ok: false, error: `No theme found with id \`${id}\`. Available: ${ids}.` };
+  }
+
+  const tokens = emitDtcgTokens({
+    colors: theme.colors,
+    radii: theme.radii,
+    spacing: theme.spacing,
+  });
+  return { ok: true, json: JSON.stringify(tokens, null, 2) };
 }
 
 /**

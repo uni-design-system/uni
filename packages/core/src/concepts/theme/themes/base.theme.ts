@@ -384,7 +384,7 @@ const buildComponents = (c: Colors): ComponentThemes => ({
   footer: { options: { height: 52, color: 'primary', logoHeight: 18.6, logoPadding: 'md' } },
   input: {
     options: {
-      typeFace: 'input',
+      typeface: 'input',
       color: 'primary-surface',
       textColor: 'on-primary-surface',
       disabledColor: 'disabled-surface',
@@ -798,6 +798,13 @@ export interface ThemeConfig {
   /** Override the elevation shadows, e.g. brand-tinted generated stacks. */
   shadows?: Shadows;
   /**
+   * Sparse typography overrides, deep-merged over the base type scale:
+   * restate only the roles — or the individual {@link TextStyle} fields
+   * within a role — that change, and add product-specific roles under any
+   * name. Untouched roles keep tracking the library defaults.
+   */
+  typography?: Record<TextRole | string, Partial<TextStyle>>;
+  /**
    * Named border primitives, merged over the derived defaults. New tokens may
    * use any name — point component options (or `components` overrides) at
    * them and every consumer of the shared token picks up the change.
@@ -836,6 +843,7 @@ export const createTheme = ({
   icons = {},
   radii = BaseRadii,
   shadows = BaseShadows,
+  typography,
   borders,
   thicknesses,
   components,
@@ -843,7 +851,7 @@ export const createTheme = ({
   id,
   name,
   colors,
-  typography: BaseTypography,
+  typography: deepMerge(BaseTypography, typography as Partial<Typography> | undefined),
   borders: deepMerge(buildBorders(colors), borders),
   radii,
   shadows,

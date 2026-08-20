@@ -6,6 +6,7 @@
 import { describe, expect, it } from 'vitest';
 import { BaseIcons, hydrateTheme, parseTheme } from '@uni-design-system/uni-core';
 import {
+  buildDtcgTokens,
   buildGeneratedTheme,
   buildStoredTheme,
   listRuntimeThemes,
@@ -111,5 +112,25 @@ describe('summarizeEnvelope', () => {
     // The point of the structured result: the themes are not re-serialized here.
     expect(summary.length).toBeLessThan(2_000);
     expect(summary).not.toContain('"typography"');
+  });
+});
+
+describe('export-dtcg-tokens', () => {
+  it('emits DTCG color and dimension tokens for a built-in theme', () => {
+    const result = buildDtcgTokens('LightTheme');
+    if (!result.ok) throw new Error(result.error);
+
+    const tokens = JSON.parse(result.json);
+    expect(tokens.color['primary'].$type).toBe('color');
+    expect(typeof tokens.color['primary'].$value).toBe('string');
+    expect(Object.keys(tokens.size.radius).length).toBeGreaterThan(0);
+    expect(Object.keys(tokens.size.spacing).length).toBeGreaterThan(0);
+    expect(Object.values<{ $type: string }>(tokens.size.spacing).every((t) => t.$type === 'dimension')).toBe(true);
+  });
+
+  it('reports unknown ids with the available list', () => {
+    const result = buildDtcgTokens('NopeTheme');
+    expect(result.ok).toBe(false);
+    if (!result.ok) expect(result.error).toContain('LightTheme');
   });
 });

@@ -48,7 +48,11 @@ export class UniInputBoxComponent extends BaseComponent<UniInputBoxOptions> {
           height: '100%',
           ...this.theme.paddingLeft(this.componentOptions().paddingLeft),
           ...this.theme.color(this.componentOptions().textColor),
-          ...this.theme.typeface(this.componentOptions().typeFace),
+          // `typeFace` is the deprecated casing; themes that still set it win
+          // only when the canonical key is absent.
+          ...this.theme.typeface(
+            this.componentOptions().typeface ?? this.componentOptions().typeFace
+          ),
         },
 
         // Multi-line fields size themselves (rows/resize), not from the box.

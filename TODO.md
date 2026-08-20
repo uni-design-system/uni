@@ -45,14 +45,17 @@ audits: `packages/angular/TODO.md` (v4 audit) and `uni-theme-generation-plan.md`
       pairs for check strokes; `disabled` tokens; themed knob shadow).
 - [ ] **`footer`** — declared in `ComponentName` with theme options but unbuilt;
       build it (app-bar sibling) or remove the declaration.
-- [ ] **Input `typeFace` option casing** → `typeface` (tooltip/button/tabs precedent),
-      with a deprecated alias; do alongside the next input-box change.
+- [x] ~~Input `typeFace` option casing → `typeface`~~ — renamed 2026-08-20 with a
+      deprecated `typeFace` alias (remove next major).
 - [x] ~~`icons: {}` empty in BaseTheme~~ — audited 2026-07-24: `uni-icon` reads it and
       every icon was invisible. `BaseIcons` now lives in core and merges into every
       `createTheme`; emitter + MCP teach icons-in-theme (never inline SVG).
-- [ ] DarkTheme legacy `inverse-on-surface` key — remove once nothing references it.
-- [ ] notification-badge `offset` fallback for themes that omit it.
-- [ ] multi-select-dropdown search debounce (reuse debounce-input's signal pattern).
+- [x] ~~DarkTheme legacy `inverse-on-surface` key~~ — already gone (audited 2026-08-20:
+      no references anywhere).
+- [x] ~~notification-badge `offset` fallback~~ — fixed 2026-08-20 (`?? 0`; omitting it
+      serialized `'undefinedpx'` and dropped the corner placement).
+- [x] ~~multi-select-dropdown search debounce~~ — shipped with the 8.1-era dropdown
+      upgrade (`debounceTime` input, 200 ms default).
 - [ ] JSDoc coverage on public inputs/outputs — ongoing; feeds `llms.txt` and MCP
       summaries (empty where class JSDoc is missing).
 
@@ -82,8 +85,8 @@ audits: `packages/angular/TODO.md` (v4 audit) and `uni-theme-generation-plan.md`
       canonical-structure sweep: all pages conform (AGENTS.md spec), empty Overviews
       written, form-control API tables retired; MCP carries whenToUse for 55/70 and
       a11y guidance for 36/70 (rest are subcomponents/directives).
-- [ ] **DTCG export tool** — expose `emitDtcgTokens` (in core; playground already
-      uses it) as an MCP tool.
+- [x] ~~DTCG export tool~~ — shipped 2026-08-20 as `export-dtcg-tokens` (built-in
+      theme → DTCG JSON via core's `emitDtcgTokens`).
 - [ ] React bindings in the index — gated on uni-react parity.
 - [ ] Semantic search over the index.
 

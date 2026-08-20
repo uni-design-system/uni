@@ -20,7 +20,9 @@ export interface UniInputBoxOptions {
   errorShadow?: Shadow;
   height?: string | number;
   paddingLeft: OptionalSize;
-  typeFace: Typeface;
+  typeface?: Typeface;
+  /** @deprecated Use `typeface` (matching tooltip/button/tabs casing). */
+  typeFace?: Typeface;
   textColor: ColorKey;
   disabledTextColor: ColorKey;
   focusOutline: string;

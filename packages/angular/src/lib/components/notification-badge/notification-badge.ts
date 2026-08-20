@@ -74,7 +74,9 @@ export class UniNotificationBadgeComponent extends BaseComponent<UniNotification
     const variant = this.badgeVariant();
     const color = this.color();
     const position = this.position();
-    const offset = this.componentOptions().offset + 'px';
+    // A theme may omit `offset`; without the fallback this concatenates to
+    // the invalid length 'undefinedpx' and the badge loses its position.
+    const offset = (this.componentOptions().offset ?? 0) + 'px';
 
     const positionStyles = {
       'top-right': { top: offset, right: offset },

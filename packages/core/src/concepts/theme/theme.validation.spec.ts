@@ -32,6 +32,25 @@ describe('parseTheme', () => {
     expect(parseTheme(theme).success).toBe(true);
   });
 
+  it('deep-merges sparse typography overrides over the base scale', () => {
+    const theme = createTheme({
+      id: 'T',
+      name: 'Test',
+      colors: BaseTheme.colors,
+      typography: {
+        paragraph: { fontFamily: 'IBM Plex Sans' },
+        marketing: { fontFamily: 'IBM Plex Sans', fontSize: 40, lineHeight: 44 },
+      },
+    });
+
+    expect(theme.typography['paragraph'].fontFamily).toBe('IBM Plex Sans');
+    expect(theme.typography['paragraph'].fontSize).toBe(16); // untouched field kept
+    expect(theme.typography['title-large']).toEqual(BaseTheme.typography['title-large']);
+    expect(theme.typography['marketing'].fontSize).toBe(40); // extra role added
+    expect(BaseTheme.typography['paragraph'].fontFamily).toBe('Roboto'); // base unmutated
+    expect(parseTheme(theme).success).toBe(true);
+  });
+
   it('round-trips through JSON (the distribution format)', () => {
     const revived = JSON.parse(JSON.stringify(LightTheme));
     expect(parseTheme(revived).success).toBe(true);

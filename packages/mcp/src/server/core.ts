@@ -9,6 +9,7 @@ import * as store from './store.js';
 import { formatGeneratedTheme } from './generate.js';
 import { formatIconTokens } from './icons.js';
 import {
+  buildDtcgTokens,
   buildGeneratedTheme,
   buildStoredTheme,
   summarizeEnvelope,
@@ -319,6 +320,27 @@ export function createUniServer(): McpServer {
       outputSchema: RuntimeThemeOutput,
     },
     async ({ id }) => runtimeTheme(buildStoredTheme(id))
+  );
+
+  // -- export-dtcg-tokens ----------------------------------------------------
+  server.registerTool(
+    'export-dtcg-tokens',
+    {
+      title: 'Export DTCG design tokens',
+      description:
+        'W3C DTCG JSON (Style Dictionary compatible) for a built-in Uni theme — the color, ' +
+        'radius, and spacing scales, named with Uni token ids. Use this to feed external ' +
+        'token pipelines; the `UniTheme` JSON from the theme tools remains the lossless ' +
+        'primary format.',
+      inputSchema: {
+        theme: z.string().describe('Theme id, e.g. "LightTheme" or "DarkTheme".'),
+      },
+    },
+    async ({ theme }) => {
+      const result = buildDtcgTokens(theme);
+      if (!result.ok) return { content: [{ type: 'text' as const, text: result.error }], isError: true };
+      return text('```json\n' + result.json + '\n```');
+    }
   );
 
   // -- create-icon-tokens ----------------------------------------------------
