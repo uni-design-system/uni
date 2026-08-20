@@ -372,11 +372,13 @@ const typography = (base: Typography): Typography => ({
 // ==========================================
 const components = (p: WellsourcedPalette): ComponentThemes => ({
   badge: { options: { borderRadius: 'xxs' } },
-  // The app's `.search-input:focus` look on every field: ochre border, a soft
-  // 3px ring in the same hue, and the box snapping to the clean surface. The
-  // default primary outline is dropped in favour of the border + ring.
+  // The app's search-field look: fields rest on the alabaster background
+  // tint and, on focus, snap to the clean surface behind an ochre border
+  // with a soft 3px ring in the same hue. The default primary outline is
+  // dropped in favour of the border + ring.
   input: {
     options: {
+      color: 'tertiary-surface',
       focusOutline: 'none',
       focusBorder: 'inputFocus',
       focusShadow: 'inputFocus',
