@@ -48,7 +48,11 @@ import { ThemeService } from '../../theming';
              Enter/Space activation is dispatched from onMenuKeydown. -->
         <!-- eslint-disable-next-line @angular-eslint/template/interactive-supports-focus -->
         <div role="menu" [class]="menuClassName()" (keydown)="onMenuKeydown($event, dropdown)">
-          @for (item of menuItems(); track item) {
+          <!-- track $index: items carry no stable key (template items have no
+               label, labels may repeat, dividers have neither) and consumers
+               naturally rebuild the array each CD pass — identity tracking
+               recreated every node and tripped NG0956. -->
+          @for (item of menuItems(); track $index) {
             @if (isDivider(item)) {
               <div role="separator" [class]="dividerClassName()"></div>
             } @else {

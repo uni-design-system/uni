@@ -30,4 +30,36 @@ describe('UniSelectComponent', () => {
     fixture.detectChanges();
     expect(fixture.componentInstance.value()).toBe('blue');
   });
+
+  it('renders a preselected value', () => {
+    fixture.componentRef.setInput('value', 'blue');
+    fixture.detectChanges();
+    expect(select().selectedIndex).toBe(1);
+  });
+
+  describe('object values', () => {
+    let objFixture: ComponentFixture<UniSelectComponent<{ id: number }>>;
+
+    beforeEach(() => {
+      objFixture = TestBed.createComponent(UniSelectComponent<{ id: number }>);
+      objFixture.componentRef.setInput('options', [
+        { label: 'One', value: { id: 1 } },
+        { label: 'Two', value: { id: 2 } },
+      ]);
+      objFixture.componentRef.setInput('ariaLabel', 'Number');
+    });
+
+    const objSelect = (): HTMLSelectElement =>
+      (objFixture.nativeElement as HTMLElement).querySelector('select')!;
+
+    it('matches a structurally-equal preselected value through compareWith', () => {
+      objFixture.componentRef.setInput(
+        'compareWith',
+        (a: { id: number }, b: { id: number }) => a?.id === b?.id
+      );
+      objFixture.componentRef.setInput('value', { id: 2 });
+      objFixture.detectChanges();
+      expect(objSelect().selectedIndex).toBe(1);
+    });
+  });
 });

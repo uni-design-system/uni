@@ -32,6 +32,15 @@ export class UniSelectComponent<T> implements FormValueControl<T | null> {
   readonly options = input<Options<T>>([]);
   readonly placeholder = input<string>();
 
+  /**
+   * Equality used to match `value` against option values, called as
+   * `compareWith(optionValue, value)`. Defaults to reference equality, which
+   * never matches an object value rebuilt from elsewhere (e.g. a saved record
+   * against options from a fresh fetch) — pass a key comparison like
+   * `(a, b) => a?.id === b?.id` for object values.
+   */
+  readonly compareWith = input<(optionValue: T, value: T) => boolean>((a, b) => a === b);
+
   /** Accessible name for the select; a placeholder is not a label. */
   readonly ariaLabel = input<string>();
 
@@ -46,7 +55,7 @@ export class UniSelectComponent<T> implements FormValueControl<T | null> {
     if (currentVal === null || currentVal === undefined) return this.UNSELECTED;
 
     // Find the index of the option that contains our current value
-    const index = this.options().findIndex((opt) => opt.value === currentVal);
+    const index = this.options().findIndex((opt) => this.compareWith()(opt.value, currentVal));
     return index.toString();
   });
 

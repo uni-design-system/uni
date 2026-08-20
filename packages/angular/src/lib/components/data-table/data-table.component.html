@@ -22,7 +22,7 @@
         <table [class]="tableClass()">
           <thead>
             <tr>
-              @for (column of columns(); track column) {
+              @for (column of columns(); track column.columnDef) {
                 <th
                   scope="col"
                   [attr.aria-sort]="ariaSort(column)"
@@ -39,7 +39,10 @@
             </tr>
           </thead>
           <tbody>
-            @for (record of ds.records(); track record; let i = $index) {
+            <!-- track $index: records are arbitrary consumer objects, typically
+                 re-fetched as fresh references — identity tracking recreated
+                 every row (NG0956). Row expansion is index-addressed already. -->
+            @for (record of ds.records(); track $index; let i = $index) {
               <tr
                 [class]="trClass()"
                 [attr.tabindex]="useRowClick() ? 0 : null"
@@ -50,7 +53,7 @@
                   useRowClick() && $event.preventDefault()
                 "
               >
-                @for (column of columns(); track column) {
+                @for (column of columns(); track column.columnDef) {
                   <td
                     [class]="tdClass()"
                     [class.scrollable]="scrollable()"

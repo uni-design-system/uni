@@ -1,5 +1,7 @@
 <div box-layout display="flex" [flexDirection]="flexDirection()" [gap]="checkboxGap()">
-  @for (option of options(); track option) {
+  <!-- track $index: option values may be objects and consumers rebuild the
+       array, so identity tracking recreated every node (NG0956). -->
+  @for (option of options(); track $index) {
     <div [class]="optionWrapper">
       <uni-checkbox
         [label]="option.label"

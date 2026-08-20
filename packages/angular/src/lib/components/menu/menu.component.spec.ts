@@ -48,6 +48,21 @@ describe('UniMenuComponent', () => {
     expect(clicked).toEqual(items[0]);
   });
 
+  it('reuses DOM nodes when the items array is rebuilt with equal content', () => {
+    const host: HTMLElement = fixture.nativeElement;
+    const before = Array.from(host.querySelectorAll('[role="menuitem"]'));
+
+    fixture.componentRef.setInput(
+      'menuItems',
+      items.map((item) => ({ ...item }))
+    );
+    fixture.detectChanges();
+
+    const after = Array.from(host.querySelectorAll('[role="menuitem"]'));
+    expect(after.length).toBe(before.length);
+    after.forEach((el, i) => expect(el).toBe(before[i]));
+  });
+
   it('marks the active item with the theme activeSymbol', () => {
     fixture.componentRef.setInput('activeItem', items[1]);
     fixture.detectChanges();
