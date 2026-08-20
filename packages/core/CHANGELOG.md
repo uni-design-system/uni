@@ -1,5 +1,17 @@
 # @uni-design-system/uni-core
 
+## 8.2.0
+
+### Minor Changes
+
+- [`57a8c4c`](https://github.com/uni-design-system/uni/commit/57a8c4c73c852a6b14c2e2916cad9bd0a1566787) Thanks [@gaenglish](https://github.com/gaenglish)! - `createTheme` accepts a sparse `typography` override, deep-merged over the base type scale — restate only the roles (or the individual `TextStyle` fields within a role) that change, and add product-specific roles under any name. Closes the gap where a derived theme (e.g. the Carbon experiment) had to spread `typography` over the created theme by hand.
+
+- [`57a8c4c`](https://github.com/uni-design-system/uni/commit/57a8c4c73c852a6b14c2e2916cad9bd0a1566787) Thanks [@gaenglish](https://github.com/gaenglish)! - Input options: `typeFace` → `typeface`, matching the tooltip/button/tabs casing. The base theme now writes `typeface`, and the input box reads the new key with the old one as a deprecated fallback, so themes that still set `typeFace` render unchanged. The `typeFace` key is deprecated and will be removed in the next major.
+
+### Patch Changes
+
+- [`e706e38`](https://github.com/uni-design-system/uni/commit/e706e3887f47d8821cc1652410ad37a43d52a428) Thanks [@gaenglish](https://github.com/gaenglish)! - Ship `CHANGELOG.md` in the published packages. The release notes existed only in the repo; an installed package carried no record of what changed, so upgrade questions couldn't be answered from `node_modules`. uni-angular copies it into the ng-packagr `dist` via `assets`; the rest add it to `files`.
+
 ## 8.1.0
 
 ### Minor Changes
