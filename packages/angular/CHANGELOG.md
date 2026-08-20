@@ -1,5 +1,36 @@
 # @uni-design-system/uni-angular
 
+## 8.1.0
+
+### Minor Changes
+
+- [`71bc74c`](https://github.com/uni-design-system/uni/commit/71bc74c0441d4170dc38312967610eac46788326) Thanks [@gaenglish](https://github.com/gaenglish)! - Calendar, date & time entry: `uni-calendar`, `uni-date-input`, `uni-time-input` and `uni-date-time-input`, plus a pure datetime helper layer in the cdk.
+
+  The most-requested form control family anywhere, built native-platform-first with zero runtime dependencies: `Intl` does all formatting and parsing (no date library), the popup rides the native popover top layer with CSS anchor positioning, and every day in the grid is a real `<button>`.
+  - **Values are plain ISO strings, never `Date`s** — `UniDate` (`'YYYY-MM-DD'`), `UniTime` (`'HH:mm'`, always 24-hour), `UniDateTime` (`'YYYY-MM-DDTHH:mm'`), `UniDateRange` (`{ start, end }`). A `Date` is a timestamp with a timezone problem; a calendar date is a label on a wall calendar. Strings are timezone-free, JSON-serializable and sortable with `<`, and `[value]="'2026-08-20'"` is a complete, correct binding.
+  - **`uni-calendar`** is an inline month grid and a form control in its own right: single and range modes in one component (the value shape switches with `mode`), availability **markers** with screen-reader labels, `minDate`/`maxDate` fences, `disabledDates` as a list or predicate, and a two-way `month` model so an app can drive "jump to June". One tab stop with a roving-tabindex `role="grid"`; the full APG keyboard map (arrows, week `Home`/`End`, `PageUp`/`PageDown` with `Shift` for years) crosses month edges, skips disabled days directionally, and stops at fences without wrapping. Range selection paints a live preview band, swaps a backwards commit instead of erroring, and narrates every step through a `role="status"` region.
+  - **`uni-date-input`** is free-typed date entry — no input mask (masks fight paste, IMEs and screen-reader echo). The parser accepts ISO, locale-numeric text with the digit order read from `Intl.DateTimeFormat(locale).formatToParts()`, and the locale's own month names; a missing year resolves to the next occurrence and two-digit years are refused rather than guessed. Unreadable, fenced or unavailable text **stays in the field**, flagged, with a `rejected` event. The popup is the same `uni-calendar`, hosted in a `role="dialog"` popover via the shared `uni-dropdown`; `↑`/`↓` on a committed value step ±1 day.
+  - **`uni-time-input`** is a combobox over time slots — byte-for-byte the search-input/tag-input listbox contract via the CDK's `ListboxNavigation`. `9` → 09:00, `930` → 09:30, `3p` → 15:00, and a bare `3` leans PM in a 12-hour field (the bias yields when `minTime`/`maxTime` say otherwise). `slots` pins the choices for scheduling, refusing a typed `5pm` as `'unavailable'`; `↑`/`↓` on a committed value step ±`minuteStep`.
+  - **`uni-date-time-input`** seats both parts in one `uni-input-box` chrome under one `role="group"` label, emitting one combined value only when both parts are set. `slotsFor` is the scheduling flow in one attribute: the time part stays disabled until a day is chosen, then offers exactly that day's slots, and changing the day clears a slot that no longer exists. The parts gained an `embedded` input so the composer renders one shared box instead of nested chrome.
+  - **cdk `datetime` module** (public export): the string-math and `Intl` layer — `addDays`/`addMonths`/`buildMonthGrid`/`parseDateText`/`parseTimeText`/`timeSlots`/`localeWeekStart` and friends — pure functions, unit-tested hard, usable by apps directly.
+  - **uni-core**: `'calendar'`, `'dateInput'`, `'timeInput'`, `'dateTimeInput'` join `ComponentName` with base-theme entries (day geometry per size token, `dayBorderRadius: 'xxs'` for the square look, toggle glyphs, popup/list chrome). Selection, range and today colours are deliberately not options — they are the `primary` role pair, so themes restyle them by restyling the palette.
+  - **Naming note:** the fences are `minDate`/`maxDate`/`minTime`/`maxTime`/`minDateTime`/`maxDateTime` rather than the platform's `min`/`max`, because Signal Forms' `FormUiControl` reserves `min`/`max` as numeric signals on form controls.
+
+- [`1a6b382`](https://github.com/uni-design-system/uni/commit/1a6b38273e5c6daaea6355e1ba8cf01d7e851100) Thanks [@gaenglish](https://github.com/gaenglish)! - Themable focus chrome: a shared `focusRing` primitive for every control, plus `focusBorder`/`focusShadow`/`focusColor` options for input boxes.
+
+  **Shared focus ring.** A theme can now restyle the keyboard-focus indicator across the whole library by defining `focusRing` **border** and/or **shadow** primitives: `ThemeService.focusRing()` (and the new selector-less `focusRingStyle()`) replaces its default 2px outline with that border — drawn as an outline hugging the control — plus the ring shadow. A `focusRing` **thickness** primitive sets the ring's outline offset (negative values overlay the control's resting border, reading as a border-color change). Checkbox, radio, toggle and slider now route their hand-rolled focus styles through the shared helper (calendar days and tag chips already did), so one primitive trio gives every control the same focus language. Themes without the primitives render exactly as before.
+
+  **uni-core:** `Thicknesses` is now an open record like `Borders`/`Shadows` (extra named primitives allowed), and `createTheme` accepts a sparse `thicknesses` override merged over the base scale.
+
+  **Also in this release:**
+  - Radio and toggle scope their transitions (border/background/transform) instead of `all`, so the focus ring's outline and shadow apply instantly — `transition: all` interpolated the outline from a stale color, flashing a dark ring before the themed ring color landed.
+  - The radio's dot grow/retract animation is a token — `radio.options.transitionSpeed` (seconds, default 0.3 preserving the current feel; 0 switches instantly).
+  - The checkbox focus ring rounds proportionally again (box radius plus its gap) and the gap itself is a new `checkbox.options.focusRingGap` option; a `focusRingStyle` call's explicit gap wins over the theme's `focusRing` thickness, then the branch defaults.
+
+  The `input` component options could previously restyle focus only through `focusOutline`/`focusOutlineOffset`. The new optional trio mirrors the error-state trio (`errorBorder`/`errorShadow`/`errorColor`) and applies while any projected control has focus: `focusBorder` swaps the border primitive, `focusShadow` draws a ring (e.g. a soft `0 0 0 3px` spread), and `focusColor` swaps the background. All three default to `undefined`, so existing themes render exactly as before, and they yield to the error state so a flagged field stays visibly flagged while being corrected.
+
+  The Wellsourced showcase theme now defines the `focusRing` pair for its app's `.search-input:focus` look — an ochre (`secondary`) 1px border with a 10% ring of the same hue, tinted per palette in light and dark — so text fields (which rest on a canvas tint and snap to the clean surface on focus), checkboxes, radios, toggles, sliders, calendar days and tag chips all share one focus treatment.
+
 ## 8.0.0
 
 ### Major Changes
