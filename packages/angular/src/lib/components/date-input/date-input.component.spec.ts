@@ -8,6 +8,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { UniDateInputComponent } from './date-input.component';
 import type { UniDateInputRejection } from './date-input.model';
+import { todayIso } from '../../cdk';
 
 describe('UniDateInputComponent', () => {
   let fixture: ComponentFixture<UniDateInputComponent>;
@@ -308,6 +309,23 @@ describe('UniDateInputComponent', () => {
       setInputs({ embedded: true });
       expect(host.querySelector('uni-input-box')).toBeNull();
       expect(field()).toBeTruthy();
+    });
+  });
+
+  describe('empty-string value', () => {
+    it('renders an empty field and opens the popup on the current month', async () => {
+      // A bound '' used to reach the calendar through the popup's nullish
+      // guard: blank grid plus RangeError from the heading's Intl.format.
+      setInputs({ value: '' });
+      await flush();
+      expect(field().value).toBe('');
+
+      press('ArrowDown', { altKey: true });
+      await flush();
+      await flush();
+
+      expect(fixture.componentInstance['popupOpen']()).toBe(true);
+      expect(day(todayIso())).toBeTruthy();
     });
   });
 });

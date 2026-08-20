@@ -138,9 +138,14 @@ export class UniCalendarComponent
     () => this.weekStart() ?? localeWeekStart(this.resolvedLocale())
   );
 
-  /** The month on screen: the `month` model, else the value's month, else today's. */
+  /**
+   * The month on screen: the `month` model, else the value's month, else
+   * today's. Falsy guards on purpose: `''` — the only typeable empty for a
+   * string-typed model — counts as unset, or it would reach the month math
+   * and blow up the grid and heading.
+   */
   protected readonly viewMonth = computed(
-    () => this.month() ?? monthOf(this.anchorDate() ?? todayIso())
+    () => this.month() || monthOf(this.anchorDate() || todayIso())
   );
 
   private readonly anchorDate = computed(() => {

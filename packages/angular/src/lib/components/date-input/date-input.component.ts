@@ -263,8 +263,9 @@ export class UniDateInputComponent
   }
 
   protected onPopupShowing(): void {
-    // The grid opens on the committed value's month (or today's).
-    this.calendar()?.month.set(monthOf(this.value() ?? todayIso()));
+    // The grid opens on the committed value's month (or today's). Falsy
+    // guard: a bound '' counts as no value, like everywhere else.
+    this.calendar()?.month.set(monthOf(this.value() || todayIso()));
     this.calendar()?.focusActiveDay();
     this.opened.emit();
   }

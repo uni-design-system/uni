@@ -9,6 +9,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { UniCalendarComponent } from './calendar.component';
 import type { UniDateRange } from './calendar.model';
+import { monthOf, todayIso } from '../../cdk';
 
 describe('UniCalendarComponent', () => {
   let fixture: ComponentFixture<UniCalendarComponent>;
@@ -333,5 +334,31 @@ describe('UniCalendarComponent', () => {
     host.dispatchEvent(new FocusEvent('focusout', { bubbles: true, relatedTarget: null }));
     await flush();
     expect(fixture.componentInstance.touched()).toBe(true);
+  });
+
+  describe('empty-string values are treated as unset', () => {
+    // '' is the only typeable empty for a string-typed model. It used to slip
+    // past the nullish month guards into the grid math: blank grid, and the
+    // heading threw RangeError from Intl.format on every CD pass.
+    const currentMonth = monthOf(todayIso());
+
+    it('falls back to the current month for value=""', () => {
+      setInputs({ month: undefined, value: '' });
+      expect(heading().textContent).not.toBe('');
+      expect(dayButtons().length).toBeGreaterThanOrEqual(28);
+      expect(day(todayIso())).toBeTruthy();
+    });
+
+    it('falls back to the current month for month=""', () => {
+      setInputs({ month: '' });
+      expect(heading().textContent).not.toBe('');
+      expect(dayButtons()[0].dataset['date']!.startsWith(currentMonth)).toBe(true);
+    });
+
+    it('falls back to the current month for a range of empty strings', () => {
+      setInputs({ month: undefined, mode: 'range', value: { start: '', end: '' } });
+      expect(heading().textContent).not.toBe('');
+      expect(day(todayIso())).toBeTruthy();
+    });
   });
 });
