@@ -8,6 +8,7 @@ import { UniIndex } from '../schema.js';
 import type {
   ComponentModel,
   Framework,
+  PackageChangelogModel,
   ThemeTemplateModel,
   TokenModel,
 } from '../schema.js';
@@ -23,6 +24,7 @@ export type NormalizeInput = {
   tokens: TokenModel[];
   themes: ThemeTemplateModel[];
   guidelines?: Map<string, MdxGuidelines>;
+  changelogs?: PackageChangelogModel[];
 };
 
 export function normalize(input: NormalizeInput): UniIndex {
@@ -83,6 +85,7 @@ export function normalize(input: NormalizeInput): UniIndex {
     components,
     tokens: input.tokens,
     themes: input.themes,
+    changelogs: input.changelogs ?? [],
   };
 
   // Validate — throws with a precise path on any violation.

@@ -20,7 +20,8 @@
   "main": "./dist/server.js",
   "types": "./dist/server.d.ts",
   "files": [
-    "dist"
+    "dist",
+    "CHANGELOG.md"
   ],
   "scripts": {
     "build-index": "tsx src/build/index.ts",

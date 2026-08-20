@@ -105,6 +105,32 @@ export const ThemeTemplateModel = z.object({
 });
 export type ThemeTemplateModel = z.infer<typeof ThemeTemplateModel>;
 
+/** One changeset entry within a release. */
+export const ChangelogEntryModel = z.object({
+  bump: z.enum(['major', 'minor', 'patch']),
+  /** First line of the entry — the headline. */
+  title: z.string(),
+  /** Remaining markdown body, dedented; empty for one-liners. */
+  body: z.string().default(''),
+  commit: z.string().optional(),
+});
+export type ChangelogEntryModel = z.infer<typeof ChangelogEntryModel>;
+
+export const ReleaseModel = z.object({
+  version: z.string(),
+  entries: z.array(ChangelogEntryModel).default([]),
+  /** Sibling releases pulled in by this one, e.g. "@uni-design-system/uni-core@8.0.0". */
+  dependencyBumps: z.array(z.string()).default([]),
+});
+export type ReleaseModel = z.infer<typeof ReleaseModel>;
+
+/** A published package's release history, newest release first. */
+export const PackageChangelogModel = z.object({
+  package: z.string(), // npm name
+  releases: z.array(ReleaseModel),
+});
+export type PackageChangelogModel = z.infer<typeof PackageChangelogModel>;
+
 export const IndexMeta = z.object({
   /** Uni release this index was built from. */
   version: z.string(),
@@ -124,5 +150,6 @@ export const UniIndex = z.object({
   components: z.array(ComponentModel),
   tokens: z.array(TokenModel),
   themes: z.array(ThemeTemplateModel),
+  changelogs: z.array(PackageChangelogModel).default([]),
 });
 export type UniIndex = z.infer<typeof UniIndex>;

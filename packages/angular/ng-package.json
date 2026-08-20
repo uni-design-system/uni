@@ -4,6 +4,6 @@
     "entryFile": "src/public-api.ts"
   },
   "dest": "dist",
-  "assets": ["./schematics/**/*"],
+  "assets": ["./schematics/**/*", "./CHANGELOG.md"],
   "allowedNonPeerDependencies": ["@floating-ui/dom"]
 }

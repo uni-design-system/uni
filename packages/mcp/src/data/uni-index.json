@@ -1,7 +1,7 @@
 {
   "meta": {
     "version": "8.1.0",
-    "builtAt": "2026-08-20T20:06:17.830Z",
+    "builtAt": "2026-08-20T20:58:40.392Z",
     "frameworks": [
       "angular"
     ],
@@ -11848,6 +11848,1058 @@
         }
       },
       "usage": "Apply style overrides through the Emotion theme provider (the `UniTheme` object), and pass component options as component inputs/props. Import the theme from `@uni-design-system/uni-core` (`DarkTheme`)."
+    }
+  ],
+  "changelogs": [
+    {
+      "package": "@uni-design-system/uni-angular",
+      "releases": [
+        {
+          "version": "8.1.0",
+          "entries": [
+            {
+              "bump": "minor",
+              "title": "Calendar, date & time entry: `uni-calendar`, `uni-date-input`, `uni-time-input` and `uni-date-time-input`, plus a pure datetime helper layer in the cdk.",
+              "body": "The most-requested form control family anywhere, built native-platform-first with zero runtime dependencies: `Intl` does all formatting and parsing (no date library), the popup rides the native popover top layer with CSS anchor positioning, and every day in the grid is a real `<button>`.\n- **Values are plain ISO strings, never `Date`s** — `UniDate` (`'YYYY-MM-DD'`), `UniTime` (`'HH:mm'`, always 24-hour), `UniDateTime` (`'YYYY-MM-DDTHH:mm'`), `UniDateRange` (`{ start, end }`). A `Date` is a timestamp with a timezone problem; a calendar date is a label on a wall calendar. Strings are timezone-free, JSON-serializable and sortable with `<`, and `[value]=\"'2026-08-20'\"` is a complete, correct binding.\n- **`uni-calendar`** is an inline month grid and a form control in its own right: single and range modes in one component (the value shape switches with `mode`), availability **markers** with screen-reader labels, `minDate`/`maxDate` fences, `disabledDates` as a list or predicate, and a two-way `month` model so an app can drive \"jump to June\". One tab stop with a roving-tabindex `role=\"grid\"`; the full APG keyboard map (arrows, week `Home`/`End`, `PageUp`/`PageDown` with `Shift` for years) crosses month edges, skips disabled days directionally, and stops at fences without wrapping. Range selection paints a live preview band, swaps a backwards commit instead of erroring, and narrates every step through a `role=\"status\"` region.\n- **`uni-date-input`** is free-typed date entry — no input mask (masks fight paste, IMEs and screen-reader echo). The parser accepts ISO, locale-numeric text with the digit order read from `Intl.DateTimeFormat(locale).formatToParts()`, and the locale's own month names; a missing year resolves to the next occurrence and two-digit years are refused rather than guessed. Unreadable, fenced or unavailable text **stays in the field**, flagged, with a `rejected` event. The popup is the same `uni-calendar`, hosted in a `role=\"dialog\"` popover via the shared `uni-dropdown`; `↑`/`↓` on a committed value step ±1 day.\n- **`uni-time-input`** is a combobox over time slots — byte-for-byte the search-input/tag-input listbox contract via the CDK's `ListboxNavigation`. `9` → 09:00, `930` → 09:30, `3p` → 15:00, and a bare `3` leans PM in a 12-hour field (the bias yields when `minTime`/`maxTime` say otherwise). `slots` pins the choices for scheduling, refusing a typed `5pm` as `'unavailable'`; `↑`/`↓` on a committed value step ±`minuteStep`.\n- **`uni-date-time-input`** seats both parts in one `uni-input-box` chrome under one `role=\"group\"` label, emitting one combined value only when both parts are set. `slotsFor` is the scheduling flow in one attribute: the time part stays disabled until a day is chosen, then offers exactly that day's slots, and changing the day clears a slot that no longer exists. The parts gained an `embedded` input so the composer renders one shared box instead of nested chrome.\n- **cdk `datetime` module** (public export): the string-math and `Intl` layer — `addDays`/`addMonths`/`buildMonthGrid`/`parseDateText`/`parseTimeText`/`timeSlots`/`localeWeekStart` and friends — pure functions, unit-tested hard, usable by apps directly.\n- **uni-core**: `'calendar'`, `'dateInput'`, `'timeInput'`, `'dateTimeInput'` join `ComponentName` with base-theme entries (day geometry per size token, `dayBorderRadius: 'xxs'` for the square look, toggle glyphs, popup/list chrome). Selection, range and today colours are deliberately not options — they are the `primary` role pair, so themes restyle them by restyling the palette.\n- **Naming note:** the fences are `minDate`/`maxDate`/`minTime`/`maxTime`/`minDateTime`/`maxDateTime` rather than the platform's `min`/`max`, because Signal Forms' `FormUiControl` reserves `min`/`max` as numeric signals on form controls.",
+              "commit": "71bc74c"
+            },
+            {
+              "bump": "minor",
+              "title": "Themable focus chrome: a shared `focusRing` primitive for every control, plus `focusBorder`/`focusShadow`/`focusColor` options for input boxes.",
+              "body": "**Shared focus ring.** A theme can now restyle the keyboard-focus indicator across the whole library by defining `focusRing` **border** and/or **shadow** primitives: `ThemeService.focusRing()` (and the new selector-less `focusRingStyle()`) replaces its default 2px outline with that border — drawn as an outline hugging the control — plus the ring shadow. A `focusRing` **thickness** primitive sets the ring's outline offset (negative values overlay the control's resting border, reading as a border-color change). Checkbox, radio, toggle and slider now route their hand-rolled focus styles through the shared helper (calendar days and tag chips already did), so one primitive trio gives every control the same focus language. Themes without the primitives render exactly as before.\n\n**uni-core:** `Thicknesses` is now an open record like `Borders`/`Shadows` (extra named primitives allowed), and `createTheme` accepts a sparse `thicknesses` override merged over the base scale.\n\n**Also in this release:**\n- Radio and toggle scope their transitions (border/background/transform) instead of `all`, so the focus ring's outline and shadow apply instantly — `transition: all` interpolated the outline from a stale color, flashing a dark ring before the themed ring color landed.\n- The radio's dot grow/retract animation is a token — `radio.options.transitionSpeed` (seconds, default 0.3 preserving the current feel; 0 switches instantly).\n- The checkbox focus ring rounds proportionally again (box radius plus its gap) and the gap itself is a new `checkbox.options.focusRingGap` option; a `focusRingStyle` call's explicit gap wins over the theme's `focusRing` thickness, then the branch defaults.\n\nThe `input` component options could previously restyle focus only through `focusOutline`/`focusOutlineOffset`. The new optional trio mirrors the error-state trio (`errorBorder`/`errorShadow`/`errorColor`) and applies while any projected control has focus: `focusBorder` swaps the border primitive, `focusShadow` draws a ring (e.g. a soft `0 0 0 3px` spread), and `focusColor` swaps the background. All three default to `undefined`, so existing themes render exactly as before, and they yield to the error state so a flagged field stays visibly flagged while being corrected.\n\nThe Wellsourced showcase theme now defines the `focusRing` pair for its app's `.search-input:focus` look — an ochre (`secondary`) 1px border with a 10% ring of the same hue, tinted per palette in light and dark — so text fields (which rest on a canvas tint and snap to the clean surface on focus), checkboxes, radios, toggles, sliders, calendar days and tag chips all share one focus treatment.",
+              "commit": "1a6b382"
+            }
+          ],
+          "dependencyBumps": []
+        },
+        {
+          "version": "8.0.0",
+          "entries": [
+            {
+              "bump": "major",
+              "title": "`uni-tag` v2: themable, opt-in removal, two style axes",
+              "body": "v1 was a single hardcoded look with the palette welded into its template, an\nunconditional remove button, and no theme entry — a filter chip, a status pill\nand a recipient token all rendered identically. v2 makes the chip a real themed\ncomponent and the building block `uni-tag-input` composes.\n\n**Breaking (uni-angular)**\n- **`(close)` is now `(removed)`.** The old name shadowed the native `close`\n  event and needed an eslint suppression to compile.\n- **The remove button is opt-in** — set `[removable]=\"true\"`. Previously every\n  tag, including a plain category label, shipped a \"Remove …\" button into the\n  accessibility tree.\n- Codemod: rename `(close)` → `(removed)` and add `[removable]=\"true\"` wherever\n  a `(close)` handler exists.\n\n**Fixed**\n- **A falsy value can now be removed.** `handleClose` guarded with `if (v)`, so\n  a tag keyed `''` or `0` silently could not be dismissed. Every defined value\n  emits, and a tag with no value emits `undefined`.\n- The remove control now sizes from the chip instead of the icon-button's own\n  `sm` size — it was 22px inside a 24px chip, and taller than an `sm` chip\n  entirely.\n\n**New**\n- **Two orthogonal style axes**: `variant` picks the colour role, `tone` picks\n  the archetype (`soft` / `solid` / `outline`). Both resolve from the new `tag`\n  theme entry, with tones as nested `&.tone-*` selectors inside each variant so\n  a theme author restyles both axes in one place.\n- **`'tag'` joins core's `ComponentName`**, with a `TagTone` type and a full\n  theme entry (`options` for radius/typeface/gap/symbols, `variants` per colour\n  role, `sizes` carrying geometry only).\n- **`interactive`** turns the chip body into a `<button>` with `selected` mapped\n  to `aria-pressed`, keeping the remove control a sibling — nesting them would\n  be invalid HTML and would strand the inner control for keyboard users.\n- **Lead slot**: `avatarSrc`, `avatarName` (initials fallback), `iconName`,\n  `symbolName` and `dot` convenience inputs, plus a `[tag-lead]` slot for\n  anything richer. Lead elements size from the chip height, and all are\n  `aria-hidden` so the chip's text stays its accessible name.\n- **Glyphs are theme icon primitives, not Material ligatures.** The remove and\n  selected affordances resolve through the new `removeIcon` / `selectedIcon`\n  theme options (defaulting to the built-in `close` and `check`), so they mask\n  `currentColor`, recolour with the chip's tone, and can be swapped per theme.\n  They also contribute no text to the DOM, which a ligature does — one less way\n  for an accessible name to be polluted. `symbolName` remains as the escape\n  hatch for glyphs the theme's icon set doesn't carry.\n- **`invalid`** sets `aria-invalid` and a dashed underline, so the state does\n  not rely on colour alone (WCAG 1.4.1); `disabled`, `maxWidth` truncation with\n  a `title`, and `removeLabel` for overriding the remove button's name.\n- The component ships with 21 specs, having previously had none.",
+              "commit": "760b761"
+            },
+            {
+              "bump": "major",
+              "title": "`ThemeService`: validated writes, runtime theme registration, live options",
+              "body": "The theme registry was bootstrap-frozen and nothing validated theme writes —\nand a brand theme applied via `applyPalette` never appeared in\n`uni-theme-switch`, leaving the select on a bogus value with no way back.\n\n**Breaking**\n- `ThemeService.theme` is now a **readonly signal**. Direct `theme.set(...)`\n  calls (already discouraged in the docs) must move to `setTheme(input)`,\n  which validates and returns `ThemeParseResult` — acceptance or the complete\n  list of rejection reasons — leaving the active theme untouched on rejection.\n- `selectTheme(name)` now returns `boolean` and, for an unknown name, **does\n  nothing** — previously it silently kept the old theme while still recording\n  the bad key in `selectedThemeKey` and localStorage.\n- `themeOptions` is now a `computed` (was a once-written writable signal).\n\n**New**\n- **`registerTheme(input, { select? })`** validates and adds a theme to the\n  live registry — it appears in `themeOptions`/`uni-theme-switch` immediately.\n  **`unregisterTheme(id)`** removes it, falling back to the first remaining\n  theme when it was active. Themes injected via `UNI_THEMES` are validated at\n  startup; malformed entries are excluded with a console warning listing every\n  reason.\n- **`applyPalette` registers the generated theme under `CustomTheme`**, so\n  \"Your Brand\" is an ordinary, selectable option: it shows in the switcher,\n  survives switching away and back, and `clearCustomPalette` unregisters it.\n- **`uni-select` fix:** a selection pointing at an option added in the same\n  change-detection pass now applies (per-option `[selected]` binding; the\n  select-level `[value]` write landed before new options existed and was\n  ignored by the browser) — any consumer with a growing options list was\n  affected.",
+              "commit": "6a4c7da"
+            },
+            {
+              "bump": "minor",
+              "title": "`uni-multi-select-dropdown`: a real accessible name, keyboard navigation, debounced filtering — and its first specs",
+              "body": "This was the weakest component in the library on exactly the axes the roadmap's\ncombobox item names, and it had **no spec file at all**, which is why the\nmissing accessible name survived since it was written.\n- **New `label` input, and the trigger finally names the field.** Its\n  accessible name now reads \"Fruits, 2 selected, Apple, Cherry\". Previously it\n  announced only the current selection — a screen reader user heard\n  \"Option 1, Option 3\" with no way to tell which field it belonged to. The\n  selection count comes along, so \"how many did I pick\" is not left to counting\n  commas.\n- **Arrow keys, Home and End walk the options** from anywhere in the panel,\n  including the filter box. Reaching the last of thirty options previously\n  meant thirty `Tab` presses. Wrapping and the index arithmetic come from the\n  CDK's shared `ListboxNavigation`, so the keys behave exactly as they do in\n  `uni-search-input` and `uni-tag-input`.\n- **The filter is debounced** (new `debounceTime`, default 200ms) instead of\n  re-filtering on every keystroke — the open item in TODO.md.\n- **An empty filter result says so** through `role=\"status\"`, rather than\n  leaving the panel blank.\n- **The options are grouped** as a `role=\"group\"` labelled from `label`.\n- **20 specs**, covering the accessible name, selection and toggling, disabled\n  behaviour, filtering and debounce, keyboard navigation, and the form-control\n  contract.\n\n**A deliberate non-change:** the options stay real checkboxes rather than\nbecoming a multi-selectable `listbox`. APG notes that multi-select listboxes are\nhandled inconsistently across screen readers and suggests a checkbox group\ninstead, and real checkboxes keep each option's state announced natively — so\nconverting would have traded a well-supported pattern for a fashionable one,\nand duplicated the checkbox's animated visual into this component where it\nwould drift.",
+              "commit": "970c36d"
+            },
+            {
+              "bump": "minor",
+              "title": "New `uni-tag-input`, plus a shared listbox contract in the CDK",
+              "body": "The type-to-add chip field — recipients, filters, labels. It is the **open-set**\ncontrol: anything typed can become a token, whether or not it matches a\nsuggestion. Closed-set picking stays with `uni-select` /\n`uni-multi-select-dropdown`, which is the deliberate split — the two look alike\nbut differ on the one thing that decides the value type, so a single component\nwould force one of them to carry an API it can never use.\n- **`FormValueControl<UniTagItem[]>`.** `{ value: 'a@b.com' }` is a complete\n  item; `label`, `avatarSrc`, `invalid` and `disabled` are optional enrichment.\n- **Invalid entries stay in the value, flagged**, rather than being dropped — a\n  field that silently swallows a typo'd address is worse than one that shows it\n  in red, and Enter on the chip lifts it back into the input to fix. Duplicates\n  and over-`max` entries are refused through `(rejected)` with a reason.\n- **Full keyboard contract**: separators commit, Tab commits without trapping,\n  Backspace on an empty field _focuses_ the last chip rather than deleting it\n  blind, and on a chip Backspace and Delete both remove but move focus in\n  opposite directions — what makes pruning a list feel right.\n- **The whole field is one tab stop.** Chips carry `tabindex=\"-1\"`, so Tab never\n  walks through eight recipients to reach the next control.\n- **Announces through a `role=\"status\"` live region** on every add, remove and\n  rejection; the removal route is described once per field rather than by every\n  chip.\n- **`preset=\"email\"`** wires an address validator, a paste parser that unwraps\n  `Name <a@b.com>` and keeps an unterminated tail in the field, and Space as a\n  separator.\n- **`'tagInput'` joins core's `ComponentName`** with a theme entry for the chip\n  field's own tokens. Field chrome is not duplicated — it comes from `input` via\n  `uni-input-box`, so a tag input restyles with every other field.\n\n**Also in this release**\n- **`ListboxNavigation` in the CDK** (`createListboxNavigation`) owns the\n  combobox bookkeeping every type-ahead control needs: open state, active\n  option, wrap-around arithmetic, Home/End, and `aria-activedescendant` wiring\n  that can never point at an option a narrowing filter has removed.\n  `uni-search-input` now uses it — behaviour unchanged, and it gains Home/End\n  for free — and the multi-select combobox upgrade will too. Three hand-rolled\n  copies of one keyboard contract is how they drift.\n- **`uni-tag` gains `controlTabIndex`**, so a composite that owns its own roving\n  focus can take its chips out of the tab order, and **`selected` is now\n  optional**: an interactive chip carries `aria-pressed` only when it is\n  genuinely a toggle. Announcing \"not pressed\" on a recipient chip is worse than\n  announcing nothing.",
+              "commit": "de83fe4"
+            },
+            {
+              "bump": "minor",
+              "title": "Themes registered from JSON get the built-in icons back",
+              "body": "`registerTheme` and `setTheme` now hydrate a theme's icons on the way in: the\nbuilt-in set is merged _under_ whatever icons the payload carries, so the\ntheme's own icons still win.\n\nThis is what makes a theme fetched as JSON usable. Transports elide `BaseIcons`\n— roughly 71% of a serialized theme, and bytes the consumer already ships — so\nwithout hydration a fetched theme would validate cleanly and then render no\nicons at all. The rule is the same one `createTheme` already applies at\nconstruction (`{...BaseIcons, ...icons}`), so a theme behaves identically\nwhether it was built in-process or arrived over the wire.\n\nThemes provided through `UNI_THEMES` are unaffected: they already carry the full\nset, so hydration is a no-op.",
+              "commit": "5414517"
+            },
+            {
+              "bump": "patch",
+              "title": "Menu items no longer look preselected when opened with the mouse",
+              "body": "Opening a `uni-menu` by click left the first item highlighted before the\npointer had touched it, reading as a preselected default. Two correct\nbehaviours combined badly: `onOpened()` implements ARIA roving focus by calling\n`.focus()` on an item every open, and the item styles deliberately painted\n`:focus` the same as `:hover`. Nothing was wrong with the focus itself — only\nwith painting it after a pointer open.\n- **The highlight now keys on `:focus-visible`.** Programmatic focus following a\n  click doesn't match it, while keyboard-driven focus does — so mouse users get\n  no phantom highlight, and keyboard users keep the focus cursor. Roving-focus\n  bookkeeping is untouched: a mouse open still moves focus to the first item, so\n  screen readers announce it exactly as before.\n- **New `HOVER_OR_KEYBOARD_FOCUS` constant exported from uni-core**, holding\n  that selector. Emotion merges styles by _exact selector text_, so a component's\n  base rule and any theme variant restyling it have to agree character for\n  character — a variant keyed `'&:hover, &:focus'` would both fail to override\n  and reintroduce the phantom highlight. Naming the selector once removes the\n  trap; the base theme's `menuItem.warn` tone and the Carbon/Wellsourced\n  showcase themes now use it.\n\nThemes with their own `menuItem` variants should key the highlight with\n`HOVER_OR_KEYBOARD_FOCUS`. Note that `:focus-visible` is a browser heuristic:\nafter a user has been navigating by keyboard, a subsequent click may still show\nthe highlight, which is the intended \"this person is using the keyboard\"\nbehaviour rather than a regression.",
+              "commit": "3279186"
+            }
+          ],
+          "dependencyBumps": [
+            "@uni-design-system/uni-core@8.0.0"
+          ]
+        },
+        {
+          "version": "7.3.0",
+          "entries": [
+            {
+              "bump": "minor",
+              "title": "`expand` gains a themable, size-aware speed",
+              "body": "The reveal/collapse duration was hardcoded at 350ms, so a consumer wanting a\nsnappier disclosure — or wanting adjacent styling to fade on the same clock —\nhad nothing to reference. A fixed duration also reads differently at different\nsizes: sluggish on a two-line region, rushed on a full-page one.\n- **New `transitionSpeed` option in the `expand` theme options** (seconds,\n  default `0.35`, matching alert/card `transitionSpeed`) sets the base\n  duration. `'expand'` joins core's `ComponentName` union, so custom and\n  derived themes can type an `expand` entry.\n- **Duration scales with content height.** The actual duration is\n  `transitionSpeed × √(height ÷ 240px)`, clamped to ~0.15–0.6s at the default\n  speed (the envelope scales proportionally with a themed speed), so perceived\n  speed stays steady across region sizes. The curve and its constants\n  (`expandDuration`, `EXPAND_DEFAULT_SPEED`, `EXPAND_MIN_DURATION`,\n  `EXPAND_MAX_DURATION`, `EXPAND_REFERENCE_HEIGHT`) are exported from\n  uni-core.\n- **New per-instance `transitionSpeed` input** sets an exact duration for one\n  region, bypassing the scaling: `<uni-expand [transitionSpeed]=\"0.15\">`.\n- **The resolved duration is exposed as the public `duration` signal** on\n  `uni-expand`, so adjacent styling can move on the reveal's clock with a\n  plain binding — `[style.transition-duration]=\"expand.duration() + 's'\"` —\n  keeping all timing in the theme/signal pipeline, with no custom CSS.\n- **`expand-toggle` gains a matching `transitionSpeed` input** and otherwise\n  follows the theme token instead of its own hardcoded 350ms. Expand Area\n  binds the region's resolved `duration` to its toggle, keeping chevron and\n  reveal on one clock even when size-scaled or overridden.\n- **Speed is theme-reactive**: swapping themes at runtime retimes regions and\n  chevrons live.\n- **Enter/leave easing is now `ease-in-out`** (was `ease-in`), matching the\n  chevron rotation so trigger and region decelerate together.\n- **`UniExpandOptions` is exported** from uni-angular for\n  `getComponentOptions<UniExpandOptions>('expand')` consumers.",
+              "commit": "c828982"
+            },
+            {
+              "bump": "minor",
+              "title": "Menus join the theme model: `menu` + `menuItem` component options, item tones, and dividers",
+              "body": "The menu was the only composite component with no theme surface of its own —\npanel chrome came from the shared `dropdown` entry and every item-level knob\n(height 38, `primary-container` hover, `check` active symbol, `label` type\nrole) was hardcoded. Every Uni menu therefore looked identical, and the gaps a\nreal product hits first (a red Delete, a separator before it, disabled rows)\nwere only reachable via `::ng-deep`.\n- **New `menu` theme options** (`'menu'` joins core's `ComponentName` union):\n  `minWidth`, panel `color`/`border`/`borderRadius`/`shadow` (each falling\n  back to the `dropdown` options when unset, so menus follow generic popovers\n  until a theme deliberately splits them), `paddingVertical`/\n  `paddingHorizontal` (panel inset — `xs` inset plus item `borderRadius`\n  yields the \"hover pill\" look; `none` yields full-bleed rows), and\n  `dividerBorder`/`dividerSpacing` for separators.\n- **New `menuItem` theme options + variants** (`'menuItem'` joins\n  `ComponentName`): `height`, `paddingHorizontal`, `gap`, `borderRadius`,\n  `typeface`, `textColor`, `hoverColor`, `activeSymbol` (undefined removes the\n  trailing check), and `transitionSpeed`. Theme `variants` on `menuItem` carry\n  tones — the base theme ships a `warn` tone for destructive actions.\n- **`MenuItem` grows `variant`, `disabled`, and `{ divider: true }`.**\n  `variant: 'warn'` routes through the theme's `menuItem` variants; `disabled`\n  items render in the disabled color, carry `aria-disabled`, and are skipped\n  by keyboard navigation; dividers render as `role=\"separator\"` rules styled\n  by the `menu` options. `isDivider` and the `UniMenuOptions`/\n  `UniMenuItemOptions` interfaces are exported from uni-angular.\n- **`uni-dropdown` panel chrome is now input-overridable**\n  (`border`/`borderRadius`/`shadow`/`color`), falling back to the `dropdown`\n  theme options — this is the mechanism `uni-menu` uses; other consumers are\n  unchanged.\n- **Default-rendering change:** menus now have `minWidth: 184` from the base\n  theme (previously they sized to the widest item). All other defaults\n  reproduce the previous look, including the 0.35s hover transition.\n- **The Carbon experiment themes gain menu styling** (sharp full-bleed 40px\n  rows, IBM Plex, `$layer-hover`, red danger option, ~110ms motion) with a new\n  Carbon Menu story demonstrating that the same component renders both\n  aesthetics untouched.",
+              "commit": "6e8b429"
+            },
+            {
+              "bump": "patch",
+              "title": "Tooltip no longer blinks after activating a wrapped control",
+              "body": "Clicking a button inside `uni-tooltip` used to fall through to the bubble's\ntap-to-toggle handler and then re-show on the still-hovering pointer — a\nstate-flipping label (\"Expand\" → \"Collapse\") visibly blinked off and back on\nafter the click.\n- **Activating an interactive element inside the host now hides the bubble\n  and suppresses it** until the pointer leaves and returns (or focus moves\n  away). Tap-to-toggle is unchanged for non-interactive hosts (inline text).\n- **`expand-toggle` drops its icon-only tooltip.** The rotating chevron plus\n  `aria-expanded` and the button's accessible name already say everything the\n  bubble restated; use the `label` input when a disclosure needs a visible\n  name.",
+              "commit": "ba4e38d"
+            }
+          ],
+          "dependencyBumps": []
+        },
+        {
+          "version": "7.2.0",
+          "entries": [
+            {
+              "bump": "minor",
+              "title": "Centre `icon-button`'s glyph, fix `expand-toggle`'s rotation, make `expand`",
+              "body": "block-level and motion-safe, and give `expand-toggle` a label\n\nGaps found while building collapsible sections in a consuming app, where each\none had to be worked around locally.\n- **`icon-button` centres its glyph.** Sizing `iconName` from the size token\n  (shipped in the previous release) made the glyph smaller than the button —\n  an `sm` button is a 22px box around an 18px icon — but the button was\n  `display: block`, so the glyph sat in the top-left corner with all the slack\n  on its right and bottom. It is now a centring flex box; flex is still\n  block-level, so the button's own layout is unchanged, and the\n  absolutely-positioned accessible-name span stays out of the flex flow.\n  **Visual change** for every `icon-button`: glyphs shift to the middle of the\n  box. `symbolName` ligatures centre too, which also means the known\n  oversized-ligature case (a 24px glyph in a 22px `sm` box) now clips evenly on\n  all sides instead of only bottom-right. Covered by a test.\n- **`expand-toggle` rotates the glyph instead of its host.** This is a fix to\n  existing behaviour, visible in 7.1.0 and earlier: the 180° turn was applied to\n  the component host, which is both the tooltip's positioning box (`uni-tooltip`\n  sets `anchor-name` on its own element, nested inside the host) and taller than\n  the glyph, since an inline-level box reserves baseline descender space. So the\n  bubble bobbed along an arc as the chevron turned, and the chevron itself\n  drifted off-centre rather than spinning in place. The transform now lands on\n  `uni-icon` — a centred square sized to the glyph, and the only box here that\n  rotates symmetrically. The host keeps its `toggled` attribute, so any consumer\n  styling keyed on it still works.\n- **`uni-expand` is now `display: block`.** As a custom element it defaulted to\n  `display: inline`, so its animated grid laid out as a block-in-inline box and\n  the revealed content's spacing came out subtly wrong. Every consumer was\n  writing `uni-expand { display: block }` by hand. **Visual change** for anyone\n  who was relying on the inline default or already shipping that override — the\n  override is now redundant and can be deleted.\n- **The reveal respects `prefers-reduced-motion`** (WCAG 2.3.3). The\n  expand/collapse keyframes ran unconditionally; they're now wrapped in\n  `motionSafe`, as is `expand-toggle`'s chevron rotation. Under reduced motion\n  the region appears and disappears instantly. `overflow: hidden` moved inside\n  the guard deliberately: it exists to clip the box mid-animation, and leaving\n  it applied at rest would crop decorations that legitimately paint outside the\n  region (focus rings, offset outlines). Angular removes a leaving node on the\n  next frame when it detects no animation, so nothing hangs.\n- **`expand-toggle` takes `label` and `sublabel`.** It was chevron-only, so any\n  disclosure that names its section — most of them — had to hand-roll the whole\n  trigger row and its styles, which is how consumers end up with a private\n  copy of this component. With `label` set the toggle renders a full-width row\n  (chevron, label, muted qualifier) as a single button whose accessible name is\n  the label, instead of an icon button sitting next to unrelated text. Only the\n  chevron rotates, so the label stays upright. Omit `label` and the icon-only\n  shape is unchanged, tooltip and all — `uni-expand-area` is unaffected.",
+              "commit": "8d77ed7"
+            },
+            {
+              "bump": "minor",
+              "title": "Size `icon-button`'s `iconName` glyph from its size token",
+              "body": "`icon-button` rendered a `symbolName` ligature at a font size, but an `iconName`\nmask with no size at all — and the base `iconButton` size tokens carry no\npadding, so the icon filled the entire button box edge to edge. That made\n`symbolName` → `iconName` a visual regression rather than a like-for-like swap,\nwhich matters now that `uni-icon` is the preferred path (a mask paints on the\nfirst frame, where a ligature waits on the variable font).\n- `iconName` is now sized from the size token's `fontSize` — the same value that\n  scales the rest of the control — so the glyph sits inside the button and grows\n  with `size`. Concretely, `size=\"sm\"` renders an 18px glyph in a 22px button\n  instead of a 22px one.\n- **Visual change** for existing `iconName` call sites: glyphs get slightly\n  smaller and gain breathing room. Themes that size icon-buttons with padding\n  (e.g. the Carbon example) set a matching `fontSize`, so they land on the same\n  glyph size either way and are unaffected.\n- Known gap, now covered by a test that documents rather than blesses it:\n  `uni-symbol` takes its size from `opticalSize` (default 24) and ignores the\n  button's size token, so a `sm` button renders a 24px ligature in a 22px box.\n  Masked icons do not have that problem — one more reason to prefer `iconName`.",
+              "commit": "c532c95"
+            },
+            {
+              "bump": "patch",
+              "title": "Fix `uni-icon` ignoring `size=\"24\"` written as a static attribute",
+              "body": "`size` appended `px` only to numbers, but a static template attribute arrives as\na string — so `<uni-icon name=\"mail\" size=\"24\" />` emitted the invalid\n`width: 24`. Browsers drop an invalid declaration, which silently fell back to\nthe stylesheet's `width: 100%; height: 100%`.\n\nThat failed in two different ways depending on the container, neither of them\nobvious: inside a fixed box the icon quietly filled it (a 16px glyph rendering\nat 30px), and inside a content-sized flex row `height: 100%` collapsed to zero,\nso the icon vanished while still occupying full width and pushing its label\nacross the row.\n\nA bare numeric string is now treated as px, matching the number form. Genuine\nCSS lengths (`'1.25rem'`, `'50%'`, `calc(…)`) still pass through untouched.\n`[size]=\"24\"` was unaffected throughout, since property binding passes a real\nnumber.",
+              "commit": "c532c95"
+            }
+          ],
+          "dependencyBumps": []
+        },
+        {
+          "version": "7.1.0",
+          "entries": [
+            {
+              "bump": "minor",
+              "title": "Expand `BaseIcons` to 59 icons and add `uni-icon` sizing",
+              "body": "The 34-icon set shipped in 7.0.0 covered the library's own components but not a\nreal application — an app migrating off inline `<svg>` (or off `uni-symbol`, in\nAngular) ran out of names almost immediately. Everything here is additive; all\n34 existing names are unchanged.\n- **25 new icons**, same Material Symbols Outlined 300 source and the same\n  `0 -960 960 960` grid as the rest of the set: navigation (`link`, `expand`,\n  `gridView`, `listView`), actions (`moreHorizontal`, `copy`, `send`,\n  `refresh`, `dragHandle`, `qrCode`), feedback (`star`, `verified`) and\n  user/system (`group`, `shieldPerson`, `clock`, `mail`, `chat`, `image`,\n  `document`, `payment`, `bank`, `trendingUp`, `extension`, `webhook`,\n  `logout`).\n  - `moreHorizontal` ships alongside `more` because that one is `more_vert` and\n    row-aligned menus need the horizontal kebab.\n  - `star` is separate from `favorite`, which is the heart.\n- **`uni-icon` gains an optional `size` input** (`CssLength` — bare numbers are\n  px, strings pass through, so `20` and `'1.25rem'` both work). Left unset,\n  behaviour is unchanged: the icon fills its container, which is what lets a\n  themed control size its own glyph through padding. Set, it applies\n  width/height as inline styles, so an explicit size wins over the\n  fill-the-container rule regardless of style injection order. This removes the\n  per-call-site `width`/`height` CSS rule that replacing an inline `<svg>` with\n  `<uni-icon>` would otherwise need.\n- The MCP `create-icon-tokens` tool now lists the built-in icon names above the\n  token map it returns. Apps routinely hand-draw their own `close`, `check` or\n  `plus`; encoding those into theme tokens works but adds redundant artwork on a\n  foreign grid when the theme already ships the glyph. The tool cannot recognise\n  a shape, so it hands the caller the list to check against before adding\n  anything.",
+              "commit": "c2421c0"
+            }
+          ],
+          "dependencyBumps": []
+        },
+        {
+          "version": "7.0.0",
+          "entries": [
+            {
+              "bump": "minor",
+              "title": "Replace `BaseIcons` with a normalized 34-icon Material Symbols set",
+              "body": "The built-in icon set was 11 glyphs drawn from four different grids\n(`0 0 24 24`, `0 0 50 50`, `0 0 64 64`, `0 -960 960 960`), so `checkCircle` and\n`xCircle` rendered as solid filled discs next to a hairline `alertCircle` and an\noversized `close` — three optical weights in one set.\n- `BaseIcons` is now Material Symbols Outlined at weight 300, every glyph on a\n  single `0 -960 960 960` grid, grouped by intent: navigation (`menu`,\n  `chevronUp/Down/Left/Right`, `arrowLeft/Right`, `home`, `externalLink`),\n  actions (`search`, `close`, `plus`, `minus`, `more`, `delete`, `edit`,\n  `download`, `upload`, `share`, `filter`), feedback (`check`, `checkCircle`,\n  `xCircle`, `alertCircle`, `info`, `warning`, `lock`) and user/system\n  (`profile`, `settings`, `notification`, `favorite`, `help`, `calendar`).\n- All 11 previously shipped names are preserved, so existing `<uni-icon>` call\n  sites and theme overrides keep working. Their **appearance changes**: the\n  filled `checkCircle`/`xCircle` are now outlined, and the set reads lighter\n  overall. `spinner` is carried over verbatim, keyframes intact.\n- New `IconName` and `BaseIconName` types. `IconName` is\n  `BaseIconName | (string & {})`, so built-ins autocomplete and typos surface\n  while themes can still register arbitrary names via `createTheme({ icons })`.\n  `uni-icon`'s `name` input is typed with it instead of `keyof Icons`.\n- **Breaking**: removes the unused `IconToken`, `IconStyle`, `ToggleableIcon`\n  and `IconConfig` exports. Nothing in the library referenced them and\n  `IconToken`'s 60-name union contradicted the actual `BaseIcons` keys. Use\n  `IconName` instead.\n- New exported `svgToIconUri(svg, options?)` — the supported way to bring your\n  own icons (a brand set, a designer handoff) into a theme. It normalizes the\n  source (drops the xml declaration, comments and fixed `width`/`height` so the\n  mask scales), percent-encodes it, and **rejects artwork that cannot survive\n  masking**: no `viewBox`, an embedded raster `<image>`, an external reference,\n  a gradient/pattern fill, or more than one paint color. That last one is the\n  trap worth naming — masks use the alpha channel, so a multi-color logo\n  flattens to a silhouette in `currentColor`; pass `{ allowMultiColor: true }`\n  when that is intended. `createTheme({ icons })` merges the result over\n  `BaseIcons` per name, so a built-in name reskins and a new name is added.\n- New MCP tool `create-icon-tokens`, the agent-facing front end to\n  `svgToIconUri`: hand it a project's inline `<svg>` (or a brand set) and it\n  returns a paste-ready `icons` map for `uni-theme.ts`. It encodes via the same\n  helper, so tokens are byte-identical to the built-in set, and adds the\n  set-level checks a per-icon helper cannot make — which names override\n  built-ins, and whether the artwork mixes viewBox grids. Bad artwork is\n  reported per icon rather than failing the batch, and re-running is safe\n  (already-encoded URIs pass through). The server instructions now point agents\n  at it whenever they encounter inline SVG.\n- `BaseIcons` is generated by `scripts/generate-icons.mjs` (`pnpm icons:generate`),\n  which fetches from the canonical Material Symbols source and validates every\n  glyph before writing — a malformed path, an off-grid viewBox or geometry\n  outside the grid aborts the run. `pnpm icons:check` verifies the committed\n  file without writing. Add or change icons in that script's manifest and\n  regenerate; the file is not hand-edited. `icon.records.spec.ts` asserts the\n  same invariants against the committed output.",
+              "commit": "f7727aa"
+            }
+          ],
+          "dependencyBumps": [
+            "@uni-design-system/uni-core@7.0.0"
+          ]
+        },
+        {
+          "version": "6.1.0",
+          "entries": [],
+          "dependencyBumps": []
+        },
+        {
+          "version": "6.0.1",
+          "entries": [
+            {
+              "bump": "patch",
+              "title": "Canonical MDX docs structure across the entire library",
+              "body": "- Component docs pages now follow one flow (spec in AGENTS.md): imports → Overview →\n  Usage (the compact playground: story + source + knobs) → named variation examples →\n  **Theme options** → Accessibility → Do/Don't. Property/API/Methods/Events tables are\n  retired — the playground's controls are the API reference.\n- New `ThemeOptions` docs block renders a component's per-theme option tokens live from\n  the active Storybook theme (with color swatches), distinguishing per-theme options\n  from per-instance inputs; data-table's raw `ThemeDataBlock` dump is replaced.\n- All ~55 component pages conform: the 7 form-control pages (200–390 lines of legacy\n  API tables) rewritten; empty Overviews authored (card, tag, icon-button, scroll-area,\n  expand-area, data-table); accessibility bullets added across navigation, feedback,\n  and form components.\n- The MCP index now carries when-to-use guidance for 55 of 70 components (was 41) and\n  accessibility guidance for 36 (was 21) — the remainder are subcomponents documented\n  on their parent pages and internal directives.",
+              "commit": "4bfb057"
+            }
+          ],
+          "dependencyBumps": []
+        },
+        {
+          "version": "6.0.0",
+          "entries": [
+            {
+              "bump": "major",
+              "title": "Layout components are attribute-only, on any element",
+              "body": "**Breaking:** the shorthand element selectors `Box`, `Stack`, `Row`, `Grid`, `Wrap`,\nand `GridArea` are removed — a concept inherited from another library that conflicted\nwith semantic HTML. Migrate to the attribute form: `<Box padding=\"md\">` →\n`<div box-layout padding=\"md\">` (GridArea → `grid-area-layout`).\n\nIn exchange, the attribute selectors now apply to **any element**, not just `div` —\nlayout and semantics compose: `<main box-layout [grow]=\"1\" padding=\"md\">`,\n`<nav stack-layout gap=\"sm\">`, `<section stack-layout>`.\n\nAlso documented, unchanged in behavior: the sizing convention (number = px via\nbinding, `[height]=\"420\"`; plain attribute = CSS length, `height=\"420px\"`) and\nStack/Row's `fit-content` min-size defaults (set `[minHeight]=\"0\"` / `[minWidth]=\"0\"`\nfor scroll containment). All internal usages, stories, and docs are migrated —\nincluding the Divider story's `<Center>`, which had silently never rendered (Center\nnever had an element selector).",
+              "commit": "a02afee"
+            },
+            {
+              "bump": "major",
+              "title": "Selector unification: one form per component",
+              "body": "**Breaking:** every PascalCase alias selector is removed (`Card`, `Menu`, `Symbol`,\n`Icon`, `Dialog`, `Button`, `Tabs`, `Snackbar`, `SelectInput`, `Confirmation`, … — a\nconcept inherited from another library). Each component now has exactly one canonical\nform, chosen by what the component is:\n- **Widgets and content-renderers** keep their `uni-*` element: `<uni-card>`,\n  `<uni-menu>`, `<uni-symbol>`, `<uni-icon>`, `<uni-tabs>`, `<uni-select>`,\n  `<uni-confirmation-dialog>`, …\n- **Decorators of native elements** are attribute-only, and their `div`-locks are\n  lifted: `[uni-badge]`, `[uni-dialog-header]` (e.g. on `<header>`),\n  `[uni-dialog-buttons]`/`[dialog-buttons]` (e.g. on `<footer>`),\n  `[uni-scroll-area]`/`[scroll-area]`, `[uni-menu-item]`/`[menu-item]` (e.g. on\n  `<li>`).\n- **Host-locked selectors stay host-locked** where the native element carries the\n  behavior: `dialog[uni-dialog]`, `button[uni-text-button]`/`button[text-button]`,\n  `button[uni-icon-button]`/`button[icon-button]`.\n\nMigration is mechanical: `<Card>` → `<uni-card>`, `<Button …>` →\n`<button text-button …>`, `<Dialog …>` → `<dialog uni-dialog …>`, `<Badge …>` →\n`<div uni-badge …>`, `<ScrollArea …>` → `<div scroll-area …>`. All internal usages,\nstories, and docs are migrated; `llms.txt` and the MCP index reflect the canonical\nforms.",
+              "commit": "f1796fb"
+            },
+            {
+              "bump": "major",
+              "title": "Text is attribute-only, with a value shorthand and element-aware defaults",
+              "body": "**Breaking:** the `uni-text` and `Text` element selectors are removed. Text is now the\nattribute `[uni-text]` on any element, keeping your HTML semantics:\n- **Value shorthand** — the attribute value is the typeface:\n  `<h1 uni-text=\"display-small\">`, `<span uni-text=\"caption\">`, dynamic via\n  `[uni-text]=\"role()\"`. The explicit `typeface` input still works (the attribute\n  value wins when both are set).\n- **Element-aware defaults** — with no value, the typeface is inferred from the host:\n  `h1`→headline-large, `h2`→headline-medium, `h3`→headline-small, `h4`→title-large,\n  `p`→body-1-long, `small`/`figcaption`→caption, `blockquote`→quote, `label`→label,\n  else title-small. Plain semantic markup is correctly set with zero configuration.\n\nMigrate `<uni-text typeface=\"body-1-long\">…</uni-text>` →\n`<p uni-text>…</p>` (or `<span uni-text=\"body-1-long\">` where no semantic element\nfits). All internal usages, stories, and docs are migrated.",
+              "commit": "a62e9b1"
+            },
+            {
+              "bump": "minor",
+              "title": "Search input stripped back and made generic; debounce input dressed in the shared chrome",
+              "body": "- **`uni-debounce-input`** now wears the themed input chrome via `uni-input-box`\n  (color, border, typeface, focus ring) and gains `label` (accessible name),\n  `placeholder`, `disabled`, `pre-input`/`post-input` attribute slots for adornments,\n  ARIA passthroughs (`role`, `ariaExpanded`, `ariaControls`, `ariaActivedescendant`)\n  for composite widgets, and `clear()`/`focus()` methods. Debounce behavior unchanged.\n- **`uni-search-input` redesigned**: the opinionated solid-primary pill bar with the\n  embedded `title-large` label is gone. It's now a standard themed field — decorative\n  leading magnifier, clear button while a query exists (refocusing on clear), Enter\n  emits `search`, Escape closes/clears.\n- **Type-ahead added**: pass `suggestions` (refresh from `change`) and the field\n  becomes an ARIA combobox — keyboard-navigable listbox (ArrowUp/Down, Enter selects,\n  emitting `suggestionSelected` + `search`), `aria-activedescendant` wiring, focus-out\n  closing. New `searchInput` theme options: `searchSymbol`, `clearSymbol`, suggestion\n  list `listColor`/`listShadow`/`listBorderRadius`, `maxSuggestions`.\n- Visual breaking change for SearchInput consumers (deliberate strip-back); code API\n  is compatible (`label`/`width`/`change`/`search` retained; `label` is now the\n  accessible name + placeholder fallback rather than displayed text).",
+              "commit": "5a6fc60"
+            },
+            {
+              "bump": "minor",
+              "title": "Checkbox, radio, and toggle conform to theme tokens",
+              "body": "- The last hardcoded control colors (`#FFF`, `#ccc`, `#d0d0d0`, `#e0e0e0`,\n  `rgba(0,0,0,0.2)`) are gone. Chrome now resolves from new option tokens —\n  checkbox `boxColor: 'surface'`; radio `ringColor: 'outline'` / `fillColor:\n  correctly on dark and brand themes.\n- The checkbox's check/dash strokes wear the variant's paired on-color\n  (`on-primary`, `on-warn`, …) instead of assuming white; disabled states use the\n  `disabled`/`on-disabled` tokens; the toggle knob's shadow is the theme's\n  brand-tinted `raised` stack, and its hover uses the button convention's\n  brightness filter instead of a fixed grey.",
+              "commit": "8953d59"
+            },
+            {
+              "bump": "minor",
+              "title": "New `uni-stat` KPI tile",
+              "body": "- Muted label + large headline value (numbers auto-compact via\n  `Intl.NumberFormat`: `48234` → \"48.2K\") set in a new `stat` type-scale role\n  (32px semibold, proportional figures).\n- Optional signed `delta` whose ink is decided by direction × `upIsGood` — churn\n  going down reads green, tickets going up reads red — with the arrow glyph\n  accompanied by screen-reader \"up\"/\"down\" text so state never rides color alone;\n  `caption` names the comparison period.\n- Optional decorative 12-point sparkline (`trend` input): stroke in the outline hue,\n  endpoint dotted in the accent, `aria-hidden`.\n- Fully token-driven via `stat.options`: card-recipe frame (`color`/`border`/\n  `borderRadius`), `labelTypeface`/`valueTypeface`, `positiveColor`/`negativeColor`\n  (the semantic inks, AA-guaranteed on surface), `trendColor`/`trendAccent`, spacing.",
+              "commit": "7a6da4f"
+            },
+            {
+              "bump": "minor",
+              "title": "Fix invisible icons; icons become first-class theme primitives",
+              "body": "- **Bug**: `uni-icon` resolves icons from `theme.icons`, but every theme shipped\n  `icons: {}` — the icon record was never wired in, so all icons (dialog close, button\n  spinner, search/clear affordances) rendered nothing.\n- **Fix + pattern**: the default icon set now lives in core (`BaseIcons`, in\n  `concepts/iconography`) and `createTheme` merges a theme's `icons` over it — themes\n  can override or add icons under any name (inline SVG data URIs, masked with\n  `currentColor` so they recolor with the theme). The angular `icons` record re-exports\n  `BaseIcons` (deprecated).\n- `uni-icon` also sets the standard `mask-image` (was webkit-only, so icons were\n  invisible in Firefox regardless) and renders nothing for unknown names instead of a\n  broken `url(\"undefined\")`.\n- The emitted `uni-theme.ts` gains an editable `icons` section, and the MCP's\n  `generate-uni-theme` guidance instructs agents: never inline SVG in components —\n  define an icon once in the theme's `icons` map and render it via `<uni-icon>`.",
+              "commit": "fea0b2e"
+            }
+          ],
+          "dependencyBumps": [
+            "@uni-design-system/uni-core@6.0.0"
+          ]
+        },
+        {
+          "version": "5.2.0",
+          "entries": [
+            {
+              "bump": "minor",
+              "title": "New `uni-avatar` and `uni-avatar-group` components",
+              "body": "- Graceful fallback chain: image → initials derived from `name` (first + last) →\n  themed symbol. Accessible by default: `role=\"img\"` + `aria-label` from the name,\n  `aria-hidden` when purely decorative.\n- Fully token-driven: variants color from the role's `*-container` tokens, sizes from\n  the theme's `avatar` size records, corner radius from `options.borderRadius`\n  (`max` = circles; a `sharp` theme gets square avatars), initials typeface from\n  `options.typeface`, fallback symbol from `options.fallbackSymbol`.\n- `uni-avatar-group` stacks avatars with a token-driven overlap (spacing token) and\n  separator ring (`ringColor`/`ringWidth` options); `max` collapses the overflow into\n  a themed \"+N\" chip that is itself a `uni-avatar` (verbatim `text` input).",
+              "commit": "1f5ee1d"
+            },
+            {
+              "bump": "minor",
+              "title": "New `uni-breadcrumb` component",
+              "body": "- WAI-ARIA breadcrumb: labelled `nav` landmark wrapping an ordered list, the last item\n  marked `aria-current=\"page\"`, separators decorative (`aria-hidden`).\n- Data-driven `items` (root first). Items with `href` render as real anchors; without\n  one they render as link-styled buttons emitting `itemClicked` for SPA routing.\n- Token-driven via `breadcrumb.options`: `typeface`, link `color`, `currentColor`,\n  `separatorSymbol` (material symbol), and `gap` spacing.",
+              "commit": "dca84b1"
+            },
+            {
+              "bump": "minor",
+              "title": "Button corner rounding and typography conform to component-options tokens",
+              "body": "- `button` and `iconButton` themes gain `options: { borderRadius: 'max' }`; the hardcoded\n  per-size pixel radii (11/13/18/24) and the icon button's inline `borderRadius: 999` are\n  removed. Components resolve the token through `theme.radius()`, so the theme's radii\n  scale — shape languages (`sharp` → square, `playful` → pill) and custom radii\n  primitives — now restyles buttons like every other tokened component.\n- Back-compat: the options radius is applied before theme `sizes`/`fixed` styles, so\n  hand-authored themes that still set a size-level `borderRadius` keep winning; icon\n  buttons fall back to the legacy circle when a theme predates iconButton options.\n- `button` themes also gain `options: { typeface: 'button' }`: the hardcoded\n  `fontFamily: 'Euphemia'` (a font no theme loads) is removed from `fixed` and the sizes;\n  labels now render the type scale's `button` role (Red Hat Display, medium, capitalize),\n  with per-size `fontSize` still applied by `sizes`. Point the token at any typography\n  role — including custom ones — to restyle every button label.\n- New `UniButtonOptions` interface (`borderRadius`, `typeface`) exported from the button\n  model.",
+              "commit": "7844dde"
+            },
+            {
+              "bump": "minor",
+              "title": "Card frame conforms to token primitives",
+              "body": "- The card theme's hardcoded frame (`borderStyle`/`borderWidth`/`borderRadius: '8px'` in\n  `fixed`, `borderColor` per variant) is replaced by tokens: the card resolves its border\n  from the **border primitive named by its variant** (`borders.primary` …\n  `borders.success`), its corner radius from the radii scale (`options.borderRadius:\n- `UniCardOptions` gains `border` (pin every card to one primitive — including a custom\n  one — instead of variant-following) and documents the existing `borderRadius`/\n  `elevation`; redefining a border primitive in a theme now restyles cards and every\n  other component sharing that token.\n- Token styles apply under the merged theme style, so hand-authored themes that still\n  set card `fixed`/`variants` frame styles keep winning. No visual change for default\n  themes — this is pure tokenization.",
+              "commit": "7844dde"
+            },
+            {
+              "bump": "minor",
+              "title": "New `uni-drawer` and `uni-app-bar` — the dashboard shell",
+              "body": "- **`uni-drawer`** has two modes sharing one content slot: `side` renders an in-flow\n  `<aside>` that pushes content (width-animated open/close, divider border primitive at\n  its edge, `aria-hidden` while closed); `over` renders a native `<dialog>` in the top\n  layer — focus trap, Escape, and scrim backdrop come from the platform, sliding in\n  from `position` (`start`/`end`). `open` is a two-way `model()`; Escape and backdrop\n  clicks keep it in sync. Tokens: `drawer.options` (`color`, `width`, `divider`,\n  `elevation`, `padding`, `backdrop`).\n- **`uni-app-bar`**: leading/trailing content projection slots around a `title` (or\n  custom center content), trailing pushed to the far edge; optional `sticky`. Tokens:\n  `appBar.options` (`color`, `height`, `divider`, `typeface`, `padding`, `gap`,\n  optional `elevation`).\n- The Drawer \"DashboardShell\" story documents the composition recipe: app bar with a\n  menu toggle + side drawer + content.",
+              "commit": "17cf662"
+            },
+            {
+              "bump": "minor",
+              "title": "Progress gauge derives from the palette instead of hardcoded pastels",
+              "body": "The gauge's track colors were fixed pastel hexes (`#b3d4ea`, `#b3e7c2`, …) that ignored\nthe active theme entirely — secondary and success even shared the same green. Tracks now\nuse the role's `*-container` token (the palette's soft tint of that role) and arcs the\nrole base, so gauges follow any brand palette, in both light and dark modes.",
+              "commit": "7844dde"
+            },
+            {
+              "bump": "minor",
+              "title": "New `uni-skeleton` loading placeholder",
+              "body": "- Three shapes: `text` (multi-line, ending on a short line like real copy), `rect`,\n  and `circle`; explicit `width`/`height` accept CSS strings or px numbers.\n- Painted with surface tokens (`skeleton.options`: `color`, `highlightColor`,\n  `borderRadius`, `gap`) so placeholders sit naturally on light and dark themes; the\n  shimmer sweep (`animation`/`duration` options) only runs when the user allows motion\n  and degrades to static blocks under `prefers-reduced-motion`.\n- `aria-hidden` — placeholders are invisible to assistive tech by design.",
+              "commit": "4ccf18b"
+            },
+            {
+              "bump": "minor",
+              "title": "New `uni-slider` component — clears the declared-but-unbuilt `ComponentName` entry",
+              "body": "- Native `<input type=\"range\">` under the hood: platform keyboard interaction\n  (arrows, Home/End, Page Up/Down) and ARIA slider semantics for free; Signal Forms\n  contract (`FormValueControl<number>`) matching Input/Textarea.\n- `min`/`max`/`step` inputs (fractional steps supported), required accessible `label`.\n- Token-driven via `slider.options`: fill/thumb `color`, `trackColor`, `borderRadius`,\n  and geometry (`trackHeight`, `thumbSize`). The fill level rides a CSS custom\n  property, so dragging never regenerates Emotion styles; Firefox uses the native\n  `::-moz-range-progress`, WebKit a gradient stop.",
+              "commit": "5d9062a"
+            },
+            {
+              "bump": "minor",
+              "title": "New `uni-tabs` / `uni-tab` components",
+              "body": "- Full WAI-ARIA tabs pattern: `tablist`/`tab`/`tabpanel` roles with wired\n  `aria-selected`/`aria-controls`/`aria-labelledby`, roving tabindex, automatic\n  activation on ArrowLeft/ArrowRight (wrapping, disabled tabs skipped), Home/End,\n  and motion-safe transitions.\n- `selectedIndex` is a two-way `model()`; selection snaps to the nearest enabled tab.\n  Panel content is captured per-tab and only the selected panel is instantiated.\n- Every visual knob is a theme option token (`tabs.options`): `typeface`, `textColor`,\n  `activeTextColor`, `indicatorColor`, `indicatorThickness` (thickness token),\n  `divider` (border primitive), `gap`/`padding` (spacing tokens), `borderRadius`, and\n  optional `activeColor` — the defaults render underline tabs; `borderRadius: 'max'` +\n  `activeColor` turns them into segmented pills with no component changes.",
+              "commit": "15a8f73"
+            },
+            {
+              "bump": "minor",
+              "title": "New `uni-textarea` component",
+              "body": "- Multi-line text field with the same Signal Forms contract as `uni-input`\n  (`FormValueControl<string>`: `value` model, `disabled`/`invalid`/`dirty`/`required`,\n  touched-aware error styling, `aria-*` wiring).\n- Reuses `uni-input-box` for its chrome, so it inherits the input's themed color,\n  border, typeface, focus outline, and disabled treatment automatically; the box's\n  field selectors now cover `textarea` (with auto height and vertical padding), and\n  the box accepts a `height` override.\n- Theme options follow the token pattern: `textarea: { options: { rows: 3, resize:\n  instance.",
+              "commit": "b04b97b"
+            },
+            {
+              "bump": "minor",
+              "title": "Theme Builder becomes the full playground (PRD §5.2)",
+              "body": "- **Light & dark side by side**: both palettes generate on every input change,\n  independent of the storybook-wide mode toggle, each rendered in its own panel.\n- **Contrast report panel**: live pass/fail matrix over all checked pairs (summary +\n  failing rows always visible, full detail on demand). Failures only occur with hard\n  brand pins; the panel says so and points at soft targets.\n- **Shape language input** (`sharp`/`modern`/`playful`): applies `ShapeRadii` live via\n  the new `radii` pass-through on `BrandPaletteConfig`/`createThemeFromPalette`.\n- **Export paths**: copy the static `uni-theme.ts` (via `emitThemeFile`), copy a\n  pre-encoded `ng add` command, or copy W3C DTCG JSON for both modes via the new\n  `emitDtcgTokens()` interop emitter in uni-core (Style Dictionary compatible).",
+              "commit": "8f55b4c"
+            }
+          ],
+          "dependencyBumps": []
+        },
+        {
+          "version": "5.1.0",
+          "entries": [
+            {
+              "bump": "patch",
+              "title": "Fix `ng add` against real published packages (found by fresh `ng new` e2e):",
+              "body": "- The schematic bundle is CJS, but ng-packagr stamps `\"type\": \"module\"` into the\n  published package.json, so Node loaded it as ESM and the CLI reported \"no ng add\n  actions\". A nested `schematics/package.json` (`\"type\": \"commonjs\"`) scopes the\n  bundle back to CJS.\n- The emitted `uni-theme.ts` used dot access on `Colors` (which has an index\n  signature), failing under `ng new`'s strict `noPropertyAccessFromIndexSignature`.\n  The emitter (and the MCP tool's guidance) now uses bracket access throughout.\n- `uni-angular`'s peer range on `uni-core` is now `workspace:^` (publishes as `^5.x`)\n  instead of `workspace:*` (published as an exact pin). Alongside changesets'\n  `onlyUpdatePeerDependentsWhenOutOfRange`, this stops minor releases from being\n  inflated to majors by the peer-dependents rule — the cause of the 4.0.0 and 5.0.0\n  version jumps.",
+              "commit": "f2951db"
+            }
+          ],
+          "dependencyBumps": []
+        },
+        {
+          "version": "5.0.0",
+          "entries": [
+            {
+              "bump": "minor",
+              "title": "OKLCH theme generation engine (`concepts/generation`)",
+              "body": "- New `generateThemes(input)` / `generateUniThemes(input)`: brand seed(s) in, complete\n  WCAG-AA light+dark `Colors` pair out, with a machine-readable `ContrastReport`\n  (110 checked pairs per theme pair). Pure and deterministic.\n- All palette math moved from HSL to perceptual OKLCH: uniform lightness slots across\n  hues, per-category chroma model (`CategoryChroma`), dark-mode accent chroma decoupling\n  (C ≤ 0.16), and a contrast guard-rail that adjusts lightness only — never hue.\n- Brand colors ride as soft `targets` (kept verbatim when already AA, lightness-adjusted\n  when not) alongside the existing hard `brand` pins; accepted by `generatePalette`,\n  `createThemeFromPalette`, and Angular's `BrandPaletteConfig`.\n- Semantic inks re-tuned per role: error 27°/C 0.20, warn 55°/C 0.18 (rotated off amber —\n  dark yellow reads brown), success 152°/C 0.16.\n- `createTheme` accepts optional `radii`/`shadows` overrides; `ShapeRadii` presets\n  (`sharp` / `modern` / `playful`) emitted via the `shape` generation input.\n- Theme Builder ships nine curated AA-clean presets built on soft targets.\n- Deprecated (thin wrappers/tables retained): `uniColor`, `randomRangeValue`,\n  `CategorySaturation`, `CategoryLightness`. `schemeHues` moved to `color.utils`.\n- `createTheme` deep-merges optional `borders` and `components` overrides over its\n  derived defaults — themes can define custom named primitives and rewire per-component\n  options without restating untouched sections.\n- New `emitThemeFile()` renders a static `uni-theme.ts` — literal colors, visible border\n  primitives, sparse component overrides — the editable source of truth; the engine\n  never ships to the browser.\n- New `ng add @uni-design-system/uni-angular` schematic: installs the peer set, writes\n  the generated theme file, registers `UNI_THEMES` in `app.config.ts`, adds typeface\n  links, scaffolds a themed smoke test, and prints the contrast summary.\n- New MCP tool `generate-uni-theme`: returns the static theme file content, provider\n  snippet, and contrast report, with agent guidance to edit the file for restyling.\n- `uni-core` gains its first Vitest suite, including a 1,080-seed contrast property\n  corpus with zero tolerance in both modes; the schematic gets its own spec suite.",
+              "commit": "f7f0bdd"
+            }
+          ],
+          "dependencyBumps": [
+            "@uni-design-system/uni-core@5.0.0"
+          ]
+        },
+        {
+          "version": "4.0.0",
+          "entries": [
+            {
+              "bump": "minor",
+              "title": "Porting Components",
+              "body": "",
+              "commit": "ef9b3b5"
+            }
+          ],
+          "dependencyBumps": [
+            "@uni-design-system/uni-core@4.0.0"
+          ]
+        },
+        {
+          "version": "3.0.2",
+          "entries": [
+            {
+              "bump": "patch",
+              "title": "Extending the Symbol component to support theme options.",
+              "body": "",
+              "commit": "dcaf166"
+            }
+          ],
+          "dependencyBumps": [
+            "@uni-design-system/uni-core@3.0.2"
+          ]
+        },
+        {
+          "version": "3.0.1",
+          "entries": [
+            {
+              "bump": "patch",
+              "title": "Exporting new components and formatting.",
+              "body": "",
+              "commit": "fabbb73"
+            }
+          ],
+          "dependencyBumps": [
+            "@uni-design-system/uni-core@3.0.1"
+          ]
+        },
+        {
+          "version": "3.0.0",
+          "entries": [
+            {
+              "bump": "minor",
+              "title": "Exporting Components, Themes, and CDK",
+              "body": "",
+              "commit": "54a945c"
+            }
+          ],
+          "dependencyBumps": [
+            "@uni-design-system/uni-core@3.0.0"
+          ]
+        },
+        {
+          "version": "2.0.4",
+          "entries": [
+            {
+              "bump": "patch",
+              "title": "Exporting multiple Angular Components",
+              "body": "",
+              "commit": "ad5dd15"
+            }
+          ],
+          "dependencyBumps": [
+            "@uni-design-system/uni-core@2.0.4"
+          ]
+        },
+        {
+          "version": "2.0.3",
+          "entries": [
+            {
+              "bump": "patch",
+              "title": "fix: setting dist directory in publishConfig",
+              "body": "",
+              "commit": "eb80cff"
+            }
+          ],
+          "dependencyBumps": [
+            "@uni-design-system/uni-core@2.0.3"
+          ]
+        },
+        {
+          "version": "2.0.2",
+          "entries": [],
+          "dependencyBumps": [
+            "@uni-design-system/uni-core@2.0.2"
+          ]
+        },
+        {
+          "version": "2.0.1",
+          "entries": [
+            {
+              "bump": "patch",
+              "title": "Setting Fixed Versioning for all packages.",
+              "body": "",
+              "commit": "be0fb26"
+            }
+          ],
+          "dependencyBumps": [
+            "@uni-design-system/uni-core@2.0.1"
+          ]
+        },
+        {
+          "version": "2.0.0",
+          "entries": [],
+          "dependencyBumps": [
+            "@uni-design-system/uni-core@1.1.0"
+          ]
+        },
+        {
+          "version": "1.0.0",
+          "entries": [
+            {
+              "bump": "major",
+              "title": "init release",
+              "body": "",
+              "commit": "7d18157"
+            }
+          ],
+          "dependencyBumps": [
+            "@uni-design-system/uni-core@1.0.0"
+          ]
+        }
+      ]
+    },
+    {
+      "package": "@uni-design-system/uni-core",
+      "releases": [
+        {
+          "version": "8.1.0",
+          "entries": [
+            {
+              "bump": "minor",
+              "title": "Calendar, date & time entry: `uni-calendar`, `uni-date-input`, `uni-time-input` and `uni-date-time-input`, plus a pure datetime helper layer in the cdk.",
+              "body": "The most-requested form control family anywhere, built native-platform-first with zero runtime dependencies: `Intl` does all formatting and parsing (no date library), the popup rides the native popover top layer with CSS anchor positioning, and every day in the grid is a real `<button>`.\n- **Values are plain ISO strings, never `Date`s** — `UniDate` (`'YYYY-MM-DD'`), `UniTime` (`'HH:mm'`, always 24-hour), `UniDateTime` (`'YYYY-MM-DDTHH:mm'`), `UniDateRange` (`{ start, end }`). A `Date` is a timestamp with a timezone problem; a calendar date is a label on a wall calendar. Strings are timezone-free, JSON-serializable and sortable with `<`, and `[value]=\"'2026-08-20'\"` is a complete, correct binding.\n- **`uni-calendar`** is an inline month grid and a form control in its own right: single and range modes in one component (the value shape switches with `mode`), availability **markers** with screen-reader labels, `minDate`/`maxDate` fences, `disabledDates` as a list or predicate, and a two-way `month` model so an app can drive \"jump to June\". One tab stop with a roving-tabindex `role=\"grid\"`; the full APG keyboard map (arrows, week `Home`/`End`, `PageUp`/`PageDown` with `Shift` for years) crosses month edges, skips disabled days directionally, and stops at fences without wrapping. Range selection paints a live preview band, swaps a backwards commit instead of erroring, and narrates every step through a `role=\"status\"` region.\n- **`uni-date-input`** is free-typed date entry — no input mask (masks fight paste, IMEs and screen-reader echo). The parser accepts ISO, locale-numeric text with the digit order read from `Intl.DateTimeFormat(locale).formatToParts()`, and the locale's own month names; a missing year resolves to the next occurrence and two-digit years are refused rather than guessed. Unreadable, fenced or unavailable text **stays in the field**, flagged, with a `rejected` event. The popup is the same `uni-calendar`, hosted in a `role=\"dialog\"` popover via the shared `uni-dropdown`; `↑`/`↓` on a committed value step ±1 day.\n- **`uni-time-input`** is a combobox over time slots — byte-for-byte the search-input/tag-input listbox contract via the CDK's `ListboxNavigation`. `9` → 09:00, `930` → 09:30, `3p` → 15:00, and a bare `3` leans PM in a 12-hour field (the bias yields when `minTime`/`maxTime` say otherwise). `slots` pins the choices for scheduling, refusing a typed `5pm` as `'unavailable'`; `↑`/`↓` on a committed value step ±`minuteStep`.\n- **`uni-date-time-input`** seats both parts in one `uni-input-box` chrome under one `role=\"group\"` label, emitting one combined value only when both parts are set. `slotsFor` is the scheduling flow in one attribute: the time part stays disabled until a day is chosen, then offers exactly that day's slots, and changing the day clears a slot that no longer exists. The parts gained an `embedded` input so the composer renders one shared box instead of nested chrome.\n- **cdk `datetime` module** (public export): the string-math and `Intl` layer — `addDays`/`addMonths`/`buildMonthGrid`/`parseDateText`/`parseTimeText`/`timeSlots`/`localeWeekStart` and friends — pure functions, unit-tested hard, usable by apps directly.\n- **uni-core**: `'calendar'`, `'dateInput'`, `'timeInput'`, `'dateTimeInput'` join `ComponentName` with base-theme entries (day geometry per size token, `dayBorderRadius: 'xxs'` for the square look, toggle glyphs, popup/list chrome). Selection, range and today colours are deliberately not options — they are the `primary` role pair, so themes restyle them by restyling the palette.\n- **Naming note:** the fences are `minDate`/`maxDate`/`minTime`/`maxTime`/`minDateTime`/`maxDateTime` rather than the platform's `min`/`max`, because Signal Forms' `FormUiControl` reserves `min`/`max` as numeric signals on form controls.",
+              "commit": "71bc74c"
+            },
+            {
+              "bump": "minor",
+              "title": "Themable focus chrome: a shared `focusRing` primitive for every control, plus `focusBorder`/`focusShadow`/`focusColor` options for input boxes.",
+              "body": "**Shared focus ring.** A theme can now restyle the keyboard-focus indicator across the whole library by defining `focusRing` **border** and/or **shadow** primitives: `ThemeService.focusRing()` (and the new selector-less `focusRingStyle()`) replaces its default 2px outline with that border — drawn as an outline hugging the control — plus the ring shadow. A `focusRing` **thickness** primitive sets the ring's outline offset (negative values overlay the control's resting border, reading as a border-color change). Checkbox, radio, toggle and slider now route their hand-rolled focus styles through the shared helper (calendar days and tag chips already did), so one primitive trio gives every control the same focus language. Themes without the primitives render exactly as before.\n\n**uni-core:** `Thicknesses` is now an open record like `Borders`/`Shadows` (extra named primitives allowed), and `createTheme` accepts a sparse `thicknesses` override merged over the base scale.\n\n**Also in this release:**\n- Radio and toggle scope their transitions (border/background/transform) instead of `all`, so the focus ring's outline and shadow apply instantly — `transition: all` interpolated the outline from a stale color, flashing a dark ring before the themed ring color landed.\n- The radio's dot grow/retract animation is a token — `radio.options.transitionSpeed` (seconds, default 0.3 preserving the current feel; 0 switches instantly).\n- The checkbox focus ring rounds proportionally again (box radius plus its gap) and the gap itself is a new `checkbox.options.focusRingGap` option; a `focusRingStyle` call's explicit gap wins over the theme's `focusRing` thickness, then the branch defaults.\n\nThe `input` component options could previously restyle focus only through `focusOutline`/`focusOutlineOffset`. The new optional trio mirrors the error-state trio (`errorBorder`/`errorShadow`/`errorColor`) and applies while any projected control has focus: `focusBorder` swaps the border primitive, `focusShadow` draws a ring (e.g. a soft `0 0 0 3px` spread), and `focusColor` swaps the background. All three default to `undefined`, so existing themes render exactly as before, and they yield to the error state so a flagged field stays visibly flagged while being corrected.\n\nThe Wellsourced showcase theme now defines the `focusRing` pair for its app's `.search-input:focus` look — an ochre (`secondary`) 1px border with a 10% ring of the same hue, tinted per palette in light and dark — so text fields (which rest on a canvas tint and snap to the clean surface on focus), checkboxes, radios, toggles, sliders, calendar days and tag chips all share one focus treatment.",
+              "commit": "1a6b382"
+            }
+          ],
+          "dependencyBumps": []
+        },
+        {
+          "version": "8.0.0",
+          "entries": [
+            {
+              "bump": "minor",
+              "title": "Menu items no longer look preselected when opened with the mouse",
+              "body": "Opening a `uni-menu` by click left the first item highlighted before the\npointer had touched it, reading as a preselected default. Two correct\nbehaviours combined badly: `onOpened()` implements ARIA roving focus by calling\n`.focus()` on an item every open, and the item styles deliberately painted\n`:focus` the same as `:hover`. Nothing was wrong with the focus itself — only\nwith painting it after a pointer open.\n- **The highlight now keys on `:focus-visible`.** Programmatic focus following a\n  click doesn't match it, while keyboard-driven focus does — so mouse users get\n  no phantom highlight, and keyboard users keep the focus cursor. Roving-focus\n  bookkeeping is untouched: a mouse open still moves focus to the first item, so\n  screen readers announce it exactly as before.\n- **New `HOVER_OR_KEYBOARD_FOCUS` constant exported from uni-core**, holding\n  that selector. Emotion merges styles by _exact selector text_, so a component's\n  base rule and any theme variant restyling it have to agree character for\n  character — a variant keyed `'&:hover, &:focus'` would both fail to override\n  and reintroduce the phantom highlight. Naming the selector once removes the\n  trap; the base theme's `menuItem.warn` tone and the Carbon/Wellsourced\n  showcase themes now use it.\n\nThemes with their own `menuItem` variants should key the highlight with\n`HOVER_OR_KEYBOARD_FOCUS`. Note that `:focus-visible` is a browser heuristic:\nafter a user has been navigating by keyboard, a subsequent click may still show\nthe highlight, which is the intended \"this person is using the keyboard\"\nbehaviour rather than a regression.",
+              "commit": "3279186"
+            },
+            {
+              "bump": "minor",
+              "title": "New `uni-tag-input`, plus a shared listbox contract in the CDK",
+              "body": "The type-to-add chip field — recipients, filters, labels. It is the **open-set**\ncontrol: anything typed can become a token, whether or not it matches a\nsuggestion. Closed-set picking stays with `uni-select` /\n`uni-multi-select-dropdown`, which is the deliberate split — the two look alike\nbut differ on the one thing that decides the value type, so a single component\nwould force one of them to carry an API it can never use.\n- **`FormValueControl<UniTagItem[]>`.** `{ value: 'a@b.com' }` is a complete\n  item; `label`, `avatarSrc`, `invalid` and `disabled` are optional enrichment.\n- **Invalid entries stay in the value, flagged**, rather than being dropped — a\n  field that silently swallows a typo'd address is worse than one that shows it\n  in red, and Enter on the chip lifts it back into the input to fix. Duplicates\n  and over-`max` entries are refused through `(rejected)` with a reason.\n- **Full keyboard contract**: separators commit, Tab commits without trapping,\n  Backspace on an empty field _focuses_ the last chip rather than deleting it\n  blind, and on a chip Backspace and Delete both remove but move focus in\n  opposite directions — what makes pruning a list feel right.\n- **The whole field is one tab stop.** Chips carry `tabindex=\"-1\"`, so Tab never\n  walks through eight recipients to reach the next control.\n- **Announces through a `role=\"status\"` live region** on every add, remove and\n  rejection; the removal route is described once per field rather than by every\n  chip.\n- **`preset=\"email\"`** wires an address validator, a paste parser that unwraps\n  `Name <a@b.com>` and keeps an unterminated tail in the field, and Space as a\n  separator.\n- **`'tagInput'` joins core's `ComponentName`** with a theme entry for the chip\n  field's own tokens. Field chrome is not duplicated — it comes from `input` via\n  `uni-input-box`, so a tag input restyles with every other field.\n\n**Also in this release**\n- **`ListboxNavigation` in the CDK** (`createListboxNavigation`) owns the\n  combobox bookkeeping every type-ahead control needs: open state, active\n  option, wrap-around arithmetic, Home/End, and `aria-activedescendant` wiring\n  that can never point at an option a narrowing filter has removed.\n  `uni-search-input` now uses it — behaviour unchanged, and it gains Home/End\n  for free — and the multi-select combobox upgrade will too. Three hand-rolled\n  copies of one keyboard contract is how they drift.\n- **`uni-tag` gains `controlTabIndex`**, so a composite that owns its own roving\n  focus can take its chips out of the tab order, and **`selected` is now\n  optional**: an interactive chip carries `aria-pressed` only when it is\n  genuinely a toggle. Announcing \"not pressed\" on a recipient chip is worse than\n  announcing nothing.",
+              "commit": "de83fe4"
+            },
+            {
+              "bump": "minor",
+              "title": "`uni-tag` v2: themable, opt-in removal, two style axes",
+              "body": "v1 was a single hardcoded look with the palette welded into its template, an\nunconditional remove button, and no theme entry — a filter chip, a status pill\nand a recipient token all rendered identically. v2 makes the chip a real themed\ncomponent and the building block `uni-tag-input` composes.\n\n**Breaking (uni-angular)**\n- **`(close)` is now `(removed)`.** The old name shadowed the native `close`\n  event and needed an eslint suppression to compile.\n- **The remove button is opt-in** — set `[removable]=\"true\"`. Previously every\n  tag, including a plain category label, shipped a \"Remove …\" button into the\n  accessibility tree.\n- Codemod: rename `(close)` → `(removed)` and add `[removable]=\"true\"` wherever\n  a `(close)` handler exists.\n\n**Fixed**\n- **A falsy value can now be removed.** `handleClose` guarded with `if (v)`, so\n  a tag keyed `''` or `0` silently could not be dismissed. Every defined value\n  emits, and a tag with no value emits `undefined`.\n- The remove control now sizes from the chip instead of the icon-button's own\n  `sm` size — it was 22px inside a 24px chip, and taller than an `sm` chip\n  entirely.\n\n**New**\n- **Two orthogonal style axes**: `variant` picks the colour role, `tone` picks\n  the archetype (`soft` / `solid` / `outline`). Both resolve from the new `tag`\n  theme entry, with tones as nested `&.tone-*` selectors inside each variant so\n  a theme author restyles both axes in one place.\n- **`'tag'` joins core's `ComponentName`**, with a `TagTone` type and a full\n  theme entry (`options` for radius/typeface/gap/symbols, `variants` per colour\n  role, `sizes` carrying geometry only).\n- **`interactive`** turns the chip body into a `<button>` with `selected` mapped\n  to `aria-pressed`, keeping the remove control a sibling — nesting them would\n  be invalid HTML and would strand the inner control for keyboard users.\n- **Lead slot**: `avatarSrc`, `avatarName` (initials fallback), `iconName`,\n  `symbolName` and `dot` convenience inputs, plus a `[tag-lead]` slot for\n  anything richer. Lead elements size from the chip height, and all are\n  `aria-hidden` so the chip's text stays its accessible name.\n- **Glyphs are theme icon primitives, not Material ligatures.** The remove and\n  selected affordances resolve through the new `removeIcon` / `selectedIcon`\n  theme options (defaulting to the built-in `close` and `check`), so they mask\n  `currentColor`, recolour with the chip's tone, and can be swapped per theme.\n  They also contribute no text to the DOM, which a ligature does — one less way\n  for an accessible name to be polluted. `symbolName` remains as the escape\n  hatch for glyphs the theme's icon set doesn't carry.\n- **`invalid`** sets `aria-invalid` and a dashed underline, so the state does\n  not rely on colour alone (WCAG 1.4.1); `disabled`, `maxWidth` truncation with\n  a `title`, and `removeLabel` for overriding the remove button's name.\n- The component ships with 21 specs, having previously had none.",
+              "commit": "760b761"
+            },
+            {
+              "bump": "minor",
+              "title": "Theme validation contract: `parseTheme` / `assertTheme` / `isUniTheme`",
+              "body": "Every theme scale is `Partial<Record<…>>`, so a malformed theme — hand\nwritten, generated, or fetched as JSON — rendered as silent `undefined` CSS\nwith no diagnosis. Core now ships a **dependency-free** structural validator\n(core stays zero-dep; no zod outside the MCP):\n- **`parseTheme(input): ThemeParseResult`** collects every issue rather than\n  failing fast: `{ success, theme?, issues: [{ path, message }] }` with dotted\n  paths like `colors.primary` or `typography.label.fontSize`. Acceptance /\n  rejection **with reasons** is the API.\n- **`assertTheme(input)`** throws with all reasons; **`isUniTheme`** is the\n  type-guard form; **`formatThemeIssues`** renders issues for logs.\n- The contract requires what components can't render without: 16\n  `REQUIRED_COLOR_TOKENS`, all 22 canonical `REQUIRED_TEXT_ROLES` (with\n  `fontFamily`/`fontSize`/`lineHeight`), the spacing/radii/shadow/thickness\n  scale keys, and recursively-valid component style expressions. All\n  `REQUIRED_*` sets are exported for tooling (MCP, docs, registries). Themes\n  remain free to add arbitrary named primitives on every scale.\n- Because a `UniTheme` is plain serializable data, the same contract\n  validates JSON round-trips — the foundation for theme distribution and\n  runtime theme registries (ROADMAP Track 1).",
+              "commit": "6a4c7da"
+            },
+            {
+              "bump": "minor",
+              "title": "A wire format for themes: `hydrateTheme` / `dehydrateTheme`",
+              "body": "A `UniTheme` is plain serializable data, which makes JSON the natural transport\nfor distributing themes — but a serialized theme is ~50 KB and **~71% of that is\nthe 61 built-in icon data URIs that every uni-core consumer already ships**.\n- **`dehydrateTheme(theme)`** returns the wire form: icons identical to\n  `BaseIcons` are dropped, genuine overrides kept. A theme goes from ~50 KB to\n  ~14 KB, and still passes `parseTheme`.\n- **`hydrateTheme(theme)`** restores the built-in set on the way in, applying\n  the same `{...BaseIcons, ...icons}` contract `createTheme` applies at\n  construction — the theme's own icons win, built-ins fill the rest.\n- **`generateUniThemes` now returns the `ContrastReport`** alongside the\n  light/dark pair, so a caller can generate registration-ready themes and their\n  WCAG audit in one call instead of falling back to `emitThemeFile` (which\n  returns TypeScript source) just to see the report.\n- **`summarizeContrast(report)`** is extracted and exported, so the generated\n  theme file's header and every other consumer word the audit identically.",
+              "commit": "5414517"
+            }
+          ],
+          "dependencyBumps": []
+        },
+        {
+          "version": "7.3.0",
+          "entries": [
+            {
+              "bump": "minor",
+              "title": "`expand` gains a themable, size-aware speed",
+              "body": "The reveal/collapse duration was hardcoded at 350ms, so a consumer wanting a\nsnappier disclosure — or wanting adjacent styling to fade on the same clock —\nhad nothing to reference. A fixed duration also reads differently at different\nsizes: sluggish on a two-line region, rushed on a full-page one.\n- **New `transitionSpeed` option in the `expand` theme options** (seconds,\n  default `0.35`, matching alert/card `transitionSpeed`) sets the base\n  duration. `'expand'` joins core's `ComponentName` union, so custom and\n  derived themes can type an `expand` entry.\n- **Duration scales with content height.** The actual duration is\n  `transitionSpeed × √(height ÷ 240px)`, clamped to ~0.15–0.6s at the default\n  speed (the envelope scales proportionally with a themed speed), so perceived\n  speed stays steady across region sizes. The curve and its constants\n  (`expandDuration`, `EXPAND_DEFAULT_SPEED`, `EXPAND_MIN_DURATION`,\n  `EXPAND_MAX_DURATION`, `EXPAND_REFERENCE_HEIGHT`) are exported from\n  uni-core.\n- **New per-instance `transitionSpeed` input** sets an exact duration for one\n  region, bypassing the scaling: `<uni-expand [transitionSpeed]=\"0.15\">`.\n- **The resolved duration is exposed as the public `duration` signal** on\n  `uni-expand`, so adjacent styling can move on the reveal's clock with a\n  plain binding — `[style.transition-duration]=\"expand.duration() + 's'\"` —\n  keeping all timing in the theme/signal pipeline, with no custom CSS.\n- **`expand-toggle` gains a matching `transitionSpeed` input** and otherwise\n  follows the theme token instead of its own hardcoded 350ms. Expand Area\n  binds the region's resolved `duration` to its toggle, keeping chevron and\n  reveal on one clock even when size-scaled or overridden.\n- **Speed is theme-reactive**: swapping themes at runtime retimes regions and\n  chevrons live.\n- **Enter/leave easing is now `ease-in-out`** (was `ease-in`), matching the\n  chevron rotation so trigger and region decelerate together.\n- **`UniExpandOptions` is exported** from uni-angular for\n  `getComponentOptions<UniExpandOptions>('expand')` consumers.",
+              "commit": "c828982"
+            },
+            {
+              "bump": "minor",
+              "title": "Menus join the theme model: `menu` + `menuItem` component options, item tones, and dividers",
+              "body": "The menu was the only composite component with no theme surface of its own —\npanel chrome came from the shared `dropdown` entry and every item-level knob\n(height 38, `primary-container` hover, `check` active symbol, `label` type\nrole) was hardcoded. Every Uni menu therefore looked identical, and the gaps a\nreal product hits first (a red Delete, a separator before it, disabled rows)\nwere only reachable via `::ng-deep`.\n- **New `menu` theme options** (`'menu'` joins core's `ComponentName` union):\n  `minWidth`, panel `color`/`border`/`borderRadius`/`shadow` (each falling\n  back to the `dropdown` options when unset, so menus follow generic popovers\n  until a theme deliberately splits them), `paddingVertical`/\n  `paddingHorizontal` (panel inset — `xs` inset plus item `borderRadius`\n  yields the \"hover pill\" look; `none` yields full-bleed rows), and\n  `dividerBorder`/`dividerSpacing` for separators.\n- **New `menuItem` theme options + variants** (`'menuItem'` joins\n  `ComponentName`): `height`, `paddingHorizontal`, `gap`, `borderRadius`,\n  `typeface`, `textColor`, `hoverColor`, `activeSymbol` (undefined removes the\n  trailing check), and `transitionSpeed`. Theme `variants` on `menuItem` carry\n  tones — the base theme ships a `warn` tone for destructive actions.\n- **`MenuItem` grows `variant`, `disabled`, and `{ divider: true }`.**\n  `variant: 'warn'` routes through the theme's `menuItem` variants; `disabled`\n  items render in the disabled color, carry `aria-disabled`, and are skipped\n  by keyboard navigation; dividers render as `role=\"separator\"` rules styled\n  by the `menu` options. `isDivider` and the `UniMenuOptions`/\n  `UniMenuItemOptions` interfaces are exported from uni-angular.\n- **`uni-dropdown` panel chrome is now input-overridable**\n  (`border`/`borderRadius`/`shadow`/`color`), falling back to the `dropdown`\n  theme options — this is the mechanism `uni-menu` uses; other consumers are\n  unchanged.\n- **Default-rendering change:** menus now have `minWidth: 184` from the base\n  theme (previously they sized to the widest item). All other defaults\n  reproduce the previous look, including the 0.35s hover transition.\n- **The Carbon experiment themes gain menu styling** (sharp full-bleed 40px\n  rows, IBM Plex, `$layer-hover`, red danger option, ~110ms motion) with a new\n  Carbon Menu story demonstrating that the same component renders both\n  aesthetics untouched.",
+              "commit": "6e8b429"
+            }
+          ],
+          "dependencyBumps": []
+        },
+        {
+          "version": "7.2.0",
+          "entries": [
+            {
+              "bump": "minor",
+              "title": "Add `funnel` and `building` icons",
+              "body": "Two gaps found while migrating a real app off inline SVG — both cases where the\nexisting set forced the app to keep hand-drawn artwork.\n- **`funnel`** (`filter_alt`) — `filter` is `filter_list`, the stacked-lines\n  metaphor. Apps that name the feature itself a funnel (\"Funnel Analytics\") draw\n  the shape, and substituting stacked lines loses the reference.\n- **`building`** (`apartment`) — pairs with `home` for residential-vs-commercial\n  distinctions, which had no built-in counterpart.\n\nBoth are Material Symbols Outlined 300 on the shared `0 -960 960 960` grid, so\nthe set is now 61 icons. Note `building` carries more internal detail than most\nof the set; it reads well from ~14px but goes muddy below ~12px, so prefer a\nlarger size or `home`'s simpler silhouette in very small badges.",
+              "commit": "e72ec94"
+            }
+          ],
+          "dependencyBumps": []
+        },
+        {
+          "version": "7.1.0",
+          "entries": [
+            {
+              "bump": "minor",
+              "title": "Expand `BaseIcons` to 59 icons and add `uni-icon` sizing",
+              "body": "The 34-icon set shipped in 7.0.0 covered the library's own components but not a\nreal application — an app migrating off inline `<svg>` (or off `uni-symbol`, in\nAngular) ran out of names almost immediately. Everything here is additive; all\n34 existing names are unchanged.\n- **25 new icons**, same Material Symbols Outlined 300 source and the same\n  `0 -960 960 960` grid as the rest of the set: navigation (`link`, `expand`,\n  `gridView`, `listView`), actions (`moreHorizontal`, `copy`, `send`,\n  `refresh`, `dragHandle`, `qrCode`), feedback (`star`, `verified`) and\n  user/system (`group`, `shieldPerson`, `clock`, `mail`, `chat`, `image`,\n  `document`, `payment`, `bank`, `trendingUp`, `extension`, `webhook`,\n  `logout`).\n  - `moreHorizontal` ships alongside `more` because that one is `more_vert` and\n    row-aligned menus need the horizontal kebab.\n  - `star` is separate from `favorite`, which is the heart.\n- **`uni-icon` gains an optional `size` input** (`CssLength` — bare numbers are\n  px, strings pass through, so `20` and `'1.25rem'` both work). Left unset,\n  behaviour is unchanged: the icon fills its container, which is what lets a\n  themed control size its own glyph through padding. Set, it applies\n  width/height as inline styles, so an explicit size wins over the\n  fill-the-container rule regardless of style injection order. This removes the\n  per-call-site `width`/`height` CSS rule that replacing an inline `<svg>` with\n  `<uni-icon>` would otherwise need.\n- The MCP `create-icon-tokens` tool now lists the built-in icon names above the\n  token map it returns. Apps routinely hand-draw their own `close`, `check` or\n  `plus`; encoding those into theme tokens works but adds redundant artwork on a\n  foreign grid when the theme already ships the glyph. The tool cannot recognise\n  a shape, so it hands the caller the list to check against before adding\n  anything.",
+              "commit": "c2421c0"
+            }
+          ],
+          "dependencyBumps": []
+        },
+        {
+          "version": "7.0.0",
+          "entries": [
+            {
+              "bump": "major",
+              "title": "Replace `BaseIcons` with a normalized 34-icon Material Symbols set",
+              "body": "The built-in icon set was 11 glyphs drawn from four different grids\n(`0 0 24 24`, `0 0 50 50`, `0 0 64 64`, `0 -960 960 960`), so `checkCircle` and\n`xCircle` rendered as solid filled discs next to a hairline `alertCircle` and an\noversized `close` — three optical weights in one set.\n- `BaseIcons` is now Material Symbols Outlined at weight 300, every glyph on a\n  single `0 -960 960 960` grid, grouped by intent: navigation (`menu`,\n  `chevronUp/Down/Left/Right`, `arrowLeft/Right`, `home`, `externalLink`),\n  actions (`search`, `close`, `plus`, `minus`, `more`, `delete`, `edit`,\n  `download`, `upload`, `share`, `filter`), feedback (`check`, `checkCircle`,\n  `xCircle`, `alertCircle`, `info`, `warning`, `lock`) and user/system\n  (`profile`, `settings`, `notification`, `favorite`, `help`, `calendar`).\n- All 11 previously shipped names are preserved, so existing `<uni-icon>` call\n  sites and theme overrides keep working. Their **appearance changes**: the\n  filled `checkCircle`/`xCircle` are now outlined, and the set reads lighter\n  overall. `spinner` is carried over verbatim, keyframes intact.\n- New `IconName` and `BaseIconName` types. `IconName` is\n  `BaseIconName | (string & {})`, so built-ins autocomplete and typos surface\n  while themes can still register arbitrary names via `createTheme({ icons })`.\n  `uni-icon`'s `name` input is typed with it instead of `keyof Icons`.\n- **Breaking**: removes the unused `IconToken`, `IconStyle`, `ToggleableIcon`\n  and `IconConfig` exports. Nothing in the library referenced them and\n  `IconToken`'s 60-name union contradicted the actual `BaseIcons` keys. Use\n  `IconName` instead.\n- New exported `svgToIconUri(svg, options?)` — the supported way to bring your\n  own icons (a brand set, a designer handoff) into a theme. It normalizes the\n  source (drops the xml declaration, comments and fixed `width`/`height` so the\n  mask scales), percent-encodes it, and **rejects artwork that cannot survive\n  masking**: no `viewBox`, an embedded raster `<image>`, an external reference,\n  a gradient/pattern fill, or more than one paint color. That last one is the\n  trap worth naming — masks use the alpha channel, so a multi-color logo\n  flattens to a silhouette in `currentColor`; pass `{ allowMultiColor: true }`\n  when that is intended. `createTheme({ icons })` merges the result over\n  `BaseIcons` per name, so a built-in name reskins and a new name is added.\n- New MCP tool `create-icon-tokens`, the agent-facing front end to\n  `svgToIconUri`: hand it a project's inline `<svg>` (or a brand set) and it\n  returns a paste-ready `icons` map for `uni-theme.ts`. It encodes via the same\n  helper, so tokens are byte-identical to the built-in set, and adds the\n  set-level checks a per-icon helper cannot make — which names override\n  built-ins, and whether the artwork mixes viewBox grids. Bad artwork is\n  reported per icon rather than failing the batch, and re-running is safe\n  (already-encoded URIs pass through). The server instructions now point agents\n  at it whenever they encounter inline SVG.\n- `BaseIcons` is generated by `scripts/generate-icons.mjs` (`pnpm icons:generate`),\n  which fetches from the canonical Material Symbols source and validates every\n  glyph before writing — a malformed path, an off-grid viewBox or geometry\n  outside the grid aborts the run. `pnpm icons:check` verifies the committed\n  file without writing. Add or change icons in that script's manifest and\n  regenerate; the file is not hand-edited. `icon.records.spec.ts` asserts the\n  same invariants against the committed output.",
+              "commit": "f7727aa"
+            }
+          ],
+          "dependencyBumps": []
+        },
+        {
+          "version": "6.1.0",
+          "entries": [
+            {
+              "bump": "minor",
+              "title": "TextStyle now accepts CSS length strings, not just px numbers",
+              "body": "- `fontSize`, `lineHeight`, `letterSpacing`, `textIndent`, and `wordSpacing` on\n  `TextStyle` are widened from `number` to the new exported `CssLength`\n  (`number | string`). Bare numbers still mean px, matching Emotion's own\n  convention; strings pass through verbatim, so any unit the CSS engine accepts\n  works — `'1.2rem'`, `'2em'`, `'clamp(1rem, 2vw, 1.5rem)'`, unitless\n  line-height multipliers like `'1.5'`, etc.\n- `toTypeface` no longer blindly appends `px`: numbers are converted, strings\n  are passed through untouched. Existing numeric themes are unaffected.",
+              "commit": "28323ec"
+            }
+          ],
+          "dependencyBumps": []
+        },
+        {
+          "version": "6.0.1",
+          "entries": [],
+          "dependencyBumps": []
+        },
+        {
+          "version": "6.0.0",
+          "entries": [
+            {
+              "bump": "minor",
+              "title": "Search input stripped back and made generic; debounce input dressed in the shared chrome",
+              "body": "- **`uni-debounce-input`** now wears the themed input chrome via `uni-input-box`\n  (color, border, typeface, focus ring) and gains `label` (accessible name),\n  `placeholder`, `disabled`, `pre-input`/`post-input` attribute slots for adornments,\n  ARIA passthroughs (`role`, `ariaExpanded`, `ariaControls`, `ariaActivedescendant`)\n  for composite widgets, and `clear()`/`focus()` methods. Debounce behavior unchanged.\n- **`uni-search-input` redesigned**: the opinionated solid-primary pill bar with the\n  embedded `title-large` label is gone. It's now a standard themed field — decorative\n  leading magnifier, clear button while a query exists (refocusing on clear), Enter\n  emits `search`, Escape closes/clears.\n- **Type-ahead added**: pass `suggestions` (refresh from `change`) and the field\n  becomes an ARIA combobox — keyboard-navigable listbox (ArrowUp/Down, Enter selects,\n  emitting `suggestionSelected` + `search`), `aria-activedescendant` wiring, focus-out\n  closing. New `searchInput` theme options: `searchSymbol`, `clearSymbol`, suggestion\n  list `listColor`/`listShadow`/`listBorderRadius`, `maxSuggestions`.\n- Visual breaking change for SearchInput consumers (deliberate strip-back); code API\n  is compatible (`label`/`width`/`change`/`search` retained; `label` is now the\n  accessible name + placeholder fallback rather than displayed text).",
+              "commit": "5a6fc60"
+            },
+            {
+              "bump": "minor",
+              "title": "Checkbox, radio, and toggle conform to theme tokens",
+              "body": "- The last hardcoded control colors (`#FFF`, `#ccc`, `#d0d0d0`, `#e0e0e0`,\n  `rgba(0,0,0,0.2)`) are gone. Chrome now resolves from new option tokens —\n  checkbox `boxColor: 'surface'`; radio `ringColor: 'outline'` / `fillColor:\n  correctly on dark and brand themes.\n- The checkbox's check/dash strokes wear the variant's paired on-color\n  (`on-primary`, `on-warn`, …) instead of assuming white; disabled states use the\n  `disabled`/`on-disabled` tokens; the toggle knob's shadow is the theme's\n  brand-tinted `raised` stack, and its hover uses the button convention's\n  brightness filter instead of a fixed grey.",
+              "commit": "8953d59"
+            },
+            {
+              "bump": "minor",
+              "title": "New `uni-stat` KPI tile",
+              "body": "- Muted label + large headline value (numbers auto-compact via\n  `Intl.NumberFormat`: `48234` → \"48.2K\") set in a new `stat` type-scale role\n  (32px semibold, proportional figures).\n- Optional signed `delta` whose ink is decided by direction × `upIsGood` — churn\n  going down reads green, tickets going up reads red — with the arrow glyph\n  accompanied by screen-reader \"up\"/\"down\" text so state never rides color alone;\n  `caption` names the comparison period.\n- Optional decorative 12-point sparkline (`trend` input): stroke in the outline hue,\n  endpoint dotted in the accent, `aria-hidden`.\n- Fully token-driven via `stat.options`: card-recipe frame (`color`/`border`/\n  `borderRadius`), `labelTypeface`/`valueTypeface`, `positiveColor`/`negativeColor`\n  (the semantic inks, AA-guaranteed on surface), `trendColor`/`trendAccent`, spacing.",
+              "commit": "7a6da4f"
+            },
+            {
+              "bump": "minor",
+              "title": "Fix invisible icons; icons become first-class theme primitives",
+              "body": "- **Bug**: `uni-icon` resolves icons from `theme.icons`, but every theme shipped\n  `icons: {}` — the icon record was never wired in, so all icons (dialog close, button\n  spinner, search/clear affordances) rendered nothing.\n- **Fix + pattern**: the default icon set now lives in core (`BaseIcons`, in\n  `concepts/iconography`) and `createTheme` merges a theme's `icons` over it — themes\n  can override or add icons under any name (inline SVG data URIs, masked with\n  `currentColor` so they recolor with the theme). The angular `icons` record re-exports\n  `BaseIcons` (deprecated).\n- `uni-icon` also sets the standard `mask-image` (was webkit-only, so icons were\n  invisible in Firefox regardless) and renders nothing for unknown names instead of a\n  broken `url(\"undefined\")`.\n- The emitted `uni-theme.ts` gains an editable `icons` section, and the MCP's\n  `generate-uni-theme` guidance instructs agents: never inline SVG in components —\n  define an icon once in the theme's `icons` map and render it via `<uni-icon>`.",
+              "commit": "fea0b2e"
+            }
+          ],
+          "dependencyBumps": []
+        },
+        {
+          "version": "5.2.0",
+          "entries": [
+            {
+              "bump": "minor",
+              "title": "New `uni-avatar` and `uni-avatar-group` components",
+              "body": "- Graceful fallback chain: image → initials derived from `name` (first + last) →\n  themed symbol. Accessible by default: `role=\"img\"` + `aria-label` from the name,\n  `aria-hidden` when purely decorative.\n- Fully token-driven: variants color from the role's `*-container` tokens, sizes from\n  the theme's `avatar` size records, corner radius from `options.borderRadius`\n  (`max` = circles; a `sharp` theme gets square avatars), initials typeface from\n  `options.typeface`, fallback symbol from `options.fallbackSymbol`.\n- `uni-avatar-group` stacks avatars with a token-driven overlap (spacing token) and\n  separator ring (`ringColor`/`ringWidth` options); `max` collapses the overflow into\n  a themed \"+N\" chip that is itself a `uni-avatar` (verbatim `text` input).",
+              "commit": "1f5ee1d"
+            },
+            {
+              "bump": "minor",
+              "title": "New `uni-breadcrumb` component",
+              "body": "- WAI-ARIA breadcrumb: labelled `nav` landmark wrapping an ordered list, the last item\n  marked `aria-current=\"page\"`, separators decorative (`aria-hidden`).\n- Data-driven `items` (root first). Items with `href` render as real anchors; without\n  one they render as link-styled buttons emitting `itemClicked` for SPA routing.\n- Token-driven via `breadcrumb.options`: `typeface`, link `color`, `currentColor`,\n  `separatorSymbol` (material symbol), and `gap` spacing.",
+              "commit": "dca84b1"
+            },
+            {
+              "bump": "minor",
+              "title": "Button corner rounding and typography conform to component-options tokens",
+              "body": "- `button` and `iconButton` themes gain `options: { borderRadius: 'max' }`; the hardcoded\n  per-size pixel radii (11/13/18/24) and the icon button's inline `borderRadius: 999` are\n  removed. Components resolve the token through `theme.radius()`, so the theme's radii\n  scale — shape languages (`sharp` → square, `playful` → pill) and custom radii\n  primitives — now restyles buttons like every other tokened component.\n- Back-compat: the options radius is applied before theme `sizes`/`fixed` styles, so\n  hand-authored themes that still set a size-level `borderRadius` keep winning; icon\n  buttons fall back to the legacy circle when a theme predates iconButton options.\n- `button` themes also gain `options: { typeface: 'button' }`: the hardcoded\n  `fontFamily: 'Euphemia'` (a font no theme loads) is removed from `fixed` and the sizes;\n  labels now render the type scale's `button` role (Red Hat Display, medium, capitalize),\n  with per-size `fontSize` still applied by `sizes`. Point the token at any typography\n  role — including custom ones — to restyle every button label.\n- New `UniButtonOptions` interface (`borderRadius`, `typeface`) exported from the button\n  model.",
+              "commit": "7844dde"
+            },
+            {
+              "bump": "minor",
+              "title": "Card frame conforms to token primitives",
+              "body": "- The card theme's hardcoded frame (`borderStyle`/`borderWidth`/`borderRadius: '8px'` in\n  `fixed`, `borderColor` per variant) is replaced by tokens: the card resolves its border\n  from the **border primitive named by its variant** (`borders.primary` …\n  `borders.success`), its corner radius from the radii scale (`options.borderRadius:\n- `UniCardOptions` gains `border` (pin every card to one primitive — including a custom\n  one — instead of variant-following) and documents the existing `borderRadius`/\n  `elevation`; redefining a border primitive in a theme now restyles cards and every\n  other component sharing that token.\n- Token styles apply under the merged theme style, so hand-authored themes that still\n  set card `fixed`/`variants` frame styles keep winning. No visual change for default\n  themes — this is pure tokenization.",
+              "commit": "7844dde"
+            },
+            {
+              "bump": "minor",
+              "title": "New `uni-drawer` and `uni-app-bar` — the dashboard shell",
+              "body": "- **`uni-drawer`** has two modes sharing one content slot: `side` renders an in-flow\n  `<aside>` that pushes content (width-animated open/close, divider border primitive at\n  its edge, `aria-hidden` while closed); `over` renders a native `<dialog>` in the top\n  layer — focus trap, Escape, and scrim backdrop come from the platform, sliding in\n  from `position` (`start`/`end`). `open` is a two-way `model()`; Escape and backdrop\n  clicks keep it in sync. Tokens: `drawer.options` (`color`, `width`, `divider`,\n  `elevation`, `padding`, `backdrop`).\n- **`uni-app-bar`**: leading/trailing content projection slots around a `title` (or\n  custom center content), trailing pushed to the far edge; optional `sticky`. Tokens:\n  `appBar.options` (`color`, `height`, `divider`, `typeface`, `padding`, `gap`,\n  optional `elevation`).\n- The Drawer \"DashboardShell\" story documents the composition recipe: app bar with a\n  menu toggle + side drawer + content.",
+              "commit": "17cf662"
+            },
+            {
+              "bump": "minor",
+              "title": "Progress gauge derives from the palette instead of hardcoded pastels",
+              "body": "The gauge's track colors were fixed pastel hexes (`#b3d4ea`, `#b3e7c2`, …) that ignored\nthe active theme entirely — secondary and success even shared the same green. Tracks now\nuse the role's `*-container` token (the palette's soft tint of that role) and arcs the\nrole base, so gauges follow any brand palette, in both light and dark modes.",
+              "commit": "7844dde"
+            },
+            {
+              "bump": "minor",
+              "title": "New `uni-skeleton` loading placeholder",
+              "body": "- Three shapes: `text` (multi-line, ending on a short line like real copy), `rect`,\n  and `circle`; explicit `width`/`height` accept CSS strings or px numbers.\n- Painted with surface tokens (`skeleton.options`: `color`, `highlightColor`,\n  `borderRadius`, `gap`) so placeholders sit naturally on light and dark themes; the\n  shimmer sweep (`animation`/`duration` options) only runs when the user allows motion\n  and degrades to static blocks under `prefers-reduced-motion`.\n- `aria-hidden` — placeholders are invisible to assistive tech by design.",
+              "commit": "4ccf18b"
+            },
+            {
+              "bump": "minor",
+              "title": "New `uni-slider` component — clears the declared-but-unbuilt `ComponentName` entry",
+              "body": "- Native `<input type=\"range\">` under the hood: platform keyboard interaction\n  (arrows, Home/End, Page Up/Down) and ARIA slider semantics for free; Signal Forms\n  contract (`FormValueControl<number>`) matching Input/Textarea.\n- `min`/`max`/`step` inputs (fractional steps supported), required accessible `label`.\n- Token-driven via `slider.options`: fill/thumb `color`, `trackColor`, `borderRadius`,\n  and geometry (`trackHeight`, `thumbSize`). The fill level rides a CSS custom\n  property, so dragging never regenerates Emotion styles; Firefox uses the native\n  `::-moz-range-progress`, WebKit a gradient stop.",
+              "commit": "5d9062a"
+            },
+            {
+              "bump": "minor",
+              "title": "New `uni-tabs` / `uni-tab` components",
+              "body": "- Full WAI-ARIA tabs pattern: `tablist`/`tab`/`tabpanel` roles with wired\n  `aria-selected`/`aria-controls`/`aria-labelledby`, roving tabindex, automatic\n  activation on ArrowLeft/ArrowRight (wrapping, disabled tabs skipped), Home/End,\n  and motion-safe transitions.\n- `selectedIndex` is a two-way `model()`; selection snaps to the nearest enabled tab.\n  Panel content is captured per-tab and only the selected panel is instantiated.\n- Every visual knob is a theme option token (`tabs.options`): `typeface`, `textColor`,\n  `activeTextColor`, `indicatorColor`, `indicatorThickness` (thickness token),\n  `divider` (border primitive), `gap`/`padding` (spacing tokens), `borderRadius`, and\n  optional `activeColor` — the defaults render underline tabs; `borderRadius: 'max'` +\n  `activeColor` turns them into segmented pills with no component changes.",
+              "commit": "15a8f73"
+            },
+            {
+              "bump": "minor",
+              "title": "New `uni-textarea` component",
+              "body": "- Multi-line text field with the same Signal Forms contract as `uni-input`\n  (`FormValueControl<string>`: `value` model, `disabled`/`invalid`/`dirty`/`required`,\n  touched-aware error styling, `aria-*` wiring).\n- Reuses `uni-input-box` for its chrome, so it inherits the input's themed color,\n  border, typeface, focus outline, and disabled treatment automatically; the box's\n  field selectors now cover `textarea` (with auto height and vertical padding), and\n  the box accepts a `height` override.\n- Theme options follow the token pattern: `textarea: { options: { rows: 3, resize:\n  instance.",
+              "commit": "b04b97b"
+            },
+            {
+              "bump": "minor",
+              "title": "Theme Builder becomes the full playground (PRD §5.2)",
+              "body": "- **Light & dark side by side**: both palettes generate on every input change,\n  independent of the storybook-wide mode toggle, each rendered in its own panel.\n- **Contrast report panel**: live pass/fail matrix over all checked pairs (summary +\n  failing rows always visible, full detail on demand). Failures only occur with hard\n  brand pins; the panel says so and points at soft targets.\n- **Shape language input** (`sharp`/`modern`/`playful`): applies `ShapeRadii` live via\n  the new `radii` pass-through on `BrandPaletteConfig`/`createThemeFromPalette`.\n- **Export paths**: copy the static `uni-theme.ts` (via `emitThemeFile`), copy a\n  pre-encoded `ng add` command, or copy W3C DTCG JSON for both modes via the new\n  `emitDtcgTokens()` interop emitter in uni-core (Style Dictionary compatible).",
+              "commit": "8f55b4c"
+            }
+          ],
+          "dependencyBumps": []
+        },
+        {
+          "version": "5.1.0",
+          "entries": [
+            {
+              "bump": "minor",
+              "title": "Brand-tinted, theme-scoped elevation shadows (PRD §3.5.C)",
+              "body": "- New `generateShadows(colors, mode)`: light themes replace the dead-neutral\n  `rgba(0,0,0,…)` stacks with a shadow ink pulled toward the brand hue; dark themes go\n  near-zero (`raised: none`) with only a faint veil on floating overlays — elevation\n  reads from the surface lightness steps instead. The `warn` glow is tinted with the\n  theme's own error color in both modes.\n- `generateThemes` now returns `lightShadows`/`darkShadows`; `generateUniThemes`,\n  `createThemeFromPalette` (Theme Builder), the emitted `uni-theme.ts`, and the shipped\n  stock Light/Dark themes all carry them.",
+              "commit": "c1dc853"
+            },
+            {
+              "bump": "patch",
+              "title": "Fix `ng add` against real published packages (found by fresh `ng new` e2e):",
+              "body": "- The schematic bundle is CJS, but ng-packagr stamps `\"type\": \"module\"` into the\n  published package.json, so Node loaded it as ESM and the CLI reported \"no ng add\n  actions\". A nested `schematics/package.json` (`\"type\": \"commonjs\"`) scopes the\n  bundle back to CJS.\n- The emitted `uni-theme.ts` used dot access on `Colors` (which has an index\n  signature), failing under `ng new`'s strict `noPropertyAccessFromIndexSignature`.\n  The emitter (and the MCP tool's guidance) now uses bracket access throughout.\n- `uni-angular`'s peer range on `uni-core` is now `workspace:^` (publishes as `^5.x`)\n  instead of `workspace:*` (published as an exact pin). Alongside changesets'\n  `onlyUpdatePeerDependentsWhenOutOfRange`, this stops minor releases from being\n  inflated to majors by the peer-dependents rule — the cause of the 4.0.0 and 5.0.0\n  version jumps.",
+              "commit": "f2951db"
+            }
+          ],
+          "dependencyBumps": []
+        },
+        {
+          "version": "5.0.0",
+          "entries": [
+            {
+              "bump": "minor",
+              "title": "OKLCH theme generation engine (`concepts/generation`)",
+              "body": "- New `generateThemes(input)` / `generateUniThemes(input)`: brand seed(s) in, complete\n  WCAG-AA light+dark `Colors` pair out, with a machine-readable `ContrastReport`\n  (110 checked pairs per theme pair). Pure and deterministic.\n- All palette math moved from HSL to perceptual OKLCH: uniform lightness slots across\n  hues, per-category chroma model (`CategoryChroma`), dark-mode accent chroma decoupling\n  (C ≤ 0.16), and a contrast guard-rail that adjusts lightness only — never hue.\n- Brand colors ride as soft `targets` (kept verbatim when already AA, lightness-adjusted\n  when not) alongside the existing hard `brand` pins; accepted by `generatePalette`,\n  `createThemeFromPalette`, and Angular's `BrandPaletteConfig`.\n- Semantic inks re-tuned per role: error 27°/C 0.20, warn 55°/C 0.18 (rotated off amber —\n  dark yellow reads brown), success 152°/C 0.16.\n- `createTheme` accepts optional `radii`/`shadows` overrides; `ShapeRadii` presets\n  (`sharp` / `modern` / `playful`) emitted via the `shape` generation input.\n- Theme Builder ships nine curated AA-clean presets built on soft targets.\n- Deprecated (thin wrappers/tables retained): `uniColor`, `randomRangeValue`,\n  `CategorySaturation`, `CategoryLightness`. `schemeHues` moved to `color.utils`.\n- `createTheme` deep-merges optional `borders` and `components` overrides over its\n  derived defaults — themes can define custom named primitives and rewire per-component\n  options without restating untouched sections.\n- New `emitThemeFile()` renders a static `uni-theme.ts` — literal colors, visible border\n  primitives, sparse component overrides — the editable source of truth; the engine\n  never ships to the browser.\n- New `ng add @uni-design-system/uni-angular` schematic: installs the peer set, writes\n  the generated theme file, registers `UNI_THEMES` in `app.config.ts`, adds typeface\n  links, scaffolds a themed smoke test, and prints the contrast summary.\n- New MCP tool `generate-uni-theme`: returns the static theme file content, provider\n  snippet, and contrast report, with agent guidance to edit the file for restyling.\n- `uni-core` gains its first Vitest suite, including a 1,080-seed contrast property\n  corpus with zero tolerance in both modes; the schematic gets its own spec suite.",
+              "commit": "f7f0bdd"
+            }
+          ],
+          "dependencyBumps": []
+        },
+        {
+          "version": "4.0.0",
+          "entries": [
+            {
+              "bump": "minor",
+              "title": "Porting Components",
+              "body": "",
+              "commit": "ef9b3b5"
+            }
+          ],
+          "dependencyBumps": []
+        },
+        {
+          "version": "3.0.2",
+          "entries": [],
+          "dependencyBumps": []
+        },
+        {
+          "version": "3.0.1",
+          "entries": [],
+          "dependencyBumps": []
+        },
+        {
+          "version": "3.0.0",
+          "entries": [],
+          "dependencyBumps": []
+        },
+        {
+          "version": "2.0.4",
+          "entries": [],
+          "dependencyBumps": []
+        },
+        {
+          "version": "2.0.3",
+          "entries": [],
+          "dependencyBumps": []
+        },
+        {
+          "version": "2.0.2",
+          "entries": [],
+          "dependencyBumps": []
+        },
+        {
+          "version": "2.0.1",
+          "entries": [
+            {
+              "bump": "patch",
+              "title": "Fix: switch to bundled dual-package distribution via Vite to resolve strict ESM relative path failures",
+              "body": "",
+              "commit": "e2cad74"
+            },
+            {
+              "bump": "patch",
+              "title": "Setting Fixed Versioning for all packages.",
+              "body": "",
+              "commit": "be0fb26"
+            }
+          ],
+          "dependencyBumps": []
+        },
+        {
+          "version": "1.1.0",
+          "entries": [
+            {
+              "bump": "minor",
+              "title": "Adding cjs support",
+              "body": "",
+              "commit": "4a049de"
+            }
+          ],
+          "dependencyBumps": []
+        },
+        {
+          "version": "1.0.0",
+          "entries": [
+            {
+              "bump": "major",
+              "title": "init release",
+              "body": "",
+              "commit": "7d18157"
+            }
+          ],
+          "dependencyBumps": []
+        }
+      ]
+    },
+    {
+      "package": "@uni-design-system/uni-react",
+      "releases": [
+        {
+          "version": "8.1.0",
+          "entries": [],
+          "dependencyBumps": []
+        },
+        {
+          "version": "8.0.0",
+          "entries": [],
+          "dependencyBumps": []
+        },
+        {
+          "version": "7.3.0",
+          "entries": [],
+          "dependencyBumps": []
+        },
+        {
+          "version": "7.2.0",
+          "entries": [],
+          "dependencyBumps": []
+        },
+        {
+          "version": "7.1.0",
+          "entries": [],
+          "dependencyBumps": []
+        },
+        {
+          "version": "7.0.0",
+          "entries": [],
+          "dependencyBumps": []
+        },
+        {
+          "version": "6.1.0",
+          "entries": [],
+          "dependencyBumps": []
+        },
+        {
+          "version": "6.0.1",
+          "entries": [],
+          "dependencyBumps": []
+        },
+        {
+          "version": "6.0.0",
+          "entries": [],
+          "dependencyBumps": []
+        },
+        {
+          "version": "5.2.0",
+          "entries": [],
+          "dependencyBumps": []
+        },
+        {
+          "version": "5.1.0",
+          "entries": [],
+          "dependencyBumps": []
+        },
+        {
+          "version": "5.0.0",
+          "entries": [],
+          "dependencyBumps": [
+            "@uni-design-system/uni-core@5.0.0"
+          ]
+        },
+        {
+          "version": "4.0.0",
+          "entries": [],
+          "dependencyBumps": [
+            "@uni-design-system/uni-core@4.0.0"
+          ]
+        },
+        {
+          "version": "3.0.2",
+          "entries": [],
+          "dependencyBumps": [
+            "@uni-design-system/uni-core@3.0.2"
+          ]
+        },
+        {
+          "version": "3.0.1",
+          "entries": [],
+          "dependencyBumps": [
+            "@uni-design-system/uni-core@3.0.1"
+          ]
+        },
+        {
+          "version": "3.0.0",
+          "entries": [],
+          "dependencyBumps": [
+            "@uni-design-system/uni-core@3.0.0"
+          ]
+        },
+        {
+          "version": "2.0.4",
+          "entries": [],
+          "dependencyBumps": [
+            "@uni-design-system/uni-core@2.0.4"
+          ]
+        },
+        {
+          "version": "2.0.3",
+          "entries": [],
+          "dependencyBumps": [
+            "@uni-design-system/uni-core@2.0.3"
+          ]
+        },
+        {
+          "version": "2.0.2",
+          "entries": [
+            {
+              "bump": "patch",
+              "title": "Fix: switch React package distribution to bundled multi-format outputs via Vite to resolve strict ESM runtime and source compilation issues inside consumers.",
+              "body": "",
+              "commit": "c5c552a"
+            }
+          ],
+          "dependencyBumps": [
+            "@uni-design-system/uni-core@2.0.2"
+          ]
+        },
+        {
+          "version": "2.0.1",
+          "entries": [
+            {
+              "bump": "patch",
+              "title": "Setting Fixed Versioning for all packages.",
+              "body": "",
+              "commit": "be0fb26"
+            }
+          ],
+          "dependencyBumps": [
+            "@uni-design-system/uni-core@2.0.1"
+          ]
+        },
+        {
+          "version": "2.0.0",
+          "entries": [
+            {
+              "bump": "minor",
+              "title": "Adding cjs support",
+              "body": "",
+              "commit": "4a049de"
+            }
+          ],
+          "dependencyBumps": [
+            "@uni-design-system/uni-core@1.1.0"
+          ]
+        },
+        {
+          "version": "1.0.0",
+          "entries": [
+            {
+              "bump": "major",
+              "title": "init release",
+              "body": "",
+              "commit": "7d18157"
+            }
+          ],
+          "dependencyBumps": [
+            "@uni-design-system/uni-core@1.0.0"
+          ]
+        }
+      ]
+    },
+    {
+      "package": "@uni-design-system/uni-mcp",
+      "releases": [
+        {
+          "version": "4.6.0",
+          "entries": [
+            {
+              "bump": "minor",
+              "title": "Runtime theme JSON: `generate-runtime-theme`, `get-runtime-theme`, and a theme registry endpoint",
+              "body": "`generate-uni-theme` returns `uni-theme.ts` **source** — codegen by design, and\nthe right answer for branding an app permanently. It is the wrong answer when a\ntheme needs to apply _now_: an agent had to write a file and rebuild. These tools\nclose that gap (ROADMAP Track 1 item 4).\n- **`generate-runtime-theme`** — brand hex color(s) in, a WCAG-AA light+dark pair\n  out as validated JSON, ready for `ThemeService.registerTheme(theme, { select:\n- **`get-runtime-theme`** — a theme that ships with Uni as a registerable\n  `UniTheme`. Distinct from `get-theme-template`, which returns a flat read-only\n  projection of token values rather than the theme object itself.\n- **Both validate before returning.** Every theme is run through uni-core's\n  `parseTheme`, so \"validated\" is checked rather than claimed; a failure comes\n  back as a tool error listing every reason.\n- **First tools with an MCP `outputSchema`**, so agents get a machine-readable\n  contract instead of parsing prose (opens ROADMAP Track 1 item 6). The theme\n  itself is typed as an opaque validated object on purpose — uni-core's\n  `parseTheme` stays the single source of truth for theme shape, and a mirrored\n  schema here would drift from it.\n- **Payloads elide the built-in icon set** (`dehydrateTheme`), taking a\n  light+dark result from ~100 KB to ~30 KB — roughly 7.6k tokens instead of 25k\n  per call. Consumers restore them on registration.\n- **New registry endpoint on the HTTP server**: `GET /themes` lists the ids and\n  `GET /themes/{id}.json` returns one registerable theme, for apps that fetch a\n  theme without speaking MCP. These routes are public, read-only and\n  CORS-enabled so a browser can fetch them directly; `/mcp` stays token-guarded\n  and same-origin.\n- The server's instructions now carry a routing rule for the four theme tools\n  (brand permanently / apply now / inspect values), and the README tool table\n  lists `create-icon-tokens`, which shipped undocumented.",
+              "commit": "5414517"
+            }
+          ],
+          "dependencyBumps": []
+        },
+        {
+          "version": "4.5.0",
+          "entries": [
+            {
+              "bump": "minor",
+              "title": "Expand `BaseIcons` to 59 icons and add `uni-icon` sizing",
+              "body": "The 34-icon set shipped in 7.0.0 covered the library's own components but not a\nreal application — an app migrating off inline `<svg>` (or off `uni-symbol`, in\nAngular) ran out of names almost immediately. Everything here is additive; all\n34 existing names are unchanged.\n- **25 new icons**, same Material Symbols Outlined 300 source and the same\n  `0 -960 960 960` grid as the rest of the set: navigation (`link`, `expand`,\n  `gridView`, `listView`), actions (`moreHorizontal`, `copy`, `send`,\n  `refresh`, `dragHandle`, `qrCode`), feedback (`star`, `verified`) and\n  user/system (`group`, `shieldPerson`, `clock`, `mail`, `chat`, `image`,\n  `document`, `payment`, `bank`, `trendingUp`, `extension`, `webhook`,\n  `logout`).\n  - `moreHorizontal` ships alongside `more` because that one is `more_vert` and\n    row-aligned menus need the horizontal kebab.\n  - `star` is separate from `favorite`, which is the heart.\n- **`uni-icon` gains an optional `size` input** (`CssLength` — bare numbers are\n  px, strings pass through, so `20` and `'1.25rem'` both work). Left unset,\n  behaviour is unchanged: the icon fills its container, which is what lets a\n  themed control size its own glyph through padding. Set, it applies\n  width/height as inline styles, so an explicit size wins over the\n  fill-the-container rule regardless of style injection order. This removes the\n  per-call-site `width`/`height` CSS rule that replacing an inline `<svg>` with\n  `<uni-icon>` would otherwise need.\n- The MCP `create-icon-tokens` tool now lists the built-in icon names above the\n  token map it returns. Apps routinely hand-draw their own `close`, `check` or\n  `plus`; encoding those into theme tokens works but adds redundant artwork on a\n  foreign grid when the theme already ships the glyph. The tool cannot recognise\n  a shape, so it hands the caller the list to check against before adding\n  anything.",
+              "commit": "c2421c0"
+            }
+          ],
+          "dependencyBumps": []
+        },
+        {
+          "version": "4.4.0",
+          "entries": [
+            {
+              "bump": "minor",
+              "title": "Replace `BaseIcons` with a normalized 34-icon Material Symbols set",
+              "body": "The built-in icon set was 11 glyphs drawn from four different grids\n(`0 0 24 24`, `0 0 50 50`, `0 0 64 64`, `0 -960 960 960`), so `checkCircle` and\n`xCircle` rendered as solid filled discs next to a hairline `alertCircle` and an\noversized `close` — three optical weights in one set.\n- `BaseIcons` is now Material Symbols Outlined at weight 300, every glyph on a\n  single `0 -960 960 960` grid, grouped by intent: navigation (`menu`,\n  `chevronUp/Down/Left/Right`, `arrowLeft/Right`, `home`, `externalLink`),\n  actions (`search`, `close`, `plus`, `minus`, `more`, `delete`, `edit`,\n  `download`, `upload`, `share`, `filter`), feedback (`check`, `checkCircle`,\n  `xCircle`, `alertCircle`, `info`, `warning`, `lock`) and user/system\n  (`profile`, `settings`, `notification`, `favorite`, `help`, `calendar`).\n- All 11 previously shipped names are preserved, so existing `<uni-icon>` call\n  sites and theme overrides keep working. Their **appearance changes**: the\n  filled `checkCircle`/`xCircle` are now outlined, and the set reads lighter\n  overall. `spinner` is carried over verbatim, keyframes intact.\n- New `IconName` and `BaseIconName` types. `IconName` is\n  `BaseIconName | (string & {})`, so built-ins autocomplete and typos surface\n  while themes can still register arbitrary names via `createTheme({ icons })`.\n  `uni-icon`'s `name` input is typed with it instead of `keyof Icons`.\n- **Breaking**: removes the unused `IconToken`, `IconStyle`, `ToggleableIcon`\n  and `IconConfig` exports. Nothing in the library referenced them and\n  `IconToken`'s 60-name union contradicted the actual `BaseIcons` keys. Use\n  `IconName` instead.\n- New exported `svgToIconUri(svg, options?)` — the supported way to bring your\n  own icons (a brand set, a designer handoff) into a theme. It normalizes the\n  source (drops the xml declaration, comments and fixed `width`/`height` so the\n  mask scales), percent-encodes it, and **rejects artwork that cannot survive\n  masking**: no `viewBox`, an embedded raster `<image>`, an external reference,\n  a gradient/pattern fill, or more than one paint color. That last one is the\n  trap worth naming — masks use the alpha channel, so a multi-color logo\n  flattens to a silhouette in `currentColor`; pass `{ allowMultiColor: true }`\n  when that is intended. `createTheme({ icons })` merges the result over\n  `BaseIcons` per name, so a built-in name reskins and a new name is added.\n- New MCP tool `create-icon-tokens`, the agent-facing front end to\n  `svgToIconUri`: hand it a project's inline `<svg>` (or a brand set) and it\n  returns a paste-ready `icons` map for `uni-theme.ts`. It encodes via the same\n  helper, so tokens are byte-identical to the built-in set, and adds the\n  set-level checks a per-icon helper cannot make — which names override\n  built-ins, and whether the artwork mixes viewBox grids. Bad artwork is\n  reported per icon rather than failing the batch, and re-running is safe\n  (already-encoded URIs pass through). The server instructions now point agents\n  at it whenever they encounter inline SVG.\n- `BaseIcons` is generated by `scripts/generate-icons.mjs` (`pnpm icons:generate`),\n  which fetches from the canonical Material Symbols source and validates every\n  glyph before writing — a malformed path, an off-grid viewBox or geometry\n  outside the grid aborts the run. `pnpm icons:check` verifies the committed\n  file without writing. Add or change icons in that script's manifest and\n  regenerate; the file is not hand-edited. `icon.records.spec.ts` asserts the\n  same invariants against the committed output.",
+              "commit": "f7727aa"
+            }
+          ],
+          "dependencyBumps": []
+        },
+        {
+          "version": "4.3.0",
+          "entries": [
+            {
+              "bump": "minor",
+              "title": "MDX guidelines adapter — authored docs now reach AI agents",
+              "body": "- New build adapter parses each component's co-located `.mdx` docs page into the\n  index's previously-empty `guidelines` field: the `## Overview` prose becomes\n  `whenToUse`, and optional `## Do` / `## Don't` / `## Accessibility` bullet sections\n  map to their fields — so guidelines are authored in the same file the Storybook\n  sidebar shows, with JSX/import scaffolding stripped.\n- 48 components gain guidelines immediately; `get-guidelines` and `uni://guidelines/*`\n  now answer with real when-to-use guidance (including the canonical selector forms\n  from the 6.0 unification).\n- MDX↔component matching: shared basename first (`tabs.mdx` → `tabs.component.ts`),\n  same-directory fallback for group docs.",
+              "commit": "076202d"
+            },
+            {
+              "bump": "patch",
+              "title": "Canonical MDX docs structure across the entire library",
+              "body": "- Component docs pages now follow one flow (spec in AGENTS.md): imports → Overview →\n  Usage (the compact playground: story + source + knobs) → named variation examples →\n  **Theme options** → Accessibility → Do/Don't. Property/API/Methods/Events tables are\n  retired — the playground's controls are the API reference.\n- New `ThemeOptions` docs block renders a component's per-theme option tokens live from\n  the active Storybook theme (with color swatches), distinguishing per-theme options\n  from per-instance inputs; data-table's raw `ThemeDataBlock` dump is replaced.\n- All ~55 component pages conform: the 7 form-control pages (200–390 lines of legacy\n  API tables) rewritten; empty Overviews authored (card, tag, icon-button, scroll-area,\n  expand-area, data-table); accessibility bullets added across navigation, feedback,\n  and form components.\n- The MCP index now carries when-to-use guidance for 55 of 70 components (was 41) and\n  accessibility guidance for 36 (was 21) — the remainder are subcomponents documented\n  on their parent pages and internal directives.",
+              "commit": "4bfb057"
+            }
+          ],
+          "dependencyBumps": []
+        },
+        {
+          "version": "4.2.0",
+          "entries": [
+            {
+              "bump": "minor",
+              "title": "Fix invisible icons; icons become first-class theme primitives",
+              "body": "- **Bug**: `uni-icon` resolves icons from `theme.icons`, but every theme shipped\n  `icons: {}` — the icon record was never wired in, so all icons (dialog close, button\n  spinner, search/clear affordances) rendered nothing.\n- **Fix + pattern**: the default icon set now lives in core (`BaseIcons`, in\n  `concepts/iconography`) and `createTheme` merges a theme's `icons` over it — themes\n  can override or add icons under any name (inline SVG data URIs, masked with\n  `currentColor` so they recolor with the theme). The angular `icons` record re-exports\n  `BaseIcons` (deprecated).\n- `uni-icon` also sets the standard `mask-image` (was webkit-only, so icons were\n  invisible in Firefox regardless) and renders nothing for unknown names instead of a\n  broken `url(\"undefined\")`.\n- The emitted `uni-theme.ts` gains an editable `icons` section, and the MCP's\n  `generate-uni-theme` guidance instructs agents: never inline SVG in components —\n  define an icon once in the theme's `icons` map and render it via `<uni-icon>`.",
+              "commit": "fea0b2e"
+            }
+          ],
+          "dependencyBumps": []
+        },
+        {
+          "version": "4.1.2",
+          "entries": [
+            {
+              "bump": "patch",
+              "title": "Fix published index losing its Storybook examples, and keep the index in sync",
+              "body": "- `uni-mcp@4.1.x` shipped with **0 examples**: the package build regenerated the index in\n  CI, where `storybook-static` (gitignored) doesn't exist, silently overwriting the\n  committed 107-example index before bundling. `build` is now `tsup` only — the committed\n  `uni-index.json` is the single source of truth and is bundled as-is.\n- The index is regenerated once per release instead: the changesets `version` step\n  (`pnpm version-packages`) builds Storybook and reruns `build-index` after the version\n  bump, so the refreshed index lands reviewably in the Version Packages PR.\n- `build-index` now fails loudly when it finds zero examples, so an example-less index\n  can never ship silently again.\n- Index refreshed to v5.1.0: includes the new component option tokens\n  (`button.behavior.borderRadius`/`typeface`, `card.behavior.borderRadius`), the nine\n  Theme Builder presets' generation updates, and all 107 examples.",
+              "commit": "ffb9692"
+            }
+          ],
+          "dependencyBumps": []
+        },
+        {
+          "version": "4.1.1",
+          "entries": [
+            {
+              "bump": "patch",
+              "title": "Fix `ng add` against real published packages (found by fresh `ng new` e2e):",
+              "body": "- The schematic bundle is CJS, but ng-packagr stamps `\"type\": \"module\"` into the\n  published package.json, so Node loaded it as ESM and the CLI reported \"no ng add\n  actions\". A nested `schematics/package.json` (`\"type\": \"commonjs\"`) scopes the\n  bundle back to CJS.\n- The emitted `uni-theme.ts` used dot access on `Colors` (which has an index\n  signature), failing under `ng new`'s strict `noPropertyAccessFromIndexSignature`.\n  The emitter (and the MCP tool's guidance) now uses bracket access throughout.\n- `uni-angular`'s peer range on `uni-core` is now `workspace:^` (publishes as `^5.x`)\n  instead of `workspace:*` (published as an exact pin). Alongside changesets'\n  `onlyUpdatePeerDependentsWhenOutOfRange`, this stops minor releases from being\n  inflated to majors by the peer-dependents rule — the cause of the 4.0.0 and 5.0.0\n  version jumps.",
+              "commit": "f2951db"
+            }
+          ],
+          "dependencyBumps": []
+        },
+        {
+          "version": "4.1.0",
+          "entries": [
+            {
+              "bump": "minor",
+              "title": "OKLCH theme generation engine (`concepts/generation`)",
+              "body": "- New `generateThemes(input)` / `generateUniThemes(input)`: brand seed(s) in, complete\n  WCAG-AA light+dark `Colors` pair out, with a machine-readable `ContrastReport`\n  (110 checked pairs per theme pair). Pure and deterministic.\n- All palette math moved from HSL to perceptual OKLCH: uniform lightness slots across\n  hues, per-category chroma model (`CategoryChroma`), dark-mode accent chroma decoupling\n  (C ≤ 0.16), and a contrast guard-rail that adjusts lightness only — never hue.\n- Brand colors ride as soft `targets` (kept verbatim when already AA, lightness-adjusted\n  when not) alongside the existing hard `brand` pins; accepted by `generatePalette`,\n  `createThemeFromPalette`, and Angular's `BrandPaletteConfig`.\n- Semantic inks re-tuned per role: error 27°/C 0.20, warn 55°/C 0.18 (rotated off amber —\n  dark yellow reads brown), success 152°/C 0.16.\n- `createTheme` accepts optional `radii`/`shadows` overrides; `ShapeRadii` presets\n  (`sharp` / `modern` / `playful`) emitted via the `shape` generation input.\n- Theme Builder ships nine curated AA-clean presets built on soft targets.\n- Deprecated (thin wrappers/tables retained): `uniColor`, `randomRangeValue`,\n  `CategorySaturation`, `CategoryLightness`. `schemeHues` moved to `color.utils`.\n- `createTheme` deep-merges optional `borders` and `components` overrides over its\n  derived defaults — themes can define custom named primitives and rewire per-component\n  options without restating untouched sections.\n- New `emitThemeFile()` renders a static `uni-theme.ts` — literal colors, visible border\n  primitives, sparse component overrides — the editable source of truth; the engine\n  never ships to the browser.\n- New `ng add @uni-design-system/uni-angular` schematic: installs the peer set, writes\n  the generated theme file, registers `UNI_THEMES` in `app.config.ts`, adds typeface\n  links, scaffolds a themed smoke test, and prints the contrast summary.\n- New MCP tool `generate-uni-theme`: returns the static theme file content, provider\n  snippet, and contrast report, with agent guidance to edit the file for restyling.\n- `uni-core` gains its first Vitest suite, including a 1,080-seed contrast property\n  corpus with zero tolerance in both modes; the schematic gets its own spec suite.",
+              "commit": "f7f0bdd"
+            }
+          ],
+          "dependencyBumps": []
+        }
+      ]
     }
   ]
 }

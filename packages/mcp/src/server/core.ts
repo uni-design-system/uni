@@ -116,7 +116,8 @@ export function createUniServer(): McpServer {
         'return; to read a theme\'s token values without applying one, use `get-theme-template`. ' +
         'Never inline `<svg>` in a component: when you meet inline SVG, or a brand icon set ' +
         'to import, call `create-icon-tokens` to convert it into theme icon tokens, add them ' +
-        'to `uni-theme.ts`, and render with `<uni-icon name="…" />`.',
+        'to `uni-theme.ts`, and render with `<uni-icon name="…" />`. For release questions ' +
+        '("what changed in 8.1?", "what does upgrading get me?"), call `get-changelog`.',
     }
   );
 
@@ -359,6 +360,36 @@ export function createUniServer(): McpServer {
     async ({ icons }) => text(formatIconTokens(icons))
   );
 
+  // -- get-changelog ---------------------------------------------------------
+  server.registerTool(
+    'get-changelog',
+    {
+      title: 'Get release notes',
+      description:
+        'Release notes for the Uni packages, from their changesets changelogs. Answers ' +
+        '"what changed in X?" and "what do I get by upgrading?". Pass `version` for one ' +
+        "release's full notes (\"8.1\" matches every 8.1.x), `since` for the full notes of " +
+        'every release after an installed version (an upgrade diff), or neither for a ' +
+        'compact release list.',
+      inputSchema: {
+        package: z
+          .string()
+          .optional()
+          .describe('npm name or short name, e.g. "uni-angular" (default), "uni-core", "uni-react", "uni-mcp".'),
+        version: z.string().optional().describe('One release, e.g. "8.1.0" or "8.1".'),
+        since: z.string().optional().describe('Every release newer than this version, e.g. the installed "8.0.0".'),
+      },
+    },
+    async ({ package: pkg, version, since }) => {
+      const cl = store.getChangelog(pkg);
+      if (!cl) {
+        const known = store.listChangelogs().map((c) => `\`${c.package}\``).join(', ');
+        return text(`No changelog for \`${pkg}\`. Known packages: ${known}.`);
+      }
+      return text(store.formatChangelog(cl, { version, since }));
+    }
+  );
+
   // -- search ----------------------------------------------------------------
   server.registerTool(
     'search',
@@ -471,6 +502,36 @@ function registerResources(server: McpServer): void {
             uri: uri.href,
             mimeType: 'text/markdown',
             text: t ? store.formatTheme(t) : `Unknown theme: ${id}`,
+          },
+        ],
+      };
+    }
+  );
+
+  server.registerResource(
+    'changelog',
+    new ResourceTemplate('uni://changelog/{package}', {
+      list: async () => ({
+        resources: store.listChangelogs().map((c) => ({
+          uri: `uni://changelog/${c.package.split('/').pop()}`,
+          name: `${c.package} changelog`,
+          description: `Release notes, latest ${c.releases[0]?.version ?? 'none'}.`,
+        })),
+      }),
+    }),
+    {
+      title: 'Uni changelog',
+      description: "A package's release notes (compact digest).",
+      mimeType: 'text/markdown',
+    },
+    async (uri, { package: pkg }) => {
+      const cl = store.getChangelog(String(pkg));
+      return {
+        contents: [
+          {
+            uri: uri.href,
+            mimeType: 'text/markdown',
+            text: cl ? store.formatChangelog(cl) : `Unknown package: ${pkg}`,
           },
         ],
       };

@@ -7,6 +7,8 @@ import indexData from '../data/uni-index.json' with { type: 'json' };
 import type {
   ComponentModel,
   Framework,
+  PackageChangelogModel,
+  ReleaseModel,
   ThemeTemplateModel,
   TokenModel,
   UniIndex,
@@ -55,6 +57,46 @@ export function listThemes(): ThemeTemplateModel[] {
 
 export function getTheme(id: string): ThemeTemplateModel | undefined {
   return index.themes.find((t) => t.id === id);
+}
+
+export function listChangelogs(): PackageChangelogModel[] {
+  return index.changelogs ?? [];
+}
+
+/** Resolve a package by npm name or any short form ("uni-angular", "angular"). */
+export function getChangelog(pkg = 'uni-angular'): PackageChangelogModel | undefined {
+  const q = pkg.trim().toLowerCase();
+  return listChangelogs().find((c) => {
+    const name = c.package.toLowerCase();
+    const short = name.split('/').pop() ?? name;
+    return name === q || short === q || short.replace(/^uni-/, '') === q;
+  });
+}
+
+/** Numeric compare over dotted segments; non-numeric segments count as 0. */
+export function compareVersions(a: string, b: string): number {
+  const nums = (v: string) => v.trim().replace(/^v/, '').split('.').map((s) => parseInt(s, 10) || 0);
+  const [pa, pb] = [nums(a), nums(b)];
+  for (let i = 0; i < Math.max(pa.length, pb.length); i++) {
+    const d = (pa[i] ?? 0) - (pb[i] ?? 0);
+    if (d) return d;
+  }
+  return 0;
+}
+
+/** `"8.1"` matches every 8.1.x release; `"8.1.0"` matches exactly. */
+export function matchesVersion(version: string, query: string): boolean {
+  const v = version.split('.');
+  const q = query.trim().replace(/^v/, '').split('.');
+  return q.every((seg, i) => v[i] === seg);
+}
+
+export type ChangelogScope = { version?: string; since?: string };
+
+export function selectReleases(cl: PackageChangelogModel, scope: ChangelogScope): ReleaseModel[] {
+  if (scope.version) return cl.releases.filter((r) => matchesVersion(r.version, scope.version!));
+  if (scope.since) return cl.releases.filter((r) => compareVersions(r.version, scope.since!) > 0);
+  return cl.releases;
 }
 
 export type SearchKind = 'component' | 'token' | 'theme' | 'guideline';
@@ -224,6 +266,41 @@ export function formatGuidelines(c: ComponentModel): string {
   if (g.donts.length) out.push(`\n**Don't**\n${g.donts.map((d) => `- ${d}`).join('\n')}`);
   if (g.accessibility.length) out.push(`\n**Accessibility**\n${g.accessibility.map((a) => `- ${a}`).join('\n')}`);
   return out.join('\n');
+}
+
+function formatRelease(r: ReleaseModel, full: boolean): string {
+  const out = [`## ${r.version}`];
+  for (const bump of ['major', 'minor', 'patch'] as const) {
+    const entries = r.entries.filter((e) => e.bump === bump);
+    if (!entries.length) continue;
+    out.push(`\n### ${bump[0].toUpperCase()}${bump.slice(1)} changes`);
+    for (const e of entries) {
+      const commit = e.commit ? ` _(${e.commit.slice(0, 7)})_` : '';
+      if (full && e.body) out.push(`\n**${e.title}**${commit}\n\n${e.body}`);
+      else out.push(`- ${e.title}${commit}`);
+    }
+  }
+  if (r.dependencyBumps.length) {
+    out.push(`\n_Dependency bumps: ${r.dependencyBumps.map((d) => `\`${d}\``).join(', ')}_`);
+  }
+  if (!r.entries.length && !r.dependencyBumps.length) out.push('_No entries._');
+  return out.join('\n');
+}
+
+/** Scoped calls get full entry bodies; the unscoped list stays a compact digest. */
+export function formatChangelog(cl: PackageChangelogModel, scope: ChangelogScope = {}): string {
+  const releases = selectReleases(cl, scope);
+  if (!releases.length) {
+    const wanted = scope.version ? `release matching \`${scope.version}\`` : `releases after \`${scope.since}\``;
+    return `No ${wanted} found for ${cl.package}. Latest release: ${cl.releases[0]?.version ?? 'none'}.`;
+  }
+  const full = Boolean(scope.version || scope.since);
+  const shown = full ? releases : releases.slice(0, 15);
+  const out = [`# ${cl.package} — release notes`, ...shown.map((r) => formatRelease(r, full))];
+  if (shown.length < releases.length) {
+    out.push(`_...and ${releases.length - shown.length} older releases. Pass \`version\` or \`since\` to scope._`);
+  }
+  return out.join('\n\n');
 }
 
 export function formatSearch(query: string, hits: SearchHit[]): string {
