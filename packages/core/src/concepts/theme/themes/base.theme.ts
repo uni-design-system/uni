@@ -29,12 +29,42 @@ const BaseTypography: Typography = {
     fontWeight: 'normal',
     letterSpacing: -0.25,
   },
-  'display-medium': { fontFamily: 'Red Hat Display', fontSize: 45, lineHeight: 52, fontWeight: 'normal' },
-  'display-small': { fontFamily: 'Red Hat Display', fontSize: 36, lineHeight: 44, fontWeight: 'normal' },
-  'headline-large': { fontFamily: 'Red Hat Display', fontSize: 32, lineHeight: 40, fontWeight: 'normal' },
-  'headline-medium': { fontFamily: 'Red Hat Display', fontSize: 28, lineHeight: 36, fontWeight: 'normal' },
-  'headline-small': { fontFamily: 'Red Hat Display', fontSize: 24, lineHeight: 32, fontWeight: 'normal' },
-  'title-large': { fontFamily: 'Red Hat Display', fontSize: 22, lineHeight: 28, fontWeight: 'normal' },
+  'display-medium': {
+    fontFamily: 'Red Hat Display',
+    fontSize: 45,
+    lineHeight: 52,
+    fontWeight: 'normal',
+  },
+  'display-small': {
+    fontFamily: 'Red Hat Display',
+    fontSize: 36,
+    lineHeight: 44,
+    fontWeight: 'normal',
+  },
+  'headline-large': {
+    fontFamily: 'Red Hat Display',
+    fontSize: 32,
+    lineHeight: 40,
+    fontWeight: 'normal',
+  },
+  'headline-medium': {
+    fontFamily: 'Red Hat Display',
+    fontSize: 28,
+    lineHeight: 36,
+    fontWeight: 'normal',
+  },
+  'headline-small': {
+    fontFamily: 'Red Hat Display',
+    fontSize: 24,
+    lineHeight: 32,
+    fontWeight: 'normal',
+  },
+  'title-large': {
+    fontFamily: 'Red Hat Display',
+    fontSize: 22,
+    lineHeight: 28,
+    fontWeight: 'normal',
+  },
   'title-medium': {
     fontFamily: 'Red Hat Display',
     fontSize: 16,
@@ -53,7 +83,12 @@ const BaseTypography: Typography = {
   'body-1-short': { fontFamily: 'Roboto', fontSize: 16, lineHeight: 24 },
   'body-2-long': { fontFamily: 'Roboto', fontSize: 14, lineHeight: 18 },
   'body-2-short': { fontFamily: 'Roboto', fontSize: 14, lineHeight: 20 },
-  'subtitle-1': { fontFamily: 'Red Hat Display', fontSize: 16, lineHeight: 24, letterSpacing: 0.15 },
+  'subtitle-1': {
+    fontFamily: 'Red Hat Display',
+    fontSize: 16,
+    lineHeight: 24,
+    letterSpacing: 0.15,
+  },
   'subtitle-2': {
     fontFamily: 'Red Hat Display',
     fontSize: 14,
@@ -153,7 +188,10 @@ const buildBorders = (c: Colors): Borders => ({
  * surface and draws the edge — so every role stays consistent and a theme can
  * still override any single cell.
  */
-const tagVariant = (c: Colors, role: 'primary' | 'secondary' | 'tertiary' | 'warn' | 'success') => ({
+const tagVariant = (
+  c: Colors,
+  role: 'primary' | 'secondary' | 'tertiary' | 'warn' | 'success'
+) => ({
   [role]: {
     backgroundColor: c[`${role}-container`],
     color: c[`on-${role}-container`],
@@ -242,8 +280,17 @@ const buildComponents = (c: Colors): ComponentThemes => ({
   },
   // Selection controls: chrome colors are tokens (accent fill/ring follows the
   // component's variant; its on-color pairs are derived in the component).
-  checkbox: { options: { size: 20, boxColor: 'surface' } },
-  radio: { options: { size: 20, ringColor: 'outline', fillColor: 'surface' } },
+  checkbox: {
+    options: {
+      size: 20,
+      boxColor: 'surface',
+      borderRadius: 2,
+      focusRingGap: 2,
+    },
+  },
+  radio: {
+    options: { size: 20, ringColor: 'outline', fillColor: 'surface', transitionSpeed: 0.3 },
+  },
   dialog: {
     options: {
       borderRadius: 'lg',

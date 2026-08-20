@@ -9,6 +9,8 @@ Themable focus chrome: a shared `focusRing` primitive for every control, plus `f
 
 **uni-core:** `Thicknesses` is now an open record like `Borders`/`Shadows` (extra named primitives allowed), and `createTheme` accepts a sparse `thicknesses` override merged over the base scale.
 
+**Also in this release:** the radio's dot grow/retract animation is now a token — `radio.options.transitionSpeed` (seconds, default 0.3 preserving the current feel; 0 switches instantly) — and the checkbox focus ring regained its proportional corner radius (box radius + 4px), closing the corner gap introduced when it moved onto the shared focus indicator.
+
 The `input` component options could previously restyle focus only through `focusOutline`/`focusOutlineOffset`. The new optional trio mirrors the error-state trio (`errorBorder`/`errorShadow`/`errorColor`) and applies while any projected control has focus: `focusBorder` swaps the border primitive, `focusShadow` draws a ring (e.g. a soft `0 0 0 3px` spread), and `focusColor` swaps the background. All three default to `undefined`, so existing themes render exactly as before, and they yield to the error state so a flagged field stays visibly flagged while being corrected.
 
 The Wellsourced showcase theme now defines the `focusRing` pair for its app's `.search-input:focus` look — an ochre (`secondary`) 1px border with a 10% ring of the same hue, tinted per palette in light and dark — so text fields (which rest on a canvas tint and snap to the clean surface on focus), checkboxes, radios, toggles, sliders, calendar days and tag chips all share one focus treatment.

@@ -24,4 +24,9 @@ export interface UniRadioOptions {
   ringColor?: ColorKey;
   /** Circle background token. */
   fillColor?: ColorKey;
+  /**
+   * Seconds for the dot's grow/retract and the ring's color change
+   * (default 0.3, matching menuItem/expand). 0 switches instantly.
+   */
+  transitionSpeed?: number;
 }

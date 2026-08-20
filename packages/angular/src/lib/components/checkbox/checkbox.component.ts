@@ -145,10 +145,15 @@ export class UniCheckboxComponent
       },
 
       // The shared, themable focus indicator, keyed off the hidden input's
-      // focus. The box radius lets the outline round with the box shape.
+      // focus. The ring sits out from the box, so its radius carries an extra
+      // 4px to round proportionally (as the original hand-drawn ring did) —
+      // without it the corners gap away from the box.
       '&:focus + .checkbox': {
-        ...this.theme.focusRingStyle(this.getThemeColor(this.variant())),
-        borderRadius: `${Number(this.componentOptions().borderRadius) || 2}px`,
+        ...this.theme.focusRingStyle(
+          this.getThemeColor(this.variant()),
+          this.componentOptions().focusRingGap
+        ),
+        borderRadius: `${(Number(this.componentOptions().borderRadius) || 2) + 2}px`,
       },
     })
   );

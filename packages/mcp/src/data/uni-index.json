@@ -1,13 +1,13 @@
 {
   "meta": {
     "version": "7.3.0",
-    "builtAt": "2026-08-20T12:02:07.546Z",
+    "builtAt": "2026-08-20T16:43:18.810Z",
     "frameworks": [
       "angular"
     ],
     "counts": {
       "components": 76,
-      "tokens": 350,
+      "tokens": 351,
       "themes": 2,
       "examples": 168
     }
@@ -4446,7 +4446,8 @@
       "relatedTokens": [
         "radio.behavior.size",
         "radio.behavior.ringColor",
-        "radio.behavior.fillColor"
+        "radio.behavior.fillColor",
+        "radio.behavior.transitionSpeed"
       ]
     },
     {
@@ -8755,6 +8756,18 @@
       }
     },
     {
+      "id": "radio.behavior.transitionSpeed",
+      "value": 0.3,
+      "type": "number",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "radio",
+      "themeValues": {
+        "LightTheme": 0.3,
+        "DarkTheme": 0.3
+      }
+    },
+    {
       "id": "dialog.behavior.borderRadius",
       "value": "lg",
       "type": "string",
@@ -11109,7 +11122,8 @@
         "radio": {
           "size": 20,
           "ringColor": "outline",
-          "fillColor": "surface"
+          "fillColor": "surface",
+          "transitionSpeed": 0.3
         },
         "dialog": {
           "borderRadius": "lg",
@@ -11553,7 +11567,8 @@
         "radio": {
           "size": 20,
           "ringColor": "outline",
-          "fillColor": "surface"
+          "fillColor": "surface",
+          "transitionSpeed": 0.3
         },
         "dialog": {
           "borderRadius": "lg",

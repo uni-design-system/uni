@@ -5,4 +5,5 @@ export interface UniCheckboxOptions {
   borderRadius?: string | number;
   /** Unchecked box background token. */
   boxColor?: ColorKey;
+  focusRingGap?: string | number;
 }

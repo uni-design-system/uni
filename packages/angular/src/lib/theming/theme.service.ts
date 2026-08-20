@@ -313,18 +313,18 @@ export class ThemeService {
    * Without those primitives the classic outline renders, in the given
    * color or `currentColor`.
    */
-  focusRingStyle = (color?: string) => {
+  focusRingStyle = (color?: string, gap?: string | number) => {
     const border = this.borders()['focusRing'];
     const shadow = this.shadows()['focusRing'];
-    const offset = this.thicknesses()['focusRing'];
+    const offset = Number(gap);
     if (border || shadow) {
       return {
         outline: border ?? 'none',
-        outlineOffset: offset ?? 0,
+        outlineOffset: offset,
         ...(shadow ? { boxShadow: shadow } : {}),
       };
     }
-    return { outline: `2px solid ${color ?? 'currentColor'}`, outlineOffset: offset ?? '2px' };
+    return { outline: `2px solid ${color ?? 'currentColor'}`, outlineOffset: offset };
   };
 
   /**

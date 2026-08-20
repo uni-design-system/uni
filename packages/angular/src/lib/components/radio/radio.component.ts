@@ -69,6 +69,8 @@ export class UniRadioComponent
 
   protected readonly radioOptionClass = computed(() => {
     const { outerCircleSize, innerCircleSize, innerCircleOffset } = this.metrics();
+    // The dot's grow/retract "pop" is a token: 0.3s default, 0 = instant.
+    const transition = `all ${this.componentOptions().transitionSpeed ?? 0.3}s ease`;
     return css({
       userSelect: 'none',
       cursor: this.disabled() ? 'not-allowed' : 'pointer',
@@ -87,7 +89,7 @@ export class UniRadioComponent
             : this.getThemeColor(this.componentOptions().ringColor ?? 'outline')
         }`,
         position: 'relative',
-        transition: 'all 0.3s ease',
+        transition,
         backgroundColor: this.getThemeColor(this.componentOptions().fillColor ?? 'surface'),
         flexShrink: 0,
       },
@@ -101,7 +103,7 @@ export class UniRadioComponent
         top: innerCircleOffset,
         left: innerCircleOffset,
         transform: 'scale(0)',
-        transition: 'all 0.3s ease',
+        transition,
       },
 
       '&:hover .radio-button': this.disabled()
