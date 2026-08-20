@@ -227,6 +227,8 @@ const borders = (p: WellsourcedPalette): Borders => ({
   dark: `1px solid ${p.dark}`,
   dotted: `1px dotted ${p.dark}`,
   menu: `1px solid ${p.border2}`,
+  // The app's `.search-input:focus` border — warm ochre from the palette.
+  inputFocus: `1px solid ${p.secondary}`,
 });
 
 /** App radii scale plus the old row menu's exact panel/item radii. */
@@ -243,14 +245,16 @@ const radii: Radii = {
 };
 
 /** App elevation stacks plus the old row menu's deep drop shadow. */
-const shadows: Shadows = {
+const shadows = (p: WellsourcedPalette): Shadows => ({
   raised: '0 2px 4px rgba(0, 0, 0, 0.03), 0 8px 16px rgba(0, 0, 0, 0.06)',
   card: '0 2px 4px rgba(0, 0, 0, 0.03), 0 8px 16px rgba(0, 0, 0, 0.06)',
   'card-hover': '0 4px 6px rgba(0, 0, 0, 0.04), 0 20px 30px rgba(0, 0, 0, 0.08)',
   menu: '0 2px 4px rgba(0, 0, 0, 0.04),  0 12px 24px rgba(0, 0, 0, 0.08)',
   dialog: '0 10px 20px rgba(0, 0, 0, 0.05),  0 30px 60px rgba(0, 0, 0, 0.12)',
   warn: '0 0 5px rgba(255, 0, 0, 0.5), inset 0 0 5px rgba(255, 0, 0, 0.3)',
-};
+  // The `.search-input:focus` ring: a 3px spread of the ochre at 10%.
+  inputFocus: `0 0 0 3px color-mix(in srgb, ${p.secondary} 10%, transparent)`,
+});
 
 const spacing: Spacing = {
   none: 0,
@@ -368,6 +372,17 @@ const typography = (base: Typography): Typography => ({
 // ==========================================
 const components = (p: WellsourcedPalette): ComponentThemes => ({
   badge: { options: { borderRadius: 'xxs' } },
+  // The app's `.search-input:focus` look on every field: ochre border, a soft
+  // 3px ring in the same hue, and the box snapping to the clean surface. The
+  // default primary outline is dropped in favour of the border + ring.
+  input: {
+    options: {
+      focusOutline: 'none',
+      focusBorder: 'inputFocus',
+      focusShadow: 'inputFocus',
+      focusColor: 'primary-surface',
+    },
+  },
   button: {
     fixed: {
       position: 'relative',
@@ -492,7 +507,7 @@ export const WellsourcedLight: UniTheme = withWellsourcedScales(
     colors: colors(lightPalette),
     borders: borders(lightPalette),
     components: components(lightPalette),
-    shadows,
+    shadows: shadows(lightPalette),
     radii,
   })
 );
@@ -504,7 +519,7 @@ export const WellsourcedDark: UniTheme = withWellsourcedScales(
     colors: colors(darkPalette, darkContainerOverrides),
     borders: borders(darkPalette),
     components: components(darkPalette),
-    shadows,
+    shadows: shadows(darkPalette),
     radii,
   })
 );

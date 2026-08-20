@@ -70,6 +70,16 @@ export class UniInputBoxComponent extends BaseComponent<UniInputBoxOptions> {
         '&:has(input:focus, select:focus, textarea:focus)': {
           outline: this.componentOptions().focusOutline,
           outlineOffset: this.componentOptions().focusOutlineOffset,
+          // Optional focus chrome (border/ring/background). It yields to the
+          // error state, so a flagged field stays visibly flagged while the
+          // user is in it correcting the value.
+          ...(this.error()
+            ? {}
+            : {
+                ...this.theme.border(this.componentOptions().focusBorder),
+                ...this.theme.boxShadow(this.componentOptions().focusShadow),
+                ...this.theme.backgroundColor(this.componentOptions().focusColor),
+              }),
         },
       },
     ])

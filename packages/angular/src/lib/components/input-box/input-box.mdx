@@ -31,3 +31,10 @@ input styling.
 ## Theme options
 
 <ThemeOptions componentName="input" />
+
+Beyond the default focus outline (`focusOutline`/`focusOutlineOffset`), a theme
+can restyle the whole focused box with the optional trio `focusBorder`
+(a border primitive), `focusShadow` (e.g. a soft `0 0 0 3px` ring) and
+`focusColor` (background) — the Wellsourced showcase theme uses all three for
+its ochre focus ring. They apply while any projected control has focus and
+yield to the error state, so a flagged field stays visibly flagged.
