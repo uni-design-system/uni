@@ -7,8 +7,11 @@ audits: `packages/angular/TODO.md` (v4 audit) and `uni-theme-generation-plan.md`
 
 ## Components — Tier 2 (common patterns, real build effort)
 
-- [ ] **Date picker + calendar** — the most-requested form control anywhere; the
-      biggest single build (grid keyboard nav, locale; range selection later).
+- [x] **Date picker + calendar** — shipped 2026-08-20 as `uni-calendar`,
+      `uni-date-input`, `uni-time-input` and `uni-date-time-input` (grid
+      keyboard nav, Intl locale parsing, range selection, availability
+      markers, cdk datetime helpers). Deferred: range *input field*,
+      dual-month pane, week numbers, natural-language parsing.
 - [ ] **Combobox / autocomplete** — search-input now implements the ARIA combobox
       pattern with string suggestions (2026-07-24); remaining scope is a form-bound
       variant (object options, `FormValueControl`, non-search semantics).
@@ -25,8 +28,8 @@ audits: `packages/angular/TODO.md` (v4 audit) and `uni-theme-generation-plan.md`
 
 ## Components — Tier 3 (defer until asked for)
 
-- [ ] Rating · timeline · carousel · bottom sheet · time picker · resizable panes ·
-      color picker.
+- [ ] Rating · timeline · carousel · bottom sheet · resizable panes ·
+      color picker. (Time picker shipped 2026-08-20 as `uni-time-input`.)
 
 ## Future packages (deferred by decision — no 3rd-party deps)
 

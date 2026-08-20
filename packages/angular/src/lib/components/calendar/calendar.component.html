@@ -1,0 +1,92 @@
+<div [class]="navClass()">
+  <button
+    icon-button
+    type="button"
+    size="sm"
+    [symbolName]="componentOptions().navPrevSymbol ?? 'chevron_left'"
+    [disable]="disabled()"
+    (click)="onNav(-1)"
+  >
+    Previous month
+  </button>
+  <!-- aria-live so PageUp/Down narrates the new month without refocusing. -->
+  <div [class]="headingClass()" [id]="headingId" aria-live="polite">{{ heading() }}</div>
+  <button
+    icon-button
+    type="button"
+    size="sm"
+    [symbolName]="componentOptions().navNextSymbol ?? 'chevron_right'"
+    [disable]="disabled()"
+    (click)="onNav(1)"
+  >
+    Next month
+  </button>
+</div>
+
+<!-- One tab stop: the roving tabindex lives on the day buttons, and the grid
+     itself only relays their bubbling keys (same delegation as tag-input). -->
+<!-- eslint-disable-next-line @angular-eslint/template/interactive-supports-focus -->
+<div
+  role="grid"
+  [class]="gridClass()"
+  [attr.aria-label]="ariaLabel() ?? null"
+  [attr.aria-labelledby]="ariaLabel() ? null : headingId"
+  [attr.aria-describedby]="ariaDescribedBy() ?? null"
+  [attr.aria-invalid]="showError() ? true : null"
+  [attr.aria-required]="required() ? true : null"
+  (keydown)="onGridKeydown($event)"
+>
+  <div role="row" [class]="rowClass()">
+    @for (weekday of weekdays(); track weekday.full) {
+      <div role="columnheader" [class]="weekdayClass()">
+        <abbr [attr.title]="weekday.full">{{ weekday.label }}</abbr>
+      </div>
+    }
+  </div>
+
+  @for (week of gridWeeks(); track week[0].date) {
+    <div role="row" [class]="rowClass()">
+      @for (cell of week; track cell.date) {
+        @if (cell.outside) {
+          <!-- Outside days: hidden placeholders by default (geometry kept),
+               muted and non-interactive under the showOutsideDays option. -->
+          <div role="gridcell" aria-hidden="true" [class]="cell.cellClass">
+            @if (showOutside()) {
+              <span [class]="outsideDayClass()">{{ cell.day }}</span>
+            }
+          </div>
+        } @else {
+          <div
+            role="gridcell"
+            [class]="cell.cellClass"
+            [attr.aria-selected]="cell.selected || cell.inBand ? true : null"
+          >
+            <button
+              type="button"
+              [class]="cell.dayClass"
+              [attr.data-date]="cell.date"
+              [tabindex]="cell.tabIndex"
+              [attr.aria-label]="cell.ariaLabel"
+              [attr.aria-current]="cell.today ? 'date' : null"
+              [disabled]="cell.disabled || disabled()"
+              (click)="select(cell.date)"
+              (mouseenter)="onDayHover(cell.date)"
+            >
+              {{ cell.day }}
+              @if (cell.markers.length) {
+                <span [class]="dotsClass()">
+                  @for (marker of cell.markers; track $index) {
+                    <span data-dot [class]="dotClassFor(marker.variant)"></span>
+                  }
+                </span>
+              }
+            </button>
+          </div>
+        }
+      }
+    </div>
+  }
+</div>
+
+<!-- Selections and range progress are otherwise silent for a screen reader. -->
+<span role="status" aria-live="polite" [class]="srOnly">{{ announcement() }}</span>

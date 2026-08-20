@@ -1,0 +1,80 @@
+<!-- Focusout rides the bubbling event so commits happen only when focus
+     leaves the whole field, not while moving into the popup. -->
+<div (focusout)="onFocusOut($event)">
+  <ng-template #parts>
+    <input
+      #field
+      type="text"
+      autocomplete="off"
+      spellcheck="false"
+      [class]="inputClass()"
+      [disabled]="disabled()"
+      [placeholder]="resolvedPlaceholder()"
+      [value]="displayText()"
+      [attr.aria-label]="label()"
+      [attr.aria-describedby]="ariaDescribedBy() ?? null"
+      [attr.aria-invalid]="showError() || draftInvalid() ? true : null"
+      [attr.aria-required]="required() ? true : null"
+      (keydown)="onInputKeydown($event)"
+      (input)="onInput()"
+    />
+    <span [class]="toggleWrapClass()">
+      <!-- The dropdown wires aria-haspopup/aria-expanded/aria-controls onto
+           this button; its name tracks the value ("Change date, …"). -->
+      <button
+        #toggle
+        icon-button
+        type="button"
+        size="sm"
+        [symbolName]="componentOptions().toggleSymbol ?? 'calendar_month'"
+        [disable]="disabled()"
+      >
+        {{ toggleLabel() }}
+      </button>
+    </span>
+  </ng-template>
+
+  @if (embedded()) {
+    <!-- A composer (uni-date-time-input) owns the field chrome. -->
+    <div [class]="embeddedClass()"><ng-container [ngTemplateOutlet]="parts" /></div>
+  } @else {
+    <uni-input-box [error]="showError() || draftInvalid()" [disabled]="disabled()">
+      <div [class]="rowClass()"><ng-container [ngTemplateOutlet]="parts" /></div>
+    </uni-input-box>
+  }
+
+  @if (toggleElement()) {
+    <uni-dropdown
+      [trigger]="toggleElement()!"
+      ariaHasPopup="dialog"
+      placement="bottom-end"
+      [color]="componentOptions().popupColor ?? 'primary-surface'"
+      [shadow]="componentOptions().popupShadow ?? 'menu'"
+      [borderRadius]="componentOptions().popupBorderRadius ?? 'xs'"
+      paddingVertical="xs"
+      paddingHorizontal="xs"
+      (dropdownShowing)="onPopupShowing()"
+      (dropdownHiding)="onPopupHiding()"
+    >
+      <!-- A focus-holding dialog per the APG date-picker pattern: Tab cycles
+           inside, Escape closes and returns focus to the field. -->
+      <!-- eslint-disable-next-line @angular-eslint/template/interactive-supports-focus -->
+      <div #popupDialog role="dialog" aria-label="Choose date" (keydown)="onPopupKeydown($event)">
+        <uni-calendar
+          mode="single"
+          [value]="value()"
+          [minDate]="minDate()"
+          [maxDate]="maxDate()"
+          [disabledDates]="disabledDates()"
+          [markers]="markers()"
+          [weekStart]="weekStart()"
+          [locale]="locale()"
+          (selected)="onCalendarPick($event)"
+        />
+      </div>
+    </uni-dropdown>
+  }
+
+  <!-- Commits, steps and rejections are otherwise a silent reformat. -->
+  <span role="status" aria-live="polite" [class]="srOnly">{{ announcement() }}</span>
+</div>

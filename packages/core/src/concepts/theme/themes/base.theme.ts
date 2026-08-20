@@ -449,6 +449,56 @@ const buildComponents = (c: Colors): ComponentThemes => ({
     },
   },
 
+  // Month grid. Selection/range/today colours are deliberately NOT options —
+  // they are the `primary` role pair, so a theme restyles them by restyling
+  // its palette, the same rule every other component follows.
+  calendar: {
+    options: {
+      dayBorderRadius: 'max', // 'xxs' gives the square/GitHub-contributions look
+      typeface: 'label',
+      gap: 'xxs', // grid gutter
+      navPrevSymbol: 'chevron_left',
+      navNextSymbol: 'chevron_right',
+      weekdayFormat: 'short', // Intl weekday: 'narrow' | 'short'
+      showOutsideDays: false,
+      todayStyle: 'outline', // 'outline' | 'dot'
+    },
+    fixed: {
+      display: 'inline-block',
+      userSelect: 'none',
+    },
+    // Geometry only, like tag: day cell square + font size per size token.
+    sizes: {
+      sm: { width: 28, height: 28, fontSize: 12 },
+      md: { width: 34, height: 34, fontSize: 13 },
+      lg: { width: 40, height: 40, fontSize: 15 },
+    },
+  },
+  // Date field. Field chrome comes from `input` via uni-input-box; these
+  // style the popup-calendar affordance and panel only.
+  dateInput: {
+    options: {
+      toggleSymbol: 'calendar_month',
+      popupShadow: 'menu',
+      popupBorderRadius: 'xs',
+      popupColor: 'primary-surface',
+    },
+  },
+  // Time field. Same listbox trio as tagInput/searchInput.
+  timeInput: {
+    options: {
+      toggleSymbol: 'schedule',
+      listColor: 'primary-surface',
+      listShadow: 'menu',
+      listBorderRadius: 'xs',
+      maxVisibleOptions: 7,
+    },
+  },
+  // Composer seating a date + time part in one field chrome.
+  dateTimeInput: {
+    options: { partGap: 'sm', dividerColor: 'outline' },
+  },
+
   // ---- Buttons: variants are structural archetypes with interaction states ----
   button: {
     // Radius and typeface are tokens, not baked values: `max` renders the

@@ -1,0 +1,102 @@
+import { Meta, Title, Story } from '@storybook/addon-docs/blocks';
+import * as Stories from './date-input.stories';
+import { StoryUsage } from '../../../stories/blocks/StoryUsage';
+import { StoryExample } from '../../../stories/blocks/StoryExample';
+import { ThemeOptions } from '../../../stories/blocks/ThemeOptionsBlock';
+
+<Meta of={Stories} name="Date Input" />
+<Title />
+
+`import { UniDateInputComponent } from '@uni-design-system/uni-angular';`
+
+## Overview
+
+A date field with free-typed parsing and a popup calendar. Type `aug 20`,
+`8/20/2026` or `2026-08-20`, or pick from the grid — the form gets the same
+canonical `'YYYY-MM-DD'` string either way. There is no input mask: masks
+fight paste, IMEs and screen-reader echo, and hard-code one digit order in a
+locale-aware library. Text parses on Enter or blur, then re-renders in
+`displayFormat`.
+
+The popup is a native popover hosting the same `uni-calendar` an app could
+render inline, so fences, disabled days and markers forward untouched. Field
+chrome comes from `uni-input-box` — error, disabled and focus states stay
+consistent with every other field.
+
+<Story of={Stories.WithCalendarConstraints} />
+
+## Usage
+
+<StoryUsage of={Stories.Primary} />
+
+### Parsing
+
+The built-in parser accepts, in order: **ISO** (`2026-08-20` — what agents
+and APIs write), **locale numeric** (`8/20/2026`, `20.8.2026`, `08-20` —
+digit order from `Intl.DateTimeFormat(locale).formatToParts()`, never
+hardcoded), and **month names** from the locale's own long and short lists
+(`aug 20`, `20 aug 2026`, `August 20th`). A missing year resolves to the
+**next occurrence** — nobody schedules into the past. Two-digit years are
+refused rather than guessed.
+
+Unparseable text **stays in the field**, styled invalid, with a `(rejected)`
+event — a field that silently swallows `aug 32` is worse than one that shows
+it in red. Out-of-range and disabled-date commits are refused the same way,
+with the reason announced.
+
+## Display format
+
+<StoryExample of={Stories.DisplayFormat} />
+
+## Theme options
+
+<ThemeOptions componentName="dateInput" />
+
+Field chrome — colour, border, radius, focus outline — is **not** duplicated
+here. It comes from the `input` entry via `uni-input-box`; the grid itself
+themes through the `calendar` entry.
+
+## Keyboard
+
+| Key | Behaviour |
+| --- | --- |
+| printable | free text entry (no mask) |
+| `Enter` | parses and commits; reformats to `displayFormat` |
+| `Tab` / blur | commits typed text, then moves on — never traps |
+| `Alt+ArrowDown` | opens the popup, focus moves to the selected day (or today) |
+| `ArrowDown` (empty field) | opens the popup |
+| `ArrowUp` / `ArrowDown` on a committed value | steps the date ±1 day — the caret has nowhere to go, so stepping is what a spinner would do |
+| `Escape` | closes the popup; otherwise reverts uncommitted text |
+
+Inside the popup: the calendar's own map, plus Enter/Space selects, closes
+and returns focus to the field; Escape closes without selecting; Tab cycles
+inside the dialog while it is open (APG date-picker pattern).
+
+## Accessibility
+
+- The text input is a **plain input, not a combobox** — there is no
+  filtering-a-list relationship to advertise.
+- The toggle is a real icon-button named from the value — *"Choose date"* /
+  *"Change date, 20 August 2026"* — with `aria-haspopup="dialog"` and
+  `aria-expanded`.
+- The popup is a native popover with `role="dialog"`; light-dismiss is the
+  native behaviour and focus returns to the field on close.
+- Commits, steps and rejections announce through `role="status"` — the
+  reformat-on-commit is otherwise a silent visual.
+- A refused draft shows invalid styling and `aria-invalid` immediately (it
+  describes text just typed); form-level `aria-invalid` is gated on
+  `invalid && (touched || dirty)`.
+
+## Do
+
+- Feed fences and availability (`minDate`, `disabledDates`, `markers`)
+  through the field — typed commits are checked against them too.
+- Listen to `(rejected)` when the app should explain a refusal in its own UI.
+
+## Don't
+
+- Don't add an input mask on top; the field is free text by design.
+- Don't parse dates yourself before binding — pass what the user typed and
+  let the field refuse what it cannot read.
+- Don't use it for a time — that is `uni-time-input`; for one combined value
+  use `uni-date-time-input`.

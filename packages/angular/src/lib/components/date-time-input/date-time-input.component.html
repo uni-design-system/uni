@@ -1,0 +1,39 @@
+<!-- One field chrome for both parts; the parts render embedded (no box of
+     their own), so error/disabled/focus states stay consistent with every
+     other field. Tab order: date, then time — two honest tab stops. -->
+<uni-input-box [error]="showError()" [disabled]="disabled()">
+  <div role="group" [attr.aria-label]="label()" [class]="groupClass()">
+    <div [class]="datePartClass()">
+      <uni-date-input
+        [embedded]="true"
+        label="Date"
+        [value]="dateValue()"
+        [minDate]="dateMin()"
+        [maxDate]="dateMax()"
+        [disabledDates]="disabledDates()"
+        [markers]="markers()"
+        [weekStart]="weekStart()"
+        [locale]="locale()"
+        [disabled]="disabled()"
+        [ariaDescribedBy]="ariaDescribedBy()"
+        (valueChange)="onDatePartChange($event)"
+      />
+    </div>
+    <div [class]="dividerClass()"></div>
+    <div [class]="timePartClass()">
+      <uni-time-input
+        [embedded]="true"
+        label="Time"
+        [value]="timeValue()"
+        [minTime]="timeMin()"
+        [maxTime]="timeMax()"
+        [slots]="effectiveSlots()"
+        [minuteStep]="minuteStep()"
+        [hour12]="hour12()"
+        [locale]="locale()"
+        [disabled]="timeDisabled()"
+        (valueChange)="onTimePartChange($event)"
+      />
+    </div>
+  </div>
+</uni-input-box>

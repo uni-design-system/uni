@@ -163,6 +163,63 @@ All controls implement `FormValueControl`/`FormCheckboxControl` and set
 - `aria-invalid` is gated on `invalid && (touched || dirty)`; per-chip
   invalidity shows immediately, since it describes a token just typed.
 
+### Calendar
+- The month grid is `role="grid"` with `aria-labelledby` pointing at the month
+  heading (or `aria-label` when standalone); weekday cells are
+  `role="columnheader"` with an `abbr` carrying the full weekday name.
+- Every day is a real `<button>` inside a `role="gridcell"`, named with its
+  full date (*"Thursday 20 August 2026"*) plus any marker labels (*"… 3 slots
+  open"*) — numbers alone are never the name.
+- **One tab stop** with roving `tabindex`: `←`/`→` ±1 day, `↑`/`↓` ±1 week,
+  `Home`/`End` first/last day of the focused week, `PageUp`/`PageDown` ±1
+  month (`Shift` for ±1 year), `Enter`/`Space` selects, `Escape` cancels a
+  pending range. Arrows skip disabled days in their direction of travel; the
+  `minDate`/`maxDate` fence stops the caret and never wraps; month edges never
+  block — the grid follows the focused day.
+- Today is `aria-current="date"` with an outline; selection is a solid fill;
+  markers are dots — no state is carried by colour alone (WCAG 1.4.1).
+- The heading is `aria-live="polite"` so month moves narrate without
+  refocusing; selections and range progress (*"Start date …. Choose an end
+  date."*) announce through one `role="status"` region per calendar.
+- Prev/next month are real icon-buttons named "Previous month"/"Next month",
+  outside the grid. `aria-invalid` gated on `invalid && (touched || dirty)`.
+
+### DateInput
+- The text input is a **plain input, not a combobox** — there is no
+  filtering-a-list relationship. Free text parses on `Enter`/blur; `Tab`
+  commits and moves on, never trapping.
+- The popup toggle is an icon-button named from the value (*"Choose date"* /
+  *"Change date, 20 August 2026"*) with `aria-haspopup="dialog"` and
+  `aria-expanded` (wired by the shared dropdown).
+- `Alt+ArrowDown` (or `ArrowDown` in an empty field) opens the popup with
+  focus on the selected day; `↑`/`↓` on a committed value step ±1 day.
+- The popup is a native popover with `role="dialog"` labelled "Choose date";
+  `Tab` cycles inside it while open (APG date-picker pattern); `Escape` and
+  day selection close it and return focus to the field.
+- Commits, steps and rejections announce through `role="status"`; a refused
+  draft sets `aria-invalid` and a dashed underline (shape + colour) until
+  edited; form-level `aria-invalid` gated on `invalid && (touched || dirty)`.
+
+### TimeInput
+- `role="combobox"` with `aria-expanded`, `aria-controls` and
+  `aria-activedescendant` over a `role="listbox"` — byte-for-byte the
+  SearchInput contract, shared through the CDK's `ListboxNavigation`.
+- Options are named in the display format (*"3:00 PM"*); the committed option
+  is `aria-selected`. Typing never selects — `Enter` commits the draft.
+- `↑`/`↓` navigate the list; on a committed value with the list closed they
+  step ±`minuteStep` (±1 slot when `slots` pins the choices). `Escape` closes
+  the list, then reverts; `Tab`/blur commit without trapping.
+- Commits and rejections (*"5:00 PM isn't available."*) announce through
+  `role="status"`; `aria-invalid` gated as above.
+
+### DateTimeInput
+- One `role="group"` named by `label`; the parts are named "Date" and "Time",
+  so a screen reader hears *"Appointment, group"* then each part.
+- Two honest tab stops (date, then time); each part keeps its own contract
+  (popup dialog, combobox) inside one shared input-box chrome.
+- The combined value emits only when both parts are set; with `slotsFor` the
+  time part is disabled until a day is chosen.
+
 ## Known gaps (tracked in TODO.md)
 
 - No automated contrast verification of theme token pairs.

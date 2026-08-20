@@ -1,15 +1,15 @@
 {
   "meta": {
     "version": "7.3.0",
-    "builtAt": "2026-08-11T19:47:07.901Z",
+    "builtAt": "2026-08-20T12:02:07.546Z",
     "frameworks": [
       "angular"
     ],
     "counts": {
-      "components": 72,
-      "tokens": 331,
+      "components": 76,
+      "tokens": 350,
       "themes": 2,
-      "examples": 150
+      "examples": 168
     }
   },
   "components": [
@@ -91,8 +91,8 @@
       "id": "app-bar",
       "name": "AppBar",
       "status": "stable",
-      "summary": "",
-      "description": "",
+      "summary": "Horizontal application bar: project leading controls (menu button, logo) with the `leading` attribute, actions with `trailing` (pushed to the far edge), and either pass `title` or project custom center content.",
+      "description": "Horizontal application bar: project leading controls (menu button, logo) with the `leading` attribute, actions with `trailing` (pushed to the far edge), and either pass `title` or project custom center content. Surface, divider, height, typography and spacing all resolve from `appBar` tokens. Place it inside your page's `<header>` landmark.",
       "category": "components",
       "version": "7.3.0",
       "bindings": {
@@ -140,8 +140,8 @@
       "id": "avatar",
       "name": "Avatar",
       "status": "stable",
-      "summary": "",
-      "description": "",
+      "summary": "Identity avatar with a graceful fallback chain: image → initials from `name` → themed symbol.",
+      "description": "Identity avatar with a graceful fallback chain: image → initials from `name` → themed symbol. Coloring, radius, typeface and sizes all resolve from `avatar` theme tokens; `variant` picks the container palette.",
       "category": "components",
       "version": "7.3.0",
       "bindings": {
@@ -209,8 +209,8 @@
       "id": "avatar-group",
       "name": "AvatarGroup",
       "status": "stable",
-      "summary": "",
-      "description": "",
+      "summary": "Overlapping stack of avatars.",
+      "description": "Overlapping stack of avatars. `max` collapses the overflow into a themed “+N” chip (itself a `uni-avatar`). Overlap and separator ring resolve from `avatarGroup` theme tokens.",
       "category": "components",
       "version": "7.3.0",
       "bindings": {
@@ -408,8 +408,8 @@
       "id": "box",
       "name": "Box",
       "status": "stable",
-      "summary": "",
-      "description": "",
+      "summary": "The base layout primitive, applied as an attribute to any element so semantics stay yours: `<main box-layout [grow]=\"1\" padding=\"md\">`.",
+      "description": "The base layout primitive, applied as an attribute to any element so semantics stay yours: `<main box-layout [grow]=\"1\" padding=\"md\">`. Exception: other components' host elements (`<uni-card box-layout>` would put two components on one element) — wrap those in a `<div box-layout>`. Sizing convention (height/width/min/max/inset): a **number is px and needs a binding** — `[height]=\"420\"`; a **plain attribute is a CSS length string** — `height=\"420px\"`. Spacing/radius/color inputs take theme tokens.",
       "category": "layout",
       "version": "7.3.0",
       "bindings": {
@@ -771,8 +771,8 @@
       "id": "breadcrumb",
       "name": "Breadcrumb",
       "status": "stable",
-      "summary": "",
-      "description": "",
+      "summary": "WAI-ARIA breadcrumb: a `nav` landmark wrapping an ordered list; the last item is the current page (`aria-current=\"page\"`), separators are decorative.",
+      "description": "WAI-ARIA breadcrumb: a `nav` landmark wrapping an ordered list; the last item is the current page (`aria-current=\"page\"`), separators are decorative. Items with `href` render as real links; without one they render as link-styled buttons emitting `itemClicked` — wire that to your router.",
       "category": "components",
       "version": "7.3.0",
       "bindings": {
@@ -962,6 +962,218 @@
         ]
       },
       "relatedTokens": []
+    },
+    {
+      "id": "calendar",
+      "name": "Calendar",
+      "status": "stable",
+      "summary": "Inline month calendar: single-date or start–end range selection, day markers (availability dots), min/max fences and disabled dates.",
+      "description": "Inline month calendar: single-date or start–end range selection, day markers (availability dots), min/max fences and disabled dates. One tab stop with a roving-tabindex `role=\"grid\"`; every day is a real button named with its full date. Values are plain ISO strings (`'YYYY-MM-DD'`), never `Date` objects, so bindings are timezone-free and serializable. Selection and today colours come from the theme's `primary` role pair; geometry and glyphs come from the `calendar` theme entry.",
+      "category": "forms",
+      "version": "7.3.0",
+      "bindings": {
+        "angular": {
+          "importPath": "@uni-design-system/uni-angular",
+          "selectorOrTag": "uni-calendar, Calendar",
+          "api": [
+            {
+              "name": "value",
+              "kind": "model",
+              "type": "UniCalendarValue",
+              "required": false,
+              "description": ""
+            },
+            {
+              "name": "disabled",
+              "kind": "input",
+              "type": "boolean",
+              "required": false,
+              "default": "false",
+              "description": ""
+            },
+            {
+              "name": "touched",
+              "kind": "model",
+              "type": "boolean",
+              "required": false,
+              "default": "false",
+              "description": ""
+            },
+            {
+              "name": "invalid",
+              "kind": "input",
+              "type": "boolean",
+              "required": false,
+              "default": "false",
+              "description": ""
+            },
+            {
+              "name": "dirty",
+              "kind": "input",
+              "type": "boolean",
+              "required": false,
+              "default": "false",
+              "description": ""
+            },
+            {
+              "name": "required",
+              "kind": "input",
+              "type": "boolean",
+              "required": false,
+              "default": "false",
+              "description": ""
+            },
+            {
+              "name": "ariaDescribedBy",
+              "kind": "input",
+              "type": "string",
+              "required": false,
+              "description": ""
+            },
+            {
+              "name": "mode",
+              "kind": "input",
+              "type": "UniCalendarMode",
+              "required": false,
+              "default": "'single'",
+              "description": "`'single'` reads/writes a `UniDate`; `'range'` a `UniDateRange`."
+            },
+            {
+              "name": "month",
+              "kind": "model",
+              "type": "string",
+              "required": false,
+              "description": "Shown month, `'YYYY-MM'` — two-way, so an app can drive \"jump to June\"."
+            },
+            {
+              "name": "minDate",
+              "kind": "input",
+              "type": "UniDate",
+              "required": false,
+              "description": "Earliest selectable date (inclusive)."
+            },
+            {
+              "name": "maxDate",
+              "kind": "input",
+              "type": "UniDate",
+              "required": false,
+              "description": "Latest selectable date (inclusive)."
+            },
+            {
+              "name": "markers",
+              "kind": "input",
+              "type": "UniCalendarMarker[]",
+              "required": false,
+              "default": "[]",
+              "description": "Availability dots; `label` extends the day's accessible name."
+            },
+            {
+              "name": "locale",
+              "kind": "input",
+              "type": "string",
+              "required": false,
+              "description": "BCP 47 tag; defaults to the document language, then the browser's."
+            },
+            {
+              "name": "weekStart",
+              "kind": "input",
+              "type": "0 | 1 | 2 | 3 | 4 | 5 | 6",
+              "required": false,
+              "description": "First day of week, 0 = Sunday; defaults from the locale's week info."
+            },
+            {
+              "name": "ariaLabel",
+              "kind": "input",
+              "type": "string",
+              "required": false,
+              "description": "Names the grid when it stands alone (otherwise the heading names it)."
+            },
+            {
+              "name": "size",
+              "kind": "input",
+              "type": "Size",
+              "required": false,
+              "default": "'md'",
+              "description": "Day geometry token; `sm`/`md`/`lg` map to the theme's `calendar` sizes."
+            },
+            {
+              "name": "selected",
+              "kind": "output",
+              "type": "UniDate",
+              "required": false,
+              "description": "Each committed day, including both ends of a range."
+            }
+          ]
+        }
+      },
+      "examples": [
+        {
+          "title": "Primary",
+          "framework": "angular",
+          "code": "<!-- Storybook story: Primary -->\n<uni-calendar size=\"sm\" ariaLabel=\"Small\" month=\"${MONTH}\" />\n<uni-calendar size=\"md\" ariaLabel=\"Medium\" month=\"${MONTH}\" />\n<uni-calendar size=\"lg\" ariaLabel=\"Large\" month=\"${MONTH}\" />\n<!-- args:\n{ value: dayIn(12), month: MONTH }\n-->"
+        },
+        {
+          "title": "Range",
+          "framework": "angular",
+          "code": "<!-- Storybook story: Range -->\n<uni-calendar size=\"sm\" ariaLabel=\"Small\" month=\"${MONTH}\" />\n<uni-calendar size=\"md\" ariaLabel=\"Medium\" month=\"${MONTH}\" />\n<uni-calendar size=\"lg\" ariaLabel=\"Large\" month=\"${MONTH}\" />\n<!-- args:\n{ mode: 'range', value: { start: dayIn(3), end: dayIn(7) }, month: MONTH }\n-->"
+        },
+        {
+          "title": "Markers",
+          "framework": "angular",
+          "code": "<!-- Storybook story: Markers -->\n<uni-calendar size=\"sm\" ariaLabel=\"Small\" month=\"${MONTH}\" />\n<uni-calendar size=\"md\" ariaLabel=\"Medium\" month=\"${MONTH}\" />\n<uni-calendar size=\"lg\" ariaLabel=\"Large\" month=\"${MONTH}\" />\n<!-- args:\n{\n    month: MONTH,\n    markers: [\n      { date: dayIn(4), variant: 'success', label: '3 slots open' },\n      { date: dayIn(4), variant: 'primary' },\n      { date: dayIn(16), variant: 'warn', label: '1 slot open' },\n      { date: dayIn(24), variant: 'secondary' },\n    ],\n  }\n-->"
+        },
+        {
+          "title": "Fenced And Disabled",
+          "framework": "angular",
+          "code": "<!-- Storybook story: Fenced And Disabled -->\n<uni-calendar size=\"sm\" ariaLabel=\"Small\" month=\"${MONTH}\" />\n<uni-calendar size=\"md\" ariaLabel=\"Medium\" month=\"${MONTH}\" />\n<uni-calendar size=\"lg\" ariaLabel=\"Large\" month=\"${MONTH}\" />\n<!-- args:\n{\n    month: MONTH,\n    minDate: dayIn(5),\n    maxDate: dayIn(25),\n    disabledDates: (date: string) => [0, 6].includes(new Date(`${date}T00:00:00Z`).getUTCDay()),\n  }\n-->"
+        },
+        {
+          "title": "Sizes",
+          "framework": "angular",
+          "code": "<!-- Storybook story: Sizes -->\n<uni-calendar size=\"sm\" ariaLabel=\"Small\" month=\"${MONTH}\" />\n<uni-calendar size=\"md\" ariaLabel=\"Medium\" month=\"${MONTH}\" />\n<uni-calendar size=\"lg\" ariaLabel=\"Large\" month=\"${MONTH}\" />\n<!-- args:\n{ locale: 'de-DE', weekStart: 1, month: MONTH, value: dayIn(12) }\n-->"
+        },
+        {
+          "title": "Locale And Week Start",
+          "framework": "angular",
+          "code": "<!-- Storybook story: Locale And Week Start -->\n<uni-calendar size=\"sm\" ariaLabel=\"Small\" month=\"${MONTH}\" />\n<uni-calendar size=\"md\" ariaLabel=\"Medium\" month=\"${MONTH}\" />\n<uni-calendar size=\"lg\" ariaLabel=\"Large\" month=\"${MONTH}\" />\n<!-- args:\n{ locale: 'de-DE', weekStart: 1, month: MONTH, value: dayIn(12) }\n-->"
+        },
+        {
+          "title": "Scheduling",
+          "framework": "angular",
+          "code": "<!-- Storybook story: Scheduling -->\n<uni-calendar size=\"sm\" ariaLabel=\"Small\" month=\"${MONTH}\" />\n<uni-calendar size=\"md\" ariaLabel=\"Medium\" month=\"${MONTH}\" />\n<uni-calendar size=\"lg\" ariaLabel=\"Large\" month=\"${MONTH}\" />"
+        }
+      ],
+      "guidelines": {
+        "whenToUse": "An inline month calendar — a form control in its own right, not just the\ninside of a date picker. It selects a single date or a start–end range, marks\ndays with app-driven availability dots, and fences selection with\n`minDate`/`maxDate`/`disabledDates`. Values are plain ISO strings\n(`'2026-08-20'`, `{ start, end }`), never `Date` objects, so bindings are\ntimezone-free, serializable and sortable with `<`.\nReach for it directly when the calendar should stay on screen — scheduling\npages, availability dashboards, booking flows. For a text field with this\ngrid in a popup, use `uni-date-input`; both render the same component, so it\nis one grid to learn, test and theme.",
+        "dos": [
+          "Bind ISO strings: `[value]=\"'2026-08-20'\"` is a complete, correct binding.",
+          "Drive availability through `markers` and `disabledDates` from app data.",
+          "Give a standalone calendar an `ariaLabel` naming the question it answers."
+        ],
+        "donts": [
+          "Don't convert to `Date` objects at the edge of the component — midnight-UTC",
+          "Don't restyle selection colours per instance; retheme the `primary` pair.",
+          "Don't build a popup date field from this yourself — `uni-date-input`"
+        ],
+        "accessibility": [
+          "The month grid is `role=\"grid\"` labelled by the month heading (or",
+          "Every day is a real `<button>` in a `role=\"gridcell\"`, named with its full",
+          "One tab stop: roving `tabindex` inside the grid; ←/→ move a day, ↑/↓ a",
+          "Today is `aria-current=\"date\"` with an outline; selection is a fill;",
+          "Selections and range progress announce through one `role=\"status\"` region;",
+          "`aria-invalid` is gated on `invalid && (touched || dirty)`, per the"
+        ]
+      },
+      "relatedTokens": [
+        "calendar.behavior.dayBorderRadius",
+        "calendar.behavior.typeface",
+        "calendar.behavior.gap",
+        "calendar.behavior.navPrevSymbol",
+        "calendar.behavior.navNextSymbol",
+        "calendar.behavior.weekdayFormat",
+        "calendar.behavior.showOutsideDays",
+        "calendar.behavior.todayStyle"
+      ]
     },
     {
       "id": "card",
@@ -1459,11 +1671,389 @@
       "relatedTokens": []
     },
     {
+      "id": "date-input",
+      "name": "DateInput",
+      "status": "stable",
+      "summary": "Date field with free-typed parsing and a popup calendar.",
+      "description": "Date field with free-typed parsing and a popup calendar. Type `aug 20`, `8/20/2026` or `2026-08-20`, or pick from the grid — the form gets the same canonical `'YYYY-MM-DD'` string either way. Parsing is `Intl`-driven (locale digit order and month names, never hardcoded); unreadable text stays in the field, flagged, with a `rejected` event. The popup is a native popover hosting the same `uni-calendar` an app could render inline.",
+      "category": "forms",
+      "version": "7.3.0",
+      "bindings": {
+        "angular": {
+          "importPath": "@uni-design-system/uni-angular",
+          "selectorOrTag": "uni-date-input, DateInput",
+          "api": [
+            {
+              "name": "value",
+              "kind": "model",
+              "type": "UniDate | undefined",
+              "required": false,
+              "description": ""
+            },
+            {
+              "name": "disabled",
+              "kind": "input",
+              "type": "boolean",
+              "required": false,
+              "default": "false",
+              "description": ""
+            },
+            {
+              "name": "touched",
+              "kind": "model",
+              "type": "boolean",
+              "required": false,
+              "default": "false",
+              "description": ""
+            },
+            {
+              "name": "invalid",
+              "kind": "input",
+              "type": "boolean",
+              "required": false,
+              "default": "false",
+              "description": ""
+            },
+            {
+              "name": "dirty",
+              "kind": "input",
+              "type": "boolean",
+              "required": false,
+              "default": "false",
+              "description": ""
+            },
+            {
+              "name": "required",
+              "kind": "input",
+              "type": "boolean",
+              "required": false,
+              "default": "false",
+              "description": ""
+            },
+            {
+              "name": "ariaDescribedBy",
+              "kind": "input",
+              "type": "string",
+              "required": false,
+              "description": ""
+            },
+            {
+              "name": "label",
+              "kind": "input",
+              "type": "string",
+              "required": true,
+              "description": "Accessible name for the field, e.g. \"Appointment date\"."
+            },
+            {
+              "name": "placeholder",
+              "kind": "input",
+              "type": "string",
+              "required": false,
+              "description": "Defaults to the locale's digit pattern, e.g. `MM/DD/YYYY`."
+            },
+            {
+              "name": "displayFormat",
+              "kind": "input",
+              "type": "Intl.DateTimeFormatOptions",
+              "required": false,
+              "default": "{ dateStyle: 'medium' }",
+              "description": "How the committed value renders, e.g. `{ dateStyle: 'long' }`."
+            },
+            {
+              "name": "locale",
+              "kind": "input",
+              "type": "string",
+              "required": false,
+              "description": "BCP 47 tag; defaults to the document language, then the browser's."
+            },
+            {
+              "name": "commitOnBlur",
+              "kind": "input",
+              "type": "boolean",
+              "required": false,
+              "default": "true",
+              "description": ""
+            },
+            {
+              "name": "embedded",
+              "kind": "input",
+              "type": "boolean",
+              "required": false,
+              "default": "false",
+              "description": "Renders without its own input-box chrome, for composers like uni-date-time-input."
+            },
+            {
+              "name": "minDate",
+              "kind": "input",
+              "type": "UniDate",
+              "required": false,
+              "description": ""
+            },
+            {
+              "name": "maxDate",
+              "kind": "input",
+              "type": "UniDate",
+              "required": false,
+              "description": ""
+            },
+            {
+              "name": "markers",
+              "kind": "input",
+              "type": "UniCalendarMarker[]",
+              "required": false,
+              "default": "[]",
+              "description": ""
+            },
+            {
+              "name": "weekStart",
+              "kind": "input",
+              "type": "0 | 1 | 2 | 3 | 4 | 5 | 6",
+              "required": false,
+              "description": ""
+            },
+            {
+              "name": "opened",
+              "kind": "output",
+              "type": "void",
+              "required": false,
+              "description": "Popup shown."
+            },
+            {
+              "name": "closed",
+              "kind": "output",
+              "type": "void",
+              "required": false,
+              "description": "Popup hidden."
+            },
+            {
+              "name": "rejected",
+              "kind": "output",
+              "type": "UniDateInputRejection",
+              "required": false,
+              "description": "A typed commit was refused; the raw text stays in the field."
+            }
+          ]
+        }
+      },
+      "examples": [
+        {
+          "title": "Primary",
+          "framework": "angular",
+          "code": "<!-- Storybook story: Primary -->\n<!-- args:\n{ value: dayIn(12) }\n-->"
+        },
+        {
+          "title": "With Calendar Constraints",
+          "framework": "angular",
+          "code": "<!-- Storybook story: With Calendar Constraints -->\n<!-- args:\n{\n    label: 'Appointment date',\n    minDate: TODAY,\n    maxDate: addDays(TODAY, 45),\n    disabledDates: (date: string) => [0, 6].includes(new Date(`${date}T00:00:00Z`).getUTCDay()),\n    markers: [\n      { date: addDays(TODAY, 1), variant: 'success', label: '3 slots open' },\n      { date: addDays(TODAY, 3), variant: 'primary', label: '1 slot open' },\n    ],\n  }\n-->"
+        },
+        {
+          "title": "Display Format",
+          "framework": "angular",
+          "code": "<!-- Storybook story: Display Format -->\n<!-- args:\n{ value: dayIn(12), displayFormat: { dateStyle: 'full' } }\n-->"
+        },
+        {
+          "title": "Disabled",
+          "framework": "angular",
+          "code": "<!-- Storybook story: Disabled -->\n<!-- args:\n{ value: dayIn(12), disabled: true }\n-->"
+        }
+      ],
+      "guidelines": {
+        "whenToUse": "A date field with free-typed parsing and a popup calendar. Type `aug 20`,\n`8/20/2026` or `2026-08-20`, or pick from the grid — the form gets the same\ncanonical `'YYYY-MM-DD'` string either way. There is no input mask: masks\nfight paste, IMEs and screen-reader echo, and hard-code one digit order in a\nlocale-aware library. Text parses on Enter or blur, then re-renders in\n`displayFormat`.\nThe popup is a native popover hosting the same `uni-calendar` an app could\nrender inline, so fences, disabled days and markers forward untouched. Field\nchrome comes from `uni-input-box` — error, disabled and focus states stay\nconsistent with every other field.",
+        "dos": [
+          "Feed fences and availability (`minDate`, `disabledDates`, `markers`)",
+          "Listen to `(rejected)` when the app should explain a refusal in its own UI."
+        ],
+        "donts": [
+          "Don't add an input mask on top; the field is free text by design.",
+          "Don't parse dates yourself before binding — pass what the user typed and",
+          "Don't use it for a time — that is `uni-time-input`; for one combined value"
+        ],
+        "accessibility": [
+          "The text input is a **plain input, not a combobox** — there is no",
+          "The toggle is a real icon-button named from the value — *\"Choose date\"* /",
+          "The popup is a native popover with `role=\"dialog\"`; light-dismiss is the",
+          "Commits, steps and rejections announce through `role=\"status\"` — the",
+          "A refused draft shows invalid styling and `aria-invalid` immediately (it"
+        ]
+      },
+      "relatedTokens": []
+    },
+    {
+      "id": "date-time-input",
+      "name": "DateTimeInput",
+      "status": "stable",
+      "summary": "One field for a date and a time: a thin composer seating a uni-date-input and a uni-time-input in one input-box chrome under one label, yielding one combined `'YYYY-MM-DDTHH:mm'` value.",
+      "description": "One field for a date and a time: a thin composer seating a uni-date-input and a uni-time-input in one input-box chrome under one label, yielding one combined `'YYYY-MM-DDTHH:mm'` value. The value emits only when both parts are set — a time without a day is not an answer — and clearing the date clears it. With `slotsFor`, the time part stays disabled until a day is chosen and offers exactly that day's slots: the scheduling flow in one attribute. Two honest tab stops (it is two questions); apps needing a different arrangement compose the primitives directly.",
+      "category": "forms",
+      "version": "7.3.0",
+      "bindings": {
+        "angular": {
+          "importPath": "@uni-design-system/uni-angular",
+          "selectorOrTag": "uni-date-time-input, DateTimeInput",
+          "api": [
+            {
+              "name": "value",
+              "kind": "model",
+              "type": "UniDateTime | undefined",
+              "required": false,
+              "description": ""
+            },
+            {
+              "name": "disabled",
+              "kind": "input",
+              "type": "boolean",
+              "required": false,
+              "default": "false",
+              "description": ""
+            },
+            {
+              "name": "touched",
+              "kind": "model",
+              "type": "boolean",
+              "required": false,
+              "default": "false",
+              "description": ""
+            },
+            {
+              "name": "invalid",
+              "kind": "input",
+              "type": "boolean",
+              "required": false,
+              "default": "false",
+              "description": ""
+            },
+            {
+              "name": "dirty",
+              "kind": "input",
+              "type": "boolean",
+              "required": false,
+              "default": "false",
+              "description": ""
+            },
+            {
+              "name": "required",
+              "kind": "input",
+              "type": "boolean",
+              "required": false,
+              "default": "false",
+              "description": ""
+            },
+            {
+              "name": "ariaDescribedBy",
+              "kind": "input",
+              "type": "string",
+              "required": false,
+              "description": ""
+            },
+            {
+              "name": "label",
+              "kind": "input",
+              "type": "string",
+              "required": true,
+              "description": "Names the group; the parts are announced as \"Date\" and \"Time\" under it."
+            },
+            {
+              "name": "minDateTime",
+              "kind": "input",
+              "type": "UniDateTime",
+              "required": false,
+              "description": "Earliest allowed moment; the date and time fences are split from it."
+            },
+            {
+              "name": "maxDateTime",
+              "kind": "input",
+              "type": "UniDateTime",
+              "required": false,
+              "description": "Latest allowed moment; the date and time fences are split from it."
+            },
+            {
+              "name": "markers",
+              "kind": "input",
+              "type": "UniCalendarMarker[]",
+              "required": false,
+              "default": "[]",
+              "description": ""
+            },
+            {
+              "name": "slots",
+              "kind": "input",
+              "type": "UniTime[]",
+              "required": false,
+              "description": "Fixed time choices; superseded per-day by `slotsFor` when that is set."
+            },
+            {
+              "name": "minuteStep",
+              "kind": "input",
+              "type": "number",
+              "required": false,
+              "default": "30",
+              "description": ""
+            },
+            {
+              "name": "hour12",
+              "kind": "input",
+              "type": "boolean",
+              "required": false,
+              "description": ""
+            },
+            {
+              "name": "weekStart",
+              "kind": "input",
+              "type": "0 | 1 | 2 | 3 | 4 | 5 | 6",
+              "required": false,
+              "description": ""
+            },
+            {
+              "name": "locale",
+              "kind": "input",
+              "type": "string",
+              "required": false,
+              "description": ""
+            }
+          ]
+        }
+      },
+      "examples": [
+        {
+          "title": "Primary",
+          "framework": "angular",
+          "code": "<!-- Storybook story: Primary -->\n<uni-date-time-input\n  label=\"Appointment\"\n  [disabledDates]=\"isFullyBooked\"\n  [markers]=\"markers\"\n  [slotsFor]=\"slotsFor\"\n/>\n<!-- args:\n{ value: `${addDays(TODAY, 1)}T15:00` }\n-->"
+        },
+        {
+          "title": "Scheduling",
+          "framework": "angular",
+          "code": "<!-- Storybook story: Scheduling -->\n<uni-date-time-input\n  label=\"Appointment\"\n  [disabledDates]=\"isFullyBooked\"\n  [markers]=\"markers\"\n  [slotsFor]=\"slotsFor\"\n/>\n<!-- args:\n{ value: `${addDays(TODAY, 1)}T15:00`, disabled: true }\n-->"
+        },
+        {
+          "title": "Disabled",
+          "framework": "angular",
+          "code": "<!-- Storybook story: Disabled -->\n<uni-date-time-input\n  label=\"Appointment\"\n  [disabledDates]=\"isFullyBooked\"\n  [markers]=\"markers\"\n  [slotsFor]=\"slotsFor\"\n/>\n<!-- args:\n{ value: `${addDays(TODAY, 1)}T15:00`, disabled: true }\n-->"
+        }
+      ],
+      "guidelines": {
+        "whenToUse": "One field for a date and a time: a thin composer seating a `uni-date-input`\nand a `uni-time-input` in one `uni-input-box` chrome under one label, and\nmapping the two part-values to one combined `'YYYY-MM-DDTHH:mm'` value. The\nvalue emits only when **both** parts are set — a time without a day is not an\nanswer — and clearing the date clears it.\nIt is a convenience, not the only door: apps that need a different\narrangement (calendar always inline, slot buttons instead of a time field)\ncompose the primitives directly.",
+        "dos": [
+          "Use `slotsFor` for availability-driven scheduling; it gates and supplies",
+          "Treat the combined value as the only form value; the parts are internal."
+        ],
+        "donts": [
+          "Don't wire separate date and time form fields through this component —",
+          "Don't expect a value while either part is empty; partial states are"
+        ],
+        "accessibility": [
+          "One `role=\"group\"` named by `label`; the parts are named *\"Date\"* and",
+          "Tab order: date field → time field. Two tab stops, honestly — it *is* two",
+          "Each part keeps its own contract: the date part's popup dialog and status"
+        ]
+      },
+      "relatedTokens": []
+    },
+    {
       "id": "debounce-input",
       "name": "DebounceInput",
       "status": "stable",
-      "summary": "",
-      "description": "",
+      "summary": "Text input that emits `change` only after the user pauses typing.",
+      "description": "Text input that emits `change` only after the user pauses typing. Wears the shared input chrome (themed color, border, typeface, focus ring) via `uni-input-box`; project adornments with the `pre-input` / `post-input` slots, matching `uni-input`'s convention. The ARIA passthrough inputs let a wrapping composite (e.g. SearchInput's combobox) annotate the real input element.",
       "category": "forms",
       "version": "7.3.0",
       "bindings": {
@@ -1846,8 +2436,8 @@
       "id": "drawer",
       "name": "Drawer",
       "status": "stable",
-      "summary": "",
-      "description": "",
+      "summary": "Navigation drawer with two modes sharing one content slot: - `side` — an in-flow `<aside>` that pushes content (dashboard sidenav); opening/closing animates its width, and the divider border primitive separates it from the page.",
+      "description": "Navigation drawer with two modes sharing one content slot: - `side` — an in-flow `<aside>` that pushes content (dashboard sidenav); opening/closing animates its width, and the divider border primitive separates it from the page. - `over` — a native `<dialog>` in the top layer: focus trap, Escape and scrim backdrop come from the platform (same machinery as `uni-dialog`), sliding in from its edge. Surface, width, divider, elevation, padding and backdrop all resolve from `drawer` theme tokens.",
       "category": "components",
       "version": "7.3.0",
       "bindings": {
@@ -1976,34 +2566,6 @@
               "name": "paddingHorizontal",
               "kind": "input",
               "type": "NullableSize",
-              "required": false,
-              "description": ""
-            },
-            {
-              "name": "border",
-              "kind": "input",
-              "type": "Border | undefined",
-              "required": false,
-              "description": ""
-            },
-            {
-              "name": "borderRadius",
-              "kind": "input",
-              "type": "Radius | undefined",
-              "required": false,
-              "description": ""
-            },
-            {
-              "name": "shadow",
-              "kind": "input",
-              "type": "Shadow | undefined",
-              "required": false,
-              "description": ""
-            },
-            {
-              "name": "color",
-              "kind": "input",
-              "type": "ContainerColorToken | undefined",
               "required": false,
               "description": ""
             },
@@ -2192,8 +2754,8 @@
       "id": "expand-toggle",
       "name": "ExpandToggle",
       "status": "stable",
-      "summary": "",
-      "description": "",
+      "summary": "Trigger for a {@link UniExpandComponent} region.",
+      "description": "Trigger for a {@link UniExpandComponent} region. Two shapes, chosen by whether `label` is set: - **Icon only** (default) — the bare chevron, sized for a Card Header. - **Labelled** — chevron plus a label and optional muted sublabel, as a single full-width button. Most real disclosures need a name for the section, and building that row by hand is the thing this saves; it also makes the label the button's accessible name rather than adjacent text.",
       "category": "forms",
       "version": "7.3.0",
       "bindings": {
@@ -3970,8 +4532,8 @@
       "id": "scroll-area",
       "name": "ScrollArea",
       "status": "stable",
-      "summary": "",
-      "description": "",
+      "summary": "Native scroll area with theme-driven scrollbar styling.",
+      "description": "Native scroll area with theme-driven scrollbar styling. Scrollbars are styled entirely through Emotion-generated CSS: `::-webkit-scrollbar` rules cover Chromium/Safari, with a `scrollbar-width`/`scrollbar-color` fallback for Firefox.",
       "category": "layout",
       "version": "7.3.0",
       "bindings": {
@@ -4117,8 +4679,8 @@
       "id": "search-input",
       "name": "SearchInput",
       "status": "stable",
-      "summary": "",
-      "description": "",
+      "summary": "Generic search field: shared input chrome with a leading magnifier, a clear button while there's a query, Enter to submit, and optional type-ahead — pass `suggestions` (refresh them from `change`) and the field becomes an ARIA combobox with a keyboard-navigable listbox.",
+      "description": "Generic search field: shared input chrome with a leading magnifier, a clear button while there's a query, Enter to submit, and optional type-ahead — pass `suggestions` (refresh them from `change`) and the field becomes an ARIA combobox with a keyboard-navigable listbox. Escape closes the list first, then clears the query.",
       "category": "forms",
       "version": "7.3.0",
       "bindings": {
@@ -4352,8 +4914,8 @@
       "id": "skeleton",
       "name": "Skeleton",
       "status": "stable",
-      "summary": "",
-      "description": "",
+      "summary": "Loading placeholder painted with surface tokens.",
+      "description": "Loading placeholder painted with surface tokens. `text` renders one or more lines (the last line shortened, as real text would be), `rect` and `circle` render fixed shapes. The shimmer only animates when the user allows motion; it degrades to static blocks under `prefers-reduced-motion`.",
       "category": "components",
       "version": "7.3.0",
       "bindings": {
@@ -4432,8 +4994,8 @@
       "id": "slider",
       "name": "Slider",
       "status": "stable",
-      "summary": "",
-      "description": "",
+      "summary": "Range slider on a native `<input type=\"range\">` — keyboard interaction and the ARIA slider contract come from the platform.",
+      "description": "Range slider on a native `<input type=\"range\">` — keyboard interaction and the ARIA slider contract come from the platform. Fill, track, thumb and radii resolve from `slider` theme tokens; the fill percentage rides a CSS custom property so dragging never regenerates styles.",
       "category": "forms",
       "version": "7.3.0",
       "bindings": {
@@ -4761,8 +5323,8 @@
       "id": "stat",
       "name": "Stat",
       "status": "stable",
-      "summary": "",
-      "description": "",
+      "summary": "KPI stat tile: muted label, large value (numbers auto-compact: 48234 → \"48.2K\"), an optional delta whose ink is decided by *direction × whether up is good* (never direction alone — churn going down is good news), and an optional decorative sparkline.",
+      "description": "KPI stat tile: muted label, large value (numbers auto-compact: 48234 → \"48.2K\"), an optional delta whose ink is decided by *direction × whether up is good* (never direction alone — churn going down is good news), and an optional decorative sparkline. Frame, typography and inks are all `stat` theme tokens.",
       "category": "components",
       "version": "7.3.0",
       "bindings": {
@@ -4936,8 +5498,8 @@
       "id": "tab",
       "name": "Tab",
       "status": "stable",
-      "summary": "",
-      "description": "",
+      "summary": "One tab inside `uni-tabs`: a label for the tablist plus projected panel content.",
+      "description": "One tab inside `uni-tabs`: a label for the tablist plus projected panel content. Content is captured in a template and only instantiated while the tab is selected, so inactive panels cost nothing.",
       "category": "components",
       "version": "7.3.0",
       "bindings": {
@@ -4976,8 +5538,8 @@
       "id": "tabs",
       "name": "Tabs",
       "status": "stable",
-      "summary": "",
-      "description": "",
+      "summary": "WAI-ARIA tabs: roving tabindex, automatic activation (arrow keys move focus and select), Home/End, disabled tabs skipped.",
+      "description": "WAI-ARIA tabs: roving tabindex, automatic activation (arrow keys move focus and select), Home/End, disabled tabs skipped. Only the selected panel is instantiated. All styling resolves from `tabs` theme option tokens.",
       "category": "components",
       "version": "7.3.0",
       "bindings": {
@@ -5040,8 +5602,8 @@
       "id": "tag",
       "name": "Tag",
       "status": "stable",
-      "summary": "",
-      "description": "",
+      "summary": "Compact chip for categories, states, filters and tokens.",
+      "description": "Compact chip for categories, states, filters and tokens. Two orthogonal style axes: `variant` picks the colour role and `tone` picks the archetype (soft / solid / outline). Both live in the theme's `tag` entry, so a theme restyles every chip in the app without touching markup. Structurally a chip is **body + trailing action as siblings**, never nested buttons: an interactive chip whose body is a `<button>` cannot contain the remove `<button>` (invalid HTML, and the inner control becomes unreachable for keyboard users). Both stay independently operable.",
       "category": "data",
       "version": "7.3.0",
       "bindings": {
@@ -5281,7 +5843,7 @@
       "summary": "",
       "description": "",
       "category": "forms",
-      "version": "7.2.0",
+      "version": "7.3.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -5518,8 +6080,8 @@
       "id": "text",
       "name": "Text",
       "status": "stable",
-      "summary": "",
-      "description": "",
+      "summary": "The typography primitive, applied as an attribute to any element so semantics stay yours.",
+      "description": "The typography primitive, applied as an attribute to any element so semantics stay yours. The attribute value is the typeface: `<h1 uni-text=\"display-small\">`, `<span uni-text=\"caption\">`, dynamic via `[uni-text]=\"role()\"`. With no value, the typeface is inferred from the host element (h1 → headline-large, p → body-1-long, …), falling back to `title-small`; the `typeface` input remains as an explicit override.",
       "category": "primitives",
       "version": "7.3.0",
       "bindings": {
@@ -5780,8 +6342,8 @@
       "id": "theme-switch",
       "name": "ThemeSwitch",
       "status": "stable",
-      "summary": "",
-      "description": "",
+      "summary": "Drop-in switcher for the themes registered via `UNI_THEMES`: a select over `ThemeService.themeOptions` that applies the choice through `selectTheme` (so it persists across reloads like any other theme selection).",
+      "description": "Drop-in switcher for the themes registered via `UNI_THEMES`: a select over `ThemeService.themeOptions` that applies the choice through `selectTheme` (so it persists across reloads like any other theme selection).",
       "category": "components",
       "version": "7.3.0",
       "bindings": {
@@ -5830,6 +6392,198 @@
           "Built on a native `<select>` (via `uni-select`), so keyboard and screen-reader interaction come from the platform.",
           "Exposes `ariaLabel` (default \"Theme\") as the accessible name for the control.",
           "Theme changes restyle in place without moving focus or reloading, so context is preserved for assistive tech."
+        ]
+      },
+      "relatedTokens": []
+    },
+    {
+      "id": "time-input",
+      "name": "TimeInput",
+      "status": "stable",
+      "summary": "Time field: a combobox over time options — the same listbox contract as uni-search-input and uni-tag-input.",
+      "description": "Time field: a combobox over time options — the same listbox contract as uni-search-input and uni-tag-input. Type `3p`, `930` or `15:00`, or pick `3:00 PM` from the list; the form always gets 24-hour `'HH:mm'` (`hour12` affects display only). The list is assistive, not exhaustive: any parseable time commits, unless `slots` pins the choices (a slot picker) — then a typed time must match one. Unreadable or unavailable text stays in the field, flagged, with a `rejected` event.",
+      "category": "forms",
+      "version": "7.3.0",
+      "bindings": {
+        "angular": {
+          "importPath": "@uni-design-system/uni-angular",
+          "selectorOrTag": "uni-time-input, TimeInput",
+          "api": [
+            {
+              "name": "value",
+              "kind": "model",
+              "type": "UniTime | undefined",
+              "required": false,
+              "description": ""
+            },
+            {
+              "name": "disabled",
+              "kind": "input",
+              "type": "boolean",
+              "required": false,
+              "default": "false",
+              "description": ""
+            },
+            {
+              "name": "touched",
+              "kind": "model",
+              "type": "boolean",
+              "required": false,
+              "default": "false",
+              "description": ""
+            },
+            {
+              "name": "invalid",
+              "kind": "input",
+              "type": "boolean",
+              "required": false,
+              "default": "false",
+              "description": ""
+            },
+            {
+              "name": "dirty",
+              "kind": "input",
+              "type": "boolean",
+              "required": false,
+              "default": "false",
+              "description": ""
+            },
+            {
+              "name": "required",
+              "kind": "input",
+              "type": "boolean",
+              "required": false,
+              "default": "false",
+              "description": ""
+            },
+            {
+              "name": "ariaDescribedBy",
+              "kind": "input",
+              "type": "string",
+              "required": false,
+              "description": ""
+            },
+            {
+              "name": "label",
+              "kind": "input",
+              "type": "string",
+              "required": true,
+              "description": "Accessible name for the field, e.g. \"Start time\"."
+            },
+            {
+              "name": "placeholder",
+              "kind": "input",
+              "type": "string",
+              "required": false,
+              "description": ""
+            },
+            {
+              "name": "minuteStep",
+              "kind": "input",
+              "type": "number",
+              "required": false,
+              "default": "30",
+              "description": "Generated list granularity, in minutes."
+            },
+            {
+              "name": "minTime",
+              "kind": "input",
+              "type": "UniTime",
+              "required": false,
+              "description": "Earliest allowed time (inclusive), `'09:00'`."
+            },
+            {
+              "name": "maxTime",
+              "kind": "input",
+              "type": "UniTime",
+              "required": false,
+              "description": "Latest allowed time (inclusive), `'17:00'`."
+            },
+            {
+              "name": "slots",
+              "kind": "input",
+              "type": "UniTime[]",
+              "required": false,
+              "description": "Exact allowed times (scheduling). When set, typed entry must match one."
+            },
+            {
+              "name": "hour12",
+              "kind": "input",
+              "type": "boolean",
+              "required": false,
+              "description": "12-hour display; defaults from the locale. The value stays 24-hour."
+            },
+            {
+              "name": "locale",
+              "kind": "input",
+              "type": "string",
+              "required": false,
+              "description": "BCP 47 tag for the display format; defaults to the document language."
+            },
+            {
+              "name": "commitOnBlur",
+              "kind": "input",
+              "type": "boolean",
+              "required": false,
+              "default": "true",
+              "description": ""
+            },
+            {
+              "name": "embedded",
+              "kind": "input",
+              "type": "boolean",
+              "required": false,
+              "default": "false",
+              "description": "Renders without its own input-box chrome, for composers like uni-date-time-input."
+            },
+            {
+              "name": "rejected",
+              "kind": "output",
+              "type": "UniTimeInputRejection",
+              "required": false,
+              "description": "A typed commit was refused; the raw text stays in the field."
+            }
+          ]
+        }
+      },
+      "examples": [
+        {
+          "title": "Primary",
+          "framework": "angular",
+          "code": "<!-- Storybook story: Primary -->\n<!-- args:\n{ minTime: '09:00', maxTime: '17:00', minuteStep: 30, value: '09:30' }\n-->"
+        },
+        {
+          "title": "Slots",
+          "framework": "angular",
+          "code": "<!-- Storybook story: Slots -->\n<!-- args:\n{ label: 'Slot time', slots: ['09:00', '09:30', '11:00', '14:30'] }\n-->"
+        },
+        {
+          "title": "Twenty Four Hour",
+          "framework": "angular",
+          "code": "<!-- Storybook story: Twenty Four Hour -->\n<!-- args:\n{ hour12: false, minTime: '08:00', maxTime: '18:00', value: '15:00' }\n-->"
+        },
+        {
+          "title": "Disabled",
+          "framework": "angular",
+          "code": "<!-- Storybook story: Disabled -->\n<!-- args:\n{ value: '09:30', disabled: true }\n-->"
+        }
+      ],
+      "guidelines": {
+        "whenToUse": "A time field: a combobox over time options, sharing the exact listbox\ncontract of `uni-search-input` and `uni-tag-input`. Type `3p`, `930` or\n`15:00`, or pick `3:00 PM` from the list — the form always gets 24-hour\n`'HH:mm'` (`hour12` affects display only). The list is **assistive, not\nexhaustive**: any parseable time commits even if it isn't listed, unless\n`slots` pins the choices.\nTyped shorthand does what an appointment field should: `9` → 09:00,\n`930` → 09:30, `3p` → 15:00, and a bare `3` leans PM in a 12-hour field —\ntyping 3 into an appointment field means 15:00, not 03:00 (the bias yields\nif `minTime`/`maxTime` say otherwise). Unreadable or unavailable text stays\nin the field, flagged, with a `(rejected)` event.",
+        "dos": [
+          "Pin `slots` for scheduling; leave them off for free time entry fenced by",
+          "Keep values 24-hour everywhere in app state; let `hour12` handle display."
+        ],
+        "donts": [
+          "Don't use `<input type=\"time\">` alongside it — the platform control brings",
+          "Don't filter the option list as the user types; the list is a picker, not"
+        ],
+        "accessibility": [
+          "The input is `role=\"combobox\"` with `aria-expanded`, `aria-controls` and",
+          "Options are named in the display format (*\"3:00 PM\"*); the committed one",
+          "Commits and rejections announce through `role=\"status\"`.",
+          "Typing never selects an option — Enter commits the draft, not whatever",
+          "`aria-invalid` is gated on `invalid && (touched || dirty)`; a refused"
         ]
       },
       "relatedTokens": []
@@ -9057,6 +9811,234 @@
       }
     },
     {
+      "id": "calendar.behavior.dayBorderRadius",
+      "value": "max",
+      "type": "string",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "calendar",
+      "themeValues": {
+        "LightTheme": "max",
+        "DarkTheme": "max"
+      }
+    },
+    {
+      "id": "calendar.behavior.typeface",
+      "value": "label",
+      "type": "string",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "calendar",
+      "themeValues": {
+        "LightTheme": "label",
+        "DarkTheme": "label"
+      }
+    },
+    {
+      "id": "calendar.behavior.gap",
+      "value": "xxs",
+      "type": "string",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "calendar",
+      "themeValues": {
+        "LightTheme": "xxs",
+        "DarkTheme": "xxs"
+      }
+    },
+    {
+      "id": "calendar.behavior.navPrevSymbol",
+      "value": "chevron_left",
+      "type": "string",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "calendar",
+      "themeValues": {
+        "LightTheme": "chevron_left",
+        "DarkTheme": "chevron_left"
+      }
+    },
+    {
+      "id": "calendar.behavior.navNextSymbol",
+      "value": "chevron_right",
+      "type": "string",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "calendar",
+      "themeValues": {
+        "LightTheme": "chevron_right",
+        "DarkTheme": "chevron_right"
+      }
+    },
+    {
+      "id": "calendar.behavior.weekdayFormat",
+      "value": "short",
+      "type": "string",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "calendar",
+      "themeValues": {
+        "LightTheme": "short",
+        "DarkTheme": "short"
+      }
+    },
+    {
+      "id": "calendar.behavior.showOutsideDays",
+      "value": false,
+      "type": "boolean",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "calendar",
+      "themeValues": {
+        "LightTheme": false,
+        "DarkTheme": false
+      }
+    },
+    {
+      "id": "calendar.behavior.todayStyle",
+      "value": "outline",
+      "type": "string",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "calendar",
+      "themeValues": {
+        "LightTheme": "outline",
+        "DarkTheme": "outline"
+      }
+    },
+    {
+      "id": "dateInput.behavior.toggleSymbol",
+      "value": "calendar_month",
+      "type": "string",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "dateInput",
+      "themeValues": {
+        "LightTheme": "calendar_month",
+        "DarkTheme": "calendar_month"
+      }
+    },
+    {
+      "id": "dateInput.behavior.popupShadow",
+      "value": "menu",
+      "type": "string",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "dateInput",
+      "themeValues": {
+        "LightTheme": "menu",
+        "DarkTheme": "menu"
+      }
+    },
+    {
+      "id": "dateInput.behavior.popupBorderRadius",
+      "value": "xs",
+      "type": "string",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "dateInput",
+      "themeValues": {
+        "LightTheme": "xs",
+        "DarkTheme": "xs"
+      }
+    },
+    {
+      "id": "dateInput.behavior.popupColor",
+      "value": "primary-surface",
+      "type": "string",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "dateInput",
+      "themeValues": {
+        "LightTheme": "primary-surface",
+        "DarkTheme": "primary-surface"
+      }
+    },
+    {
+      "id": "timeInput.behavior.toggleSymbol",
+      "value": "schedule",
+      "type": "string",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "timeInput",
+      "themeValues": {
+        "LightTheme": "schedule",
+        "DarkTheme": "schedule"
+      }
+    },
+    {
+      "id": "timeInput.behavior.listColor",
+      "value": "primary-surface",
+      "type": "string",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "timeInput",
+      "themeValues": {
+        "LightTheme": "primary-surface",
+        "DarkTheme": "primary-surface"
+      }
+    },
+    {
+      "id": "timeInput.behavior.listShadow",
+      "value": "menu",
+      "type": "string",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "timeInput",
+      "themeValues": {
+        "LightTheme": "menu",
+        "DarkTheme": "menu"
+      }
+    },
+    {
+      "id": "timeInput.behavior.listBorderRadius",
+      "value": "xs",
+      "type": "string",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "timeInput",
+      "themeValues": {
+        "LightTheme": "xs",
+        "DarkTheme": "xs"
+      }
+    },
+    {
+      "id": "timeInput.behavior.maxVisibleOptions",
+      "value": 7,
+      "type": "number",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "timeInput",
+      "themeValues": {
+        "LightTheme": 7,
+        "DarkTheme": 7
+      }
+    },
+    {
+      "id": "dateTimeInput.behavior.partGap",
+      "value": "sm",
+      "type": "string",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "dateTimeInput",
+      "themeValues": {
+        "LightTheme": "sm",
+        "DarkTheme": "sm"
+      }
+    },
+    {
+      "id": "dateTimeInput.behavior.dividerColor",
+      "value": "outline",
+      "type": "string",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "dateTimeInput",
+      "themeValues": {
+        "LightTheme": "outline",
+        "DarkTheme": "outline"
+      }
+    },
+    {
       "id": "button.behavior.borderRadius",
       "value": "max",
       "type": "string",
@@ -10247,6 +11229,33 @@
           "listBorderRadius": "xs",
           "maxSuggestions": 8
         },
+        "calendar": {
+          "dayBorderRadius": "max",
+          "typeface": "label",
+          "gap": "xxs",
+          "navPrevSymbol": "chevron_left",
+          "navNextSymbol": "chevron_right",
+          "weekdayFormat": "short",
+          "showOutsideDays": false,
+          "todayStyle": "outline"
+        },
+        "dateInput": {
+          "toggleSymbol": "calendar_month",
+          "popupShadow": "menu",
+          "popupBorderRadius": "xs",
+          "popupColor": "primary-surface"
+        },
+        "timeInput": {
+          "toggleSymbol": "schedule",
+          "listColor": "primary-surface",
+          "listShadow": "menu",
+          "listBorderRadius": "xs",
+          "maxVisibleOptions": 7
+        },
+        "dateTimeInput": {
+          "partGap": "sm",
+          "dividerColor": "outline"
+        },
         "button": {
           "borderRadius": "max",
           "typeface": "button"
@@ -10663,6 +11672,33 @@
           "listShadow": "menu",
           "listBorderRadius": "xs",
           "maxSuggestions": 8
+        },
+        "calendar": {
+          "dayBorderRadius": "max",
+          "typeface": "label",
+          "gap": "xxs",
+          "navPrevSymbol": "chevron_left",
+          "navNextSymbol": "chevron_right",
+          "weekdayFormat": "short",
+          "showOutsideDays": false,
+          "todayStyle": "outline"
+        },
+        "dateInput": {
+          "toggleSymbol": "calendar_month",
+          "popupShadow": "menu",
+          "popupBorderRadius": "xs",
+          "popupColor": "primary-surface"
+        },
+        "timeInput": {
+          "toggleSymbol": "schedule",
+          "listColor": "primary-surface",
+          "listShadow": "menu",
+          "listBorderRadius": "xs",
+          "maxVisibleOptions": 7
+        },
+        "dateTimeInput": {
+          "partGap": "sm",
+          "dividerColor": "outline"
         },
         "button": {
           "borderRadius": "max",

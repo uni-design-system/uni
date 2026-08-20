@@ -1,0 +1,89 @@
+import { Meta, Title, Story } from '@storybook/addon-docs/blocks';
+import * as Stories from './time-input.stories';
+import { StoryUsage } from '../../../stories/blocks/StoryUsage';
+import { StoryExample } from '../../../stories/blocks/StoryExample';
+import { ThemeOptions } from '../../../stories/blocks/ThemeOptionsBlock';
+
+<Meta of={Stories} name="Time Input" />
+<Title />
+
+`import { UniTimeInputComponent } from '@uni-design-system/uni-angular';`
+
+## Overview
+
+A time field: a combobox over time options, sharing the exact listbox
+contract of `uni-search-input` and `uni-tag-input`. Type `3p`, `930` or
+`15:00`, or pick `3:00 PM` from the list — the form always gets 24-hour
+`'HH:mm'` (`hour12` affects display only). The list is **assistive, not
+exhaustive**: any parseable time commits even if it isn't listed, unless
+`slots` pins the choices.
+
+Typed shorthand does what an appointment field should: `9` → 09:00,
+`930` → 09:30, `3p` → 15:00, and a bare `3` leans PM in a 12-hour field —
+typing 3 into an appointment field means 15:00, not 03:00 (the bias yields
+if `minTime`/`maxTime` say otherwise). Unreadable or unavailable text stays
+in the field, flagged, with a `(rejected)` event.
+
+<Story of={Stories.Slots} />
+
+## Usage
+
+<StoryUsage of={Stories.Primary} />
+
+## Slot picking
+
+<StoryExample of={Stories.Slots} />
+
+With `slots` set the component becomes a slot picker: the list shows exactly
+the given times and a typed `5pm` commits only if `17:00` is among them —
+otherwise it is refused with `reason: 'unavailable'` and the announcement
+*"5:00 PM isn't available."*
+
+## 24-hour display
+
+<StoryExample of={Stories.TwentyFourHour} />
+
+## Theme options
+
+<ThemeOptions componentName="timeInput" />
+
+Field chrome is **not** duplicated here — it comes from the `input` entry via
+`uni-input-box`; the list trio (`listColor`/`listShadow`/`listBorderRadius`)
+matches `tagInput` and `searchInput`.
+
+## Keyboard
+
+| Key | Behaviour |
+| --- | --- |
+| printable | opens the list scrolled to the nearest match — filters nothing away |
+| `Enter` | commits the highlighted option, else parses the typed text |
+| `ArrowDown` / `ArrowUp` | moves through options (opens the list from an empty or edited field) |
+| `ArrowUp` / `ArrowDown` on a committed value, list closed | steps ±`minuteStep` (±1 slot when pinned); ArrowUp means later |
+| `Escape` | closes the list; if already closed, reverts to the committed value |
+| `Tab` / blur | commits typed text, never traps |
+
+## Accessibility
+
+- The input is `role="combobox"` with `aria-expanded`, `aria-controls` and
+  `aria-activedescendant` over a `role="listbox"` — byte-for-byte the
+  search-input contract, shared through the CDK's `ListboxNavigation`.
+- Options are named in the display format (*"3:00 PM"*); the committed one
+  is `aria-selected`.
+- Commits and rejections announce through `role="status"`.
+- Typing never selects an option — Enter commits the draft, not whatever
+  happens to sit nearest; the list only scrolls alongside.
+- `aria-invalid` is gated on `invalid && (touched || dirty)`; a refused
+  draft flags immediately, since it describes text just typed.
+
+## Do
+
+- Pin `slots` for scheduling; leave them off for free time entry fenced by
+  `minTime`/`maxTime`.
+- Keep values 24-hour everywhere in app state; let `hour12` handle display.
+
+## Don't
+
+- Don't use `<input type="time">` alongside it — the platform control brings
+  back the OS popup and locale-locked display this field exists to replace.
+- Don't filter the option list as the user types; the list is a picker, not
+  a search result.

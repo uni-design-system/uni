@@ -1,0 +1,1575 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Uni — Calendar, Date &amp; Time Input prototype</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Red+Hat+Display:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      /* ============================================================
+         Tokens — the real generated Uni palettes (seed #4F46E5,
+         triadic / neutral), dumped from @uni-design-system/uni-core.
+         Nothing here is invented: swap the block, reskin the proto.
+         ============================================================ */
+      :root {
+        --primary: #6a6f8f;
+        --on-primary: #f9faff;
+        --primary-container: #dbddea;
+        --on-primary-container: #1a1c37;
+        --on-primary-container-variant: #5b5d68;
+        --on-primary-container-border: #6a6f8f;
+        --primary-surface: #f3f5fd;
+        --on-primary-surface: #1e1f25;
+        --on-primary-surface-variant: #6a6f8f;
+        --secondary: #8c685d;
+        --on-secondary: #fff8f6;
+        --secondary-container: #e9dad6;
+        --on-secondary-container: #33160d;
+        --on-secondary-container-border: #8c685d;
+        --tertiary: #597b66;
+        --on-tertiary: #f0fff5;
+        --tertiary-container: #d5e2d9;
+        --on-tertiary-container: #052615;
+        --on-tertiary-container-border: #597b66;
+        --error: #cc2827;
+        --on-error: #fff8f7;
+        --error-container: #ffd2cc;
+        --on-error-container: #331512;
+        --warn: #ac5700;
+        --on-warn: #fff9f5;
+        --warn-container: #fdd5ba;
+        --on-warn-container: #311805;
+        --on-warn-container-border: #ac5700;
+        --success: #008341;
+        --on-success: #f1fef4;
+        --success-container: #c3eacc;
+        --on-success-container: #092613;
+        --on-success-container-border: #008341;
+        --background: #fdfdff;
+        --on-background: #202127;
+        --on-background-variant: #5c5d65;
+        --surface: #f9faff;
+        --surface-variant: #e9ebf3;
+        --on-surface-variant: #36373e;
+        --outline: #7e8088;
+        --disabled: rgba(0, 0, 0, 0.12);
+        --on-disabled: rgba(0, 0, 0, 0.38);
+        --disabled-container: #eff1fa;
+        --on-disabled-container: rgba(0, 0, 0, 0.38);
+        --shadow-menu: rgba(0, 0, 0, 0.2) 0 3px 3px -2px, rgba(0, 0, 0, 0.14) 0 3px 4px 0,
+          rgba(0, 0, 0, 0.12) 0 1px 8px 0;
+
+        /* radii + spacing scales, verbatim from base.theme.ts */
+        --radius-xxs: 4px;
+        --radius-xs: 8px;
+        --radius-sm: 16px;
+        --radius-max: 999px;
+        --space-xxs: 2px;
+        --space-xs: 4px;
+        --space-sm: 8px;
+        --space-md: 16px;
+        --space-lg: 32px;
+      }
+
+      html[data-theme='dark'] {
+        --primary: #afb5d8;
+        --on-primary: #11132c;
+        --primary-container: #4a4c57;
+        --on-primary-container: #f9faff;
+        --on-primary-container-variant: #bcbecb;
+        --on-primary-container-border: #afb5d8;
+        --primary-surface: #22242a;
+        --on-primary-surface: #f9faff;
+        --on-primary-surface-variant: #afb5d8;
+        --secondary: #d5ada1;
+        --on-secondary: #280c05;
+        --secondary-container: #564a46;
+        --on-secondary-container: #fff8f7;
+        --on-secondary-container-border: #d5ada1;
+        --tertiary: #9ec2ab;
+        --on-tertiary: #001c0d;
+        --tertiary-container: #465049;
+        --on-tertiary-container: #f0fff5;
+        --on-tertiary-container-border: #9ec2ab;
+        --error: #ff968a;
+        --on-error: #290b09;
+        --error-container: #69413c;
+        --on-error-container: #fff8f7;
+        --warn: #ff9b51;
+        --on-warn: #270e00;
+        --warn-container: #66442e;
+        --on-warn-container: #fff9f5;
+        --on-warn-container-border: #ff9b51;
+        --success: #59d483;
+        --on-success: #011c0a;
+        --success-container: #34563d;
+        --on-success-container: #f1fef4;
+        --on-success-container-border: #59d483;
+        --background: #101117;
+        --on-background: #e5e7f0;
+        --on-background-variant: #afb0b9;
+        --surface: #17181e;
+        --surface-variant: #313239;
+        --on-surface-variant: #afb0b9;
+        --outline: #90929a;
+        --disabled: rgba(255, 255, 255, 0.12);
+        --on-disabled: rgba(255, 255, 255, 0.38);
+        --disabled-container: #2c2d34;
+        --on-disabled-container: rgba(255, 255, 255, 0.38);
+      }
+
+      /* ============================================================
+         Page chrome (prototype only — not part of the components)
+         ============================================================ */
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        padding: 0 0 96px;
+        font-family: 'Red Hat Display', system-ui, sans-serif;
+        background: var(--background);
+        color: var(--on-background);
+        -webkit-font-smoothing: antialiased;
+      }
+      .page { max-width: 940px; margin: 0 auto; padding: 0 24px; }
+      header.top {
+        position: sticky; top: 0; z-index: 40;
+        background: var(--background);
+        border-bottom: 1px solid var(--surface-variant);
+        margin-bottom: 32px;
+      }
+      header.top .page {
+        display: flex; align-items: center; gap: 16px;
+        padding-top: 18px; padding-bottom: 18px;
+      }
+      h1 { font-size: 20px; margin: 0; font-weight: 700; letter-spacing: -0.2px; }
+      h1 small { display: block; font-size: 13px; font-weight: 400; color: var(--on-background-variant); }
+      h2 {
+        font-size: 15px; text-transform: uppercase; letter-spacing: 0.08em;
+        color: var(--on-background-variant); font-weight: 600;
+        margin: 48px 0 4px; padding-top: 24px;
+        border-top: 1px solid var(--surface-variant);
+      }
+      h3 { font-size: 14px; font-weight: 600; margin: 28px 0 10px; }
+      p.lede { color: var(--on-background-variant); font-size: 14px; line-height: 1.6; margin: 0 0 20px; max-width: 68ch; }
+      .toggle {
+        margin-left: auto; display: inline-flex; align-items: center; gap: 6px;
+        height: 32px; padding: 0 14px; cursor: pointer;
+        border-radius: var(--radius-max); border: 1px solid var(--outline);
+        background: transparent; color: inherit;
+        font-family: inherit; font-size: 13px; font-weight: 600;
+      }
+      .toggle:hover { background: var(--surface-variant); }
+      .panel {
+        background: var(--surface); border: 1px solid var(--surface-variant);
+        border-radius: var(--radius-xs); padding: 20px 22px; margin-bottom: 16px;
+      }
+      .row { display: flex; flex-wrap: wrap; align-items: flex-start; gap: 24px; }
+      .row + .row { margin-top: 14px; }
+      code, kbd { font-family: ui-monospace, 'SF Mono', Menlo, monospace; }
+      kbd {
+        display: inline-block; padding: 1px 6px; font-size: 11.5px;
+        border: 1px solid var(--outline); border-bottom-width: 2px;
+        border-radius: var(--radius-xxs); background: var(--surface-variant);
+        white-space: nowrap;
+      }
+      table.keys { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+      table.keys th {
+        text-align: left; font-size: 11px; text-transform: uppercase; letter-spacing: 0.06em;
+        color: var(--on-background-variant); padding: 6px 10px; border-bottom: 1px solid var(--surface-variant);
+      }
+      table.keys td { padding: 7px 10px; border-bottom: 1px solid var(--surface-variant); vertical-align: top; }
+      table.keys td:first-child { width: 220px; white-space: nowrap; }
+      .log {
+        font-family: ui-monospace, Menlo, monospace; font-size: 12px; line-height: 1.7;
+        background: var(--primary-surface); color: var(--on-primary-surface-variant);
+        border-radius: var(--radius-xxs); padding: 10px 12px; height: 116px; overflow: auto;
+      }
+      .log b { color: var(--on-background); font-weight: 600; }
+      .field-label {
+        display: block; font-size: 12px; font-weight: 600; margin-bottom: 6px;
+        color: var(--on-background-variant);
+      }
+      .hint { font-size: 12px; color: var(--on-background-variant); margin: 8px 0 0; }
+      .ghostbtn {
+        height: 28px; padding: 0 12px; cursor: pointer; font-family: inherit;
+        font-size: 12px; font-weight: 600; border-radius: var(--radius-max);
+        border: 1px solid var(--outline); background: transparent; color: inherit;
+      }
+      .ghostbtn:hover { background: var(--surface-variant); }
+      .sr-only {
+        position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+        overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+      }
+      .uni-icon { width: 1em; height: 1em; display: block; flex: none; }
+      .col { min-width: 0; }
+      .col .field-label { margin-top: 0; }
+
+      /* ============================================================
+         uni-calendar — one month, one tab stop, roving tabindex.
+         Geometry from data-size; day shape from data-shape
+         (theme option dayBorderRadius: 'max' | 'xxs').
+         ============================================================ */
+      .uni-cal {
+        --day: 34px; --day-fs: 13px; --day-r: var(--radius-max);
+        display: inline-block; user-select: none;
+      }
+      .uni-cal[data-size='sm'] { --day: 28px; --day-fs: 12px; }
+      .uni-cal[data-size='lg'] { --day: 40px; --day-fs: 15px; }
+      .uni-cal[data-shape='square'] { --day-r: var(--radius-xxs); }
+
+      .uni-cal__nav { display: flex; align-items: center; gap: 2px; margin-bottom: 6px; }
+      .uni-cal__heading {
+        flex: 1; text-align: center; font-size: 14px; font-weight: 700;
+        color: var(--on-background);
+      }
+      .uni-cal__navbtn {
+        flex: none; display: grid; place-items: center; cursor: pointer;
+        width: 28px; height: 28px; padding: 0; border: 0;
+        border-radius: var(--radius-max); background: transparent; color: inherit;
+      }
+      .uni-cal__navbtn:hover { background: var(--surface-variant); }
+      .uni-cal__navbtn:focus-visible { outline: 2px solid var(--primary); outline-offset: 2px; }
+      .uni-cal__navbtn .uni-icon { width: 18px; height: 18px; }
+
+      .uni-cal__grid { border-collapse: collapse; }
+      .uni-cal__grid th {
+        width: var(--day); padding: 0 0 4px; font-size: 11px; font-weight: 600;
+        text-transform: uppercase; letter-spacing: 0.04em;
+        color: var(--on-background-variant);
+      }
+      .uni-cal__grid th abbr { text-decoration: none; }
+      .uni-cal__grid td { padding: 2px 0; text-align: center; }
+
+      /* range band lives on the cell so it reads as one continuous bar */
+      .uni-cal__grid td.inrange { background: var(--primary-container); }
+      .uni-cal__grid td.range-start { border-radius: var(--day-r) 0 0 var(--day-r); }
+      .uni-cal__grid td.range-end { border-radius: 0 var(--day-r) var(--day-r) 0; }
+      .uni-cal__grid td.range-start.range-end { border-radius: var(--day-r); }
+      .uni-cal__grid td.preview { background: color-mix(in srgb, var(--primary-container) 55%, transparent); }
+      .uni-cal__grid td.inrange .uni-cal__day { color: var(--on-primary-container); }
+
+      .uni-cal__day {
+        position: relative; display: grid; place-items: center; cursor: pointer;
+        width: var(--day); height: var(--day); margin: 0 auto; padding: 0; border: 0;
+        border-radius: var(--day-r); background: transparent; color: var(--on-background);
+        font-family: inherit; font-size: var(--day-fs); font-weight: 500;
+        transition: background-color 0.15s ease, color 0.15s ease;
+      }
+      .uni-cal__day:hover:not(:disabled) { background: var(--primary-container); color: var(--on-primary-container); }
+      .uni-cal__day:focus-visible { outline: 2px solid var(--primary); outline-offset: 1px; }
+      /* today = outline; selected = fill — the two survive coinciding (WCAG 1.4.1) */
+      .uni-cal__day--today { box-shadow: inset 0 0 0 1.5px var(--primary); font-weight: 700; }
+      .uni-cal__day--selected,
+      .uni-cal__day--selected:hover:not(:disabled) { background: var(--primary); color: var(--on-primary); }
+      .uni-cal__day:disabled { color: var(--on-disabled); cursor: default; }
+      .uni-cal__day:disabled:hover { background: transparent; }
+
+      .uni-cal__dots {
+        position: absolute; bottom: 3px; left: 0; right: 0;
+        display: flex; justify-content: center; gap: 2px; pointer-events: none;
+      }
+      .uni-cal__dot { width: 4px; height: 4px; border-radius: var(--radius-max); background: var(--primary); }
+      .uni-cal__dot[data-variant='success'] { background: var(--success); }
+      .uni-cal__dot[data-variant='warn'] { background: var(--warn); }
+      .uni-cal__dot[data-variant='secondary'] { background: var(--secondary); }
+      .uni-cal__day--selected .uni-cal__dot { background: var(--on-primary) !important; }
+
+      /* ============================================================
+         Field chrome — mirrors uni-input-box, same language as the
+         tag-input prototype.
+         ============================================================ */
+      .uni-inputbox {
+        position: relative; display: flex; align-items: center; gap: 2px;
+        height: 38px; padding: 0 5px 0 10px;
+        background: var(--primary-surface); color: var(--on-primary-surface);
+        border: 1px solid var(--outline); border-radius: var(--radius-xs);
+      }
+      .uni-inputbox:focus-within { outline: 2px solid var(--primary); outline-offset: 2px; }
+      .uni-inputbox input {
+        flex: 1; min-width: 2ch; height: 100%; border: 0; outline: 0;
+        background: transparent; color: inherit;
+        font-family: 'Red Hat Display', sans-serif; font-size: 14px;
+      }
+      .uni-inputbox input::placeholder { color: var(--on-primary-surface-variant); opacity: 0.75; }
+      /* an unparseable draft stays, in red with a dashed line — same language
+         as an invalid tag: colour alone can't say "malformed" (WCAG 1.4.1) */
+      .uni-inputbox--invalid input {
+        color: var(--error);
+        text-decoration: underline dashed var(--error) 1.5px;
+        text-underline-offset: 3px;
+      }
+      .uni-inputbox--invalid { border-color: var(--error); }
+      .uni-inputbox--disabled {
+        background: var(--disabled-container); color: var(--on-disabled);
+        border-color: transparent;
+      }
+      .uni-inputbox--disabled input { cursor: not-allowed; }
+      .uni-inputbox__btn {
+        flex: none; display: grid; place-items: center; cursor: pointer;
+        width: 28px; height: 28px; padding: 0; border: 0;
+        border-radius: var(--radius-max); background: transparent;
+        color: var(--on-primary-surface-variant);
+      }
+      .uni-inputbox__btn:hover { background: var(--primary-container); color: var(--on-primary-container); }
+      .uni-inputbox__btn:focus-visible { outline: 2px solid var(--primary); outline-offset: 1px; }
+      .uni-inputbox__btn:disabled { color: var(--on-disabled); cursor: not-allowed; background: transparent; }
+      .uni-inputbox__btn .uni-icon { width: 17px; height: 17px; }
+
+      /* ============================================================
+         uni-date-input — popup calendar (dialog on the top layer;
+         the prototype approximates the native popover with an
+         absolutely-positioned panel)
+         ============================================================ */
+      .uni-dateinput { min-width: 210px; }
+      .uni-dateinput__popup {
+        position: absolute; top: calc(100% + 6px); right: 0; z-index: 30;
+        padding: 12px 14px 14px;
+        background: var(--primary-surface); color: var(--on-primary-surface);
+        border-radius: var(--radius-xs); box-shadow: var(--shadow-menu);
+      }
+
+      /* ============================================================
+         uni-time-input — combobox over time options, same listbox
+         language as uni-search-input / uni-tag-input
+         ============================================================ */
+      .uni-timeinput { min-width: 150px; }
+      .uni-timeinput__list {
+        position: absolute; top: calc(100% + 4px); left: 0; right: 0; z-index: 30;
+        margin: 0; padding: 4px; list-style: none;
+        max-height: 252px; overflow-y: auto;
+        background: var(--primary-surface);
+        border-radius: var(--radius-xs); box-shadow: var(--shadow-menu);
+      }
+      .uni-timeinput__list [role='option'] {
+        padding: 7px 10px; border-radius: var(--radius-xxs); cursor: pointer;
+        font-size: 13.5px; color: var(--on-primary-surface);
+      }
+      .uni-timeinput__list [role='option'].active,
+      .uni-timeinput__list [role='option']:hover {
+        background: var(--primary-container); color: var(--on-primary-container);
+      }
+      .uni-timeinput__list [role='option'][aria-selected='true'] { font-weight: 700; }
+      .uni-timeinput__list .opt-empty { padding: 8px 10px; font-size: 13px; color: var(--on-primary-surface-variant); }
+
+      /* ============================================================
+         uni-date-time-input — two parts, one field chrome
+         ============================================================ */
+      .uni-datetime {
+        display: flex; align-items: center;
+        background: var(--primary-surface); color: var(--on-primary-surface);
+        border: 1px solid var(--outline); border-radius: var(--radius-xs);
+        max-width: 430px;
+      }
+      .uni-datetime:focus-within { outline: 2px solid var(--primary); outline-offset: 2px; }
+      .uni-datetime .uni-inputbox { flex: 1; border: 0; background: transparent; }
+      .uni-datetime .uni-inputbox:focus-within { outline: none; }
+      .uni-datetime__divider { flex: none; width: 1px; height: 22px; background: var(--outline); opacity: 0.5; }
+
+      /* ============================================================
+         scheduling demo — slot buttons (prototype only)
+         ============================================================ */
+      .slots { display: flex; flex-wrap: wrap; gap: 8px; min-height: 34px; }
+      .slotbtn {
+        height: 30px; padding: 0 14px; cursor: pointer;
+        font-family: inherit; font-size: 13px; font-weight: 600;
+        border: 1px solid var(--on-primary-container-border);
+        border-radius: var(--radius-max);
+        background: transparent; color: var(--primary);
+      }
+      .slotbtn:hover { background: var(--primary-container); color: var(--on-primary-container); }
+      .slotbtn:focus-visible { outline: 2px solid var(--primary); outline-offset: 2px; }
+      .slotbtn[aria-pressed='true'] { background: var(--primary); color: var(--on-primary); border-color: transparent; }
+      .slots-empty { font-size: 13px; color: var(--on-background-variant); align-self: center; }
+
+      @media (prefers-reduced-motion: reduce) {
+        * { animation: none !important; transition: none !important; }
+      }
+    </style>
+  </head>
+
+  <body>
+    <header class="top">
+      <div class="page">
+        <h1>
+          Calendar, Date &amp; Time Input
+          <small>Uni Design System — prototype, not shipped code</small>
+        </h1>
+        <button class="toggle" id="themeToggle" type="button">
+          <svg class="uni-icon" style="width:16px;height:16px" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21q-3.75 0-6.37-2.63T3 12q0-3.75 2.63-6.37T12 3q.35 0 .69.03.34.02.67.07-1.03.73-1.64 1.9-.62 1.16-.62 2.5 0 2.25 1.57 3.82Q14.25 12.9 16.5 12.9q1.35 0 2.51-.62 1.16-.61 1.86-1.64.05.33.09.67.03.34.03.69 0 3.75-2.62 6.37Q15.75 21 12 21z" fill="currentColor"/></svg>
+          <span id="themeToggleText">Dark</span>
+        </button>
+      </div>
+    </header>
+
+    <main class="page">
+      <p class="lede">
+        Three foundation components — <code>uni-calendar</code> (an inline month grid with single
+        and range selection), <code>uni-date-input</code> (free-typed parsing + a popup calendar),
+        and <code>uni-time-input</code> (a combobox over time slots) — plus
+        <code>uni-date-time-input</code>, a thin composer that seats a date and a time in one
+        field. Values are plain ISO strings (<code>2026-08-20</code>, <code>15:00</code>), never
+        <code>Date</code> objects. Everything on this page uses the live Uni palette generated
+        from seed <code>#4F46E5</code>.
+      </p>
+
+      <!-- ================= 1. Scheduling ================= -->
+      <h2>1 · Scheduling — the first application</h2>
+      <p class="lede">
+        Pick a day, then a slot. Dots are availability markers driven by app data; closed days
+        are disabled. The calendar is one tab stop — arrows move by day, <kbd>PgUp</kbd>
+        <kbd>PgDn</kbd> by month, <kbd>Enter</kbd> selects.
+      </p>
+
+      <div class="panel">
+        <div class="row">
+          <div class="col">
+            <span class="field-label" id="schedLabel">Appointment date</span>
+            <div id="schedCalHost"></div>
+          </div>
+          <div class="col" style="flex:1; min-width: 240px">
+            <span class="field-label" id="slotLabel">Available times</span>
+            <div class="slots" id="slotList" role="group" aria-labelledby="slotLabel"></div>
+            <p class="hint" id="slotHint">Select a day to see its slots.</p>
+          </div>
+        </div>
+        <div class="row" style="margin-top: 18px">
+          <button class="ghostbtn" id="btnSchedToday" type="button">Back to today</button>
+          <button class="ghostbtn" id="btnSchedClear" type="button">Clear selection</button>
+        </div>
+      </div>
+
+      <div class="panel">
+        <h3 style="margin-top: 0">Value (what the form gets)</h3>
+        <div class="log" id="valueLog"></div>
+        <h3>Events</h3>
+        <div class="log" id="eventLog"></div>
+      </div>
+
+      <!-- ================= 2. The calendar, on its own ================= -->
+      <h2>2 · The calendar, on its own</h2>
+
+      <div class="panel">
+        <div class="row">
+          <div class="col">
+            <h3 style="margin-top: 0">Single — <code>mode="single"</code></h3>
+            <div id="calSingleHost"></div>
+          </div>
+          <div class="col">
+            <h3 style="margin-top: 0">Range — <code>mode="range"</code></h3>
+            <div id="calRangeHost"></div>
+            <p class="hint">
+              First commit sets the start, the second the end; committing an earlier day swaps the
+              ends. <kbd>Esc</kbd> cancels a pending range.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="row">
+          <div class="col">
+            <h3 style="margin-top: 0">Fenced — <code>min</code>/<code>max</code>, weekends off</h3>
+            <div id="calMinMaxHost"></div>
+            <p class="hint">Arrows skip disabled days; the fence stops the caret, it never wraps.</p>
+          </div>
+          <div class="col">
+            <h3 style="margin-top: 0">Theme options — <code>sm</code> + square days</h3>
+            <div id="calShapeHost"></div>
+            <p class="hint">
+              Day shape is one theme option (<code>dayBorderRadius: 'max' | 'xxs'</code>) — circle
+              or square, system-wide, no component change.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- ================= 3. Date input ================= -->
+      <h2>3 · Date input</h2>
+      <p class="lede">
+        Free text, parsed on commit — not a mask. <kbd>Enter</kbd> commits and reformats ·
+        <kbd>↑</kbd> <kbd>↓</kbd> step a committed date · <kbd>Alt</kbd>+<kbd>↓</kbd> or the
+        button opens the calendar · <kbd>Esc</kbd> reverts.
+      </p>
+
+      <div class="panel">
+        <div class="row">
+          <div class="col" style="width: 240px">
+            <label class="field-label" for="date-input">Due date</label>
+            <div id="dateHost"></div>
+            <p class="hint">
+              Try: <code>2026-12-01</code> · <code>8/20</code> · <code>aug 20</code> ·
+              <code>mar 1</code> (→ next March) · <code>aug 32</code> (invalid, stays)
+            </p>
+          </div>
+          <div class="col" style="flex: 1">
+            <h3 style="margin-top: 0">Parsing, in order</h3>
+            <table class="keys">
+              <tbody>
+                <tr><td><code>2026-08-20</code></td><td>ISO — what agents and APIs write</td></tr>
+                <tr><td><code>8/20/2026</code> · <code>8/20</code></td><td>locale numeric — digit order from <code>Intl</code>, not hardcoded</td></tr>
+                <tr><td><code>aug 20</code> · <code>20 aug 2026</code></td><td>month names, from the locale's own list</td></tr>
+                <tr><td>missing year</td><td>resolves to the <b>next</b> occurrence — nobody schedules into the past</td></tr>
+                <tr><td><code>aug 32</code></td><td>stays in the field, flagged — a field that swallows a typo is worse than one that shows it in red</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- ================= 4. Time input ================= -->
+      <h2>4 · Time input</h2>
+      <p class="lede">
+        A combobox over time options — the list is assistive, not exhaustive: any parseable time
+        commits, unless <code>slots</code> pins the choices. Value is always 24-hour
+        <code>HH:mm</code>; display follows the locale.
+      </p>
+
+      <div class="panel">
+        <div class="row">
+          <div class="col" style="width: 200px">
+            <label class="field-label" for="time-input">Start time — <code>minuteStep=30</code>, 9–5</label>
+            <div id="timeHost"></div>
+            <p class="hint">Try: <code>9</code> · <code>930</code> · <code>3p</code> · <code>15:00</code></p>
+          </div>
+          <div class="col" style="width: 200px">
+            <label class="field-label" for="slotTime-input">Slot-pinned — <code>slots=[…]</code></label>
+            <div id="slotTimeHost"></div>
+            <p class="hint">Typing <code>5pm</code> is parseable but unavailable — refused with the reason.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- ================= 5. Composed ================= -->
+      <h2>5 · Composed — <code>uni-date-time-input</code></h2>
+      <p class="lede">
+        Two components, one field chrome, one value. The time part stays disabled until a date is
+        chosen; its slots come from <code>slotsFor(date)</code>; changing the day clears a slot
+        that no longer exists. The combined value emits only when both parts are set.
+      </p>
+
+      <div class="panel">
+        <span class="field-label" id="dtLabel">Appointment</span>
+        <div id="dtHost" style="max-width: 430px"></div>
+        <p class="hint">Combined value: <code id="dtValue">—</code></p>
+      </div>
+
+      <!-- ================= 6. Keyboard ================= -->
+      <h2>6 · Keyboard map</h2>
+      <div class="panel">
+        <h3 style="margin-top: 0">Focus inside the calendar grid</h3>
+        <table class="keys">
+          <thead><tr><th>Key</th><th>Behaviour</th></tr></thead>
+          <tbody>
+            <tr><td><kbd>←</kbd> <kbd>→</kbd></td><td>Previous / next day — crosses month edges, the grid follows</td></tr>
+            <tr><td><kbd>↑</kbd> <kbd>↓</kbd></td><td>Same weekday, previous / next week</td></tr>
+            <tr><td><kbd>Home</kbd> <kbd>End</kbd></td><td>First / last day of the focused week</td></tr>
+            <tr><td><kbd>PgUp</kbd> <kbd>PgDn</kbd></td><td>Same day, previous / next month</td></tr>
+            <tr><td><kbd>Shift</kbd>+<kbd>PgUp</kbd> / <kbd>PgDn</kbd></td><td>Same day, previous / next year</td></tr>
+            <tr><td><kbd>Enter</kbd> <kbd>Space</kbd></td><td>Selects the focused day (range: start, then end)</td></tr>
+            <tr><td><kbd>Esc</kbd></td><td>Cancels a pending range; in a popup, closes it</td></tr>
+          </tbody>
+        </table>
+
+        <h3>Focus in the date field</h3>
+        <table class="keys">
+          <thead><tr><th>Key</th><th>Behaviour</th></tr></thead>
+          <tbody>
+            <tr><td><kbd>Enter</kbd></td><td>Parses and commits; reformats to the display format</td></tr>
+            <tr><td><kbd>↑</kbd> <kbd>↓</kbd></td><td>Steps a committed date ±1 day; on an empty field, <kbd>↓</kbd> opens the calendar</td></tr>
+            <tr><td><kbd>Alt</kbd>+<kbd>↓</kbd></td><td>Opens the calendar, focus moves to the selected day (or today)</td></tr>
+            <tr><td><kbd>Esc</kbd></td><td>Reverts uncommitted text to the committed value</td></tr>
+            <tr><td><kbd>Tab</kbd> / blur</td><td>Commits typed text, then moves on — never traps</td></tr>
+          </tbody>
+        </table>
+
+        <h3>Focus in the time field</h3>
+        <table class="keys">
+          <thead><tr><th>Key</th><th>Behaviour</th></tr></thead>
+          <tbody>
+            <tr><td><kbd>↓</kbd> <kbd>↑</kbd></td><td>Opens the list scrolled to the nearest option, then moves through it</td></tr>
+            <tr><td><kbd>Enter</kbd></td><td>Commits the highlighted option, else parses the typed text</td></tr>
+            <tr><td><kbd>Esc</kbd></td><td>Closes the list; if already closed, reverts to the committed value</td></tr>
+            <tr><td><kbd>Tab</kbd> / blur</td><td>Commits typed text, never traps</td></tr>
+          </tbody>
+        </table>
+        <p class="hint">
+          One tab stop per widget: the grid uses roving <code>tabindex</code> like tag-input's
+          chips, so <kbd>Tab</kbd> crosses the calendar in one press instead of walking 31 days.
+        </p>
+      </div>
+    </main>
+
+    <script>
+      /* ==========================================================
+         Prototype implementation. Vanilla JS on purpose — the
+         behaviour gets argued about here before it is committed to
+         Angular, Emotion, and theme tokens. Values are ISO strings
+         ('YYYY-MM-DD', 'HH:mm'), never Date objects; Date is used
+         only as UTC math inside the helpers below.
+         ========================================================== */
+      const LOCALE = navigator.language || 'en-US';
+      const pad = (n) => String(n).padStart(2, '0');
+      const iso = (y, m, d) => `${y}-${pad(m)}-${pad(d)}`;
+      const partsOf = (s) => s.split('-').map(Number);
+      const toUTC = (s) => { const [y, m, d] = partsOf(s); return Date.UTC(y, m - 1, d); };
+      const fromUTC = (t) => { const d = new Date(t); return iso(d.getUTCFullYear(), d.getUTCMonth() + 1, d.getUTCDate()); };
+      const addDays = (s, n) => fromUTC(toUTC(s) + n * 864e5);
+      const dowOf = (s) => new Date(toUTC(s)).getUTCDay(); // 0 = Sunday
+      const daysInMonth = (y, m) => new Date(Date.UTC(y, m, 0)).getUTCDate();
+      const monthOf = (s) => s.slice(0, 7);
+      const todayIso = () => { const d = new Date(); return iso(d.getFullYear(), d.getMonth() + 1, d.getDate()); };
+      const addMonths = (s, n) => {
+        let [y, m, d] = partsOf(s);
+        const t = y * 12 + (m - 1) + n;
+        y = Math.floor(t / 12); m = (t % 12 + 12) % 12 + 1;
+        return iso(y, m, Math.min(d, daysInMonth(y, m)));
+      };
+      const fmtWith = (s, opts) => new Intl.DateTimeFormat(LOCALE, { ...opts, timeZone: 'UTC' }).format(new Date(toUTC(s)));
+      const fmtFull = (s) => fmtWith(s, { dateStyle: 'full' });
+      const fmtMed = (s) => fmtWith(s, { dateStyle: 'medium' });
+      const fmtMonth = (ym) => fmtWith(`${ym}-01`, { month: 'long', year: 'numeric' });
+
+      const localeWeekStart = () => {
+        try {
+          const info = new Intl.Locale(LOCALE).getWeekInfo?.() ?? new Intl.Locale(LOCALE).weekInfo;
+          if (info?.firstDay) return info.firstDay % 7; // Intl: 1=Mon…7=Sun → 0=Sun…6=Sat
+        } catch { /* fall through */ }
+        return 0;
+      };
+
+      const SVG = {
+        prev: '<svg class="uni-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M15.4 7.4 14 6l-6 6 6 6 1.4-1.4L10.8 12z" fill="currentColor"/></svg>',
+        next: '<svg class="uni-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.6 16.6 10 18l6-6-6-6-1.4 1.4L13.2 12z" fill="currentColor"/></svg>',
+        cal: '<svg class="uni-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 4h-1V2h-2v2H8V2H6v2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V10h14v10zm0-12H5V6h14v2z" fill="currentColor"/></svg>',
+        clock: '<svg class="uni-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm0 18a8 8 0 1 1 0-16 8 8 0 0 1 0 16zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z" fill="currentColor"/></svg>',
+      };
+
+      /* ==========================================================
+         uni-calendar
+         ========================================================== */
+      let calSeq = 0;
+      function createCalendar(host, opts = {}) {
+        const o = Object.assign({
+          mode: 'single', value: undefined, month: undefined,
+          min: undefined, max: undefined, isDisabled: null,
+          markers: [], size: 'md', shape: null, weekStart: undefined,
+          ariaLabel: 'Calendar',
+          onChange: () => {}, onEvent: () => {}, onEscapeClosed: null,
+        }, opts);
+
+        const id = `cal${++calSeq}`;
+        const weekStart = o.weekStart ?? localeWeekStart();
+        const markerMap = new Map();
+        for (const m of o.markers) {
+          if (!markerMap.has(m.date)) markerMap.set(m.date, []);
+          markerMap.get(m.date).push(m);
+        }
+
+        const disabled = (d) =>
+          (o.min && d < o.min) || (o.max && d > o.max) || (!!o.isDisabled && o.isDisabled(d));
+
+        const anchorOf = (v) => (o.mode === 'range' ? v?.start : v);
+
+        const state = {
+          value: o.value,
+          view: o.month || monthOf(anchorOf(o.value) || todayIso()),
+          focus: null, pending: null, preview: null,
+        };
+
+        const firstEnabledInView = () => {
+          const [y, m] = state.view.split('-').map(Number);
+          for (let d = 1; d <= daysInMonth(y, m); d++) {
+            const day = iso(y, m, d);
+            if (!disabled(day)) return day;
+          }
+          return iso(y, m, 1);
+        };
+        const pickFocus = () => {
+          const sel = anchorOf(state.value);
+          if (sel && monthOf(sel) === state.view && !disabled(sel)) return sel;
+          const t = todayIso();
+          if (monthOf(t) === state.view && !disabled(t)) return t;
+          return firstEnabledInView();
+        };
+        state.focus = pickFocus();
+
+        const root = document.createElement('div');
+        root.className = 'uni-cal';
+        root.id = id;
+        root.dataset.size = o.size;
+        if (o.shape) root.dataset.shape = o.shape;
+        root.setAttribute('role', 'group');
+        root.setAttribute('aria-label', o.ariaLabel);
+        host.appendChild(root);
+
+        const status = document.createElement('div');
+        status.className = 'sr-only';
+        status.setAttribute('role', 'status');
+        status.setAttribute('aria-live', 'polite');
+        host.appendChild(status);
+        const announce = (msg) => { status.textContent = status.textContent === msg ? msg + ' ' : msg; };
+
+        const weekdayNames = [];
+        for (let i = 0; i < 7; i++) {
+          const day = new Date(Date.UTC(2023, 0, 1 + ((weekStart + i) % 7))); // 2023-01-01 is a Sunday
+          weekdayNames.push({
+            short: new Intl.DateTimeFormat(LOCALE, { weekday: 'short', timeZone: 'UTC' }).format(day),
+            long: new Intl.DateTimeFormat(LOCALE, { weekday: 'long', timeZone: 'UTC' }).format(day),
+          });
+        }
+
+        function rangePaint() {
+          // committed range, or the pending preview band
+          if (o.mode !== 'range') return null;
+          if (state.pending && state.preview) {
+            const [a, b] = state.preview < state.pending
+              ? [state.preview, state.pending] : [state.pending, state.preview];
+            return { start: a, end: b, preview: true };
+          }
+          if (state.pending) return { start: state.pending, end: state.pending, preview: true };
+          if (state.value?.start && state.value?.end) return { ...state.value, preview: false };
+          return null;
+        }
+
+        function isSelected(d) {
+          if (o.mode === 'single') return state.value === d;
+          if (state.pending) return state.pending === d;
+          return state.value?.start === d || state.value?.end === d;
+        }
+
+        function render() {
+          const keepFocus = root.contains(document.activeElement);
+          const today = todayIso();
+          const [y, m] = state.view.split('-').map(Number);
+          const total = daysInMonth(y, m);
+          const offset = (dowOf(iso(y, m, 1)) - weekStart + 7) % 7;
+          const band = rangePaint();
+
+          const headingId = `${id}-heading`;
+          let html = `
+            <div class="uni-cal__nav">
+              <button type="button" class="uni-cal__navbtn" data-nav="-1" aria-label="Previous month">${SVG.prev}</button>
+              <div class="uni-cal__heading" id="${headingId}" aria-live="polite">${fmtMonth(state.view)}</div>
+              <button type="button" class="uni-cal__navbtn" data-nav="1" aria-label="Next month">${SVG.next}</button>
+            </div>
+            <table class="uni-cal__grid" role="grid" aria-labelledby="${headingId}"><thead><tr>`;
+          for (const w of weekdayNames)
+            html += `<th role="columnheader" scope="col"><abbr title="${w.long}">${w.short}</abbr></th>`;
+          html += '</tr></thead><tbody>';
+
+          const weeks = Math.ceil((offset + total) / 7);
+          for (let w = 0; w < weeks; w++) {
+            html += '<tr>';
+            for (let c = 0; c < 7; c++) {
+              const n = w * 7 + c - offset + 1;
+              if (n < 1 || n > total) { html += '<td aria-hidden="true"></td>'; continue; }
+              const d = iso(y, m, n);
+              const sel = isSelected(d);
+              const inBand = band && d >= band.start && d <= band.end;
+              const tdCls = [
+                inBand ? (band.preview ? 'preview' : 'inrange') : '',
+                inBand && d === band.start ? 'range-start' : '',
+                inBand && d === band.end ? 'range-end' : '',
+              ].filter(Boolean).join(' ');
+              const marks = markerMap.get(d) || [];
+              const markLabel = marks.filter((mk) => mk.label).map((mk) => mk.label).join(', ');
+              const btnCls = ['uni-cal__day', d === today ? 'uni-cal__day--today' : '', sel ? 'uni-cal__day--selected' : '']
+                .filter(Boolean).join(' ');
+              const dots = marks.length
+                ? `<span class="uni-cal__dots">${marks.slice(0, 3).map((mk) =>
+                    `<span class="uni-cal__dot" data-variant="${mk.variant || 'primary'}"></span>`).join('')}</span>`
+                : '';
+              html += `<td role="gridcell"${tdCls ? ` class="${tdCls}"` : ''}${sel || inBand ? ' aria-selected="true"' : ''}>
+                <button type="button" class="${btnCls}" data-date="${d}"
+                  tabindex="${d === state.focus ? '0' : '-1'}"
+                  aria-label="${fmtFull(d)}${markLabel ? ', ' + markLabel : ''}"
+                  ${d === today ? 'aria-current="date"' : ''} ${disabled(d) ? 'disabled' : ''}>${n}${dots}</button></td>`;
+            }
+            html += '</tr>';
+          }
+          html += '</tbody></table>';
+          root.innerHTML = html;
+
+          root.querySelectorAll('[data-nav]').forEach((b) =>
+            b.addEventListener('click', () => {
+              state.view = addMonths(`${state.view}-01`, +b.dataset.nav).slice(0, 7);
+              state.focus = pickFocus();
+              render();
+            }));
+          const grid = root.querySelector('table');
+          grid.addEventListener('keydown', onKeydown);
+          grid.addEventListener('click', (e) => {
+            const btn = e.target.closest('.uni-cal__day');
+            if (btn && !btn.disabled) select(btn.dataset.date);
+          });
+          grid.addEventListener('mouseover', (e) => {
+            const btn = e.target.closest('.uni-cal__day');
+            if (btn && state.pending && !btn.disabled && state.preview !== btn.dataset.date) {
+              state.preview = btn.dataset.date;
+              render();
+            }
+          });
+
+          if (keepFocus) root.querySelector(`[data-date="${state.focus}"]`)?.focus();
+        }
+
+        function moveFocus(target, dir) {
+          if ((o.min && target < o.min) || (o.max && target > o.max)) return; // fence, no wrap
+          let d = target, guard = 0;
+          while (disabled(d)) {
+            d = addDays(d, dir);
+            if ((o.min && d < o.min) || (o.max && d > o.max) || ++guard > 500) return;
+          }
+          state.focus = d;
+          state.view = monthOf(d);
+          if (state.pending) state.preview = d;
+          render();
+          root.querySelector(`[data-date="${d}"]`)?.focus();
+        }
+
+        function onKeydown(e) {
+          const f = state.focus;
+          const week = (dowOf(f) - weekStart + 7) % 7;
+          const map = {
+            ArrowLeft: () => moveFocus(addDays(f, -1), -1),
+            ArrowRight: () => moveFocus(addDays(f, 1), 1),
+            ArrowUp: () => moveFocus(addDays(f, -7), -1),
+            ArrowDown: () => moveFocus(addDays(f, 7), 1),
+            Home: () => moveFocus(addDays(f, -week), 1),
+            End: () => moveFocus(addDays(f, 6 - week), -1),
+            PageUp: () => moveFocus(addMonths(f, e.shiftKey ? -12 : -1), -1),
+            PageDown: () => moveFocus(addMonths(f, e.shiftKey ? 12 : 1), 1),
+            Enter: () => select(f),
+            ' ': () => select(f),
+            Escape: () => {
+              if (state.pending) cancelPending();
+              else if (o.onEscapeClosed) o.onEscapeClosed();
+            },
+          };
+          if (map[e.key]) { e.preventDefault(); map[e.key](); }
+        }
+
+        function select(d) {
+          if (disabled(d)) return;
+          state.focus = d;
+          state.view = monthOf(d);
+          if (o.mode === 'single') {
+            state.value = d;
+            announce(`${fmtFull(d)} selected.`);
+            o.onChange(state.value);
+            o.onEvent('selected', d);
+          } else if (!state.pending) {
+            state.pending = d; state.preview = d;
+            announce(`Start date ${fmtFull(d)}. Choose an end date.`);
+            o.onEvent('range-start', d);
+          } else {
+            let [start, end] = [state.pending, d];
+            if (end < start) [start, end] = [end, start]; // backwards commit swaps
+            state.pending = null; state.preview = null;
+            state.value = { start, end };
+            const days = Math.round((toUTC(end) - toUTC(start)) / 864e5) + 1;
+            announce(`Range selected, ${fmtFull(start)} to ${fmtFull(end)}. ${days} ${days === 1 ? 'day' : 'days'}.`);
+            o.onChange(state.value);
+            o.onEvent('selected', `${start} → ${end}`);
+          }
+          render();
+        }
+
+        function cancelPending() {
+          state.pending = null; state.preview = null;
+          announce('Range selection cancelled.');
+          o.onEvent('range-cancelled', '');
+          render();
+        }
+
+        render();
+
+        return {
+          root,
+          get value() { return state.value; },
+          setValue(v) { state.value = v; state.pending = null; state.preview = null;
+            if (anchorOf(v)) { state.view = monthOf(anchorOf(v)); }
+            state.focus = pickFocus(); render(); },
+          setMonth(ym) { state.view = ym; state.focus = pickFocus(); render(); },
+          focusInto() { root.querySelector(`[data-date="${state.focus}"]`)?.focus(); },
+        };
+      }
+
+      /* ==========================================================
+         date & time parsing (Intl-driven — no date library)
+         ========================================================== */
+      const localeOrder = (() => {
+        const parts = new Intl.DateTimeFormat(LOCALE).formatToParts(new Date(2000, 11, 31));
+        return parts.filter((p) => ['year', 'month', 'day'].includes(p.type)).map((p) => p.type);
+      })();
+
+      const monthNameMap = (() => {
+        const map = new Map();
+        for (let i = 0; i < 12; i++) {
+          const dt = new Date(Date.UTC(2000, i, 15));
+          for (const style of ['long', 'short']) {
+            const name = new Intl.DateTimeFormat(LOCALE, { month: style, timeZone: 'UTC' })
+              .format(dt).toLowerCase().replace(/\./g, '');
+            map.set(name, i + 1);
+          }
+        }
+        return map;
+      })();
+
+      const validDate = (y, m, d) =>
+        m >= 1 && m <= 12 && d >= 1 && d <= daysInMonth(y, m) ? iso(y, m, d) : null;
+
+      /** Missing year → the NEXT occurrence: nobody schedules into the past. */
+      const nextOccurrence = (m, d) => {
+        const t = todayIso();
+        let y = +t.slice(0, 4);
+        let cand = validDate(y, m, d);
+        if (!cand || cand < t) cand = validDate(y + 1, m, d);
+        return cand;
+      };
+
+      function parseDateText(raw) {
+        const s = raw.trim().toLowerCase().replace(/(\d+)(st|nd|rd|th)\b/g, '$1').replace(/,/g, ' ');
+        if (!s) return null;
+
+        // 1. ISO — what agents and APIs write
+        let m = s.match(/^(\d{4})-(\d{1,2})-(\d{1,2})$/);
+        if (m) return validDate(+m[1], +m[2], +m[3]);
+
+        // 2. month name, from the locale's own list
+        const tokens = s.split(/\s+/);
+        const monthTok = tokens.find((t) => monthNameMap.has(t.replace(/\./g, '')));
+        if (monthTok) {
+          const month = monthNameMap.get(monthTok.replace(/\./g, ''));
+          const nums = tokens.filter((t) => /^\d+$/.test(t)).map(Number);
+          if (nums.length === 1 && nums[0] >= 1 && nums[0] <= 31) return nextOccurrence(month, nums[0]);
+          if (nums.length === 2) {
+            const year = nums.find((n) => n >= 1000);
+            const day = nums.find((n) => n <= 31 && n !== year);
+            if (year && day) return validDate(year, month, day);
+          }
+          return null;
+        }
+
+        // 3. locale numeric — digit order from Intl, not hardcoded
+        m = s.match(/^(\d{1,4})[\/.\-\s](\d{1,4})(?:[\/.\-\s](\d{1,4}))?$/);
+        if (!m) return null;
+        const nums = [m[1], m[2], m[3]].filter(Boolean);
+        if (nums.length === 3) {
+          const strs = nums;
+          let y, mo, d;
+          if (strs[0].length === 4) [y, mo, d] = strs.map(Number); // 2026/8/20
+          else {
+            const order = localeOrder;
+            const bag = {};
+            order.forEach((part, i) => { bag[part] = strs[i]; });
+            if (String(bag.year).length < 4) return null; // two-digit years are refused, not guessed
+            [y, mo, d] = [+bag.year, +bag.month, +bag.day];
+          }
+          return validDate(y, mo, d);
+        }
+        // two numbers: month/day in locale order, year = next occurrence
+        const md = localeOrder.filter((p) => p !== 'year');
+        const bag = {};
+        md.forEach((part, i) => { bag[part] = +nums[i]; });
+        return nextOccurrence(bag.month, bag.day);
+      }
+
+      function parseTimeText(raw, hour12) {
+        const s = raw.trim().toLowerCase().replace(/\s+/g, '');
+        const m = s.match(/^(\d{1,2})(?:[:.h]?(\d{2}))?(a|am|p|pm)?$/);
+        if (!m) return null;
+        let h = +m[1];
+        const min = m[2] ? +m[2] : 0;
+        const mer = m[3];
+        if (min > 59) return null;
+        if (mer) {
+          if (h < 1 || h > 12) return null;
+          if (mer[0] === 'p' && h !== 12) h += 12;
+          if (mer[0] === 'a' && h === 12) h = 0;
+        } else {
+          if (h > 23) return null;
+          // a bare small hour in a 12h field means the afternoon: typing "3"
+          // into an appointment field means 15:00, not 03:00
+          if (hour12 && h >= 1 && h <= 7) h += 12;
+        }
+        return `${pad(h)}:${pad(min)}`;
+      }
+
+      /* ==========================================================
+         uni-date-input
+         ========================================================== */
+      function createDateInput(host, opts = {}) {
+        const o = Object.assign({
+          id: 'date', label: 'Date', value: undefined,
+          min: undefined, max: undefined, isDisabled: null, markers: [],
+          commitOnBlur: true,
+          onChange: () => {}, onEvent: () => {},
+        }, opts);
+
+        const box = document.createElement('div');
+        box.className = 'uni-inputbox uni-dateinput';
+        box.innerHTML = `
+          <input id="${o.id}" aria-label="${o.label}" autocomplete="off" spellcheck="false"
+            placeholder="${new Intl.DateTimeFormat(LOCALE).format(new Date(2000, 11, 31)).replace(/2000/, 'YYYY').replace(/12/, 'MM').replace(/31/, 'DD')}" />
+          <button type="button" class="uni-inputbox__btn" id="${o.id}-toggle"
+            aria-haspopup="dialog" aria-expanded="false" aria-label="Choose date">${SVG.cal}</button>
+          <div class="uni-dateinput__popup" id="${o.id}-popup" role="dialog" aria-label="Choose date" hidden></div>
+          <div class="sr-only" role="status" aria-live="polite"></div>`;
+        host.appendChild(box);
+
+        const input = box.querySelector('input');
+        const toggle = box.querySelector(`#${o.id}-toggle`);
+        const popup = box.querySelector(`#${o.id}-popup`);
+        const status = box.querySelector('[role="status"]');
+        const announce = (msg) => { status.textContent = status.textContent === msg ? msg + ' ' : msg; };
+
+        let committed = o.value;
+        let cal = null;
+        let boxDisabled = false;
+        if (committed) input.value = fmtMed(committed);
+
+        const dayBlocked = (d) =>
+          (o.min && d < o.min) || (o.max && d > o.max) || (!!o.isDisabled && o.isDisabled(d));
+
+        function setValue(d, silent) {
+          committed = d;
+          input.value = d ? fmtMed(d) : '';
+          box.classList.remove('uni-inputbox--invalid');
+          input.removeAttribute('aria-invalid');
+          toggle.setAttribute('aria-label', d ? `Change date, ${fmtFull(d)}` : 'Choose date');
+          if (!silent) {
+            announce(d ? `${fmtFull(d)}.` : 'Date cleared.');
+            o.onChange(d);
+            o.onEvent('committed', d ?? '(cleared)');
+          }
+        }
+
+        function refuse(raw, reason) {
+          box.classList.add('uni-inputbox--invalid');
+          input.setAttribute('aria-invalid', 'true');
+          const msg = {
+            unparseable: `Couldn't read “${raw}” as a date.`,
+            'out-of-range': `${raw} is outside the allowed dates.`,
+            disabled: `${raw} isn't available.`,
+          }[reason];
+          announce(msg);
+          o.onEvent('rejected', `${raw} (${reason})`);
+        }
+
+        function commit(raw) {
+          raw = raw.trim();
+          if (!raw) { setValue(undefined); return true; }
+          const parsed = parseDateText(raw);
+          if (!parsed) { refuse(raw, 'unparseable'); return false; }
+          if ((o.min && parsed < o.min) || (o.max && parsed > o.max)) { refuse(raw, 'out-of-range'); return false; }
+          if (o.isDisabled && o.isDisabled(parsed)) { refuse(raw, 'disabled'); return false; }
+          setValue(parsed);
+          return true;
+        }
+
+        function step(dir) {
+          if (!committed) return;
+          let d = addDays(committed, dir), guard = 0;
+          while (o.isDisabled && o.isDisabled(d) && guard++ < 400) d = addDays(d, dir);
+          if ((o.min && d < o.min) || (o.max && d > o.max)) return; // fence
+          setValue(d);
+        }
+
+        function openPopup() {
+          if (boxDisabled) return;
+          popup.innerHTML = '';
+          cal = createCalendar(popup, {
+            mode: 'single', value: committed, min: o.min, max: o.max,
+            isDisabled: o.isDisabled, markers: o.markers, size: 'md',
+            ariaLabel: 'Choose date',
+            onChange: (d) => { setValue(d); closePopup(); input.focus(); },
+            onEscapeClosed: () => { closePopup(); input.focus(); },
+          });
+          popup.hidden = false;
+          toggle.setAttribute('aria-expanded', 'true');
+          cal.focusInto();
+          document.addEventListener('pointerdown', onOutside, true);
+        }
+        function closePopup() {
+          popup.hidden = true;
+          toggle.setAttribute('aria-expanded', 'false');
+          document.removeEventListener('pointerdown', onOutside, true);
+          o.onEvent('popup', 'closed');
+        }
+        const onOutside = (e) => { if (!box.contains(e.target)) closePopup(); };
+
+        // The popup is a focus-holding dialog: Tab cycles inside it
+        popup.addEventListener('keydown', (e) => {
+          if (e.key !== 'Tab') return;
+          const focusables = [...popup.querySelectorAll('button:not(:disabled)')]
+            .filter((b) => b.tabIndex >= 0 || b.classList.contains('uni-cal__navbtn'));
+          if (!focusables.length) return;
+          const i = focusables.indexOf(document.activeElement);
+          const next = focusables[(i + (e.shiftKey ? -1 : 1) + focusables.length) % focusables.length];
+          e.preventDefault();
+          next.focus();
+        });
+
+        input.addEventListener('keydown', (e) => {
+          switch (e.key) {
+            case 'Enter':
+              e.preventDefault();
+              commit(input.value);
+              break;
+            case 'Escape':
+              if (!popup.hidden) { closePopup(); }
+              else {
+                input.value = committed ? fmtMed(committed) : '';
+                box.classList.remove('uni-inputbox--invalid');
+                input.removeAttribute('aria-invalid');
+              }
+              break;
+            case 'ArrowDown':
+              e.preventDefault();
+              if (e.altKey || input.value.trim() === '') openPopup();
+              else if (committed && input.value === fmtMed(committed)) step(-1);
+              break;
+            case 'ArrowUp':
+              e.preventDefault();
+              if (committed && input.value === fmtMed(committed)) step(1);
+              break;
+          }
+        });
+        input.addEventListener('input', () => {
+          box.classList.remove('uni-inputbox--invalid');
+          input.removeAttribute('aria-invalid');
+        });
+        box.addEventListener('focusout', (e) => {
+          if (box.contains(e.relatedTarget)) return;
+          if (!popup.hidden) return;
+          if (o.commitOnBlur && input.value !== (committed ? fmtMed(committed) : '')) commit(input.value);
+        });
+        toggle.addEventListener('click', () => (popup.hidden ? openPopup() : closePopup()));
+
+        return {
+          box, input,
+          get value() { return committed; },
+          setValue: (d) => setValue(d, true),
+          clear: () => setValue(undefined, true),
+          setDisabled(flag) {
+            boxDisabled = flag;
+            box.classList.toggle('uni-inputbox--disabled', flag);
+            input.disabled = flag; toggle.disabled = flag;
+          },
+        };
+      }
+
+      /* ==========================================================
+         uni-time-input
+         ========================================================== */
+      function createTimeInput(host, opts = {}) {
+        const o = Object.assign({
+          id: 'time', label: 'Time', value: undefined,
+          minuteStep: 30, min: undefined, max: undefined, slots: undefined,
+          hour12: undefined, commitOnBlur: true,
+          onChange: () => {}, onEvent: () => {},
+        }, opts);
+        if (o.hour12 === undefined)
+          o.hour12 = new Intl.DateTimeFormat(LOCALE, { hour: 'numeric' }).resolvedOptions().hour12 ?? true;
+
+        const fmtTime = (t) => {
+          const [h, mi] = t.split(':').map(Number);
+          return new Intl.DateTimeFormat(LOCALE, { hour: 'numeric', minute: '2-digit', hour12: o.hour12, timeZone: 'UTC' })
+            .format(new Date(Date.UTC(2000, 0, 1, h, mi)));
+        };
+
+        let slots = o.slots ? [...o.slots] : null;
+        const options = () => {
+          if (slots) return slots;
+          const out = [];
+          const lo = o.min ?? '00:00', hi = o.max ?? '23:59';
+          for (let mins = 0; mins < 24 * 60; mins += o.minuteStep) {
+            const t = `${pad(Math.floor(mins / 60))}:${pad(mins % 60)}`;
+            if (t >= lo && t <= hi) out.push(t);
+          }
+          return out;
+        };
+
+        const listId = `${o.id}-listbox`;
+        const box = document.createElement('div');
+        box.className = 'uni-inputbox uni-timeinput';
+        box.innerHTML = `
+          <input id="${o.id}" role="combobox" aria-label="${o.label}" aria-expanded="false"
+            aria-controls="${listId}" aria-autocomplete="list" autocomplete="off" spellcheck="false"
+            placeholder="${fmtTime('09:00')}" />
+          <button type="button" class="uni-inputbox__btn" id="${o.id}-toggle"
+            aria-haspopup="listbox" aria-expanded="false" aria-label="Choose time">${SVG.clock}</button>
+          <ul class="uni-timeinput__list" id="${listId}" role="listbox" aria-label="${o.label}" hidden></ul>
+          <div class="sr-only" role="status" aria-live="polite"></div>`;
+        host.appendChild(box);
+
+        const input = box.querySelector('input');
+        const toggle = box.querySelector(`#${o.id}-toggle`);
+        const list = box.querySelector('ul');
+        const status = box.querySelector('[role="status"]');
+        const announce = (msg) => { status.textContent = status.textContent === msg ? msg + ' ' : msg; };
+
+        let committed = o.value;
+        let active = -1;
+        let boxDisabled = false;
+        if (committed) input.value = fmtTime(committed);
+
+        const setExpanded = (flag) => {
+          input.setAttribute('aria-expanded', String(flag));
+          toggle.setAttribute('aria-expanded', String(flag));
+        };
+
+        function renderList() {
+          const opts_ = options();
+          list.innerHTML = opts_.length
+            ? opts_.map((t, i) =>
+                `<li role="option" id="${listId}-opt-${i}" data-value="${t}"
+                  ${t === committed ? 'aria-selected="true"' : ''}
+                  ${i === active ? 'class="active"' : ''}>${fmtTime(t)}</li>`).join('')
+            : '<li class="opt-empty" aria-disabled="true">No times available</li>';
+          input.setAttribute('aria-activedescendant', active >= 0 ? `${listId}-opt-${active}` : '');
+          list.querySelector('.active')?.scrollIntoView({ block: 'nearest' });
+        }
+
+        function openList(startAt) {
+          active = startAt ?? (committed ? options().indexOf(committed) : -1);
+          list.hidden = false;
+          setExpanded(true);
+          renderList();
+        }
+        function closeList() {
+          list.hidden = true;
+          active = -1;
+          setExpanded(false);
+          input.setAttribute('aria-activedescendant', '');
+        }
+
+        function setValue(t, silent) {
+          committed = t;
+          input.value = t ? fmtTime(t) : '';
+          box.classList.remove('uni-inputbox--invalid');
+          input.removeAttribute('aria-invalid');
+          if (!silent) {
+            announce(t ? `${fmtTime(t)}.` : 'Time cleared.');
+            o.onChange(t);
+            o.onEvent('committed', t ?? '(cleared)');
+          }
+        }
+
+        function refuse(raw, reason) {
+          box.classList.add('uni-inputbox--invalid');
+          input.setAttribute('aria-invalid', 'true');
+          const msg = {
+            unparseable: `Couldn't read “${raw}” as a time.`,
+            'out-of-range': `${raw} is outside the allowed times.`,
+            unavailable: `${raw} isn't available.`,
+          }[reason];
+          announce(msg);
+          o.onEvent('rejected', `${raw} (${reason})`);
+        }
+
+        function commit(raw) {
+          raw = raw.trim();
+          if (!raw) { setValue(undefined); return true; }
+          let parsed = parseTimeText(raw, o.hour12);
+          if (!parsed) { refuse(raw, 'unparseable'); return false; }
+          // the PM bias yields, if it pushed the time out of bounds
+          const inBounds = (t) => !(o.min && t < o.min) && !(o.max && t > o.max);
+          if (!slots && !inBounds(parsed)) {
+            const unbiased = parseTimeText(raw, false);
+            if (unbiased && inBounds(unbiased)) parsed = unbiased;
+            else { refuse(raw, 'out-of-range'); return false; }
+          }
+          if (slots && !slots.includes(parsed)) { refuse(fmtTime(parsed), 'unavailable'); return false; }
+          setValue(parsed);
+          return true;
+        }
+
+        input.addEventListener('keydown', (e) => {
+          const opts_ = options();
+          switch (e.key) {
+            case 'ArrowDown':
+            case 'ArrowUp': {
+              e.preventDefault();
+              const dir = e.key === 'ArrowDown' ? 1 : -1;
+              if (list.hidden) {
+                openList();
+                if (active < 0) active = dir === 1 ? 0 : opts_.length - 1;
+              } else {
+                active = (active + dir + opts_.length) % opts_.length;
+              }
+              renderList();
+              break;
+            }
+            case 'Enter':
+              e.preventDefault();
+              if (!list.hidden && active >= 0) { setValue(opts_[active]); closeList(); }
+              else { commit(input.value); closeList(); }
+              break;
+            case 'Escape':
+              if (!list.hidden) closeList();
+              else {
+                input.value = committed ? fmtTime(committed) : '';
+                box.classList.remove('uni-inputbox--invalid');
+                input.removeAttribute('aria-invalid');
+              }
+              break;
+            case 'Tab':
+              if (input.value.trim() && input.value !== (committed ? fmtTime(committed) : '')) commit(input.value);
+              closeList();
+              break;
+          }
+        });
+        input.addEventListener('input', () => {
+          box.classList.remove('uni-inputbox--invalid');
+          input.removeAttribute('aria-invalid');
+          // typing never selects an option — Enter must commit the draft, not
+          // whatever happens to sit nearest; the list only scrolls alongside
+          active = -1;
+          if (list.hidden) { list.hidden = false; setExpanded(true); }
+          renderList();
+          const parsed = parseTimeText(input.value, o.hour12);
+          if (parsed) {
+            const opts_ = options();
+            let near = opts_.findIndex((t) => t >= parsed);
+            if (near < 0) near = opts_.length - 1;
+            list.children[near]?.scrollIntoView({ block: 'nearest' });
+          }
+        });
+        list.addEventListener('click', (e) => {
+          const li = e.target.closest('[role="option"]');
+          if (li?.dataset.value) { setValue(li.dataset.value); closeList(); input.focus(); }
+        });
+        toggle.addEventListener('click', () => {
+          if (list.hidden) { openList(); input.focus(); } else closeList();
+        });
+        box.addEventListener('focusout', (e) => {
+          if (box.contains(e.relatedTarget)) return;
+          closeList();
+          if (o.commitOnBlur && input.value !== (committed ? fmtTime(committed) : '')) commit(input.value);
+        });
+
+        return {
+          box, input,
+          get value() { return committed; },
+          setValue: (t) => setValue(t, true),
+          clear: () => setValue(undefined, true),
+          setSlots(next) { slots = next ? [...next] : null; if (!list.hidden) renderList(); },
+          setDisabled(flag) {
+            boxDisabled = flag;
+            box.classList.toggle('uni-inputbox--disabled', flag);
+            input.disabled = flag; toggle.disabled = flag;
+            if (flag) closeList();
+          },
+        };
+      }
+
+      /* ==========================================================
+         uni-date-time-input — two parts, one chrome, one value
+         ========================================================== */
+      function createDateTimeInput(host, opts = {}) {
+        const o = Object.assign({
+          id: 'dt', label: 'Date and time',
+          min: undefined, isDisabled: null, markers: [], slotsFor: null,
+          onChange: () => {}, onEvent: () => {},
+        }, opts);
+
+        const root = document.createElement('div');
+        root.className = 'uni-datetime';
+        root.setAttribute('role', 'group');
+        root.setAttribute('aria-label', o.label);
+        host.appendChild(root);
+
+        const datePart = document.createElement('div');
+        const divider = document.createElement('div');
+        divider.className = 'uni-datetime__divider';
+        const timePart = document.createElement('div');
+        root.append(datePart, divider, timePart);
+        datePart.style.flex = '1.4'; timePart.style.flex = '1';
+
+        let emitVal;
+        const emit = () => {
+          const d = dateCtl.value, t = timeCtl.value;
+          emitVal = d && t ? `${d}T${t}` : undefined;
+          o.onChange(emitVal);
+        };
+
+        const timeCtl = createTimeInput(timePart, {
+          id: `${o.id}-time`, label: `${o.label}, Time`, hour12: true,
+          slots: [], onChange: emit, onEvent: o.onEvent,
+        });
+        const dateCtl = createDateInput(datePart, {
+          id: `${o.id}-date`, label: `${o.label}, Date`,
+          min: o.min, isDisabled: o.isDisabled, markers: o.markers,
+          onChange: (d) => {
+            if (!d) { timeCtl.clear(); timeCtl.setDisabled(true); }
+            else {
+              const slots = o.slotsFor ? o.slotsFor(d) : null;
+              timeCtl.setSlots(slots);
+              // changing the day clears a slot that no longer exists
+              if (slots && timeCtl.value && !slots.includes(timeCtl.value)) timeCtl.clear();
+              timeCtl.setDisabled(false);
+            }
+            emit();
+          },
+          onEvent: o.onEvent,
+        });
+        timeCtl.setDisabled(true); // a time without a day is not an answer
+
+        return { root, dateCtl, timeCtl, get value() { return emitVal; } };
+      }
+
+      /* ==========================================================
+         Demo wiring
+         ========================================================== */
+      const $ = (s) => document.querySelector(s);
+      const valueLog = $('#valueLog');
+      const eventLog = $('#eventLog');
+      const logEvent = (name, detail) => {
+        const line = document.createElement('div');
+        line.innerHTML = `<b>${name}</b> ${detail}`;
+        eventLog.prepend(line);
+        while (eventLog.children.length > 40) eventLog.lastChild.remove();
+      };
+
+      /* --- scheduling data: deterministic availability for ~7 weeks --- */
+      const TODAY = todayIso();
+      const HORIZON = addDays(TODAY, 45);
+      const SLOT_POOL = ['09:00', '09:30', '10:00', '11:00', '13:30', '14:00', '15:00', '16:30'];
+      function availability(d) {
+        const dw = dowOf(d);
+        if (dw === 0 || dw === 6 || dw === 3) return []; // closed: weekends + Wednesdays
+        if (d < TODAY || d > HORIZON) return [];
+        let hash = 0;
+        for (const ch of d) hash = (hash * 31 + ch.charCodeAt(0)) % 997;
+        const n = 1 + (hash % 4);
+        const start = hash % (SLOT_POOL.length - n + 1);
+        return SLOT_POOL.slice(start, start + n);
+      }
+      const schedMarkers = [];
+      for (let d = TODAY; d <= HORIZON; d = addDays(d, 1)) {
+        const slots = availability(d);
+        if (slots.length)
+          schedMarkers.push({
+            date: d,
+            variant: slots.length >= 3 ? 'success' : 'primary',
+            label: `${slots.length} ${slots.length === 1 ? 'slot' : 'slots'} open`,
+          });
+      }
+
+      const booking = { date: undefined, time: undefined };
+      const renderBooking = () => { valueLog.textContent = JSON.stringify(booking, null, 1); };
+
+      const slotList = $('#slotList');
+      const slotHint = $('#slotHint');
+      function renderSlots(d) {
+        booking.date = d; booking.time = undefined;
+        slotList.innerHTML = '';
+        const slots = d ? availability(d) : [];
+        slotHint.textContent = d
+          ? (slots.length ? `${slots.length} slots on ${fmtMed(d)}.` : 'No slots that day.')
+          : 'Select a day to see its slots.';
+        if (!slots.length && d) slotList.innerHTML = '<span class="slots-empty">Fully booked</span>';
+        for (const t of slots) {
+          const b = document.createElement('button');
+          b.type = 'button'; b.className = 'slotbtn';
+          b.setAttribute('aria-pressed', 'false');
+          b.dataset.time = t;
+          b.textContent = new Intl.DateTimeFormat(LOCALE, { hour: 'numeric', minute: '2-digit', hour12: true, timeZone: 'UTC' })
+            .format(new Date(Date.UTC(2000, 0, 1, +t.slice(0, 2), +t.slice(3))));
+          b.addEventListener('click', () => {
+            slotList.querySelectorAll('.slotbtn').forEach((x) => x.setAttribute('aria-pressed', 'false'));
+            b.setAttribute('aria-pressed', 'true');
+            booking.time = t;
+            renderBooking();
+            logEvent('slot', `${d} ${t}`);
+          });
+          slotList.appendChild(b);
+        }
+        renderBooking();
+      }
+      renderBooking();
+
+      const schedCal = createCalendar($('#schedCalHost'), {
+        mode: 'single',
+        min: TODAY, max: HORIZON,
+        isDisabled: (d) => availability(d).length === 0,
+        markers: schedMarkers,
+        ariaLabel: 'Appointment date',
+        onChange: renderSlots,
+        onEvent: logEvent,
+      });
+      $('#btnSchedToday').addEventListener('click', () => schedCal.setMonth(monthOf(TODAY)));
+      $('#btnSchedClear').addEventListener('click', () => { schedCal.setValue(undefined); renderSlots(undefined); });
+
+      /* --- calendar gallery --- */
+      const VIEW = monthOf(TODAY);
+      const dayIn = (n) => `${VIEW}-${pad(n)}`;
+
+      createCalendar($('#calSingleHost'), {
+        mode: 'single', value: dayIn(12), ariaLabel: 'Single date',
+        onEvent: logEvent,
+      });
+      createCalendar($('#calRangeHost'), {
+        mode: 'range', value: { start: dayIn(3), end: dayIn(7) }, ariaLabel: 'Date range',
+        onEvent: logEvent,
+      });
+      createCalendar($('#calMinMaxHost'), {
+        mode: 'single', min: dayIn(5), max: dayIn(25),
+        isDisabled: (d) => [0, 6].includes(dowOf(d)),
+        ariaLabel: 'Fenced date', onEvent: logEvent,
+      });
+      createCalendar($('#calShapeHost'), {
+        mode: 'single', size: 'sm', shape: 'square', value: dayIn(12),
+        markers: [
+          { date: dayIn(4), variant: 'secondary' },
+          { date: dayIn(16), variant: 'warn' },
+          { date: dayIn(24), variant: 'success' },
+        ],
+        ariaLabel: 'Compact square calendar', onEvent: logEvent,
+      });
+
+      /* --- date input --- */
+      createDateInput($('#dateHost'), {
+        id: 'date-input', label: 'Due date',
+        onChange: () => {}, onEvent: logEvent,
+      });
+
+      /* --- time inputs --- */
+      createTimeInput($('#timeHost'), {
+        id: 'time-input', label: 'Start time',
+        minuteStep: 30, min: '09:00', max: '17:00', hour12: true,
+        onEvent: logEvent,
+      });
+      createTimeInput($('#slotTimeHost'), {
+        id: 'slotTime-input', label: 'Slot time',
+        slots: ['09:00', '09:30', '11:00', '14:30'], hour12: true,
+        onEvent: logEvent,
+      });
+
+      /* --- composed --- */
+      createDateTimeInput($('#dtHost'), {
+        id: 'dt', label: 'Appointment',
+        min: TODAY, isDisabled: (d) => availability(d).length === 0,
+        markers: schedMarkers, slotsFor: availability,
+        onChange: (v) => { $('#dtValue').textContent = v || '—'; },
+        onEvent: logEvent,
+      });
+
+      /* --- theme toggle --- */
+      const themeToggle = $('#themeToggle');
+      themeToggle.addEventListener('click', () => {
+        const html = document.documentElement;
+        const dark = html.dataset.theme !== 'dark';
+        html.dataset.theme = dark ? 'dark' : 'light';
+        $('#themeToggleText').textContent = dark ? 'Light' : 'Dark';
+      });
+    </script>
+  </body>
+</html>

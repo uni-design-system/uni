@@ -155,6 +155,29 @@ Inheritance (inputs listed once, available on all subclasses):
 ## UniButtonGroupComponent
 - selector: `uni-button-group`
 
+## UniCalendarComponent
+- selector: `uni-calendar, Calendar`
+- inputs:
+  - `disabled: boolean` = false
+  - `invalid: boolean` = false
+  - `dirty: boolean` = false
+  - `required: boolean` = false
+  - `ariaDescribedBy: string`
+  - `mode: UniCalendarMode` = 'single' — `'single'` reads/writes a `UniDate`; `'range'` a `UniDateRange`.
+  - `minDate: UniDate` — Earliest selectable date (inclusive).
+  - `maxDate: UniDate` — Latest selectable date (inclusive).
+  - `markers: UniCalendarMarker[]` = [] — Availability dots; `label` extends the day's accessible name.
+  - `locale: string` — BCP 47 tag; defaults to the document language, then the browser's.
+  - `weekStart: 0 | 1 | 2 | 3 | 4 | 5 | 6` — First day of week, 0 = Sunday; defaults from the locale's week info.
+  - `ariaLabel: string` — Names the grid when it stands alone (otherwise the heading names it).
+  - `size: Size` = 'md' — Day geometry token; `sm`/`md`/`lg` map to the theme's `calendar` sizes.
+- two-way models:
+  - `value: UniCalendarValue`
+  - `touched: boolean` = false
+  - `month: string` — Shown month, `'YYYY-MM'` — two-way, so an app can drive "jump to June".
+- outputs:
+  - `selected: UniDate` — Each committed day, including both ends of a range.
+
 ## UniCardComponent
 - selector: `uni-card`
 
@@ -207,6 +230,53 @@ Inheritance (inputs listed once, available on all subclasses):
   - `rowSelect: T`
   - `rowClick: T`
 
+## UniDateInputComponent
+- selector: `uni-date-input, DateInput`
+- inputs:
+  - `disabled: boolean` = false
+  - `invalid: boolean` = false
+  - `dirty: boolean` = false
+  - `required: boolean` = false
+  - `ariaDescribedBy: string`
+  - `label: string` (required) — Accessible name for the field, e.g. "Appointment date".
+  - `placeholder: string` — Defaults to the locale's digit pattern, e.g. `MM/DD/YYYY`.
+  - `displayFormat: Intl.DateTimeFormatOptions` = { dateStyle: 'medium' } — How the committed value renders, e.g. `{ dateStyle: 'long' }`.
+  - `locale: string` — BCP 47 tag; defaults to the document language, then the browser's.
+  - `commitOnBlur: boolean` = true
+  - `embedded: boolean` = false — Renders without its own input-box chrome, for composers like uni-date-time-input.
+  - `minDate: UniDate`
+  - `maxDate: UniDate`
+  - `markers: UniCalendarMarker[]` = []
+  - `weekStart: 0 | 1 | 2 | 3 | 4 | 5 | 6`
+- two-way models:
+  - `value: UniDate | undefined`
+  - `touched: boolean` = false
+- outputs:
+  - `opened: void` — Popup shown.
+  - `closed: void` — Popup hidden.
+  - `rejected: UniDateInputRejection` — A typed commit was refused; the raw text stays in the field.
+
+## UniDateTimeInputComponent
+- selector: `uni-date-time-input, DateTimeInput`
+- inputs:
+  - `disabled: boolean` = false
+  - `invalid: boolean` = false
+  - `dirty: boolean` = false
+  - `required: boolean` = false
+  - `ariaDescribedBy: string`
+  - `label: string` (required) — Names the group; the parts are announced as "Date" and "Time" under it.
+  - `minDateTime: UniDateTime` — Earliest allowed moment; the date and time fences are split from it.
+  - `maxDateTime: UniDateTime` — Latest allowed moment; the date and time fences are split from it.
+  - `markers: UniCalendarMarker[]` = []
+  - `slots: UniTime[]` — Fixed time choices; superseded per-day by `slotsFor` when that is set.
+  - `minuteStep: number` = 30
+  - `hour12: boolean`
+  - `weekStart: 0 | 1 | 2 | 3 | 4 | 5 | 6`
+  - `locale: string`
+- two-way models:
+  - `value: UniDateTime | undefined`
+  - `touched: boolean` = false
+
 ## UniDebounceInputComponent
 - selector: `uni-debounce-input`
 - inputs:
@@ -227,12 +297,13 @@ Inheritance (inputs listed once, available on all subclasses):
 - selector: `[uni-dialog-buttons], [dialog-buttons]`
 - inputs:
   - `confirmButtonText: string`
-  - `confirmButtonVariant: Variant` = 'primary'
+  - `confirmButtonVariant: Variant`
   - `cancelButtonText: string`
+  - `cancelButtonVariant: Variant`
   - `disableConfirm: boolean`
-  - `padding: NullableSize` = 'md'
-  - `paddingBottom: NullableSize` = 'lg'
-  - `justifyContent: JustifyContent` = 'center'
+  - `padding: NullableSize`
+  - `paddingBottom: NullableSize`
+  - `justifyContent: JustifyContent`
 - outputs:
   - `confirmed: unknown`
 
@@ -274,6 +345,10 @@ Inheritance (inputs listed once, available on all subclasses):
   - `ariaHasPopup: AriaHasPopup | null` = null — Value for aria-haspopup on the trigger, describing what the popover contains (e.g. 'menu' for Menu, 'dialog' for rich content). When unset, only aria-expanded/aria-controls are managed.
   - `paddingVertical: NullableSize`
   - `paddingHorizontal: NullableSize`
+  - `border: Border | undefined`
+  - `borderRadius: Radius | undefined`
+  - `shadow: Shadow | undefined`
+  - `color: ContainerColorToken | undefined`
 - outputs:
   - `dropdownShowing: boolean`
   - `dropdownHiding: boolean`
@@ -282,13 +357,15 @@ Inheritance (inputs listed once, available on all subclasses):
 - selector: `uni-expand-area`
 - inputs:
   - `title: string` (required)
-  - `initCollapsed: boolean` = false
+  - `initCollapsed: unknown` = false, { transform: booleanAttribute }
   - `padding: NullableSize` = 'md'
 - outputs:
   - `collapsed: boolean`
 
 ## UniExpandComponent
 - selector: `uni-expand`
+- inputs:
+  - `transitionSpeed: number` — Exact per-instance duration in seconds. Bypasses size-aware scaling — an explicit number means the consumer wants that number. Omitted, the duration derives from the `expand` theme options' `transitionSpeed` scaled by content height (see `duration`).
 - two-way models:
   - `collapsed: boolean` = true
 
@@ -296,6 +373,9 @@ Inheritance (inputs listed once, available on all subclasses):
 - selector: `uni-expand-toggle`
 - inputs:
   - `ariaControls: string` — Id of the Expand region this toggle controls (see UniExpandComponent.regionId).
+  - `label: string` — Names the region. Setting it switches the toggle to its labelled shape.
+  - `sublabel: string` — Muted qualifier beside the label ("for POs & custom orders"). Needs `label`.
+  - `transitionSpeed: number` — Rotation duration in seconds. Expand Area binds the region's resolved `duration` here so chevron and reveal share one clock even when the region is size-scaled or overridden per instance.
 - two-way models:
   - `collapsed: boolean` = true
 
@@ -347,7 +427,8 @@ Inheritance (inputs listed once, available on all subclasses):
 - selector: `uni-icon`
 - inputs:
   - `color: ColorToken`
-  - `name: keyof Icons` (required)
+  - `name: IconName` (required)
+  - `size: CssLength` — Explicit square size. Bare numbers are px; strings pass through, so any CSS length works (`'1.25rem'`, `'1em'`, `'clamp(…)'`). Leave it unset to keep the default behaviour — the icon fills its container, which is what lets a themed control size its own glyph through padding. Set it at call sites that would otherwise need a width/height rule just to size one icon.
 
 ## UniInputBoxComponent
 - selector: `uni-input-box`
@@ -392,17 +473,13 @@ Inheritance (inputs listed once, available on all subclasses):
 ## UniMenuItemComponent
 - selector: `[uni-menu-item], [menu-item]`
 - inputs:
-  - `display: OptionalDisplay` = 'flex'
-  - `flexDirection: OptionalFlexDirection` = 'row'
-  - `alignItems: OptionalAlignItems` = 'center'
-  - `paddingHorizontal: OptionalSize` = 'md'
-  - `gap: OptionalSize` = 'md'
   - `label: string`
   - `template: TemplateRef<T>`
   - `context: T`
   - `symbolName: string`
   - `active: boolean`
-  - `hoverColor: ContainerColorToken` = 'primary-container'
+  - `variant: Variant | undefined` — Tone routed through the theme's `menuItem` variants (e.g. 'warn').
+  - `hoverColor: ContainerColorToken | undefined` — Per-instance override of the theme's `menuItem.hoverColor`.
   - `disabled: boolean` = false
 
 ## UniMultiSelectComponent
@@ -425,6 +502,8 @@ Inheritance (inputs listed once, available on all subclasses):
   - `ariaDescribedBy: string` — Id(s) of external element(s) describing this control — typically your app-rendered error message — exposed as aria-describedby.
   - `options: Options<T>` (required)
   - `placeholder: string` = ''
+  - `label: string` — What the field is for, e.g. "Fruits". Rendered visually hidden inside the trigger so its accessible name reads "Fruits, Apple, Pear" — without it a screen reader announces only the current selection, with no clue which field it belongs to.
+  - `debounceTime: number` = 200 — Debounce for the filter box, matching the library's input debounce.
 - two-way models:
   - `value: T[]` = []
   - `touched: boolean` = false
@@ -624,10 +703,55 @@ Inheritance (inputs listed once, available on all subclasses):
 ## UniTagComponent
 - selector: `uni-tag`
 - inputs:
+  - `size: Size` = 'md'
+  - `tone: TagTone` = 'soft'
   - `label: string`
   - `value: string | number`
+  - `maxWidth: string | number` — Truncation budget, e.g. `'14ch'`. A number is treated as px.
+  - `avatarSrc: string`
+  - `avatarName: string` — Initials fallback when `avatarSrc` is absent or fails to load.
+  - `iconName: IconName` — Theme icon primitive — the preferred glyph path.
+  - `symbolName: string` — Material Symbols ligature, for glyphs the theme's icon set doesn't carry.
+  - `dot: boolean` = false — Status dot in the current colour.
+  - `removable: boolean` = false
+  - `interactive: boolean` = false
+  - `selected: boolean | undefined` = undefined — Toggle state. Left undefined the chip carries no `aria-pressed` at all — an interactive chip is not always a toggle (inside a tag input it is focusable so it can be removed), and announcing "not pressed" on a recipient chip is worse than announcing nothing.
+  - `invalid: boolean` = false
+  - `disabled: boolean` = false
+  - `removeLabel: string` — Accessible-name override for the remove button.
+  - `controlTabIndex: number` = 0 — Tab position of the chip's controls. A composite that owns its own roving focus — `uni-tag-input`, where the whole field is one tab stop — passes `-1` so Tab does not walk through every chip to reach the next control.
 - outputs:
-  - `close: string | number`
+  - `removed: UniTagValue`
+  - `activated: UniTagValue`
+
+## UniTagInputComponent
+- selector: `uni-tag-input`
+- inputs:
+  - `disabled: boolean` = false
+  - `invalid: boolean` = false
+  - `dirty: boolean` = false
+  - `required: boolean` = false
+  - `ariaDescribedBy: string`
+  - `label: string` (required) — Accessible name for the field, e.g. "To".
+  - `placeholder: string`
+  - `preset: 'text' | 'email'` = 'text' — `email` wires an address validator, paste parser and space separator.
+  - `separators: string[]` = [',', ';']
+  - `commitOnBlur: boolean` = true
+  - `allowDuplicates: boolean` = false
+  - `max: number`
+  - `tagVariant: Variant` = 'primary'
+  - `tagTone: TagTone` = 'soft'
+  - `tagSize: Size`
+  - `suggestions: UniTagSuggestion[]` = []
+  - `debounceTime: number` = 250
+- two-way models:
+  - `value: UniTagItem[]` = []
+  - `touched: boolean` = false
+- outputs:
+  - `query: string` — Debounced text the app should filter `suggestions` from.
+  - `added: UniTagItem`
+  - `removed: UniTagItem`
+  - `rejected: UniTagRejection`
 
 ## UniTextareaComponent
 - selector: `uni-textarea`
@@ -658,6 +782,37 @@ Inheritance (inputs listed once, available on all subclasses):
 
 ## UniThemeBuilderComponent
 - selector: `uni-theme-builder`
+
+## UniThemeSwitchComponent
+- selector: `uni-theme-switch`
+- inputs:
+  - `ariaLabel: string` = 'Theme' — Accessible name for the underlying select.
+- outputs:
+  - `themeChanged: ThemeName` — Emits the selected theme key after it has been applied.
+
+## UniTimeInputComponent
+- selector: `uni-time-input, TimeInput`
+- inputs:
+  - `disabled: boolean` = false
+  - `invalid: boolean` = false
+  - `dirty: boolean` = false
+  - `required: boolean` = false
+  - `ariaDescribedBy: string`
+  - `label: string` (required) — Accessible name for the field, e.g. "Start time".
+  - `placeholder: string`
+  - `minuteStep: number` = 30 — Generated list granularity, in minutes.
+  - `minTime: UniTime` — Earliest allowed time (inclusive), `'09:00'`.
+  - `maxTime: UniTime` — Latest allowed time (inclusive), `'17:00'`.
+  - `slots: UniTime[]` — Exact allowed times (scheduling). When set, typed entry must match one.
+  - `hour12: boolean` — 12-hour display; defaults from the locale. The value stays 24-hour.
+  - `locale: string` — BCP 47 tag for the display format; defaults to the document language.
+  - `commitOnBlur: boolean` = true
+  - `embedded: boolean` = false — Renders without its own input-box chrome, for composers like uni-date-time-input.
+- two-way models:
+  - `value: UniTime | undefined`
+  - `touched: boolean` = false
+- outputs:
+  - `rejected: UniTimeInputRejection` — A typed commit was refused; the raw text stays in the field.
 
 ## UniToggleComponent
 - selector: `uni-toggle`

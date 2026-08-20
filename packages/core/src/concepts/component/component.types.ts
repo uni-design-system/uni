@@ -12,12 +12,15 @@ export type ComponentName =
   | 'breadcrumb'
   | 'button'
   | 'buttonGroup'
+  | 'calendar'
   | 'card'
   | 'cardContent'
   | 'cardHeader'
   | 'checkbox'
   | 'dataSearch'
   | 'dataTable'
+  | 'dateInput'
+  | 'dateTimeInput'
   | 'dialog'
   | 'dialogButtons'
   | 'dialogHeader'
@@ -47,6 +50,7 @@ export type ComponentName =
   | 'tabs'
   | 'textarea'
   | 'textButton'
+  | 'timeInput'
   | 'toggle'
   | 'tooltip';
 

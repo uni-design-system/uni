@@ -1,0 +1,74 @@
+import { Meta, Title, Story } from '@storybook/addon-docs/blocks';
+import * as Stories from './date-time-input.stories';
+import { StoryUsage } from '../../../stories/blocks/StoryUsage';
+import { StoryExample } from '../../../stories/blocks/StoryExample';
+import { ThemeOptions } from '../../../stories/blocks/ThemeOptionsBlock';
+
+<Meta of={Stories} name="Date Time Input" />
+<Title />
+
+`import { UniDateTimeInputComponent } from '@uni-design-system/uni-angular';`
+
+## Overview
+
+One field for a date and a time: a thin composer seating a `uni-date-input`
+and a `uni-time-input` in one `uni-input-box` chrome under one label, and
+mapping the two part-values to one combined `'YYYY-MM-DDTHH:mm'` value. The
+value emits only when **both** parts are set — a time without a day is not an
+answer — and clearing the date clears it.
+
+It is a convenience, not the only door: apps that need a different
+arrangement (calendar always inline, slot buttons instead of a time field)
+compose the primitives directly.
+
+<Story of={Stories.Scheduling} />
+
+## Usage
+
+<StoryUsage of={Stories.Primary} />
+
+## Scheduling
+
+<StoryExample of={Stories.Scheduling} />
+
+`slotsFor` is the scheduling flow in one attribute: the time part stays
+disabled until a day is chosen, then offers exactly that day's slots, and
+changing the day clears a slot the new day no longer offers.
+
+### Fences
+
+`minDateTime`/`maxDateTime` split into a date fence and a time fence. The
+time fence applies only on the boundary date itself — "after 9:00" on the
+earliest day, any time on later days. Cross-day time windows ("9–5 every
+day") belong on the time part's own fences via composition.
+
+## Theme options
+
+<ThemeOptions componentName="dateTimeInput" />
+
+Field chrome comes from the `input` entry via the single shared
+`uni-input-box`; the parts render embedded (no box of their own), so there is
+one border, one focus outline, one error state.
+
+## Accessibility
+
+- One `role="group"` named by `label`; the parts are named *"Date"* and
+  *"Time"*, so a screen reader hears *"Appointment, group"* then *"Date"*,
+  *"Time"*.
+- Tab order: date field → time field. Two tab stops, honestly — it *is* two
+  questions.
+- Each part keeps its own contract: the date part's popup dialog and status
+  announcements, the time part's combobox and listbox.
+
+## Do
+
+- Use `slotsFor` for availability-driven scheduling; it gates and supplies
+  the time part in one attribute.
+- Treat the combined value as the only form value; the parts are internal.
+
+## Don't
+
+- Don't wire separate date and time form fields through this component —
+  bind `uni-date-input` and `uni-time-input` directly instead.
+- Don't expect a value while either part is empty; partial states are
+  deliberately `undefined`.

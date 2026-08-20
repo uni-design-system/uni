@@ -1,0 +1,108 @@
+import { Meta, Title, Story } from '@storybook/addon-docs/blocks';
+import * as Stories from './calendar.stories';
+import { StoryUsage } from '../../../stories/blocks/StoryUsage';
+import { StoryExample } from '../../../stories/blocks/StoryExample';
+import { ThemeOptions } from '../../../stories/blocks/ThemeOptionsBlock';
+
+<Meta of={Stories} name="Calendar" />
+<Title />
+
+`import { UniCalendarComponent } from '@uni-design-system/uni-angular';`
+
+## Overview
+
+An inline month calendar — a form control in its own right, not just the
+inside of a date picker. It selects a single date or a start–end range, marks
+days with app-driven availability dots, and fences selection with
+`minDate`/`maxDate`/`disabledDates`. Values are plain ISO strings
+(`'2026-08-20'`, `{ start, end }`), never `Date` objects, so bindings are
+timezone-free, serializable and sortable with `<`.
+
+Reach for it directly when the calendar should stay on screen — scheduling
+pages, availability dashboards, booking flows. For a text field with this
+grid in a popup, use `uni-date-input`; both render the same component, so it
+is one grid to learn, test and theme.
+
+<Story of={Stories.Scheduling} />
+
+## Usage
+
+<StoryUsage of={Stories.Primary} />
+
+## Range selection
+
+<StoryExample of={Stories.Range} />
+
+The first commit starts the range and announces *"Start date …. Choose an end
+date."*; moving focus or hovering paints a preview band; the second commit
+completes it. Committing a day before the start swaps the ends rather than
+erroring, and Escape cancels a pending range.
+
+## Markers
+
+<StoryExample of={Stories.Markers} />
+
+Markers are how app data lands on days. The dot's `variant` picks a color
+role; the `label` extends the day's accessible name, so a screen reader hears
+*"Thursday 20 August 2026, 3 slots open"* — never a bare number.
+
+## Fences and disabled days
+
+<StoryExample of={Stories.FencedAndDisabled} />
+
+Arrow moves that land on a disabled day keep going in the same direction
+until an enabled day; the `minDate`/`maxDate` fence stops the caret and never
+wraps. Month edges never block navigation — the heading and grid follow.
+
+## Sizes
+
+<StoryExample of={Stories.Sizes} />
+
+## Locale
+
+<StoryExample of={Stories.LocaleAndWeekStart} />
+
+All formatting comes from `Intl`: month heading, weekday names, and the first
+day of the week (overridable with `weekStart`). There is no date library and
+no hardcoded English anywhere in the grid.
+
+## Theme options
+
+<ThemeOptions componentName="calendar" />
+
+Selection, range and today colours are deliberately **not** options — they are
+the `primary` role pair, so a theme restyles them by restyling its palette.
+`dayBorderRadius: 'xxs'` turns the circles into the square, contributions-graph
+look; `sizes` carry day geometry only.
+
+## Accessibility
+
+- The month grid is `role="grid"` labelled by the month heading (or
+  `ariaLabel` when standalone); weekday cells are `role="columnheader"` with
+  an `abbr` carrying the full weekday name.
+- Every day is a real `<button>` in a `role="gridcell"`, named with its full
+  date plus any marker labels — numbers alone are never the name.
+- One tab stop: roving `tabindex` inside the grid; ←/→ move a day, ↑/↓ a
+  week, Home/End bound the week, PageUp/PageDown the month (with Shift, the
+  year), Enter/Space select, Escape cancels a pending range.
+- Today is `aria-current="date"` with an outline; selection is a fill;
+  markers are dots — no state is carried by colour alone (WCAG 1.4.1).
+- Selections and range progress announce through one `role="status"` region;
+  the heading is `aria-live="polite"` so month moves narrate without
+  refocusing.
+- `aria-invalid` is gated on `invalid && (touched || dirty)`, per the
+  library's form-control rule.
+
+## Do
+
+- Bind ISO strings: `[value]="'2026-08-20'"` is a complete, correct binding.
+- Drive availability through `markers` and `disabledDates` from app data.
+- Give a standalone calendar an `ariaLabel` naming the question it answers.
+
+## Don't
+
+- Don't convert to `Date` objects at the edge of the component — midnight-UTC
+  off-by-ones are exactly what the string shape exists to prevent.
+- Don't restyle selection colours per instance; retheme the `primary` pair.
+- Don't build a popup date field from this yourself — `uni-date-input`
+  already composes it with the right dialog semantics.

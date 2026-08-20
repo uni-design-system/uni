@@ -95,7 +95,11 @@ function parseFile(srcRoot: string, path: string): ParsedFile | null {
     members.push({ name, kind, type: resolvedType, default: def, doc: jsdocBefore(src, m.index) });
   }
 
-  const classDoc = jsdocBefore(src, src.indexOf(`export class ${cls}`));
+  // The class JSDoc conventionally sits above the decorator, not between the
+  // decorator and `export class` — accept either placement.
+  const classDoc =
+    jsdocBefore(src, src.indexOf(`export class ${cls}`)) ||
+    jsdocBefore(src, decorator.index ?? 0);
   return { path: relative(srcRoot, path), cls, selector, members, classDoc };
 }
 
@@ -114,7 +118,7 @@ function humanName(cls: string): string {
 }
 
 const CATEGORY_BY_KEYWORD: Array<[RegExp, string]> = [
-  [/input|checkbox|radio|toggle|select|slider|form|search|file-drop/, 'forms'],
+  [/input|checkbox|radio|toggle|select|slider|form|search|file-drop|calendar/, 'forms'],
   [/box|row|stack|center|wrap|grid|layout|divider|scroll|expand|card|menu|popover/, 'layout'],
   [/alert|snackbar|dialog|notification|tooltip|badge|progress/, 'feedback'],
   [/paginator|sort|data-table|data-search|tag/, 'data'],

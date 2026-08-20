@@ -1,0 +1,71 @@
+<!-- Focusout rides the bubbling event so the list closes and the draft
+     commits only when focus leaves the whole field. -->
+<div (focusout)="onFocusOut($event)">
+  <ng-template #parts>
+    <input
+      #field
+      type="text"
+      role="combobox"
+      autocomplete="off"
+      spellcheck="false"
+      aria-autocomplete="list"
+      [class]="inputClass()"
+      [disabled]="disabled()"
+      [placeholder]="resolvedPlaceholder()"
+      [value]="displayText()"
+      [attr.aria-label]="label()"
+      [attr.aria-expanded]="list.open()"
+      [attr.aria-controls]="list.listboxId"
+      [attr.aria-activedescendant]="list.activeDescendantId()"
+      [attr.aria-describedby]="ariaDescribedBy() ?? null"
+      [attr.aria-invalid]="showError() || draftInvalid() ? true : null"
+      [attr.aria-required]="required() ? true : null"
+      (keydown)="onInputKeydown($event)"
+      (input)="onInput()"
+    />
+    <span [class]="toggleWrapClass()">
+      <button
+        icon-button
+        type="button"
+        size="sm"
+        aria-haspopup="listbox"
+        [symbolName]="componentOptions().toggleSymbol ?? 'schedule'"
+        [attr.aria-expanded]="list.open()"
+        [disable]="disabled()"
+        (click)="onToggle()"
+      >
+        Choose time
+      </button>
+    </span>
+  </ng-template>
+
+  @if (embedded()) {
+    <!-- A composer (uni-date-time-input) owns the field chrome. -->
+    <div [class]="embeddedClass()"><ng-container [ngTemplateOutlet]="parts" /></div>
+  } @else {
+    <uni-input-box [error]="showError() || draftInvalid()" [disabled]="disabled()">
+      <div [class]="rowClass()"><ng-container [ngTemplateOutlet]="parts" /></div>
+    </uni-input-box>
+  }
+
+  @if (list.open()) {
+    <ul #listbox [id]="list.listboxId" role="listbox" [attr.aria-label]="label()" [class]="listClass()">
+      @for (time of options(); track time; let i = $index) {
+        <!-- eslint-disable-next-line @angular-eslint/template/click-events-have-key-events, @angular-eslint/template/interactive-supports-focus -->
+        <li
+          role="option"
+          [id]="list.optionId(i)"
+          [class.active]="i === list.activeIndex()"
+          [attr.aria-selected]="time === value()"
+          (mousedown)="$event.preventDefault()"
+          (click)="selectOption(time)"
+        >
+          {{ optionLabels()[i] }}
+        </li>
+      }
+    </ul>
+  }
+
+  <!-- Commits and rejections are otherwise a silent reformat. -->
+  <span role="status" aria-live="polite" [class]="srOnly">{{ announcement() }}</span>
+</div>

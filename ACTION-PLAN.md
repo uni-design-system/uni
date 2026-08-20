@@ -258,9 +258,10 @@ The old build order (textarea → tabs → avatar → skeleton → drawer + app 
 **complete**; 53 components ship. Still missing from `TODO.md` Tier 2 and
 ROADMAP Track 2 item 2, in rough leverage order:
 
-1. **Date picker + calendar** — biggest single build (grid keyboard nav,
-   locale, range later), and the most-requested control anywhere. Plan it
-   properly rather than starting it opportunistically.
+1. ~~**Date picker + calendar**~~ ✅ shipped 2026-08-20 as `uni-calendar` +
+   `uni-date-input` + `uni-time-input` + `uni-date-time-input`, from the
+   `prototypes/date-input` spec (grid keyboard nav, Intl locale parsing,
+   range selection, availability markers, cdk datetime helpers).
 2. **List** — the "settings screen" primitive; small next to the date picker and
    unblocks a lot of app surface.
 3. **Stepper**, **number input**, **spinner**, **tree**.
@@ -323,5 +324,5 @@ room.
 
 ~~1a (menu fix)~~ ✅ → ~~1b (tag characterization)~~ ✅ → **decide SPEC.md Q4**
 ← next, and it is a decision, not a build → 2 (tag + tag-input) → 4's
-test-depth sweep on the zero-spec components → 3 (date picker, planned
-deliberately).
+test-depth sweep on the zero-spec components → ~~3 (date picker, planned
+deliberately)~~ ✅ shipped 2026-08-20.
