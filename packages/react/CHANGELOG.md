@@ -1,5 +1,11 @@
 # @uni-design-system/uni-react
 
+## 8.2.0
+
+### Patch Changes
+
+- [`e706e38`](https://github.com/uni-design-system/uni/commit/e706e3887f47d8821cc1652410ad37a43d52a428) Thanks [@gaenglish](https://github.com/gaenglish)! - Ship `CHANGELOG.md` in the published packages. The release notes existed only in the repo; an installed package carried no record of what changed, so upgrade questions couldn't be answered from `node_modules`. uni-angular copies it into the ng-packagr `dist` via `assets`; the rest add it to `files`.
+
 ## 8.1.0
 
 ## 8.0.0

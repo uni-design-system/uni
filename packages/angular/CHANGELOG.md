@@ -1,5 +1,29 @@
 # @uni-design-system/uni-angular
 
+## 8.2.0
+
+### Minor Changes
+
+- [`57a8c4c`](https://github.com/uni-design-system/uni/commit/57a8c4c73c852a6b14c2e2916cad9bd0a1566787) Thanks [@gaenglish](https://github.com/gaenglish)! - Input options: `typeFace` → `typeface`, matching the tooltip/button/tabs casing. The base theme now writes `typeface`, and the input box reads the new key with the old one as a deprecated fallback, so themes that still set `typeFace` render unchanged. The `typeFace` key is deprecated and will be removed in the next major.
+
+- [`96113ee`](https://github.com/uni-design-system/uni/commit/96113eecc54f6d9a7dcf4d97264a4ee4f4367410) Thanks [@gaenglish](https://github.com/gaenglish)! - `uni-select`: `compareWith` input for object values.
+
+  The select matched `value` against option values with `===`, so an object value that was structurally but not referentially equal — a saved record matched against options from a fresh fetch — never matched, and the native select silently rendered the first option (or the placeholder) instead of the preselection. The new `compareWith` input, called as `compareWith(optionValue, value)` and defaulting to reference equality, lets object-valued selects pass a key comparison like `(a, b) => a?.id === b?.id`. Primitive values were and remain unaffected.
+
+### Patch Changes
+
+- [`57a8c4c`](https://github.com/uni-design-system/uni/commit/57a8c4c73c852a6b14c2e2916cad9bd0a1566787) Thanks [@gaenglish](https://github.com/gaenglish)! - `uni-notification-badge`: a theme that omits the `offset` option no longer breaks badge positioning — the position values serialized as the invalid length `'undefinedpx'` and the badge lost its corner placement. Missing `offset` now falls back to `0`.
+
+- [`92e5d5e`](https://github.com/uni-design-system/uni/commit/92e5d5e88787bca796325313e2c07b4f7351afcb) Thanks [@gaenglish](https://github.com/gaenglish)! - `uni-calendar` / `uni-date-input`: a bound `''` now counts as "no value".
+
+  An empty string — the only typeable empty for a string-typed model, and the natural "no value yet" in consumer code — slipped past the month path's nullish (`??`) guards into the grid math: `viewMonth` became `''`, the month heading threw `RangeError: Invalid time value` from `Intl.format` on every change-detection pass, and the grid rendered zero weeks. This hit on first render (the popup content projects eagerly), not just on open. The guards are now falsy, matching how `displayText`, `splitDateTime`, and the rest of the datetime path already treat `''`, so a calendar or date-input bound to `''` renders the current month exactly like `undefined`. `uni-time-input` and `uni-date-time-input` were already safe. Consumers no longer need to normalize `''` to `undefined` before binding — and note the `value` models were always typed `UniDate | undefined`, so no `$any()` cast is needed for a `string | undefined` draft signal.
+
+- [`e706e38`](https://github.com/uni-design-system/uni/commit/e706e3887f47d8821cc1652410ad37a43d52a428) Thanks [@gaenglish](https://github.com/gaenglish)! - Ship `CHANGELOG.md` in the published packages. The release notes existed only in the repo; an installed package carried no record of what changed, so upgrade questions couldn't be answered from `node_modules`. uni-angular copies it into the ng-packagr `dist` via `assets`; the rest add it to `files`.
+
+- [`96113ee`](https://github.com/uni-design-system/uni/commit/96113eecc54f6d9a7dcf4d97264a4ee4f4367410) Thanks [@gaenglish](https://github.com/gaenglish)! - `uni-menu`, `uni-multi-select`, `uni-data-table`: stop tracking loop collections by identity (NG0956).
+
+  `uni-menu` items, `uni-multi-select` options, and `uni-data-table` records tracked by object identity, so a consumer rebuilding the array each change-detection pass — the natural way to write `[menuItems]="[...]"` or re-fetch table rows — recreated every DOM node and tripped NG0956. They now track by `$index` (none of these collections carries a stable key: menu items may be templates or dividers, option values may be objects, records are arbitrary), and data-table columns track by their unique `columnDef`. Consumers no longer need to memoize a stable array; DOM nodes — including a focused menu item — survive a rebuild.
+
 ## 8.1.0
 
 ### Minor Changes

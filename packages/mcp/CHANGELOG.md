@@ -1,5 +1,19 @@
 # @uni-design-system/uni-mcp
 
+## 4.7.0
+
+### Minor Changes
+
+- [`e706e38`](https://github.com/uni-design-system/uni/commit/e706e3887f47d8821cc1652410ad37a43d52a428) Thanks [@gaenglish](https://github.com/gaenglish)! - `get-changelog`: release notes as a first-class MCP tool, plus a `uni://changelog/{package}` resource.
+
+  The index now ingests every published package's changesets `CHANGELOG.md` (a new build adapter parses them into structured releases — bump level, headline, full body, commit, dependency bumps). The tool answers "what changed in X?" and "what do I get by upgrading?": `version` returns one release's full notes (`"8.1"` matches every 8.1.x), `since` returns the full notes of every release after an installed version, and no scope returns a compact release digest. `package` accepts npm or short names (`uni-angular` is the default).
+
+- [`57a8c4c`](https://github.com/uni-design-system/uni/commit/57a8c4c73c852a6b14c2e2916cad9bd0a1566787) Thanks [@gaenglish](https://github.com/gaenglish)! - `export-dtcg-tokens`: W3C DTCG JSON (Style Dictionary compatible) for a built-in theme's color, radius, and spacing scales, named with Uni token ids — exposing core's existing `emitDtcgTokens` as an MCP tool for external token pipelines. The `UniTheme` JSON from the theme tools remains the lossless primary format.
+
+### Patch Changes
+
+- [`e706e38`](https://github.com/uni-design-system/uni/commit/e706e3887f47d8821cc1652410ad37a43d52a428) Thanks [@gaenglish](https://github.com/gaenglish)! - Ship `CHANGELOG.md` in the published packages. The release notes existed only in the repo; an installed package carried no record of what changed, so upgrade questions couldn't be answered from `node_modules`. uni-angular copies it into the ng-packagr `dist` via `assets`; the rest add it to `files`.
+
 ## 4.6.0
 
 ### Minor Changes
