@@ -261,6 +261,13 @@ const shadows = (p: WellsourcedPalette): Shadows => ({
   focusRing: `0 0 0 3px color-mix(in srgb, ${p.secondary} 10%, transparent)`,
 });
 
+/**
+ * Extra thickness primitives. `focusRing` is the shared focus ring's outline
+ * offset: 0 hugs the control; negative values overlay its resting border so
+ * the ring reads as a border-color change; positive values add a gap.
+ */
+const thicknesses: Thicknesses = {};
+
 const spacing: Spacing = {
   none: 0,
   xxs: '2px',

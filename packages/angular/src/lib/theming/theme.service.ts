@@ -316,15 +316,17 @@ export class ThemeService {
   focusRingStyle = (color?: string, gap?: string | number) => {
     const border = this.borders()['focusRing'];
     const shadow = this.shadows()['focusRing'];
-    const offset = Number(gap);
+    // An explicit per-call gap wins; else the theme's `focusRing` thickness
+    // primitive; else the branch default (hugging when themed, classic 2px).
+    const offset = gap ?? this.thicknesses()['focusRing'];
     if (border || shadow) {
       return {
         outline: border ?? 'none',
-        outlineOffset: offset,
+        outlineOffset: offset ?? 0,
         ...(shadow ? { boxShadow: shadow } : {}),
       };
     }
-    return { outline: `2px solid ${color ?? 'currentColor'}`, outlineOffset: offset };
+    return { outline: `2px solid ${color ?? 'currentColor'}`, outlineOffset: offset ?? '2px' };
   };
 
   /**

@@ -79,7 +79,9 @@ export class UniToggleComponent
           : this.getThemeColor(this.componentOptions().trackColor ?? 'surface-variant'),
         borderRadius: toggleSize / 2,
         position: 'relative',
-        transition: 'all 0.3s ease',
+        // Scoped, never `all`: the focus ring must apply instantly rather
+        // than interpolating its outline color from a stale value.
+        transition: 'background-color 0.3s ease, border-color 0.3s ease',
       },
 
       '& .toggle-slider': {
@@ -90,7 +92,7 @@ export class UniToggleComponent
         position: 'absolute',
         top: sliderOffset,
         left: sliderOffset,
-        transition: 'all 0.3s ease',
+        transition: 'transform 0.3s ease, background-color 0.3s ease',
         ...this.theme.boxShadow('raised'),
       },
 

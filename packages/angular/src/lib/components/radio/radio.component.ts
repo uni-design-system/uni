@@ -69,8 +69,13 @@ export class UniRadioComponent
 
   protected readonly radioOptionClass = computed(() => {
     const { outerCircleSize, innerCircleSize, innerCircleOffset } = this.metrics();
-    // The dot's grow/retract "pop" is a token: 0.3s default, 0 = instant.
-    const transition = `all ${this.componentOptions().transitionSpeed ?? 0.3}s ease`;
+    // The dot's grow/retract is a token: 0.3s default, 0 = instant. The
+    // transitions are scoped — never `all` — so the focus ring's outline and
+    // shadow apply instantly instead of interpolating from a stale outline
+    // color, which flashed a dark ring before the themed ring color landed.
+    const speed = this.componentOptions().transitionSpeed ?? 0.3;
+    const ringTransition = `border-color ${speed}s ease, background-color ${speed}s ease`;
+    const dotTransition = `transform ${speed}s ease`;
     return css({
       userSelect: 'none',
       cursor: this.disabled() ? 'not-allowed' : 'pointer',
@@ -89,7 +94,7 @@ export class UniRadioComponent
             : this.getThemeColor(this.componentOptions().ringColor ?? 'outline')
         }`,
         position: 'relative',
-        transition,
+        transition: ringTransition,
         backgroundColor: this.getThemeColor(this.componentOptions().fillColor ?? 'surface'),
         flexShrink: 0,
       },
@@ -103,7 +108,7 @@ export class UniRadioComponent
         top: innerCircleOffset,
         left: innerCircleOffset,
         transform: 'scale(0)',
-        transition,
+        transition: dotTransition,
       },
 
       '&:hover .radio-button': this.disabled()
