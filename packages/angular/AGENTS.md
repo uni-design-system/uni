@@ -33,7 +33,10 @@ Guidance for contributors, human or AI. The generated API reference is in
   Guard any pre-render DOM access with `afterNextRender`.
 - **Theming:** components inject `ThemeService` (usually via `BaseComponent`)
   and self-register a `COMPONENT_NAME` provider to read their options from the
-  theme. `theme.focusRing()` is the shared focus indicator.
+  theme. `theme.focusRing()` is the shared focus indicator (use
+  `focusRingStyle()` when the ring keys off your own selector, e.g.
+  `&:focus + .checkbox`); a theme restyles it everywhere by defining
+  `focusRing` border and/or shadow primitives.
 - **Selectors:** each component declares a canonical `uni-*` selector plus a
   short alias (`uni-checkbox, Checkbox`). Use the canonical form in docs and
   examples.

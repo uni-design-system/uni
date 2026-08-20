@@ -137,9 +137,9 @@ export class UniRadioComponent
         transform: 'scale(1)',
       },
 
+      // The shared, themable focus indicator, keyed off the hidden input.
       '&:focus + .radio-button': {
-        outline: `2px solid ${this.getThemeColor(this.variant())}`,
-        outlineOffset: '2px',
+        ...this.theme.focusRingStyle(this.getThemeColor(this.variant())),
       },
     })
   );

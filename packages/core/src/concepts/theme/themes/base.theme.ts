@@ -757,6 +757,12 @@ export interface ThemeConfig {
    */
   borders?: Borders;
   /**
+   * Named thickness primitives, merged over the base scale (`thin`/`standard`/
+   * `thick` stay unless restated). Extra tokens may use any name — e.g. a
+   * `focusRing` thickness sets the shared focus ring's outline offset.
+   */
+  thicknesses?: Thicknesses;
+  /**
    * Sparse per-component overrides, deep-merged over the derived component
    * themes: only the sections you provide (fixed/variants/sizes/options keys)
    * are replaced; everything else keeps tracking the library defaults.
@@ -784,6 +790,7 @@ export const createTheme = ({
   radii = BaseRadii,
   shadows = BaseShadows,
   borders,
+  thicknesses,
   components,
 }: ThemeConfig): UniTheme => ({
   id,
@@ -794,7 +801,7 @@ export const createTheme = ({
   radii,
   shadows,
   spacing: BaseSpacing,
-  thicknesses: BaseThicknesses,
+  thicknesses: { ...BaseThicknesses, ...thicknesses },
   icons: { ...BaseIcons, ...icons },
   components: deepMerge(buildComponents(colors), components),
 });

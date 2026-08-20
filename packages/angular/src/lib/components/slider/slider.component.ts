@@ -116,7 +116,8 @@ export class UniSliderComponent
       '&::-moz-range-track': { height: trackHeight, borderRadius: radius, background: track },
       '&::-moz-range-progress': { height: trackHeight, borderRadius: radius, background: fill },
       '&::-moz-range-thumb': thumb,
-      '&:focus-visible': { outline: `2px solid ${fill}`, outlineOffset: 2 },
+      // The shared, themable focus indicator, in the track's fill color.
+      '&:focus-visible': { ...this.theme.focusRingStyle(fill) },
       '&:disabled': {
         cursor: 'not-allowed',
         opacity: 0.5,

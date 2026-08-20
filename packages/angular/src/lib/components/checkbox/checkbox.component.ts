@@ -144,19 +144,11 @@ export class UniCheckboxComponent
         cursor: 'not-allowed',
       },
 
+      // The shared, themable focus indicator, keyed off the hidden input's
+      // focus. The box radius lets the outline round with the box shape.
       '&:focus + .checkbox': {
-        position: 'relative',
-        '&::after': {
-          content: '""',
-          position: 'absolute',
-          top: '-4px',
-          left: '-4px',
-          right: '-4px',
-          bottom: '-4px',
-          border: `2px solid ${this.getThemeColor(this.variant())}`,
-          borderRadius: `${(Number(this.componentOptions().borderRadius) || 2) + 4}px`,
-          pointerEvents: 'none',
-        },
+        ...this.theme.focusRingStyle(this.getThemeColor(this.variant())),
+        borderRadius: `${Number(this.componentOptions().borderRadius) || 2}px`,
       },
     })
   );

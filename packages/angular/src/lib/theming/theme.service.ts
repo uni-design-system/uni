@@ -299,14 +299,41 @@ export class ThemeService {
   };
 
   /**
+   * The shared keyboard-focus indicator's styles (WCAG 2.4.7), without a
+   * selector — for controls that key the ring off their own state selector
+   * (`&:focus + .checkbox`). Everything else spreads `focusRing()` instead.
+   *
+   * Themable: a theme that defines `focusRing` **border** and/or **shadow**
+   * primitives replaces the default 2px outline with that border (drawn as
+   * an outline hugging the control) plus the ring shadow — one focus
+   * language for every control, from text fields to checkboxes to calendar
+   * days. A `focusRing` **thickness** primitive sets the outline offset
+   * (default 0 when themed, 2px for the classic outline; negative values
+   * overlay the control's own border, reading as a border-color change).
+   * Without those primitives the classic outline renders, in the given
+   * color or `currentColor`.
+   */
+  focusRingStyle = (color?: string) => {
+    const border = this.borders()['focusRing'];
+    const shadow = this.shadows()['focusRing'];
+    const offset = this.thicknesses()['focusRing'];
+    if (border || shadow) {
+      return {
+        outline: border ?? 'none',
+        outlineOffset: offset ?? 0,
+        ...(shadow ? { boxShadow: shadow } : {}),
+      };
+    }
+    return { outline: `2px solid ${color ?? 'currentColor'}`, outlineOffset: offset ?? '2px' };
+  };
+
+  /**
    * Shared keyboard-focus indicator (WCAG 2.4.7). Spread into a component's
    * Emotion styles: `...this.theme.focusRing()` or `focusRing('primary')`.
+   * See `focusRingStyle` for how themes restyle it.
    */
   focusRing = (token?: ColorToken) => ({
-    '&:focus-visible': {
-      outline: `2px solid ${token ? this.colors()[token] : 'currentColor'}`,
-      outlineOffset: '2px',
-    },
+    '&:focus-visible': this.focusRingStyle(token ? this.colors()[token] : undefined),
   });
 
   typeface = (typeface?: Typeface) => {

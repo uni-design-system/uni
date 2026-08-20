@@ -125,9 +125,9 @@ export class UniToggleComponent
         cursor: 'not-allowed',
       },
 
+      // The shared, themable focus indicator, keyed off the hidden input.
       '&:focus + .toggle-switch': {
-        outline: `2px solid ${this.getThemeColor(this.variant())}`,
-        outlineOffset: '2px',
+        ...this.theme.focusRingStyle(this.getThemeColor(this.variant())),
       },
     });
   });

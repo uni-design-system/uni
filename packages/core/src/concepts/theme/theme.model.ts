@@ -37,7 +37,8 @@ export type Shadows = Partial<Record<Elevation | string, string>>;
 export type Shadow = keyof Shadows;
 
 export type Thickness = 'thin' | 'thick' | 'standard';
-export type Thicknesses = Record<Thickness, string | number>;
+/** Open like Borders/Shadows: extra named primitives (e.g. `focusRing`) allowed. */
+export type Thicknesses = Partial<Record<Thickness | string, string | number>>;
 
 export type Icons = Record<string, string>;
 export type Icon = keyof Icons;

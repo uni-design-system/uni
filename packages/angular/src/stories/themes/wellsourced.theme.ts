@@ -23,6 +23,7 @@ import {
   type Radii,
   type Shadows,
   type Spacing,
+  type Thicknesses,
   type Typography,
   type UniTheme,
 } from '@uni-design-system/uni-core';
@@ -227,8 +228,11 @@ const borders = (p: WellsourcedPalette): Borders => ({
   dark: `1px solid ${p.dark}`,
   dotted: `1px dotted ${p.dark}`,
   menu: `1px solid ${p.border2}`,
-  // The app's `.search-input:focus` border — warm ochre from the palette.
-  inputFocus: `1px solid ${p.secondary}`,
+  // The app's focus border — warm ochre from the palette. As the well-known
+  // `focusRing` primitive it restyles the shared focus indicator everywhere:
+  // text fields (via the input options below), checkboxes, radios, toggles,
+  // sliders, calendar days, tag chips.
+  focusRing: `1px solid ${p.secondary}`,
 });
 
 /** App radii scale plus the old row menu's exact panel/item radii. */
@@ -252,9 +256,17 @@ const shadows = (p: WellsourcedPalette): Shadows => ({
   menu: '0 2px 4px rgba(0, 0, 0, 0.04),  0 12px 24px rgba(0, 0, 0, 0.08)',
   dialog: '0 10px 20px rgba(0, 0, 0, 0.05),  0 30px 60px rgba(0, 0, 0, 0.12)',
   warn: '0 0 5px rgba(255, 0, 0, 0.5), inset 0 0 5px rgba(255, 0, 0, 0.3)',
-  // The `.search-input:focus` ring: a 3px spread of the ochre at 10%.
-  inputFocus: `0 0 0 3px color-mix(in srgb, ${p.secondary} 10%, transparent)`,
+  // The focus ring: a 3px spread of the ochre at 10%. Pairs with the
+  // `focusRing` border primitive above (see its note).
+  focusRing: `0 0 0 3px color-mix(in srgb, ${p.secondary} 10%, transparent)`,
 });
+
+/**
+ * Extra thickness primitives. `focusRing` is the shared focus ring's outline
+ * offset: 0 hugs the control; negative values overlay its resting border so
+ * the ring reads as a border-color change; positive values add a gap.
+ */
+const thicknesses: Thicknesses = { focusRing: 0 };
 
 const spacing: Spacing = {
   none: 0,
@@ -380,8 +392,8 @@ const components = (p: WellsourcedPalette): ComponentThemes => ({
     options: {
       color: 'tertiary-surface',
       focusOutline: 'none',
-      focusBorder: 'inputFocus',
-      focusShadow: 'inputFocus',
+      focusBorder: 'focusRing',
+      focusShadow: 'focusRing',
       focusColor: 'primary-surface',
     },
   },
@@ -511,6 +523,7 @@ export const WellsourcedLight: UniTheme = withWellsourcedScales(
     components: components(lightPalette),
     shadows: shadows(lightPalette),
     radii,
+    thicknesses,
   })
 );
 
@@ -523,6 +536,7 @@ export const WellsourcedDark: UniTheme = withWellsourcedScales(
     components: components(darkPalette),
     shadows: shadows(darkPalette),
     radii,
+    thicknesses,
   })
 );
 
