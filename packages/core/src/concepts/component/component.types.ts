@@ -13,6 +13,7 @@ export type ComponentName =
   | 'button'
   | 'buttonGroup'
   | 'calendar'
+  | 'callout'
   | 'card'
   | 'cardContent'
   | 'cardHeader'
@@ -35,6 +36,7 @@ export type ComponentName =
   | 'multiSelectDropdown'
   | 'notificationBadge'
   | 'paginator'
+  | 'popover'
   | 'radio'
   | 'searchInput'
   | 'select'
@@ -52,7 +54,8 @@ export type ComponentName =
   | 'textButton'
   | 'timeInput'
   | 'toggle'
-  | 'tooltip';
+  | 'tooltip'
+  | 'tour';
 
 export interface ComponentTheme<T = object> {
   /** Style applied to every instance regardless of variant/size. */

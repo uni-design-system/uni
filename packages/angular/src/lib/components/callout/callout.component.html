@@ -1,0 +1,55 @@
+<!-- Scrim first: top-layer order is stacking order, so the panel always sits
+     above it. Strips and cover are pointer-blockers only; the keyboard path
+     is the duet loop on the document keydown handler. -->
+<div #scrim popover="manual" [class]="scrimClassName()">
+  @if (showing()) {
+    @if (effectiveBackdrop() === 'spotlight' && activeTarget()) {
+      <div [class]="windowClassName()"></div>
+      @for (side of stripSides; track side) {
+        <!-- eslint-disable-next-line @angular-eslint/template/click-events-have-key-events, @angular-eslint/template/interactive-supports-focus -->
+        <div [class]="stripClassName(side)" (click)="onBackdropClick()"></div>
+      }
+      @if (!targetInteractive()) {
+        <!-- eslint-disable-next-line @angular-eslint/template/click-events-have-key-events, @angular-eslint/template/interactive-supports-focus -->
+        <div [class]="coverClassName()" (click)="onBackdropClick()"></div>
+      }
+    } @else if (effectiveBackdrop() === 'dim') {
+      <!-- eslint-disable-next-line @angular-eslint/template/click-events-have-key-events, @angular-eslint/template/interactive-supports-focus -->
+      <div [class]="fullCoverClassName()" (click)="onBackdropClick()"></div>
+    }
+  }
+</div>
+<div
+  #panel
+  popover="manual"
+  role="dialog"
+  tabindex="-1"
+  [id]="panelId"
+  [attr.aria-label]="ariaLabel() || null"
+  [attr.aria-labelledby]="ariaLabel() ? null : header() ? headerId : bodyId"
+  [class]="panelClassName()"
+>
+  <ng-content select="[callout-media]"></ng-content>
+  <div [class]="headRowClassName()">
+    <ng-content select="[callout-header]"></ng-content>
+    @if (header()) {
+      <span [id]="headerId" [class]="titleClassName()">{{ header() }}</span>
+    }
+    @if (dismissible()) {
+      <button
+        icon-button
+        [iconName]="componentOptions().closeSymbol"
+        variant="ghost"
+        size="sm"
+        (click)="close('close-button')"
+      >
+        {{ closeLabel() }}
+      </button>
+    }
+  </div>
+  <div [id]="bodyId" [class]="bodyClassName()"><ng-content></ng-content></div>
+  <div #actions [class]="actionsRowClassName()"><ng-content select="[callout-actions]"></ng-content></div>
+  @if (arrow() && activeTarget()) {
+    <span [class]="arrowClassName()"></span>
+  }
+</div>

@@ -1,0 +1,76 @@
+import * as Stories from './callout.stories';
+import { Meta, Title } from '@storybook/addon-docs/blocks';
+import { StoryUsage } from '../../../stories/blocks/StoryUsage';
+import { StoryExample } from '../../../stories/blocks/StoryExample';
+import { ThemeOptions } from '../../../stories/blocks/ThemeOptionsBlock';
+
+<Meta of={Stories} name="Callout" />
+<Title />
+
+`import { UniCalloutComponent } from '@uni-design-system/uni-angular';`
+
+## Overview
+
+Callout is an anchored coach-mark panel that dims the page and cuts a
+spotlight hole around its target — the feature-introduction surface. The
+scrim and hole are CSS-anchor-positioned to the target, so the spotlight
+tracks scroll, resize, and layout with zero listeners, and the spotlit
+element stays genuinely clickable through the hole (or covered, with
+`targetInteractive` false). Both surfaces ride the native popover top layer,
+above every app z-index.
+
+The panel is a non-modal `role="dialog"`: focus moves in on open, Tab runs a
+duet loop over the panel's controls plus the interactive target, and close
+restores focus — unless the user moved into the target, where it stays.
+Callouts are storage-free by rule: `key` and the `dismissed` output (with a
+`reason`) are the "don't show again" hooks, and persistence belongs to the
+app.
+
+## Usage
+
+<StoryUsage of={Stories.Spotlight} />
+
+### Locked spotlight
+
+<StoryExample of={Stories.LockedSpotlight} />
+
+### Dim and none backdrops
+
+Without a target the callout centers over a full dim; `backdrop="none"`
+drops the scrim entirely.
+
+<StoryExample of={Stories.Dim} />
+<StoryExample of={Stories.NoBackdrop} />
+
+### Dismissal tracking
+
+<StoryExample of={Stories.DismissalTracking} />
+
+## Theme options
+
+<ThemeOptions componentName="callout" />
+
+## Keyboard
+
+| Key | Behaviour |
+| --- | --- |
+| `Tab` / `Shift+Tab` | Duet loop: panel focusables plus the spotlit target, wrapping |
+| `Escape` | Dismisses with `reason: 'escape'` (when `dismissible`) |
+| Backdrop click | Pulses the panel; closes with `reason: 'backdrop'` when `dismissOnBackdrop` |
+
+## Accessibility
+
+- Non-modal `role="dialog"`, labelled by `header` (or `ariaLabel`); `aria-modal` is deliberately absent — the page is dimmed, not removed.
+- Initial focus: `[autofocus]` → first action → first focusable → the panel itself.
+- Focus restore on close skips users who deliberately moved into the target.
+- The spotlight ring is the `variant` color role and pairs with a shape (the ring), not color alone.
+
+## Do
+
+- Point one callout at one action, and let `key` + `dismissed` drive "don't show again"
+- Keep the target interactive when the callout invites trying it
+
+## Don't
+
+- Stack multiple callouts at once — sequence them with `uni-tour`
+- Use a callout for blocking confirmation; that is a dialog

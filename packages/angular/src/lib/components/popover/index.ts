@@ -5,3 +5,4 @@
  */
 
 export { UniPopoverComponent } from './popover.component';
+export type { UniPopoverOptions } from './popover.model';

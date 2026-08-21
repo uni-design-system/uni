@@ -3,6 +3,7 @@ export * from './datetime/datetime.model';
 export * from './datetime/datetime.helper';
 export * from './listbox/listbox-navigation';
 export * from './position/anchor';
+export * from './overlay/overlay';
 export * from './datasource';
 export * from './local-storage/local-storage.service';
 export * from './notification';

@@ -220,6 +220,57 @@ All controls implement `FormValueControl`/`FormCheckboxControl` and set
 - The combined value emits only when both parts are set; with `slotsFor` the
   time part is disabled until a day is chosen.
 
+### Popover
+
+- Rich mode is an APG disclosure: the focusable trigger carries
+  `aria-expanded` + `aria-controls`, focus stays on the trigger on open
+  (unless the panel marks `[autofocus]`), and returns to it on close. With no
+  projected trigger the app drives `open` and no element claims controller
+  ARIA. Light dismissal (outside click, Escape) is the native
+  `popover="auto"` behavior.
+- Tooltip mode flips the contract: `role="tooltip"` + `aria-describedby` on
+  the trigger, never `aria-expanded` — a description, not a name. Hover opens
+  after a delay, focus opens instantly, the panel itself is hoverable, and
+  Escape dismisses without moving focus (WCAG 1.4.13 dismissable / hoverable
+  / persistent). Focusable content in tooltip mode triggers a dev warning.
+- No focus trap in either mode: the panel sits right after the trigger in the
+  DOM, so Tab walks in and out naturally.
+
+| Key | Rich | Tooltip |
+| --- | --- | --- |
+| `Enter`/`Space` on trigger | toggle | — |
+| `Escape` | close (native) | close, focus unmoved |
+| `Tab` | natural order, no trap | — |
+
+### Callout
+
+- Non-modal `role="dialog"` named by `header`/`ariaLabel`; `aria-modal` is
+  deliberately absent — the page is dimmed, not removed from the tree.
+- Initial focus: `[autofocus]` → first action → first focusable → the panel
+  (`tabindex="-1"`), with `preventScroll`.
+- The duet loop: Tab cycles the panel's focusables **plus the spotlit
+  target** while it is interactive, wrapping in both directions. On close,
+  focus restores to the pre-open element unless the user moved into the
+  target — then it stays.
+- Escape dismisses (when `dismissible`) with `reason: 'escape'`; backdrop
+  clicks pulse the panel rather than closing unless `dismissOnBackdrop`.
+- The spotlight ring is a shape, not color alone; the scrim never carries
+  meaning.
+
+### Tour
+
+- Each step's panel is labelled "{title}, step {n} of {total}"; progress dots
+  are `aria-hidden` decoration and the fraction variant repeats the label's
+  numbers.
+- One persistent polite `role="status"` region announces gate unlocks
+  ("Next available"); gated steps never auto-advance mid-typing (only click
+  gates auto-advance).
+- `ArrowRight`/`ArrowLeft` navigate only while focus is inside the panel, so
+  typing in a spotlit target is never hijacked; Tab is the callout's duet
+  loop.
+- Escape and the close button (named by `skipLabel`) skip the tour and report
+  the step; missing-target steps are skipped, not broken.
+
 ## Known gaps (tracked in TODO.md)
 
 - No automated contrast verification of theme token pairs.

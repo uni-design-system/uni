@@ -1,0 +1,55 @@
+import * as Stories from './tour.stories';
+import { Meta, Title } from '@storybook/addon-docs/blocks';
+import { StoryUsage } from '../../../stories/blocks/StoryUsage';
+import { ThemeOptions } from '../../../stories/blocks/ThemeOptionsBlock';
+
+<Meta of={Stories} name="Tour" />
+<Title />
+
+`import { UniTourComponent } from '@uni-design-system/uni-angular';`
+
+## Overview
+
+Tour sequences one `uni-callout` through a list of steps: spotlight targets,
+dim interludes, and interaction gates. A step with `advanceOn` locks Next
+until the user performs the gesture on its target — clicks auto-advance
+(the gesture is complete), anything else unlocks Next and announces it
+through one polite `role="status"` region, so nobody is yanked forward
+mid-typing. Steps whose declared target cannot be found are skipped in the
+direction of travel with a dev warning, never an error. `active` is a
+two-way model, so tours are deep-linkable; Escape or the close button skips
+and reports the step through `skipped`.
+
+## Usage
+
+<StoryUsage of={Stories.Primary} />
+
+## Theme options
+
+<ThemeOptions componentName="tour" />
+
+## Keyboard
+
+| Key | Behaviour |
+| --- | --- |
+| `ArrowRight` | Next step — only while focus is in the panel, and never past an unsatisfied gate |
+| `ArrowLeft` | Previous step — only while focus is in the panel |
+| `Tab` | The callout's duet loop: panel controls plus the spotlit target |
+| `Escape` | Skips the tour, reporting the current step |
+
+## Accessibility
+
+- Each panel is labelled "{title}, step {n} of {total}"; the dots are `aria-hidden` decoration.
+- Gate unlocks are announced ("Next available") through a single persistent live region.
+- Arrow-key navigation never fires while the user is typing in a spotlit target.
+- The close button reads as the skip affordance (`skipLabel`).
+
+## Do
+
+- Keep tours short and gate only steps whose gesture teaches something
+- Handle `skipped`/`finished` and persist them — the tour holds no storage
+
+## Don't
+
+- Point steps at elements that may not exist without accepting the skip
+- Span routes in one tour; sequence per page instead

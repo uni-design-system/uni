@@ -376,6 +376,27 @@ const buildComponents = (c: Colors): ComponentThemes => ({
       },
     },
   },
+  // Defaults reproduce the pre-theme hardcoded popover look exactly, except
+  // `maxWidth` (new — long content previously never wrapped). The tooltip*
+  // options apply only in `mode="tooltip"`.
+  popover: {
+    options: {
+      color: 'primary-surface',
+      border: 'quaternary',
+      borderRadius: 'xs',
+      shadow: 'raised',
+      typeface: 'label',
+      padding: '6px 12px',
+      maxWidth: '38ch',
+      offset: 7,
+      arrowSize: 8,
+      closeSymbol: 'close',
+      headerTypeface: 'title-small',
+      tooltipPadding: '4px 8px',
+      tooltipOpenDelay: 500,
+      tooltipCloseDelay: 150,
+    },
+  },
   // Base reveal/collapse duration (seconds, matching alert/card
   // `transitionSpeed`) at a 240px-tall region; actual duration scales with
   // content height (√-of-height, clamped ~0.15–0.6s at this speed — see
@@ -772,6 +793,36 @@ const buildComponents = (c: Colors): ComponentThemes => ({
       shadow: 'raised',
       color: 'inverse-surface',
       typeface: 'label',
+    },
+  },
+  // The spotlight ring color is deliberately not an option — it is the
+  // callout's `variant` role. `scrimColor` is scheme-invariant, like
+  // `::backdrop`.
+  callout: {
+    options: {
+      color: 'primary-surface',
+      borderRadius: 'xs',
+      shadow: 'menu',
+      width: '320px',
+      padding: '16px',
+      headerTypeface: 'title-small',
+      typeface: 'label',
+      closeSymbol: 'close',
+      arrowSize: 8,
+      offset: 12,
+      scrimColor: 'rgba(0, 0, 0, 0.45)',
+      spotlightPadding: 6,
+      spotlightRadius: 'xs',
+      ringWidth: 2,
+      transitionMs: 250,
+    },
+  },
+  // Panel chrome, scrim and spotlight all come from the `callout` entry; the
+  // tour deliberately has almost no skin of its own.
+  tour: {
+    options: {
+      progressStyle: 'dots',
+      footerGap: 'sm',
     },
   },
 });

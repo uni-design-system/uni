@@ -1,16 +1,48 @@
 <!-- Click bubbles up from the projected [trigger] content, which is expected
      to be focusable (a button); keyboard activation arrives as a click. -->
 <!-- eslint-disable-next-line @angular-eslint/template/click-events-have-key-events, @angular-eslint/template/interactive-supports-focus -->
-<span #trigger (click)="togglePopover($event)" [class]="triggerClassName">
+<span
+  #trigger
+  [class]="triggerClassName"
+  (click)="onTriggerClick($event)"
+  (mouseenter)="onTriggerEnter()"
+  (mouseleave)="onTriggerLeave()"
+  (focusin)="onTriggerFocusIn()"
+  (focusout)="onTriggerFocusOut()"
+>
   <ng-content select="[trigger]"></ng-content>
 </span>
 <div
   #panel
   [id]="panelId"
-  [attr.popover]="autoClose() ? 'auto' : 'manual'"
+  [attr.popover]="popoverKind()"
+  [attr.role]="mode() === 'tooltip' ? 'tooltip' : null"
+  [attr.aria-labelledby]="header() ? headerId : null"
   [class]="popoverClassName()"
   (toggle)="onToggle($event)"
+  (mouseenter)="onPanelEnter()"
+  (mouseleave)="onPanelLeave()"
 >
-  <ng-content></ng-content>
-  <span [class]="arrowClassName()"></span>
+  <div [class]="headerRowClassName()">
+    <ng-content select="[popover-header]"></ng-content>
+    @if (header()) {
+      <span [id]="headerId" [class]="titleClassName()">{{ header() }}</span>
+    }
+    @if (closable()) {
+      <button
+        icon-button
+        [iconName]="componentOptions().closeSymbol"
+        variant="ghost"
+        size="sm"
+        (click)="closeFromButton()"
+      >
+        Close
+      </button>
+    }
+  </div>
+  <div [class]="bodyClassName()"><ng-content></ng-content></div>
+  <div [class]="footerRowClassName()"><ng-content select="[popover-footer]"></ng-content></div>
+  @if (arrow()) {
+    <span [class]="arrowClassName()"></span>
+  }
 </div>

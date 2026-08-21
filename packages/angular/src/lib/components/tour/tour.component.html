@@ -1,0 +1,38 @@
+<uni-callout
+  [(open)]="calloutOpen"
+  [key]="currentStep()?.key ?? ''"
+  [target]="resolvedTarget()"
+  [placement]="currentStep()?.placement ?? 'bottom'"
+  [backdrop]="currentStep()?.backdrop"
+  [targetInteractive]="targetInteractive()"
+  [header]="currentStep()?.title ?? ''"
+  [ariaLabel]="stepAriaLabel()"
+  [closeLabel]="skipLabel()"
+  (dismissed)="onDismissed($event)"
+  (panelKeydown)="onPanelKeydown($event)"
+>
+  <p>{{ currentStep()?.body }}</p>
+  <div callout-actions [class]="footerClassName()">
+    @if (index() > 0) {
+      <button text-button variant="ghost" (click)="back()">{{ backLabel() }}</button>
+    }
+    @if (componentOptions().progressStyle === 'fraction') {
+      <span aria-hidden="true" [class]="fractionClassName">{{ index() + 1 }} of {{ steps().length }}</span>
+    } @else {
+      <span aria-hidden="true" [class]="dotsClassName()">
+        @for (step of steps(); track $index) {
+          <i [class.on]="$index === index()"></i>
+        }
+      </span>
+    }
+    <!-- A click-gate advances by using the target itself — a Next button
+         would be a lie, so none renders. -->
+    @if (!clickGate()) {
+      <button text-button [disable]="!satisfied()" (click)="advance()">
+        {{ isLast() ? doneLabel() : nextLabel() }}
+      </button>
+    }
+  </div>
+</uni-callout>
+<!-- One live region per tour: gate unlocks are announced here. -->
+<span role="status" [class]="statusClassName">{{ announcement() }}</span>

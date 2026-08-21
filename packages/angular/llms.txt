@@ -178,6 +178,28 @@ Inheritance (inputs listed once, available on all subclasses):
 - outputs:
   - `selected: UniDate` — Each committed day, including both ends of a range.
 
+## UniCalloutComponent
+- selector: `uni-callout`
+- inputs:
+  - `key: string` — Identifies this callout in `dismissed` payloads. Empty string = unset.
+  - `target: HTMLElement | string` — Element (or id, resolved at open time) to spotlight. '' = unset.
+  - `placement: Placement` = 'bottom'
+  - `backdrop: 'spotlight' | 'dim' | 'none'` — Defaults to `spotlight` when a target resolves, else `dim`.
+  - `targetInteractive: boolean` = true — When false, a transparent cover blocks the spotlit target.
+  - `dismissible: boolean` = true — Gates Escape and the close button.
+  - `dismissOnBackdrop: boolean` = false — When true, scrim clicks close (reason `backdrop`); else the panel pulses.
+  - `header: string`
+  - `arrow: boolean` = true
+  - `ariaLabel: string` — Wins over the header/body labelling; the tour sets "{title}, step n of N".
+  - `closeLabel: string` = 'Close' — Accessible name of the dismiss button (the tour passes its skip label).
+- two-way models:
+  - `open: boolean` = false
+- outputs:
+  - `opened: void`
+  - `closed: void`
+  - `dismissed: UniCalloutDismissal`
+  - `panelKeydown: KeyboardEvent` — Keys pressed while focus is inside the panel (the tour's arrow-key hook).
+
 ## UniCardComponent
 - selector: `uni-card`
 
@@ -533,6 +555,19 @@ Inheritance (inputs listed once, available on all subclasses):
 - inputs:
   - `placement: Placement` = 'bottom'
   - `autoClose: boolean` = true — Light-dismiss on outside click / Escape (native popover="auto").
+  - `mode: 'rich' | 'tooltip'` = 'rich' — `rich` = click-toggled disclosure; `tooltip` = hover/focus description.
+  - `anchor: HTMLElement | string` — Anchor the panel to another element (or element id, resolved each time the panel opens) while the projected trigger keeps the disclosure ARIA. Empty string means unset.
+  - `header: string` — Title rendered in the header row and used as the accessible name.
+  - `closable: boolean` = false — Renders a "Close" icon button in the header row.
+  - `arrow: boolean` = true
+  - `maxWidth: string | number` — Panel max-width; numbers are px. Defaults to the theme's `maxWidth`.
+  - `openDelay: number` — Tooltip-mode hover-open delay, ms; defaults to the theme option.
+  - `closeDelay: number` — Tooltip-mode pointer-leave close delay, ms; defaults to the theme option.
+- two-way models:
+  - `open: boolean` = false — Two-way open state; light dismissal and hover timers sync back into it.
+- outputs:
+  - `opened: void`
+  - `closed: void`
 
 ## UniProgressBarComponent
 - selector: `uni-progress-bar`
@@ -835,6 +870,20 @@ Inheritance (inputs listed once, available on all subclasses):
   - `placement: Placement` = 'top'
   - `inlineText: boolean` = false
   - `appendToBody: boolean` = false — @deprecated The tooltip renders in the native top layer; ignored.
+
+## UniTourComponent
+- selector: `uni-tour`
+- inputs:
+  - `steps: UniTourStep[]` (required)
+  - `nextLabel: string` = 'Next'
+  - `backLabel: string` = 'Back'
+  - `skipLabel: string` = 'Skip'
+  - `doneLabel: string` = 'Done'
+- two-way models:
+  - `active: number | null` = null — The presented step index, or null when the tour is not running.
+- outputs:
+  - `started: void`
+  - `finished: void`
 
 ## UniWrapComponent
 - selector: `[uni-wrap-layout], [wrap-layout]`

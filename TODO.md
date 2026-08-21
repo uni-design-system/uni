@@ -19,8 +19,9 @@ audits: `packages/angular/TODO.md` (v4 audit) and `uni-theme-generation-plan.md`
 - [ ] **List** — structured items (leading avatar/icon, primary/secondary text,
       trailing action); the "settings screen" primitive.
 - [ ] **Number input** with increment/decrement steppers.
-- [ ] **Chips / tag input** — `uni-tag` is display-only; add the input variant
-      (type-to-add, backspace-to-remove, keyboard nav).
+- [x] **Chips / tag input** — shipped in 8.0.0 as `uni-tag-input` (type-to-add,
+      backspace-to-remove, listbox keyboard nav) alongside `uni-tag` v2; ARIA
+      polish followed in the 8.1-era upgrade.
 - [ ] **Password input** — visibility toggle on the input-box chrome.
 - [ ] **OTP / pin input** — auth-flow staple for AI scaffolds.
 - [ ] **Link** — theme-aware anchor (color/underline policy as tokens).

@@ -1,6 +1,8 @@
 import * as Stories from './popover.stories';
 import { Meta, Title } from '@storybook/addon-docs/blocks';
 import { StoryUsage } from '../../../stories/blocks/StoryUsage';
+import { StoryExample } from '../../../stories/blocks/StoryExample';
+import { ThemeOptions } from '../../../stories/blocks/ThemeOptionsBlock';
 
 <Meta of={Stories} name="Popover" />
 <Title />
@@ -9,34 +11,66 @@ import { StoryUsage } from '../../../stories/blocks/StoryUsage';
 
 ## Overview
 
-Popover is a non-modal dialog that floats around a trigger.
-Any type of content can be added inside a popover; however, it is most suitable for short callouts or compact actions.
-
-**Note:** It is important to add the `trigger` attribute to the item you want to open and be referenced to the Popover.
+Popover is an anchored, non-modal panel on the native popover top layer: the
+browser owns positioning, stacking, and light dismissal. Rich mode (the
+default) is a click-toggled disclosure for short callouts, small forms, and
+compact actions; `mode="tooltip"` turns the same element into a hover/focus
+description with the full WCAG 1.4.13 contract. Anchoring and control are
+separate — `anchor` re-anchors the panel to any element or id while the
+projected `[trigger]` keeps the disclosure semantics, and with no trigger the
+app drives the two-way `open` model directly.
 
 ## Usage
 
-<StoryUsage
-  of={Stories.Primary}
-  exclude={[
-    'showClassName',
-    'arrowClassName',
-    'popoverClassName',
-    'spanClassName',
-    'createArrow',
-    'createTooltip',
-    'setPosition',
-    'arrow',
-    'tooltip',
-    'spanClassName',
-    'delay',
-    'arrowRef',
-    'popoverRef',
-    'triggerRef',
-    'arrowClasses',
-  ]}
-/>
+<StoryUsage of={Stories.Primary} />
+
+### Structured content
+
+An optional `header` (with `closable` close button) and `[popover-footer]`
+slot wrap the default-slot body; a bare popover renders the plain single
+region. Native `[autofocus]` inside the panel seeds focus for form popovers.
+
+<StoryExample of={Stories.StructuredForm} />
+
+### Detached anchor
+
+<StoryExample of={Stories.DetachedAnchor} />
+
+### Tooltip mode
+
+<StoryExample of={Stories.TooltipMode} />
+
+### Manual close
+
+<StoryExample of={Stories.ManualClose} />
+
+## Theme options
+
+<ThemeOptions componentName="popover" />
+
+## Keyboard
+
+| Key | Rich mode | Tooltip mode |
+| --- | --- | --- |
+| `Enter` / `Space` on trigger | Toggles the panel | — |
+| `Escape` | Closes (native light dismiss) | Closes without moving focus |
+| `Tab` | Walks into and out of the panel naturally — never trapped | — (content has no focusables) |
+| Focus on trigger | — | Opens instantly; blur closes |
 
 ## Accessibility
 
-- The trigger carries `aria-expanded` and `aria-controls`; light-dismiss comes from the native popover.
+- Rich mode wires `aria-expanded`/`aria-controls` onto the focusable trigger; with no projected trigger, no element claims controller ARIA.
+- Tooltip mode is `role="tooltip"` + `aria-describedby` — a description, never a name — and warns in dev mode if the content contains focusable elements.
+- Focus stays on the trigger when the panel opens (APG disclosure) unless the panel marks an `[autofocus]` field; close returns focus to the trigger.
+- The panel sits in the DOM right after the trigger, so Tab order is natural and there is no focus trap in either mode.
+
+## Do
+
+- Use rich mode for short callouts, small forms, and compact action clusters
+- Give form popovers an `[autofocus]` field and a `[popover-footer]` action
+- Use `anchor` when the panel should hug a field the trigger merely explains
+
+## Don't
+
+- Put focusable content inside tooltip mode — promote it to rich mode instead
+- Reach for a popover when the flow needs modality; that is a dialog
