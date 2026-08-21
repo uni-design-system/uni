@@ -50,6 +50,27 @@ they arrive.
 
 <StoryExample of={Stories.Async} />
 
+## Allowing new values
+
+The combobox never commits free text implicitly — typing filters, it never
+selects, and a non-matching draft reverts with `(rejected)`. That's the
+closed-set contract, and it's what keeps mystery data out of forms. When users
+should be able to *create* an entry, make creation an **option**: narrow
+matches from `(query)` and, when nothing matches exactly, append a sentinel
+`Create "…"` row. Because the sentinel is a real option, every commit path
+already works — arrow + Enter, click, and plain Enter once the filter narrows
+to it alone. Resolve the sentinel in `(selected)`: mint the entity, add it to
+`options`, and write the model; the field self-heals to the new label.
+
+<StoryExample of={Stories.CreateNewValues} />
+
+Blur deliberately does **not** commit the sentinel — blur commits exact label
+matches only, so creating something takes an explicit Enter or click the user
+can see. If a full create flow is too heavy, listen to `(rejected)` instead
+and offer creation outside the control (a toast, an inline button). And if
+most values are user-created, the control is the wrong shape — that's an open
+set, which is `uni-tag-input`'s contract.
+
 ## Invalid state
 
 <StoryExample of={Stories.Invalid} />
@@ -101,8 +122,9 @@ pointer-only affordance.
 
 ## Don't
 
-- Don't bolt "create new" onto it — that's an open set; use `uni-tag-input`'s
-  machinery or listen to `(rejected)` app-side.
+- Don't expect free text to commit implicitly — it never does. Offer creation
+  as an option instead (see *Allowing new values*); a mostly-user-created set
+  is an open set, which is `uni-tag-input`'s job.
 - Don't wire `(query)` → filter → `[options]` when the list is already in
   memory — local filtering is the default for a reason. `(query)` is for
   fetching, not displaying.

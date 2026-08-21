@@ -126,6 +126,67 @@ export const Async: Story = {
   }),
 };
 
+/**
+ * The combobox never commits free text implicitly — that's the closed-set
+ * contract. To offer "create new", make creation an *option*: narrow matches
+ * from `(query)` and, when nothing matches exactly, append a sentinel
+ * `Create "…"` row. Because the sentinel is a real option, every commit path
+ * works — arrow + Enter, click, and Enter when the filter narrows to it alone.
+ * Resolve the sentinel in `(selected)`: mint the entity, add it to `options`,
+ * write the model. Blur deliberately does not commit the sentinel (blur
+ * commits exact label matches only) — creating takes an explicit Enter or
+ * click. For a lighter touch, listen to `(rejected)` instead and offer
+ * creation outside the control.
+ */
+export const CreateNewValues: Story = {
+  render: (args) => ({
+    props: {
+      ...args,
+      teams: [
+        { label: 'Design Systems', value: 'ds' },
+        { label: 'Platform', value: 'platform' },
+        { label: 'Growth', value: 'growth' },
+      ] as Options<string>,
+      options: [] as Options<string>,
+      value: null as string | null,
+      onQuery(text: string) {
+        const query = text.toLowerCase();
+        const matches = (this['teams'] as Options<string>).filter((team) =>
+          team.label.toLowerCase().includes(query)
+        );
+        const exact = matches.some((team) => team.label.toLowerCase() === query);
+        this['options'] =
+          text && !exact
+            ? [
+                ...matches,
+                { label: `Create "${text}"`, value: `create:${text}`, description: 'New team' },
+              ]
+            : matches;
+      },
+      onSelected(option: { label: string; value: string }) {
+        if (!option.value.startsWith('create:')) return;
+        const name = option.value.slice('create:'.length);
+        const created = { label: name, value: name.toLowerCase().replace(/\s+/g, '-') };
+        this['teams'] = [...(this['teams'] as Options<string>), created];
+        this['options'] = [created];
+        this['value'] = created.value;
+      },
+    },
+    template: `
+      <uni-combobox
+        label="Team"
+        placeholder="Choose or create a team"
+        emptyText="No teams"
+        [filterLocally]="false"
+        [options]="options"
+        [(value)]="value"
+        (query)="onQuery($event)"
+        (selected)="onSelected($event)"
+      />
+    `,
+  }),
+};
+
 /** The error chrome renders only after interaction — invalid && (touched || dirty). */
 export const Invalid: Story = {
   args: { required: true, invalid: true, touched: true },

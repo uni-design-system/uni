@@ -39,6 +39,12 @@ audits: `packages/angular/TODO.md` (v4 audit) and `uni-theme-generation-plan.md`
       5. `displayWith` — deliberately omitted; revisit only when a real
          consumer has a value-before-options case the self-healing field
          doesn't cover.
+      6. Free-text commits — Wellsourced requested them 2026-08-21 (first
+         consumer report, v8.2/8.3). Resolved as docs: the "Allowing new
+         values" MDX recipe (sentinel `Create "…"` option from `(query)`,
+         resolved in `(selected)`), shipped as a patch. The closed-set SPEC
+         decision stands; design `allowCustom` only if a real case survives
+         the recipe.
 - [ ] **Stepper / wizard** — multi-step forms; pairs with Signal Forms.
 - [ ] **List** — structured items (leading avatar/icon, primary/secondary text,
       trailing action); the "settings screen" primitive.
