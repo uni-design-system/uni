@@ -19,10 +19,14 @@ audits: `packages/angular/TODO.md` (v4 audit) and `uni-theme-generation-plan.md`
       contract). `Option<T>` gained `description?`/`disabled?`;
       `ListboxNavigation` learned disabled-skip. Fast follows below.
 - [ ] **Combobox fast follows** (deferred out of the 2026-08-21 port):
-      1. Extract shared CDK helpers — the listbox popup `listClass` styling and
-         the `announce()`/`srOnly` live-region idiom are hand-rolled in five
-         components now (search-input, tag-input, time-input, tabs/calendar,
-         combobox).
+      1. ~~Extract the shared listbox popup styling~~ — done 2026-08-21 as
+         `listboxPopupStyles()` in `components/forms/listbox-popup.ts`
+         (components/, not cdk: theming imports cdk, and ListboxNavigation
+         deliberately owns no styling); search-input, tag-input, time-input
+         and combobox consume it, composing extras via the `css([base, …])`
+         array form. Still open: the `announce()`/`srOnly` live-region idiom
+         (hand-rolled in tag-input, time-input, date-input, calendar,
+         combobox) — extract as a small `createAnnouncer()` cdk/a11y helper.
       2. Popup positioning migration — `popover="auto"` + CSS anchor
          positioning for all absolute-positioned listbox popups at once
          (they clip inside `overflow: hidden` ancestors today).

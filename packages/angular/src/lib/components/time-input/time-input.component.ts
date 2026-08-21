@@ -24,6 +24,7 @@ import {
   type UniTime,
 } from '../../cdk';
 import { BaseComponent, COMPONENT_NAME } from '../base/base.component';
+import { listboxPopupStyles } from '../forms/listbox-popup';
 import { UniIconButtonComponent } from '../icon-button/icon-button.component';
 import { UniInputBoxComponent } from '../input-box/input-box.component';
 import type { UniTimeInputOptions, UniTimeInputRejection } from './time-input.model';
@@ -382,30 +383,10 @@ export class UniTimeInputComponent
 
   protected readonly listClass = computed(() => {
     const options = this.componentOptions();
-    return css({
-      position: 'absolute',
-      top: '100%',
-      left: 0,
-      right: 0,
-      zIndex: 20,
-      margin: '4px 0 0',
-      padding: 4,
-      listStyle: 'none',
-      maxHeight: (options.maxVisibleOptions ?? 7) * 36,
-      overflowY: 'auto',
-      ...this.theme.backgroundColor(options.listColor ?? 'primary-surface'),
-      ...this.theme.boxShadow(options.listShadow ?? 'menu'),
-      ...this.theme.radius(options.listBorderRadius ?? 'xs'),
-      '& [role="option"]': {
-        padding: '8px 12px',
-        cursor: 'pointer',
-        ...this.theme.typeface('label'),
-        ...this.theme.color('on-primary-surface'),
-        ...this.theme.radius('xxs'),
-        '&.active, &:hover': {
-          ...this.theme.colorPair(options.activeColor ?? 'primary-container'),
-        },
-      },
-    });
+    return css(
+      listboxPopupStyles(this.theme, options, {
+        maxHeight: (options.maxVisibleOptions ?? 7) * 36,
+      })
+    );
   });
 }

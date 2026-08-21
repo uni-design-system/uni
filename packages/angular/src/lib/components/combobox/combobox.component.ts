@@ -22,6 +22,7 @@ import {
   type Options,
 } from '../../cdk';
 import { BaseComponent, COMPONENT_NAME } from '../base/base.component';
+import { listboxPopupStyles } from '../forms/listbox-popup';
 import { UniIconButtonComponent } from '../icon-button/icon-button.component';
 import { UniInputBoxComponent } from '../input-box/input-box.component';
 import { UniSymbolComponent } from '../symbol';
@@ -439,59 +440,46 @@ export class UniComboboxComponent<T>
 
   protected readonly listClass = computed(() => {
     const options = this.componentOptions();
-    return css({
-      position: 'absolute',
-      top: '100%',
-      left: 0,
-      right: 0,
-      zIndex: 20,
-      margin: '4px 0 0',
-      padding: 4,
-      listStyle: 'none',
-      // A scroll height, never a cap: a closed-set control must not render a
-      // reachable-by-keyboard-only subset (contrast searchInput.maxSuggestions).
-      maxHeight: (options.maxVisibleOptions ?? 8) * 36 + 8,
-      overflowY: 'auto',
-      ...this.theme.backgroundColor(options.listColor ?? 'primary-surface'),
-      ...this.theme.boxShadow(options.listShadow ?? 'menu'),
-      ...this.theme.radius(options.listBorderRadius ?? 'xs'),
-      '& [role="option"]': {
-        display: 'flex',
-        alignItems: 'center',
-        gap: 10,
-        minHeight: 36,
-        boxSizing: 'border-box',
-        padding: '5px 10px',
-        cursor: 'pointer',
-        ...this.theme.typeface('label'),
-        ...this.theme.color('on-primary-surface'),
-        ...this.theme.radius('xxs'),
-        '&.active, &:not([aria-disabled="true"]):hover': {
-          ...this.theme.colorPair(options.activeColor ?? 'primary-container'),
-          '& .check': { color: 'inherit' },
-          '& .desc': { color: 'inherit', opacity: 0.8 },
+    return css([
+      listboxPopupStyles(this.theme, options, {
+        // A scroll height, never a cap: a closed-set control must not render a
+        // reachable-by-keyboard-only subset (contrast searchInput.maxSuggestions).
+        maxHeight: (options.maxVisibleOptions ?? 8) * 36 + 8,
+      }),
+      {
+        '& [role="option"]': {
+          display: 'flex',
+          alignItems: 'center',
+          gap: 10,
+          minHeight: 36,
+          boxSizing: 'border-box',
+          padding: '5px 10px',
+          '&.active, &:not([aria-disabled="true"]):hover': {
+            '& .check': { color: 'inherit' },
+            '& .desc': { color: 'inherit', opacity: 0.8 },
+          },
+          '&[aria-disabled="true"]': {
+            ...this.theme.color('on-disabled'),
+            cursor: 'not-allowed',
+            '& .desc': { color: 'inherit' },
+          },
         },
-        '&[aria-disabled="true"]': {
-          ...this.theme.color('on-disabled'),
-          cursor: 'not-allowed',
-          '& .desc': { color: 'inherit' },
+        // Fixed-width check column so labels align with or without the symbol.
+        '& .check': { flex: 'none', width: 18, fontSize: 18, ...this.theme.color('primary') },
+        '& .text': { minWidth: 0, flex: 1, display: 'flex', alignItems: 'baseline', gap: 8 },
+        '& .option-label': { whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' },
+        '& .desc': {
+          marginLeft: 'auto',
+          whiteSpace: 'nowrap',
+          fontSize: '0.85em',
+          ...this.theme.color(options.descriptionColor ?? 'on-primary-surface-variant'),
+        },
+        '& .empty': {
+          padding: 10,
+          ...this.theme.typeface('label'),
+          ...this.theme.color(options.descriptionColor ?? 'on-primary-surface-variant'),
         },
       },
-      // Fixed-width check column so labels align with or without the symbol.
-      '& .check': { flex: 'none', width: 18, fontSize: 18, ...this.theme.color('primary') },
-      '& .text': { minWidth: 0, flex: 1, display: 'flex', alignItems: 'baseline', gap: 8 },
-      '& .option-label': { whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' },
-      '& .desc': {
-        marginLeft: 'auto',
-        whiteSpace: 'nowrap',
-        fontSize: '0.85em',
-        ...this.theme.color(options.descriptionColor ?? 'on-primary-surface-variant'),
-      },
-      '& .empty': {
-        padding: 10,
-        ...this.theme.typeface('label'),
-        ...this.theme.color(options.descriptionColor ?? 'on-primary-surface-variant'),
-      },
-    });
+    ]);
   });
 }
