@@ -1,21 +1,23 @@
 import type { CSSObject } from '@emotion/css/create-instance';
-import type { ContainerColorToken, Radius, Shadow } from '@uni-design-system/uni-core';
+import type { ColorKey, ContainerColorToken, Radius, Shadow } from '@uni-design-system/uni-core';
 import type { ThemeService } from '../../theming';
 
 /**
  * The theme options every listbox popup shares — the "list trio" plus the
  * active-option fill. Component option interfaces (searchInput, tagInput,
  * timeInput, combobox) satisfy this structurally; their extra options ride
- * alongside.
+ * alongside. `ColorKey`-typed so the wider `searchInput` contract (custom
+ * theme color tokens) stays satisfiable; `colorPair` resolves any registered
+ * token at runtime.
  */
 export interface UniListboxPopupOptions {
   /** Popup surface; its on-color pair is derived and cascades to options. */
-  listColor?: ContainerColorToken;
+  listColor?: ColorKey;
   listShadow?: Shadow;
   listBorderRadius?: Radius;
   /** Active/hover option fill; the on-color pair is derived. Must contrast
       with `listColor` or keyboard navigation turns invisible. */
-  activeColor?: ContainerColorToken;
+  activeColor?: ColorKey;
 }
 
 /**
@@ -48,7 +50,7 @@ export const listboxPopupStyles = (
   listStyle: 'none',
   maxHeight,
   overflowY: 'auto',
-  ...theme.colorPair(options.listColor ?? 'primary-surface'),
+  ...theme.colorPair((options.listColor ?? 'primary-surface') as ContainerColorToken),
   ...theme.boxShadow(options.listShadow ?? 'menu'),
   ...theme.radius(options.listBorderRadius ?? 'xs'),
   '& [role="option"]': {
@@ -57,7 +59,7 @@ export const listboxPopupStyles = (
     ...theme.typeface('label'),
     ...theme.radius('xxs'),
     '&.active, &:not([aria-disabled="true"]):hover': {
-      ...theme.colorPair(options.activeColor ?? 'primary-container'),
+      ...theme.colorPair((options.activeColor ?? 'primary-container') as ContainerColorToken),
     },
   },
 });
