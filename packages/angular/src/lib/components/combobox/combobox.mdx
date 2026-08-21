@@ -1,0 +1,110 @@
+import { Meta, Title, Story } from '@storybook/addon-docs/blocks';
+import * as Stories from './combobox.stories';
+import { StoryUsage } from '../../../stories/blocks/StoryUsage';
+import { StoryExample } from '../../../stories/blocks/StoryExample';
+import { ThemeOptions } from '../../../stories/blocks/ThemeOptionsBlock';
+import { KeyboardTable } from '../../../stories/blocks/DocsTable';
+
+<Meta of={Stories} name="Combobox" />
+<Title />
+
+`import { UniComboboxComponent } from '@uni-design-system/uni-angular';`
+
+## Overview
+
+The form-bound, **closed-set, single-select** autocomplete: object
+`Options<T>`, `FormValueControl<T | null>`, type-to-filter, commit-on-select.
+Typing produces a *draft* — a filter, never a value; the value changes only
+when an option commits, the field clears, or the model is written from
+outside. Select semantics, not search: a real label, a chevron, no magnifier,
+nothing submits.
+
+Under ~10 options and no need to type → `uni-select`, the native, zero-JS,
+mobile-friendly answer. More options, or users know what they're looking for →
+`uni-combobox`. The value contract is identical (`T | null`, `compareWith`),
+so swapping one for the other as a list grows is a template-only change — that
+is deliberate. For open sets, where typing *creates* values, use
+`uni-tag-input` (multi) or `uni-search-input` (queries); for closed multi
+sets, `uni-multi-select-dropdown`.
+
+<Story of={Stories.Primary} />
+
+## Usage
+
+<StoryUsage of={Stories.Primary} />
+
+The draft resolves on Enter, Tab and blur: an active option commits; else a
+unique exact label match commits; on **Enter only**, a filter narrowed to
+exactly one enabled option commits (`alab` + Enter is Alabama without arrowing
+down). Anything else reverts the field to the committed label and reports
+through `(rejected)` — a combobox never invents a value the user didn't
+confirm. A value with no matching option renders an empty field but is
+**preserved**: options may still be loading, and the field self-heals when
+they arrive.
+
+## Disabled options
+
+<StoryExample of={Stories.DisabledOptions} />
+
+## Async options
+
+<StoryExample of={Stories.Async} />
+
+## Invalid state
+
+<StoryExample of={Stories.Invalid} />
+
+## Theme options
+
+<ThemeOptions componentName="combobox" />
+
+Field chrome — colour, border, radius, focus outline — is **not** duplicated
+here. It comes from the `input` entry via `uni-input-box`, so a combobox
+restyles along with every other field. `maxVisibleOptions` is a scroll
+height, never a cap: a closed-set control must not render a
+reachable-by-keyboard-only subset.
+
+## Keyboard
+
+The input is the only tab stop besides the clear ✕; the chevron is a
+pointer-only affordance.
+
+<KeyboardTable
+  rows={[
+    { keys: 'any printable key', does: 'edits the draft, filters, opens the list' },
+    { keys: ['ArrowDown', 'ArrowUp'], does: 'opens if closed (Down lands on the committed option); moves through enabled options, wrapping' },
+    { keys: ['Alt+ArrowDown', 'Alt+ArrowUp'], does: 'opens without activating / closes, keeping the draft' },
+    { keys: ['Home', 'End'], does: 'first / last enabled option while the list is open' },
+    { keys: 'Enter', does: 'commits the active option, an exact match, or the single filtered candidate; never submits a form while the list is open' },
+    { keys: 'Escape', does: <>closes the list; if already closed, reverts the draft. <strong>Never clears the committed value</strong></> },
+    { keys: 'Tab', does: 'commits the active option or an exact match, then moves on — never traps' },
+  ]}
+/>
+
+## Accessibility
+
+- The input is `role="combobox"` with `aria-expanded`, `aria-controls` and
+  `aria-activedescendant` over a `role="listbox"` — the shared
+  `ListboxNavigation` contract, learned once across search-input, tag-input
+  and time-input.
+- `aria-selected` marks the **committed** option; the active one is carried by
+  `aria-activedescendant`. They are different facts, and this control has
+  both. The check symbol is decorative (`aria-hidden`).
+- Disabled options are rendered, announced (`aria-disabled`), and skipped by
+  the arrows — hiding them would make the list lie.
+- Commits (*"Alabama selected."*), clears, refusals and debounced result
+  counts (*"4 results."*) announce through a `role="status"` live region;
+  filtering is otherwise silent to a screen reader.
+- `aria-invalid` is gated on `invalid && (touched || dirty)`, per the
+  library's form-control rule; `ariaDescribedBy` passes through for
+  app-rendered errors.
+
+## Don't
+
+- Don't bolt "create new" onto it — that's an open set; use `uni-tag-input`'s
+  machinery or listen to `(rejected)` app-side.
+- Don't wire `(query)` → filter → `[options]` when the list is already in
+  memory — local filtering is the default for a reason. `(query)` is for
+  fetching, not displaying.
+- Don't use `Escape` to clear: it closes, then reverts. The ✕ and an emptied
+  field are the clear paths.

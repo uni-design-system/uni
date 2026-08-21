@@ -1,0 +1,91 @@
+<!-- Focusout rides the bubbling event so the list closes and the draft
+     resolves only when focus leaves the whole field. -->
+<div (focusout)="onFocusOut($event)">
+  <uni-input-box [error]="showError()" [disabled]="disabled()">
+    <div [class]="rowClass()">
+      <input
+        #field
+        type="text"
+        role="combobox"
+        autocomplete="off"
+        spellcheck="false"
+        aria-autocomplete="list"
+        [class]="inputClass()"
+        [disabled]="disabled()"
+        [placeholder]="placeholder() ?? ''"
+        [value]="displayValue()"
+        [attr.aria-label]="label()"
+        [attr.aria-expanded]="popupOpen()"
+        [attr.aria-controls]="list.listboxId"
+        [attr.aria-activedescendant]="list.activeDescendantId()"
+        [attr.aria-describedby]="ariaDescribedBy() ?? null"
+        [attr.aria-invalid]="showError() ? true : null"
+        [attr.aria-required]="required() ? true : null"
+        (keydown)="onKeydown($event)"
+        (input)="onInput()"
+        (click)="onFieldClick()"
+      />
+      @if (clearable() && value() !== null && !disabled()) {
+        <button
+          icon-button
+          type="button"
+          size="sm"
+          [symbolName]="componentOptions().clearSymbol ?? 'close'"
+          (click)="clear()"
+        >
+          Clear {{ label() }}
+        </button>
+      }
+      <!-- Pointer-only: keyboard has ArrowDown, the input announces expanded. -->
+      <button
+        type="button"
+        tabindex="-1"
+        aria-hidden="true"
+        [class]="toggleClass()"
+        [disabled]="disabled()"
+        (mousedown)="onToggleMousedown($event)"
+      >
+        <uni-symbol [name]="componentOptions().toggleSymbol ?? 'keyboard_arrow_down'" />
+      </button>
+    </div>
+  </uni-input-box>
+
+  @if (popupOpen()) {
+    <ul #listbox [id]="list.listboxId" role="listbox" [attr.aria-label]="label()" [class]="listClass()">
+      @if (filteredIndices().length === 0) {
+        <!-- Non-interactive: not an option, not navigable, no id. -->
+        <li class="empty">{{ emptyText() }}</li>
+      } @else {
+        @for (optIndex of filteredIndices(); track optIndex; let i = $index) {
+          <!-- aria-selected marks the *committed* option; the active one is
+               carried by aria-activedescendant — they are different facts. -->
+          <!-- eslint-disable-next-line @angular-eslint/template/click-events-have-key-events, @angular-eslint/template/interactive-supports-focus -->
+          <li
+            role="option"
+            [id]="list.optionId(i)"
+            [class.active]="i === list.activeIndex()"
+            [attr.aria-selected]="optIndex === committedIndex()"
+            [attr.aria-disabled]="options()[optIndex].disabled ? true : null"
+            (mousedown)="$event.preventDefault()"
+            (click)="onOptionClick(optIndex)"
+          >
+            <span class="check" aria-hidden="true">
+              @if (optIndex === committedIndex()) {
+                <uni-symbol [name]="componentOptions().selectedSymbol ?? 'check'" />
+              }
+            </span>
+            <span class="text">
+              <span class="option-label">{{ options()[optIndex].label }}</span>
+              @if (options()[optIndex].description) {
+                <span class="desc">{{ options()[optIndex].description }}</span>
+              }
+            </span>
+          </li>
+        }
+      }
+    </ul>
+  }
+
+  <!-- Commits, clears, refusals and result counts are otherwise silent. -->
+  <span role="status" aria-live="polite" [class]="srOnly">{{ announcement() }}</span>
+</div>
