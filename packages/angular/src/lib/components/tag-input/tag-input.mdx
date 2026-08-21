@@ -2,6 +2,7 @@ import { Meta, Title, Story } from '@storybook/addon-docs/blocks';
 import * as Stories from './tag-input.stories';
 import { StoryUsage } from '../../../stories/blocks/StoryUsage';
 import { ThemeOptions } from '../../../stories/blocks/ThemeOptionsBlock';
+import { KeyboardTable } from '../../../stories/blocks/DocsTable';
 
 <Meta of={Stories} name="Tag Input" />
 <Title />
@@ -79,28 +80,32 @@ recipients to reach the Send button.
 
 **In the text input**
 
-| Key | Behaviour |
-| --- | --- |
-| `Enter` | commits the highlighted suggestion, else the typed text |
-| `,` `;` (and Space for `email`) | commits the typed text |
-| `Tab` | commits the typed text, then moves on — never traps |
-| `ArrowDown` / `ArrowUp` / `Home` / `End` | moves through suggestions |
-| `Backspace` (empty field) | focuses the last chip — does **not** delete it |
-| `ArrowLeft` (caret at 0) | focuses the last chip |
-| `Escape` | closes the list; if already closed, clears the typed text |
-| paste | commits every complete token, leaves an unterminated tail typed |
+<KeyboardTable
+  rows={[
+    { keys: 'Enter', does: 'commits the highlighted suggestion, else the typed text' },
+    { keys: [',', ';'], does: <>(and Space for <code>email</code>) commits the typed text</> },
+    { keys: 'Tab', does: 'commits the typed text, then moves on — never traps' },
+    { keys: ['ArrowDown', 'ArrowUp', 'Home', 'End'], does: 'moves through suggestions' },
+    { keys: 'Backspace', does: <>(empty field) focuses the last chip — does <strong>not</strong> delete it</> },
+    { keys: 'ArrowLeft', does: '(caret at 0) focuses the last chip' },
+    { keys: 'Escape', does: 'closes the list; if already closed, clears the typed text' },
+    { keys: 'paste', does: 'commits every complete token, leaves an unterminated tail typed' },
+  ]}
+/>
 
 **On a chip**
 
-| Key | Behaviour |
-| --- | --- |
-| `ArrowLeft` / `ArrowRight` | previous / next chip; Right past the last returns to the input |
-| `Home` / `End` | first / last chip |
-| `Backspace` | removes it, focus moves **left** |
-| `Delete` | removes it, focus moves **right** |
-| `Enter` / `F2` / double-click | lifts the chip back into the input for editing |
-| `Escape` | returns focus to the input |
-| any printable key | returns to the input and starts typing |
+<KeyboardTable
+  rows={[
+    { keys: ['ArrowLeft', 'ArrowRight'], does: 'previous / next chip; Right past the last returns to the input' },
+    { keys: ['Home', 'End'], does: 'first / last chip' },
+    { keys: 'Backspace', does: <>removes it, focus moves <strong>left</strong></> },
+    { keys: 'Delete', does: <>removes it, focus moves <strong>right</strong></> },
+    { keys: ['Enter', 'F2', 'double-click'], does: 'lifts the chip back into the input for editing' },
+    { keys: 'Escape', does: 'returns focus to the input' },
+    { keys: 'any printable key', does: 'returns to the input and starts typing' },
+  ]}
+/>
 
 Two deletion keys with different focus outcomes is what makes pruning a
 recipient list feel right: hold Backspace to eat backwards, Delete to eat

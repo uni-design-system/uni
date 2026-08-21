@@ -3,6 +3,7 @@ import * as Stories from './time-input.stories';
 import { StoryUsage } from '../../../stories/blocks/StoryUsage';
 import { StoryExample } from '../../../stories/blocks/StoryExample';
 import { ThemeOptions } from '../../../stories/blocks/ThemeOptionsBlock';
+import { KeyboardTable } from '../../../stories/blocks/DocsTable';
 
 <Meta of={Stories} name="Time Input" />
 <Title />
@@ -53,14 +54,16 @@ matches `tagInput` and `searchInput`.
 
 ## Keyboard
 
-| Key | Behaviour |
-| --- | --- |
-| printable | opens the list scrolled to the nearest match — filters nothing away |
-| `Enter` | commits the highlighted option, else parses the typed text |
-| `ArrowDown` / `ArrowUp` | moves through options (opens the list from an empty or edited field) |
-| `ArrowUp` / `ArrowDown` on a committed value, list closed | steps ±`minuteStep` (±1 slot when pinned); ArrowUp means later |
-| `Escape` | closes the list; if already closed, reverts to the committed value |
-| `Tab` / blur | commits typed text, never traps |
+<KeyboardTable
+  rows={[
+    { keys: 'printable', does: 'opens the list scrolled to the nearest match — filters nothing away' },
+    { keys: 'Enter', does: 'commits the highlighted option, else parses the typed text' },
+    { keys: ['ArrowDown', 'ArrowUp'], does: 'moves through options (opens the list from an empty or edited field)' },
+    { keys: ['ArrowUp', 'ArrowDown'], does: <>on a committed value with the list closed, steps ±<code>minuteStep</code> (±1 slot when pinned); ArrowUp means later</> },
+    { keys: 'Escape', does: 'closes the list; if already closed, reverts to the committed value' },
+    { keys: ['Tab', 'blur'], does: 'commits typed text, never traps' },
+  ]}
+/>
 
 ## Accessibility
 

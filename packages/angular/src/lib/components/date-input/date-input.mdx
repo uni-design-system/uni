@@ -3,6 +3,7 @@ import * as Stories from './date-input.stories';
 import { StoryUsage } from '../../../stories/blocks/StoryUsage';
 import { StoryExample } from '../../../stories/blocks/StoryExample';
 import { ThemeOptions } from '../../../stories/blocks/ThemeOptionsBlock';
+import { KeyboardTable } from '../../../stories/blocks/DocsTable';
 
 <Meta of={Stories} name="Date Input" />
 <Title />
@@ -58,15 +59,17 @@ themes through the `calendar` entry.
 
 ## Keyboard
 
-| Key | Behaviour |
-| --- | --- |
-| printable | free text entry (no mask) |
-| `Enter` | parses and commits; reformats to `displayFormat` |
-| `Tab` / blur | commits typed text, then moves on — never traps |
-| `Alt+ArrowDown` | opens the popup, focus moves to the selected day (or today) |
-| `ArrowDown` (empty field) | opens the popup |
-| `ArrowUp` / `ArrowDown` on a committed value | steps the date ±1 day — the caret has nowhere to go, so stepping is what a spinner would do |
-| `Escape` | closes the popup; otherwise reverts uncommitted text |
+<KeyboardTable
+  rows={[
+    { keys: 'printable', does: 'free text entry (no mask)' },
+    { keys: 'Enter', does: <>parses and commits; reformats to <code>displayFormat</code></> },
+    { keys: ['Tab', 'blur'], does: 'commits typed text, then moves on — never traps' },
+    { keys: 'Alt+ArrowDown', does: 'opens the popup, focus moves to the selected day (or today)' },
+    { keys: 'ArrowDown', does: '(empty field) opens the popup' },
+    { keys: ['ArrowUp', 'ArrowDown'], does: 'on a committed value, steps the date ±1 day — the caret has nowhere to go, so stepping is what a spinner would do' },
+    { keys: 'Escape', does: 'closes the popup; otherwise reverts uncommitted text' },
+  ]}
+/>
 
 Inside the popup: the calendar's own map, plus Enter/Space selects, closes
 and returns focus to the field; Escape closes without selecting; Tab cycles

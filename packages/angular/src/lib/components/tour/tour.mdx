@@ -2,6 +2,7 @@ import * as Stories from './tour.stories';
 import { Meta, Title } from '@storybook/addon-docs/blocks';
 import { StoryUsage } from '../../../stories/blocks/StoryUsage';
 import { ThemeOptions } from '../../../stories/blocks/ThemeOptionsBlock';
+import { KeyboardTable } from '../../../stories/blocks/DocsTable';
 
 <Meta of={Stories} name="Tour" />
 <Title />
@@ -30,12 +31,14 @@ and reports the step through `skipped`.
 
 ## Keyboard
 
-| Key | Behaviour |
-| --- | --- |
-| `ArrowRight` | Next step — only while focus is in the panel, and never past an unsatisfied gate |
-| `ArrowLeft` | Previous step — only while focus is in the panel |
-| `Tab` | The callout's duet loop: panel controls plus the spotlit target |
-| `Escape` | Skips the tour, reporting the current step |
+<KeyboardTable
+  rows={[
+    { keys: 'ArrowRight', does: 'Next step — only while focus is in the panel, and never past an unsatisfied gate' },
+    { keys: 'ArrowLeft', does: 'Previous step — only while focus is in the panel' },
+    { keys: 'Tab', does: "The callout's duet loop: panel controls plus the spotlit target" },
+    { keys: 'Escape', does: 'Skips the tour, reporting the current step' },
+  ]}
+/>
 
 ## Accessibility
 

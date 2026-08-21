@@ -1,3 +1,4 @@
+export { DocsTable, KeyboardTable } from './DocsTable';
 export { ExperimentalBadge } from './ExperimentalBadge';
 export * from './helpers';
 export { StoryExample } from './StoryExample';

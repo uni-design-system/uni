@@ -3,6 +3,7 @@ import { Meta, Title } from '@storybook/addon-docs/blocks';
 import { StoryUsage } from '../../../stories/blocks/StoryUsage';
 import { StoryExample } from '../../../stories/blocks/StoryExample';
 import { ThemeOptions } from '../../../stories/blocks/ThemeOptionsBlock';
+import { KeyboardTable } from '../../../stories/blocks/DocsTable';
 
 <Meta of={Stories} name="Callout" />
 <Title />
@@ -52,11 +53,13 @@ drops the scrim entirely.
 
 ## Keyboard
 
-| Key | Behaviour |
-| --- | --- |
-| `Tab` / `Shift+Tab` | Duet loop: panel focusables plus the spotlit target, wrapping |
-| `Escape` | Dismisses with `reason: 'escape'` (when `dismissible`) |
-| Backdrop click | Pulses the panel; closes with `reason: 'backdrop'` when `dismissOnBackdrop` |
+<KeyboardTable
+  rows={[
+    { keys: ['Tab', 'Shift+Tab'], does: 'Duet loop: panel focusables plus the spotlit target, wrapping' },
+    { keys: 'Escape', does: <>Dismisses with <code>reason: 'escape'</code> (when <code>dismissible</code>)</> },
+    { keys: 'Backdrop click', does: <>Pulses the panel; closes with <code>reason: 'backdrop'</code> when <code>dismissOnBackdrop</code></> },
+  ]}
+/>
 
 ## Accessibility
 

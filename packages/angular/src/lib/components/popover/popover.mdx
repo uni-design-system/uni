@@ -3,6 +3,7 @@ import { Meta, Title } from '@storybook/addon-docs/blocks';
 import { StoryUsage } from '../../../stories/blocks/StoryUsage';
 import { StoryExample } from '../../../stories/blocks/StoryExample';
 import { ThemeOptions } from '../../../stories/blocks/ThemeOptionsBlock';
+import { DocsTable } from '../../../stories/blocks/DocsTable';
 
 <Meta of={Stories} name="Popover" />
 <Title />
@@ -50,12 +51,16 @@ region. Native `[autofocus]` inside the panel seeds focus for form popovers.
 
 ## Keyboard
 
-| Key | Rich mode | Tooltip mode |
-| --- | --- | --- |
-| `Enter` / `Space` on trigger | Toggles the panel | — |
-| `Escape` | Closes (native light dismiss) | Closes without moving focus |
-| `Tab` | Walks into and out of the panel naturally — never trapped | — (content has no focusables) |
-| Focus on trigger | — | Opens instantly; blur closes |
+<DocsTable
+  head={['Key', 'Rich mode', 'Tooltip mode']}
+  codeColumns={[0]}
+  rows={[
+    ['Enter / Space on trigger', 'Toggles the panel', '—'],
+    ['Escape', 'Closes (native light dismiss)', 'Closes without moving focus'],
+    ['Tab', 'Walks into and out of the panel naturally — never trapped', '— (content has no focusables)'],
+    ['Focus on trigger', '—', 'Opens instantly; blur closes'],
+  ]}
+/>
 
 ## Accessibility
 

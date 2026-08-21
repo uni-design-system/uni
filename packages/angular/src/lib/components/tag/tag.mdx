@@ -2,6 +2,7 @@ import { Meta, Title, Story } from '@storybook/addon-docs/blocks';
 import * as Stories from './tag.stories';
 import { StoryUsage } from '../../../stories/blocks/StoryUsage';
 import { ThemeOptions } from '../../../stories/blocks/ThemeOptionsBlock';
+import { DocsTable } from '../../../stories/blocks/DocsTable';
 
 <Meta of={Stories} name="Tag" />
 <Title />
@@ -85,11 +86,15 @@ family and weight come from the `typeface` option.
 
 ## Migrating from v1
 
-| v1 | v2 |
-| --- | --- |
-| `(close)` | `(removed)` |
-| remove button always present | `[removable]="true"` |
-| `close` skipped when `value` was `''` or `0` | every value emits, including falsy ones |
+<DocsTable
+  head={['v1', 'v2']}
+  codeColumns={[0, 1]}
+  rows={[
+    ['(close)', '(removed)'],
+    ['remove button always present', '[removable]="true"'],
+    ["close skipped when value was '' or 0", 'every value emits, including falsy ones'],
+  ]}
+/>
 
 ## Do
 

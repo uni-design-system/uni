@@ -1,5 +1,6 @@
 import { Meta, Title, Story } from '@storybook/addon-docs/blocks';
 import * as Stories from './carbon-menu.stories';
+import { DocsTable } from '../blocks/DocsTable';
 
 <Meta of={Stories} name="Carbon Menu" />
 <Title />
@@ -24,16 +25,20 @@ sharp full-bleed one.
 
 ## What the theme changes
 
-| Token | Default | Carbon |
-| --- | --- | --- |
-| `menu.borderRadius` | rounded | `none` — Carbon has no rounded corners |
-| `menu.paddingVertical` | `xs` inset | `none` — rows run edge to edge |
-| `menu.minWidth` | 184 | 160 |
-| `menuItem.height` | 38 | 40 |
-| `menuItem.typeface` | `label` | `body-2-short` (14px IBM Plex) |
-| `menuItem.hoverColor` | `primary-container` | `secondary-container` (`$layer-hover`) |
-| `menuItem.transitionSpeed` | 0.35s | 0.11s — Carbon productive motion |
-| `menuItem.variants.warn` | container tint | solid `$danger-hover` fill |
+<DocsTable
+  head={['Token', 'Default', 'Carbon']}
+  codeColumns={[0]}
+  rows={[
+    ['menu.borderRadius', 'rounded', <><code>none</code> — Carbon has no rounded corners</>],
+    ['menu.paddingVertical', <><code>xs</code> inset</>, <><code>none</code> — rows run edge to edge</>],
+    ['menu.minWidth', '184', '160'],
+    ['menuItem.height', '38', '40'],
+    ['menuItem.typeface', <code>label</code>, <><code>body-2-short</code> (14px IBM Plex)</>],
+    ['menuItem.hoverColor', <code>primary-container</code>, <><code>secondary-container</code> (<code>$layer-hover</code>)</>],
+    ['menuItem.transitionSpeed', '0.35s', '0.11s — Carbon productive motion'],
+    ['menuItem.variants.warn', 'container tint', <>solid <code>$danger-hover</code> fill</>],
+  ]}
+/>
 
 Every one of those is a theme value, so an app adopting this look writes no CSS.
 The dialog counterpart is [Carbon Dialog](?path=/docs/experiments-carbon-dialog--carbon-dialog).
