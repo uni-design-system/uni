@@ -2,7 +2,7 @@
      above it. Strips and cover are pointer-blockers only; the keyboard path
      is the duet loop on the document keydown handler. -->
 <div #scrim popover="manual" [class]="scrimClassName()">
-  @if (showing()) {
+  @if (scrimContent()) {
     @if (effectiveBackdrop() === 'spotlight' && activeTarget()) {
       <div [class]="windowClassName()"></div>
       @for (side of stripSides; track side) {

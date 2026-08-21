@@ -218,6 +218,26 @@ describe('UniCalloutComponent', () => {
     expect(scrimChildren().length).toBe(1); // the full dim cover
   });
 
+  it('keeps the anchor and spotlight through the close fade, then tears down', async () => {
+    vi.useFakeTimers();
+    await openCallout();
+    const anchorName = target().style.getPropertyValue('anchor-name');
+    expect(anchorName).toMatch(/^--uni-anchor/);
+
+    fixture.componentInstance.open.set(false);
+    await flush();
+
+    // Mid-fade: still anchored, spotlight pieces still rendered.
+    expect(target().style.getPropertyValue('anchor-name')).toBe(anchorName);
+    expect(scrimChildren().length).toBe(5);
+
+    vi.advanceTimersByTime(300); // past transitionMs (250)
+    fixture.detectChanges();
+    expect(target().style.getPropertyValue('anchor-name')).toBe('');
+    expect(scrimChildren().length).toBe(0);
+    vi.useRealTimers();
+  });
+
   it('cleans up its document listener when destroyed while open', async () => {
     await openCallout();
     fixture.destroy();

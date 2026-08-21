@@ -104,6 +104,13 @@ export class UniCalloutComponent extends BaseComponent<UniCalloutOptions> {
   protected readonly showing = signal(false);
   protected readonly activeTarget = signal<HTMLElement | null>(null);
   private readonly scrimShown = signal(false);
+  /**
+   * Keeps the spotlight pieces rendered and the panel anchored through the
+   * close fade — tearing the anchor down at close time made the panel jump
+   * and the scrim vanish mid-transition.
+   */
+  protected readonly scrimContent = signal(false);
+  private pendingTeardown: ReturnType<typeof setTimeout> | null = null;
   private prevFocus: HTMLElement | null = null;
   private detachKeydown: (() => void) | null = null;
 
@@ -136,6 +143,7 @@ export class UniCalloutComponent extends BaseComponent<UniCalloutOptions> {
 
     this.destroyRef.onDestroy(() => {
       this.detachKeydown?.();
+      if (this.pendingTeardown) clearTimeout(this.pendingTeardown);
       const target = untracked(this.activeTarget);
       if (target) clearAnchorName(target);
       for (const ref of [this.panelRef, this.scrimRef]) {
@@ -154,8 +162,15 @@ export class UniCalloutComponent extends BaseComponent<UniCalloutOptions> {
 
   private show() {
     if (this.showing()) return;
+    if (this.pendingTeardown) {
+      clearTimeout(this.pendingTeardown);
+      this.pendingTeardown = null;
+    }
     const target = resolveElement(this.target());
+    const stale = this.activeTarget();
+    if (stale && stale !== target) clearAnchorName(stale); // a close was mid-fade
     this.activeTarget.set(target);
+    this.scrimContent.set(true);
     this.prevFocus = document.activeElement as HTMLElement | null;
 
     // Anchor insets need the target on screen before the scrim paints; the
@@ -198,11 +213,18 @@ export class UniCalloutComponent extends BaseComponent<UniCalloutOptions> {
         // scrim may not have been shown (backdrop="none")
       }
     }
-    if (target) clearAnchorName(target);
-    this.activeTarget.set(null);
     this.showing.set(false);
     this.scrimShown.set(false);
     this.open.set(false);
+
+    // The close fade is still running: the panel must stay anchored and the
+    // spotlight pieces rendered until it finishes, or everything jumps.
+    this.pendingTeardown = setTimeout(() => {
+      this.pendingTeardown = null;
+      if (target) clearAnchorName(target);
+      this.activeTarget.set(null);
+      this.scrimContent.set(false);
+    }, this.componentOptions().transitionMs);
 
     // The duet loop may have sent the user into the target on purpose — don't
     // yank them back out of it.

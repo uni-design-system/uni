@@ -111,7 +111,7 @@ export const NoBackdrop: Story = {
 export const DismissalTracking: Story = {
   render: () => ({
     props: {
-      open: true,
+      open: false,
       log: [] as string[],
       record(dismissal: { key?: string; reason: string }) {
         this.log = [...this.log, `${dismissal.key}: ${dismissal.reason}`];
@@ -119,7 +119,7 @@ export const DismissalTracking: Story = {
     },
     template: `
       <div stack-layout gap="md">
-        <button text-button (click)="open = true">Reopen</button>
+        <button text-button (click)="open = true">Show the callout</button>
         <uni-input label="Owner" id="callout-demo-owner"></uni-input>
         <uni-callout
           [(open)]="open"
