@@ -1,15 +1,15 @@
 {
   "meta": {
-    "version": "8.2.0",
-    "builtAt": "2026-08-20T22:58:33.744Z",
+    "version": "8.3.0",
+    "builtAt": "2026-08-21T15:54:42.627Z",
     "frameworks": [
       "angular"
     ],
     "counts": {
-      "components": 76,
-      "tokens": 353,
+      "components": 79,
+      "tokens": 396,
       "themes": 2,
-      "examples": 168
+      "examples": 184
     }
   },
   "components": [
@@ -20,7 +20,7 @@
       "summary": "",
       "description": "",
       "category": "feedback",
-      "version": "8.2.0",
+      "version": "8.3.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -94,7 +94,7 @@
       "summary": "Horizontal application bar: project leading controls (menu button, logo) with the `leading` attribute, actions with `trailing` (pushed to the far edge), and either pass `title` or project custom center content.",
       "description": "Horizontal application bar: project leading controls (menu button, logo) with the `leading` attribute, actions with `trailing` (pushed to the far edge), and either pass `title` or project custom center content. Surface, divider, height, typography and spacing all resolve from `appBar` tokens. Place it inside your page's `<header>` landmark.",
       "category": "components",
-      "version": "8.2.0",
+      "version": "8.3.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -143,7 +143,7 @@
       "summary": "Identity avatar with a graceful fallback chain: image → initials from `name` → themed symbol.",
       "description": "Identity avatar with a graceful fallback chain: image → initials from `name` → themed symbol. Coloring, radius, typeface and sizes all resolve from `avatar` theme tokens; `variant` picks the container palette.",
       "category": "components",
-      "version": "8.2.0",
+      "version": "8.3.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -212,7 +212,7 @@
       "summary": "Overlapping stack of avatars.",
       "description": "Overlapping stack of avatars. `max` collapses the overflow into a themed “+N” chip (itself a `uni-avatar`). Overlap and separator ring resolve from `avatarGroup` theme tokens.",
       "category": "components",
-      "version": "8.2.0",
+      "version": "8.3.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -245,7 +245,7 @@
       "summary": "",
       "description": "",
       "category": "primitives",
-      "version": "8.2.0",
+      "version": "8.3.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -326,7 +326,7 @@
       "summary": "",
       "description": "",
       "category": "feedback",
-      "version": "8.2.0",
+      "version": "8.3.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -387,7 +387,7 @@
       "summary": "",
       "description": "",
       "category": "directives",
-      "version": "8.2.0",
+      "version": "8.3.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -411,7 +411,7 @@
       "summary": "The base layout primitive, applied as an attribute to any element so semantics stay yours: `<main box-layout [grow]=\"1\" padding=\"md\">`.",
       "description": "The base layout primitive, applied as an attribute to any element so semantics stay yours: `<main box-layout [grow]=\"1\" padding=\"md\">`. Exception: other components' host elements (`<uni-card box-layout>` would put two components on one element) — wrap those in a `<div box-layout>`. Sizing convention (height/width/min/max/inset): a **number is px and needs a binding** — `[height]=\"420\"`; a **plain attribute is a CSS length string** — `height=\"420px\"`. Spacing/radius/color inputs take theme tokens.",
       "category": "layout",
-      "version": "8.2.0",
+      "version": "8.3.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -774,7 +774,7 @@
       "summary": "WAI-ARIA breadcrumb: a `nav` landmark wrapping an ordered list; the last item is the current page (`aria-current=\"page\"`), separators are decorative.",
       "description": "WAI-ARIA breadcrumb: a `nav` landmark wrapping an ordered list; the last item is the current page (`aria-current=\"page\"`), separators are decorative. Items with `href` render as real links; without one they render as link-styled buttons emitting `itemClicked` — wire that to your router.",
       "category": "components",
-      "version": "8.2.0",
+      "version": "8.3.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -843,7 +843,7 @@
       "summary": "",
       "description": "",
       "category": "primitives",
-      "version": "8.2.0",
+      "version": "8.3.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -938,7 +938,7 @@
       "summary": "",
       "description": "",
       "category": "primitives",
-      "version": "8.2.0",
+      "version": "8.3.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -970,7 +970,7 @@
       "summary": "Inline month calendar: single-date or start–end range selection, day markers (availability dots), min/max fences and disabled dates.",
       "description": "Inline month calendar: single-date or start–end range selection, day markers (availability dots), min/max fences and disabled dates. One tab stop with a roving-tabindex `role=\"grid\"`; every day is a real button named with its full date. Values are plain ISO strings (`'YYYY-MM-DD'`), never `Date` objects, so bindings are timezone-free and serializable. Selection and today colours come from the theme's `primary` role pair; geometry and glyphs come from the `calendar` theme entry.",
       "category": "forms",
-      "version": "8.2.0",
+      "version": "8.3.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -1176,13 +1176,210 @@
       ]
     },
     {
+      "id": "callout",
+      "name": "Callout",
+      "status": "stable",
+      "summary": "Anchored coach-mark panel that dims the page and cuts a spotlight hole around its target.",
+      "description": "Anchored coach-mark panel that dims the page and cuts a spotlight hole around its target. Both the scrim and the panel are `popover=\"manual\"` elements shown in order, so they stack deterministically in the top layer above every app z-index, and every scrim piece is CSS-anchor-positioned to the target — the hole tracks scroll/resize/layout with zero listeners. The panel is a non-modal `role=\"dialog\"` (deliberately no `aria-modal`): focus moves into it on open, Tab runs a \"duet loop\" over the panel's focusables plus the spotlit target while it stays interactive, and on close focus returns to the pre-open element — unless the user moved into the target, where it stays. Storage-free by rule: `key` and the `dismissed` output are the \"don't show again\" hooks; persistence is the app's business (e.g. cdk local-storage).",
+      "category": "components",
+      "version": "8.3.0",
+      "bindings": {
+        "angular": {
+          "importPath": "@uni-design-system/uni-angular",
+          "selectorOrTag": "uni-callout",
+          "api": [
+            {
+              "name": "open",
+              "kind": "model",
+              "type": "boolean",
+              "required": false,
+              "default": "false",
+              "description": ""
+            },
+            {
+              "name": "key",
+              "kind": "input",
+              "type": "string",
+              "required": false,
+              "description": "Identifies this callout in `dismissed` payloads. Empty string = unset."
+            },
+            {
+              "name": "target",
+              "kind": "input",
+              "type": "HTMLElement | string",
+              "required": false,
+              "description": "Element (or id, resolved at open time) to spotlight. '' = unset."
+            },
+            {
+              "name": "placement",
+              "kind": "input",
+              "type": "Placement",
+              "required": false,
+              "default": "'bottom'",
+              "description": ""
+            },
+            {
+              "name": "backdrop",
+              "kind": "input",
+              "type": "'spotlight' | 'dim' | 'none'",
+              "required": false,
+              "description": "Defaults to `spotlight` when a target resolves, else `dim`."
+            },
+            {
+              "name": "targetInteractive",
+              "kind": "input",
+              "type": "boolean",
+              "required": false,
+              "default": "true",
+              "description": "When false, a transparent cover blocks the spotlit target."
+            },
+            {
+              "name": "dismissible",
+              "kind": "input",
+              "type": "boolean",
+              "required": false,
+              "default": "true",
+              "description": "Gates Escape and the close button."
+            },
+            {
+              "name": "dismissOnBackdrop",
+              "kind": "input",
+              "type": "boolean",
+              "required": false,
+              "default": "false",
+              "description": "When true, scrim clicks close (reason `backdrop`); else the panel pulses."
+            },
+            {
+              "name": "header",
+              "kind": "input",
+              "type": "string",
+              "required": false,
+              "description": ""
+            },
+            {
+              "name": "arrow",
+              "kind": "input",
+              "type": "boolean",
+              "required": false,
+              "default": "true",
+              "description": ""
+            },
+            {
+              "name": "ariaLabel",
+              "kind": "input",
+              "type": "string",
+              "required": false,
+              "description": "Wins over the header/body labelling; the tour sets \"{title}, step n of N\"."
+            },
+            {
+              "name": "closeLabel",
+              "kind": "input",
+              "type": "string",
+              "required": false,
+              "default": "'Close'",
+              "description": "Accessible name of the dismiss button (the tour passes its skip label)."
+            },
+            {
+              "name": "opened",
+              "kind": "output",
+              "type": "void",
+              "required": false,
+              "description": ""
+            },
+            {
+              "name": "closed",
+              "kind": "output",
+              "type": "void",
+              "required": false,
+              "description": ""
+            },
+            {
+              "name": "dismissed",
+              "kind": "output",
+              "type": "UniCalloutDismissal",
+              "required": false,
+              "description": ""
+            },
+            {
+              "name": "panelKeydown",
+              "kind": "output",
+              "type": "KeyboardEvent",
+              "required": false,
+              "description": "Keys pressed while focus is inside the panel (the tour's arrow-key hook)."
+            }
+          ]
+        }
+      },
+      "examples": [
+        {
+          "title": "Spotlight",
+          "framework": "angular",
+          "code": "<!-- Storybook story: Spotlight -->\n<div stack-layout gap=\"md\">\n<button text-button (click)=\"open = true\">Show me around</button>\n<uni-input label=\"Search projects\" id=\"callout-demo-search\"></uni-input>\n<uni-callout\n  [(open)]=\"open\"\n  key=\"search-intro\"\n  target=\"callout-demo-search\"\n  header=\"Find anything\"\n  placement=\"bottom\"\n>\n  Type to filter projects, people, and documents — try it right here.\n  <button text-button callout-actions size=\"sm\" variant=\"secondary\" (click)=\"open = false\">Got it</button>\n</uni-callout>\n</div>"
+        },
+        {
+          "title": "Locked Spotlight",
+          "framework": "angular",
+          "code": "<!-- Storybook story: Locked Spotlight -->\n<div stack-layout gap=\"md\">\n<button text-button (click)=\"open = true\">Show me around</button>\n<uni-input label=\"Search projects\" id=\"callout-demo-search\"></uni-input>\n<uni-callout\n  [(open)]=\"open\"\n  key=\"search-intro\"\n  target=\"callout-demo-search\"\n  header=\"Find anything\"\n  placement=\"bottom\"\n>\n  Type to filter projects, people, and documents — try it right here.\n  <button text-button callout-actions size=\"sm\" variant=\"secondary\" (click)=\"open = false\">Got it</button>\n</uni-callout>\n</div>"
+        },
+        {
+          "title": "Dim",
+          "framework": "angular",
+          "code": "<!-- Storybook story: Dim -->\n<div stack-layout gap=\"md\">\n<button text-button (click)=\"open = true\">Show me around</button>\n<uni-input label=\"Search projects\" id=\"callout-demo-search\"></uni-input>\n<uni-callout\n  [(open)]=\"open\"\n  key=\"search-intro\"\n  target=\"callout-demo-search\"\n  header=\"Find anything\"\n  placement=\"bottom\"\n>\n  Type to filter projects, people, and documents — try it right here.\n  <button text-button callout-actions size=\"sm\" variant=\"secondary\" (click)=\"open = false\">Got it</button>\n</uni-callout>\n</div>"
+        },
+        {
+          "title": "No Backdrop",
+          "framework": "angular",
+          "code": "<!-- Storybook story: No Backdrop -->\n<div stack-layout gap=\"md\">\n<button text-button (click)=\"open = true\">Show me around</button>\n<uni-input label=\"Search projects\" id=\"callout-demo-search\"></uni-input>\n<uni-callout\n  [(open)]=\"open\"\n  key=\"search-intro\"\n  target=\"callout-demo-search\"\n  header=\"Find anything\"\n  placement=\"bottom\"\n>\n  Type to filter projects, people, and documents — try it right here.\n  <button text-button callout-actions size=\"sm\" variant=\"secondary\" (click)=\"open = false\">Got it</button>\n</uni-callout>\n</div>"
+        },
+        {
+          "title": "Dismissal Tracking",
+          "framework": "angular",
+          "code": "<!-- Storybook story: Dismissal Tracking -->\n<div stack-layout gap=\"md\">\n<button text-button (click)=\"open = true\">Show me around</button>\n<uni-input label=\"Search projects\" id=\"callout-demo-search\"></uni-input>\n<uni-callout\n  [(open)]=\"open\"\n  key=\"search-intro\"\n  target=\"callout-demo-search\"\n  header=\"Find anything\"\n  placement=\"bottom\"\n>\n  Type to filter projects, people, and documents — try it right here.\n  <button text-button callout-actions size=\"sm\" variant=\"secondary\" (click)=\"open = false\">Got it</button>\n</uni-callout>\n</div>"
+        }
+      ],
+      "guidelines": {
+        "whenToUse": "Callout is an anchored coach-mark panel that dims the page and cuts a\nspotlight hole around its target — the feature-introduction surface. The\nscrim and hole are CSS-anchor-positioned to the target, so the spotlight\ntracks scroll, resize, and layout with zero listeners, and the spotlit\nelement stays genuinely clickable through the hole (or covered, with\n`targetInteractive` false). Both surfaces ride the native popover top layer,\nabove every app z-index.\nThe panel is a non-modal `role=\"dialog\"`: focus moves in on open, Tab runs a\nduet loop over the panel's controls plus the interactive target, and close\nrestores focus — unless the user moved into the target, where it stays.\nCallouts are storage-free by rule: `key` and the `dismissed` output (with a\n`reason`) are the \"don't show again\" hooks, and persistence belongs to the\napp.",
+        "dos": [
+          "Point one callout at one action, and let `key` + `dismissed` drive \"don't show again\"",
+          "Keep the target interactive when the callout invites trying it"
+        ],
+        "donts": [
+          "Stack multiple callouts at once — sequence them with `uni-tour`",
+          "Use a callout for blocking confirmation; that is a dialog"
+        ],
+        "accessibility": [
+          "Non-modal `role=\"dialog\"`, labelled by `header` (or `ariaLabel`); `aria-modal` is deliberately absent — the page is dimmed, not removed.",
+          "Initial focus: `[autofocus]` → first action → first focusable → the panel itself.",
+          "Focus restore on close skips users who deliberately moved into the target.",
+          "The spotlight ring is the `variant` color role and pairs with a shape (the ring), not color alone."
+        ]
+      },
+      "relatedTokens": [
+        "callout.behavior.color",
+        "callout.behavior.borderRadius",
+        "callout.behavior.shadow",
+        "callout.behavior.width",
+        "callout.behavior.padding",
+        "callout.behavior.headerTypeface",
+        "callout.behavior.typeface",
+        "callout.behavior.closeSymbol",
+        "callout.behavior.arrowSize",
+        "callout.behavior.offset",
+        "callout.behavior.scrimColor",
+        "callout.behavior.spotlightPadding",
+        "callout.behavior.spotlightRadius",
+        "callout.behavior.ringWidth",
+        "callout.behavior.transitionMs"
+      ]
+    },
+    {
       "id": "card",
       "name": "Card",
       "status": "stable",
       "summary": "",
       "description": "",
       "category": "layout",
-      "version": "8.2.0",
+      "version": "8.3.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -1214,7 +1411,7 @@
       "summary": "",
       "description": "",
       "category": "layout",
-      "version": "8.2.0",
+      "version": "8.3.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -1238,7 +1435,7 @@
       "summary": "",
       "description": "",
       "category": "layout",
-      "version": "8.2.0",
+      "version": "8.3.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -1279,7 +1476,7 @@
       "summary": "",
       "description": "",
       "category": "layout",
-      "version": "8.2.0",
+      "version": "8.3.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -1334,7 +1531,7 @@
       "summary": "",
       "description": "",
       "category": "forms",
-      "version": "8.2.0",
+      "version": "8.3.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -1467,13 +1664,237 @@
       ]
     },
     {
+      "id": "combobox",
+      "name": "Combobox",
+      "status": "stable",
+      "summary": "Form-bound, closed-set, single-select autocomplete: `FormValueControl<T | null>` over object `Options<T>`, type-to-filter, commit-on-select.",
+      "description": "Form-bound, closed-set, single-select autocomplete: `FormValueControl<T | null>` over object `Options<T>`, type-to-filter, commit-on-select. Typing produces a draft — a filter, never a value; the value changes only when an option commits, `clear()` runs, or the model is written from outside. Select semantics, not search: a real label, a chevron, no magnifier, nothing submits. For short lists with no need to type, prefer `uni-select` — the value contract is identical, so swapping is a template-only change.",
+      "category": "layout",
+      "version": "8.3.0",
+      "bindings": {
+        "angular": {
+          "importPath": "@uni-design-system/uni-angular",
+          "selectorOrTag": "uni-combobox, Combobox",
+          "api": [
+            {
+              "name": "value",
+              "kind": "model",
+              "type": "T | null",
+              "required": false,
+              "default": "null",
+              "description": ""
+            },
+            {
+              "name": "disabled",
+              "kind": "input",
+              "type": "boolean",
+              "required": false,
+              "default": "false",
+              "description": ""
+            },
+            {
+              "name": "touched",
+              "kind": "model",
+              "type": "boolean",
+              "required": false,
+              "default": "false",
+              "description": ""
+            },
+            {
+              "name": "invalid",
+              "kind": "input",
+              "type": "boolean",
+              "required": false,
+              "default": "false",
+              "description": ""
+            },
+            {
+              "name": "dirty",
+              "kind": "input",
+              "type": "boolean",
+              "required": false,
+              "default": "false",
+              "description": ""
+            },
+            {
+              "name": "required",
+              "kind": "input",
+              "type": "boolean",
+              "required": false,
+              "default": "false",
+              "description": ""
+            },
+            {
+              "name": "ariaDescribedBy",
+              "kind": "input",
+              "type": "string",
+              "required": false,
+              "description": ""
+            },
+            {
+              "name": "label",
+              "kind": "input",
+              "type": "string",
+              "required": true,
+              "description": "Accessible name for the field, e.g. \"State\"; echoed on the listbox."
+            },
+            {
+              "name": "placeholder",
+              "kind": "input",
+              "type": "string",
+              "required": false,
+              "description": ""
+            },
+            {
+              "name": "options",
+              "kind": "input",
+              "type": "Options<T>",
+              "required": false,
+              "default": "[]",
+              "description": ""
+            },
+            {
+              "name": "width",
+              "kind": "input",
+              "type": "string | number",
+              "required": false,
+              "default": "'100%'",
+              "description": ""
+            },
+            {
+              "name": "clearable",
+              "kind": "input",
+              "type": "boolean",
+              "required": false,
+              "default": "true",
+              "description": "Show a ✕ while a value is set; an emptied field on blur also clears."
+            },
+            {
+              "name": "commitOnBlur",
+              "kind": "input",
+              "type": "boolean",
+              "required": false,
+              "default": "true",
+              "description": "Blur commits an exact-match draft; a non-matching draft reverts."
+            },
+            {
+              "name": "emptyText",
+              "kind": "input",
+              "type": "string",
+              "required": false,
+              "default": "'No matches'",
+              "description": "i18n-able empty row, also announced when a filter matches nothing."
+            },
+            {
+              "name": "filterLocally",
+              "kind": "input",
+              "type": "boolean",
+              "required": false,
+              "default": "true",
+              "description": "`false` renders `options` verbatim; narrow them app-side from `query`."
+            },
+            {
+              "name": "debounceTime",
+              "kind": "input",
+              "type": "number",
+              "required": false,
+              "default": "250",
+              "description": ""
+            },
+            {
+              "name": "query",
+              "kind": "output",
+              "type": "string",
+              "required": false,
+              "description": "Debounced draft text, for async option lists."
+            },
+            {
+              "name": "selected",
+              "kind": "output",
+              "type": "Option<T>",
+              "required": false,
+              "description": "An option committed."
+            },
+            {
+              "name": "cleared",
+              "kind": "output",
+              "type": "void",
+              "required": false,
+              "description": ""
+            },
+            {
+              "name": "rejected",
+              "kind": "output",
+              "type": "UniComboboxRejection",
+              "required": false,
+              "description": "A commit was refused (no match); the field reverted."
+            }
+          ]
+        }
+      },
+      "examples": [
+        {
+          "title": "Primary",
+          "framework": "angular",
+          "code": "<!-- Storybook story: Primary -->\n<uni-combobox\nlabel=\"Country\"\nplaceholder=\"Type to search countries\"\nemptyText=\"No countries found\"\n[filterLocally]=\"false\"\n[options]=\"options\"\n(query)=\"onQuery($event)\"\n/>\n<!-- args:\n{ value: 'Arizona' }\n-->"
+        },
+        {
+          "title": "Disabled Options",
+          "framework": "angular",
+          "code": "<!-- Storybook story: Disabled Options -->\n<uni-combobox\nlabel=\"Country\"\nplaceholder=\"Type to search countries\"\nemptyText=\"No countries found\"\n[filterLocally]=\"false\"\n[options]=\"options\"\n(query)=\"onQuery($event)\"\n/>\n<!-- args:\n{ label: 'Assignee', placeholder: 'Choose a person', options: ASSIGNEES }\n-->"
+        },
+        {
+          "title": "Async",
+          "framework": "angular",
+          "code": "<!-- Storybook story: Async -->\n<uni-combobox\nlabel=\"Country\"\nplaceholder=\"Type to search countries\"\nemptyText=\"No countries found\"\n[filterLocally]=\"false\"\n[options]=\"options\"\n(query)=\"onQuery($event)\"\n/>\n<!-- args:\n{ required: true, invalid: true, touched: true }\n-->"
+        },
+        {
+          "title": "Invalid",
+          "framework": "angular",
+          "code": "<!-- Storybook story: Invalid -->\n<uni-combobox\nlabel=\"Country\"\nplaceholder=\"Type to search countries\"\nemptyText=\"No countries found\"\n[filterLocally]=\"false\"\n[options]=\"options\"\n(query)=\"onQuery($event)\"\n/>\n<!-- args:\n{ required: true, invalid: true, touched: true }\n-->"
+        },
+        {
+          "title": "Disabled",
+          "framework": "angular",
+          "code": "<!-- Storybook story: Disabled -->\n<uni-combobox\nlabel=\"Country\"\nplaceholder=\"Type to search countries\"\nemptyText=\"No countries found\"\n[filterLocally]=\"false\"\n[options]=\"options\"\n(query)=\"onQuery($event)\"\n/>\n<!-- args:\n{ value: 'Colorado', disabled: true }\n-->"
+        }
+      ],
+      "guidelines": {
+        "whenToUse": "The form-bound, **closed-set, single-select** autocomplete: object\n`Options<T>`, `FormValueControl<T | null>`, type-to-filter, commit-on-select.\nTyping produces a *draft* — a filter, never a value; the value changes only\nwhen an option commits, the field clears, or the model is written from\noutside. Select semantics, not search: a real label, a chevron, no magnifier,\nnothing submits.\nUnder ~10 options and no need to type → `uni-select`, the native, zero-JS,\nmobile-friendly answer. More options, or users know what they're looking for →\n`uni-combobox`. The value contract is identical (`T | null`, `compareWith`),\nso swapping one for the other as a list grows is a template-only change — that\nis deliberate. For open sets, where typing *creates* values, use\n`uni-tag-input` (multi) or `uni-search-input` (queries); for closed multi\nsets, `uni-multi-select-dropdown`.",
+        "dos": [],
+        "donts": [
+          "Don't bolt \"create new\" onto it — that's an open set; use `uni-tag-input`'s",
+          "Don't wire `(query)` → filter → `[options]` when the list is already in",
+          "Don't use `Escape` to clear: it closes, then reverts. The ✕ and an emptied"
+        ],
+        "accessibility": [
+          "The input is `role=\"combobox\"` with `aria-expanded`, `aria-controls` and",
+          "`aria-selected` marks the **committed** option; the active one is carried by",
+          "Disabled options are rendered, announced (`aria-disabled`), and skipped by",
+          "Commits (*\"Alabama selected.\"*), clears, refusals and debounced result",
+          "`aria-invalid` is gated on `invalid && (touched || dirty)`, per the"
+        ]
+      },
+      "relatedTokens": [
+        "combobox.behavior.toggleIcon",
+        "combobox.behavior.clearIcon",
+        "combobox.behavior.selectedIcon",
+        "combobox.behavior.listColor",
+        "combobox.behavior.listShadow",
+        "combobox.behavior.listBorderRadius",
+        "combobox.behavior.activeColor",
+        "combobox.behavior.maxVisibleOptions",
+        "combobox.behavior.descriptionColor"
+      ]
+    },
+    {
       "id": "confirmation-dialog",
       "name": "ConfirmationDialog",
       "status": "stable",
       "summary": "",
       "description": "",
       "category": "feedback",
-      "version": "8.2.0",
+      "version": "8.3.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -1520,7 +1941,7 @@
       "summary": "",
       "description": "",
       "category": "forms",
-      "version": "8.2.0",
+      "version": "8.3.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -1578,7 +1999,7 @@
       "summary": "",
       "description": "",
       "category": "data",
-      "version": "8.2.0",
+      "version": "8.3.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -1679,7 +2100,7 @@
       "summary": "Date field with free-typed parsing and a popup calendar.",
       "description": "Date field with free-typed parsing and a popup calendar. Type `aug 20`, `8/20/2026` or `2026-08-20`, or pick from the grid — the form gets the same canonical `'YYYY-MM-DD'` string either way. Parsing is `Intl`-driven (locale digit order and month names, never hardcoded); unreadable text stays in the field, flagged, with a `rejected` event. The popup is a native popover hosting the same `uni-calendar` an app could render inline.",
       "category": "forms",
-      "version": "8.2.0",
+      "version": "8.3.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -1887,7 +2308,7 @@
       "summary": "One field for a date and a time: a thin composer seating a uni-date-input and a uni-time-input in one input-box chrome under one label, yielding one combined `'YYYY-MM-DDTHH:mm'` value.",
       "description": "One field for a date and a time: a thin composer seating a uni-date-input and a uni-time-input in one input-box chrome under one label, yielding one combined `'YYYY-MM-DDTHH:mm'` value. The value emits only when both parts are set — a time without a day is not an answer — and clearing the date clears it. With `slotsFor`, the time part stays disabled until a day is chosen and offers exactly that day's slots: the scheduling flow in one attribute. Two honest tab stops (it is two questions); apps needing a different arrangement compose the primitives directly.",
       "category": "forms",
-      "version": "8.2.0",
+      "version": "8.3.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -2057,7 +2478,7 @@
       "summary": "Text input that emits `change` only after the user pauses typing.",
       "description": "Text input that emits `change` only after the user pauses typing. Wears the shared input chrome (themed color, border, typeface, focus ring) via `uni-input-box`; project adornments with the `pre-input` / `post-input` slots, matching `uni-input`'s convention. The ARIA passthrough inputs let a wrapping composite (e.g. SearchInput's combobox) annotate the real input element.",
       "category": "forms",
-      "version": "8.2.0",
+      "version": "8.3.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -2172,7 +2593,7 @@
       "summary": "",
       "description": "",
       "category": "feedback",
-      "version": "8.2.0",
+      "version": "8.3.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -2250,7 +2671,7 @@
       "summary": "",
       "description": "",
       "category": "feedback",
-      "version": "8.2.0",
+      "version": "8.3.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -2338,7 +2759,7 @@
       "summary": "",
       "description": "",
       "category": "feedback",
-      "version": "8.2.0",
+      "version": "8.3.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -2362,7 +2783,7 @@
       "summary": "",
       "description": "",
       "category": "layout",
-      "version": "8.2.0",
+      "version": "8.3.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -2409,7 +2830,7 @@
       "summary": "",
       "description": "",
       "category": "directives",
-      "version": "8.2.0",
+      "version": "8.3.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -2441,7 +2862,7 @@
       "summary": "Navigation drawer with two modes sharing one content slot: - `side` — an in-flow `<aside>` that pushes content (dashboard sidenav); opening/closing animates its width, and the divider border primitive separates it from the page.",
       "description": "Navigation drawer with two modes sharing one content slot: - `side` — an in-flow `<aside>` that pushes content (dashboard sidenav); opening/closing animates its width, and the divider border primitive separates it from the page. - `over` — a native `<dialog>` in the top layer: focus trap, Escape and scrim backdrop come from the platform (same machinery as `uni-dialog`), sliding in from its edge. Surface, width, divider, elevation, padding and backdrop all resolve from `drawer` theme tokens.",
       "category": "components",
-      "version": "8.2.0",
+      "version": "8.3.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -2520,7 +2941,7 @@
       "summary": "",
       "description": "",
       "category": "components",
-      "version": "8.2.0",
+      "version": "8.3.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -2637,7 +3058,7 @@
       "summary": "",
       "description": "",
       "category": "layout",
-      "version": "8.2.0",
+      "version": "8.3.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -2698,7 +3119,7 @@
       "summary": "",
       "description": "",
       "category": "layout",
-      "version": "8.2.0",
+      "version": "8.3.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -2759,7 +3180,7 @@
       "summary": "Trigger for a {@link UniExpandComponent} region.",
       "description": "Trigger for a {@link UniExpandComponent} region. Two shapes, chosen by whether `label` is set: - **Icon only** (default) — the bare chevron, sized for a Card Header. - **Labelled** — chevron plus a label and optional muted sublabel, as a single full-width button. Most real disclosures need a name for the section, and building that row by hand is the thing this saves; it also makes the label the button's accessible name rather than adjacent text.",
       "category": "forms",
-      "version": "8.2.0",
+      "version": "8.3.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -2835,7 +3256,7 @@
       "summary": "",
       "description": "",
       "category": "forms",
-      "version": "8.2.0",
+      "version": "8.3.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -2965,7 +3386,7 @@
       "summary": "",
       "description": "",
       "category": "layout",
-      "version": "8.2.0",
+      "version": "8.3.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -3039,7 +3460,7 @@
       "summary": "",
       "description": "",
       "category": "layout",
-      "version": "8.2.0",
+      "version": "8.3.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -3071,7 +3492,7 @@
       "summary": "",
       "description": "",
       "category": "primitives",
-      "version": "8.2.0",
+      "version": "8.3.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -3131,7 +3552,7 @@
       "summary": "",
       "description": "",
       "category": "primitives",
-      "version": "8.2.0",
+      "version": "8.3.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -3224,7 +3645,7 @@
       "summary": "",
       "description": "",
       "category": "forms",
-      "version": "8.2.0",
+      "version": "8.3.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -3369,7 +3790,7 @@
       "summary": "",
       "description": "",
       "category": "forms",
-      "version": "8.2.0",
+      "version": "8.3.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -3442,7 +3863,7 @@
       "summary": "",
       "description": "",
       "category": "components",
-      "version": "8.2.0",
+      "version": "8.3.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -3512,7 +3933,7 @@
       "summary": "",
       "description": "",
       "category": "layout",
-      "version": "8.2.0",
+      "version": "8.3.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -3586,7 +4007,7 @@
       "summary": "",
       "description": "",
       "category": "layout",
-      "version": "8.2.0",
+      "version": "8.3.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -3668,7 +4089,7 @@
       "summary": "",
       "description": "",
       "category": "forms",
-      "version": "8.2.0",
+      "version": "8.3.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -3756,7 +4177,7 @@
       "summary": "",
       "description": "",
       "category": "forms",
-      "version": "8.2.0",
+      "version": "8.3.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -3906,7 +4327,7 @@
       "summary": "",
       "description": "",
       "category": "feedback",
-      "version": "8.2.0",
+      "version": "8.3.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -4037,7 +4458,7 @@
       "summary": "",
       "description": "",
       "category": "feedback",
-      "version": "8.2.0",
+      "version": "8.3.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -4061,7 +4482,7 @@
       "summary": "",
       "description": "",
       "category": "data",
-      "version": "8.2.0",
+      "version": "8.3.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -4143,10 +4564,10 @@
       "id": "popover",
       "name": "Popover",
       "status": "stable",
-      "summary": "",
-      "description": "",
+      "summary": "Anchored, top-layer panel on the native `popover` element — the browser owns positioning (CSS anchor positioning), stacking, and, in rich mode, light dismissal.",
+      "description": "Anchored, top-layer panel on the native `popover` element — the browser owns positioning (CSS anchor positioning), stacking, and, in rich mode, light dismissal. Two modes share one implementation: - `rich` (default): a click-toggled disclosure. The projected `[trigger]` carries `aria-expanded`/`aria-controls`; with no trigger content the app drives `open` and no element claims controller ARIA. Focus stays on the trigger (APG disclosure) unless the panel marks an `[autofocus]` field, and returns to the trigger on close. - `tooltip`: hover/focus-triggered, `role=\"tooltip\"` + `aria-describedby`, WCAG 1.4.13 dismissable/hoverable/persistent. Content must not contain focusable elements. Anchoring and control are separate: `anchor` re-anchors the panel to any element (or id) while the trigger keeps the disclosure semantics.",
       "category": "layout",
-      "version": "8.2.0",
+      "version": "8.3.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -4167,6 +4588,87 @@
               "required": false,
               "default": "true",
               "description": "Light-dismiss on outside click / Escape (native popover=\"auto\")."
+            },
+            {
+              "name": "open",
+              "kind": "model",
+              "type": "boolean",
+              "required": false,
+              "default": "false",
+              "description": "Two-way open state; light dismissal and hover timers sync back into it."
+            },
+            {
+              "name": "mode",
+              "kind": "input",
+              "type": "'rich' | 'tooltip'",
+              "required": false,
+              "default": "'rich'",
+              "description": "`rich` = click-toggled disclosure; `tooltip` = hover/focus description."
+            },
+            {
+              "name": "anchor",
+              "kind": "input",
+              "type": "HTMLElement | string",
+              "required": false,
+              "description": "Anchor the panel to another element (or element id, resolved each time the panel opens) while the projected trigger keeps the disclosure ARIA. Empty string means unset."
+            },
+            {
+              "name": "header",
+              "kind": "input",
+              "type": "string",
+              "required": false,
+              "description": "Title rendered in the header row and used as the accessible name."
+            },
+            {
+              "name": "closable",
+              "kind": "input",
+              "type": "boolean",
+              "required": false,
+              "default": "false",
+              "description": "Renders a \"Close\" icon button in the header row."
+            },
+            {
+              "name": "arrow",
+              "kind": "input",
+              "type": "boolean",
+              "required": false,
+              "default": "true",
+              "description": ""
+            },
+            {
+              "name": "maxWidth",
+              "kind": "input",
+              "type": "string | number",
+              "required": false,
+              "description": "Panel max-width; numbers are px. Defaults to the theme's `maxWidth`."
+            },
+            {
+              "name": "openDelay",
+              "kind": "input",
+              "type": "number",
+              "required": false,
+              "description": "Tooltip-mode hover-open delay, ms; defaults to the theme option."
+            },
+            {
+              "name": "closeDelay",
+              "kind": "input",
+              "type": "number",
+              "required": false,
+              "description": "Tooltip-mode pointer-leave close delay, ms; defaults to the theme option."
+            },
+            {
+              "name": "opened",
+              "kind": "output",
+              "type": "void",
+              "required": false,
+              "description": ""
+            },
+            {
+              "name": "closed",
+              "kind": "output",
+              "type": "void",
+              "required": false,
+              "description": ""
             }
           ]
         }
@@ -4175,18 +4677,63 @@
         {
           "title": "Primary",
           "framework": "angular",
-          "code": "<!-- Storybook story: Primary -->\n<uni-popover placement=\"${placement}\" [autoClose]=\"${autoClose}\" #popover>\n  <button text-button trigger>Open Popover</button>\n  <div stack-layout gap=\"sm\">\n    <div>\n      <span uni-text=\"title-small\" display=\"block\">\n      This is a Popover.\n      </span>\n      It is possible to add any markup you want to a Popover.\n    </div>\n    <div>\n      <button text-button symbolLeft=\"thumb_up\" size=\"sm\" variant=\"secondary\" (click)=\"popover.hidePopover()\">OK!</button>\n    </div>\n  </div>\n</uni-popover>\n<!-- args:\n{\n    placement: 'right-start',\n    autoClose: true,\n  }\n-->"
+          "code": "<!-- Storybook story: Primary -->\n<uni-popover placement=\"${placement}\" [autoClose]=\"${autoClose}\" [arrow]=\"${arrow}\" #popover>\n  <button text-button trigger>Open Popover</button>\n  <div stack-layout gap=\"sm\">\n    <div>\n      <span uni-text=\"title-small\" display=\"block\">\n      This is a Popover.\n      </span>\n      It is possible to add any markup you want to a Popover.\n    </div>\n    <div>\n      <button text-button symbolLeft=\"thumb_up\" size=\"sm\" variant=\"secondary\" (click)=\"popover.hidePopover()\">OK!</button>\n    </div>\n  </div>\n</uni-popover>\n<!-- args:\n{\n    placement: 'right-start',\n    autoClose: true,\n    arrow: true,\n  }\n-->"
+        },
+        {
+          "title": "Structured Form",
+          "framework": "angular",
+          "code": "<!-- Storybook story: Structured Form -->\n<uni-popover placement=\"${placement}\" [autoClose]=\"${autoClose}\" [arrow]=\"${arrow}\" #popover>\n  <button text-button trigger>Open Popover</button>\n  <div stack-layout gap=\"sm\">\n    <div>\n      <span uni-text=\"title-small\" display=\"block\">\n      This is a Popover.\n      </span>\n      It is possible to add any markup you want to a Popover.\n    </div>\n    <div>\n      <button text-button symbolLeft=\"thumb_up\" size=\"sm\" variant=\"secondary\" (click)=\"popover.hidePopover()\">OK!</button>\n    </div>\n  </div>\n</uni-popover>"
+        },
+        {
+          "title": "Detached Anchor",
+          "framework": "angular",
+          "code": "<!-- Storybook story: Detached Anchor -->\n<uni-popover placement=\"${placement}\" [autoClose]=\"${autoClose}\" [arrow]=\"${arrow}\" #popover>\n  <button text-button trigger>Open Popover</button>\n  <div stack-layout gap=\"sm\">\n    <div>\n      <span uni-text=\"title-small\" display=\"block\">\n      This is a Popover.\n      </span>\n      It is possible to add any markup you want to a Popover.\n    </div>\n    <div>\n      <button text-button symbolLeft=\"thumb_up\" size=\"sm\" variant=\"secondary\" (click)=\"popover.hidePopover()\">OK!</button>\n    </div>\n  </div>\n</uni-popover>"
+        },
+        {
+          "title": "Tooltip Mode",
+          "framework": "angular",
+          "code": "<!-- Storybook story: Tooltip Mode -->\n<uni-popover placement=\"${placement}\" [autoClose]=\"${autoClose}\" [arrow]=\"${arrow}\" #popover>\n  <button text-button trigger>Open Popover</button>\n  <div stack-layout gap=\"sm\">\n    <div>\n      <span uni-text=\"title-small\" display=\"block\">\n      This is a Popover.\n      </span>\n      It is possible to add any markup you want to a Popover.\n    </div>\n    <div>\n      <button text-button symbolLeft=\"thumb_up\" size=\"sm\" variant=\"secondary\" (click)=\"popover.hidePopover()\">OK!</button>\n    </div>\n  </div>\n</uni-popover>"
+        },
+        {
+          "title": "Manual Close",
+          "framework": "angular",
+          "code": "<!-- Storybook story: Manual Close -->\n<uni-popover placement=\"${placement}\" [autoClose]=\"${autoClose}\" [arrow]=\"${arrow}\" #popover>\n  <button text-button trigger>Open Popover</button>\n  <div stack-layout gap=\"sm\">\n    <div>\n      <span uni-text=\"title-small\" display=\"block\">\n      This is a Popover.\n      </span>\n      It is possible to add any markup you want to a Popover.\n    </div>\n    <div>\n      <button text-button symbolLeft=\"thumb_up\" size=\"sm\" variant=\"secondary\" (click)=\"popover.hidePopover()\">OK!</button>\n    </div>\n  </div>\n</uni-popover>"
         }
       ],
       "guidelines": {
-        "whenToUse": "Popover is a non-modal dialog that floats around a trigger.\nAny type of content can be added inside a popover; however, it is most suitable for short callouts or compact actions.\n**Note:** It is important to add the `trigger` attribute to the item you want to open and be referenced to the Popover.",
-        "dos": [],
-        "donts": [],
+        "whenToUse": "Popover is an anchored, non-modal panel on the native popover top layer: the\nbrowser owns positioning, stacking, and light dismissal. Rich mode (the\ndefault) is a click-toggled disclosure for short callouts, small forms, and\ncompact actions; `mode=\"tooltip\"` turns the same element into a hover/focus\ndescription with the full WCAG 1.4.13 contract. Anchoring and control are\nseparate — `anchor` re-anchors the panel to any element or id while the\nprojected `[trigger]` keeps the disclosure semantics, and with no trigger the\napp drives the two-way `open` model directly.",
+        "dos": [
+          "Use rich mode for short callouts, small forms, and compact action clusters",
+          "Give form popovers an `[autofocus]` field and a `[popover-footer]` action",
+          "Use `anchor` when the panel should hug a field the trigger merely explains"
+        ],
+        "donts": [
+          "Put focusable content inside tooltip mode — promote it to rich mode instead",
+          "Reach for a popover when the flow needs modality; that is a dialog"
+        ],
         "accessibility": [
-          "The trigger carries `aria-expanded` and `aria-controls`; light-dismiss comes from the native popover."
+          "Rich mode wires `aria-expanded`/`aria-controls` onto the focusable trigger; with no projected trigger, no element claims controller ARIA.",
+          "Tooltip mode is `role=\"tooltip\"` + `aria-describedby` — a description, never a name — and warns in dev mode if the content contains focusable elements.",
+          "Focus stays on the trigger when the panel opens (APG disclosure) unless the panel marks an `[autofocus]` field; close returns focus to the trigger.",
+          "The panel sits in the DOM right after the trigger, so Tab order is natural and there is no focus trap in either mode."
         ]
       },
-      "relatedTokens": []
+      "relatedTokens": [
+        "popover.behavior.color",
+        "popover.behavior.border",
+        "popover.behavior.borderRadius",
+        "popover.behavior.shadow",
+        "popover.behavior.typeface",
+        "popover.behavior.padding",
+        "popover.behavior.maxWidth",
+        "popover.behavior.offset",
+        "popover.behavior.arrowSize",
+        "popover.behavior.closeSymbol",
+        "popover.behavior.headerTypeface",
+        "popover.behavior.tooltipPadding",
+        "popover.behavior.tooltipOpenDelay",
+        "popover.behavior.tooltipCloseDelay"
+      ]
     },
     {
       "id": "progress-bar",
@@ -4195,7 +4742,7 @@
       "summary": "",
       "description": "",
       "category": "feedback",
-      "version": "8.2.0",
+      "version": "8.3.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -4259,7 +4806,7 @@
       "summary": "",
       "description": "",
       "category": "feedback",
-      "version": "8.2.0",
+      "version": "8.3.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -4307,7 +4854,7 @@
       "summary": "",
       "description": "",
       "category": "forms",
-      "version": "8.2.0",
+      "version": "8.3.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -4459,7 +5006,7 @@
       "summary": "",
       "description": "",
       "category": "directives",
-      "version": "8.2.0",
+      "version": "8.3.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -4483,7 +5030,7 @@
       "summary": "",
       "description": "",
       "category": "layout",
-      "version": "8.2.0",
+      "version": "8.3.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -4538,7 +5085,7 @@
       "summary": "Native scroll area with theme-driven scrollbar styling.",
       "description": "Native scroll area with theme-driven scrollbar styling. Scrollbars are styled entirely through Emotion-generated CSS: `::-webkit-scrollbar` rules cover Chromium/Safari, with a `scrollbar-width`/`scrollbar-color` fallback for Firefox.",
       "category": "layout",
-      "version": "8.2.0",
+      "version": "8.3.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -4685,7 +5232,7 @@
       "summary": "Generic search field: shared input chrome with a leading magnifier, a clear button while there's a query, Enter to submit, and optional type-ahead — pass `suggestions` (refresh them from `change`) and the field becomes an ARIA combobox with a keyboard-navigable listbox.",
       "description": "Generic search field: shared input chrome with a leading magnifier, a clear button while there's a query, Enter to submit, and optional type-ahead — pass `suggestions` (refresh them from `change`) and the field becomes an ARIA combobox with a keyboard-navigable listbox. Escape closes the list first, then clears the query.",
       "category": "forms",
-      "version": "8.2.0",
+      "version": "8.3.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -4784,7 +5331,7 @@
       "summary": "",
       "description": "",
       "category": "forms",
-      "version": "8.2.0",
+      "version": "8.3.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -4903,7 +5450,7 @@
         }
       ],
       "guidelines": {
-        "whenToUse": "Single choice from a list, on a native `<select>` — platform pickers on mobile,\nplatform keyboard behavior everywhere. Options are typed generically\n(`options: T[]` with `optionLabel`/`optionValue` accessors), and the component\nimplements `FormValueControl` for the Signal Forms `[field]` directive. Errors\nstyle the field only after interaction, matching Input.\nFor choosing several, use Multi Select; for type-to-filter over large sets, use\nSearch Input's type-ahead.",
+        "whenToUse": "Single choice from a list, on a native `<select>` — platform pickers on mobile,\nplatform keyboard behavior everywhere. Options are typed generically\n(`options: T[]` with `optionLabel`/`optionValue` accessors), and the component\nimplements `FormValueControl` for the Signal Forms `[field]` directive. Errors\nstyle the field only after interaction, matching Input.\nFor choosing several, use Multi Select. When the list outgrows ~10 options, or\nusers know what they're looking for and want to type it, use Combobox — the\nvalue contract is identical (`T | null`, `compareWith`), so the swap is a\ntemplate-only change.",
         "dos": [],
         "donts": [],
         "accessibility": [
@@ -4920,7 +5467,7 @@
       "summary": "Loading placeholder painted with surface tokens.",
       "description": "Loading placeholder painted with surface tokens. `text` renders one or more lines (the last line shortened, as real text would be), `rect` and `circle` render fixed shapes. The shimmer only animates when the user allows motion; it degrades to static blocks under `prefers-reduced-motion`.",
       "category": "components",
-      "version": "8.2.0",
+      "version": "8.3.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -5000,7 +5547,7 @@
       "summary": "Range slider on a native `<input type=\"range\">` — keyboard interaction and the ARIA slider contract come from the platform.",
       "description": "Range slider on a native `<input type=\"range\">` — keyboard interaction and the ARIA slider contract come from the platform. Fill, track, thumb and radii resolve from `slider` theme tokens; the fill percentage rides a CSS custom property so dragging never regenerates styles.",
       "category": "forms",
-      "version": "8.2.0",
+      "version": "8.3.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -5137,7 +5684,7 @@
       "summary": "",
       "description": "",
       "category": "feedback",
-      "version": "8.2.0",
+      "version": "8.3.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -5229,7 +5776,7 @@
       "summary": "",
       "description": "",
       "category": "data",
-      "version": "8.2.0",
+      "version": "8.3.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -5274,7 +5821,7 @@
       "summary": "",
       "description": "",
       "category": "layout",
-      "version": "8.2.0",
+      "version": "8.3.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -5329,7 +5876,7 @@
       "summary": "KPI stat tile: muted label, large value (numbers auto-compact: 48234 → \"48.2K\"), an optional delta whose ink is decided by *direction × whether up is good* (never direction alone — churn going down is good news), and an optional decorative sparkline.",
       "description": "KPI stat tile: muted label, large value (numbers auto-compact: 48234 → \"48.2K\"), an optional delta whose ink is decided by *direction × whether up is good* (never direction alone — churn going down is good news), and an optional decorative sparkline. Frame, typography and inks are all `stat` theme tokens.",
       "category": "components",
-      "version": "8.2.0",
+      "version": "8.3.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -5431,7 +5978,7 @@
       "summary": "",
       "description": "",
       "category": "primitives",
-      "version": "8.2.0",
+      "version": "8.3.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -5504,7 +6051,7 @@
       "summary": "One tab inside `uni-tabs`: a label for the tablist plus projected panel content.",
       "description": "One tab inside `uni-tabs`: a label for the tablist plus projected panel content. Content is captured in a template and only instantiated while the tab is selected, so inactive panels cost nothing.",
       "category": "components",
-      "version": "8.2.0",
+      "version": "8.3.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -5544,7 +6091,7 @@
       "summary": "WAI-ARIA tabs: roving tabindex, automatic activation (arrow keys move focus and select), Home/End, disabled tabs skipped.",
       "description": "WAI-ARIA tabs: roving tabindex, automatic activation (arrow keys move focus and select), Home/End, disabled tabs skipped. Only the selected panel is instantiated. All styling resolves from `tabs` theme option tokens.",
       "category": "components",
-      "version": "8.2.0",
+      "version": "8.3.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -5608,7 +6155,7 @@
       "summary": "Compact chip for categories, states, filters and tokens.",
       "description": "Compact chip for categories, states, filters and tokens. Two orthogonal style axes: `variant` picks the colour role and `tone` picks the archetype (soft / solid / outline). Both live in the theme's `tag` entry, so a theme restyles every chip in the app without touching markup. Structurally a chip is **body + trailing action as siblings**, never nested buttons: an interactive chip whose body is a `<button>` cannot contain the remove `<button>` (invalid HTML, and the inner control becomes unreachable for keyboard users). Both stay independently operable.",
       "category": "data",
-      "version": "8.2.0",
+      "version": "8.3.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -5846,7 +6393,7 @@
       "summary": "",
       "description": "",
       "category": "forms",
-      "version": "8.2.0",
+      "version": "8.3.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -6086,7 +6633,7 @@
       "summary": "The typography primitive, applied as an attribute to any element so semantics stay yours.",
       "description": "The typography primitive, applied as an attribute to any element so semantics stay yours. The attribute value is the typeface: `<h1 uni-text=\"display-small\">`, `<span uni-text=\"caption\">`, dynamic via `[uni-text]=\"role()\"`. With no value, the typeface is inferred from the host element (h1 → headline-large, p → body-1-long, …), falling back to `title-small`; the `typeface` input remains as an explicit override.",
       "category": "primitives",
-      "version": "8.2.0",
+      "version": "8.3.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -6188,7 +6735,7 @@
       "summary": "",
       "description": "",
       "category": "primitives",
-      "version": "8.2.0",
+      "version": "8.3.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -6318,7 +6865,7 @@
       "summary": "",
       "description": "",
       "category": "primitives",
-      "version": "8.2.0",
+      "version": "8.3.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -6348,7 +6895,7 @@
       "summary": "Drop-in switcher for the themes registered via `UNI_THEMES`: a select over `ThemeService.themeOptions` that applies the choice through `selectTheme` (so it persists across reloads like any other theme selection).",
       "description": "Drop-in switcher for the themes registered via `UNI_THEMES`: a select over `ThemeService.themeOptions` that applies the choice through `selectTheme` (so it persists across reloads like any other theme selection).",
       "category": "components",
-      "version": "8.2.0",
+      "version": "8.3.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -6406,7 +6953,7 @@
       "summary": "Time field: a combobox over time options — the same listbox contract as uni-search-input and uni-tag-input.",
       "description": "Time field: a combobox over time options — the same listbox contract as uni-search-input and uni-tag-input. Type `3p`, `930` or `15:00`, or pick `3:00 PM` from the list; the form always gets 24-hour `'HH:mm'` (`hour12` affects display only). The list is assistive, not exhaustive: any parseable time commits, unless `slots` pins the choices (a slot picker) — then a typed time must match one. Unreadable or unavailable text stays in the field, flagged, with a `rejected` event.",
       "category": "forms",
-      "version": "8.2.0",
+      "version": "8.3.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -6598,7 +7145,7 @@
       "summary": "",
       "description": "",
       "category": "forms",
-      "version": "8.2.0",
+      "version": "8.3.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -6728,7 +7275,7 @@
       "summary": "",
       "description": "",
       "category": "feedback",
-      "version": "8.2.0",
+      "version": "8.3.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -6801,13 +7348,124 @@
       ]
     },
     {
+      "id": "tour",
+      "name": "Tour",
+      "status": "stable",
+      "summary": "A thin sequencer over one `uni-callout`: steps spotlight their targets, a footer walks Next/Back with dots-or-fraction progress, and `advanceOn` gates a step behind an interaction with its target (auto-advancing for clicks, unlocking Next otherwise — announced through one `role=\"status\"` region).",
+      "description": "A thin sequencer over one `uni-callout`: steps spotlight their targets, a footer walks Next/Back with dots-or-fraction progress, and `advanceOn` gates a step behind an interaction with its target (auto-advancing for clicks, unlocking Next otherwise — announced through one `role=\"status\"` region). Escape or the close button skips the tour and reports the step. `active` is a two-way model, so a tour is deep-linkable and inspectable; steps whose declared target cannot be resolved are skipped (with a dev warning) in the direction of travel rather than erroring.",
+      "category": "components",
+      "version": "8.3.0",
+      "bindings": {
+        "angular": {
+          "importPath": "@uni-design-system/uni-angular",
+          "selectorOrTag": "uni-tour",
+          "api": [
+            {
+              "name": "steps",
+              "kind": "input",
+              "type": "UniTourStep[]",
+              "required": true,
+              "description": ""
+            },
+            {
+              "name": "active",
+              "kind": "model",
+              "type": "number | null",
+              "required": false,
+              "default": "null",
+              "description": "The presented step index, or null when the tour is not running."
+            },
+            {
+              "name": "nextLabel",
+              "kind": "input",
+              "type": "string",
+              "required": false,
+              "default": "'Next'",
+              "description": ""
+            },
+            {
+              "name": "backLabel",
+              "kind": "input",
+              "type": "string",
+              "required": false,
+              "default": "'Back'",
+              "description": ""
+            },
+            {
+              "name": "skipLabel",
+              "kind": "input",
+              "type": "string",
+              "required": false,
+              "default": "'Skip'",
+              "description": ""
+            },
+            {
+              "name": "doneLabel",
+              "kind": "input",
+              "type": "string",
+              "required": false,
+              "default": "'Done'",
+              "description": ""
+            },
+            {
+              "name": "started",
+              "kind": "output",
+              "type": "void",
+              "required": false,
+              "description": ""
+            },
+            {
+              "name": "finished",
+              "kind": "output",
+              "type": "void",
+              "required": false,
+              "description": ""
+            }
+          ]
+        }
+      },
+      "examples": [
+        {
+          "title": "Primary",
+          "framework": "angular",
+          "code": "<!-- Storybook story: Primary -->\n<div stack-layout gap=\"md\">\n<button text-button (click)=\"tour.start()\">Start tour</button>\n<uni-input label=\"Search projects\" id=\"tour-demo-search\"></uni-input>\n<uni-input label=\"Weekly report\" id=\"tour-demo-report\"></uni-input>\n<uni-input label=\"Project name\" id=\"tour-demo-name\"></uni-input>\n<div><button text-button variant=\"secondary\" id=\"tour-demo-create\">Create project</button></div>\n<uni-tour #tour [steps]=\"steps\"></uni-tour>\n</div>"
+        },
+        {
+          "title": "Fraction Progress",
+          "framework": "angular",
+          "code": "<!-- Storybook story: Fraction Progress -->\n<div stack-layout gap=\"md\">\n<button text-button (click)=\"tour.start()\">Start tour</button>\n<uni-input label=\"Search projects\" id=\"tour-demo-search\"></uni-input>\n<uni-input label=\"Weekly report\" id=\"tour-demo-report\"></uni-input>\n<uni-input label=\"Project name\" id=\"tour-demo-name\"></uni-input>\n<div><button text-button variant=\"secondary\" id=\"tour-demo-create\">Create project</button></div>\n<uni-tour #tour [steps]=\"steps\"></uni-tour>\n</div>"
+        }
+      ],
+      "guidelines": {
+        "whenToUse": "Tour sequences one `uni-callout` through a list of steps: spotlight targets,\ndim interludes, and interaction gates. A step with `advanceOn` locks Next\nuntil the user performs the gesture on its target — clicks auto-advance\n(the gesture is complete), anything else unlocks Next and announces it\nthrough one polite `role=\"status\"` region, so nobody is yanked forward\nmid-typing. Steps whose declared target cannot be found are skipped in the\ndirection of travel with a dev warning, never an error. `active` is a\ntwo-way model, so tours are deep-linkable; Escape or the close button skips\nand reports the step through `skipped`.",
+        "dos": [
+          "Keep tours short and gate only steps whose gesture teaches something",
+          "Handle `skipped`/`finished` and persist them — the tour holds no storage"
+        ],
+        "donts": [
+          "Point steps at elements that may not exist without accepting the skip",
+          "Span routes in one tour; sequence per page instead"
+        ],
+        "accessibility": [
+          "Each panel is labelled `\"<title>, step <n> of <total>\"`; the dots are `aria-hidden` decoration.",
+          "Gate unlocks are announced (\"Next available\") through a single persistent live region.",
+          "Arrow-key navigation never fires while the user is typing in a spotlit target.",
+          "The close button reads as the skip affordance (`skipLabel`)."
+        ]
+      },
+      "relatedTokens": [
+        "tour.behavior.progressStyle",
+        "tour.behavior.footerGap"
+      ]
+    },
+    {
       "id": "wrap",
       "name": "Wrap",
       "status": "stable",
       "summary": "",
       "description": "",
       "category": "layout",
-      "version": "8.2.0",
+      "version": "8.3.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -8686,6 +9344,18 @@
       }
     },
     {
+      "id": "searchInput.behavior.activeColor",
+      "value": "primary-container",
+      "type": "string",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "searchInput",
+      "themeValues": {
+        "LightTheme": "primary-container",
+        "DarkTheme": "primary-container"
+      }
+    },
+    {
       "id": "searchInput.behavior.maxSuggestions",
       "value": 8,
       "type": "number",
@@ -9259,6 +9929,174 @@
       "themeValues": {
         "LightTheme": 0.35,
         "DarkTheme": 0.35
+      }
+    },
+    {
+      "id": "popover.behavior.color",
+      "value": "primary-surface",
+      "type": "string",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "popover",
+      "themeValues": {
+        "LightTheme": "primary-surface",
+        "DarkTheme": "primary-surface"
+      }
+    },
+    {
+      "id": "popover.behavior.border",
+      "value": "quaternary",
+      "type": "string",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "popover",
+      "themeValues": {
+        "LightTheme": "quaternary",
+        "DarkTheme": "quaternary"
+      }
+    },
+    {
+      "id": "popover.behavior.borderRadius",
+      "value": "xs",
+      "type": "string",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "popover",
+      "themeValues": {
+        "LightTheme": "xs",
+        "DarkTheme": "xs"
+      }
+    },
+    {
+      "id": "popover.behavior.shadow",
+      "value": "raised",
+      "type": "string",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "popover",
+      "themeValues": {
+        "LightTheme": "raised",
+        "DarkTheme": "raised"
+      }
+    },
+    {
+      "id": "popover.behavior.typeface",
+      "value": "label",
+      "type": "string",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "popover",
+      "themeValues": {
+        "LightTheme": "label",
+        "DarkTheme": "label"
+      }
+    },
+    {
+      "id": "popover.behavior.padding",
+      "value": "6px 12px",
+      "type": "string",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "popover",
+      "themeValues": {
+        "LightTheme": "6px 12px",
+        "DarkTheme": "6px 12px"
+      }
+    },
+    {
+      "id": "popover.behavior.maxWidth",
+      "value": "38ch",
+      "type": "string",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "popover",
+      "themeValues": {
+        "LightTheme": "38ch",
+        "DarkTheme": "38ch"
+      }
+    },
+    {
+      "id": "popover.behavior.offset",
+      "value": 7,
+      "type": "number",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "popover",
+      "themeValues": {
+        "LightTheme": 7,
+        "DarkTheme": 7
+      }
+    },
+    {
+      "id": "popover.behavior.arrowSize",
+      "value": 8,
+      "type": "number",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "popover",
+      "themeValues": {
+        "LightTheme": 8,
+        "DarkTheme": 8
+      }
+    },
+    {
+      "id": "popover.behavior.closeSymbol",
+      "value": "close",
+      "type": "string",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "popover",
+      "themeValues": {
+        "LightTheme": "close",
+        "DarkTheme": "close"
+      }
+    },
+    {
+      "id": "popover.behavior.headerTypeface",
+      "value": "title-small",
+      "type": "string",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "popover",
+      "themeValues": {
+        "LightTheme": "title-small",
+        "DarkTheme": "title-small"
+      }
+    },
+    {
+      "id": "popover.behavior.tooltipPadding",
+      "value": "4px 8px",
+      "type": "string",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "popover",
+      "themeValues": {
+        "LightTheme": "4px 8px",
+        "DarkTheme": "4px 8px"
+      }
+    },
+    {
+      "id": "popover.behavior.tooltipOpenDelay",
+      "value": 500,
+      "type": "number",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "popover",
+      "themeValues": {
+        "LightTheme": 500,
+        "DarkTheme": 500
+      }
+    },
+    {
+      "id": "popover.behavior.tooltipCloseDelay",
+      "value": 150,
+      "type": "number",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "popover",
+      "themeValues": {
+        "LightTheme": 150,
+        "DarkTheme": 150
       }
     },
     {
@@ -9838,6 +10676,18 @@
       }
     },
     {
+      "id": "tagInput.behavior.activeColor",
+      "value": "primary-container",
+      "type": "string",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "tagInput",
+      "themeValues": {
+        "LightTheme": "primary-container",
+        "DarkTheme": "primary-container"
+      }
+    },
+    {
       "id": "tagInput.behavior.maxSuggestions",
       "value": 8,
       "type": "number",
@@ -9946,6 +10796,114 @@
       }
     },
     {
+      "id": "combobox.behavior.toggleIcon",
+      "value": "chevronDown",
+      "type": "string",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "combobox",
+      "themeValues": {
+        "LightTheme": "chevronDown",
+        "DarkTheme": "chevronDown"
+      }
+    },
+    {
+      "id": "combobox.behavior.clearIcon",
+      "value": "close",
+      "type": "string",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "combobox",
+      "themeValues": {
+        "LightTheme": "close",
+        "DarkTheme": "close"
+      }
+    },
+    {
+      "id": "combobox.behavior.selectedIcon",
+      "value": "check",
+      "type": "string",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "combobox",
+      "themeValues": {
+        "LightTheme": "check",
+        "DarkTheme": "check"
+      }
+    },
+    {
+      "id": "combobox.behavior.listColor",
+      "value": "primary-surface",
+      "type": "string",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "combobox",
+      "themeValues": {
+        "LightTheme": "primary-surface",
+        "DarkTheme": "primary-surface"
+      }
+    },
+    {
+      "id": "combobox.behavior.listShadow",
+      "value": "menu",
+      "type": "string",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "combobox",
+      "themeValues": {
+        "LightTheme": "menu",
+        "DarkTheme": "menu"
+      }
+    },
+    {
+      "id": "combobox.behavior.listBorderRadius",
+      "value": "xs",
+      "type": "string",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "combobox",
+      "themeValues": {
+        "LightTheme": "xs",
+        "DarkTheme": "xs"
+      }
+    },
+    {
+      "id": "combobox.behavior.activeColor",
+      "value": "primary-container",
+      "type": "string",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "combobox",
+      "themeValues": {
+        "LightTheme": "primary-container",
+        "DarkTheme": "primary-container"
+      }
+    },
+    {
+      "id": "combobox.behavior.maxVisibleOptions",
+      "value": 8,
+      "type": "number",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "combobox",
+      "themeValues": {
+        "LightTheme": 8,
+        "DarkTheme": 8
+      }
+    },
+    {
+      "id": "combobox.behavior.descriptionColor",
+      "value": "on-primary-surface-variant",
+      "type": "string",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "combobox",
+      "themeValues": {
+        "LightTheme": "on-primary-surface-variant",
+        "DarkTheme": "on-primary-surface-variant"
+      }
+    },
+    {
       "id": "dateInput.behavior.toggleSymbol",
       "value": "calendar_month",
       "type": "string",
@@ -10039,6 +10997,18 @@
       "themeValues": {
         "LightTheme": "xs",
         "DarkTheme": "xs"
+      }
+    },
+    {
+      "id": "timeInput.behavior.activeColor",
+      "value": "primary-container",
+      "type": "string",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "timeInput",
+      "themeValues": {
+        "LightTheme": "primary-container",
+        "DarkTheme": "primary-container"
       }
     },
     {
@@ -10952,6 +11922,210 @@
         "LightTheme": "label",
         "DarkTheme": "label"
       }
+    },
+    {
+      "id": "callout.behavior.color",
+      "value": "primary-surface",
+      "type": "string",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "callout",
+      "themeValues": {
+        "LightTheme": "primary-surface",
+        "DarkTheme": "primary-surface"
+      }
+    },
+    {
+      "id": "callout.behavior.borderRadius",
+      "value": "xs",
+      "type": "string",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "callout",
+      "themeValues": {
+        "LightTheme": "xs",
+        "DarkTheme": "xs"
+      }
+    },
+    {
+      "id": "callout.behavior.shadow",
+      "value": "menu",
+      "type": "string",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "callout",
+      "themeValues": {
+        "LightTheme": "menu",
+        "DarkTheme": "menu"
+      }
+    },
+    {
+      "id": "callout.behavior.width",
+      "value": "320px",
+      "type": "string",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "callout",
+      "themeValues": {
+        "LightTheme": "320px",
+        "DarkTheme": "320px"
+      }
+    },
+    {
+      "id": "callout.behavior.padding",
+      "value": "16px",
+      "type": "string",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "callout",
+      "themeValues": {
+        "LightTheme": "16px",
+        "DarkTheme": "16px"
+      }
+    },
+    {
+      "id": "callout.behavior.headerTypeface",
+      "value": "title-small",
+      "type": "string",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "callout",
+      "themeValues": {
+        "LightTheme": "title-small",
+        "DarkTheme": "title-small"
+      }
+    },
+    {
+      "id": "callout.behavior.typeface",
+      "value": "label",
+      "type": "string",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "callout",
+      "themeValues": {
+        "LightTheme": "label",
+        "DarkTheme": "label"
+      }
+    },
+    {
+      "id": "callout.behavior.closeSymbol",
+      "value": "close",
+      "type": "string",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "callout",
+      "themeValues": {
+        "LightTheme": "close",
+        "DarkTheme": "close"
+      }
+    },
+    {
+      "id": "callout.behavior.arrowSize",
+      "value": 8,
+      "type": "number",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "callout",
+      "themeValues": {
+        "LightTheme": 8,
+        "DarkTheme": 8
+      }
+    },
+    {
+      "id": "callout.behavior.offset",
+      "value": 12,
+      "type": "number",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "callout",
+      "themeValues": {
+        "LightTheme": 12,
+        "DarkTheme": 12
+      }
+    },
+    {
+      "id": "callout.behavior.scrimColor",
+      "value": "rgba(0, 0, 0, 0.45)",
+      "type": "string",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "callout",
+      "themeValues": {
+        "LightTheme": "rgba(0, 0, 0, 0.45)",
+        "DarkTheme": "rgba(0, 0, 0, 0.45)"
+      }
+    },
+    {
+      "id": "callout.behavior.spotlightPadding",
+      "value": 6,
+      "type": "number",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "callout",
+      "themeValues": {
+        "LightTheme": 6,
+        "DarkTheme": 6
+      }
+    },
+    {
+      "id": "callout.behavior.spotlightRadius",
+      "value": "xs",
+      "type": "string",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "callout",
+      "themeValues": {
+        "LightTheme": "xs",
+        "DarkTheme": "xs"
+      }
+    },
+    {
+      "id": "callout.behavior.ringWidth",
+      "value": 2,
+      "type": "number",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "callout",
+      "themeValues": {
+        "LightTheme": 2,
+        "DarkTheme": 2
+      }
+    },
+    {
+      "id": "callout.behavior.transitionMs",
+      "value": 250,
+      "type": "number",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "callout",
+      "themeValues": {
+        "LightTheme": 250,
+        "DarkTheme": 250
+      }
+    },
+    {
+      "id": "tour.behavior.progressStyle",
+      "value": "dots",
+      "type": "string",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "tour",
+      "themeValues": {
+        "LightTheme": "dots",
+        "DarkTheme": "dots"
+      }
+    },
+    {
+      "id": "tour.behavior.footerGap",
+      "value": "sm",
+      "type": "string",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "tour",
+      "themeValues": {
+        "LightTheme": "sm",
+        "DarkTheme": "sm"
+      }
     }
   ],
   "themes": [
@@ -11139,6 +12313,7 @@
           "listColor": "primary-surface",
           "listShadow": "menu",
           "listBorderRadius": "xs",
+          "activeColor": "primary-container",
           "maxSuggestions": 8
         },
         "checkbox": {
@@ -11203,6 +12378,22 @@
           "hoverColor": "primary-container",
           "activeSymbol": "check",
           "transitionSpeed": 0.35
+        },
+        "popover": {
+          "color": "primary-surface",
+          "border": "quaternary",
+          "borderRadius": "xs",
+          "shadow": "raised",
+          "typeface": "label",
+          "padding": "6px 12px",
+          "maxWidth": "38ch",
+          "offset": 7,
+          "arrowSize": 8,
+          "closeSymbol": "close",
+          "headerTypeface": "title-small",
+          "tooltipPadding": "4px 8px",
+          "tooltipOpenDelay": 500,
+          "tooltipCloseDelay": 150
         },
         "expand": {
           "transitionSpeed": 0.35
@@ -11269,6 +12460,7 @@
           "listColor": "primary-surface",
           "listShadow": "menu",
           "listBorderRadius": "xs",
+          "activeColor": "primary-container",
           "maxSuggestions": 8
         },
         "calendar": {
@@ -11281,6 +12473,17 @@
           "showOutsideDays": false,
           "todayStyle": "outline"
         },
+        "combobox": {
+          "toggleIcon": "chevronDown",
+          "clearIcon": "close",
+          "selectedIcon": "check",
+          "listColor": "primary-surface",
+          "listShadow": "menu",
+          "listBorderRadius": "xs",
+          "activeColor": "primary-container",
+          "maxVisibleOptions": 8,
+          "descriptionColor": "on-primary-surface-variant"
+        },
         "dateInput": {
           "toggleSymbol": "calendar_month",
           "popupShadow": "menu",
@@ -11292,6 +12495,7 @@
           "listColor": "primary-surface",
           "listShadow": "menu",
           "listBorderRadius": "xs",
+          "activeColor": "primary-container",
           "maxVisibleOptions": 7
         },
         "dateTimeInput": {
@@ -11398,6 +12602,27 @@
           "shadow": "raised",
           "color": "inverse-surface",
           "typeface": "label"
+        },
+        "callout": {
+          "color": "primary-surface",
+          "borderRadius": "xs",
+          "shadow": "menu",
+          "width": "320px",
+          "padding": "16px",
+          "headerTypeface": "title-small",
+          "typeface": "label",
+          "closeSymbol": "close",
+          "arrowSize": 8,
+          "offset": 12,
+          "scrimColor": "rgba(0, 0, 0, 0.45)",
+          "spotlightPadding": 6,
+          "spotlightRadius": "xs",
+          "ringWidth": 2,
+          "transitionMs": 250
+        },
+        "tour": {
+          "progressStyle": "dots",
+          "footerGap": "sm"
         }
       },
       "usage": "Apply style overrides through the Emotion theme provider (the `UniTheme` object), and pass component options as component inputs/props. Import the theme from `@uni-design-system/uni-core` (`LightTheme`)."
@@ -11586,6 +12811,7 @@
           "listColor": "primary-surface",
           "listShadow": "menu",
           "listBorderRadius": "xs",
+          "activeColor": "primary-container",
           "maxSuggestions": 8
         },
         "checkbox": {
@@ -11650,6 +12876,22 @@
           "hoverColor": "primary-container",
           "activeSymbol": "check",
           "transitionSpeed": 0.35
+        },
+        "popover": {
+          "color": "primary-surface",
+          "border": "quaternary",
+          "borderRadius": "xs",
+          "shadow": "raised",
+          "typeface": "label",
+          "padding": "6px 12px",
+          "maxWidth": "38ch",
+          "offset": 7,
+          "arrowSize": 8,
+          "closeSymbol": "close",
+          "headerTypeface": "title-small",
+          "tooltipPadding": "4px 8px",
+          "tooltipOpenDelay": 500,
+          "tooltipCloseDelay": 150
         },
         "expand": {
           "transitionSpeed": 0.35
@@ -11716,6 +12958,7 @@
           "listColor": "primary-surface",
           "listShadow": "menu",
           "listBorderRadius": "xs",
+          "activeColor": "primary-container",
           "maxSuggestions": 8
         },
         "calendar": {
@@ -11728,6 +12971,17 @@
           "showOutsideDays": false,
           "todayStyle": "outline"
         },
+        "combobox": {
+          "toggleIcon": "chevronDown",
+          "clearIcon": "close",
+          "selectedIcon": "check",
+          "listColor": "primary-surface",
+          "listShadow": "menu",
+          "listBorderRadius": "xs",
+          "activeColor": "primary-container",
+          "maxVisibleOptions": 8,
+          "descriptionColor": "on-primary-surface-variant"
+        },
         "dateInput": {
           "toggleSymbol": "calendar_month",
           "popupShadow": "menu",
@@ -11739,6 +12993,7 @@
           "listColor": "primary-surface",
           "listShadow": "menu",
           "listBorderRadius": "xs",
+          "activeColor": "primary-container",
           "maxVisibleOptions": 7
         },
         "dateTimeInput": {
@@ -11845,6 +13100,27 @@
           "shadow": "raised",
           "color": "inverse-surface",
           "typeface": "label"
+        },
+        "callout": {
+          "color": "primary-surface",
+          "borderRadius": "xs",
+          "shadow": "menu",
+          "width": "320px",
+          "padding": "16px",
+          "headerTypeface": "title-small",
+          "typeface": "label",
+          "closeSymbol": "close",
+          "arrowSize": 8,
+          "offset": 12,
+          "scrimColor": "rgba(0, 0, 0, 0.45)",
+          "spotlightPadding": 6,
+          "spotlightRadius": "xs",
+          "ringWidth": 2,
+          "transitionMs": 250
+        },
+        "tour": {
+          "progressStyle": "dots",
+          "footerGap": "sm"
         }
       },
       "usage": "Apply style overrides through the Emotion theme provider (the `UniTheme` object), and pass component options as component inputs/props. Import the theme from `@uni-design-system/uni-core` (`DarkTheme`)."
@@ -11854,6 +13130,30 @@
     {
       "package": "@uni-design-system/uni-angular",
       "releases": [
+        {
+          "version": "8.3.0",
+          "entries": [
+            {
+              "bump": "minor",
+              "title": "`uni-combobox` — the form-bound, closed-set, single-select autocomplete. `FormValueControl<T | null>` over the cdk's object `Options<T>`, so it drops into Signal Forms via `[field]`; minimum usage is `<uni-combobox label=\"State\" [options]=\"states\" [(value)]=\"state\" />`. Typing filters, it never selects: the draft commits on an active option, a unique exact label match, or (Enter only) a filter narrowed to one enabled option; anything else reverts and emits `(rejected)`. The value contract is identical to `uni-select` (`T | null`, `compareWith`), so swapping one for the other as a list grows is a template-only change. Filtering is local by default; `[filterLocally]=\"false\"` renders `options` verbatim and the app narrows them from the debounced `(query)` output — the async/server-side story. Glyphs are theme icon primitives (`toggleIcon`/`clearIcon`/`selectedIcon`) rendered by `uni-icon`.",
+              "body": "Supporting cdk changes, both non-breaking:\n- `Option<T>` gains optional `description` (secondary line, read as part of the option's name) and `disabled` (visible and announced, not committable).\n- `ListboxNavigation` accepts a `disabled?: (index) => boolean` config hook — arrows skip disabled options, `Home`/`End` land on the nearest enabled one, an all-disabled list never activates. Existing consumers pass nothing and behave identically.",
+              "commit": "eb8b7ae"
+            },
+            {
+              "bump": "minor",
+              "title": "Listbox popups (`uni-search-input`, `uni-tag-input`, `uni-time-input`, `uni-combobox`): the active/hover option fill is now the themable `activeColor` option (default `'primary-container'`, on-color derived) instead of a hardcoded token pair. Set it when your theme maps `primary-container` and `primary-surface` to the same color — the keyboard highlight is otherwise invisible; a canvas/hover tint like the one your menus use is usually right (`searchInput: { options: { activeColor: 'tertiary-surface' } }`, and likewise `tagInput`/`timeInput`/`combobox`). The base theme carries the default explicitly so the option is discoverable in each component's Theme options table.",
+              "body": "The four popups now share one style source, the exported `listboxPopupStyles(theme, options, { maxHeight? })` helper (`UniListboxPopupOptions`), so their surface trio and highlight can no longer drift apart. Rendering is unchanged under existing themes; the active row's text color now derives from `listColor`'s on-pair rather than assuming `on-primary-surface`.",
+              "commit": "eb8b7ae"
+            },
+            {
+              "bump": "minor",
+              "title": "Popover v2, `uni-callout`, and `uni-tour` — the coach-mark family from the popover prototype, plus shared overlay primitives in the cdk.",
+              "body": "**`uni-popover` v2 (upgrade in place).** Everything v1 shipped keeps its exact behavior (`placement`, `autoClose`, the three methods — `togglePopover`'s event is now optional — and both slots), and the chrome now resolves from a real `popover` theme entry whose defaults match the old hardcoded look. New: a two-way `open` model; `mode=\"tooltip\"` (hover/focus timers, `role=\"tooltip\"` + `aria-describedby`, WCAG 1.4.13 hoverable/dismissable, dev warning on focusable content — `uni-tooltip` remains for the wrap-content case); a detached `anchor` input (element or id, resolved at open) so the panel can hug a field while the trigger keeps the disclosure ARIA — and with no trigger content, no element claims `aria-expanded` it doesn't deserve; structured anatomy (`header` + `closable` ✕, `[popover-header]`/`[popover-footer]` slots that collapse when empty); `arrow`, `maxWidth` (theme default `38ch` — the one visible change for long unwrapped content; set the theme's `maxWidth: 'none'` to opt out), `openDelay`/`closeDelay`, and `opened`/`closed` outputs. Focus follows the APG disclosure pattern: stays on the trigger unless the panel marks `[autofocus]`, returns on close.\n\n**`uni-callout` (new).** An anchored coach mark that dims the page and cuts a spotlight hole around its target. Every scrim piece is CSS-anchor-positioned, so the hole tracks scroll/resize/layout with zero listeners, and the spotlit element stays genuinely clickable through it (`targetInteractive=false` covers it instead). Non-modal `role=\"dialog\"` with the \"duet\" focus loop — Tab cycles the panel's controls plus the interactive target — and focus restore that respects a user who moved into the target. `backdrop: 'spotlight' | 'dim' | 'none'`, `dismissible`, `dismissOnBackdrop` (otherwise backdrop clicks pulse the panel), and a `dismissed` output with `reason` (`close-button`/`escape`/`backdrop`/`programmatic`) plus `key` — the storage-free \"don't show again\" hooks. Retargets in place when `target` changes while open, which is what the tour rides.\n\n**`uni-tour` (new).** A thin sequencer over one callout: `steps` with per-step placement/backdrop/interactivity, a two-way deep-linkable `active` model, Back/Next/Done with dots-or-fraction progress, and `advanceOn` interaction gates — clicks auto-advance, anything else unlocks Next and announces it through one polite live region. Missing-target steps are skipped in the direction of travel with a dev warning. Escape/✕ (named by `skipLabel`) skip and report the step.\n\n**cdk.** New `overlay` module (`TRANSFORM_ORIGINS`, `setAnchorName`/`clearAnchorName`, `resolveElement` — `''` is unset, `isToggleOpen`, `discreteOverlayTransition`, `restoreOverlayFocus`, `focusableElements`) extracted from the dropdown's plumbing (dropdown's public API unchanged); `spotlightStyles(anchor, { pad, ringWidth, scrimColor })` beside `anchorStyles`, returning the window/strips/cover pieces as pure `calc(anchor(...))` style objects.\n\n**Arrow fix.** `anchorArrowStyles` now clips the rotated-square arrow to its outer half with a per-placement `clip-path` cut exactly on the panel-edge diagonal: the two border strokes previously ran the full square and visibly cut into the panel surface; they now terminate precisely at the panel edge, and the panel's own border line — which sits just outside that edge — falls inside the kept half, so the arrow background covers it and the base reads as an opening in the border. Tooltip, popover, and callout inherit the fix with no call-site changes.",
+              "commit": "6f87212"
+            }
+          ],
+          "dependencyBumps": []
+        },
         {
           "version": "8.2.0",
           "entries": [
@@ -12329,6 +13629,30 @@
       "package": "@uni-design-system/uni-core",
       "releases": [
         {
+          "version": "8.3.0",
+          "entries": [
+            {
+              "bump": "minor",
+              "title": "`'combobox'` joins `ComponentName`, with a base-theme entry: `toggleIcon: 'chevronDown'`, `clearIcon: 'close'`, `selectedIcon: 'check'` (BaseIcons names rendered by `uni-icon` — not Material Symbol ligatures), the listbox surface trio (`listColor`/`listShadow`/`listBorderRadius`), `activeColor`, `descriptionColor`, and `maxVisibleOptions: 8` — a scroll height, never a cap. Field chrome comes from the `input` entry via `uni-input-box`, as everywhere.",
+              "body": "",
+              "commit": "eb8b7ae"
+            },
+            {
+              "bump": "minor",
+              "title": "Listbox popups (`uni-search-input`, `uni-tag-input`, `uni-time-input`, `uni-combobox`): the active/hover option fill is now the themable `activeColor` option (default `'primary-container'`, on-color derived) instead of a hardcoded token pair. Set it when your theme maps `primary-container` and `primary-surface` to the same color — the keyboard highlight is otherwise invisible; a canvas/hover tint like the one your menus use is usually right (`searchInput: { options: { activeColor: 'tertiary-surface' } }`, and likewise `tagInput`/`timeInput`/`combobox`). The base theme carries the default explicitly so the option is discoverable in each component's Theme options table.",
+              "body": "The four popups now share one style source, the exported `listboxPopupStyles(theme, options, { maxHeight? })` helper (`UniListboxPopupOptions`), so their surface trio and highlight can no longer drift apart. Rendering is unchanged under existing themes; the active row's text color now derives from `listColor`'s on-pair rather than assuming `on-primary-surface`.",
+              "commit": "eb8b7ae"
+            },
+            {
+              "bump": "minor",
+              "title": "`'popover'`, `'callout'`, and `'tour'` join `ComponentName`, with base-theme entries. The popover defaults reproduce the previously hardcoded look (`primary-surface`, `quaternary` border, `xs` radius, `raised` shadow, `6px 12px` padding, 7px offset) plus the tooltip-mode options; the callout entry carries the scrim/spotlight geometry (`scrimColor`, `spotlightPadding`, `spotlightRadius`, `ringWidth` — the ring color is deliberately the `variant` role, not an option); the tour entry is just `progressStyle` and `footerGap`, since its skin is the callout's.",
+              "body": "",
+              "commit": "6f87212"
+            }
+          ],
+          "dependencyBumps": []
+        },
+        {
           "version": "8.2.0",
           "entries": [
             {
@@ -12699,6 +14023,11 @@
       "package": "@uni-design-system/uni-react",
       "releases": [
         {
+          "version": "8.3.0",
+          "entries": [],
+          "dependencyBumps": []
+        },
+        {
           "version": "8.2.0",
           "entries": [
             {
@@ -12875,6 +14204,18 @@
     {
       "package": "@uni-design-system/uni-mcp",
       "releases": [
+        {
+          "version": "4.7.1",
+          "entries": [
+            {
+              "bump": "patch",
+              "title": "README: the hosted (Render) endpoint is marked dormant — no deployment is currently running; stdio via `npx -y @uni-design-system/uni-mcp` is the canonical path (pin the package to your installed Uni version for version-locked answers). The HTTP mode stays documented and deployable for when a browser-based consumer needs it. The `get-changelog` and `export-dtcg-tokens` tools are now listed in the tools table.",
+              "body": "",
+              "commit": "b160b3c"
+            }
+          ],
+          "dependencyBumps": []
+        },
         {
           "version": "4.7.0",
           "entries": [
