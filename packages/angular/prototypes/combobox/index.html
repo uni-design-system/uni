@@ -1,0 +1,910 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Uni — Combobox prototype</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Red+Hat+Display:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      /* ============================================================
+         Tokens — the real generated Uni palettes (seed #4F46E5,
+         triadic / neutral), dumped from @uni-design-system/uni-core.
+         Nothing here is invented: swap the block, reskin the proto.
+         ============================================================ */
+      :root {
+        --primary: #6a6f8f;
+        --on-primary: #f9faff;
+        --primary-container: #dbddea;
+        --on-primary-container: #1a1c37;
+        --on-primary-container-variant: #5b5d68;
+        --on-primary-container-border: #6a6f8f;
+        --primary-surface: #f3f5fd;
+        --on-primary-surface: #1e1f25;
+        --on-primary-surface-variant: #6a6f8f;
+        --secondary: #8c685d;
+        --on-secondary: #fff8f6;
+        --secondary-container: #e9dad6;
+        --on-secondary-container: #33160d;
+        --on-secondary-container-border: #8c685d;
+        --tertiary: #597b66;
+        --on-tertiary: #f0fff5;
+        --tertiary-container: #d5e2d9;
+        --on-tertiary-container: #052615;
+        --on-tertiary-container-border: #597b66;
+        --error: #cc2827;
+        --on-error: #fff8f7;
+        --error-container: #ffd2cc;
+        --on-error-container: #331512;
+        --warn: #ac5700;
+        --on-warn: #fff9f5;
+        --warn-container: #fdd5ba;
+        --on-warn-container: #311805;
+        --on-warn-container-border: #ac5700;
+        --success: #008341;
+        --on-success: #f1fef4;
+        --success-container: #c3eacc;
+        --on-success-container: #092613;
+        --on-success-container-border: #008341;
+        --background: #fdfdff;
+        --on-background: #202127;
+        --on-background-variant: #5c5d65;
+        --surface: #f9faff;
+        --surface-variant: #e9ebf3;
+        --on-surface-variant: #36373e;
+        --outline: #7e8088;
+        --disabled: rgba(0, 0, 0, 0.12);
+        --on-disabled: rgba(0, 0, 0, 0.38);
+        --disabled-container: #eff1fa;
+        --on-disabled-container: rgba(0, 0, 0, 0.38);
+        --shadow-menu: rgba(0, 0, 0, 0.2) 0 3px 3px -2px, rgba(0, 0, 0, 0.14) 0 3px 4px 0,
+          rgba(0, 0, 0, 0.12) 0 1px 8px 0;
+
+        /* radii + spacing scales, verbatim from base.theme.ts */
+        --radius-xxs: 4px;
+        --radius-xs: 8px;
+        --radius-sm: 16px;
+        --radius-max: 999px;
+        --space-xxs: 2px;
+        --space-xs: 4px;
+        --space-sm: 8px;
+        --space-md: 16px;
+        --space-lg: 32px;
+      }
+      html[data-theme='dark'] {
+        --primary: #afb5d8;
+        --on-primary: #11132c;
+        --primary-container: #4a4c57;
+        --on-primary-container: #f9faff;
+        --on-primary-container-variant: #bcbecb;
+        --on-primary-container-border: #afb5d8;
+        --primary-surface: #22242a;
+        --on-primary-surface: #f9faff;
+        --on-primary-surface-variant: #afb5d8;
+        --secondary: #d5ada1;
+        --on-secondary: #280c05;
+        --secondary-container: #564a46;
+        --on-secondary-container: #fff8f7;
+        --on-secondary-container-border: #d5ada1;
+        --tertiary: #9ec2ab;
+        --on-tertiary: #001c0d;
+        --tertiary-container: #465049;
+        --on-tertiary-container: #f0fff5;
+        --on-tertiary-container-border: #9ec2ab;
+        --error: #ff968a;
+        --on-error: #290b09;
+        --error-container: #69413c;
+        --on-error-container: #fff8f7;
+        --warn: #ff9b51;
+        --on-warn: #270e00;
+        --warn-container: #66442e;
+        --on-warn-container: #fff9f5;
+        --on-warn-container-border: #ff9b51;
+        --success: #59d483;
+        --on-success: #011c0a;
+        --success-container: #34563d;
+        --on-success-container: #f1fef4;
+        --on-success-container-border: #59d483;
+        --background: #101117;
+        --on-background: #e5e7f0;
+        --on-background-variant: #afb0b9;
+        --surface: #17181e;
+        --surface-variant: #313239;
+        --on-surface-variant: #afb0b9;
+        --outline: #90929a;
+        --disabled: rgba(255, 255, 255, 0.12);
+        --on-disabled: rgba(255, 255, 255, 0.38);
+        --disabled-container: #2c2d34;
+        --on-disabled-container: rgba(255, 255, 255, 0.38);
+      }
+
+      /* ============================================================
+         Page chrome (prototype only — not part of the component)
+         ============================================================ */
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        padding: 0 0 96px;
+        font-family: 'Red Hat Display', system-ui, sans-serif;
+        background: var(--background);
+        color: var(--on-background);
+        -webkit-font-smoothing: antialiased;
+      }
+      .page { max-width: 940px; margin: 0 auto; padding: 0 24px; }
+      header.top {
+        position: sticky; top: 0; z-index: 30;
+        background: var(--background);
+        border-bottom: 1px solid var(--surface-variant);
+        margin-bottom: 32px;
+      }
+      header.top .page {
+        display: flex; align-items: center; gap: 16px;
+        padding-top: 18px; padding-bottom: 18px;
+      }
+      h1 { font-size: 20px; margin: 0; font-weight: 700; letter-spacing: -0.2px; }
+      h1 small { display: block; font-size: 13px; font-weight: 400; color: var(--on-background-variant); }
+      h2 {
+        font-size: 15px; text-transform: uppercase; letter-spacing: 0.08em;
+        color: var(--on-background-variant); font-weight: 600;
+        margin: 48px 0 4px; padding-top: 24px;
+        border-top: 1px solid var(--surface-variant);
+      }
+      p.lede { color: var(--on-background-variant); font-size: 14px; line-height: 1.6; margin: 0 0 20px; max-width: 68ch; }
+      .toggle {
+        margin-left: auto; display: inline-flex; align-items: center; gap: 6px;
+        height: 32px; padding: 0 14px; cursor: pointer;
+        border-radius: var(--radius-max); border: 1px solid var(--outline);
+        background: transparent; color: inherit;
+        font-family: inherit; font-size: 13px; font-weight: 600;
+      }
+      .toggle:hover { background: var(--surface-variant); }
+      .panel {
+        background: var(--surface); border: 1px solid var(--surface-variant);
+        border-radius: var(--radius-xs); padding: 20px 22px; margin-bottom: 16px;
+      }
+      .cols { display: grid; grid-template-columns: minmax(0, 1fr) 300px; gap: 24px; align-items: start; }
+      @media (max-width: 760px) { .cols { grid-template-columns: 1fr; } }
+      code, kbd { font-family: ui-monospace, 'SF Mono', Menlo, monospace; }
+      kbd {
+        display: inline-block; padding: 1px 6px; font-size: 11.5px;
+        border: 1px solid var(--outline); border-bottom-width: 2px;
+        border-radius: var(--radius-xxs); background: var(--surface-variant);
+        white-space: nowrap;
+      }
+      table.keys { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+      table.keys th {
+        text-align: left; font-size: 11px; text-transform: uppercase; letter-spacing: 0.06em;
+        color: var(--on-background-variant); padding: 6px 10px; border-bottom: 1px solid var(--surface-variant);
+      }
+      table.keys td { padding: 7px 10px; border-bottom: 1px solid var(--surface-variant); vertical-align: top; }
+      table.keys td:first-child { width: 210px; white-space: nowrap; }
+      .log {
+        font-family: ui-monospace, Menlo, monospace; font-size: 12px; line-height: 1.7;
+        background: var(--primary-surface); color: var(--on-primary-surface-variant);
+        border-radius: var(--radius-xxs); padding: 10px 12px; height: 132px; overflow: auto;
+      }
+      .log b { color: var(--on-background); font-weight: 600; }
+      .field-label {
+        display: block; font-size: 12px; font-weight: 600; margin-bottom: 6px;
+        color: var(--on-background-variant);
+      }
+      .hint { font-size: 12px; color: var(--on-background-variant); margin: 8px 0 0; }
+      .sr-only {
+        position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+        overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+      }
+      .uni-icon { width: 1em; height: 1em; display: block; flex: none; }
+
+      /* ============================================================
+         uni-combobox — chrome mirrors uni-input-box; the listbox
+         mirrors search-input's popup surface tokens.
+         ============================================================ */
+      .uni-combobox { position: relative; --cb-rows: 8; }
+      .uni-combobox__field {
+        display: flex; align-items: center;
+        height: 38px; padding: 0 4px 0 var(--space-sm);
+        background: var(--primary-surface);
+        color: var(--on-primary-surface);
+        border: 1px solid var(--outline);
+        border-radius: var(--radius-xs);
+        cursor: text;
+      }
+      .uni-combobox__field:focus-within { outline: 2px solid var(--primary); outline-offset: 2px; }
+      .uni-combobox--error .uni-combobox__field {
+        border-color: var(--error);
+        box-shadow: 0 0 5px rgba(204, 40, 39, 0.35), inset 0 0 5px rgba(204, 40, 39, 0.2);
+      }
+      .uni-combobox--disabled .uni-combobox__field {
+        background: var(--disabled-container); color: var(--on-disabled);
+        cursor: not-allowed; border-color: transparent;
+      }
+      .uni-combobox__input {
+        flex: 1 1 auto; min-width: 0; height: 100%;
+        border: 0; outline: 0; background: transparent; color: inherit;
+        font-family: 'Red Hat Display', sans-serif; font-size: 14px;
+      }
+      .uni-combobox__input::placeholder { color: var(--on-primary-surface-variant); opacity: 0.75; }
+      .uni-combobox__clear, .uni-combobox__toggle {
+        flex: none; width: 28px; height: 28px; display: grid; place-items: center;
+        border: 0; border-radius: var(--radius-max); background: transparent;
+        color: var(--on-primary-surface-variant); cursor: pointer; font-size: 18px; padding: 0;
+      }
+      .uni-combobox__clear[hidden] { display: none; } /* the class display must not beat [hidden] */
+      .uni-combobox__clear:hover, .uni-combobox__toggle:hover { background: var(--surface-variant); color: var(--on-background); }
+      .uni-combobox__clear:focus-visible { outline: 2px solid var(--primary); outline-offset: 1px; }
+      .uni-combobox__toggle .uni-icon { transition: transform 0.15s ease; }
+      .uni-combobox--open .uni-combobox__toggle .uni-icon { transform: rotate(180deg); }
+
+      .uni-combobox__list {
+        position: absolute; top: calc(100% + 4px); left: 0; right: 0; z-index: 20;
+        margin: 0; padding: 4px; list-style: none;
+        /* maxVisibleOptions is a scroll height, never a cap */
+        max-height: calc(var(--cb-rows) * 36px + 8px); overflow-y: auto;
+        background: var(--primary-surface);
+        border-radius: var(--radius-xs);
+        box-shadow: var(--shadow-menu);
+      }
+      .uni-combobox__list [role='option'] {
+        display: flex; align-items: center; gap: 10px; min-height: 36px;
+        padding: 5px 10px; border-radius: var(--radius-xxs); cursor: pointer;
+        font-size: 13.5px; color: var(--on-primary-surface);
+      }
+      .uni-combobox__list [role='option'].active,
+      .uni-combobox__list [role='option']:not([aria-disabled='true']):hover {
+        background: var(--primary-container); color: var(--on-primary-container);
+      }
+      .uni-combobox__list [role='option'][aria-disabled='true'] {
+        color: var(--on-disabled); cursor: not-allowed;
+      }
+      .opt-text { min-width: 0; display: flex; align-items: baseline; gap: 8px; flex: 1 1 auto; }
+      .opt-label { font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+      .opt-desc { font-size: 12px; color: var(--on-primary-surface-variant); margin-left: auto; white-space: nowrap; }
+      [role='option'].active .opt-desc { color: inherit; opacity: 0.8; }
+      [role='option'][aria-disabled='true'] .opt-desc { color: var(--on-disabled); }
+      .opt-check { flex: none; width: 18px; color: var(--primary); }
+      [role='option'].active .opt-check { color: inherit; }
+      .opt-empty { padding: 10px; font-size: 13px; color: var(--on-primary-surface-variant); }
+
+      @media (prefers-reduced-motion: reduce) {
+        .uni-combobox__toggle .uni-icon { transition: none !important; }
+      }
+    </style>
+  </head>
+
+  <body>
+    <header class="top">
+      <div class="page">
+        <h1>
+          Combobox
+          <small>Uni Design System — prototype, not shipped code</small>
+        </h1>
+        <button class="toggle" id="themeToggle" type="button">
+          <svg class="uni-icon" style="width:16px;height:16px" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21q-3.75 0-6.37-2.63T3 12q0-3.75 2.63-6.37T12 3q.35 0 .69.03.34.02.67.07-1.03.73-1.64 1.9-.62 1.16-.62 2.5 0 2.25 1.57 3.82Q14.25 12.9 16.5 12.9q1.35 0 2.51-.62 1.16-.61 1.86-1.64.05.33.09.67.03.34.03.69 0 3.75-2.62 6.37Q15.75 21 12 21z" fill="currentColor"/></svg>
+          <span id="themeToggleText">Dark</span>
+        </button>
+      </div>
+    </header>
+
+    <main class="page">
+      <p class="lede">
+        <code>uni-combobox</code> is the form-bound, closed-set, single-select autocomplete:
+        <code>FormValueControl&lt;T | null&gt;</code> over object <code>Options&lt;T&gt;</code>,
+        type-to-filter, <b>commit-on-select</b> — typing filters, it never selects. Select
+        semantics, not search: a real label, a chevron, no magnifier, nothing submits.
+        Everything on this page uses the live Uni palette generated from seed <code>#4F46E5</code>.
+      </p>
+
+      <!-- ================= 1. Basic ================= -->
+      <h2>1 · Type-to-filter, commit-on-select</h2>
+      <p class="lede">
+        Fifty options with descriptions, filtered locally as you type. Commit by clicking,
+        by arrowing to an option and <kbd>Enter</kbd>, by typing an exact label, or by
+        narrowing the filter to a single candidate and pressing <kbd>Enter</kbd>.
+        The ✕ appears only while a value is set; <kbd>Escape</kbd> never touches the
+        committed value.
+      </p>
+      <div class="panel cols">
+        <div>
+          <label class="field-label" id="stateLabelText" for="state-input">State</label>
+          <div id="stateHost"></div>
+          <p class="hint">Try: type <code>alab</code> then <kbd>Enter</kbd> · type <code>Ohio</code> then <kbd>Tab</kbd> · <kbd>ArrowDown</kbd> on a committed value.</p>
+        </div>
+        <div>
+          <span class="field-label">value · events</span>
+          <div class="log" id="stateLog"></div>
+        </div>
+      </div>
+
+      <!-- ================= 2. Descriptions + disabled ================= -->
+      <h2>2 · Disabled options</h2>
+      <p class="lede">
+        <code>Option.disabled</code> renders the option visibly and announces it, but arrows skip
+        it and clicks don't commit — the shared <code>ListboxNavigation</code> grows a
+        <code>disabled</code> hook for this.
+      </p>
+      <div class="panel cols">
+        <div>
+          <label class="field-label" for="assignee-input">Assignee</label>
+          <div id="assigneeHost"></div>
+          <p class="hint">Sam and Priya are out of office: arrow past them, try clicking them.</p>
+        </div>
+        <div>
+          <span class="field-label">value · events</span>
+          <div class="log" id="assigneeLog"></div>
+        </div>
+      </div>
+
+      <!-- ================= 3. Async ================= -->
+      <h2>3 · Async options (<code>filterLocally=false</code>)</h2>
+      <p class="lede">
+        The open-set escape hatch: options render verbatim and the app narrows them from the
+        debounced <code>query</code> output — byte-for-byte the <code>search-input</code>
+        contract. This demo fakes a 300&hairsp;ms server.
+      </p>
+      <div class="panel cols">
+        <div>
+          <label class="field-label" for="country-input">Country</label>
+          <div id="countryHost"></div>
+          <p class="hint">Type two letters and pause; the list fills when the "server" answers.</p>
+        </div>
+        <div>
+          <span class="field-label">query · events</span>
+          <div class="log" id="countryLog"></div>
+        </div>
+      </div>
+
+      <!-- ================= 4. Form semantics ================= -->
+      <h2>4 · <code>showError()</code> gating</h2>
+      <p class="lede">
+        A required field is invalid from birth but shows nothing until touched or dirty —
+        <code>invalid &amp;&amp; (touched || dirty)</code>, the library-wide rule. Focus it,
+        pick nothing, and leave.
+      </p>
+      <div class="panel cols">
+        <div>
+          <label class="field-label" for="team-input">Team (required)</label>
+          <div id="teamHost"></div>
+          <p class="hint">Blur without choosing → error chrome + <code>aria-invalid</code>. Choose a team → it clears.</p>
+        </div>
+        <div>
+          <span class="field-label">state</span>
+          <div class="log" id="teamLog"></div>
+        </div>
+      </div>
+
+      <!-- ================= 5. Keyboard map ================= -->
+      <h2>5 · Keyboard map</h2>
+      <div class="panel">
+        <table class="keys">
+          <thead><tr><th>Key</th><th>Behaviour</th></tr></thead>
+          <tbody>
+            <tr><td>printable</td><td>edits the draft, filters, opens the list</td></tr>
+            <tr><td><kbd>ArrowDown</kbd> / <kbd>ArrowUp</kbd></td><td>opens if closed (Down lands on the committed option, Up on the last); moves through enabled options, wrapping</td></tr>
+            <tr><td><kbd>Alt</kbd>+<kbd>ArrowDown</kbd> / <kbd>Alt</kbd>+<kbd>ArrowUp</kbd></td><td>opens without activating / closes keeping the draft</td></tr>
+            <tr><td><kbd>Home</kbd> / <kbd>End</kbd></td><td>first / last enabled option while the list is open</td></tr>
+            <tr><td><kbd>Enter</kbd></td><td>commits the active option, an exact label match, or a uniquely-filtered option; otherwise keeps the list open and announces</td></tr>
+            <tr><td><kbd>Escape</kbd></td><td>closes the list; then reverts the draft. Never clears the committed value</td></tr>
+            <tr><td><kbd>Tab</kbd> / blur</td><td>commits an active option or exact match, else reverts (<code>rejected</code>); moves on — never traps; marks touched</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </main>
+
+    <script>
+      'use strict';
+      /* ============================================================
+         Inline Material Symbols (the real components use uni-symbol)
+         ============================================================ */
+      const ICON_PATHS = {
+        close:
+          'M6.4 19 5 17.6l5.6-5.6L5 6.4 6.4 5l5.6 5.6L17.6 5 19 6.4 13.4 12l5.6 5.6-1.4 1.4-5.6-5.6z',
+        keyboard_arrow_down: 'M12 15.375 6 9.4l1.4-1.425 4.6 4.6 4.6-4.6L18 9.4z',
+        check: 'M9.55 18 3.85 12.3l1.425-1.425L9.55 15.15l9.175-9.175L20.15 7.4z',
+      };
+      const icon = (name, cls) =>
+        `<svg class="uni-icon ${cls || ''}" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="${ICON_PATHS[name] || ''}" fill="currentColor"/></svg>`;
+
+      /* ============================================================
+         createCombobox — the behaviour under test. Mirrors the spec'd
+         Angular API: options {label, value, description?, disabled?},
+         value is T | null, draft is never a value.
+         ============================================================ */
+      function createCombobox(hostId, config) {
+        const host = document.getElementById(hostId);
+        const id = config.id;
+        const state = {
+          options: config.options ? config.options.slice() : [],
+          value: config.value !== undefined ? config.value : null,
+          draft: null, // null → field shows the committed label
+          open: false,
+          active: -1, // index into filtered()
+          touched: false,
+          dirty: false,
+        };
+        const clearable = config.clearable !== false;
+        const commitOnBlur = config.commitOnBlur !== false;
+        const filterLocally = config.filterLocally !== false;
+        const debounceTime = config.debounceTime ?? 250;
+        const emptyText = config.emptyText || 'No matches';
+        const compare = config.compareWith || ((a, b) => a === b);
+        const emit = (type, detail) => config.on && config.on(type, detail);
+
+        host.innerHTML = `
+          <div class="uni-combobox" style="--cb-rows:${config.maxVisibleOptions ?? 8}">
+            <div class="uni-combobox__field">
+              <input
+                id="${id}-input"
+                class="uni-combobox__input"
+                type="text"
+                role="combobox"
+                aria-autocomplete="list"
+                aria-expanded="false"
+                aria-controls="${id}-listbox"
+                aria-label="${config.label}"
+                ${config.required ? 'aria-required="true"' : ''}
+                placeholder="${config.placeholder || ''}"
+                autocomplete="off" spellcheck="false"
+              />
+              <button type="button" class="uni-combobox__clear" hidden aria-label="Clear ${config.label}">${icon('close')}</button>
+              <button type="button" class="uni-combobox__toggle" tabindex="-1" aria-hidden="true">${icon('keyboard_arrow_down')}</button>
+            </div>
+            <ul id="${id}-listbox" class="uni-combobox__list" role="listbox" aria-label="${config.label}" hidden></ul>
+            <span class="sr-only" role="status" aria-live="polite" data-role="live"></span>
+          </div>`;
+
+        const root = host.firstElementChild;
+        const field = root.querySelector('.uni-combobox__field');
+        const input = root.querySelector('input');
+        const clearBtn = root.querySelector('.uni-combobox__clear');
+        const toggleBtn = root.querySelector('.uni-combobox__toggle');
+        const list = root.querySelector('ul');
+        const live = root.querySelector('[data-role="live"]');
+
+        const norm = (s) => s.toLocaleLowerCase();
+        const committedIndex = () =>
+          state.value === null
+            ? -1
+            : state.options.findIndex((o) => compare(o.value, state.value));
+        const committedLabel = () => {
+          const i = committedIndex();
+          return i >= 0 ? state.options[i].label : '';
+        };
+        const defaultFilter = (o, q) => norm(o.label).includes(norm(q));
+        const filterFn = config.filterWith || defaultFilter;
+        const filtered = () => {
+          if (!filterLocally || state.draft === null || state.draft === '') {
+            return state.options.map((_, i) => i);
+          }
+          return state.options
+            .map((_, i) => i)
+            .filter((i) => filterFn(state.options[i], state.draft));
+        };
+        const isDisabled = (optIndex) => !!state.options[optIndex].disabled;
+        const announce = (msg) => { live.textContent = msg; };
+
+        // --- debounced query + result-count announcement ------------------
+        let queryTimer = null;
+        const queueQuery = (q) => {
+          clearTimeout(queryTimer);
+          queryTimer = setTimeout(() => {
+            emit('query', q);
+            if (filterLocally && state.draft !== null && state.draft !== '') {
+              const n = filtered().length;
+              announce(n === 0 ? emptyText + '.' : n + (n === 1 ? ' result.' : ' results.'));
+            }
+          }, debounceTime);
+        };
+
+        // --- render -------------------------------------------------------
+        const render = () => {
+          const f = filtered();
+          const ci = committedIndex();
+          root.classList.toggle('uni-combobox--open', state.open);
+          root.classList.toggle(
+            'uni-combobox--error',
+            !!config.showError && config.showError(state)
+          );
+          input.setAttribute('aria-expanded', String(state.open));
+          input.setAttribute(
+            'aria-invalid',
+            config.showError && config.showError(state) ? 'true' : 'false'
+          );
+          clearBtn.hidden = !(clearable && state.value !== null && !config.disabled);
+          list.hidden = !state.open;
+          if (state.open) {
+            if (f.length === 0) {
+              list.innerHTML = `<li class="opt-empty">${emptyText}</li>`;
+              input.removeAttribute('aria-activedescendant');
+            } else {
+              list.innerHTML = f
+                .map((optIndex, i) => {
+                  const o = state.options[optIndex];
+                  const isCommitted = optIndex === ci;
+                  return `<li
+                    id="${id}-option-${i}"
+                    role="option"
+                    data-index="${optIndex}"
+                    class="${i === state.active ? 'active' : ''}"
+                    aria-selected="${isCommitted}"
+                    ${o.disabled ? 'aria-disabled="true"' : ''}
+                  ><span class="opt-check">${isCommitted ? icon('check') : ''}</span
+                  ><span class="opt-text"><span class="opt-label">${o.label}</span>${
+                    o.description ? `<span class="opt-desc">${o.description}</span>` : ''
+                  }</span></li>`;
+                })
+                .join('');
+              if (state.active >= 0 && state.active < f.length) {
+                input.setAttribute('aria-activedescendant', `${id}-option-${state.active}`);
+                const el = list.children[state.active];
+                if (el && el.scrollIntoView) el.scrollIntoView({ block: 'nearest' });
+              } else {
+                input.removeAttribute('aria-activedescendant');
+              }
+            }
+          } else {
+            input.removeAttribute('aria-activedescendant');
+          }
+          const display = state.draft !== null ? state.draft : committedLabel();
+          if (input.value !== display) input.value = display;
+        };
+
+        // --- open / close -------------------------------------------------
+        const openList = (activeIndex) => {
+          state.open = true;
+          state.active = activeIndex;
+          render();
+        };
+        const closeList = () => {
+          state.open = false;
+          state.active = -1;
+          render();
+        };
+        /** Index (in the filtered list) of the committed option, else -1. */
+        const filteredCommitted = () => filtered().indexOf(committedIndex());
+        const firstEnabled = (f, from, step) => {
+          if (f.length === 0) return -1;
+          let i = from;
+          for (let n = 0; n < f.length; n++) {
+            if (!isDisabled(f[(i + f.length) % f.length])) return (i + f.length) % f.length;
+            i += step;
+          }
+          return -1;
+        };
+
+        // --- commit paths -------------------------------------------------
+        const commit = (optIndex) => {
+          const o = state.options[optIndex];
+          if (!o || o.disabled) return false;
+          state.value = o.value;
+          state.draft = null;
+          state.dirty = true;
+          closeList();
+          announce(o.label + ' selected.');
+          emit('selected', o);
+          emit('value', state.value);
+          return true;
+        };
+        const clear = () => {
+          state.value = null;
+          state.draft = null;
+          state.dirty = true;
+          closeList();
+          announce('Selection cleared.');
+          emit('cleared');
+          emit('value', null);
+          input.focus();
+        };
+        /**
+         * Draft resolution (spec rules 1–4).
+         * `enterOnly` enables rule 3 (unique filtered candidate).
+         */
+        const resolveDraft = (enterOnly) => {
+          const f = filtered();
+          // 1. active option
+          if (state.open && state.active >= 0 && state.active < f.length) {
+            return commit(f[state.active]);
+          }
+          if (state.draft === null) return true; // nothing to resolve
+          if (state.draft === '') {
+            // an emptied field on blur/Tab is a deliberate "no value" — but only
+            // clearable fields may null the model this way
+            if (clearable && state.value !== null && !enterOnly) {
+              state.value = null; state.dirty = true;
+              announce('Selection cleared.');
+              emit('cleared'); emit('value', null);
+            }
+            state.draft = null;
+            return true;
+          }
+          // 2. unique exact label match (enabled)
+          const exact = state.options
+            .map((o, i) => i)
+            .filter((i) => !isDisabled(i) && norm(state.options[i].label) === norm(state.draft));
+          if (exact.length === 1) return commit(exact[0]);
+          // 3. Enter only: filter narrowed to exactly one enabled option
+          if (enterOnly) {
+            const enabled = f.filter((i) => !isDisabled(i));
+            if (enabled.length === 1) return commit(enabled[0]);
+          }
+          return false;
+        };
+        const revertDraft = () => {
+          if (state.draft !== null) {
+            const q = state.draft;
+            state.draft = null;
+            render();
+            return q;
+          }
+          return null;
+        };
+
+        // --- events -------------------------------------------------------
+        input.addEventListener('input', () => {
+          state.draft = input.value;
+          state.open = true;
+          state.active = -1;
+          render();
+          queueQuery(state.draft);
+        });
+
+        input.addEventListener('keydown', (e) => {
+          const f = filtered();
+          if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
+            e.preventDefault();
+            if (e.altKey) {
+              if (e.key === 'ArrowDown') { if (!state.open) openList(-1); }
+              else closeList();
+              return;
+            }
+            if (!state.open) {
+              // Down lands on the committed option (else first enabled); Up on the last enabled
+              if (e.key === 'ArrowDown') {
+                const fc = filteredCommitted();
+                openList(fc >= 0 && !isDisabled(f[fc]) ? fc : firstEnabled(f, 0, 1));
+              } else {
+                openList(firstEnabled(f, f.length - 1, -1));
+              }
+              return;
+            }
+            if (f.length === 0) return;
+            const step = e.key === 'ArrowDown' ? 1 : -1;
+            let i = state.active;
+            // wrap, skipping disabled
+            for (let n = 0; n < f.length; n++) {
+              i = i < 0 && step === 1 ? 0 : i < 0 && step === -1 ? f.length - 1 : (i + step + f.length) % f.length;
+              if (!isDisabled(f[i])) { state.active = i; break; }
+            }
+            render();
+            return;
+          }
+          if ((e.key === 'Home' || e.key === 'End') && state.open && f.length > 0) {
+            e.preventDefault();
+            state.active = e.key === 'Home' ? firstEnabled(f, 0, 1) : firstEnabled(f, f.length - 1, -1);
+            render();
+            return;
+          }
+          if (e.key === 'Enter') {
+            if (state.open) e.preventDefault(); // never submits a form while open
+            if (!resolveDraft(true)) {
+              // rule 4: keep open, announce
+              const n = filtered().length;
+              announce(n === 0 ? emptyText + '.' : n + ' results. Use the arrow keys.');
+            }
+            return;
+          }
+          if (e.key === 'Escape') {
+            if (state.open) { closeList(); }
+            else if (state.draft !== null) { revertDraft(); }
+            // never clears the committed value
+            return;
+          }
+          if (e.key === 'Tab') {
+            // resolve rules 1–2 (never rule 3), then let focus move on
+            if (commitOnBlur && !resolveDraft(false)) {
+              const q = revertDraft();
+              if (q) { announce('No match for “' + q + '”.'); emit('rejected', { query: q }); }
+            }
+            closeList();
+          }
+        });
+
+        field.addEventListener('mousedown', (e) => {
+          if (config.disabled) return;
+          if (e.target === toggleBtn || toggleBtn.contains(e.target)) {
+            e.preventDefault();
+            input.focus();
+            if (state.open) closeList();
+            else {
+              const f = filtered();
+              openList(filteredCommitted());
+            }
+            return;
+          }
+          if (e.target === clearBtn || clearBtn.contains(e.target)) return;
+          // click-to-browse: open the full list with the committed option active
+          if (!state.open) {
+            setTimeout(() => {
+              if (document.activeElement === input && !state.open) openList(filteredCommitted());
+            }, 0);
+          }
+        });
+        clearBtn.addEventListener('click', clear);
+
+        list.addEventListener('mousedown', (e) => e.preventDefault()); // keep focus in the input
+        list.addEventListener('click', (e) => {
+          const li = e.target.closest('[role="option"]');
+          if (!li) return;
+          const optIndex = Number(li.dataset.index);
+          if (isDisabled(optIndex)) return;
+          commit(optIndex);
+          input.focus();
+        });
+
+        root.addEventListener('focusout', (e) => {
+          if (root.contains(e.relatedTarget)) return;
+          state.touched = true;
+          if (commitOnBlur && !resolveDraft(false)) {
+            const q = revertDraft();
+            if (q) { announce('No match for “' + q + '”.'); emit('rejected', { query: q }); }
+          } else {
+            state.draft = null;
+          }
+          closeList();
+          emit('touched');
+        });
+
+        render();
+
+        return {
+          state,
+          setOptions(next) { state.options = next.slice(); render(); },
+          getValue: () => state.value,
+          el: { root, input, list, clearBtn, toggleBtn, live },
+        };
+      }
+
+      /* ============================================================
+         Demo data
+         ============================================================ */
+      const STATES = [
+        ['Alabama','Montgomery'],['Alaska','Juneau'],['Arizona','Phoenix'],['Arkansas','Little Rock'],
+        ['California','Sacramento'],['Colorado','Denver'],['Connecticut','Hartford'],['Delaware','Dover'],
+        ['Florida','Tallahassee'],['Georgia','Atlanta'],['Hawaii','Honolulu'],['Idaho','Boise'],
+        ['Illinois','Springfield'],['Indiana','Indianapolis'],['Iowa','Des Moines'],['Kansas','Topeka'],
+        ['Kentucky','Frankfort'],['Louisiana','Baton Rouge'],['Maine','Augusta'],['Maryland','Annapolis'],
+        ['Massachusetts','Boston'],['Michigan','Lansing'],['Minnesota','St. Paul'],['Mississippi','Jackson'],
+        ['Missouri','Jefferson City'],['Montana','Helena'],['Nebraska','Lincoln'],['Nevada','Carson City'],
+        ['New Hampshire','Concord'],['New Jersey','Trenton'],['New Mexico','Santa Fe'],['New York','Albany'],
+        ['North Carolina','Raleigh'],['North Dakota','Bismarck'],['Ohio','Columbus'],['Oklahoma','Oklahoma City'],
+        ['Oregon','Salem'],['Pennsylvania','Harrisburg'],['Rhode Island','Providence'],['South Carolina','Columbia'],
+        ['South Dakota','Pierre'],['Tennessee','Nashville'],['Texas','Austin'],['Utah','Salt Lake City'],
+        ['Vermont','Montpelier'],['Virginia','Richmond'],['Washington','Olympia'],['West Virginia','Charleston'],
+        ['Wisconsin','Madison'],['Wyoming','Cheyenne'],
+      ].map(([label, description]) => ({ label, value: label.toUpperCase().replace(/[^A-Z]/g, '_'), description }));
+
+      const ASSIGNEES = [
+        { label: 'Alice Chen', value: 'u1', description: 'alice@uni.dev' },
+        { label: 'Ben Okafor', value: 'u2', description: 'ben@uni.dev' },
+        { label: 'Carol Nwosu', value: 'u3', description: 'carol@uni.dev' },
+        { label: 'Dmitri Volkov', value: 'u4', description: 'dmitri@partners.io' },
+        { label: 'Priya Raman', value: 'u5', description: 'OOO until Sep 2', disabled: true },
+        { label: 'Sam Whitfield', value: 'u6', description: 'OOO until Aug 29', disabled: true },
+        { label: 'Tessa Morgan', value: 'u7', description: 'tessa@uni.dev' },
+      ];
+
+      const COUNTRIES = [
+        'Argentina','Australia','Austria','Belgium','Brazil','Canada','Chile','Colombia','Denmark','Egypt',
+        'Finland','France','Germany','Ghana','Greece','India','Indonesia','Ireland','Italy','Jamaica',
+        'Japan','Jordan','Kenya','Mexico','Morocco','Netherlands','New Zealand','Nigeria','Norway','Peru',
+        'Poland','Portugal','Singapore','South Africa','South Korea','Spain','Sweden','Switzerland','Thailand',
+        'United Kingdom','United States','Uruguay','Vietnam',
+      ].map((label) => ({ label, value: label }));
+
+      /* ============================================================
+         Wiring the demos
+         ============================================================ */
+      const logTo = (el) => {
+        const lines = [];
+        return (msg) => {
+          lines.unshift(msg);
+          if (lines.length > 40) lines.pop();
+          el.innerHTML = lines.join('<br>');
+        };
+      };
+
+      // 1 · State
+      const stateLog = logTo(document.getElementById('stateLog'));
+      const stateBox = createCombobox('stateHost', {
+        id: 'state',
+        label: 'State',
+        placeholder: 'Choose a state',
+        options: STATES,
+        on: (type, detail) => {
+          if (type === 'value') stateLog('<b>value</b> = ' + JSON.stringify(detail));
+          if (type === 'selected') stateLog('<b>selected</b> ' + detail.label);
+          if (type === 'cleared') stateLog('<b>cleared</b>');
+          if (type === 'rejected') stateLog('<b>rejected</b> ' + JSON.stringify(detail));
+        },
+      });
+      stateLog('<b>value</b> = null');
+
+      // 2 · Assignee
+      const assigneeLog = logTo(document.getElementById('assigneeLog'));
+      const assigneeBox = createCombobox('assigneeHost', {
+        id: 'assignee',
+        label: 'Assignee',
+        placeholder: 'Choose a person',
+        options: ASSIGNEES,
+        on: (type, detail) => {
+          if (type === 'value') assigneeLog('<b>value</b> = ' + JSON.stringify(detail));
+          if (type === 'rejected') assigneeLog('<b>rejected</b> ' + JSON.stringify(detail));
+        },
+      });
+      assigneeLog('<b>value</b> = null');
+
+      // 3 · Country (async)
+      const countryLog = logTo(document.getElementById('countryLog'));
+      const countryBox = createCombobox('countryHost', {
+        id: 'country',
+        label: 'Country',
+        placeholder: 'Type to search countries',
+        options: [],
+        filterLocally: false,
+        emptyText: 'No countries found',
+        on: (type, detail) => {
+          if (type === 'query') {
+            countryLog('<b>query</b> "' + detail + '"');
+            // fake server: 300ms latency, contains-filter
+            setTimeout(() => {
+              const q = detail.toLocaleLowerCase();
+              countryBox.setOptions(
+                q ? COUNTRIES.filter((c) => c.label.toLocaleLowerCase().includes(q)) : []
+              );
+            }, 300);
+          }
+          if (type === 'value') countryLog('<b>value</b> = ' + JSON.stringify(detail));
+        },
+      });
+      countryLog('<b>query</b> —');
+
+      // 4 · Team (required / showError)
+      const teamLog = logTo(document.getElementById('teamLog'));
+      const teamBox = createCombobox('teamHost', {
+        id: 'team',
+        label: 'Team',
+        placeholder: 'Choose a team',
+        required: true,
+        options: [
+          { label: 'Design Systems', value: 'ds' },
+          { label: 'Platform', value: 'platform' },
+          { label: 'Growth', value: 'growth' },
+          { label: 'Support Tools', value: 'support' },
+        ],
+        showError: (s) => s.value === null && (s.touched || s.dirty),
+        on: (type) => {
+          const s = teamBox ? teamBox.state : null;
+          if (!s) return;
+          teamLog(
+            `<b>${type}</b> · value=${JSON.stringify(s.value)} touched=${s.touched} dirty=${s.dirty}`
+          );
+        },
+      });
+      teamLog('<b>init</b> · invalid (required, empty) but not yet shown');
+
+      /* theme toggle */
+      document.getElementById('themeToggle').onclick = () => {
+        const el = document.documentElement;
+        const dark = el.getAttribute('data-theme') !== 'dark';
+        el.setAttribute('data-theme', dark ? 'dark' : 'light');
+        document.getElementById('themeToggleText').textContent = dark ? 'Light' : 'Dark';
+      };
+
+      /* test hooks */
+      window.__proto = { stateBox, assigneeBox, countryBox, teamBox };
+    </script>
+  </body>
+</html>
