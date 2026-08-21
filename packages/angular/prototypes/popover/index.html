@@ -1,0 +1,1162 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Uni — Popover, Callout &amp; Tour prototype</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Red+Hat+Display:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      /* ============================================================
+         Tokens — the real generated Uni palettes (seed #4F46E5,
+         triadic / neutral), dumped from @uni-design-system/uni-core.
+         Nothing here is invented: swap the block, reskin the proto.
+         ============================================================ */
+      :root {
+        --primary: #6a6f8f;
+        --on-primary: #f9faff;
+        --primary-container: #dbddea;
+        --on-primary-container: #1a1c37;
+        --on-primary-container-variant: #5b5d68;
+        --on-primary-container-border: #6a6f8f;
+        --primary-surface: #f3f5fd;
+        --on-primary-surface: #1e1f25;
+        --on-primary-surface-variant: #6a6f8f;
+        --secondary: #8c685d;
+        --on-secondary: #fff8f6;
+        --secondary-container: #e9dad6;
+        --on-secondary-container: #33160d;
+        --tertiary: #597b66;
+        --on-tertiary: #f0fff5;
+        --tertiary-container: #d5e2d9;
+        --on-tertiary-container: #052615;
+        --error: #cc2827;
+        --on-error: #fff8f7;
+        --warn: #ac5700;
+        --success: #008341;
+        --background: #fdfdff;
+        --on-background: #202127;
+        --on-background-variant: #5c5d65;
+        --surface: #f9faff;
+        --surface-variant: #e9ebf3;
+        --on-surface-variant: #36373e;
+        --outline: #7e8088;
+        --disabled: rgba(0, 0, 0, 0.12);
+        --on-disabled: rgba(0, 0, 0, 0.38);
+        --disabled-container: #eff1fa;
+        --shadow-menu: rgba(0, 0, 0, 0.2) 0 3px 3px -2px, rgba(0, 0, 0, 0.14) 0 3px 4px 0,
+          rgba(0, 0, 0, 0.12) 0 1px 8px 0;
+        --scrim: rgba(0, 0, 0, 0.45);
+
+        --radius-xxs: 4px;
+        --radius-xs: 8px;
+        --radius-sm: 16px;
+        --radius-max: 999px;
+        --space-xxs: 2px;
+        --space-xs: 4px;
+        --space-sm: 8px;
+        --space-md: 16px;
+        --space-lg: 32px;
+      }
+
+      html[data-theme='dark'] {
+        --primary: #afb5d8;
+        --on-primary: #11132c;
+        --primary-container: #4a4c57;
+        --on-primary-container: #f9faff;
+        --on-primary-container-variant: #bcbecb;
+        --on-primary-container-border: #afb5d8;
+        --primary-surface: #22242a;
+        --on-primary-surface: #f9faff;
+        --on-primary-surface-variant: #afb5d8;
+        --secondary: #d5ada1;
+        --on-secondary: #280c05;
+        --secondary-container: #564a46;
+        --on-secondary-container: #fff8f7;
+        --tertiary: #9ec2ab;
+        --on-tertiary: #001c0d;
+        --tertiary-container: #465049;
+        --on-tertiary-container: #f0fff5;
+        --error: #ff968a;
+        --on-error: #290b09;
+        --warn: #ff9b51;
+        --success: #59d483;
+        --background: #101117;
+        --on-background: #e5e7f0;
+        --on-background-variant: #afb0b9;
+        --surface: #17181e;
+        --surface-variant: #313239;
+        --on-surface-variant: #afb0b9;
+        --outline: #90929a;
+        --disabled: rgba(255, 255, 255, 0.12);
+        --on-disabled: rgba(255, 255, 255, 0.38);
+        --disabled-container: #2c2d34;
+        --scrim: rgba(0, 0, 0, 0.55);
+      }
+
+      /* ============================================================
+         Page chrome (prototype only — not part of the components)
+         ============================================================ */
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        padding: 0 0 480px; /* generous tail so scroll-tracking can be exercised */
+        font-family: 'Red Hat Display', system-ui, sans-serif;
+        background: var(--background);
+        color: var(--on-background);
+        -webkit-font-smoothing: antialiased;
+      }
+      .page { max-width: 940px; margin: 0 auto; padding: 0 24px; }
+      header.top {
+        position: sticky; top: 0; z-index: 30;
+        background: var(--background);
+        border-bottom: 1px solid var(--surface-variant);
+        margin-bottom: 32px;
+      }
+      header.top .page {
+        display: flex; align-items: center; gap: 16px;
+        padding-top: 18px; padding-bottom: 18px;
+      }
+      h1 { font-size: 20px; margin: 0; font-weight: 700; letter-spacing: -0.2px; }
+      h1 small { display: block; font-size: 13px; font-weight: 400; color: var(--on-background-variant); }
+      h2 {
+        font-size: 15px; text-transform: uppercase; letter-spacing: 0.08em;
+        color: var(--on-background-variant); font-weight: 600;
+        margin: 48px 0 4px; padding-top: 24px;
+        border-top: 1px solid var(--surface-variant);
+      }
+      h3 { font-size: 14px; font-weight: 600; margin: 28px 0 10px; }
+      p.lede { color: var(--on-background-variant); font-size: 14px; line-height: 1.6; margin: 0 0 20px; max-width: 68ch; }
+      .toggle {
+        margin-left: auto; display: inline-flex; align-items: center; gap: 6px;
+        height: 32px; padding: 0 14px; cursor: pointer;
+        border-radius: var(--radius-max); border: 1px solid var(--outline);
+        background: transparent; color: inherit;
+        font-family: inherit; font-size: 13px; font-weight: 600;
+      }
+      .toggle:hover { background: var(--surface-variant); }
+      .panel {
+        background: var(--surface); border: 1px solid var(--surface-variant);
+        border-radius: var(--radius-xs); padding: 20px 22px; margin-bottom: 16px;
+      }
+      .row { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
+      .row + .row { margin-top: 14px; }
+      code, kbd { font-family: ui-monospace, 'SF Mono', Menlo, monospace; }
+      kbd {
+        display: inline-block; padding: 1px 6px; font-size: 11.5px;
+        border: 1px solid var(--outline); border-bottom-width: 2px;
+        border-radius: var(--radius-xxs); background: var(--surface-variant);
+        white-space: nowrap;
+      }
+      table.keys { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+      table.keys th {
+        text-align: left; font-size: 11px; text-transform: uppercase; letter-spacing: 0.06em;
+        color: var(--on-background-variant); padding: 6px 10px; border-bottom: 1px solid var(--surface-variant);
+      }
+      table.keys td { padding: 7px 10px; border-bottom: 1px solid var(--surface-variant); vertical-align: top; }
+      table.keys td:first-child { width: 210px; white-space: nowrap; }
+      .log {
+        font-family: ui-monospace, Menlo, monospace; font-size: 12px; line-height: 1.7;
+        background: var(--primary-surface); color: var(--on-primary-surface-variant);
+        border-radius: var(--radius-xxs); padding: 10px 12px; height: 116px; overflow: auto;
+      }
+      .log b { color: var(--on-background); font-weight: 600; }
+      .hint { font-size: 12px; color: var(--on-background-variant); margin: 8px 0 0; }
+      .ghostbtn {
+        height: 28px; padding: 0 12px; cursor: pointer; font-family: inherit;
+        font-size: 12px; font-weight: 600; border-radius: var(--radius-max);
+        border: 1px solid var(--outline); background: transparent; color: inherit;
+      }
+      .ghostbtn:hover { background: var(--surface-variant); }
+      .textbtn {
+        height: 32px; padding: 0 16px; cursor: pointer; font-family: inherit;
+        font-size: 13px; font-weight: 600; border-radius: var(--radius-max);
+        border: none; background: var(--primary); color: var(--on-primary);
+      }
+      .textbtn:hover { filter: brightness(0.96); }
+      .textbtn[disabled] { background: var(--disabled); color: var(--on-disabled); cursor: default; filter: none; }
+      .textbtn.quiet { background: transparent; color: var(--primary); }
+      .textbtn.quiet:hover { background: var(--surface-variant); }
+      .iconbtn {
+        width: 28px; height: 28px; display: inline-grid; place-items: center; cursor: pointer;
+        border: none; border-radius: var(--radius-max); background: transparent; color: inherit;
+        font-size: 14px; font-family: inherit;
+      }
+      .iconbtn:hover { background: var(--surface-variant); }
+      .sr-only {
+        position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+        overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+      }
+      button:focus-visible, input:focus-visible, [tabindex]:focus-visible {
+        outline: 2px solid var(--primary); outline-offset: 2px;
+      }
+      .field {
+        display: block; width: 100%; height: 36px; padding: 0 12px;
+        font-family: inherit; font-size: 13.5px;
+        color: var(--on-surface-variant);
+        background: var(--surface); border: 1px solid var(--outline);
+        border-radius: var(--radius-xxs);
+      }
+      .field-label {
+        display: block; font-size: 12px; font-weight: 600; margin-bottom: 6px;
+        color: var(--on-background-variant);
+      }
+
+      /* ============================================================
+         uni-popover v2 — panel chrome (theme entry: `popover`)
+         ============================================================ */
+      [popover].uni-pop {
+        position: fixed;
+        background: var(--primary-surface);
+        color: var(--on-primary-surface);
+        border: 1px solid var(--surface-variant);
+        border-radius: var(--radius-xs);
+        box-shadow: var(--shadow-menu);
+        padding: 6px 12px;
+        width: max-content;
+        max-width: 38ch;
+        overflow: visible;
+        font-size: 13.5px; line-height: 1.55;
+        transition-property: opacity, display, overlay;
+        transition-duration: 250ms;
+        transition-behavior: allow-discrete;
+        opacity: 0;
+      }
+      [popover].uni-pop:popover-open { opacity: 1; }
+      @starting-style {
+        [popover].uni-pop:popover-open { opacity: 0; }
+      }
+      .uni-pop--tooltip { padding: 4px 8px; font-size: 12.5px; }
+      .uni-pop--structured { padding: 0; }
+      .uni-pop-header {
+        display: flex; align-items: center; gap: 8px;
+        padding: 10px 10px 8px 14px;
+        border-bottom: 1px solid var(--surface-variant);
+      }
+      .uni-pop-title { font-size: 14px; font-weight: 700; margin-right: auto; }
+      .uni-pop-body { padding: 12px 14px; }
+      .uni-pop-footer {
+        display: flex; justify-content: flex-end; gap: 8px;
+        padding: 8px 14px 12px;
+      }
+      .uni-arrow {
+        position: absolute; width: 8px; height: 8px;
+        background: var(--primary-surface);
+        transform: rotate(45deg);
+      }
+      .uni-pop--structured > .uni-arrow { background: var(--primary-surface); }
+      .uni-trigger { display: inline-block; }
+
+      /* ============================================================
+         uni-callout — scrim + spotlight + panel (theme entry: `callout`)
+         The scrim pieces are ANCHOR-POSITIONED: the browser tracks the
+         target through scroll/resize/layout with zero JS listeners.
+         ============================================================ */
+      [popover].uni-scrim {
+        position: fixed; inset: 0; width: 100%; height: 100%;
+        margin: 0; border: 0; padding: 0;
+        background: transparent; overflow: visible;
+        pointer-events: none;
+        transition-property: opacity, display, overlay;
+        transition-duration: 250ms;
+        transition-behavior: allow-discrete;
+        opacity: 0;
+      }
+      [popover].uni-scrim:popover-open { opacity: 1; }
+      @starting-style {
+        [popover].uni-scrim:popover-open { opacity: 0; }
+      }
+      .uni-scrim > * { position: fixed; }
+      .co-window {
+        pointer-events: none;
+        border: 2px solid var(--primary);
+        border-radius: var(--radius-xs);
+        box-shadow: 0 0 0 200vmax var(--scrim);
+      }
+      .co-strip { pointer-events: auto; background: transparent; }
+      .co-cover { pointer-events: auto; background: transparent; }
+      .co-cover--full { inset: 0; background: var(--scrim); }
+
+      [popover].uni-callout-panel {
+        position: fixed;
+        background: var(--primary-surface);
+        color: var(--on-primary-surface);
+        border: 1px solid var(--surface-variant);
+        border-radius: var(--radius-xs);
+        box-shadow: var(--shadow-menu);
+        width: 320px; max-width: calc(100vw - 32px);
+        padding: 0; overflow: visible;
+        font-size: 13.5px; line-height: 1.55;
+        transition-property: opacity, translate, display, overlay;
+        transition-duration: 250ms;
+        transition-behavior: allow-discrete;
+        opacity: 0; translate: 0 6px;
+      }
+      [popover].uni-callout-panel:popover-open { opacity: 1; translate: 0 0; }
+      @starting-style {
+        [popover].uni-callout-panel:popover-open { opacity: 0; translate: 0 6px; }
+      }
+      .co-head {
+        display: flex; align-items: center; gap: 8px;
+        padding: 12px 10px 0 16px;
+      }
+      .co-title { font-size: 14.5px; font-weight: 700; margin-right: auto; }
+      .co-body { padding: 6px 16px 12px; color: var(--on-primary-surface); }
+      .co-actions {
+        display: flex; align-items: center; gap: 8px;
+        padding: 0 12px 12px; min-height: 0;
+      }
+      .co-actions:empty { padding: 0 0 4px; }
+      .co-spacer { margin-left: auto; }
+      .co-dots { display: inline-flex; gap: 5px; margin: 0 auto; }
+      .co-dots i {
+        width: 6px; height: 6px; border-radius: 999px;
+        background: var(--surface-variant); border: 1px solid var(--outline);
+      }
+      .co-dots i.on { background: var(--primary); border-color: var(--primary); }
+      .co-pulse { animation: co-pulse 0.4s ease; }
+      @keyframes co-pulse {
+        0% { translate: 0 0; } 30% { translate: 0 -3px; } 60% { translate: 0 2px; } 100% { translate: 0 0; }
+      }
+
+      /* Demo app card — the tour's stage */
+      .appcard { max-width: 560px; }
+      .appcard .approw { display: flex; gap: 12px; align-items: flex-end; }
+      .appcard .approw > div { flex: 1; }
+
+      @media (prefers-reduced-motion: reduce) {
+        * { transition-duration: 0.01ms !important; animation: none !important; }
+      }
+    </style>
+  </head>
+
+  <body>
+    <header class="top">
+      <div class="page">
+        <h1>
+          Popover, Callout &amp; Tour
+          <small>Uni Design System — prototype, not shipped code</small>
+        </h1>
+        <button class="toggle" id="themeToggle" type="button">
+          <svg style="width:16px;height:16px" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21q-3.75 0-6.37-2.63T3 12q0-3.75 2.63-6.37T12 3q.35 0 .69.03.34.02.67.07-1.03.73-1.64 1.9-.62 1.16-.62 2.5 0 2.25 1.57 3.82Q14.25 12.9 16.5 12.9q1.35 0 2.51-.62 1.16-.61 1.86-1.64.05.33.09.67.03.34.03.69 0 3.75-2.62 6.37Q15.75 21 12 21z" fill="currentColor"/></svg>
+          <span id="themeToggleText">Dark</span>
+        </button>
+      </div>
+    </header>
+
+    <main class="page">
+      <p class="lede">
+        <code>uni-popover</code> upgraded in place — theme-driven chrome, structured regions, a
+        detached anchor, and a <b>tooltip mode</b> — plus a new <code>uni-callout</code> that dims
+        the page and cuts a <b>spotlight</b> around its target, and a thin <code>uni-tour</code>
+        that sequences callouts with <b>action-gated advance</b>. The spotlight is pure CSS anchor
+        positioning: scroll the page with a callout open and watch the hole track its target with
+        zero JS listeners.
+      </p>
+
+      <!-- ================= 1. Popover, rich mode ================= -->
+      <h2>1 · Popover — rich mode</h2>
+      <p class="lede">
+        Click toggles; native light dismiss (<kbd>Esc</kbd> / outside click). Structured popovers
+        add a header, a ✕, and a footer; an <code>autofocus</code> input inside receives focus on
+        open — that's native <code>popover</code> behaviour, inherited for free.
+      </p>
+
+      <div class="panel">
+        <div class="row">
+          <span id="poBasicHost"></span>
+          <span id="poFilterHost"></span>
+        </div>
+        <div class="row" style="margin-top: 18px; align-items: flex-end">
+          <div style="flex: 1; max-width: 300px">
+            <label class="field-label" for="email-field">Work email</label>
+            <input class="field" id="email-field" type="email" placeholder="you@company.com" />
+          </div>
+          <span id="poDetachedHost"></span>
+        </div>
+        <p class="hint">
+          The last button opens a popover <b>anchored to the email field it explains</b> — the
+          trigger keeps the disclosure ARIA, the panel points at the detached anchor.
+        </p>
+      </div>
+
+      <!-- ================= 2. Tooltip mode ================= -->
+      <h2>2 · Popover — tooltip mode</h2>
+      <p class="lede">
+        Hover opens after 500&nbsp;ms; focus opens instantly; the pointer can travel into the
+        panel; <kbd>Esc</kbd> dismisses without moving focus (WCAG 1.4.13). ARIA flips to
+        <code>role="tooltip"</code> + <code>aria-describedby</code>.
+      </p>
+      <div class="panel">
+        <div class="row" id="toolbarHost" role="group" aria-label="Formatting"></div>
+        <p class="hint">Tab through the buttons: focus shows each tooltip with no delay.</p>
+      </div>
+
+      <!-- ================= 3 & 4 stage: demo app card ================= -->
+      <h2>3 · Callout — spotlight &amp; dim</h2>
+      <p class="lede">
+        The scrim is four anchor-positioned strips plus a shadow-painting window — the hole is
+        genuinely empty space, so the target stays clickable while everything else is blocked.
+        Scroll while one is open: the browser tracks the target natively.
+      </p>
+
+      <div class="panel appcard" id="app-card" aria-label="Project settings demo">
+        <h3 style="margin-top: 0">Project settings</h3>
+        <div class="approw">
+          <div>
+            <label class="field-label" for="app-search">Search</label>
+            <input class="field" id="app-search" type="search" placeholder="Search settings…" />
+          </div>
+          <div>
+            <label class="field-label" for="app-name">Project name</label>
+            <input class="field" id="app-name" type="text" placeholder="Untitled project" />
+          </div>
+        </div>
+        <div class="approw" style="margin-top: 14px; align-items: center">
+          <label style="display: flex; align-items: center; gap: 8px; font-size: 13px; flex: 1">
+            <input type="checkbox" id="app-notif" checked /> Email me about activity
+          </label>
+          <button class="textbtn" id="app-save" type="button">Save</button>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="row">
+          <button class="ghostbtn" id="btnSpot" type="button">Spotlight the name field</button>
+          <button class="ghostbtn" id="btnSpotLocked" type="button">Non-interactive spotlight</button>
+          <button class="ghostbtn" id="btnDim" type="button">Dim, no target</button>
+          <button class="ghostbtn" id="btnNoBackdrop" type="button">No backdrop</button>
+        </div>
+        <p class="hint">
+          With the first one open, the name field accepts typing through the hole;
+          <kbd>Tab</kbd> cycles the duet loop (panel ⇄ target); <kbd>Esc</kbd> dismisses with a
+          reason.
+        </p>
+      </div>
+
+      <h2>4 · Tour — sequenced callouts, action-gated</h2>
+      <p class="lede">
+        Six steps over the card above: a centered welcome, a read-only spotlight, a step that
+        <b>requires typing</b> before Next enables, a step where <b>clicking Save is the
+        advance</b>, a step whose target is missing (skipped with a warning), and a finish.
+      </p>
+      <div class="panel">
+        <div class="row">
+          <button class="textbtn" id="btnTour" type="button">Start tour</button>
+        </div>
+      </div>
+
+      <div class="panel">
+        <h3 style="margin-top: 0">Events</h3>
+        <div class="log" id="eventLog"></div>
+      </div>
+
+      <!-- ================= 5. Keyboard ================= -->
+      <h2>5 · Keyboard map</h2>
+      <div class="panel">
+        <h3 style="margin-top: 0">Popover (rich)</h3>
+        <table class="keys">
+          <thead><tr><th>Key</th><th>Behaviour</th></tr></thead>
+          <tbody>
+            <tr><td><kbd>Enter</kbd> / <kbd>Space</kbd> on trigger</td><td>Toggles (native button activation)</td></tr>
+            <tr><td><kbd>Esc</kbd></td><td>Closes (native light dismiss); ✕ returns focus to the trigger</td></tr>
+            <tr><td><kbd>Tab</kbd></td><td>Walks into the panel's content and out the other side — never trapped</td></tr>
+          </tbody>
+        </table>
+        <h3>Popover (tooltip)</h3>
+        <table class="keys">
+          <thead><tr><th>Interaction</th><th>Behaviour</th></tr></thead>
+          <tbody>
+            <tr><td>hover</td><td>Opens after 500 ms; leaving trigger + panel closes after 150 ms</td></tr>
+            <tr><td>focus / blur</td><td>Opens / closes instantly</td></tr>
+            <tr><td><kbd>Esc</kbd></td><td>Dismisses without moving focus</td></tr>
+          </tbody>
+        </table>
+        <h3>Callout / Tour</h3>
+        <table class="keys">
+          <thead><tr><th>Key</th><th>Behaviour</th></tr></thead>
+          <tbody>
+            <tr><td><kbd>Tab</kbd> / <kbd>Shift+Tab</kbd></td><td>Duet loop: panel focusables + the interactive target</td></tr>
+            <tr><td><kbd>Esc</kbd></td><td>Dismisses the callout / skips the tour (with reason &amp; step)</td></tr>
+            <tr><td><kbd>→</kbd> / <kbd>←</kbd></td><td>Tour next / back — only while focus is in the panel</td></tr>
+            <tr><td><kbd>Enter</kbd></td><td>Activates the focused action (real buttons)</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </main>
+
+    <div class="sr-only" role="status" aria-live="polite" id="live"></div>
+
+    <script>
+      /* ==========================================================
+         Shared plumbing — mirrors the cdk 1:1
+         (anchorStyles / anchorArrowStyles / newAnchorName)
+         ========================================================== */
+      const PLACE_AREA = {
+        top: 'top', bottom: 'bottom', left: 'left', right: 'right',
+        'top-start': 'top span-right', 'top-end': 'top span-left',
+        'bottom-start': 'bottom span-right', 'bottom-end': 'bottom span-left',
+        'left-start': 'left span-bottom', 'left-end': 'left span-top',
+        'right-start': 'right span-bottom', 'right-end': 'right span-top',
+      };
+      const MAIN_MARGIN = { top: 'marginBottom', bottom: 'marginTop', left: 'marginRight', right: 'marginLeft' };
+
+      let anchorSeq = 0;
+      function ensureAnchorName(el) {
+        if (!el.dataset.uniAnchor) {
+          const name = '--uni-a' + ++anchorSeq;
+          el.style.anchorName = name;
+          el.dataset.uniAnchor = name;
+        }
+        return el.dataset.uniAnchor;
+      }
+
+      function applyAnchor(panel, anchorName, placement, mainAxis) {
+        panel.style.position = 'fixed';
+        panel.style.positionAnchor = anchorName;
+        panel.style.positionArea = PLACE_AREA[placement];
+        panel.style.positionTryFallbacks = 'flip-block, flip-inline';
+        panel.style.inset = 'auto';
+        panel.style.margin = '0';
+        panel.style[MAIN_MARGIN[placement.split('-')[0]]] = mainAxis + 'px';
+      }
+
+      function styleArrow(el, placement, size = 8) {
+        const [side, align] = placement.split('-');
+        el.style.cssText = '';
+        el.style.position = 'absolute';
+        el.style.width = size + 'px';
+        el.style.height = size + 'px';
+        el.style.transform = 'rotate(45deg)';
+        const facing = { top: 'bottom', bottom: 'top', left: 'right', right: 'left' }[side];
+        el.style[facing] = -(size / 2) + 'px';
+        const horizontal = side === 'top' || side === 'bottom';
+        const crossProp = horizontal ? 'left' : 'top';
+        const crossEnd = horizontal ? 'right' : 'bottom';
+        if (!align) el.style[crossProp] = `calc(50% - ${size / 2}px)`;
+        else if (align === 'start') el.style[crossProp] = size * 1.5 + 'px';
+        else el.style[crossEnd] = size * 1.5 + 'px';
+        const b = '1px solid var(--surface-variant)';
+        const edges = {
+          top: ['borderRight', 'borderBottom'], bottom: ['borderLeft', 'borderTop'],
+          left: ['borderRight', 'borderTop'], right: ['borderLeft', 'borderBottom'],
+        }[side];
+        edges.forEach((p) => (el.style[p] = b));
+      }
+
+      const focusablesIn = (root) =>
+        [...root.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])')]
+          .filter((el) => !el.disabled && el.offsetParent !== null);
+
+      /* ---------- demo instrumentation ---------- */
+      const logEl = document.getElementById('eventLog');
+      const liveEl = document.getElementById('live');
+      function log(name, detail) {
+        const line = document.createElement('div');
+        line.innerHTML = `<b>${name}</b>${detail ? ' ' + detail : ''}`;
+        logEl.prepend(line);
+      }
+      function announce(text) {
+        liveEl.textContent = text;
+        log('live', '“' + text + '”');
+      }
+
+      /* ==========================================================
+         uni-popover v2 — factory mirrors the proposed API 1:1
+         ========================================================== */
+      let popSeq = 0;
+      function createPopover(cfg) {
+        const id = cfg.id || 'uni-popover-' + ++popSeq;
+        const mode = cfg.mode || 'rich';
+        const placement = cfg.placement || 'bottom';
+        const autoClose = cfg.autoClose !== false;
+
+        // trigger wrapper (projected [trigger] content)
+        let trigger = null;
+        if (cfg.trigger) {
+          trigger = cfg.trigger;
+          if (cfg.host) {
+            const wrap = document.createElement('span');
+            wrap.className = 'uni-trigger';
+            wrap.appendChild(trigger);
+            cfg.host.appendChild(wrap);
+          }
+        }
+
+        // anchor: detached element (or the trigger)
+        const anchorEl =
+          typeof cfg.anchor === 'string' ? document.getElementById(cfg.anchor) : cfg.anchor || trigger;
+        const anchorName = ensureAnchorName(anchorEl);
+
+        // panel
+        const panel = document.createElement('div');
+        panel.id = id + '-panel';
+        panel.className = 'uni-pop' + (mode === 'tooltip' ? ' uni-pop--tooltip' : '');
+        panel.setAttribute('popover', mode === 'tooltip' ? 'manual' : autoClose ? 'auto' : 'manual');
+
+        if (mode === 'rich' && (cfg.header || cfg.closable || cfg.footerHTML)) {
+          panel.classList.add('uni-pop--structured');
+          if (cfg.header || cfg.closable) {
+            const head = document.createElement('div');
+            head.className = 'uni-pop-header';
+            const title = document.createElement('span');
+            title.className = 'uni-pop-title';
+            title.id = id + '-title';
+            title.textContent = cfg.header || '';
+            head.appendChild(title);
+            if (cfg.closable) {
+              const x = document.createElement('button');
+              x.type = 'button';
+              x.className = 'iconbtn';
+              x.id = id + '-close';
+              x.setAttribute('aria-label', 'Close');
+              x.textContent = '✕';
+              x.addEventListener('click', () => { api.hide(); trigger?.focus(); });
+              head.appendChild(x);
+            }
+            panel.appendChild(head);
+            if (cfg.header) panel.setAttribute('aria-labelledby', title.id);
+          }
+          const body = document.createElement('div');
+          body.className = 'uni-pop-body';
+          body.innerHTML = cfg.content || '';
+          panel.appendChild(body);
+          if (cfg.footerHTML) {
+            const foot = document.createElement('div');
+            foot.className = 'uni-pop-footer';
+            foot.innerHTML = cfg.footerHTML;
+            panel.appendChild(foot);
+          }
+        } else {
+          panel.innerHTML = cfg.content || '';
+        }
+
+        if (cfg.arrow !== false) {
+          const arrow = document.createElement('span');
+          arrow.className = 'uni-arrow';
+          styleArrow(arrow, placement);
+          panel.appendChild(arrow);
+        }
+        applyAnchor(panel, anchorName, placement, mode === 'tooltip' ? 6 : 7);
+        if (cfg.maxWidth) panel.style.maxWidth = cfg.maxWidth;
+        document.body.appendChild(panel);
+
+        /* ---- ARIA + behaviour per mode ---- */
+        let openTimer, closeTimer;
+        const openDelay = cfg.openDelay ?? 500;
+        const closeDelay = cfg.closeDelay ?? 150;
+
+        if (mode === 'rich') {
+          // disclosure contract lives on the *controller* (the trigger),
+          // even when the panel anchors elsewhere
+          if (trigger) {
+            trigger.setAttribute('aria-expanded', 'false');
+            trigger.setAttribute('aria-controls', panel.id);
+            trigger.addEventListener('click', () => api.toggle());
+          }
+          panel.addEventListener('toggle', (e) => {
+            const open = e.newState === 'open';
+            trigger?.setAttribute('aria-expanded', String(open));
+            if (open) panel.querySelector('[autofocus]')?.focus();
+            log(open ? 'opened' : 'closed', id);
+            (open ? cfg.onOpen : cfg.onClose)?.();
+          });
+        } else {
+          // tooltip mode: role=tooltip + aria-describedby, hover/focus lifecycle
+          panel.setAttribute('role', 'tooltip');
+          trigger.setAttribute('aria-describedby', panel.id);
+          const scheduleOpen = (delay) => { clearTimeout(closeTimer); openTimer = setTimeout(() => api.show(), delay); };
+          const scheduleClose = () => { clearTimeout(openTimer); closeTimer = setTimeout(() => api.hide(), closeDelay); };
+          trigger.addEventListener('mouseenter', () => scheduleOpen(openDelay));
+          trigger.addEventListener('mouseleave', scheduleClose);
+          trigger.addEventListener('focus', () => scheduleOpen(0));
+          trigger.addEventListener('blur', () => { clearTimeout(openTimer); api.hide(); });
+          panel.addEventListener('mouseenter', () => clearTimeout(closeTimer));
+          panel.addEventListener('mouseleave', scheduleClose);
+          document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && panel.matches(':popover-open')) api.hide(); // focus untouched
+          });
+          panel.addEventListener('toggle', (e) => {
+            log(e.newState === 'open' ? 'opened' : 'closed', id + ' (tooltip)');
+          });
+        }
+
+        const api = {
+          id, panel, trigger,
+          show: () => { if (!panel.matches(':popover-open')) panel.showPopover(); },
+          hide: () => { if (panel.matches(':popover-open')) panel.hidePopover(); },
+          toggle: () => (panel.matches(':popover-open') ? api.hide() : api.show()),
+          get open() { return panel.matches(':popover-open'); },
+        };
+        return api;
+      }
+
+      /* ==========================================================
+         uni-callout — scrim + spotlight + panel factory
+         ========================================================== */
+      function createCallout(prefix) {
+        // scrim container (top layer, below the panel)
+        const scrim = document.createElement('div');
+        scrim.className = 'uni-scrim';
+        scrim.id = prefix + '-scrim';
+        scrim.setAttribute('popover', 'manual');
+        const win = document.createElement('div');
+        win.className = 'co-window';
+        win.id = prefix + '-window';
+        scrim.appendChild(win);
+        const strips = {};
+        for (const side of ['top', 'bottom', 'left', 'right']) {
+          const s = document.createElement('div');
+          s.className = 'co-strip';
+          s.dataset.side = side;
+          scrim.appendChild(s);
+          strips[side] = s;
+        }
+        const cover = document.createElement('div');
+        cover.className = 'co-cover';
+        cover.id = prefix + '-cover';
+        scrim.appendChild(cover);
+        document.body.appendChild(scrim);
+
+        // panel
+        const panel = document.createElement('div');
+        panel.className = 'uni-callout-panel';
+        panel.id = prefix + '-panel';
+        panel.setAttribute('popover', 'manual');
+        panel.setAttribute('role', 'dialog');
+        panel.tabIndex = -1;
+        panel.innerHTML = `
+          <div class="co-head">
+            <span class="co-title" id="${prefix}-title"></span>
+            <button type="button" class="iconbtn" id="${prefix}-close" aria-label="Close">✕</button>
+          </div>
+          <div class="co-body" id="${prefix}-body"></div>
+          <div class="co-actions" id="${prefix}-actions"></div>
+          <span class="uni-arrow" id="${prefix}-arrow"></span>`;
+        document.body.appendChild(panel);
+
+        const titleEl = panel.querySelector('.co-title');
+        const bodyEl = panel.querySelector('.co-body');
+        const actionsEl = panel.querySelector('.co-actions');
+        const closeBtn = panel.querySelector('#' + prefix + '-close');
+        const arrowEl = panel.querySelector('#' + prefix + '-arrow');
+
+        let state = null; // { opts, target, prevFocus }
+        const PAD = 6; // spotlightPadding theme option
+
+        const holeInset = (el, extra = 0) => {
+          for (const side of ['top', 'left', 'right', 'bottom']) {
+            el.style[side] = `calc(anchor(${side}) - ${PAD + extra}px)`;
+          }
+        };
+
+        function layoutSpotlight(target) {
+          const name = ensureAnchorName(target);
+          for (const el of [win, cover, ...Object.values(strips)]) {
+            el.style.cssText = '';
+            el.style.positionAnchor = name;
+          }
+          holeInset(win, 2); // ring width sits outside the padded hole
+          holeInset(cover);
+          // strips surround the hole; the space between them is genuinely empty
+          Object.assign(strips.top.style, { top: '0', left: '0', right: '0', bottom: `calc(anchor(top) + ${PAD}px)` });
+          Object.assign(strips.bottom.style, { bottom: '0', left: '0', right: '0', top: `calc(anchor(bottom) + ${PAD}px)` });
+          Object.assign(strips.left.style, { left: '0', right: `calc(anchor(left) + ${PAD}px)`, top: `calc(anchor(top) - ${PAD}px)`, bottom: `calc(anchor(bottom) - ${PAD}px)` });
+          Object.assign(strips.right.style, { right: '0', left: `calc(anchor(right) + ${PAD}px)`, top: `calc(anchor(top) - ${PAD}px)`, bottom: `calc(anchor(bottom) - ${PAD}px)` });
+        }
+
+        function onKeydown(e) {
+          if (!state) return;
+          if (e.key === 'Escape') {
+            if (state.opts.dismissible !== false) { e.preventDefault(); api.close('escape'); }
+            return;
+          }
+          if (e.key !== 'Tab') { state.opts.onKeydown?.(e); return; }
+          if (state.opts.backdrop === 'none') return; // nothing is blocked — tab naturally
+          // duet loop: panel focusables + the interactive target
+          const loop = focusablesIn(panel);
+          if (state.target && state.opts.targetInteractive !== false) {
+            loop.push(state.target);
+          }
+          if (!loop.length) return;
+          const i = loop.indexOf(document.activeElement);
+          e.preventDefault();
+          const next = e.shiftKey
+            ? loop[(i <= 0 ? loop.length : i) - 1]
+            : loop[(i + 1) % loop.length];
+          next.focus();
+        }
+
+        function onScrimClick() {
+          if (!state) return;
+          if (state.opts.dismissOnBackdrop) api.close('backdrop');
+          else {
+            panel.classList.remove('co-pulse');
+            void panel.offsetWidth;
+            panel.classList.add('co-pulse');
+          }
+        }
+        for (const s of Object.values(strips)) s.addEventListener('click', onScrimClick);
+        cover.addEventListener('click', onScrimClick);
+        closeBtn.addEventListener('click', () => api.close('close-button'));
+
+        const api = {
+          scrim, panel,
+          get open() { return !!state; },
+          open(opts) {
+            if (state) api.close('programmatic');
+            const target =
+              typeof opts.target === 'string'
+                ? document.querySelector(opts.target)
+                : opts.target || null;
+            const backdrop = opts.backdrop ?? (target ? 'spotlight' : 'dim');
+            // an off-screen target is scrolled to center BEFORE the scrim shows;
+            // the anchor-positioned scrim needs no re-measurement afterwards
+            target?.scrollIntoView({ block: 'center', behavior: 'instant' });
+            state = { opts: { ...opts, backdrop }, target, prevFocus: document.activeElement };
+
+            titleEl.textContent = opts.header || '';
+            panel.querySelector('.co-head').style.display = opts.header || opts.dismissible !== false ? '' : 'none';
+            closeBtn.style.display = opts.dismissible === false ? 'none' : '';
+            bodyEl.innerHTML = opts.bodyHTML || '';
+            actionsEl.innerHTML = '';
+            (opts.actions || []).forEach((a) => {
+              if (a.el) { actionsEl.appendChild(a.el); return; }
+              const b = document.createElement('button');
+              b.type = 'button';
+              b.className = 'textbtn' + (a.primary ? '' : ' quiet');
+              if (a.id) b.id = a.id;
+              b.textContent = a.label;
+              b.disabled = !!a.disabled;
+              b.addEventListener('click', a.onClick || (() => api.close('programmatic')));
+              actionsEl.appendChild(b);
+            });
+            if (opts.ariaLabel) {
+              panel.setAttribute('aria-label', opts.ariaLabel);
+              panel.removeAttribute('aria-labelledby');
+            } else {
+              panel.removeAttribute('aria-label');
+              panel.setAttribute('aria-labelledby', opts.header ? titleEl.id : bodyEl.id);
+            }
+
+            // scrim configuration
+            win.hidden = true; cover.hidden = true;
+            Object.values(strips).forEach((s) => (s.hidden = true));
+            cover.classList.remove('co-cover--full');
+            if (backdrop === 'spotlight' && target) {
+              layoutSpotlight(target);
+              win.hidden = false;
+              Object.values(strips).forEach((s) => (s.hidden = false));
+              cover.hidden = opts.targetInteractive !== false;
+            } else if (backdrop === 'dim') {
+              cover.classList.add('co-cover--full');
+              cover.style.cssText = '';
+              cover.hidden = false;
+            }
+
+            // panel position
+            panel.style.cssText = '';
+            arrowEl.hidden = true;
+            if (target) {
+              const placement = opts.placement || 'bottom';
+              applyAnchor(panel, ensureAnchorName(target), placement, 12 + PAD);
+              if (opts.arrow !== false) { styleArrow(arrowEl, placement); arrowEl.hidden = false; }
+            } // no target: UA popover styles center it in the viewport
+
+            if (backdrop !== 'none') scrim.showPopover();
+            panel.showPopover(); // shown second → stacks above the scrim
+            document.addEventListener('keydown', onKeydown, true);
+
+            const first = panel.querySelector('[autofocus]') || focusablesIn(actionsEl)[0] || focusablesIn(panel)[0];
+            (first || panel).focus({ preventScroll: true });
+            log('callout opened', opts.key || '');
+            opts.onOpen?.();
+          },
+          close(reason) {
+            if (!state) return;
+            const { opts, target, prevFocus } = state;
+            state = null;
+            document.removeEventListener('keydown', onKeydown, true);
+            const focusInTarget = target && (document.activeElement === target || target.contains(document.activeElement));
+            if (panel.matches(':popover-open')) panel.hidePopover();
+            if (scrim.matches(':popover-open')) scrim.hidePopover();
+            // focus restore — unless the user was sent into the target on purpose
+            if (!focusInTarget && prevFocus && document.contains(prevFocus)) prevFocus.focus();
+            log('callout dismissed', `key=${opts.key ?? '—'} reason=${reason}`);
+            opts.onDismissed?.({ key: opts.key, reason });
+            opts.onClose?.();
+          },
+        };
+        return api;
+      }
+
+      /* ==========================================================
+         uni-tour — a thin sequencer over one uni-callout
+         ========================================================== */
+      function createTour(callout, steps, prefix) {
+        let active = null;
+        let gateCleanup = null;
+
+        const resolveTarget = (step) => {
+          if (!step.target) return null;
+          const el = typeof step.target === 'string' ? document.querySelector(step.target) : step.target;
+          if (!el || (el.offsetParent === null && getComputedStyle(el).position !== 'fixed')) return undefined; // missing
+          return el;
+        };
+
+        const dots = (i, total) => {
+          const wrap = document.createElement('span');
+          wrap.className = 'co-dots';
+          wrap.id = prefix + '-dots';
+          wrap.setAttribute('aria-hidden', 'true');
+          for (let d = 0; d < total; d++) {
+            const dot = document.createElement('i');
+            if (d === i) dot.className = 'on';
+            wrap.appendChild(dot);
+          }
+          return wrap;
+        };
+
+        function present(i, dir = 1) {
+          gateCleanup?.(); gateCleanup = null;
+          if (i < 0 || i >= steps.length) return finish();
+          const step = steps[i];
+          const target = resolveTarget(step);
+          if (target === undefined) {
+            console.warn(`[uni-tour] step "${step.key}" target missing — skipped`);
+            log('tour step skipped', `"${step.key}" (target missing)`);
+            return present(i + dir, dir);
+          }
+          active = i;
+
+          const gated = step.advanceOn;
+          const clickGate = gated?.event === 'click';
+          const auto = gated ? (gated.auto ?? clickGate) : false;
+          let satisfied = !gated;
+
+          const actions = [];
+          if (i > 0) actions.push({ label: tour.backLabel, id: prefix + '-back', onClick: () => present(i - 1, -1) });
+          actions.push({ el: dots(i, steps.length) });
+          const last = i === steps.length - 1;
+          if (!clickGate) {
+            actions.push({
+              label: last ? tour.doneLabel : tour.nextLabel,
+              id: prefix + '-next',
+              primary: true,
+              disabled: !satisfied,
+              onClick: () => (last ? finish() : present(i + 1, 1)),
+            });
+          }
+
+          callout.open({
+            key: step.key,
+            target,
+            placement: step.placement,
+            backdrop: step.backdrop ?? (target ? 'spotlight' : 'dim'),
+            targetInteractive: gated ? true : step.targetInteractive,
+            dismissible: true,
+            header: step.title,
+            bodyHTML: step.body,
+            actions,
+            ariaLabel: `${step.title}, step ${i + 1} of ${steps.length}`,
+            onDismissed: ({ reason }) => {
+              if (active === null) return;
+              if (reason === 'escape' || reason === 'close-button') {
+                const at = { key: step.key, index: i };
+                active = null;
+                log('tour skipped', `at "${at.key}" (${i + 1}/${steps.length})`);
+                tour.onSkipped?.(at);
+              }
+            },
+            onKeydown: (e) => {
+              if (!panelHasFocus()) return;
+              if (e.key === 'ArrowRight' && satisfied && !clickGate) { e.preventDefault(); last ? finish() : present(i + 1, 1); }
+              if (e.key === 'ArrowLeft' && i > 0) { e.preventDefault(); present(i - 1, -1); }
+            },
+          });
+          log('tour step', `"${step.key}" (${i + 1}/${steps.length})`);
+          tour.onStepChanged?.({ key: step.key, index: i });
+
+          if (gated && target) {
+            const handler = () => {
+              satisfied = true;
+              if (auto) {
+                target.removeEventListener(gated.event, handler);
+                gateCleanup = null;
+                last ? finish() : present(i + 1, 1);
+              } else {
+                const nextBtn = document.getElementById(prefix + '-next');
+                if (nextBtn?.disabled) {
+                  nextBtn.disabled = false;
+                  announce('Next available');
+                }
+                target.removeEventListener(gated.event, handler);
+                gateCleanup = null;
+              }
+            };
+            target.addEventListener(gated.event, handler);
+            gateCleanup = () => target.removeEventListener(gated.event, handler);
+          }
+        }
+
+        const panelHasFocus = () => callout.panel.contains(document.activeElement);
+
+        function finish() {
+          gateCleanup?.(); gateCleanup = null;
+          if (active === null) return;
+          active = null;
+          callout.close('programmatic');
+          log('tour finished');
+          tour.onFinished?.();
+        }
+
+        const tour = {
+          nextLabel: 'Next', backLabel: 'Back', skipLabel: 'Skip', doneLabel: 'Done',
+          get active() { return active; },
+          start(at = 0) { log('tour started'); tour.onStarted?.(); present(at, 1); },
+          next() { if (active !== null) present(active + 1, 1); },
+          back() { if (active !== null) present(active - 1, -1); },
+          skip() { if (active !== null) callout.close('escape'); },
+        };
+        return tour;
+      }
+
+      /* ==========================================================
+         Demo wiring
+         ========================================================== */
+      const mkBtn = (label, cls = 'ghostbtn', id) => {
+        const b = document.createElement('button');
+        b.type = 'button';
+        b.className = cls;
+        b.textContent = label;
+        if (id) b.id = id;
+        return b;
+      };
+
+      /* --- 1 · rich popovers --- */
+      createPopover({
+        id: 'po-basic',
+        host: document.getElementById('poBasicHost'),
+        trigger: mkBtn("What's a popover?", 'ghostbtn', 'po-basic-btn'),
+        placement: 'bottom-start',
+        content:
+          'Popovers <b>stay open</b> until dismissed — unlike tooltips. Use them for extended help content or compact actions.',
+      });
+
+      const filterPop = createPopover({
+        id: 'po-filter',
+        host: document.getElementById('poFilterHost'),
+        trigger: mkBtn('Filter results…', 'ghostbtn', 'po-filter-btn'),
+        placement: 'bottom-start',
+        header: 'Filter results',
+        closable: true,
+        content: `
+          <label class="field-label" for="po-filter-input">Show projects matching</label>
+          <input class="field" id="po-filter-input" type="text" placeholder="e.g. design-system" autofocus />`,
+        footerHTML: '<button type="button" class="textbtn" id="po-filter-apply">Apply</button>',
+      });
+      document.addEventListener('click', (e) => {
+        if (e.target.id === 'po-filter-apply') {
+          log('filter applied', document.getElementById('po-filter-input').value || '(empty)');
+          filterPop.hide();
+          filterPop.trigger.focus();
+        }
+      });
+
+      createPopover({
+        id: 'po-detached',
+        host: document.getElementById('poDetachedHost'),
+        trigger: mkBtn('Explain this field', 'ghostbtn', 'po-detached-btn'),
+        anchor: 'email-field', // ← detached anchor: panel points at the input
+        placement: 'bottom-start',
+        content:
+          'We only use your <b>work email</b> for security notifications — never marketing. The popover is anchored to the field it explains, not to its trigger.',
+      });
+
+      /* --- 2 · tooltip mode --- */
+      const toolbar = document.getElementById('toolbarHost');
+      for (const [id, label, tip, glyph] of [
+        ['tt-bold', 'Bold', 'Bold (Ctrl+B)', 'B'],
+        ['tt-italic', 'Italic', 'Italic (Ctrl+I)', 'I'],
+        ['tt-attach', 'Attach file', 'Attach a file — up to 25 MB', '📎'],
+      ]) {
+        const b = mkBtn(glyph, 'iconbtn', id);
+        b.setAttribute('aria-label', label);
+        toolbar.appendChild(b);
+        createPopover({ id: id + '-tip', trigger: b, mode: 'tooltip', placement: 'top', content: tip });
+      }
+
+      /* --- 3 · callout demos --- */
+      const co = createCallout('co');
+      document.getElementById('btnSpot').addEventListener('click', () =>
+        co.open({
+          key: 'name-help',
+          target: '#app-name',
+          placement: 'bottom-start',
+          header: 'Name your project',
+          bodyHTML: 'Give it a short, memorable name — you can change it later. The field is <b>live through the spotlight</b>: try typing.',
+          actions: [{ label: 'Got it', primary: true, id: 'co-gotit' }],
+        })
+      );
+      document.getElementById('btnSpotLocked').addEventListener('click', () =>
+        co.open({
+          key: 'autosave',
+          target: '#app-save',
+          placement: 'top-end',
+          targetInteractive: false,
+          header: 'Autosave is on',
+          bodyHTML: 'You rarely need this button — changes save as you type. This spotlight is <b>non-interactive</b>: the hole is covered.',
+          actions: [{ label: 'Got it', primary: true, id: 'co-gotit' }],
+        })
+      );
+      document.getElementById('btnDim').addEventListener('click', () =>
+        co.open({
+          key: 'welcome-back',
+          header: 'Welcome back',
+          bodyHTML: 'No target — the callout centers and the whole screen dims. This is the degenerate case of the spotlight.',
+          actions: [{ label: 'Thanks', primary: true, id: 'co-gotit' }],
+        })
+      );
+      document.getElementById('btnNoBackdrop').addEventListener('click', () =>
+        co.open({
+          key: 'search-tip',
+          target: '#app-search',
+          placement: 'bottom-start',
+          backdrop: 'none',
+          header: 'Tip',
+          bodyHTML: 'Press <kbd>/</kbd> anywhere to jump to search. No backdrop — an emphasized popover.',
+          actions: [{ label: 'Got it', primary: true, id: 'co-gotit' }],
+        })
+      );
+      document.getElementById('app-save').addEventListener('click', () => log('app', 'Save clicked'));
+
+      /* --- 4 · the tour --- */
+      const tourCallout = createCallout('tour');
+      const tourSteps = [
+        { key: 'welcome', title: 'Welcome to Projects', body: 'A 30-second tour of the settings card. You can leave any time with <b>Esc</b>.', backdrop: 'dim' },
+        { key: 'search', target: '#app-search', title: 'Find anything', body: 'Search jumps to any project or setting. This spotlight is read-only — the hole is covered.', targetInteractive: false, placement: 'bottom-start' },
+        { key: 'name', target: '#app-name', title: 'Name your project', body: '<b>Type a name</b> to continue — Next unlocks when you do.', advanceOn: { event: 'input' }, placement: 'bottom-start' },
+        { key: 'save', target: '#app-save', title: 'Save it', body: 'Now <b>click Save</b> — the action itself advances the tour, so there is no Next button.', advanceOn: { event: 'click' }, placement: 'top-end' },
+        { key: 'ghost', target: '#missing-thing', title: 'Never seen', body: 'This step targets an element that does not exist and is skipped with a warning.' },
+        { key: 'done', title: 'That’s it!', body: 'Restart the tour any time from this page. Tours store nothing — <code>finished</code>/<code>skipped</code> carry what apps need.', backdrop: 'dim' },
+      ];
+      const tour = createTour(tourCallout, tourSteps, 'tour');
+      tour.onFinished = () => announce('Tour finished');
+      tour.onSkipped = ({ key, index }) => announce(`Tour skipped at step ${index + 1}`);
+      document.getElementById('btnTour').addEventListener('click', () => tour.start());
+
+      /* --- theme toggle --- */
+      const themeBtn = document.getElementById('themeToggle');
+      themeBtn.addEventListener('click', () => {
+        const html = document.documentElement;
+        const dark = html.dataset.theme !== 'dark';
+        html.dataset.theme = dark ? 'dark' : 'light';
+        document.getElementById('themeToggleText').textContent = dark ? 'Light' : 'Dark';
+      });
+    </script>
+  </body>
+</html>
