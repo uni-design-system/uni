@@ -250,3 +250,51 @@ export function spotlightStyles(anchor: string, options: SpotlightOptions = {}):
     cover: { ...blocker, ...holeInset(0) },
   };
 }
+
+/** The rect fields the origin computation reads — satisfied by DOMRect. */
+export interface AnchorRect {
+  top: number;
+  right: number;
+  bottom: number;
+  left: number;
+  width: number;
+  height: number;
+}
+
+/**
+ * Transform origin for a panel's open/close scale animation, derived from
+ * where the panel **actually** rendered relative to its anchor — not from the
+ * requested placement. `position-try-fallbacks` lets the browser flip a panel
+ * at viewport edges, and a statically mapped origin then animates from the
+ * wrong corner (a `bottom-end` picker flipped above its field would still
+ * scale from `top right`). Measure after the popover is shown and apply the
+ * result as an inline style.
+ *
+ * Returns keyword pairs like `'top right'` / `'bottom center'`, or `null`
+ * when the panel has no box yet (e.g. `display: none`, or jsdom).
+ */
+export function transformOriginFor(panel: AnchorRect, trigger: AnchorRect): string | null {
+  if (!panel.width && !panel.height) return null;
+
+  // Which side of the trigger the panel sits on wins; when it overlaps on an
+  // axis (aligned placements), the closer-aligned edge is the anchored one.
+  const axis = (
+    panelStart: number,
+    panelEnd: number,
+    triggerStart: number,
+    triggerEnd: number
+  ): 'start' | 'end' | 'center' => {
+    if (panelStart >= triggerEnd) return 'start'; // panel after the trigger: grows away from its start edge
+    if (panelEnd <= triggerStart) return 'end'; // panel before the trigger: grows toward its end edge
+    const startGap = Math.abs(panelStart - triggerStart);
+    const endGap = Math.abs(panelEnd - triggerEnd);
+    if (Math.abs(startGap - endGap) <= 1) return 'center';
+    return startGap < endGap ? 'start' : 'end';
+  };
+
+  const y = axis(panel.top, panel.bottom, trigger.top, trigger.bottom);
+  const x = axis(panel.left, panel.right, trigger.left, trigger.right);
+  const vertical = y === 'start' ? 'top' : y === 'end' ? 'bottom' : 'center';
+  const horizontal = x === 'start' ? 'left' : x === 'end' ? 'right' : 'center';
+  return `${vertical} ${horizontal}`;
+}

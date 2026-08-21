@@ -29,6 +29,7 @@ import {
   anchorStyles,
   newAnchorName,
   resolveFocusTarget,
+  transformOriginFor,
   uniqueId,
   type AnchorOffset,
   type Placement,
@@ -109,6 +110,9 @@ export class UniDropdownComponent
     return this.dropdownRef.nativeElement;
   }
 
+  // Pre-measure default only: the requested placement's corner. The real
+  // origin is measured per toggle (syncTransformOrigin), because
+  // position-try fallbacks may have flipped the panel.
   private transformOriginMap: Record<Placement, string> = {
     top: 'bottom center',
     right: 'center left',
@@ -194,6 +198,10 @@ export class UniDropdownComponent
     // Sync state if user invokes light-dismiss via outside click or Escape key
     this.renderer.listen(this._dropdown, 'toggle', (event: any) => {
       const isOpened = event.newState === 'open';
+      // Both edges: on open so the entry scale grows out of the trigger, and
+      // on close-start so a panel the browser flipped while open (scroll near
+      // a viewport edge) still collapses back toward the trigger.
+      this.syncTransformOrigin();
       this.showing.set(isOpened);
       this.renderer.setAttribute(this._focusTarget, 'aria-expanded', `${isOpened}`);
 
@@ -204,6 +212,22 @@ export class UniDropdownComponent
         this.restoreFocus();
       }
     });
+  }
+
+  /**
+   * Scale the open/close animation from the corner touching the trigger,
+   * wherever the browser actually placed the panel. The static
+   * `transformOriginMap` covers only the *requested* placement; with
+   * `position-try-fallbacks` the panel may have flipped at a viewport edge,
+   * and a `bottom-end` picker rendered above its field would otherwise still
+   * animate from the top-right corner.
+   */
+  private syncTransformOrigin(): void {
+    const origin = transformOriginFor(
+      this._dropdown.getBoundingClientRect(),
+      this._trigger.getBoundingClientRect()
+    );
+    if (origin) this.renderer.setStyle(this._dropdown, 'transform-origin', origin);
   }
 
   /**

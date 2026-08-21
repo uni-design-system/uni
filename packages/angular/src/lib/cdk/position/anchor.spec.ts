@@ -4,6 +4,7 @@ import {
   anchorStyles,
   newAnchorName,
   spotlightStyles,
+  transformOriginFor,
   type Placement,
 } from './anchor';
 
@@ -131,5 +132,47 @@ describe('spotlightStyles', () => {
     expect(custom.window['top']).toBe('calc(anchor(top) - 13px)');
     expect(custom.window['boxShadow']).toBe('0 0 0 200vmax rgb(0 0 0 / 0.6)');
     expect(custom.cover['top']).toBe('calc(anchor(top) - 10px)');
+  });
+});
+
+describe('transformOriginFor', () => {
+  const rect = (top: number, left: number, width: number, height: number) => ({
+    top,
+    left,
+    width,
+    height,
+    right: left + width,
+    bottom: top + height,
+  });
+  // A 100×32 field at (100, 100)–(200, 132).
+  const trigger = rect(100, 100, 100, 32);
+
+  it('anchors a panel below the trigger at its top edge', () => {
+    // bottom-end as requested: right edges aligned, panel below.
+    expect(transformOriginFor(rect(136, 20, 180, 200), trigger)).toBe('top right');
+    // bottom-start: left edges aligned.
+    expect(transformOriginFor(rect(136, 100, 180, 200), trigger)).toBe('top left');
+  });
+
+  it('flips to the bottom edge when the browser repositioned the panel above', () => {
+    // The reported bug: a bottom-end picker flipped above its field must
+    // collapse from bottom right, not keep the requested top right.
+    expect(transformOriginFor(rect(-104, 20, 180, 200), trigger)).toBe('bottom right');
+  });
+
+  it('anchors side placements at the edge facing the trigger', () => {
+    // right of the trigger, vertically centered on it
+    expect(transformOriginFor(rect(66, 204, 150, 100), trigger)).toBe('center left');
+    // left of the trigger, bottom edges aligned (left-end)
+    expect(transformOriginFor(rect(32, 0, 96, 100), trigger)).toBe('bottom right');
+  });
+
+  it('centers the cross axis when the panel is centered on the trigger', () => {
+    // panel below, horizontally centered: equal overhang both sides
+    expect(transformOriginFor(rect(136, 60, 180, 200), trigger)).toBe('top center');
+  });
+
+  it('returns null for a panel with no box (hidden, or jsdom)', () => {
+    expect(transformOriginFor(rect(0, 0, 0, 0), trigger)).toBeNull();
   });
 });
