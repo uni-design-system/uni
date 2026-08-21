@@ -1,5 +1,7 @@
 # @uni-design-system/uni-core
 
+## 8.3.1
+
 ## 8.3.0
 
 ### Minor Changes

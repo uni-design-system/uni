@@ -1,5 +1,13 @@
 # @uni-design-system/uni-angular
 
+## 8.3.1
+
+### Patch Changes
+
+- [`66f4051`](https://github.com/uni-design-system/uni/commit/66f4051c69b6b55ed2c2b95425fd8aa1a1bccdcd) Thanks [@gaenglish](https://github.com/gaenglish)! - `uni-combobox` docs: "Allowing new values" — free text never commits implicitly (closed-set contract: typing filters, a non-matching draft reverts with `(rejected)`). The supported create-new pattern is now documented with a working story: drive `[options]` from the debounced `(query)` with `[filterLocally]="false"` and, when nothing matches exactly, append a sentinel option — `{ label: `Create "${text}"`, value: … }`. As a real option it commits through every normal path (arrow + Enter, click, Enter when the filter narrows to it alone); resolve it in `(selected)` by minting the entity and writing the model. Blur intentionally never commits the sentinel — creation takes an explicit Enter or click. Lighter alternative: listen to `(rejected: { query })` and offer creation outside the control. If most values are user-created, use `uni-tag-input` (open set) instead.
+
+- [`dc7aef9`](https://github.com/uni-design-system/uni/commit/dc7aef994abd4e7ac73de64bdea2d3ce5cb18db3) Thanks [@gaenglish](https://github.com/gaenglish)! - `uni-dropdown` (and everything riding it — the date picker popup, menus, multi-select): the open/close scale animation now originates from the corner actually touching the trigger. The origin was mapped statically from the _requested_ placement, but `position-try-fallbacks` lets the browser flip the panel at viewport edges — so a `bottom-end` date picker repositioned above its field still animated from the top-right corner. The panel is now measured on each toggle (open and close-start) and the transform origin follows the rendered position, via the new cdk helper `transformOriginFor(panelRect, triggerRect)`.
+
 ## 8.3.0
 
 ### Minor Changes
