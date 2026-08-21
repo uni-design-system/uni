@@ -127,6 +127,66 @@ describe('ListboxNavigation', () => {
     expect(nav.activeIndex()).toBe(-1);
   });
 
+  describe('disabled options', () => {
+    const setupDisabled = (disabled: number[], count = 5, wrap = true) => {
+      const disabledSet = new Set(disabled);
+      return createListboxNavigation({
+        count: () => count,
+        idPrefix: 'test',
+        wrap,
+        disabled: (index) => disabledSet.has(index),
+      });
+    };
+
+    it('steps over a disabled option with ArrowDown', () => {
+      const nav = setupDisabled([1]);
+      nav.navigate(press('ArrowDown')); // 0
+      nav.navigate(press('ArrowDown'));
+      expect(nav.activeIndex()).toBe(2);
+    });
+
+    it('wraps over disabled options at the ends', () => {
+      const nav = setupDisabled([0, 4]);
+      nav.navigate(press('End')); // walks inward to 3
+      nav.navigate(press('ArrowDown')); // skips 4, wraps, skips 0
+      expect(nav.activeIndex()).toBe(1);
+    });
+
+    it('opens with ArrowUp on the last enabled option', () => {
+      const nav = setupDisabled([4]);
+      nav.navigate(press('ArrowUp'));
+      expect(nav.activeIndex()).toBe(3);
+    });
+
+    it('walks Home and End inward past disabled edges', () => {
+      const nav = setupDisabled([0, 1, 4]);
+      nav.navigate(press('Home'));
+      expect(nav.activeIndex()).toBe(2);
+
+      nav.navigate(press('End'));
+      expect(nav.activeIndex()).toBe(3);
+    });
+
+    it('holds position when everything toward the clamped edge is disabled', () => {
+      const nav = setupDisabled([3, 4], 5, false);
+      nav.navigate(press('Home')); // 0
+      nav.navigate(press('End')); // walks inward to 2
+      expect(nav.activeIndex()).toBe(2);
+
+      nav.navigate(press('ArrowDown'));
+      expect(nav.activeIndex()).toBe(2);
+    });
+
+    it('never activates an all-disabled list and leaves the event unconsumed', () => {
+      const nav = setupDisabled([0, 1, 2], 3);
+      const event = press('ArrowDown');
+
+      expect(nav.navigate(event)).toBe(false);
+      expect(event.defaultPrevented).toBe(false);
+      expect(nav.activeIndex()).toBe(-1);
+    });
+  });
+
   describe('closeOnFocusOut', () => {
     const focusEvent = (container: HTMLElement, next: Node | null) =>
       ({ relatedTarget: next, currentTarget: container }) as unknown as FocusEvent;

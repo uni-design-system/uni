@@ -18,8 +18,10 @@ platform keyboard behavior everywhere. Options are typed generically
 implements `FormValueControl` for the Signal Forms `[field]` directive. Errors
 style the field only after interaction, matching Input.
 
-For choosing several, use Multi Select; for type-to-filter over large sets, use
-Search Input's type-ahead.
+For choosing several, use Multi Select. When the list outgrows ~10 options, or
+users know what they're looking for and want to type it, use Combobox — the
+value contract is identical (`T | null`, `compareWith`), so the swap is a
+template-only change.
 
 ## Usage
 

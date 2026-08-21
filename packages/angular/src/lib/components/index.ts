@@ -10,6 +10,7 @@ export * from './calendar';
 export * from './callout';
 export * from './card';
 export * from './checkbox';
+export * from './combobox';
 export * from './data-search';
 export * from './data-table';
 export * from './date-input';

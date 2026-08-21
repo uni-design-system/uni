@@ -220,6 +220,30 @@ All controls implement `FormValueControl`/`FormCheckboxControl` and set
 - The combined value emits only when both parts are set; with `slotsFor` the
   time part is disabled until a day is chosen.
 
+### Combobox
+- `role="combobox"` with `aria-expanded`, `aria-controls` and
+  `aria-activedescendant` over a `role="listbox"` — the shared
+  `ListboxNavigation` contract, fourth consumer after SearchInput, TagInput
+  and TimeInput.
+- `aria-selected` marks the **committed** option; the active one is carried by
+  `aria-activedescendant` — different facts, and this control has both. The
+  check symbol is `aria-hidden`; `description` is part of the option's text,
+  so it reads as part of its name (*"Alaska, Juneau"*).
+- Disabled options render, announce (`aria-disabled`), and are skipped by the
+  arrows (`↑`/`↓` wrap over them; `Home`/`End` land on the nearest enabled).
+- Typing never selects — the draft resolves on `Enter`/`Tab`/blur to the
+  active option or a unique exact match; `Enter` alone also accepts a filter
+  narrowed to one option. A non-matching draft reverts and reports through
+  `rejected`. `Escape` closes the list, then reverts the draft — it **never
+  clears the committed value** (contrast SearchInput, where the value *is* the
+  query). `Tab`/blur never trap.
+- The clear ✕ is a real named button (*"Clear State"*), the only other tab
+  stop; the chevron is `tabindex="-1"` `aria-hidden` — keyboard already has
+  `ArrowDown`, and the input itself announces expanded state.
+- Commits (*"Alabama selected."*), clears, refusals and debounced result
+  counts (*"4 results."* / *"No matches."*) announce through `role="status"`;
+  `aria-invalid` gated as above.
+
 ### Popover
 
 - Rich mode is an APG disclosure: the focusable trigger carries

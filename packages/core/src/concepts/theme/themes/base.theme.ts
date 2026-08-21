@@ -542,6 +542,21 @@ const buildComponents = (c: Colors): ComponentThemes => ({
       lg: { width: 40, height: 40, fontSize: 15 },
     },
   },
+  // Closed-set single-select autocomplete. Field chrome comes from `input` via
+  // uni-input-box; `maxVisibleOptions` is a scroll height — the list scrolls
+  // past it, never truncates (contrast searchInput's `maxSuggestions`).
+  combobox: {
+    options: {
+      toggleSymbol: 'keyboard_arrow_down',
+      clearSymbol: 'close',
+      selectedSymbol: 'check',
+      listColor: 'primary-surface',
+      listShadow: 'menu',
+      listBorderRadius: 'xs',
+      maxVisibleOptions: 8,
+      descriptionColor: 'on-primary-surface-variant',
+    },
+  },
   // Date field. Field chrome comes from `input` via uni-input-box; these
   // style the popup-calendar affordance and panel only.
   dateInput: {

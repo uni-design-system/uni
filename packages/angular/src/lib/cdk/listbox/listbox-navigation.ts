@@ -9,6 +9,11 @@ export interface ListboxNavigationConfig {
   idPrefix?: string;
   /** Wrap past the ends. Default true. */
   wrap?: boolean;
+  /**
+   * Non-navigable options. Arrows step over them; Home/End land on the
+   * nearest enabled option; an all-disabled list never activates.
+   */
+  disabled?: (index: number) => boolean;
 }
 
 /**
@@ -34,6 +39,7 @@ export class ListboxNavigation {
   private readonly _open = signal(false);
   private readonly _activeIndex = signal(-1);
   private readonly wrap: boolean;
+  private readonly isDisabled: (index: number) => boolean;
 
   /** Whether the popup is showing. Also false when there is nothing to show. */
   readonly open: Signal<boolean> = computed(() => this._open() && this.config.count() > 0);
@@ -54,6 +60,7 @@ export class ListboxNavigation {
   constructor(private readonly config: ListboxNavigationConfig) {
     this.listboxId = uniqueId(config.idPrefix ?? 'uni-listbox');
     this.wrap = config.wrap ?? true;
+    this.isDisabled = config.disabled ?? (() => false);
   }
 
   /** Stable per-option id, for `role="option"` elements. */
@@ -101,20 +108,34 @@ export class ListboxNavigation {
         return this.step(current, 1, count);
       case 'ArrowUp':
         // Opening with ArrowUp lands on the last option, matching menus.
-        return current < 0 ? count - 1 : this.step(current, -1, count);
+        return current < 0 ? this.seek(count - 1, -1, count) : this.step(current, -1, count);
       case 'Home':
-        return 0;
+        return this.seek(0, 1, count);
       case 'End':
-        return count - 1;
+        return this.seek(count - 1, -1, count);
       default:
         return null;
     }
   }
 
-  private step(current: number, delta: number, count: number): number {
-    const next = current + delta;
-    if (this.wrap) return (next + count) % count;
-    return Math.min(Math.max(next, 0), count - 1);
+  /** Nearest enabled index at or after `start`, walking by `delta` with wrap;
+      null when every option is disabled. */
+  private seek(start: number, delta: number, count: number): number | null {
+    for (let i = start, n = 0; n < count; n++, i += delta) {
+      const index = (i + count) % count;
+      if (!this.isDisabled(index)) return index;
+    }
+    return null;
+  }
+
+  private step(current: number, delta: number, count: number): number | null {
+    if (this.wrap) return this.seek((current + delta + count) % count, delta, count);
+    // Clamped: walk toward the boundary only; no enabled candidate → hold position.
+    const from = Math.min(Math.max(current + delta, 0), count - 1);
+    for (let i = from; i >= 0 && i < count; i += delta) {
+      if (!this.isDisabled(i)) return i;
+    }
+    return current >= 0 && !this.isDisabled(current) ? current : null;
   }
 
   /** Close when focus leaves the control entirely (not on internal moves). */

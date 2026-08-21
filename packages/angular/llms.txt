@@ -233,6 +233,32 @@ Inheritance (inputs listed once, available on all subclasses):
   - `touched: boolean` = false
   - `indeterminate: boolean` = false — Mixed state for "select all"-style parent checkboxes. Cleared automatically on the next user interaction, matching native behavior.
 
+## UniComboboxComponent
+- selector: `uni-combobox, Combobox`
+- inputs:
+  - `disabled: boolean` = false
+  - `invalid: boolean` = false
+  - `dirty: boolean` = false
+  - `required: boolean` = false
+  - `ariaDescribedBy: string`
+  - `label: string` (required) — Accessible name for the field, e.g. "State"; echoed on the listbox.
+  - `placeholder: string`
+  - `options: Options<T>` = []
+  - `width: string | number` = '100%'
+  - `clearable: boolean` = true — Show a ✕ while a value is set; an emptied field on blur also clears.
+  - `commitOnBlur: boolean` = true — Blur commits an exact-match draft; a non-matching draft reverts.
+  - `emptyText: string` = 'No matches' — i18n-able empty row, also announced when a filter matches nothing.
+  - `filterLocally: boolean` = true — `false` renders `options` verbatim; narrow them app-side from `query`.
+  - `debounceTime: number` = 250
+- two-way models:
+  - `value: T | null` = null
+  - `touched: boolean` = false
+- outputs:
+  - `query: string` — Debounced draft text, for async option lists.
+  - `selected: Option<T>` — An option committed.
+  - `cleared: void`
+  - `rejected: UniComboboxRejection` — A commit was refused (no match); the field reverted.
+
 ## UniDataSearchComponent
 - selector: `uni-data-search`
 - inputs:
