@@ -82,7 +82,7 @@ export const Primary: Story = {
   }),
 };
 
-/** Fraction progress via the theme (\`tour.options.progressStyle\`). */
+/** Fraction progress via the theme (`tour.options.progressStyle`). */
 export const FractionProgress: Story = {
   render: () => ({
     props: {
