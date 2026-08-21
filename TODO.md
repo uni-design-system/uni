@@ -12,9 +12,29 @@ audits: `packages/angular/TODO.md` (v4 audit) and `uni-theme-generation-plan.md`
       keyboard nav, Intl locale parsing, range selection, availability
       markers, cdk datetime helpers). Deferred: range *input field*,
       dual-month pane, week numbers, natural-language parsing.
-- [ ] **Combobox / autocomplete** — search-input now implements the ARIA combobox
-      pattern with string suggestions (2026-07-24); remaining scope is a form-bound
-      variant (object options, `FormValueControl`, non-search semantics).
+- [x] **Combobox / autocomplete** — shipped 2026-08-21 as `uni-combobox`: the
+      form-bound, closed-set, single-select autocomplete (object `Options<T>`,
+      `FormValueControl<T | null>`, draft-resolution commit rules, disabled
+      options, local-by-default filtering with `filterLocally=false` async
+      contract). `Option<T>` gained `description?`/`disabled?`;
+      `ListboxNavigation` learned disabled-skip. Fast follows below.
+- [ ] **Combobox fast follows** (deferred out of the 2026-08-21 port):
+      1. Extract shared CDK helpers — the listbox popup `listClass` styling and
+         the `announce()`/`srOnly` live-region idiom are hand-rolled in five
+         components now (search-input, tag-input, time-input, tabs/calendar,
+         combobox).
+      2. Popup positioning migration — `popover="auto"` + CSS anchor
+         positioning for all absolute-positioned listbox popups at once
+         (they clip inside `overflow: hidden` ancestors today).
+      3. Home/End caret-stealing revisit — APG's editable-combobox pattern
+         reserves Home/End for the caret; change in `ListboxNavigation` for
+         all consumers at once or not at all.
+      4. `uni-select` / `multi-select-dropdown` adopt `Option.disabled`
+         (native `<option disabled>` is a one-liner; MSD gets skipping free
+         via the new `disabled` nav hook).
+      5. `displayWith` — deliberately omitted; revisit only when a real
+         consumer has a value-before-options case the self-healing field
+         doesn't cover.
 - [ ] **Stepper / wizard** — multi-step forms; pairs with Signal Forms.
 - [ ] **List** — structured items (leading avatar/icon, primary/secondary text,
       trailing action); the "settings screen" primitive.
