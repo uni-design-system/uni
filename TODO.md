@@ -133,6 +133,14 @@ audits: `packages/angular/TODO.md` (v4 audit) and `uni-theme-generation-plan.md`
       theme → DTCG JSON via core's `emitDtcgTokens`).
 - [ ] React bindings in the index — gated on uni-react parity.
 - [ ] Semantic search over the index.
+- [ ] **Revive the hosted endpoint when a concrete consumer appears** — found
+      dead 2026-08-21 (`x-render-routing: no-server`; free tier suspends on
+      inactivity) and parked by decision: stdio via `npx` is canonical (repo
+      `.mcp.json` added; version-locked answers). Revive (root `render.yaml`
+      blueprint) for browser-based MCP clients (claude.ai connectors) or the
+      `/themes/{id}.json` URL registry channel feeding Track 1 generative UI —
+      and decide keepalive/monitoring at the same time so it can't die silently
+      again.
 
 ## React parity
 

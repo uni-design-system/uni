@@ -84,7 +84,9 @@ tokens, never by hardcoding hex values in components.
 | `generate-uni-theme` | complete WCAG-AA light+dark `uni-theme.ts` from brand hex color(s), with vibe/scheme/shape options, provider registration snippet, and contrast report |
 | `generate-runtime-theme` | the same generated theme as validated JSON for `registerTheme()` — applies immediately, no file, no rebuild |
 | `get-runtime-theme` | a theme that ships with Uni (`LightTheme`, `DarkTheme`) as a registerable `UniTheme` |
+| `export-dtcg-tokens` | a built-in theme's color/radius/spacing scales as W3C DTCG JSON (Style Dictionary compatible) |
 | `create-icon-tokens` | convert raw SVG into `currentColor`-masked theme icon tokens |
+| `get-changelog` | release notes per package/version — how a coding agent answers "what changed since the version I have installed" |
 | `search` | keyword search across components, tokens, themes, guidelines |
 
 ### Which theme tool?
@@ -104,7 +106,16 @@ them on registration; outside Angular, call `hydrateTheme()` from uni-core.
 Resources: `uni://meta`, `uni://components/{id}`, `uni://tokens/{id}`,
 `uni://themes/{id}`, `uni://guidelines/{id}`.
 
-## Remote endpoint (Streamable HTTP, hosted on Render)
+## Hosted endpoint (currently dormant)
+
+> **Status:** no hosted deployment is currently running — the stdio server via
+> `npx` (Getting started above) is the canonical way to use this package. The
+> HTTP mode below is kept, documented, and deployable (repo-root
+> [`render.yaml`](../../render.yaml)) for when a consumer that can't spawn
+> processes appears: browser-based MCP clients (e.g. claude.ai custom
+> connectors) or apps fetching theme JSON by URL. stdio also has the property
+> a shared endpoint can't offer: pin the package version and answers match the
+> Uni release you actually have installed.
 
 The same server core runs behind HTTP for a shared, always-current team
 endpoint — useful when you'd rather not run node processes per client.
@@ -119,17 +130,18 @@ speaking MCP. They are public, read-only and CORS-enabled so a browser can
 fetch them directly; `/mcp` stays token-guarded and same-origin.
 
 ```ts
-const { themes } = await fetch('https://uni-mcp.onrender.com/themes/DarkTheme.json').then((r) => r.json());
+// When a deployment is live, replace <host> with its origin:
+const { themes } = await fetch('https://<host>/themes/DarkTheme.json').then((r) => r.json());
 themeService.registerTheme(themes[0].theme, { select: true });
 ```
 
-Client config:
+Client config (when deployed):
 
 ```jsonc
 {
   "mcpServers": {
     "uni": {
-      "url": "https://uni-mcp.onrender.com/mcp",
+      "url": "https://<host>/mcp",
       "headers": { "Authorization": "Bearer <UNI_MCP_TOKEN>" }
     }
   }
