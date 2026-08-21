@@ -47,5 +47,8 @@ export interface UniTagInputOptions {
   listColor?: ContainerColorToken;
   listShadow?: Shadow;
   listBorderRadius?: Radius;
+  /** Active/hover suggestion fill; the on-color pair is derived. Must
+      contrast with `listColor` or keyboard navigation turns invisible. */
+  activeColor?: ContainerColorToken;
   maxSuggestions?: number;
 }

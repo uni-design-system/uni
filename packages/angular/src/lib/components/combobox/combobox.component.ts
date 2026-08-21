@@ -467,8 +467,7 @@ export class UniComboboxComponent<T>
         ...this.theme.color('on-primary-surface'),
         ...this.theme.radius('xxs'),
         '&.active, &:not([aria-disabled="true"]):hover': {
-          ...this.theme.backgroundColor('primary-container'),
-          ...this.theme.color('on-primary-container'),
+          ...this.theme.colorPair(options.activeColor ?? 'primary-container'),
           '& .check': { color: 'inherit' },
           '& .desc': { color: 'inherit', opacity: 0.8 },
         },

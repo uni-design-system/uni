@@ -150,8 +150,7 @@ export class UniSearchInputComponent extends BaseComponent<UniSearchInputOptions
         ...this.theme.color('on-primary-surface'),
         ...this.theme.radius('xxs'),
         '&.active, &:hover': {
-          ...this.theme.backgroundColor('primary-container'),
-          ...this.theme.color('on-primary-container'),
+          ...this.theme.colorPair(options.activeColor ?? 'primary-container'),
         },
       },
     });

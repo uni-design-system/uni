@@ -405,6 +405,14 @@ const components = (p: WellsourcedPalette): ComponentThemes => ({
       focusRingGap: 0,
     },
   },
+  // Listbox popups: the default active fill is `primary-container`, which this
+  // theme maps to the same white/charcoal as `primary-surface` — an invisible
+  // highlight. Re-point it at the app's canvas hover tint, the same language
+  // as the menu item pills.
+  combobox: { options: { activeColor: 'tertiary-surface' } },
+  searchInput: { options: { activeColor: 'tertiary-surface' } },
+  tagInput: { options: { activeColor: 'tertiary-surface' } },
+  timeInput: { options: { activeColor: 'tertiary-surface' } },
   button: {
     fixed: {
       position: 'relative',

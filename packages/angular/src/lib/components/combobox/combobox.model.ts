@@ -17,6 +17,9 @@ export interface UniComboboxOptions {
   listColor?: ContainerColorToken;
   listShadow?: Shadow;
   listBorderRadius?: Radius;
+  /** Active/hover option fill; the on-color pair is derived. Must contrast
+      with `listColor` or keyboard navigation turns invisible. */
+  activeColor?: ContainerColorToken;
   /** Scroll height in rows — the list scrolls past this, never truncates. */
   maxVisibleOptions?: number;
   descriptionColor?: ContentColorToken;

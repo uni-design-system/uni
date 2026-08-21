@@ -19,5 +19,8 @@ export interface UniTimeInputOptions {
   listColor?: ContainerColorToken;
   listShadow?: Shadow;
   listBorderRadius?: Radius;
+  /** Active/hover option fill; the on-color pair is derived. Must contrast
+      with `listColor` or keyboard navigation turns invisible. */
+  activeColor?: ContainerColorToken;
   maxVisibleOptions?: number;
 }
