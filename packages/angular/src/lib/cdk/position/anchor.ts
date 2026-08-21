@@ -99,23 +99,32 @@ export function anchorStyles(
 
 /**
  * The half of the arrow square kept by `clip-path`, in the square's local
- * (pre-rotation) coordinates: the outer triangle, extended `overlap`px past
- * the panel-edge diagonal. Without the clip, the two bordered edges run the
- * full square and their strokes visibly cut into the panel surface; with it,
- * they terminate inside the panel's own border line, and the retained sliver
- * of arrow background covers the panel border under the arrow base so it
- * reads as an opening. Keyed by the side of the anchor the panel sits on.
+ * (pre-rotation) coordinates: the outer triangle, cut exactly on the
+ * panel-edge diagonal. Without the clip, the two bordered edges run the full
+ * square and their strokes visibly cut into the panel surface. The diagonal
+ * cut ends the strokes precisely at the panel edge, and the panel's own
+ * border line — which sits just *outside* that edge — falls inside the kept
+ * half, so the arrow background covers it and the base reads as an opening.
+ * Keyed by the side of the anchor the panel sits on.
+ *
+ * A positive `overlap` extends the kept half past the diagonal INTO the
+ * panel — only for borderless arrows that want anti-aliasing insurance along
+ * the base; on a bordered arrow it turns the stroke ends into visible stubs
+ * inside the panel body.
  */
 const ARROW_CLIP: Record<string, (overlap: number) => string> = {
   // Arrow at the panel's top edge, borders top + left → keep the top-left half.
-  bottom: (d) => `polygon(0 0, calc(100% + ${d}px) 0, 0 calc(100% + ${d}px))`,
+  bottom: (d) => `polygon(0 0, ${past(d)} 0, 0 ${past(d)})`,
   // Arrow at the panel's bottom edge, borders right + bottom.
-  top: (d) => `polygon(calc(0% - ${d}px) 100%, 100% calc(0% - ${d}px), 100% 100%)`,
+  top: (d) => `polygon(${before(d)} 100%, 100% ${before(d)}, 100% 100%)`,
   // Arrow at the panel's right edge, borders right + top.
-  left: (d) => `polygon(calc(0% - ${d}px) 0, 100% 0, 100% calc(100% + ${d}px))`,
+  left: (d) => `polygon(${before(d)} 0, 100% 0, 100% ${past(d)})`,
   // Arrow at the panel's left edge, borders left + bottom.
-  right: (d) => `polygon(0 calc(0% - ${d}px), calc(100% + ${d}px) 100%, 0 100%)`,
+  right: (d) => `polygon(0 ${before(d)}, ${past(d)} 100%, 0 100%)`,
 };
+
+const past = (d: number): string => (d ? `calc(100% + ${d}px)` : '100%');
+const before = (d: number): string => (d ? `calc(0% - ${d}px)` : '0');
 
 /**
  * Absolute positioning for a rotated-square arrow sitting on the panel edge
@@ -123,15 +132,13 @@ const ARROW_CLIP: Record<string, (overlap: number) => string> = {
  * via position-try, the arrow stays on the configured side (cosmetic-only
  * degradation, matching the flip-support caveat above).
  *
- * `overlap` extends the clipped half past the panel edge so the arrow base
- * covers the panel's border line; the 2px default covers the 1px borders every
- * shipped theme uses — a theme with heavier panel borders should pass
- * `overlap` ≥ its border width + 1.
+ * `overlap` (default 0 — cut exactly on the panel edge) extends the kept half
+ * into the panel; see {@link ARROW_CLIP} for when that is ever wanted.
  */
 export function anchorArrowStyles(
   placement: Placement,
   size = 8,
-  overlap = 2
+  overlap = 0
 ): Record<string, string | number> {
   const [side, align] = placement.split('-') as [string, string | undefined];
   const styles: Record<string, string | number> = {

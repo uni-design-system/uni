@@ -73,22 +73,14 @@ describe('anchorArrowStyles', () => {
     expect(anchorArrowStyles('right-end')['bottom']).toBe(12);
   });
 
-  it('clips each side to the outer half so borders never cross into the panel', () => {
-    expect(anchorArrowStyles('bottom')['clipPath']).toBe(
-      'polygon(0 0, calc(100% + 2px) 0, 0 calc(100% + 2px))'
-    );
-    expect(anchorArrowStyles('top')['clipPath']).toBe(
-      'polygon(calc(0% - 2px) 100%, 100% calc(0% - 2px), 100% 100%)'
-    );
-    expect(anchorArrowStyles('left')['clipPath']).toBe(
-      'polygon(calc(0% - 2px) 0, 100% 0, 100% calc(100% + 2px))'
-    );
-    expect(anchorArrowStyles('right')['clipPath']).toBe(
-      'polygon(0 calc(0% - 2px), calc(100% + 2px) 100%, 0 100%)'
-    );
+  it('clips each side to the outer half, cut exactly on the panel edge', () => {
+    expect(anchorArrowStyles('bottom')['clipPath']).toBe('polygon(0 0, 100% 0, 0 100%)');
+    expect(anchorArrowStyles('top')['clipPath']).toBe('polygon(0 100%, 100% 0, 100% 100%)');
+    expect(anchorArrowStyles('left')['clipPath']).toBe('polygon(0 0, 100% 0, 100% 100%)');
+    expect(anchorArrowStyles('right')['clipPath']).toBe('polygon(0 0, 100% 100%, 0 100%)');
   });
 
-  it('aligned placements clip by their side, and overlap is tunable', () => {
+  it('aligned placements clip by their side, and overlap extends into the panel', () => {
     expect(anchorArrowStyles('bottom-end')['clipPath']).toBe(
       anchorArrowStyles('bottom')['clipPath']
     );
