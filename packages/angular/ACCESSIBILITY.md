@@ -227,7 +227,7 @@ All controls implement `FormValueControl`/`FormCheckboxControl` and set
   and TimeInput.
 - `aria-selected` marks the **committed** option; the active one is carried by
   `aria-activedescendant` — different facts, and this control has both. The
-  check symbol is `aria-hidden`; `description` is part of the option's text,
+  check icon is `aria-hidden`; `description` is part of the option's text,
   so it reads as part of its name (*"Alaska, Juneau"*).
 - Disabled options render, announce (`aria-disabled`), and are skipped by the
   arrows (`↑`/`↓` wrap over them; `Home`/`End` land on the nearest enabled).

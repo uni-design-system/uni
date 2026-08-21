@@ -549,9 +549,12 @@ const buildComponents = (c: Colors): ComponentThemes => ({
   // past it, never truncates (contrast searchInput's `maxSuggestions`).
   combobox: {
     options: {
-      toggleSymbol: 'keyboard_arrow_down',
-      clearSymbol: 'close',
-      selectedSymbol: 'check',
+      // Icon primitives (BaseIcons names), rendered by uni-icon — not
+      // Material Symbol ligatures. Themes re-point or register their own
+      // through createTheme({ icons }).
+      toggleIcon: 'chevronDown',
+      clearIcon: 'close',
+      selectedIcon: 'check',
       listColor: 'primary-surface',
       listShadow: 'menu',
       listBorderRadius: 'xs',

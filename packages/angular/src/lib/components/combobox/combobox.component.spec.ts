@@ -459,12 +459,12 @@ describe('UniComboboxComponent', () => {
       expect(field().getAttribute('aria-activedescendant')).toBe(activeOption()?.id);
     });
 
-    it('hides the committed check symbol from assistive tech', () => {
+    it('hides the committed check icon from assistive tech', () => {
       setInputs({ value: 'AL' });
       click(field());
       const check = options()[0].querySelector('.check');
       expect(check?.getAttribute('aria-hidden')).toBe('true');
-      expect(check?.querySelector('uni-symbol')).not.toBeNull();
+      expect(check?.querySelector('uni-icon')).not.toBeNull();
     });
 
     it('passes required and describedby through to the input', () => {

@@ -1,4 +1,10 @@
-import type { ContentColorToken, ContainerColorToken, Radius, Shadow } from '@uni-design-system/uni-core';
+import type {
+  ContentColorToken,
+  ContainerColorToken,
+  IconName,
+  Radius,
+  Shadow,
+} from '@uni-design-system/uni-core';
 
 /** A commit was refused (no match); the field reverted to the committed label. */
 export interface UniComboboxRejection {
@@ -8,12 +14,13 @@ export interface UniComboboxRejection {
 /**
  * Theme options for the `combobox` entry. Field chrome is not duplicated
  * here — it comes from `input` via uni-input-box; the list trio matches
- * tagInput/searchInput/timeInput.
+ * tagInput/searchInput/timeInput. Glyphs are theme icon primitives rendered
+ * by `uni-icon`, so they restyle with the theme's iconography.
  */
 export interface UniComboboxOptions {
-  toggleSymbol?: string;
-  clearSymbol?: string;
-  selectedSymbol?: string;
+  toggleIcon?: IconName;
+  clearIcon?: IconName;
+  selectedIcon?: IconName;
   listColor?: ContainerColorToken;
   listShadow?: Shadow;
   listBorderRadius?: Radius;

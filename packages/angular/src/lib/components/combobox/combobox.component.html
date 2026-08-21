@@ -30,7 +30,7 @@
           icon-button
           type="button"
           size="sm"
-          [symbolName]="componentOptions().clearSymbol ?? 'close'"
+          [iconName]="componentOptions().clearIcon ?? 'close'"
           (click)="clear()"
         >
           Clear {{ label() }}
@@ -45,7 +45,7 @@
         [disabled]="disabled()"
         (mousedown)="onToggleMousedown($event)"
       >
-        <uni-symbol [name]="componentOptions().toggleSymbol ?? 'keyboard_arrow_down'" />
+        <uni-icon [name]="componentOptions().toggleIcon ?? 'chevronDown'" size="20" />
       </button>
     </div>
   </uni-input-box>
@@ -71,7 +71,7 @@
           >
             <span class="check" aria-hidden="true">
               @if (optIndex === committedIndex()) {
-                <uni-symbol [name]="componentOptions().selectedSymbol ?? 'check'" />
+                <uni-icon [name]="componentOptions().selectedIcon ?? 'check'" size="18" />
               }
             </span>
             <span class="text">

@@ -83,6 +83,25 @@ audits: `packages/angular/TODO.md` (v4 audit) and `uni-theme-generation-plan.md`
       upgrade (`debounceTime` input, 200 ms default).
 - [ ] JSDoc coverage on public inputs/outputs — ongoing; feeds `llms.txt` and MCP
       summaries (empty where class JSDoc is missing).
+- [ ] **uni-symbol → uni-icon migration** (rule established 2026-08-21, AGENTS.md
+      Icons bullet; combobox converted same day). Composite components render
+      glyphs via `uni-icon` theme tokens; `uni-symbol` stays only for app-facing
+      arbitrary-name inputs. Remaining migrations, audited 2026-08-21:
+      - Coverable today (BaseIcons has the glyph): search-input (`search`,
+        `close`), select-input + multi-select-dropdown (`keyboard_arrow_down` →
+        `chevronDown`), data-search (`close`), calendar + date-input
+        (`chevron_left/right` → `chevronLeft/Right`, `calendar_month` →
+        `calendar`), time-input (`schedule` → `clock`), dialog-header (`close`),
+        menu-item `activeSymbol` (`check`), breadcrumb `separatorSymbol`
+        (`chevron_right`), avatar `fallbackSymbol` (`person` → `profile`).
+      - **Missing from BaseIcons** — add to `generate-icons.mjs` first:
+        `arrowUp`/`arrowDown` (sort-header uses `arrow_upward`) and
+        `chevronsLeft`/`chevronsRight` (paginator's `keyboard_double_arrow_*`).
+      - Each migration renames its `*Symbol` theme option to `*Icon`
+        (`IconName`-typed) — breaking per component, so batch for a major.
+      - Known uni-icon gap vs symbols: no variable-font axes (fill/weight/
+        grade) — themes like Wellsourced set `symbol: { weight: 200 }`, which
+        has no icon equivalent short of regenerating the set at that weight.
 
 ## Theme generation (PRD stragglers)
 

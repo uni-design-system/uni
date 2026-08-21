@@ -23,9 +23,9 @@ import {
 } from '../../cdk';
 import { BaseComponent, COMPONENT_NAME } from '../base/base.component';
 import { listboxPopupStyles } from '../forms/listbox-popup';
+import { UniIconComponent } from '../icon';
 import { UniIconButtonComponent } from '../icon-button/icon-button.component';
 import { UniInputBoxComponent } from '../input-box/input-box.component';
-import { UniSymbolComponent } from '../symbol';
 import type { UniComboboxOptions, UniComboboxRejection } from './combobox.model';
 
 /**
@@ -40,7 +40,7 @@ import type { UniComboboxOptions, UniComboboxRejection } from './combobox.model'
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'uni-combobox, Combobox',
-  imports: [UniIconButtonComponent, UniInputBoxComponent, UniSymbolComponent],
+  imports: [UniIconButtonComponent, UniIconComponent, UniInputBoxComponent],
   templateUrl: './combobox.component.html',
   providers: [{ provide: COMPONENT_NAME, useValue: 'combobox' }],
   host: { '[class]': 'className()' },
@@ -428,10 +428,8 @@ export class UniComboboxComponent<T>
       padding: 0,
       background: 'transparent',
       cursor: this.disabled() ? 'not-allowed' : 'pointer',
-      fontSize: 20,
       ...this.theme.color('on-background-variant'),
-      '& uni-symbol': {
-        display: 'block',
+      '& uni-icon': {
         ...motionSafe({ transition: 'transform 0.15s ease' }),
         transform: this.popupOpen() ? 'rotate(180deg)' : 'none',
       },
@@ -464,8 +462,8 @@ export class UniComboboxComponent<T>
             '& .desc': { color: 'inherit' },
           },
         },
-        // Fixed-width check column so labels align with or without the symbol.
-        '& .check': { flex: 'none', width: 18, fontSize: 18, ...this.theme.color('primary') },
+        // Fixed-width check column so labels align with or without the icon.
+        '& .check': { flex: 'none', width: 18, ...this.theme.color('primary') },
         '& .text': { minWidth: 0, flex: 1, display: 'flex', alignItems: 'baseline', gap: 8 },
         '& .option-label': { whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' },
         '& .desc': {

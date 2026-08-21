@@ -40,6 +40,18 @@ Guidance for contributors, human or AI. The generated API reference is in
 - **Selectors:** each component declares a canonical `uni-*` selector plus a
   short alias (`uni-checkbox, Checkbox`). Use the canonical form in docs and
   examples.
+- **Icons:** composite components render their own glyphs with `uni-icon` by
+  theme icon token (`IconName` — the `BaseIcons` set plus whatever the theme
+  registers via `createTheme({ icons })`), never `uni-symbol` and never inline
+  SVG. Theme options for glyphs are named `*Icon` and typed `IconName`
+  (`toggleIcon: 'chevronDown'`), so a theme restyles them by re-pointing the
+  token or overriding the icon primitive itself. If the glyph you need is not
+  in `BaseIcons`, add it to uni-core's `scripts/generate-icons.mjs` manifest
+  and regenerate (`pnpm icons:generate` in packages/core) — do not fall back
+  to `uni-symbol`. `uni-symbol`
+  (Material Symbols ligatures) remains only for app-facing inputs that accept
+  arbitrary symbol names (alert/snackbar/menu-item/tag `symbolName`) and for
+  components not yet migrated.
 
 ## Form controls
 
