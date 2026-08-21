@@ -1,5 +1,11 @@
 # @uni-design-system/uni-mcp
 
+## 4.7.1
+
+### Patch Changes
+
+- [`b160b3c`](https://github.com/uni-design-system/uni/commit/b160b3c073ffb3191dd1cdf0a2f71e60679f1182) Thanks [@gaenglish](https://github.com/gaenglish)! - README: the hosted (Render) endpoint is marked dormant — no deployment is currently running; stdio via `npx -y @uni-design-system/uni-mcp` is the canonical path (pin the package to your installed Uni version for version-locked answers). The HTTP mode stays documented and deployable for when a browser-based consumer needs it. The `get-changelog` and `export-dtcg-tokens` tools are now listed in the tools table.
+
 ## 4.7.0
 
 ### Minor Changes

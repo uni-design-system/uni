@@ -1,5 +1,17 @@
 # @uni-design-system/uni-core
 
+## 8.3.0
+
+### Minor Changes
+
+- [`eb8b7ae`](https://github.com/uni-design-system/uni/commit/eb8b7aebd900e647a8b35da791fce88a8c9a1217) Thanks [@gaenglish](https://github.com/gaenglish)! - `'combobox'` joins `ComponentName`, with a base-theme entry: `toggleIcon: 'chevronDown'`, `clearIcon: 'close'`, `selectedIcon: 'check'` (BaseIcons names rendered by `uni-icon` — not Material Symbol ligatures), the listbox surface trio (`listColor`/`listShadow`/`listBorderRadius`), `activeColor`, `descriptionColor`, and `maxVisibleOptions: 8` — a scroll height, never a cap. Field chrome comes from the `input` entry via `uni-input-box`, as everywhere.
+
+- [`eb8b7ae`](https://github.com/uni-design-system/uni/commit/eb8b7aebd900e647a8b35da791fce88a8c9a1217) Thanks [@gaenglish](https://github.com/gaenglish)! - Listbox popups (`uni-search-input`, `uni-tag-input`, `uni-time-input`, `uni-combobox`): the active/hover option fill is now the themable `activeColor` option (default `'primary-container'`, on-color derived) instead of a hardcoded token pair. Set it when your theme maps `primary-container` and `primary-surface` to the same color — the keyboard highlight is otherwise invisible; a canvas/hover tint like the one your menus use is usually right (`searchInput: { options: { activeColor: 'tertiary-surface' } }`, and likewise `tagInput`/`timeInput`/`combobox`). The base theme carries the default explicitly so the option is discoverable in each component's Theme options table.
+
+  The four popups now share one style source, the exported `listboxPopupStyles(theme, options, { maxHeight? })` helper (`UniListboxPopupOptions`), so their surface trio and highlight can no longer drift apart. Rendering is unchanged under existing themes; the active row's text color now derives from `listColor`'s on-pair rather than assuming `on-primary-surface`.
+
+- [`6f87212`](https://github.com/uni-design-system/uni/commit/6f87212da2ed421a8a4f2e57047ebcba485c0fd3) Thanks [@gaenglish](https://github.com/gaenglish)! - `'popover'`, `'callout'`, and `'tour'` join `ComponentName`, with base-theme entries. The popover defaults reproduce the previously hardcoded look (`primary-surface`, `quaternary` border, `xs` radius, `raised` shadow, `6px 12px` padding, 7px offset) plus the tooltip-mode options; the callout entry carries the scrim/spotlight geometry (`scrimColor`, `spotlightPadding`, `spotlightRadius`, `ringWidth` — the ring color is deliberately the `variant` role, not an option); the tour entry is just `progressStyle` and `footerGap`, since its skin is the callout's.
+
 ## 8.2.0
 
 ### Minor Changes
