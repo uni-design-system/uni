@@ -20,9 +20,12 @@ import {
   type Borders,
   type Colors,
   type ComponentThemes,
+  type CssLength,
+  type FontWeight,
   type Radii,
   type Shadows,
   type Spacing,
+  type TextStyle,
   type Thicknesses,
   type Typography,
   type UniTheme,
@@ -280,104 +283,113 @@ const spacing: Spacing = {
 };
 
 // ==========================================
-// Typography — Italiana display voice over an Inter working scale, with a
-// dedicated `menu` role carrying the old row menu's 12.5px/500 items.
+// Typography — Italiana display voice over an Instrument Sans working scale,
+// with Cormorant Garamond as the public pages' italic accent. Fully explicit
+// (no base spread) so this table is the canonical scale the app's uni-text
+// migration will port against; `hero`, `micro`, `accent` and `code` absorb
+// type the app still hand-writes in CSS.
 // ==========================================
-const INTER = 'Inter, sans-serif';
-const ITALIANA = 'Italiana, sans-serif';
+const INSTRUMENT_SANS = "'Instrument Sans', sans-serif";
+const ITALIANA = "'Italiana', serif";
+const CORMORANT = "'Cormorant Garamond', serif";
+const MONO = "'Courier New', monospace";
 
-const typography = (base: Typography): Typography => ({
-  ...base,
-  'display-xl': { fontFamily: ITALIANA, fontSize: 52, lineHeight: 52, letterSpacing: -0.25 },
-  'display-large': { fontFamily: ITALIANA, fontSize: 34, lineHeight: 34 },
-  'display-medium': { fontFamily: ITALIANA, fontSize: 28, lineHeight: 28 },
-  'display-small': { fontFamily: ITALIANA, fontSize: 22, lineHeight: 22 },
-  'display-xs': { fontFamily: ITALIANA, fontSize: 18, lineHeight: 18 },
-  'headline-large': { fontFamily: ITALIANA, fontSize: 24, lineHeight: 24, fontWeight: 600 },
-  'headline-medium': {
-    fontFamily: ITALIANA,
-    fontSize: 20,
-    lineHeight: 28,
-    letterSpacing: 0.15,
-    fontWeight: 600,
-  },
-  'headline-small': {
-    fontFamily: ITALIANA,
-    fontSize: 18,
-    lineHeight: 24,
-    letterSpacing: 0.1,
-    fontWeight: 600,
-  },
-  eyebrow: {
-    fontFamily: INTER,
-    fontSize: 9,
-    lineHeight: 9,
-    fontWeight: 600,
-    letterSpacing: 1.8,
-    textTransform: 'uppercase',
-  },
-  'title-large': { fontFamily: INTER, fontSize: 24, lineHeight: 32 },
-  'title-medium': { fontFamily: INTER, fontSize: 16, lineHeight: 16, fontWeight: 700 },
-  'title-small': {
-    fontFamily: INTER,
-    fontSize: 11,
-    lineHeight: 12,
-    fontWeight: 700,
-    letterSpacing: 0.66,
-    textTransform: 'uppercase',
-  },
-  'body-1-long': { fontFamily: INTER, fontSize: 12, lineHeight: 15 },
-  'body-1-short': { fontFamily: INTER, fontSize: 12, lineHeight: 15 },
-  'body-2-long': { fontFamily: INTER, fontSize: 14, lineHeight: 18 },
-  'body-2-short': { fontFamily: INTER, fontSize: 14, lineHeight: 20 },
-  'subtitle-1': { fontFamily: INTER, fontSize: 12, lineHeight: 12, letterSpacing: 0.15 },
-  'subtitle-2': { fontFamily: INTER, fontSize: 14, lineHeight: 20, letterSpacing: 0.1 },
-  'label-sm': {
-    fontFamily: INTER,
-    fontSize: 8,
-    lineHeight: 8,
-    fontWeight: 700,
-    letterSpacing: 1.6,
-    textTransform: 'uppercase',
-  },
-  label: {
-    fontFamily: INTER,
-    fontSize: 9,
-    lineHeight: 9,
-    fontWeight: 600,
-    letterSpacing: 1.26,
-    textTransform: 'uppercase',
-  },
-  caption: { fontFamily: INTER, fontSize: 10, lineHeight: 12, letterSpacing: 0.4 },
-  overline: {
-    fontFamily: ITALIANA,
-    fontSize: 10,
-    lineHeight: 18,
-    letterSpacing: 1.5,
-    textTransform: 'uppercase',
-  },
-  paragraph: { fontFamily: INTER, fontSize: 16, lineHeight: 24 },
-  badge: {
-    fontFamily: INTER,
-    fontSize: 9,
-    lineHeight: 18,
-    fontWeight: 600,
-    letterSpacing: 1.26,
-    textTransform: 'uppercase',
-  },
-  tag: { fontFamily: INTER, fontSize: 15, lineHeight: 20, fontWeight: 600 },
-  note: {
-    fontFamily: ITALIANA,
-    fontSize: 16,
-    lineHeight: 22,
-    fontStyle: 'italic',
-    fontWeight: 600,
-  },
-  input: { fontFamily: INTER, fontSize: 14, lineHeight: 24 },
-  tab: { fontFamily: INTER, fontSize: 11, lineHeight: 11, letterSpacing: 1.26 },
-  // The old `.rowmenu button` type: 12.5px/500 working sans.
-  menu: { fontFamily: INTER, fontSize: 12.5, lineHeight: 16, fontWeight: 500 },
+const serif = (
+  fontSize: CssLength,
+  lineHeight: CssLength,
+  rest: Partial<TextStyle> = {}
+): TextStyle => ({ fontFamily: ITALIANA, fontSize, lineHeight, ...rest });
+
+const sans = (
+  fontSize: CssLength,
+  lineHeight: CssLength,
+  rest: Partial<TextStyle> = {}
+): TextStyle => ({ fontFamily: INSTRUMENT_SANS, fontSize, lineHeight, ...rest });
+
+const caps = (
+  fontSize: number,
+  lineHeight: number,
+  letterSpacing: number,
+  fontWeight: FontWeight = 600
+): TextStyle => ({
+  fontFamily: INSTRUMENT_SANS,
+  fontSize,
+  lineHeight,
+  fontWeight,
+  letterSpacing,
+  textTransform: 'uppercase',
 });
+
+const typography: Typography = {
+  // Italiana display ramp (lineHeight === fontSize), plus the public pages'
+  // responsive hero sizes as their own tokens.
+  hero: serif('clamp(46px, 5.4vw, 78px)', '1', { letterSpacing: -0.25 }),
+  'hero-sm': serif('clamp(26px, 2.6vw, 34px)', '1'),
+  'display-xl': serif(52, 52, { letterSpacing: -0.25 }),
+  'display-large': serif(34, 34),
+  'display-medium': serif(28, 28),
+  'display-small': serif(22, 22),
+  'display-xs': serif(18, 18),
+  'headline-large': serif(24, 24, { fontWeight: 600 }),
+  'headline-medium': serif(20, 28, { fontWeight: 600, letterSpacing: 0.15 }),
+  'headline-small': serif(18, 24, { fontWeight: 600, letterSpacing: 0.1 }),
+  overline: serif(10, 18, { letterSpacing: 1.5, textTransform: 'uppercase' }),
+
+  // Instrument Sans working scale.
+  'title-large': sans(24, 32),
+  'title-medium': sans(16, 16, { fontWeight: 700 }),
+  'body-1-long': sans(12, 15),
+  'body-1-short': sans(12, 15),
+  'body-2-long': sans(14, 18),
+  'body-2-short': sans(14, 20),
+  'subtitle-1': sans(12, 12, { letterSpacing: 0.15 }),
+  'subtitle-2': sans(14, 20, { letterSpacing: 0.1 }),
+  paragraph: sans(16, 24),
+  caption: sans(10, 12, { letterSpacing: 0.4 }),
+  input: sans(14, 24),
+  tag: sans(15, 20, { fontWeight: 600 }),
+  tab: sans(11, 11, { letterSpacing: 1.26 }),
+  // The old `.rowmenu button` type: 12.5px/500 working sans.
+  menu: sans(12.5, 16, { fontWeight: 500 }),
+  // The label type buttons actually render — previously buried in the button
+  // component `fixed` block while this role leaked base Red Hat Display.
+  button: sans(14, 20, { fontWeight: 700, textTransform: 'uppercase' }),
+  // KPI numerals — base metrics, de-leaked from Red Hat Display.
+  stat: sans(32, 38, { fontWeight: 600, letterSpacing: -0.32 }),
+  // True italics (Instrument Sans ships them; Italiana's were synthesized).
+  note: sans(16, 22, { fontStyle: 'italic', fontWeight: 600 }),
+
+  // Uppercase micro family.
+  'title-small': caps(11, 12, 0.66, 700),
+  eyebrow: caps(9, 9, 1.8),
+  label: caps(9, 9, 1.26),
+  'label-sm': caps(8, 8, 1.6, 700),
+  badge: caps(9, 18, 1.26),
+  // The public pages' `.micro` utility: 11px / 0.22em / 500.
+  micro: caps(11, 14, 2.4, 500),
+
+  // Cormorant Garamond — the public pages' italic accent voice. `quote` is
+  // the large pull-quote (the app styles blockquotes only this way, and
+  // uni-text maps blockquote → quote); `accent` is the inline `h1 em` /
+  // `.assurance` idiom.
+  quote: {
+    fontFamily: CORMORANT,
+    fontSize: 'clamp(26px, 3vw, 38px)',
+    lineHeight: '1.15',
+    fontStyle: 'italic',
+    fontWeight: 500,
+  },
+  accent: {
+    fontFamily: CORMORANT,
+    fontSize: 21,
+    lineHeight: 28,
+    fontStyle: 'italic',
+    fontWeight: 500,
+  },
+
+  // One mono token for the app's four ad-hoc stacks.
+  code: { fontFamily: MONO, fontSize: 13, lineHeight: 20 },
+};
 
 // ==========================================
 // Sparse component overrides, deep-merged over Uni defaults.
@@ -420,9 +432,6 @@ const components = (p: WellsourcedPalette): ComponentThemes => ({
       outline: '0',
       border: '1px solid transparent',
       cursor: 'pointer',
-      fontFamily: INTER,
-      textTransform: 'uppercase',
-      fontWeight: 700,
       transition: 'box-shadow 0.28s ease !important',
     },
     variants: {
@@ -477,7 +486,7 @@ const components = (p: WellsourcedPalette): ComponentThemes => ({
       dividerSpacing: 'xs', // ≈ the old 5px 8px separator margins
     },
   },
-  // Items: ~35px in 12.5/500 Inter, charcoal ink, 7px hover pill in the
+  // Items: ~35px in 12.5/500 Instrument Sans, charcoal ink, 7px hover pill in the
   // neutral canvas tint, switching instantly (the old menu had no transition).
   menuItem: {
     options: {
@@ -526,7 +535,7 @@ const components = (p: WellsourcedPalette): ComponentThemes => ({
 
 const withWellsourcedScales = (theme: UniTheme): UniTheme => ({
   ...theme,
-  typography: typography(theme.typography),
+  typography,
   spacing,
 });
 
