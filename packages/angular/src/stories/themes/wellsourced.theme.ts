@@ -294,11 +294,13 @@ const ITALIANA = "'Italiana', serif";
 const CORMORANT = "'Cormorant Garamond', serif";
 const MONO = "'Courier New', monospace";
 
+// Italiana ships a single 400 weight, so the weight is pinned explicitly —
+// without it, headings fall back to the UA's bold and render faux-bold.
 const serif = (
   fontSize: CssLength,
   lineHeight: CssLength,
   rest: Partial<TextStyle> = {}
-): TextStyle => ({ fontFamily: ITALIANA, fontSize, lineHeight, ...rest });
+): TextStyle => ({ fontFamily: ITALIANA, fontSize, lineHeight, fontWeight: 400, ...rest });
 
 const sans = (
   fontSize: CssLength,
@@ -386,6 +388,16 @@ const typography: Typography = {
     fontStyle: 'italic',
     fontWeight: 500,
   },
+  // Inline voices at the parent's size — for accent `<em>`s inside heroes
+  // (`h1 em`) and the `.serif` utility spans the public pages used.
+  'accent-inline': {
+    fontFamily: CORMORANT,
+    fontSize: 'inherit',
+    lineHeight: 'inherit',
+    fontStyle: 'italic',
+    fontWeight: 500,
+  },
+  'serif-inline': serif('inherit', 'inherit'),
 
   // One mono token for the app's four ad-hoc stacks.
   code: { fontFamily: MONO, fontSize: 13, lineHeight: 20 },

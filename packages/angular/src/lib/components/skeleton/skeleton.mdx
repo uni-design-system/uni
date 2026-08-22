@@ -18,12 +18,25 @@ charts, `circle` for avatars. Skeletons paint with the theme's surface tokens so
 sit naturally on any brand in both modes, and the shimmer sweep only animates for users
 who allow motion — under `prefers-reduced-motion` it degrades to calm static blocks.
 
-Skeletons are `aria-hidden`; announce loading on the container (e.g. `aria-busy`)
-where your app knows what is actually loading.
+Skeletons are `aria-hidden` by default; announce loading on the container (e.g. `aria-busy`)
+where your app knows what is actually loading, or give a standalone skeleton a `label`.
 
 ## Usage
 
 <StoryUsage of={Stories.TextLines} />
+
+## Overriding tokens per instance
+
+`color`, `highlightColor` and `borderRadius` come from the theme, but a single screen
+usually needs more than one of each — text bars and a pill chip do not share a corner,
+and a skeleton on a card wants a different tint than one on the page background. Each
+input takes a **token name** and falls back to the theme option when unset.
+
+<StoryExample of={Stories.PerInstanceTokens} />
+
+Radii are open-keyed, so a theme can name its own alongside the built-in scale
+(`cta: '3px'`), and any skeleton can ask for it: `borderRadius="cta"`. A pill is
+`borderRadius="max"`.
 
 ## Composing a placeholder card
 
@@ -33,11 +46,16 @@ where your app knows what is actually loading.
 
 <ThemeOptions componentName="skeleton" />
 
+The shimmer is a band `highlightWidth`% of the block wide, swept across it with
+`transform` — `direction` flips it, `duration` paces it. Both ends of the band are the
+base color, so it dissolves into the block instead of leaving an edge.
+
 ## Accessibility
 
-- Skeletons are `aria-hidden` — announce loading on the container (e.g. `aria-busy`) where your app knows what is loading.
+- Skeletons are `aria-hidden` unless given a `label` — announce loading on the container (e.g. `aria-busy`) where your app knows what is loading.
+- A `label` puts `role="status"` on the host with visually hidden text, so a standalone skeleton announces politely on mount.
 - The shimmer respects `prefers-reduced-motion`, degrading to static blocks.
 
 ## Don't
 
-- Announce individual skeletons to assistive tech — they are decorative placeholders
+- Announce every skeleton in a group — label the container, or one skeleton, not twelve

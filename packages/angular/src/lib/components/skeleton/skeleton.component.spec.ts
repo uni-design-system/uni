@@ -14,7 +14,18 @@ describe('UniSkeletonComponent', () => {
 
   it('is hidden from assistive tech', () => {
     fixture.detectChanges();
-    expect((fixture.nativeElement as HTMLElement).getAttribute('aria-hidden')).toBe('true');
+    const host = fixture.nativeElement as HTMLElement;
+    expect(host.getAttribute('aria-hidden')).toBe('true');
+    expect(host.getAttribute('role')).toBeNull();
+  });
+
+  it('announces itself as a status when labelled', () => {
+    fixture.componentRef.setInput('label', 'Loading results');
+    fixture.detectChanges();
+    const host = fixture.nativeElement as HTMLElement;
+    expect(host.getAttribute('aria-hidden')).toBeNull();
+    expect(host.getAttribute('role')).toBe('status');
+    expect(host.textContent).toContain('Loading results');
   });
 
   it('renders one block per text line, ending on a short line', () => {
@@ -31,6 +42,15 @@ describe('UniSkeletonComponent', () => {
     fixture.componentRef.setInput('width', 240);
     fixture.detectChanges();
     expect(blocks()[0].style.width).toBe('240px');
+  });
+
+  it('restyles when a token override differs from the theme option', () => {
+    fixture.detectChanges();
+    const themed = (fixture.nativeElement as HTMLElement).className;
+    fixture.componentRef.setInput('color', 'primary');
+    fixture.componentRef.setInput('borderRadius', 'max');
+    fixture.detectChanges();
+    expect((fixture.nativeElement as HTMLElement).className).not.toBe(themed);
   });
 
   it('circles default their width to the height', () => {

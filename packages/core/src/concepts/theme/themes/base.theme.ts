@@ -800,6 +800,8 @@ const buildComponents = (c: Colors): ComponentThemes => ({
       borderRadius: 'xs',
       animation: 'shimmer',
       duration: 1.4,
+      direction: 'ltr',
+      highlightWidth: 40,
       gap: 'sm',
     },
   },
