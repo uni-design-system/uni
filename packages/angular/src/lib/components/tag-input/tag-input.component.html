@@ -1,6 +1,6 @@
 <!-- Focusout rides the bubbling event so the list closes only when focus
      leaves the whole field, not while moving between chips and the input. -->
-<div style="position: relative" (focusout)="onFocusOut($event)">
+<div [class]="wrapperClass()" (focusout)="onFocusOut($event)">
   <uni-input-box [error]="showError()" height="auto">
     <ul [class]="fieldClass()">
       @for (item of value(); track item.value; let i = $index) {
@@ -55,7 +55,14 @@
   </uni-input-box>
 
   @if (list.open()) {
-    <ul [id]="list.listboxId" role="listbox" [attr.aria-label]="label()" [class]="listClass()">
+    <ul
+      #listbox
+      [id]="list.listboxId"
+      role="listbox"
+      [attr.popover]="popupAttr"
+      [attr.aria-label]="label()"
+      [class]="listClass()"
+    >
       @for (suggestion of visibleSuggestions(); track suggestion.value; let i = $index) {
         <!-- eslint-disable-next-line @angular-eslint/template/click-events-have-key-events, @angular-eslint/template/interactive-supports-focus -->
         <li

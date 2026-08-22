@@ -51,7 +51,14 @@
   </uni-input-box>
 
   @if (popupOpen()) {
-    <ul #listbox [id]="list.listboxId" role="listbox" [attr.aria-label]="label()" [class]="listClass()">
+    <ul
+      #listbox
+      [id]="list.listboxId"
+      role="listbox"
+      [attr.popover]="popupAttr"
+      [attr.aria-label]="label()"
+      [class]="listClass()"
+    >
       @if (filteredIndices().length === 0) {
         <!-- Non-interactive: not an option, not navigable, no id. -->
         <li class="empty">{{ emptyText() }}</li>

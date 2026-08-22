@@ -2,6 +2,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   computed,
+  ElementRef,
   input,
   output,
   viewChild,
@@ -10,7 +11,12 @@ import { css } from '@emotion/css';
 import { BaseComponent, COMPONENT_NAME } from '../base/base.component';
 import { createListboxNavigation } from '../../cdk';
 import { UniDebounceInputComponent } from '../forms/debounce-input/debounce-input.component';
-import { listboxPopupStyles } from '../forms/listbox-popup';
+import {
+  listboxPopupAttr,
+  listboxPopupStyles,
+  newListboxAnchor,
+  promoteListboxPopup,
+} from '../forms/listbox-popup';
 import { UniIconButtonComponent } from '../icon-button/icon-button.component';
 import { UniSymbolComponent } from '../symbol';
 import type { UniSearchInputOptions } from './search-input.model';
@@ -50,6 +56,17 @@ export class UniSearchInputComponent extends BaseComponent<UniSearchInputOptions
   suggestionSelected = output<string>();
 
   protected readonly field = viewChild.required(UniDebounceInputComponent);
+  private readonly listRef = viewChild<ElementRef<HTMLUListElement>>('listbox');
+
+  /** Ties the popup to the field so the browser tracks it in the top layer. */
+  private readonly anchor = newListboxAnchor();
+  /** `manual` where the top layer is usable, else null — see the popup helper. */
+  protected readonly popupAttr = listboxPopupAttr();
+
+  constructor() {
+    super();
+    promoteListboxPopup(this.listRef);
+  }
 
   protected readonly visibleSuggestions = computed(() =>
     this.suggestions().slice(0, this.componentOptions().maxSuggestions ?? 8)
@@ -120,6 +137,7 @@ export class UniSearchInputComponent extends BaseComponent<UniSearchInputOptions
       display: 'block',
       position: 'relative',
       width: this.width(),
+      ...this.anchor.style,
       '& .uni-search-lead': {
         fontSize: 20,
         ...this.theme.color('on-background-variant'),
@@ -129,6 +147,6 @@ export class UniSearchInputComponent extends BaseComponent<UniSearchInputOptions
   );
 
   protected readonly listClass = computed(() =>
-    css(listboxPopupStyles(this.theme, this.componentOptions()))
+    css(listboxPopupStyles(this.theme, this.componentOptions(), { anchor: this.anchor.name }))
   );
 }

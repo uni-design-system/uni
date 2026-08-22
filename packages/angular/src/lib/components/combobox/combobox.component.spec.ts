@@ -525,4 +525,67 @@ describe('UniComboboxComponent', () => {
       expect(input.value).toBe('Platform');
     });
   });
+
+  /**
+   * The popup escapes `overflow: hidden` ancestors by living in the top layer.
+   * jsdom has no `CSS` global, so every other spec here runs the in-flow
+   * fallback — these stub the gate to cover the promoted path. Positioning
+   * itself is CSS and belongs to Storybook; what is asserted here is the
+   * wiring: the attribute, and that the popup is actually shown.
+   */
+  describe('top-layer popup', () => {
+    const withAnchorSupport = async (supported: boolean) => {
+      Object.defineProperty(globalThis, 'CSS', {
+        value: { supports: () => supported },
+        configurable: true,
+        writable: true,
+      });
+      TestBed.resetTestingModule();
+      await TestBed.configureTestingModule({ imports: [UniComboboxComponent] }).compileComponents();
+      fixture = TestBed.createComponent(UniComboboxComponent<string>);
+      host = fixture.nativeElement;
+      fixture.componentRef.setInput('label', 'State');
+      fixture.componentRef.setInput('options', STATES);
+      fixture.detectChanges();
+    };
+
+    afterEach(() => {
+      delete (globalThis as { CSS?: unknown }).CSS;
+    });
+
+    it('stays in flow where anchor positioning is missing', async () => {
+      // Safari 17–25 has popover but no anchors; promoting there would drop
+      // the list a viewport height down the page.
+      await withAnchorSupport(false);
+      press('ArrowDown');
+
+      expect(listbox()!.hasAttribute('popover')).toBe(false);
+    });
+
+    it('promotes to the top layer where anchors are supported', async () => {
+      await withAnchorSupport(true);
+      press('ArrowDown');
+
+      // `manual`, never `auto`: auto light-dismisses on pointerdown outside
+      // the popup, which includes this component's own input.
+      expect(listbox()!.getAttribute('popover')).toBe('manual');
+    });
+
+    it('shows the popup, since a popover is display:none until it is shown', async () => {
+      await withAnchorSupport(true);
+      const shown: HTMLElement[] = [];
+      const original = HTMLElement.prototype.showPopover;
+      HTMLElement.prototype.showPopover = function (this: HTMLElement) {
+        shown.push(this);
+      };
+
+      try {
+        press('ArrowDown');
+      } finally {
+        HTMLElement.prototype.showPopover = original;
+      }
+
+      expect(shown).toContain(listbox());
+    });
+  });
 });

@@ -29,7 +29,14 @@
   </uni-debounce-input>
 
   @if (list.open()) {
-    <ul [id]="listboxId" role="listbox" [attr.aria-label]="label()" [class]="listClass()">
+    <ul
+      #listbox
+      [id]="listboxId"
+      role="listbox"
+      [attr.popover]="popupAttr"
+      [attr.aria-label]="label()"
+      [class]="listClass()"
+    >
       @for (suggestion of visibleSuggestions(); track suggestion; let i = $index) {
         <!-- eslint-disable-next-line @angular-eslint/template/click-events-have-key-events, @angular-eslint/template/interactive-supports-focus -->
         <li

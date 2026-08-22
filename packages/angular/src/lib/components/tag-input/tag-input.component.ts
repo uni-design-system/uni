@@ -16,7 +16,12 @@ import type { Size, TagTone, Variant } from '@uni-design-system/uni-core';
 
 import { createListboxNavigation, uniqueId, visuallyHidden } from '../../cdk';
 import { BaseComponent, COMPONENT_NAME } from '../base/base.component';
-import { listboxPopupStyles } from '../forms/listbox-popup';
+import {
+  listboxPopupAttr,
+  listboxPopupStyles,
+  newListboxAnchor,
+  promoteListboxPopup,
+} from '../forms/listbox-popup';
 import { UniInputBoxComponent } from '../input-box/input-box.component';
 import { UniTagComponent } from '../tag';
 import type {
@@ -89,6 +94,17 @@ export class UniTagInputComponent
 
   private readonly inputRef = viewChild.required<ElementRef<HTMLInputElement>>('field');
   private readonly chipRefs = viewChildren<ElementRef<HTMLElement>>('chip');
+  private readonly listRef = viewChild<ElementRef<HTMLUListElement>>('listbox');
+
+  /** Ties the popup to the field so the browser tracks it in the top layer. */
+  private readonly anchor = newListboxAnchor();
+  /** `manual` where the top layer is usable, else null — see the popup helper. */
+  protected readonly popupAttr = listboxPopupAttr();
+
+  constructor() {
+    super();
+    promoteListboxPopup(this.listRef);
+  }
 
   /** Uncommitted text in the field. */
   protected readonly draft = signal('');
@@ -397,7 +413,12 @@ export class UniTagInputComponent
 
   // --- Styling -------------------------------------------------------------
 
-  protected readonly className = computed(() => css({ display: 'block' }));
+  /** The host is the popup's anchor — the box the list mirrors the width of,
+      and the one its entry animation is measured against. The wrapper below
+      has the same geometry but is only the fallback's positioning context. */
+  protected readonly className = computed(() => css({ display: 'block', ...this.anchor.style }));
+
+  protected readonly wrapperClass = computed(() => css({ position: 'relative' }));
 
   protected readonly fieldClass = computed(() => {
     const options = this.componentOptions();
@@ -427,6 +448,6 @@ export class UniTagInputComponent
   );
 
   protected readonly listClass = computed(() =>
-    css(listboxPopupStyles(this.theme, this.componentOptions()))
+    css(listboxPopupStyles(this.theme, this.componentOptions(), { anchor: this.anchor.name }))
   );
 }

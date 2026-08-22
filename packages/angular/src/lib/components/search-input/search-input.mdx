@@ -32,6 +32,17 @@ Feed `suggestions` from your data source on every `change` emission:
 
 <StoryExample of={Stories.TypeAhead} />
 
+## Suggestion popup
+
+The list renders in the browser's top layer, anchored to the field, so it is
+never clipped by a scrolling or `overflow: hidden` ancestor — put this control
+inside a card, a table cell or a dialog and the list still escapes the box. The
+browser tracks the field itself; the list follows on scroll and resize, and
+flips above the field near the bottom of the viewport.
+
+Browsers without CSS anchor positioning keep the older in-flow popup, which
+does clip inside such ancestors.
+
 ## Theme options
 
 <ThemeOptions componentName="searchInput" />

@@ -22,7 +22,12 @@ import {
   type Options,
 } from '../../cdk';
 import { BaseComponent, COMPONENT_NAME } from '../base/base.component';
-import { listboxPopupStyles } from '../forms/listbox-popup';
+import {
+  listboxPopupAttr,
+  listboxPopupStyles,
+  newListboxAnchor,
+  promoteListboxPopup,
+} from '../forms/listbox-popup';
 import { UniIconComponent } from '../icon';
 import { UniIconButtonComponent } from '../icon-button/icon-button.component';
 import { UniInputBoxComponent } from '../input-box/input-box.component';
@@ -101,9 +106,15 @@ export class UniComboboxComponent<T>
   /** Cancelled on destroy — a late tick would emit on a destroyed OutputRef. */
   private queryTimer?: ReturnType<typeof setTimeout>;
 
+  /** Ties the popup to the field so the browser tracks it in the top layer. */
+  private readonly anchor = newListboxAnchor();
+  /** `manual` where the top layer is usable, else null — see the popup helper. */
+  protected readonly popupAttr = listboxPopupAttr();
+
   constructor() {
     super();
     inject(DestroyRef).onDestroy(() => clearTimeout(this.queryTimer));
+    promoteListboxPopup(this.listRef);
   }
 
   protected readonly srOnly = css(visuallyHidden);
@@ -396,7 +407,7 @@ export class UniComboboxComponent<T>
   // --- Styling ----------------------------------------------------------------
 
   protected readonly className = computed(() =>
-    css({ display: 'block', position: 'relative', width: this.width() })
+    css({ display: 'block', position: 'relative', width: this.width(), ...this.anchor.style })
   );
 
   protected readonly rowClass = computed(() =>
@@ -443,6 +454,7 @@ export class UniComboboxComponent<T>
         // A scroll height, never a cap: a closed-set control must not render a
         // reachable-by-keyboard-only subset (contrast searchInput.maxSuggestions).
         maxHeight: (options.maxVisibleOptions ?? 8) * 36 + 8,
+        anchor: this.anchor.name,
       }),
       {
         '& [role="option"]': {

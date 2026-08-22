@@ -24,7 +24,12 @@ import {
   type UniTime,
 } from '../../cdk';
 import { BaseComponent, COMPONENT_NAME } from '../base/base.component';
-import { listboxPopupStyles } from '../forms/listbox-popup';
+import {
+  listboxPopupAttr,
+  listboxPopupStyles,
+  newListboxAnchor,
+  promoteListboxPopup,
+} from '../forms/listbox-popup';
 import { UniIconButtonComponent } from '../icon-button/icon-button.component';
 import { UniInputBoxComponent } from '../input-box/input-box.component';
 import type { UniTimeInputOptions, UniTimeInputRejection } from './time-input.model';
@@ -94,6 +99,16 @@ export class UniTimeInputComponent
   private readonly host = inject<ElementRef<HTMLElement>>(ElementRef);
   private readonly inputRef = viewChild<ElementRef<HTMLInputElement>>('field');
   private readonly listRef = viewChild<ElementRef<HTMLUListElement>>('listbox');
+
+  /** Ties the popup to the field so the browser tracks it in the top layer. */
+  private readonly anchor = newListboxAnchor();
+  /** `manual` where the top layer is usable, else null — see the popup helper. */
+  protected readonly popupAttr = listboxPopupAttr();
+
+  constructor() {
+    super();
+    promoteListboxPopup(this.listRef);
+  }
 
   protected readonly srOnly = css(visuallyHidden);
   /** A refused commit — styles the field and sets aria-invalid until edited. */
@@ -345,7 +360,9 @@ export class UniTimeInputComponent
 
   // --- Styling -----------------------------------------------------------------------
 
-  protected readonly className = computed(() => css({ display: 'block', position: 'relative' }));
+  protected readonly className = computed(() =>
+    css({ display: 'block', position: 'relative', ...this.anchor.style })
+  );
 
   protected readonly rowClass = computed(() =>
     css({ display: 'flex', alignItems: 'center', flex: 1, width: '100%', minWidth: 0 })
@@ -386,6 +403,7 @@ export class UniTimeInputComponent
     return css(
       listboxPopupStyles(this.theme, options, {
         maxHeight: (options.maxVisibleOptions ?? 7) * 36,
+        anchor: this.anchor.name,
       })
     );
   });

@@ -27,9 +27,16 @@ audits: `packages/angular/TODO.md` (v4 audit) and `uni-theme-generation-plan.md`
          array form. Still open: the `announce()`/`srOnly` live-region idiom
          (hand-rolled in tag-input, time-input, date-input, calendar,
          combobox) — extract as a small `createAnnouncer()` cdk/a11y helper.
-      2. Popup positioning migration — `popover="auto"` + CSS anchor
-         positioning for all absolute-positioned listbox popups at once
-         (they clip inside `overflow: hidden` ancestors today).
+      2. ~~Popup positioning migration~~ — done 2026-08-22: all four listbox
+         popups (search-input, tag-input, time-input, combobox) render in the
+         top layer, anchored to their field, so they no longer clip inside
+         `overflow: hidden` ancestors. `popover="manual"`, not `auto` — these
+         controls already own dismissal, and `auto` light-dismisses on
+         pointerdown outside the popup, i.e. on their own input. Gated on
+         anchor-positioning support *together with* the top layer: Safari
+         17–25 has popover but no anchors, and promoting there would strand
+         the list a viewport height down the page, so it keeps the in-flow
+         fallback. Plumbing in `components/forms/listbox-popup.ts`.
       3. Home/End caret-stealing revisit — APG's editable-combobox pattern
          reserves Home/End for the caret; change in `ListboxNavigation` for
          all consumers at once or not at all.
@@ -92,6 +99,17 @@ audits: `packages/angular/TODO.md` (v4 audit) and `uni-theme-generation-plan.md`
       serialized `'undefinedpx'` and dropped the corner placement).
 - [x] ~~multi-select-dropdown search debounce~~ — shipped with the 8.1-era dropdown
       upgrade (`debounceTime` input, 200 ms default).
+- [ ] **Popup motion isn't themable** — `uni-dropdown` hardcodes its 100 ms
+      scale-and-fade (`delay = 100`, `scale(0.8)`), and the listbox popups
+      copied that constant when they moved to the top layer 2026-08-22
+      (`POPUP_TRANSITION_MS` in `components/forms/listbox-popup.ts`). Meanwhile
+      `expand`, `skeleton` and `callout` *do* expose motion as theme options
+      (`duration`, `transitionMs`), so the library is inconsistent: a theme can
+      slow a skeleton shimmer but not a dropdown. Add duration/easing/scale to
+      `dropdown` options and have the listbox popups read the same values —
+      ideally as shared motion tokens rather than a per-component option, since
+      every overlay wants the same answer. Keep `motionSafe` as the floor: a
+      reduced-motion user gets no transition regardless of the theme.
 - [ ] JSDoc coverage on public inputs/outputs — ongoing; feeds `llms.txt` and MCP
       summaries (empty where class JSDoc is missing).
 - [ ] **uni-symbol → uni-icon migration** (rule established 2026-08-21, AGENTS.md
