@@ -18,6 +18,7 @@ import {
   addDays,
   addMonths,
   buildMonthGrid,
+  createAnnouncer,
   dayOfWeek,
   formatDate,
   formatMonthHeading,
@@ -128,7 +129,8 @@ export class UniCalendarComponent
   /** Hover/focus candidate painting the preview band while a range is pending. */
   protected readonly previewDate = signal<UniDate | null>(null);
   /** Live-region text; selections are otherwise silent for a screen reader. */
-  protected readonly announcement = signal('');
+  /** Commits, clears and refusals are otherwise silent to a screen reader. */
+  protected readonly announcer = createAnnouncer();
 
   protected readonly resolvedLocale = computed(
     () => this.locale() ?? (document.documentElement.lang || navigator.language || 'en-US')
@@ -285,11 +287,11 @@ export class UniCalendarComponent
 
     if (this.mode() === 'single') {
       this.value.set(date);
-      this.announce(`${full(date)} selected.`);
+      this.announcer.announce(`${full(date)} selected.`);
     } else if (!this.pendingStart()) {
       this.pendingStart.set(date);
       this.previewDate.set(date);
-      this.announce(`Start date ${full(date)}. Choose an end date.`);
+      this.announcer.announce(`Start date ${full(date)}. Choose an end date.`);
     } else {
       let [start, end] = [this.pendingStart()!, date];
       if (end < start) [start, end] = [end, start]; // backwards commit swaps
@@ -297,7 +299,7 @@ export class UniCalendarComponent
       this.previewDate.set(null);
       this.value.set({ start, end });
       const days = inclusiveDayCount(start, end);
-      this.announce(
+      this.announcer.announce(
         `Range selected, ${full(start)} to ${full(end)}. ${days} ${days === 1 ? 'day' : 'days'}.`
       );
     }
@@ -307,7 +309,7 @@ export class UniCalendarComponent
   private cancelPending(): void {
     this.pendingStart.set(null);
     this.previewDate.set(null);
-    this.announce('Range selection cancelled.');
+    this.announcer.announce('Range selection cancelled.');
   }
 
   // --- Navigation ------------------------------------------------------------
@@ -412,10 +414,6 @@ export class UniCalendarComponent
     return first;
   }
 
-  private announce(message: string): void {
-    // Re-announce identical text by breaking the string equality.
-    this.announcement.set(this.announcement() === message ? `${message} ` : message);
-  }
 
   // --- Styling ---------------------------------------------------------------
 

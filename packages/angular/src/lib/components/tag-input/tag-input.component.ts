@@ -14,7 +14,7 @@ import { FormValueControl } from '@angular/forms/signals';
 import { css } from '@emotion/css';
 import type { Size, TagTone, Variant } from '@uni-design-system/uni-core';
 
-import { createListboxNavigation, uniqueId, visuallyHidden } from '../../cdk';
+import { createAnnouncer, createListboxNavigation, uniqueId, visuallyHidden } from '../../cdk';
 import { BaseComponent, COMPONENT_NAME } from '../base/base.component';
 import {
   listboxPopupAttr,
@@ -110,8 +110,8 @@ export class UniTagInputComponent
   protected readonly draft = signal('');
   /** Index of the focused chip, or -1 when focus is in the text input. */
   protected readonly focusedChip = signal(-1);
-  /** Announcement for the status region; add/remove are otherwise silent. */
-  protected readonly announcement = signal('');
+  /** Adds, removes and refusals are otherwise silent to a screen reader. */
+  protected readonly announcer = createAnnouncer();
 
   protected readonly hintId = uniqueId('uni-tag-input-hint');
   protected readonly srOnly = css(visuallyHidden);
@@ -195,14 +195,14 @@ export class UniTagInputComponent
 
     this.value.update((items) => [...items, item]);
     this.added.emit(item);
-    this.announce(`${this.labelOf(item)} added. ${this.value().length} ${this.countNoun()}.`);
+    this.announcer.announce(`${this.labelOf(item)} added. ${this.value().length} ${this.countNoun()}.`);
     return true;
   }
 
   private reject(raw: string, reason: UniTagRejection['reason']): void {
     this.rejected.emit({ raw, reason });
     // The visual cue is a brief pulse a screen reader cannot see.
-    this.announce(
+    this.announcer.announce(
       reason === 'duplicate' ? `${raw} is already added.` : `${raw} was not added: limit reached.`
     );
   }
@@ -213,7 +213,7 @@ export class UniTagInputComponent
 
     this.value.update((items) => items.filter((_, i) => i !== index));
     this.removed.emit(item);
-    this.announce(`${this.labelOf(item)} removed. ${this.value().length} ${this.countNoun()}.`);
+    this.announcer.announce(`${this.labelOf(item)} removed. ${this.value().length} ${this.countNoun()}.`);
 
     const remaining = this.value().length;
     if (focus === 'left' && index > 0) this.focusChip(index - 1);
@@ -225,10 +225,6 @@ export class UniTagInputComponent
     return this.value().length === 1 ? 'item' : 'items';
   }
 
-  private announce(message: string): void {
-    // Re-announce identical text by breaking the string equality.
-    this.announcement.set(this.announcement() === message ? `${message} ` : message);
-  }
 
   // --- Focus ---------------------------------------------------------------
 

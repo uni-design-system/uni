@@ -16,6 +16,7 @@ import { css } from '@emotion/css';
 
 import {
   addDays,
+  createAnnouncer,
   formatDate,
   localeDatePlaceholder,
   monthOf,
@@ -108,7 +109,8 @@ export class UniDateInputComponent
   protected readonly srOnly = css(visuallyHidden);
   /** A refused commit — styles the field and sets aria-invalid until edited. */
   protected readonly draftInvalid = signal(false);
-  protected readonly announcement = signal('');
+  /** Commits, clears and refusals are otherwise silent to a screen reader. */
+  protected readonly announcer = createAnnouncer();
 
   protected readonly toggleElement = computed(() => this.toggleRef()?.nativeElement);
   protected readonly popupOpen = computed(() => this.dropdown()?.showing() ?? false);
@@ -151,7 +153,7 @@ export class UniDateInputComponent
     this.value.set(date);
     this.draftInvalid.set(false);
     this.setFieldText(this.displayText());
-    if (!silent) this.announce(date ? `${this.fullDate(date)}.` : 'Date cleared.');
+    if (!silent) this.announcer.announce(date ? `${this.fullDate(date)}.` : 'Date cleared.');
   }
 
   private refuse(raw: string, reason: UniDateInputRejection['reason']): void {
@@ -161,7 +163,7 @@ export class UniDateInputComponent
       'out-of-range': `${raw} is outside the allowed dates.`,
       disabled: `${raw} isn't available.`,
     }[reason];
-    this.announce(message);
+    this.announcer.announce(message);
     this.rejected.emit({ raw, reason });
   }
 
@@ -313,9 +315,6 @@ export class UniDateInputComponent
     if (element) element.value = text;
   }
 
-  private announce(message: string): void {
-    this.announcement.set(this.announcement() === message ? `${message} ` : message);
-  }
 
   // --- Styling -----------------------------------------------------------------------
 

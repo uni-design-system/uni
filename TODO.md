@@ -18,15 +18,21 @@ audits: `packages/angular/TODO.md` (v4 audit) and `uni-theme-generation-plan.md`
       options, local-by-default filtering with `filterLocally=false` async
       contract). `Option<T>` gained `description?`/`disabled?`;
       `ListboxNavigation` learned disabled-skip. Fast follows below.
-- [ ] **Combobox fast follows** (deferred out of the 2026-08-21 port):
+- [x] **Combobox fast follows** (deferred out of the 2026-08-21 port; all
+      resolved 2026-08-22 — 5 shipped, 1 declined by design):
       1. ~~Extract the shared listbox popup styling~~ — done 2026-08-21 as
          `listboxPopupStyles()` in `components/forms/listbox-popup.ts`
          (components/, not cdk: theming imports cdk, and ListboxNavigation
          deliberately owns no styling); search-input, tag-input, time-input
          and combobox consume it, composing extras via the `css([base, …])`
-         array form. Still open: the `announce()`/`srOnly` live-region idiom
-         (hand-rolled in tag-input, time-input, date-input, calendar,
-         combobox) — extract as a small `createAnnouncer()` cdk/a11y helper.
+         array form. ~~The `announce()`/`srOnly` live-region idiom~~ — done
+         2026-08-22 as `createAnnouncer()` in cdk/a11y; combobox, tag-input,
+         time-input, date-input, calendar and tour share it. The audit
+         corrected the list twice: multi-select-dropdown never had an
+         announcer (it uses `srOnly` for static labels only), while tour did
+         and was missing — with a plain signal, so its constant "Next
+         available" was announced once and silently dropped on every later
+         step. Styling stayed in the components; the CDK holds no emotion.
       2. ~~Popup positioning migration~~ — done 2026-08-22: all four listbox
          popups (search-input, tag-input, time-input, combobox) render in the
          top layer, anchored to their field, so they no longer clip inside

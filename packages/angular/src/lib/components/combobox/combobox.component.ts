@@ -15,6 +15,7 @@ import { FormValueControl } from '@angular/forms/signals';
 import { css } from '@emotion/css';
 
 import {
+  createAnnouncer,
   createListboxNavigation,
   motionSafe,
   visuallyHidden,
@@ -118,7 +119,8 @@ export class UniComboboxComponent<T>
   }
 
   protected readonly srOnly = css(visuallyHidden);
-  protected readonly announcement = signal('');
+  /** Commits, clears and refusals are otherwise silent to a screen reader. */
+  protected readonly announcer = createAnnouncer();
 
   /** null → the field shows the committed label; a string is an uncommitted draft. */
   protected readonly draft = signal<string | null>(null);
@@ -178,7 +180,7 @@ export class UniComboboxComponent<T>
     this.draft.set(null);
     this.closeList();
     this.setFieldText(this.displayValue());
-    this.announce(`${option.label} selected.`);
+    this.announcer.announce(`${option.label} selected.`);
     this.selected.emit(option);
     return true;
   }
@@ -188,7 +190,7 @@ export class UniComboboxComponent<T>
     this.draft.set(null);
     this.closeList();
     this.setFieldText('');
-    this.announce('Selection cleared.');
+    this.announcer.announce('Selection cleared.');
     this.cleared.emit();
     this.inputRef().nativeElement.focus();
   }
@@ -216,7 +218,7 @@ export class UniComboboxComponent<T>
       // clearable fields may null the model this way.
       if (this.clearable() && this.value() !== null && !enterOnly) {
         this.value.set(null);
-        this.announce('Selection cleared.');
+        this.announcer.announce('Selection cleared.');
         this.cleared.emit();
       }
       this.draft.set(null);
@@ -248,7 +250,7 @@ export class UniComboboxComponent<T>
   private reject(): void {
     const query = this.revertDraft();
     if (query) {
-      this.announce(`No match for “${query}”.`);
+      this.announcer.announce(`No match for “${query}”.`);
       this.rejected.emit({ query });
     }
   }
@@ -292,7 +294,7 @@ export class UniComboboxComponent<T>
         if (this.popupOpen()) event.preventDefault();
         if (!this.resolveDraft(true)) {
           const count = this.filteredIndices().length;
-          this.announce(
+          this.announcer.announce(
             count === 0 ? `${this.emptyText()}.` : `${count} results. Use the arrow keys.`
           );
         }
@@ -324,7 +326,7 @@ export class UniComboboxComponent<T>
       // Filtering is otherwise silent to a screen reader.
       if (this.filterLocally() && text !== '') {
         const count = this.filteredIndices().length;
-        this.announce(
+        this.announcer.announce(
           count === 0 ? `${this.emptyText()}.` : `${count} result${count === 1 ? '' : 's'}.`
         );
       }
@@ -397,10 +399,6 @@ export class UniComboboxComponent<T>
     if (element) element.value = text;
   }
 
-  private announce(message: string): void {
-    // Re-announce identical text by breaking the string equality.
-    this.announcement.set(this.announcement() === message ? `${message} ` : message);
-  }
 
   // --- Styling ----------------------------------------------------------------
 

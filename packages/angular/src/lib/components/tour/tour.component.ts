@@ -13,7 +13,7 @@ import {
   untracked,
 } from '@angular/core';
 import { css } from '@emotion/css';
-import { resolveElement, visuallyHidden } from '../../cdk';
+import { createAnnouncer, resolveElement, visuallyHidden } from '../../cdk';
 import { BaseComponent, COMPONENT_NAME } from '../base/base.component';
 import { UniButtonComponent } from '../button/button.component';
 import { UniCalloutComponent } from '../callout/callout.component';
@@ -61,7 +61,9 @@ export class UniTourComponent extends BaseComponent<UniTourOptions> {
 
   protected readonly calloutOpen = signal(false);
   protected readonly satisfied = signal(true);
-  protected readonly announcement = signal('');
+  /** Repeats must still be heard: the same gate message can come round
+      again on a later step. */
+  protected readonly announcer = createAnnouncer();
   protected readonly resolvedTarget = signal<HTMLElement | undefined>(undefined);
   private readonly presentedIndex = signal<number | null>(null);
   private gateCleanup: (() => void) | null = null;
@@ -172,7 +174,7 @@ export class UniTourComponent extends BaseComponent<UniTourOptions> {
         this.gateCleanup?.();
         this.advance();
       } else {
-        this.announcement.set('Next available');
+        this.announcer.announce('Next available');
       }
     });
     this.gateCleanup = () => {

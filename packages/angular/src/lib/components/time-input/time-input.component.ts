@@ -15,6 +15,7 @@ import { FormValueControl } from '@angular/forms/signals';
 import { css } from '@emotion/css';
 
 import {
+  createAnnouncer,
   createListboxNavigation,
   formatTime,
   localeDefaultHour12,
@@ -113,7 +114,8 @@ export class UniTimeInputComponent
   protected readonly srOnly = css(visuallyHidden);
   /** A refused commit — styles the field and sets aria-invalid until edited. */
   protected readonly draftInvalid = signal(false);
-  protected readonly announcement = signal('');
+  /** Commits, clears and refusals are otherwise silent to a screen reader. */
+  protected readonly announcer = createAnnouncer();
 
   protected readonly resolvedLocale = computed(
     () => this.locale() ?? (document.documentElement.lang || navigator.language || 'en-US')
@@ -159,7 +161,7 @@ export class UniTimeInputComponent
     this.value.set(time);
     this.draftInvalid.set(false);
     this.setFieldText(this.displayText());
-    if (!silent) this.announce(time ? `${this.formatValue(time)}.` : 'Time cleared.');
+    if (!silent) this.announcer.announce(time ? `${this.formatValue(time)}.` : 'Time cleared.');
   }
 
   private refuse(raw: string, reason: UniTimeInputRejection['reason'], shown = raw): void {
@@ -169,7 +171,7 @@ export class UniTimeInputComponent
       'out-of-range': `${shown} is outside the allowed times.`,
       unavailable: `${shown} isn't available.`,
     }[reason];
-    this.announce(message);
+    this.announcer.announce(message);
     this.rejected.emit({ raw, reason });
   }
 
@@ -354,9 +356,6 @@ export class UniTimeInputComponent
     if (element) element.value = text;
   }
 
-  private announce(message: string): void {
-    this.announcement.set(this.announcement() === message ? `${message} ` : message);
-  }
 
   // --- Styling -----------------------------------------------------------------------
 
