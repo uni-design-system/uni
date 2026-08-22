@@ -97,6 +97,18 @@ export const SingleSelection: Story = {
   },
 };
 
+export const DisabledOptions: Story = {
+  args: {
+    options: [
+      { value: 'email', label: 'Email' },
+      { value: 'sms', label: 'SMS — verify a phone number first', disabled: true },
+      { value: 'push', label: 'Push' },
+      { value: 'fax', label: 'Fax — retired', disabled: true },
+    ],
+    selections: ['email'],
+  },
+};
+
 export const ManyOptions: Story = {
   args: {
     options: [

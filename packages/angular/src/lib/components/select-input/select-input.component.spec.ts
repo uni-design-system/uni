@@ -37,6 +37,28 @@ describe('UniSelectComponent', () => {
     expect(select().selectedIndex).toBe(1);
   });
 
+  describe('disabled options', () => {
+    beforeEach(() => {
+      fixture.componentRef.setInput('options', [
+        { label: 'Red', value: 'red' },
+        { label: 'Blue', value: 'blue', disabled: true },
+      ]);
+      fixture.detectChanges();
+    });
+
+    it('marks the option disabled so the browser skips it', () => {
+      const rendered = Array.from(select().querySelectorAll('option'));
+      expect(rendered.map((option) => option.disabled)).toEqual([false, true]);
+    });
+
+    it('leaves enabled options selectable', () => {
+      select().value = '0';
+      select().dispatchEvent(new Event('change'));
+      fixture.detectChanges();
+      expect(fixture.componentInstance.value()).toBe('red');
+    });
+  });
+
   describe('object values', () => {
     let objFixture: ComponentFixture<UniSelectComponent<{ id: number }>>;
 

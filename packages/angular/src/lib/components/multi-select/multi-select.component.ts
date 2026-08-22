@@ -35,6 +35,9 @@ export class UniMultiSelectComponent<T = unknown> {
   protected readonly className = css({ display: 'contents' });
 
   handleCheck(checked: boolean, value: T) {
+    // The rendered checkbox is disabled, so this only guards a direct call.
+    if (this.options().find((option) => option.value === value)?.disabled) return;
+
     const selections = this.selections();
 
     if (!selections && !checked) return;
@@ -52,8 +55,11 @@ export class UniMultiSelectComponent<T = unknown> {
     }
   }
 
+  /** Selects every *enabled* option — a disabled option is not committable. */
   selectAll() {
-    const allValues = this.options().map((option) => option.value);
+    const allValues = this.options()
+      .filter((option) => !option.disabled)
+      .map((option) => option.value);
     this.updates.emit(allValues);
   }
 

@@ -96,10 +96,15 @@ export class UniMultiSelectDropdownComponent<T = unknown>
    * arithmetic — wrapping, Home/End, and never pointing past a list the
    * filter has narrowed — the same contract `uni-search-input` and
    * `uni-tag-input` use, so the keys behave identically across all three.
+   *
+   * `disabled` indexes into `filteredOptions`, matching `count`: arrows step
+   * over disabled rows and Home/End land on the nearest enabled one, so the
+   * focus target is always a checkbox that can actually take focus.
    */
   protected readonly list = createListboxNavigation({
     count: () => this.filteredOptions().length,
     idPrefix: 'uni-multi-select',
+    disabled: (index) => !!this.filteredOptions()[index]?.disabled,
   });
 
   /** Announced with the selection so the count is not left to guesswork. */
@@ -181,11 +186,18 @@ export class UniMultiSelectDropdownComponent<T = unknown>
     this.list.setActive(index);
   }
 
+  /**
+   * Selects every *enabled* option. A disabled option is not committable, so
+   * "select all" must not commit one on the user's behalf — the same rule
+   * `toggleOption` and the keyboard path follow.
+   */
   selectAll() {
     if (this.disabled()) return;
 
     this.touched.set(true);
-    const allValues = this.options().map((option) => option.value);
+    const allValues = this.options()
+      .filter((option) => !option.disabled)
+      .map((option) => option.value);
     this.value.set(allValues);
   }
 
@@ -201,7 +213,8 @@ export class UniMultiSelectDropdownComponent<T = unknown>
   }
 
   toggleOption(option: Option<T>, checked: boolean) {
-    if (this.disabled()) return;
+    // The nav hook keeps the keyboard off disabled rows; this stops a pointer.
+    if (this.disabled() || option.disabled) return;
 
     this.touched.set(true);
     const { value } = option;

@@ -23,6 +23,15 @@ The popover surface, radius, and elevation resolve from the
 
 <StoryUsage of={Stories.Primary} />
 
+## Disabled options
+
+Mark an individual choice `disabled` to show it without offering it. Its
+checkbox is disabled, the arrow keys step over it, and `selectAll()` leaves it
+out — a disabled option is not committable, so nothing may commit it on the
+user's behalf. Whole-field `disabled` is separate and still disables everything.
+
+<StoryExample of={Stories.DisabledOptions} />
+
 ## Error state
 
 <StoryExample of={Stories.ErrorState} />
@@ -40,3 +49,6 @@ The popover surface, radius, and elevation resolve from the
 - The trigger is a disclosure (`aria-haspopup="dialog"`, `aria-expanded`); the popover contains native focusables Tab reaches normally.
 - The search input is labelled; options are real checkboxes announced with their state.
 - Escape closes the popover and returns focus to the trigger.
+- Disabled options stay rendered and announced; arrows step over them and
+  Home/End land on the nearest enabled option, so focus never parks on a
+  checkbox that cannot take it.

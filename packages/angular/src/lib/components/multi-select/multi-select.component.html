@@ -8,6 +8,7 @@
         [checked]="values().indexOf(option.value) > -1"
         (checkedChange)="handleCheck($event, option.value)"
         variant="primary"
+        [disabled]="!!option.disabled"
       >
       </uni-checkbox>
     </div>

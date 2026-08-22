@@ -143,6 +143,78 @@ describe('UniMultiSelectDropdownComponent', () => {
     });
   });
 
+  describe('disabled options', () => {
+    const MIXED = [
+      { label: 'Apple', value: 'apple' },
+      { label: 'Banana', value: 'banana', disabled: true },
+      { label: 'Cherry', value: 'cherry' },
+    ];
+
+    beforeEach(() => setInputs({ options: MIXED }));
+
+    it('disables that option only, leaving the rest interactive', () => {
+      open();
+      expect(checkboxes().map((box) => box.disabled)).toEqual([false, true, false]);
+    });
+
+    it('refuses to toggle it even when called directly', () => {
+      open();
+      fixture.componentInstance.toggleOption(MIXED[1], true);
+      fixture.detectChanges();
+
+      expect(fixture.componentInstance.value()).toEqual([]);
+    });
+
+    it('leaves it out of selectAll', () => {
+      fixture.componentInstance.selectAll();
+      fixture.detectChanges();
+
+      // A disabled option is not committable, so "select all" must not commit
+      // one on the user's behalf.
+      expect(fixture.componentInstance.value()).toEqual(['apple', 'cherry']);
+    });
+
+    it('steps over it with the arrow keys', () => {
+      open();
+      const arrow = (key: string) =>
+        filterBox().dispatchEvent(
+          new KeyboardEvent('keydown', { key, bubbles: true, cancelable: true })
+        );
+
+      arrow('ArrowDown');
+      fixture.detectChanges();
+      expect(document.activeElement).toBe(checkboxes()[0]);
+
+      // Skips Banana rather than parking focus on a checkbox that cannot take it.
+      arrow('ArrowDown');
+      fixture.detectChanges();
+      expect(document.activeElement).toBe(checkboxes()[2]);
+    });
+
+    it('lands Home and End on the nearest enabled option', () => {
+      setInputs({
+        options: [
+          { label: 'Apple', value: 'apple', disabled: true },
+          { label: 'Banana', value: 'banana' },
+          { label: 'Cherry', value: 'cherry', disabled: true },
+        ],
+      });
+      open();
+      const arrow = (key: string) =>
+        filterBox().dispatchEvent(
+          new KeyboardEvent('keydown', { key, bubbles: true, cancelable: true })
+        );
+
+      arrow('End');
+      fixture.detectChanges();
+      expect(document.activeElement).toBe(checkboxes()[1]);
+
+      arrow('Home');
+      fixture.detectChanges();
+      expect(document.activeElement).toBe(checkboxes()[1]);
+    });
+  });
+
   describe('filtering', () => {
     const typeFilter = async (text: string) => {
       filterBox().value = text;

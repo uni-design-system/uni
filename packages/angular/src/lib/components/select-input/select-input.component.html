@@ -20,7 +20,11 @@
            pointing at an option added in the same change-detection pass still
            applies (the select-level [value] write lands before new options
            exist and is ignored by the browser). -->
-      <option [value]="i" [selected]="currentSelectedIndex() === i.toString()">
+      <option
+        [value]="i"
+        [selected]="currentSelectedIndex() === i.toString()"
+        [disabled]="opt.disabled ?? false"
+      >
         {{ opt.label }}
       </option>
     }

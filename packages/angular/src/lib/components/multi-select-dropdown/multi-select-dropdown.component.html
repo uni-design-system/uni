@@ -70,7 +70,7 @@
           [checked]="isOptionSelected(option)()"
           (checkedChange)="toggleOption(option, $event)"
           variant="primary"
-          [disabled]="disabled()"
+          [disabled]="disabled() || !!option.disabled"
         >
         </uni-checkbox>
       </div>

@@ -24,7 +24,17 @@ are many, use Multi Select Dropdown instead.
 
 <StoryExample of={Stories.SingleSelection} />
 
+## Disabled options
+
+Mark an individual choice `disabled` to show it without offering it. Its
+checkbox is disabled and `selectAll()` leaves it out — a disabled option is not
+committable, so nothing may commit it on the user's behalf.
+
+<StoryExample of={Stories.DisabledOptions} />
+
 ## Accessibility
 
 - Options are real checkboxes in a labelled group — Space toggles, Tab moves between them.
 - Selection state is announced per option.
+- Disabled options stay rendered and announced, not hidden — removing them would
+  make the list lie about what exists.

@@ -108,6 +108,23 @@ export const Disabled: Story = {
   },
 };
 
+export const DisabledOptions: Story = {
+  args: {
+    placeholder: 'Select a plan...',
+    options: [
+      { value: 'free', label: 'Free' },
+      { value: 'pro', label: 'Pro' },
+      { value: 'team', label: 'Team — requires an organization', disabled: true },
+      { value: 'enterprise', label: 'Enterprise — contact sales', disabled: true },
+    ],
+    value: null,
+    disabled: false,
+    touched: false,
+    invalid: false,
+    dirty: false,
+  },
+};
+
 export const Invalid: Story = {
   args: {
     placeholder: 'Please select an option...',

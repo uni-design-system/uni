@@ -27,6 +27,14 @@ template-only change.
 
 <StoryUsage of={Stories.Primary} />
 
+## Disabled options
+
+Mark an individual choice `disabled` to show it without offering it — a plan
+that needs an upgrade, a date already taken. It stays visible and announced;
+the native `<select>` skips it for both pointer and keyboard.
+
+<StoryExample of={Stories.DisabledOptions} />
+
 ## Invalid state
 
 <StoryExample of={Stories.Invalid} />
@@ -43,3 +51,5 @@ template-only change.
 
 - Native `<select>`: platform keyboard interaction and mobile pickers for free.
 - `label` becomes the accessible name; `aria-invalid` reflects the touched error state.
+- Disabled options are rendered and announced, not hidden — removing them would
+  make the list lie about what exists.

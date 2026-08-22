@@ -33,9 +33,14 @@ audits: `packages/angular/TODO.md` (v4 audit) and `uni-theme-generation-plan.md`
       3. Home/End caret-stealing revisit — APG's editable-combobox pattern
          reserves Home/End for the caret; change in `ListboxNavigation` for
          all consumers at once or not at all.
-      4. `uni-select` / `multi-select-dropdown` adopt `Option.disabled`
-         (native `<option disabled>` is a one-liner; MSD gets skipping free
-         via the new `disabled` nav hook).
+      4. ~~`uni-select` / `multi-select-dropdown` adopt `Option.disabled`~~ —
+         done 2026-08-22, and `uni-multi-select` (the third `Options<T>`
+         consumer) with them. Native `<option disabled>` for the select; the
+         two multi-selects disable the checkbox, refuse a direct toggle, and
+         leave disabled options out of `selectAll()` (not committable, so
+         nothing commits one for the user; `deselectAll()` still clears all).
+         MSD got arrow-skipping and Home/End-to-nearest-enabled free from the
+         `disabled` nav hook.
       5. `displayWith` — deliberately omitted; revisit only when a real
          consumer has a value-before-options case the self-healing field
          doesn't cover.
