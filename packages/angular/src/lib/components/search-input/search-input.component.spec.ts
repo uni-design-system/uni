@@ -79,6 +79,22 @@ describe('UniSearchInputComponent', () => {
     expect(host().querySelector('[role="listbox"]')).toBeNull();
   });
 
+  it('leaves Home and End to the caret instead of opening the list', async () => {
+    // Regression: Home/End used to reach ListboxNavigation unconditionally
+    // here, so they both stole the caret and *opened* a closed popup.
+    fixture.componentRef.setInput('suggestions', ['alpha', 'beta', 'gamma']);
+    await type('a');
+    key('Escape');
+    expect(host().querySelector('[role="listbox"]')).toBeNull();
+
+    const home = new KeyboardEvent('keydown', { key: 'Home', bubbles: true, cancelable: true });
+    inputEl().dispatchEvent(home);
+    fixture.detectChanges();
+
+    expect(host().querySelector('[role="listbox"]')).toBeNull();
+    expect(home.defaultPrevented).toBe(false);
+  });
+
   it('Escape closes the list first, then clears the query', async () => {
     fixture.componentRef.setInput('suggestions', ['alpha']);
     await type('a');

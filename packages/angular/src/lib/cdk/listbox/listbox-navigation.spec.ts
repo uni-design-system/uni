@@ -2,9 +2,13 @@ import { signal } from '@angular/core';
 import { createListboxNavigation } from './listbox-navigation';
 
 describe('ListboxNavigation', () => {
-  const setup = (initialCount = 3) => {
+  const setup = (initialCount = 3, homeEndNavigates = false) => {
     const count = signal(initialCount);
-    const nav = createListboxNavigation({ count: () => count(), idPrefix: 'test' });
+    const nav = createListboxNavigation({
+      count: () => count(),
+      idPrefix: 'test',
+      homeEndNavigates,
+    });
     return { nav, count };
   };
 
@@ -65,8 +69,23 @@ describe('ListboxNavigation', () => {
       expect(nav.activeIndex()).toBe(0);
     });
 
-    it('jumps to the ends with Home and End', () => {
+    it('leaves Home and End to the caret by default', () => {
+      // APG's editable-combobox pattern: a text field keeps its editing keys.
+      // Nothing is lost — ArrowUp already opens on the last option.
       const { nav } = setup();
+      const home = press('Home');
+      const end = press('End');
+
+      expect(nav.navigate(end)).toBe(false);
+      expect(nav.navigate(home)).toBe(false);
+      expect(nav.activeIndex()).toBe(-1);
+      expect(end.defaultPrevented).toBe(false);
+      expect(home.defaultPrevented).toBe(false);
+    });
+
+    it('jumps to the ends with Home and End when a consumer opts in', () => {
+      // uni-multi-select-dropdown: focus rides checkboxes, not a text field.
+      const { nav } = setup(3, true);
       nav.navigate(press('End'));
       expect(nav.activeIndex()).toBe(2);
 
@@ -100,7 +119,7 @@ describe('ListboxNavigation', () => {
     });
 
     it('never points at an option that no longer exists', () => {
-      const { nav, count } = setup(3);
+      const { nav, count } = setup(3, true);
       nav.navigate(press('End'));
       expect(nav.activeIndex()).toBe(2);
 
@@ -119,7 +138,7 @@ describe('ListboxNavigation', () => {
   });
 
   it('hiding clears the active option so reopening starts clean', () => {
-    const { nav } = setup();
+    const { nav } = setup(3, true);
     nav.navigate(press('End'));
     nav.hide();
     nav.show();
@@ -128,6 +147,8 @@ describe('ListboxNavigation', () => {
   });
 
   describe('disabled options', () => {
+    // Opted in throughout: the disabled-edge walking these cases cover is
+    // reachable only where Home/End navigate at all (uni-multi-select-dropdown).
     const setupDisabled = (disabled: number[], count = 5, wrap = true) => {
       const disabledSet = new Set(disabled);
       return createListboxNavigation({
@@ -135,6 +156,7 @@ describe('ListboxNavigation', () => {
         idPrefix: 'test',
         wrap,
         disabled: (index) => disabledSet.has(index),
+        homeEndNavigates: true,
       });
     };
 

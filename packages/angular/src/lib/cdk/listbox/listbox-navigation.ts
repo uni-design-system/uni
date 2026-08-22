@@ -14,6 +14,18 @@ export interface ListboxNavigationConfig {
    * nearest enabled option; an all-disabled list never activates.
    */
   disabled?: (index: number) => boolean;
+  /**
+   * Let Home/End jump to the ends of the list. Default false.
+   *
+   * In an editable combobox those keys belong to the caret — APG reserves
+   * them for text editing, and a control that steals them makes the text
+   * un-navigable while its list is open. Opt in only where focus is *not* in
+   * a text field (uni-multi-select-dropdown, whose focus rides the option
+   * checkboxes). Nothing is lost by leaving it off: opening with ArrowUp
+   * already lands on the last option, ArrowDown on the first, and navigation
+   * wraps at both ends.
+   */
+  homeEndNavigates?: boolean;
 }
 
 /**
@@ -25,8 +37,9 @@ export interface ListboxNavigationConfig {
  * Extracted because three controls need the identical contract
  * (`uni-search-input`, `uni-tag-input`, and the multi-select upgrade), and the
  * parts that silently drift between hand-rolled copies all live here: the
- * wrap-around arithmetic, Home/End, and keeping the active id in sync with the
- * option list.
+ * wrap-around arithmetic and keeping the active id in sync with the option
+ * list. Home/End are opt-in (`homeEndNavigates`) because a text field's caret
+ * has the better claim on them.
  *
  * `Enter` and `Escape` are deliberately *not* handled: what they mean depends
  * on the control (submit a search, commit a typed token, clear the field), and
@@ -40,6 +53,7 @@ export class ListboxNavigation {
   private readonly _activeIndex = signal(-1);
   private readonly wrap: boolean;
   private readonly isDisabled: (index: number) => boolean;
+  private readonly homeEndNavigates: boolean;
 
   /** Whether the popup is showing. Also false when there is nothing to show. */
   readonly open: Signal<boolean> = computed(() => this._open() && this.config.count() > 0);
@@ -61,6 +75,7 @@ export class ListboxNavigation {
     this.listboxId = uniqueId(config.idPrefix ?? 'uni-listbox');
     this.wrap = config.wrap ?? true;
     this.isDisabled = config.disabled ?? (() => false);
+    this.homeEndNavigates = config.homeEndNavigates ?? false;
   }
 
   /** Stable per-option id, for `role="option"` elements. */
@@ -83,9 +98,9 @@ export class ListboxNavigation {
   }
 
   /**
-   * Handle ArrowDown / ArrowUp / Home / End, opening the popup if needed.
-   * Returns true when the key was consumed, so a caller can fall through to
-   * its own handling for everything else.
+   * Handle ArrowDown / ArrowUp — and Home / End where `homeEndNavigates` is
+   * on. Opens the popup if needed. Returns true when the key was consumed, so
+   * a caller can fall through to its own handling for everything else.
    */
   navigate(event: KeyboardEvent): boolean {
     const count = this.config.count();
@@ -109,10 +124,11 @@ export class ListboxNavigation {
       case 'ArrowUp':
         // Opening with ArrowUp lands on the last option, matching menus.
         return current < 0 ? this.seek(count - 1, -1, count) : this.step(current, -1, count);
+      // Left to the caret unless a consumer opts in — see `homeEndNavigates`.
       case 'Home':
-        return this.seek(0, 1, count);
+        return this.homeEndNavigates ? this.seek(0, 1, count) : null;
       case 'End':
-        return this.seek(count - 1, -1, count);
+        return this.homeEndNavigates ? this.seek(count - 1, -1, count) : null;
       default:
         return null;
     }

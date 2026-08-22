@@ -37,9 +37,16 @@ audits: `packages/angular/TODO.md` (v4 audit) and `uni-theme-generation-plan.md`
          17–25 has popover but no anchors, and promoting there would strand
          the list a viewport height down the page, so it keeps the in-flow
          fallback. Plumbing in `components/forms/listbox-popup.ts`.
-      3. Home/End caret-stealing revisit — APG's editable-combobox pattern
-         reserves Home/End for the caret; change in `ListboxNavigation` for
-         all consumers at once or not at all.
+      3. ~~Home/End caret-stealing revisit~~ — done 2026-08-22. The audit
+         found the "shared" contract had already drifted into four behaviors
+         across five consumers (time-input never called `navigate`; combobox
+         gated on the popup being open; search-input and tag-input claimed
+         them unconditionally *and opened a closed list*; MSD claimed them
+         with focus on checkboxes). Resolved with `homeEndNavigates` on
+         `ListboxNavigationConfig`, default false: the caret wins in every
+         text-field consumer, and MSD opts in because its focus rides the
+         option checkboxes. Cheap because ArrowUp/ArrowDown already reach
+         last/first and navigation wraps.
       4. ~~`uni-select` / `multi-select-dropdown` adopt `Option.disabled`~~ —
          done 2026-08-22, and `uni-multi-select` (the third `Options<T>`
          consumer) with them. Native `<option disabled>` for the select; the

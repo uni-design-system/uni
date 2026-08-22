@@ -283,11 +283,9 @@ export class UniComboboxComponent<T>
       if (this.list.navigate(event)) this.scrollToActive();
       return;
     }
-    if (event.key === 'Home' || event.key === 'End') {
-      // Only while the list is open — closed, they belong to the caret.
-      if (this.popupOpen() && this.list.navigate(event)) this.scrollToActive();
-      return;
-    }
+    // Home/End are deliberately absent: they belong to the caret, even with
+    // the list open (APG's editable-combobox pattern). ArrowUp on a closed
+    // list already lands on the last option, so nothing is lost.
     switch (event.key) {
       case 'Enter':
         // Never submits a form while the list is open.

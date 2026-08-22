@@ -296,15 +296,29 @@ describe('UniComboboxComponent', () => {
       expect(activeOption()?.textContent).toContain('Colorado');
     });
 
-    it('jumps with Home and End while open, leaving the caret alone while closed', () => {
+    it('leaves Home and End to the caret, open or closed', () => {
+      // APG's editable-combobox pattern reserves them for text editing. A
+      // control that steals them makes its own text un-navigable mid-edit.
       const closedEvent = press('Home');
       expect(closedEvent.defaultPrevented).toBe(false);
       expect(listbox()).toBeNull();
 
       press('ArrowDown');
-      press('End');
+      expect(listbox()).not.toBeNull();
+
+      const openEvent = press('End');
+      expect(openEvent.defaultPrevented).toBe(false);
+      // Still on the option ArrowDown chose — End moved the caret, not the list.
+      expect(activeOption()?.textContent).toContain('Alabama');
+    });
+
+    it('still reaches both ends with the arrows alone', () => {
+      // What makes dropping Home/End cheap: ArrowUp opens on the last option,
+      // and navigation wraps.
+      press('ArrowUp');
       expect(activeOption()?.textContent).toContain('Colorado');
-      press('Home');
+
+      press('ArrowDown');
       expect(activeOption()?.textContent).toContain('Alabama');
     });
 

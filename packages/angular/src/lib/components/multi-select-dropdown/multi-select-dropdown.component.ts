@@ -105,6 +105,9 @@ export class UniMultiSelectDropdownComponent<T = unknown>
     count: () => this.filteredOptions().length,
     idPrefix: 'uni-multi-select',
     disabled: (index) => !!this.filteredOptions()[index]?.disabled,
+    // Focus rides the option checkboxes here, not a text field, so Home/End
+    // have no caret to defer to — unlike the combobox-style consumers.
+    homeEndNavigates: true,
   });
 
   /** Announced with the selection so the count is not left to guesswork. */

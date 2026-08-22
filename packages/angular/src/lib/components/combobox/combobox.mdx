@@ -106,7 +106,7 @@ pointer-only affordance.
     { keys: 'any printable key', does: 'edits the draft, filters, opens the list' },
     { keys: ['ArrowDown', 'ArrowUp'], does: 'opens if closed (Down lands on the committed option); moves through enabled options, wrapping' },
     { keys: ['Alt+ArrowDown', 'Alt+ArrowUp'], does: 'opens without activating / closes, keeping the draft' },
-    { keys: ['Home', 'End'], does: 'first / last enabled option while the list is open' },
+    { keys: ['Home', 'End'], does: 'moves the caret — the list is never navigated by them' },
     { keys: 'Enter', does: 'commits the active option, an exact match, or the single filtered candidate; never submits a form while the list is open' },
     { keys: 'Escape', does: <>closes the list; if already closed, reverts the draft. <strong>Never clears the committed value</strong></> },
     { keys: 'Tab', does: 'commits the active option or an exact match, then moves on — never traps' },
@@ -119,6 +119,10 @@ pointer-only affordance.
   `aria-activedescendant` over a `role="listbox"` — the shared
   `ListboxNavigation` contract, learned once across search-input, tag-input
   and time-input.
+- Home and End move the caret, never the list, per APG's editable-combobox
+  pattern — a field that steals them makes its own text un-navigable
+  mid-edit. Nothing is lost: ArrowUp opens on the last option, ArrowDown on
+  the first, and navigation wraps at both ends.
 - `aria-selected` marks the **committed** option; the active one is carried by
   `aria-activedescendant`. They are different facts, and this control has
   both. The check icon is decorative (`aria-hidden`).
