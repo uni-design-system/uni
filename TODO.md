@@ -99,6 +99,29 @@ audits: `packages/angular/TODO.md` (v4 audit) and `uni-theme-generation-plan.md`
       serialized `'undefinedpx'` and dropped the corner placement).
 - [x] ~~multi-select-dropdown search debounce~~ — shipped with the 8.1-era dropdown
       upgrade (`debounceTime` input, 200 ms default).
+- [ ] **`snackbar` is the last overlay not in the top layer** — audited
+      2026-08-22: every trigger-anchored panel in the library now promotes
+      (uni-dropdown and the four listbox popups via `popover`, dialog/drawer
+      via `showModal`), but `snackbar.component.ts:128` opens its `<dialog>`
+      with `.show()`, which is *non-modal* and so stays in the normal flow on
+      `zIndex: Z_INDEX.dialog`. It survives because apps mount it at the root;
+      inside a transformed or `overflow: hidden` ancestor it clips like the
+      listbox popups used to. `showModal()` is the wrong swap (it makes the
+      page inert for a transient message) — use `popover="manual"`, which
+      gives the top layer without modality.
+- [ ] **Overlay plumbing has diverged across three implementations** —
+      `cdk/overlay/overlay.ts` was extracted as the single source, but
+      `uni-dropdown` predates it and hand-rolls its own copies:
+      `transformOriginMap` (dropdown.component.ts:116) duplicates
+      `TRANSFORM_ORIGINS`, `restoreFocus` (:238) duplicates
+      `restoreOverlayFocus`, and its inline transition (:148) duplicates
+      `discreteOverlayTransition`. `TRANSFORM_ORIGINS` consequently has *zero*
+      consumers. Meanwhile callout/popover/listbox-popup each adopted a
+      different subset. Have dropdown adopt the helpers (deleting its copies),
+      then decide whether the two popover profiles — `auto` for panels that
+      light-dismiss, `manual` for controls that own dismissal — deserve one
+      shared factory rather than two parallel call sites. Pairs with the
+      deferred "dropdown-internals adoption" from the popover-family port.
 - [ ] **Popup motion isn't themable** — `uni-dropdown` hardcodes its 100 ms
       scale-and-fade (`delay = 100`, `scale(0.8)`), and the listbox popups
       copied that constant when they moved to the top layer 2026-08-22
