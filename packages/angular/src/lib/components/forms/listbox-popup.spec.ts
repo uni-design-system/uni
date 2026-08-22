@@ -185,6 +185,21 @@ describe('listbox popup', () => {
       expect(motion['@starting-style']['&:popover-open']).toMatchObject({ opacity: 0 });
     });
 
+    it('matches uni-dropdown down to the easing', () => {
+      // Parity is the point: a multi-select-dropdown and a combobox sitting in
+      // the same form must not open at visibly different rates. `linear` is
+      // the dropdown's, and the one place an overlay here leaves the default.
+      const motion = (
+        listboxPopupStyles(theme, {}, { anchor: '--a' }) as Record<
+          string,
+          Record<string, Record<string, unknown>>
+        >
+      )[SUPPORTS]['@media (prefers-reduced-motion: no-preference)'];
+
+      expect(motion.transitionDuration).toBe('100ms');
+      expect(motion.transitionTimingFunction).toBe('linear');
+    });
+
     it('puts the whole transition behind prefers-reduced-motion', () => {
       const anchored = (
         listboxPopupStyles(theme, {}, { anchor: '--a' }) as Record<

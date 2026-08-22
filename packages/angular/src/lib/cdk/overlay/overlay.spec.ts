@@ -75,6 +75,18 @@ describe('discreteOverlayTransition', () => {
     const block = discreteOverlayTransition(100, { transformOrigin: 'top' }, { transformOrigin: 'top' });
     expect(block['transitionProperty']).toBe('transform-origin, display, overlay');
   });
+
+  it('omits the timing function unless one is asked for', () => {
+    // Callers that never wanted one must keep the CSS initial value rather
+    // than acquire an explicit declaration.
+    const block = discreteOverlayTransition(250, { opacity: 0 }, { opacity: 1 });
+    expect('transitionTimingFunction' in block).toBe(false);
+  });
+
+  it('carries a timing function through when given', () => {
+    const block = discreteOverlayTransition(100, { opacity: 0 }, { opacity: 1 }, 'linear');
+    expect(block['transitionTimingFunction']).toBe('linear');
+  });
 });
 
 describe('restoreOverlayFocus', () => {

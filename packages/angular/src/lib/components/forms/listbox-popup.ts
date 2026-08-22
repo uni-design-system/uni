@@ -11,8 +11,10 @@ import {
 import type { ThemeService } from '../../theming';
 
 /** Entry/exit timing, matching `uni-dropdown` so every popup panel in the
-    library opens the same way. */
+    library opens the same way — including its easing, which is the one place
+    an overlay in this library departs from the CSS default. */
 const POPUP_TRANSITION_MS = 100;
+const POPUP_TRANSITION_EASING = 'linear';
 
 /**
  * Whether the browser can keep a top-layer popup attached to its field.
@@ -137,7 +139,8 @@ const anchoredPopupStyles = (anchor: string): CSSObject => ({
     discreteOverlayTransition(
       POPUP_TRANSITION_MS,
       { opacity: 0, transform: 'scale(0.8)' },
-      { opacity: 1, transform: 'scale(1)' }
+      { opacity: 1, transform: 'scale(1)' },
+      POPUP_TRANSITION_EASING
     )
   ) as CSSObject),
 });

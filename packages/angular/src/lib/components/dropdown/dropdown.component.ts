@@ -27,9 +27,14 @@ import type {
 } from '@uni-design-system/uni-core';
 import {
   anchorStyles,
+  discreteOverlayTransition,
+  isToggleOpen,
   newAnchorName,
   resolveFocusTarget,
+  restoreOverlayFocus,
+  setAnchorName,
   transformOriginFor,
+  TRANSFORM_ORIGINS,
   uniqueId,
   type AnchorOffset,
   type Placement,
@@ -110,24 +115,6 @@ export class UniDropdownComponent
     return this.dropdownRef.nativeElement;
   }
 
-  // Pre-measure default only: the requested placement's corner. The real
-  // origin is measured per toggle (syncTransformOrigin), because
-  // position-try fallbacks may have flipped the panel.
-  private transformOriginMap: Record<Placement, string> = {
-    top: 'bottom center',
-    right: 'center left',
-    bottom: 'top center',
-    left: 'center right',
-    'top-start': 'bottom left',
-    'top-end': 'bottom right',
-    'right-start': 'top left',
-    'right-end': 'bottom left',
-    'bottom-start': 'top left',
-    'bottom-end': 'top right',
-    'left-start': 'top right',
-    'left-end': 'bottom right',
-  };
-
   dropdownClass = computed(() => {
     const currentPlacement = this.placement();
 
@@ -144,30 +131,19 @@ export class UniDropdownComponent
         // the trigger (no scroll/resize listeners needed)
         ...anchorStyles(this.anchorName, currentPlacement, this.offset()),
 
-        // 2. Animate discrete properties across top layer layout contexts
-        transitionProperty: 'transform, opacity, display, overlay',
-        transitionDuration: `${this.delay}ms`,
-        transitionTimingFunction: 'linear',
-        transitionBehavior: 'allow-discrete',
+        // Grows out of the corner touching the trigger. A pre-measure default
+        // only: the real origin is measured per toggle (syncTransformOrigin),
+        // because position-try fallbacks may have flipped the panel.
+        transformOrigin: TRANSFORM_ORIGINS[currentPlacement],
 
-        // Hidden State (Closed)
-        opacity: 0,
-        transform: 'scale(0.8)',
-        transformOrigin: this.transformOriginMap[currentPlacement],
-
-        // 3. Active state styling controlled via the native browser pseudo-class
-        ['&:popover-open']: {
-          opacity: 1,
-          transform: 'scale(1)',
-        },
-
-        // 4. Starting-style rules what properties animate *from* when transitioning in
-        ['@starting-style']: {
-          ['&:popover-open']: {
-            opacity: 0,
-            transform: 'scale(0.8)',
-          },
-        },
+        // Scale-and-fade into and out of the top layer, including the
+        // `@starting-style` the entry transition runs from.
+        ...discreteOverlayTransition(
+          this.delay,
+          { opacity: 0, transform: 'scale(0.8)' },
+          { opacity: 1, transform: 'scale(1)' },
+          'linear'
+        ),
       },
     ]);
   });
@@ -185,7 +161,7 @@ export class UniDropdownComponent
     });
 
     // Anchor the popover panel to the trigger element
-    this.renderer.setStyle(this._trigger, 'anchor-name', this.anchorName);
+    setAnchorName(this._trigger, this.anchorName);
 
     // Wire the ARIA popup contract onto the focusable trigger element
     const focusTarget = this._focusTarget;
@@ -196,8 +172,8 @@ export class UniDropdownComponent
     }
 
     // Sync state if user invokes light-dismiss via outside click or Escape key
-    this.renderer.listen(this._dropdown, 'toggle', (event: any) => {
-      const isOpened = event.newState === 'open';
+    this.renderer.listen(this._dropdown, 'toggle', (event: Event) => {
+      const isOpened = isToggleOpen(event);
       // Both edges: on open so the entry scale grows out of the trigger, and
       // on close-start so a panel the browser flipped while open (scroll near
       // a viewport edge) still collapses back toward the trigger.
@@ -209,7 +185,8 @@ export class UniDropdownComponent
         this.dropdownShowing.emit(true);
       } else {
         this.dropdownHiding.emit(true);
-        this.restoreFocus();
+        // Keyboard users are never stranded when the top layer closes (WCAG 2.4.3).
+        restoreOverlayFocus(this._dropdown, this._focusTarget);
       }
     });
   }
@@ -217,7 +194,7 @@ export class UniDropdownComponent
   /**
    * Scale the open/close animation from the corner touching the trigger,
    * wherever the browser actually placed the panel. The static
-   * `transformOriginMap` covers only the *requested* placement; with
+   * `TRANSFORM_ORIGINS` entry covers only the *requested* placement; with
    * `position-try-fallbacks` the panel may have flipped at a viewport edge,
    * and a `bottom-end` picker rendered above its field would otherwise still
    * animate from the top-right corner.
@@ -228,18 +205,6 @@ export class UniDropdownComponent
       this._trigger.getBoundingClientRect()
     );
     if (origin) this.renderer.setStyle(this._dropdown, 'transform-origin', origin);
-  }
-
-  /**
-   * Returns focus to the trigger when the popover closes while focus was
-   * inside it (or was dropped on <body> by the top layer closing), so
-   * keyboard users are never stranded (WCAG 2.4.3).
-   */
-  private restoreFocus() {
-    const active = document.activeElement;
-    if (active === document.body || (active && this._dropdown.contains(active))) {
-      this._focusTarget.focus();
-    }
   }
 
   toggleDropdown() {

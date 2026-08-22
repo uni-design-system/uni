@@ -123,19 +123,24 @@ audits: `packages/angular/TODO.md` (v4 audit) and `uni-theme-generation-plan.md`
       `width: fit-content` + auto inline margins). Verified in-browser above a
       `z-index: 2147483647` overlay. Every overlay in the library is now
       top-layer.
-- [ ] **Overlay plumbing has diverged across three implementations** —
-      `cdk/overlay/overlay.ts` was extracted as the single source, but
-      `uni-dropdown` predates it and hand-rolls its own copies:
-      `transformOriginMap` (dropdown.component.ts:116) duplicates
-      `TRANSFORM_ORIGINS`, `restoreFocus` (:238) duplicates
-      `restoreOverlayFocus`, and its inline transition (:148) duplicates
-      `discreteOverlayTransition`. `TRANSFORM_ORIGINS` consequently has *zero*
-      consumers. Meanwhile callout/popover/listbox-popup each adopted a
-      different subset. Have dropdown adopt the helpers (deleting its copies),
-      then decide whether the two popover profiles — `auto` for panels that
-      light-dismiss, `manual` for controls that own dismissal — deserve one
-      shared factory rather than two parallel call sites. Pairs with the
-      deferred "dropdown-internals adoption" from the popover-family port.
+- [x] ~~Overlay plumbing has diverged across three implementations~~ — done
+      2026-08-22. `uni-dropdown` predated `cdk/overlay` and hand-rolled copies
+      of `TRANSFORM_ORIGINS`, `restoreOverlayFocus`, `discreteOverlayTransition`,
+      `setAnchorName` and `isToggleOpen`; it now uses all five, 35 lines
+      shorter, with every `cdk/overlay` export finally having a consumer.
+      Behaviour verified unchanged in-browser (100 ms linear, measured origin,
+      focus restore). `discreteOverlayTransition` gained an optional timing
+      function — which surfaced that the listbox popups, built to match the
+      dropdown, were running `ease` against its `linear`; now identical.
+      **The shared-factory question is closed: not worth building.** The
+      overlays share mechanics but not lifecycles (trigger-toggle + focus
+      restore vs hover-only vs focus-trapped scrim vs `@if`-rendered with focus
+      in the field vs unanchored and timer-closed), so a single factory would
+      need an option per component. The à-la-carte helpers are the right
+      granularity — the defect was adoption, not design. The `auto` vs
+      `manual` rule that was folklore is now documented at the top of
+      `cdk/overlay/overlay.ts`. Closes the deferred "dropdown-internals
+      adoption" from the popover-family port.
 - [ ] **Popup motion isn't themable** — `uni-dropdown` hardcodes its 100 ms
       scale-and-fade (`delay = 100`, `scale(0.8)`), and the listbox popups
       copied that constant when they moved to the top layer 2026-08-22
