@@ -24,12 +24,13 @@ export default defineConfig({
     sourcemap: true,
     minify: false,
     rollupOptions: {
-      external: ['react', 'react-dom', '@uni-design-system/uni-core'],
+      external: ['react', 'react-dom', '@uni-design-system/uni-core', '@emotion/css'],
       output: {
         globals: {
           react: 'React',
           'react-dom': 'ReactDOM',
           '@uni-design-system/uni-core': 'UniCore',
+          '@emotion/css': 'emotion',
         },
       },
     },

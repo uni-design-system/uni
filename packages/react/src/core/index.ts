@@ -8,6 +8,7 @@ export * from './image';
 export * from './layout';
 export * from './overlay';
 export * from './padding';
+export * from './polymorphic';
 export * from './shadow';
 export * from './text';
 export * from './theme';

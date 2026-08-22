@@ -3,6 +3,8 @@ import { fileURLToPath } from 'node:url';
 
 import { defineConfig } from 'vitest/config';
 
+import react from '@vitejs/plugin-react';
+
 import { storybookTest } from '@storybook/addon-vitest/vitest-plugin';
 
 import { playwright } from '@vitest/browser-playwright';
@@ -14,6 +16,16 @@ const dirname =
 export default defineConfig({
   test: {
     projects: [
+      {
+        // Component unit tests: render to markup and assert the resolved CSS.
+        extends: true,
+        plugins: [react()],
+        test: {
+          name: 'unit',
+          environment: 'node',
+          include: ['src/**/*.spec.{ts,tsx}'],
+        },
+      },
       {
         extends: true,
         plugins: [
