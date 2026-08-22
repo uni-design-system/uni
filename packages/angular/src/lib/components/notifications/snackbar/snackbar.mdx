@@ -25,3 +25,15 @@ A side action can be defined (e.g. undoing a process or navigating to the detail
 ## Theme options
 
 <ThemeOptions componentName="snackbar" />
+
+## Accessibility
+
+- `role="status"` announces the message politely, without moving focus away
+  from whatever the user was doing.
+- The bar renders in the browser's top layer, so it cannot be covered by a
+  high `z-index` or clipped by an `overflow: hidden` ancestor — it stays
+  readable wherever in the tree you mount it.
+- It is a `popover="manual"`, not a modal: the rest of the page stays
+  interactive, and a click elsewhere never dismisses the bar out from under
+  someone still reading it. Dismissal is the close button, the action button,
+  or the timer — which pauses on hover and on focus.

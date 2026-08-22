@@ -12,7 +12,6 @@ import {
 } from '@angular/core';
 import { css, keyframes } from '@emotion/css';
 import { useTimer } from '../../../cdk';
-import { Z_INDEX } from '@uni-design-system/uni-core';
 import { BaseComponent } from '../../base';
 import { COMPONENT_NAME } from '../../base/base.component';
 import { UniButtonComponent } from '../../button';
@@ -59,7 +58,7 @@ export class UniSnackbarComponent
 
   snackbarRef = viewChild<ElementRef>('snackbar');
 
-  private get _snackbar(): HTMLDialogElement | undefined {
+  private get _snackbar(): HTMLElement | undefined {
     return this.snackbarRef()?.nativeElement;
   }
 
@@ -71,6 +70,11 @@ export class UniSnackbarComponent
 
   protected readonly snackbarClass = computed(() =>
     css({
+      // The UA's `[popover]` border, before the theme's own so a themed border
+      // still wins. Its `background-color: Canvas` needs no reset — the
+      // container colors below beat it on origin, and resetting `background`
+      // here would erase them, since it is a shorthand.
+      border: 'none',
       ...this.theme.getContainerColors(this.variant() || 'primary', this.useVariant()),
       ...this.theme.radius('sm'),
       ...this.theme.border(this.variant() || 'primary'),
@@ -79,11 +83,22 @@ export class UniSnackbarComponent
       transition: `all ${this.componentOptions().transitionDelay} ease-in-out`,
       transitionBehavior: 'allow-discrete',
       opacity: 1,
-      bottom: this.componentOptions().bottomPosition,
-      zIndex: Z_INDEX.dialog,
-      position: 'fixed',
 
-      '&[open]': {
+      // `[popover]` arrives centred by `inset: 0; margin: auto`. Undo that,
+      // then rebuild the bottom-centred placement `<dialog>` used to get from
+      // its own UA rules: shrink to the content, pin to the bottom, and let
+      // auto inline margins centre it between the viewport edges.
+      position: 'fixed',
+      inset: 'auto',
+      left: 0,
+      right: 0,
+      bottom: this.componentOptions().bottomPosition,
+      width: 'fit-content',
+      maxWidth: '100%',
+      marginInline: 'auto',
+      marginBlock: 0,
+
+      '&:popover-open': {
         '@starting-style': {
           bottom: 0,
           opacity: 0,
@@ -108,7 +123,9 @@ export class UniSnackbarComponent
   ngAfterViewInit() {
     this._snackbar?.addEventListener('animationend', (e) => {
       if (e.animationName == this.fadeOut) {
-        this._snackbar?.close();
+        // Leaves the top layer only once the fade has finished — hiding first
+        // would remove the bar mid-animation.
+        this.hide();
         this.showing.emit(false);
       }
     });
@@ -125,7 +142,11 @@ export class UniSnackbarComponent
 
   open() {
     this._snackbar?.removeAttribute('closing');
-    this._snackbar?.show();
+    try {
+      this._snackbar?.showPopover();
+    } catch {
+      // Already showing — reopening is a no-op, the timer below still restarts.
+    }
     this.show.set(true);
     this.showing.emit(true);
 
@@ -135,6 +156,15 @@ export class UniSnackbarComponent
   close() {
     this._snackbar?.setAttribute('closing', 'true');
     this.show.set(false);
+  }
+
+  /** Drops out of the top layer. Called once the closing fade has run. */
+  private hide() {
+    try {
+      this._snackbar?.hidePopover();
+    } catch {
+      // Already hidden.
+    }
   }
 
   protected pauseTimer() {

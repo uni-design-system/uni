@@ -1,8 +1,14 @@
 @let icon = iconName();
 @let symbol = symbolName();
-<!-- role="status" announces the message politely without stealing focus -->
-<dialog
+<!-- role="status" announces the message politely without stealing focus.
+     popover="manual" puts the bar in the top layer so no stacking context or
+     `overflow: hidden` ancestor can cover or clip it; "manual" because a
+     snackbar is dismissed by its own button or its timer, never by a click
+     elsewhere on the page. Not a <dialog>: it is never modal, and dialog's
+     `open` attribute would be a second, competing notion of "shown". -->
+<div
   #snackbar
+  popover="manual"
   [class]="snackbarClass()"
   role="status"
   (mouseenter)="pauseTimer()"
@@ -35,4 +41,4 @@
       }
     </div>
   </div>
-</dialog>
+</div>

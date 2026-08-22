@@ -112,16 +112,17 @@ audits: `packages/angular/TODO.md` (v4 audit) and `uni-theme-generation-plan.md`
       serialized `'undefinedpx'` and dropped the corner placement).
 - [x] ~~multi-select-dropdown search debounce~~ — shipped with the 8.1-era dropdown
       upgrade (`debounceTime` input, 200 ms default).
-- [ ] **`snackbar` is the last overlay not in the top layer** — audited
-      2026-08-22: every trigger-anchored panel in the library now promotes
-      (uni-dropdown and the four listbox popups via `popover`, dialog/drawer
-      via `showModal`), but `snackbar.component.ts:128` opens its `<dialog>`
-      with `.show()`, which is *non-modal* and so stays in the normal flow on
-      `zIndex: Z_INDEX.dialog`. It survives because apps mount it at the root;
-      inside a transformed or `overflow: hidden` ancestor it clips like the
-      listbox popups used to. `showModal()` is the wrong swap (it makes the
-      page inert for a transient message) — use `popover="manual"`, which
-      gives the top layer without modality.
+- [x] ~~`snackbar` is the last overlay not in the top layer~~ — fixed
+      2026-08-22. It was a `<dialog>` opened with `.show()` (the *non-modal*
+      form, which never promotes), leaning on `zIndex: Z_INDEX.dialog`. Now a
+      `popover="manual"` `<div>`: manual so a click elsewhere can't tear it
+      away mid-read, and not `showModal()` since a transient message must not
+      make the page inert. The element change from `<dialog>` drops the
+      competing `open` attribute; `<div>`'s lack of dialog UA rules meant
+      rebuilding the bottom-centred placement explicitly (`inset: auto` +
+      `width: fit-content` + auto inline margins). Verified in-browser above a
+      `z-index: 2147483647` overlay. Every overlay in the library is now
+      top-layer.
 - [ ] **Overlay plumbing has diverged across three implementations** —
       `cdk/overlay/overlay.ts` was extracted as the single source, but
       `uni-dropdown` predates it and hand-rolls its own copies:
