@@ -109,18 +109,22 @@ keep them in sync.
 
 ## Motion
 
-Overlay timing is a token, not a component detail: every trigger-anchored
-panel in the library points at the same named primitive, so retiming them is
-one edit rather than a hunt through components.
+Motion is a token, not a component detail: every animated component in the
+library points at a named primitive, so retiming them is one edit rather than
+a hunt through components.
 
-Two tokens, because two things genuinely move differently — a small panel
-attached to a control snaps, a larger free-floating surface settles:
+Tokens are named for what moves, not how fast — a small panel attached to a
+control snaps, a larger free-floating surface settles, content growing in
+place eases at both ends, a transient message arrives under its own steam, and
+a control answering a pointer should feel immediate:
 
-| Token    | Default              | Used by                                             |
-| -------- | -------------------- | --------------------------------------------------- |
-| `popup`  | 100ms linear, ×0.8   | dropdown, menu, multi-select, combobox, search-input, tag-input, time-input |
-| `panel`  | 250ms ease           | popover, callout                                    |
-| `reveal` | 350ms ease-in-out    | expand, expand-toggle                               |
+| Token          | Default            | Used by                                       |
+| -------------- | ------------------ | --------------------------------------------- |
+| `popup`        | 100ms linear, ×0.8 | dropdown, menu, multi-select, combobox, search-input, tag-input, time-input |
+| `panel`        | 250ms ease         | popover, callout                              |
+| `reveal`       | 350ms ease-in-out  | expand, expand-toggle                         |
+| `notification` | 350ms ease-in-out  | alert, snackbar                               |
+| `control`      | 300ms ease         | radio, menu-item                              |
 
 `reveal` is a *base* speed rather than a final duration: `uni-expand` scales it
 by content height (√-of-height, clamped) so a short region stays snappy and a
@@ -144,10 +148,18 @@ Tokens you don't restate keep their base values, and components may point at
 a token of their own — `components.dropdown.options.motion` — so one panel can
 differ without forking the scale.
 
-`callout` and `expand` previously carried their own `transitionMs` and
-`transitionSpeed` options. Both still work and still win over the token, so a
-theme that set them keeps its exact timing; they are deprecated and go away
+Every animated component now reads this scale. The per-component options they
+used to carry — `callout.transitionMs`, `expand.transitionSpeed`,
+`alert.transitionSpeed`, `snackbar.transitionDelay`, `radio.transitionSpeed`,
+`menuItem.transitionSpeed` — still work and still win over the token, so a
+theme that set them keeps its exact timing. All are deprecated and go away
 next major.
+
+`uni-skeleton` deliberately stays out: its shimmer is a loop rather than a
+transition, so it keeps its own `duration`.
+
+A token with `duration: 0` is the way to switch something off — that is how
+`radio` and `menu-item` reach the instant behaviour their old `0` gave.
 
 Motion is always behind `prefers-reduced-motion` where a component applies it
 through `motionSafe`: a theme sets how things move for people who want

@@ -1,4 +1,4 @@
-import type { ColorKey } from '@uni-design-system/uni-core';
+import type { ColorKey, Motion } from '@uni-design-system/uni-core';
 
 export interface UniRadioOption {
   /**
@@ -24,9 +24,14 @@ export interface UniRadioOptions {
   ringColor?: ColorKey;
   /** Circle background token. */
   fillColor?: ColorKey;
+  /** Named motion primitive for the dot's grow/retract and the ring's color
+      change. Defaults to `control`; a token with `duration: 0` is instant. */
+  motion?: Motion;
   /**
-   * Seconds for the dot's grow/retract and the ring's color change
-   * (default 0.3, matching menuItem/expand). 0 switches instantly.
+   * Seconds for the dot's grow/retract and the ring's color change.
+   *
+   * @deprecated Use `motion` and retime the `control` token instead. Still
+   * honoured when set, and wins over `motion`. Removed next major.
    */
   transitionSpeed?: number;
 }

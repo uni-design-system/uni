@@ -73,9 +73,12 @@ export class UniRadioComponent
     // transitions are scoped — never `all` — so the focus ring's outline and
     // shadow apply instantly instead of interpolating from a stale outline
     // color, which flashed a dark ring before the themed ring color landed.
-    const speed = this.componentOptions().transitionSpeed ?? 0.3;
-    const ringTransition = `border-color ${speed}s ease, background-color ${speed}s ease`;
-    const dotTransition = `transform ${speed}s ease`;
+    const options = this.componentOptions();
+    // The deprecated option wins so a theme that set it keeps its timing.
+    const motion = this.theme.motion(options.motion ?? 'control');
+    const speed = options.transitionSpeed ?? motion.duration / 1000;
+    const ringTransition = `border-color ${speed}s ${motion.easing}, background-color ${speed}s ${motion.easing}`;
+    const dotTransition = `transform ${speed}s ${motion.easing}`;
     return css({
       userSelect: 'none',
       cursor: this.disabled() ? 'not-allowed' : 'pointer',

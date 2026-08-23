@@ -158,10 +158,12 @@ const BaseSpacing: Spacing = {
 const BaseThicknesses: Thicknesses = { thin: 1, standard: 2, thick: 4 };
 
 /**
- * Shared motion timing. Three tokens, because three things actually move
- * differently: a small panel attached to a control snaps (`popup`), a larger
- * free-floating surface settles (`panel`), and content growing in place needs
- * a curve that eases at both ends (`reveal`).
+ * Shared motion timing, named by what moves rather than by how fast:
+ * a small panel attached to a control snaps (`popup`), a larger free-floating
+ * surface settles (`panel`), content growing in place eases at both ends
+ * (`reveal`), a transient message arrives and leaves under its own steam
+ * (`notification`), and a control answering a pointer should feel immediate
+ * (`control`).
  *
  * Fast and linear is deliberate for `popup`. It is the timing every
  * trigger-anchored panel in the library uses — dropdown, menu, multi-select
@@ -176,6 +178,10 @@ const BaseMotion: Motions = {
   // this by content height (see `expandDuration`) so perceived speed stays
   // even across short and tall regions.
   reveal: { duration: 350, easing: 'ease-in-out' },
+  notification: { duration: 350, easing: 'ease-in-out' },
+  // Feedback, not choreography: hover fills and check marks answer the
+  // pointer, so this is the fastest token that still reads as a transition.
+  control: { duration: 300, easing: 'ease' },
 };
 
 const BaseRadii: Radii = {
@@ -228,7 +234,7 @@ const tagVariant = (
 
 const buildComponents = (c: Colors): ComponentThemes => ({
   alert: {
-    options: { topPosition: 40, borderRadius: 'sm', transitionSpeed: 0.35, elevation: 'md' },
+    options: { topPosition: 40, borderRadius: 'sm', motion: 'notification', elevation: 'md' },
   },
   // Trail typography, link/current colors, separator symbol and spacing are
   // tokens; the current page reads in the stronger ink.
@@ -312,7 +318,7 @@ const buildComponents = (c: Colors): ComponentThemes => ({
     },
   },
   radio: {
-    options: { size: 20, ringColor: 'outline', fillColor: 'surface', transitionSpeed: 0.3 },
+    options: { size: 20, ringColor: 'outline', fillColor: 'surface', motion: 'control' },
   },
   dialog: {
     options: {
@@ -392,7 +398,7 @@ const buildComponents = (c: Colors): ComponentThemes => ({
       textColor: undefined,
       hoverColor: 'primary-container',
       activeSymbol: 'check',
-      transitionSpeed: 0.35,
+      motion: 'control',
     },
     variants: {
       warn: {
@@ -835,7 +841,7 @@ const buildComponents = (c: Colors): ComponentThemes => ({
     },
   },
   snackbar: {
-    options: { bottomPosition: 40, transitionDelay: '0.35s', autoCloseDelay: 35000 },
+    options: { bottomPosition: 40, motion: 'notification', autoCloseDelay: 35000 },
   },
   symbol: { options: { fill: 0, weight: 400, grade: 0, opticalSize: 24 } },
   toggle: { options: { size: 20, trackColor: 'surface-variant', knobColor: 'surface' } },

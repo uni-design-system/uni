@@ -162,13 +162,23 @@ audits: `packages/angular/TODO.md` (v4 audit) and `uni-theme-generation-plan.md`
       hardcoded `ease-in-out`. `uni-expand-toggle` resolves it identically so
       the chevron can't drift from the region. Defaults verified unchanged in
       browser.
-- [ ] **`skeleton` and `alert`/`card` motion options** — the last holdouts:
-      `skeleton.duration` (shimmer sweep, seconds) and the `transitionSpeed`
-      shared by `alert`/`card`. Neither is an overlay or a reveal, so both
-      want new tokens rather than `popup`/`panel`/`reveal` — a shimmer is a
-      *loop*, not a transition, so it may not belong in this scale at all.
-      Decide that before migrating; the deprecated-alias route above makes it
-      non-breaking whenever it happens.
+- [x] ~~Remaining motion options~~ — done 2026-08-23. `alert` + `snackbar` →
+      new `notification` token, `radio` + `menu-item` → new `control` token;
+      the scale now covers every animated component. Old options stay as
+      deprecated overrides that outrank the token (removed next major).
+      Two findings on the way: `card.transitionSpeed` and
+      `input-box.transitionSpeed` were **never read by their components** —
+      deprecated as no-ops rather than migrated; and `menu-item`'s hover moved
+      0.35s → 0.3s joining `control`, correcting drift the code already
+      believed absent (radio's option documented its 0.3 as "matching
+      menuItem"). `skeleton` deliberately excluded: a shimmer is a loop, not a
+      transition, and folding it in would make the scale mean two things.
+- [ ] **Remove the motion deprecations** — next major: `callout.transitionMs`,
+      `expand.transitionSpeed`, `alert.transitionSpeed`,
+      `snackbar.transitionDelay`, `radio.transitionSpeed`,
+      `menuItem.transitionSpeed`, plus the never-read `card.transitionSpeed`
+      and `input-box.transitionSpeed`. Batch with the other pending removals
+      (`typeFace` alias, HSL helpers, `*Symbol` → `*Icon` renames).
 - [ ] JSDoc coverage on public inputs/outputs — ongoing; feeds `llms.txt` and MCP
       summaries (empty where class JSDoc is missing).
 - [ ] **uni-symbol → uni-icon migration** (rule established 2026-08-21, AGENTS.md

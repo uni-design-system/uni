@@ -13,5 +13,9 @@ export interface UniCardOptions {
   border?: Border;
   /** Optional elevation shadow token; cards are flat by default. */
   elevation?: Elevation;
+  /**
+   * @deprecated Never read by `uni-card` — setting it has no effect and never
+   * had. Removed next major; nothing needs to replace it.
+   */
   transitionSpeed?: number;
 }

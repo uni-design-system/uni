@@ -59,7 +59,10 @@ export class UniMenuItemComponent<T = any> {
     const variantStyle = variant
       ? this.theme.component('menuItem')().variants?.[variant]
       : undefined;
-    const transitionSpeed = options.transitionSpeed ?? 0;
+    // Neither set means no transition at all — the escape hatch predates the
+    // motion scale and still works. The deprecated option wins over the token.
+    const motion = options.motion ? this.theme.motion(options.motion) : undefined;
+    const transitionSpeed = options.transitionSpeed ?? (motion ? motion.duration / 1000 : 0);
 
     return css([
       {
@@ -91,7 +94,7 @@ export class UniMenuItemComponent<T = any> {
           pointerEvents: 'none',
         },
       },
-      transitionSpeed > 0 && { transition: `all ${transitionSpeed}s ease` },
+      transitionSpeed > 0 && { transition: `all ${transitionSpeed}s ${motion?.easing ?? 'ease'}` },
       // Variant tones override the base look. A variant that restyles the
       // highlight must key it with HOVER_OR_KEYBOARD_FOCUS — Emotion merges by
       // exact selector text, so a variant spelling it `&:hover, &:focus`

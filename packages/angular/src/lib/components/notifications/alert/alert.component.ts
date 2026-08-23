@@ -55,6 +55,18 @@ export class UniAlertComponent extends BaseComponent<UniAlertOptions> implements
     () => this.variant() || this.componentOptions().defaultVariant
   );
 
+  /**
+   * Timing for the enter/leave transition. The deprecated `transitionSpeed`
+   * (seconds) wins when a theme still sets it.
+   */
+  protected readonly motion = computed(() => {
+    const options = this.componentOptions();
+    const token = this.theme.motion(options.motion ?? 'notification');
+    return options.transitionSpeed === undefined
+      ? token
+      : { ...token, duration: options.transitionSpeed * 1000 };
+  });
+
   protected readonly alertClass = computed(() =>
     css({
       ...this.theme.getContainerColors(this.effectiveVariant(), this.useVariant()),
@@ -62,7 +74,7 @@ export class UniAlertComponent extends BaseComponent<UniAlertOptions> implements
       ...this.theme.border(this.effectiveVariant()),
       ...this.theme.boxShadow(this.componentOptions().elevation),
 
-      transition: `all ${this.componentOptions().transitionSpeed}s ease-in-out`,
+      transition: `all ${this.motion().duration / 1000}s ${this.motion().easing}`,
       transitionBehavior: 'allow-discrete',
       opacity: 1,
       top: this.componentOptions().topPosition,

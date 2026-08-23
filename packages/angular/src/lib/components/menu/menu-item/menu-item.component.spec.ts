@@ -50,10 +50,11 @@ describe('UniMenuItemComponent', () => {
 
   it('derives its look from the menuItem theme options', () => {
     const className = (fixture.nativeElement as HTMLElement).className;
-    // Base theme menuItem options: height 38, 0.35s hover transition, and the
-    // typeface applied on the host so labels and templated content inherit it.
+    // Base theme menuItem options: height 38, the `control` motion token's
+    // 0.3s hover transition, and the typeface applied on the host so labels
+    // and templated content inherit it.
     expect(stylesFor(className)).toContain('height:38px');
-    expect(stylesFor(className)).toContain('transition:all 0.35s ease');
+    expect(stylesFor(className)).toContain('transition:all 0.3s ease');
     expect(stylesFor(className)).toContain('font-size');
   });
 

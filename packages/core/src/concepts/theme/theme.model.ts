@@ -60,7 +60,7 @@ export interface MotionToken {
   scale?: number;
 }
 
-export type MotionName = 'popup' | 'panel' | 'reveal';
+export type MotionName = 'popup' | 'panel' | 'reveal' | 'notification' | 'control';
 /** Open like Borders/Shadows: extra named primitives allowed. */
 export type Motions = Partial<Record<MotionName | string, MotionToken>>;
 export type Motion = keyof Motions;
