@@ -158,22 +158,22 @@ export const DifferentPositions: Story = {
     template: `
       <div wrap-layout gap="lg" padding="lg">
         <uni-notification-badge [count]="1" position="top-right">
-          <div center-layout [width]="60" [height]="60" color="surface-variant" border="light" borderRadius="xs">
+          <div center-layout [width]="60" [height]="60" containerColor="surface-variant" border="light" borderRadius="xs">
             Top Right
           </div>
         </uni-notification-badge>
         <uni-notification-badge [count]="2" position="top-left">
-          <div center-layout [width]="60" [height]="60" color="surface-variant" border="light" borderRadius="xs">
+          <div center-layout [width]="60" [height]="60" containerColor="surface-variant" border="light" borderRadius="xs">
             Top Left
           </div>
         </uni-notification-badge>
         <uni-notification-badge [count]="3" position="bottom-right">
-          <div center-layout [width]="60" [height]="60" color="surface-variant" border="light" borderRadius="xs">
+          <div center-layout [width]="60" [height]="60" containerColor="surface-variant" border="light" borderRadius="xs">
             Bottom Right
           </div>
         </uni-notification-badge>
         <uni-notification-badge [count]="4" position="bottom-left">
-          <div center-layout [width]="60" [height]="60" color="surface-variant" border="light" borderRadius="xs">
+          <div center-layout [width]="60" [height]="60" containerColor="surface-variant" border="light" borderRadius="xs">
             Bottom Left
           </div>
         </uni-notification-badge>
@@ -187,17 +187,17 @@ export const VariantComparison: Story = {
     template: `
       <div wrap-layout gap="lg" padding="lg">
         <uni-notification-badge badgeVariant="dot">
-          <div center-layout [width]="80" [height]="80" color="surface-variant" border="light" borderRadius="xs">
+          <div center-layout [width]="80" [height]="80" containerColor="surface-variant" border="light" borderRadius="xs">
             Dot Variant
           </div>
         </uni-notification-badge>
         <uni-notification-badge [count]="8" badgeVariant="count">
-          <div center-layout [width]="80" [height]="80" color="surface-variant" border="light" borderRadius="xs">
+          <div center-layout [width]="80" [height]="80" containerColor="surface-variant" border="light" borderRadius="xs">
             Count Variant
           </div>
         </uni-notification-badge>
         <uni-notification-badge [count]="123" badgeVariant="pill" [maxCount]="99">
-          <div center-layout [width]="80" [height]="80" color="surface-variant" border="light" borderRadius="xs">
+          <div center-layout [width]="80" [height]="80" containerColor="surface-variant" border="light" borderRadius="xs">
             Pill Variant
           </div>
         </uni-notification-badge>
@@ -211,17 +211,17 @@ export const WithIcons: Story = {
     template: `
       <div wrap-layout gap="lg" padding="lg">
         <uni-notification-badge [count]="12">
-          <div center-layout [width]="48" [height]="48" color="surface-variant" border="light" borderRadius="max">
+          <div center-layout [width]="48" [height]="48" containerColor="surface-variant" border="light" borderRadius="max">
             📧
           </div>
         </uni-notification-badge>
         <uni-notification-badge badgeVariant="dot">
-          <div center-layout [width]="48" [height]="48" color="surface-variant" border="light" borderRadius="max">
+          <div center-layout [width]="48" [height]="48" containerColor="surface-variant" border="light" borderRadius="max">
             🔔
           </div>
         </uni-notification-badge>
         <uni-notification-badge [count]="999" [maxCount]="99" badgeVariant="pill">
-          <div center-layout [width]="48" [height]="48" color="surface-variant" border="light" borderRadius="max">
+          <div center-layout [width]="48" [height]="48" containerColor="surface-variant" border="light" borderRadius="max">
             💬
           </div>
         </uni-notification-badge>

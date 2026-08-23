@@ -35,8 +35,9 @@ const meta: Meta<StoryType> = {
   },
   argTypes: {
     // Styling
-    color: {
-      description: "Sets the background color of the box using the theme's color tokens.",
+    containerColor: {
+      description:
+        "A container color pair from the theme: the named surface plus its paired on-color. Not `color` — that name belongs to `uni-text`, which maps it to the CSS property.",
     },
     elevation: {
       description: "Applies a box shadow based on the theme's elevation levels.",
@@ -206,7 +207,7 @@ type Story = StoryObj<StoryType>;
 
 export const Primary: Story = {
   args: {
-    color: 'secondary-container',
+    containerColor: 'secondary-container',
     borderRadius: 'md',
     padding: 'lg',
     ngContent: 'Box Content.',
@@ -219,13 +220,13 @@ export const FlexChildren: Story = {
   render: () => ({
     template: `
       <div row-layout gap="md" uni-text="body-2-short">
-        <div box-layout [flex]="1" color="primary-container" padding="md" borderRadius="xs">
+        <div box-layout [flex]="1" containerColor="primary-container" padding="md" borderRadius="xs">
           flex 1 — a much longer label than its sibling
         </div>
-        <div box-layout [flex]="1" color="primary-container" padding="md" borderRadius="xs">
+        <div box-layout [flex]="1" containerColor="primary-container" padding="md" borderRadius="xs">
           flex 1
         </div>
-        <div box-layout [shrink]="0" [basis]="120" color="secondary-container" padding="md" borderRadius="xs">
+        <div box-layout [shrink]="0" [basis]="120" containerColor="secondary-container" padding="md" borderRadius="xs">
           fixed 120
         </div>
       </div>
@@ -238,9 +239,9 @@ export const CenteredPageShell: Story = {
   name: 'Centered page shell',
   render: () => ({
     template: `
-      <div box-layout color="surface" padding="md">
+      <div box-layout containerColor="surface" padding="md">
         <main box-layout maxWidth="480px" marginInline="auto" padding="lg"
-              color="primary-container" borderRadius="sm" textAlign="center" uni-text="body-1-long">
+              containerColor="primary-container" borderRadius="sm" textAlign="center" uni-text="body-1-long">
           maxWidth + marginInline="auto"
         </main>
       </div>
@@ -257,7 +258,7 @@ export const Composition: Story = {
     template: `
       <div stack-layout gap="md">
         <div row-layout uni-text="title-large" gap="sm" padding="md"
-             color="primary-container" borderRadius="xs">
+             containerColor="primary-container" borderRadius="xs">
           row-layout + uni-text on one element
         </div>
         <uni-card box-layout padding="lg">uni-card + box-layout on one element</uni-card>

@@ -26,17 +26,22 @@ attribute or a component's own host — rather than colliding with it:
 <div row-layout uni-text="title-small" padding="md">Heading</div>
 ```
 
-One caveat on that combination: `color` is an input on the layout directives too,
-where it means a **container** pair (a background plus its on-color). A single
-`color` binding feeds both directives, so the ink and the background resolve to
-the same token and the text vanishes. Use `textColor` on a shared element — it
-wins over `color`:
+Text owns `color`, because it maps straight to the CSS property. The layout
+directives name their container pair `containerColor`, so the two never compete
+for one binding — set both on the same element and each reaches its own
+directive:
 
 ```html
-<div row-layout uni-text="title-small" color="primary-container" textColor="on-surface-variant">
+<div row-layout uni-text="title-small" containerColor="primary-container" color="on-surface-variant">
   Heading
 </div>
 ```
+
+`containerColor` sets a background **and** its paired on-color, so both
+directives write `color` to the element. An explicit `uni-text` `color` always
+wins that — it is emitted at higher specificity rather than left to stylesheet
+order. Set no `color` and the container's on-color shows through, which is the
+point of a pair.
 
 ## Usage
 

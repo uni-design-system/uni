@@ -23,7 +23,7 @@ const meta: Meta<Menu> = {
   render: (args) => ({
     props: args,
     template: `
-      <div box-layout color="background" padding="lg">
+      <div box-layout containerColor="background" padding="lg">
         <uni-menu [menuItems]="menuItems" placement="bottom-start">
           <button uni-icon-button variant="ghost" size="sm" symbolName="more_vert" ariaLabel="Options"></button>
         </uni-menu>

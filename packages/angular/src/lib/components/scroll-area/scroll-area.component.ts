@@ -53,7 +53,15 @@ export class UniScrollAreaComponent {
   viewport = viewChild.required<ElementRef<HTMLDivElement>>('viewport');
   content = viewChild.required<ElementRef<HTMLDivElement>>('content');
 
-  color = input<ContainerColorToken>();
+  /**
+   * A container color *pair*: the named surface plus its paired on-color.
+   *
+   * Named `containerColor`, not `color`, for the same reason as the layout
+   * primitives: this is an attribute directive-style selector that shares
+   * elements with `uni-text`, which owns `color` and maps it to the CSS
+   * property. One `color` binding feeding both would render ink on ink.
+   */
+  containerColor = input<ContainerColorToken>();
   borderRadius = input<Radius>('sm');
   padding = input<OptionalSize>();
   paddingHorizontal = input<OptionalSize>();
@@ -87,7 +95,7 @@ export class UniScrollAreaComponent {
       height: this.height(),
       width: this.width(),
 
-      ...this.theme.colorPair(this.color()),
+      ...this.theme.colorPair(this.containerColor()),
       ...this.theme.radius(this.borderRadius()),
       ...this.theme.border(this.border()),
     });

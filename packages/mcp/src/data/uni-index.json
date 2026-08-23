@@ -1,7 +1,7 @@
 {
   "meta": {
     "version": "8.4.0",
-    "builtAt": "2026-08-23T11:08:39.048Z",
+    "builtAt": "2026-08-23T11:41:01.006Z",
     "frameworks": [
       "angular"
     ],
@@ -418,11 +418,11 @@
           "selectorOrTag": "[uni-box-layout], [box-layout]",
           "api": [
             {
-              "name": "color",
+              "name": "containerColor",
               "kind": "input",
               "type": "ContainerColorToken",
               "required": false,
-              "description": ""
+              "description": "A container color *pair*: the named surface plus its paired on-color, so a box and its contents stay legible together. Named `containerColor`, not `color`, because it is not the CSS `color` property — `uni-text` owns that name, and it maps to it directly. The two directives share elements routinely (`<div row-layout uni-text>`), and one `color` binding would feed both: the box would paint the surface and the text would take the same token, rendering ink on identical ink."
             },
             {
               "name": "backgroundColor",
@@ -784,7 +784,7 @@
         {
           "title": "Primary",
           "framework": "angular",
-          "code": "<!-- Storybook story: Primary -->\n<div box-layout ${argsToTemplate(props)}>\n<span uni-text>${ngContent}</span>\n</div>\n<!-- args:\n{\n    color: 'secondary-container',\n    borderRadius: 'md',\n    padding: 'lg',\n    ngContent: 'Box Content.',\n  }\n-->"
+          "code": "<!-- Storybook story: Primary -->\n<div box-layout ${argsToTemplate(props)}>\n<span uni-text>${ngContent}</span>\n</div>\n<!-- args:\n{\n    containerColor: 'secondary-container',\n    borderRadius: 'md',\n    padding: 'lg',\n    ngContent: 'Box Content.',\n  }\n-->"
         },
         {
           "title": "Flex children",
@@ -803,7 +803,7 @@
         }
       ],
       "guidelines": {
-        "whenToUse": "Box is the base layout primitive — an attribute directive you put on any element, so\nyour HTML semantics stay yours. It is highly configurable; every other layout\ndirective extends it and adds presets.\nBecause it is a directive rather than a component, it composes freely: with another\nlayout attribute, with `uni-text`, and with a component's own host element. Angular\nmerges the host `class` bindings, so each contributor's styles survive.\n```html\n```\nLayout attributes only apply when the directive is in your component's `imports`.\nAn unimported attribute compiles cleanly and silently does nothing — import\n`UNI_LAYOUT` to bring the whole family in at once.",
+        "whenToUse": "Box is the base layout primitive — an attribute directive you put on any element, so\nyour HTML semantics stay yours. It is highly configurable; every other layout\ndirective extends it and adds presets.\nBecause it is a directive rather than a component, it composes freely: with another\nlayout attribute, with `uni-text`, and with a component's own host element. Angular\nmerges the host `class` bindings, so each contributor's styles survive.\n```html\n```\nColors stay unambiguous across that composition. The box's surface is\n`containerColor` — a **pair**: the named surface plus its paired on-color — while\nplain `color` belongs to `uni-text` and maps to the CSS property. So an element\nwearing both can set each independently:\n```html\n```\nLayout attributes only apply when the directive is in your component's `imports`.\nAn unimported attribute compiles cleanly and silently does nothing — import\n`UNI_LAYOUT` to bring the whole family in at once.",
         "dos": [],
         "donts": [],
         "accessibility": []
@@ -3514,7 +3514,7 @@
         {
           "title": "Simple Grid",
           "framework": "angular",
-          "code": "<!-- Storybook story: Simple Grid -->\n<div grid-layout ${argsToTemplate(props)}>\n  <div box-layout gridArea=\"nav\" color=\"quaternary\" padding=\"md\" borderRadius=\"sm\">\n    <span uni-text>nav</span>\n  </div>\n  <div box-layout gridArea=\"a1\" color=\"primary\" padding=\"md\" borderRadius=\"sm\">\n    <span uni-text>a1</span>\n  </div>\n  <div box-layout gridArea=\"a2\" color=\"secondary\" padding=\"md\" borderRadius=\"sm\">\n    <span uni-text>a2</span>\n  </div>\n  <div box-layout gridArea=\"b1\" color=\"tertiary\" padding=\"md\" borderRadius=\"sm\">\n    <span uni-text>b1</span>\n  </div>\n  <div box-layout gridArea=\"b2\" color=\"warn\" padding=\"md\" borderRadius=\"sm\">\n    <span uni-text>b2</span>\n  </div>\n</div>\n<!-- args:\n{\n    templateAreas: `'nav a1 a2' 'nav b1 b2'`,\n    gap: 'sm',\n  }\n-->"
+          "code": "<!-- Storybook story: Simple Grid -->\n<div grid-layout ${argsToTemplate(props)}>\n  <div box-layout gridArea=\"nav\" containerColor=\"quaternary\" padding=\"md\" borderRadius=\"sm\">\n    <span uni-text>nav</span>\n  </div>\n  <div box-layout gridArea=\"a1\" containerColor=\"primary\" padding=\"md\" borderRadius=\"sm\">\n    <span uni-text>a1</span>\n  </div>\n  <div box-layout gridArea=\"a2\" containerColor=\"secondary\" padding=\"md\" borderRadius=\"sm\">\n    <span uni-text>a2</span>\n  </div>\n  <div box-layout gridArea=\"b1\" containerColor=\"tertiary\" padding=\"md\" borderRadius=\"sm\">\n    <span uni-text>b1</span>\n  </div>\n  <div box-layout gridArea=\"b2\" containerColor=\"warn\" padding=\"md\" borderRadius=\"sm\">\n    <span uni-text>b2</span>\n  </div>\n</div>\n<!-- args:\n{\n    templateAreas: `'nav a1 a2' 'nav b1 b2'`,\n    gap: 'sm',\n  }\n-->"
         }
       ],
       "guidelines": {
@@ -4204,12 +4204,12 @@
         {
           "title": "Primary",
           "framework": "angular",
-          "code": "<!-- Storybook story: Primary -->\n<div box-layout color=\"primary\" padding=\"sm\">\n  <uni-menu ${argsToTemplate(props)}>\n    <button text-button variant=\"ghost\" symbolRight=\"arrow_drop_down\">Menu</button>\n  </uni-menu>\n</div>\n<!-- args:\n{\n    menuItems: [\n      { label: 'Language', symbolName: 'translate' },\n      { label: 'Settings', symbolName: 'settings' },\n      { label: 'Logout', symbolName: 'logout' },\n    ],\n  }\n-->"
+          "code": "<!-- Storybook story: Primary -->\n<div box-layout containerColor=\"primary\" padding=\"sm\">\n  <uni-menu ${argsToTemplate(props)}>\n    <button text-button variant=\"ghost\" symbolRight=\"arrow_drop_down\">Menu</button>\n  </uni-menu>\n</div>\n<!-- args:\n{\n    menuItems: [\n      { label: 'Language', symbolName: 'translate' },\n      { label: 'Settings', symbolName: 'settings' },\n      { label: 'Logout', symbolName: 'logout' },\n    ],\n  }\n-->"
         },
         {
           "title": "Tones",
           "framework": "angular",
-          "code": "<!-- Storybook story: Tones -->\n<div box-layout color=\"primary\" padding=\"sm\">\n  <uni-menu ${argsToTemplate(props)}>\n    <button text-button variant=\"ghost\" symbolRight=\"arrow_drop_down\">Menu</button>\n  </uni-menu>\n</div>\n<!-- args:\n{\n    menuItems: [\n      { label: 'Rename', symbolName: 'edit' },\n      { label: 'Duplicate', symbolName: 'content_copy' },\n      { label: 'Share', symbolName: 'share', disabled: true },\n      { divider: true },\n      { label: 'Delete', symbolName: 'delete', variant: 'warn' },\n    ],\n  }\n-->"
+          "code": "<!-- Storybook story: Tones -->\n<div box-layout containerColor=\"primary\" padding=\"sm\">\n  <uni-menu ${argsToTemplate(props)}>\n    <button text-button variant=\"ghost\" symbolRight=\"arrow_drop_down\">Menu</button>\n  </uni-menu>\n</div>\n<!-- args:\n{\n    menuItems: [\n      { label: 'Rename', symbolName: 'edit' },\n      { label: 'Duplicate', symbolName: 'content_copy' },\n      { label: 'Share', symbolName: 'share', disabled: true },\n      { divider: true },\n      { label: 'Delete', symbolName: 'delete', variant: 'warn' },\n    ],\n  }\n-->"
         }
       ],
       "guidelines": {
@@ -5334,11 +5334,11 @@
           "selectorOrTag": "[uni-scroll-area], [scroll-area]",
           "api": [
             {
-              "name": "color",
+              "name": "containerColor",
               "kind": "input",
               "type": "ContainerColorToken",
               "required": false,
-              "description": ""
+              "description": "A container color *pair*: the named surface plus its paired on-color. Named `containerColor`, not `color`, for the same reason as the layout primitives: this is an attribute directive-style selector that shares elements with `uni-text`, which owns `color` and maps it to the CSS property. One `color` binding feeding both would render ink on ink."
             },
             {
               "name": "borderRadius",
@@ -5456,7 +5456,7 @@
         {
           "title": "Primary",
           "framework": "angular",
-          "code": "<!-- Storybook story: Primary -->\n<div scroll-area ${argsToTemplate(props)} #scrollArea>\n  <button size=\"sm\" text-button variant=\"ghost\" symbolLeft=\"arrow_downward\" (click)=\"scrollArea.scrollToBottom()\">Scroll to bottom</button>\n  ${ngContent}\n  <button size=\"sm\" text-button variant=\"ghost\" symbolLeft=\"arrow_upward\" (click)=\"scrollArea.scrollToTop()\">Back to top</button>\n</div>\n<!-- args:\n{\n    border: 'quaternary',\n    color: 'tertiary-surface',\n    height: 200,\n    ngContent: `\n      <span uni-text=\"headline-medium\">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</span>\n      <span uni-text=\"body-1-long\">\n      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quis facere debitis ullam, quae quidem, impedit\n              culpa nam\n              repellat in voluptatibus esse ab harum, hic? Aliquam nesciunt voluptates repellendus assumenda labore.\n            </p>\n            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Porro quos voluptate doloribus. Optio unde\n              inventore, tempore\n              nemo repellat expedita! Quod, accusamus nobis iure. Aliquam quibusdam, nemo explicabo ipsum provident\n              asperiores.</p>\n            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quaerat, qui, rem! Debitis cum maiores iste,\n              possimus!\n              Obcaecati accusamus eaque expedita quo soluta quis, repudiandae similique, veritatis repellendus facere\n              suscipit!\n              Et!</p>\n            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Harum doloremque repellat praesentium quae et\n              consectetur\n              iure quos porro, provident voluptates reprehenderit a. Accusamus ut, quaerat asperiores blanditiis\n              voluptate, sint\n              facilis.</p>\n            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus beatae inventore nobis esse\n              temporibus\n              exercitationem\n              eos illo minima non magnam, provident sit doloribus maiores odio in animi quidem unde. Perferendis.</p>\n\n      </span>\n\n\n    `,\n  }\n-->"
+          "code": "<!-- Storybook story: Primary -->\n<div scroll-area ${argsToTemplate(props)} #scrollArea>\n  <button size=\"sm\" text-button variant=\"ghost\" symbolLeft=\"arrow_downward\" (click)=\"scrollArea.scrollToBottom()\">Scroll to bottom</button>\n  ${ngContent}\n  <button size=\"sm\" text-button variant=\"ghost\" symbolLeft=\"arrow_upward\" (click)=\"scrollArea.scrollToTop()\">Back to top</button>\n</div>\n<!-- args:\n{\n    border: 'quaternary',\n    containerColor: 'tertiary-surface',\n    height: 200,\n    ngContent: `\n      <span uni-text=\"headline-medium\">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</span>\n      <span uni-text=\"body-1-long\">\n      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quis facere debitis ullam, quae quidem, impedit\n              culpa nam\n              repellat in voluptatibus esse ab harum, hic? Aliquam nesciunt voluptates repellendus assumenda labore.\n            </p>\n            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Porro quos voluptate doloribus. Optio unde\n              inventore, tempore\n              nemo repellat expedita! Quod, accusamus nobis iure. Aliquam quibusdam, nemo explicabo ipsum provident\n              asperiores.</p>\n            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quaerat, qui, rem! Debitis cum maiores iste,\n              possimus!\n              Obcaecati accusamus eaque expedita quo soluta quis, repudiandae similique, veritatis repellendus facere\n              suscipit!\n              Et!</p>\n            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Harum doloremque repellat praesentium quae et\n              consectetur\n              iure quos porro, provident voluptates reprehenderit a. Accusamus ut, quaerat asperiores blanditiis\n              voluptate, sint\n              facilis.</p>\n            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus beatae inventore nobis esse\n              temporibus\n              exercitationem\n              eos illo minima non magnam, provident sit doloribus maiores odio in animi quidem unde. Perferendis.</p>\n\n      </span>\n\n\n    `,\n  }\n-->"
         }
       ],
       "guidelines": {
@@ -6976,14 +6976,7 @@
               "kind": "input",
               "type": "ColorKey",
               "required": false,
-              "description": ""
-            },
-            {
-              "name": "textColor",
-              "kind": "input",
-              "type": "ColorKey",
-              "required": false,
-              "description": "The ink color, unambiguously. `color` is also an input on the layout directives, where it means a *container* pair (background plus its on-color). On an element carrying both — `<div row-layout uni-text>` — one `color` binding feeds both directives, so the text and the background resolve to the same token and the text disappears. Use `textColor` there; it wins over `color`."
+              "description": "The ink, mapping straight to the CSS `color` property."
             },
             {
               "name": "display",
@@ -7037,7 +7030,7 @@
         }
       ],
       "guidelines": {
-        "whenToUse": "The typography primitive, applied as an **attribute on any element** so your HTML\nsemantics stay intact. The attribute value is the typeface —\n`<h1 uni-text=\"display-small\">` — and `[uni-text]=\"role()\"` binds it dynamically.\nWith no value, the typeface is inferred from the host element (`h1` →\n`headline-large`, `p` → `body-1-long`, `small` → `caption`, `blockquote` → `quote`,\nfalling back to `title-small`), so plain semantic markup is correctly set with zero\nconfiguration. `color` takes any theme color token; `align`, `nowrap`, `maxWidth`,\nand `ellipsis` handle common text layout.\nIt is a directive, so it stacks with anything else on the element — a layout\nattribute or a component's own host — rather than colliding with it:\n```html\n```\nOne caveat on that combination: `color` is an input on the layout directives too,\nwhere it means a **container** pair (a background plus its on-color). A single\n`color` binding feeds both directives, so the ink and the background resolve to\nthe same token and the text vanishes. Use `textColor` on a shared element — it\nwins over `color`:\n```html\n  Heading\n```",
+        "whenToUse": "The typography primitive, applied as an **attribute on any element** so your HTML\nsemantics stay intact. The attribute value is the typeface —\n`<h1 uni-text=\"display-small\">` — and `[uni-text]=\"role()\"` binds it dynamically.\nWith no value, the typeface is inferred from the host element (`h1` →\n`headline-large`, `p` → `body-1-long`, `small` → `caption`, `blockquote` → `quote`,\nfalling back to `title-small`), so plain semantic markup is correctly set with zero\nconfiguration. `color` takes any theme color token; `align`, `nowrap`, `maxWidth`,\nand `ellipsis` handle common text layout.\nIt is a directive, so it stacks with anything else on the element — a layout\nattribute or a component's own host — rather than colliding with it:\n```html\n```\nText owns `color`, because it maps straight to the CSS property. The layout\ndirectives name their container pair `containerColor`, so the two never compete\nfor one binding — set both on the same element and each reaches its own\ndirective:\n```html\n  Heading\n```\n`containerColor` sets a background **and** its paired on-color, so both\ndirectives write `color` to the element. An explicit `uni-text` `color` always\nwins that — it is emitted at higher specificity rather than left to stylesheet\norder. Set no `color` and the container's on-color shows through, which is the\npoint of a pair.",
         "dos": [
           "Reach for semantic elements first and let the element-aware defaults set the type"
         ],

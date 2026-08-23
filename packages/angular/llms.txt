@@ -87,7 +87,7 @@ Inheritance (inputs listed once, available on all subclasses):
 ## UniBoxDirective
 - selector: `[uni-box-layout], [box-layout]`
 - inputs:
-  - `color: ContainerColorToken`
+  - `containerColor: ContainerColorToken` — A container color *pair*: the named surface plus its paired on-color, so a box and its contents stay legible together. Named `containerColor`, not `color`, because it is not the CSS `color` property — `uni-text` owns that name, and it maps to it directly. The two directives share elements routinely (`<div row-layout uni-text>`), and one `color` binding would feed both: the box would paint the surface and the text would take the same token, rendering ink on identical ink.
   - `backgroundColor: OptionalColor`
   - `borderRadius: OptionalRadius`
   - `borderRadiusLeft: OptionalRadius`
@@ -660,7 +660,7 @@ Inheritance (inputs listed once, available on all subclasses):
 ## UniScrollAreaComponent
 - selector: `[uni-scroll-area], [scroll-area]`
 - inputs:
-  - `color: ContainerColorToken`
+  - `containerColor: ContainerColorToken` — A container color *pair*: the named surface plus its paired on-color. Named `containerColor`, not `color`, for the same reason as the layout primitives: this is an attribute directive-style selector that shares elements with `uni-text`, which owns `color` and maps it to the CSS property. One `color` binding feeding both would render ink on ink.
   - `borderRadius: Radius` = 'sm'
   - `padding: OptionalSize`
   - `paddingHorizontal: OptionalSize`
@@ -876,8 +876,7 @@ Inheritance (inputs listed once, available on all subclasses):
 - inputs:
   - `uniText: Typeface | ''` = '', { alias: 'uni-text' } — Typeface via the selector attribute: `uni-text="headline-large"`.
   - `typeface: Typeface | undefined` = undefined — Explicit typeface; the attribute value wins when both are set.
-  - `color: ColorKey`
-  - `textColor: ColorKey` — The ink color, unambiguously. `color` is also an input on the layout directives, where it means a *container* pair (background plus its on-color). On an element carrying both — `<div row-layout uni-text>` — one `color` binding feeds both directives, so the text and the background resolve to the same token and the text disappears. Use `textColor` there; it wins over `color`.
+  - `color: ColorKey` — The ink, mapping straight to the CSS `color` property.
   - `display: OptionalDisplay`
   - `align: OptionalTextAlign`
   - `nowrap: boolean`

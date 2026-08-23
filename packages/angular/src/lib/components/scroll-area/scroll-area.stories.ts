@@ -35,7 +35,7 @@ type Story = StoryObj<StoryType>;
 export const Primary: Story = {
   args: {
     border: 'quaternary',
-    color: 'tertiary-surface',
+    containerColor: 'tertiary-surface',
     height: 200,
     ngContent: `
       <span uni-text="headline-medium">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</span>

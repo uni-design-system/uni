@@ -44,7 +44,17 @@ import { ThemeService } from '../../../theming';
 export class UniBoxDirective {
   theme = inject(ThemeService);
 
-  color = input<ContainerColorToken>();
+  /**
+   * A container color *pair*: the named surface plus its paired on-color, so a
+   * box and its contents stay legible together.
+   *
+   * Named `containerColor`, not `color`, because it is not the CSS `color`
+   * property — `uni-text` owns that name, and it maps to it directly. The two
+   * directives share elements routinely (`<div row-layout uni-text>`), and one
+   * `color` binding would feed both: the box would paint the surface and the
+   * text would take the same token, rendering ink on identical ink.
+   */
+  containerColor = input<ContainerColorToken>();
   backgroundColor = input<OptionalColor>();
   borderRadius = input<OptionalRadius>();
   borderRadiusLeft = input<OptionalRadius>();
@@ -113,7 +123,7 @@ export class UniBoxDirective {
   protected readonly boxClassName = computed(() => {
     return css([
       {
-        ...this.theme.colorPair(this.color()),
+        ...this.theme.colorPair(this.containerColor()),
         ...this.theme.backgroundColor(this.backgroundColor()),
         display: this.alignSelf() ? 'flex' : 'block',
         position: this.position(),

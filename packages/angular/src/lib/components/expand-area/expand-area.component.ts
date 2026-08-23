@@ -10,11 +10,11 @@ import { UniTextDirective } from '../text/text.directive';
   selector: 'uni-expand-area',
   imports: [UniBoxDirective, UniTextDirective, UniExpandToggleComponent, UniExpandComponent],
   template: `
-    <div box-layout color="tertiary-surface" borderRadius="sm" border="quaternary" overflow="hidden">
+    <div box-layout containerColor="tertiary-surface" borderRadius="sm" border="quaternary" overflow="hidden">
       <div box-layout
         border="quaternary"
         borderRadius="sm"
-        color="primary-surface"
+        containerColor="primary-surface"
         style="margin-top: -1px; margin-left: -1px; margin-right: -1px"
         [style.margin-bottom]="toggle.collapsed() ? '-1px' : 0"
         justifyContent="space-between"

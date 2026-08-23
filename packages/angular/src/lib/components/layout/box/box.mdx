@@ -24,6 +24,15 @@ merges the host `class` bindings, so each contributor's styles survive.
 <uni-card box-layout padding="lg">…</uni-card>
 ```
 
+Colors stay unambiguous across that composition. The box's surface is
+`containerColor` — a **pair**: the named surface plus its paired on-color — while
+plain `color` belongs to `uni-text` and maps to the CSS property. So an element
+wearing both can set each independently:
+
+```html
+<div row-layout uni-text="title-small" containerColor="surface" color="on-surface-variant">…</div>
+```
+
 <blockquote>
 Layout attributes only apply when the directive is in your component's `imports`.
 An unimported attribute compiles cleanly and silently does nothing — import
@@ -46,7 +55,7 @@ An unimported attribute compiles cleanly and silently does nothing — import
 ### Basic Box with Styling
 
 ```html
-<div box-layout color="primary-container" borderRadius="lg" padding="md">Content goes here</div>
+<div box-layout containerColor="primary-container" borderRadius="lg" padding="md">Content goes here</div>
 ```
 
 ### Flex Container Box

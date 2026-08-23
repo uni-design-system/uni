@@ -51,17 +51,8 @@ export class UniTextDirective {
   readonly uniText = input<Typeface | ''>('', { alias: 'uni-text' });
   /** Explicit typeface; the attribute value wins when both are set. */
   typeface = input<Typeface | undefined>(undefined);
+  /** The ink, mapping straight to the CSS `color` property. */
   color = input<ColorKey>();
-  /**
-   * The ink color, unambiguously.
-   *
-   * `color` is also an input on the layout directives, where it means a
-   * *container* pair (background plus its on-color). On an element carrying
-   * both — `<div row-layout uni-text>` — one `color` binding feeds both
-   * directives, so the text and the background resolve to the same token and
-   * the text disappears. Use `textColor` there; it wins over `color`.
-   */
-  textColor = input<ColorKey>();
   display = input<OptionalDisplay>();
   align = input<OptionalTextAlign>();
   nowrap = input<boolean>();
@@ -76,9 +67,16 @@ export class UniTextDirective {
     return css([
       {
         ...this.theme.typeface(this.resolvedTypeface()),
-        ...this.theme.color(this.textColor() ?? this.color()),
         display: this.display(),
       },
+      // An explicit ink color is emitted at doubled specificity so it beats the
+      // paired on-color that a container directive on the same element
+      // contributes (`containerColor` sets a background *and* its on-color).
+      // Both are class rules, so without this the cascade would be settled by
+      // Emotion's insertion order — text won on `row-layout` and silently lost
+      // on `scroll-area`. With no explicit color, nothing is emitted here and
+      // the container's on-color correctly shows through.
+      this.color() && { '&&': { ...this.theme.color(this.color()) } },
       this.align() && {
         textAlign: this.align(),
       },

@@ -2,7 +2,7 @@
 @if (ds) {
   <div
     box-layout
-    [color]="componentOptions().color"
+    [containerColor]="componentOptions().color"
     [border]="componentOptions().border"
     [borderRadius]="componentOptions().borderRadius"
     [elevation]="componentOptions().elevation"
@@ -11,7 +11,7 @@
     <div
       box-layout
       [padding]="componentOptions().headerPadding"
-      [color]="componentOptions().headerColor"
+      [containerColor]="componentOptions().headerColor"
       [class]="headerClass()"
     >
       <ng-content select="data-table-header"></ng-content>
@@ -133,7 +133,7 @@
     <div
       box-layout
       [padding]="componentOptions().footerPadding"
-      [color]="componentOptions().footerColor"
+      [containerColor]="componentOptions().footerColor"
       [class]="footerClass()"
     >
       <ng-content select="data-table-footer"></ng-content>

@@ -55,7 +55,7 @@ export type AriaHasPopup = 'menu' | 'listbox' | 'dialog' | 'grid' | 'tree' | 'tr
         [borderRadius]="borderRadius() ?? componentOptions().borderRadius"
         [paddingVertical]="paddingVertical()"
         [paddingHorizontal]="paddingHorizontal()"
-        [color]="color() ?? componentOptions().color"
+        [containerColor]="color() ?? componentOptions().color"
         [shadow]="shadow() ?? componentOptions().shadow"
       >
         <ng-content></ng-content>
