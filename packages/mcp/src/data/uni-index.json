@@ -1,7 +1,7 @@
 {
   "meta": {
     "version": "8.4.0",
-    "builtAt": "2026-08-23T11:41:01.006Z",
+    "builtAt": "2026-08-23T15:05:33.279Z",
     "frameworks": [
       "angular"
     ],
@@ -2630,11 +2630,11 @@
               "description": ""
             },
             {
-              "name": "change",
+              "name": "valueChange",
               "kind": "output",
               "type": "string",
               "required": false,
-              "description": ""
+              "description": "The debounced value, emitted once the user pauses typing."
             }
           ]
         }
@@ -2643,11 +2643,11 @@
         {
           "title": "Primary",
           "framework": "angular",
-          "code": "<!-- Storybook story: Primary -->\n<uni-debounce-input ${argsToTemplate(props)} (change)=\"lastEmitted = $event\" #debounce />\n<div box-layout paddingTop=\"md\">\n  <div>Live value: {{ debounce.value() }}</div>\n  <div>Debounced value: {{ lastEmitted }}</div>\n</div>\n<!-- args:\n{\n    inputName: 'search',\n    debounceTime: 400,\n  }\n-->"
+          "code": "<!-- Storybook story: Primary -->\n<uni-debounce-input ${argsToTemplate(props)} (valueChange)=\"lastEmitted = $event\" #debounce />\n<div box-layout paddingTop=\"md\">\n  <div>Live value: {{ debounce.value() }}</div>\n  <div>Debounced value: {{ lastEmitted }}</div>\n</div>\n<!-- args:\n{\n    inputName: 'search',\n    debounceTime: 400,\n  }\n-->"
         }
       ],
       "guidelines": {
-        "whenToUse": "A themed text input that emits its `change` output only after the user pauses typing\n(400&nbsp;ms by default) and only when the value actually changed — a signal-based\ndebounce with no rxjs involved. The live value is exposed as the `value` signal, and\n`clear()` empties the field immediately (cancelling any pending emit).\nIt wears the shared input chrome (color, border, typeface, focus ring) via the input\nbox, and offers `pre-input` / `post-input` attribute slots for adornments plus ARIA\npassthrough inputs (`role`, `ariaExpanded`, `ariaControls`, `ariaActivedescendant`)\nso composite widgets can annotate the real input element.\nUsed by the [Search Input](?path=/docs/components-forms-search-input--search-input), which\nprojects its magnifier and clear button through the slots and drives the combobox\nARIA through the passthroughs.",
+        "whenToUse": "A themed text input that emits its `valueChange` output only after the user pauses typing\n(400&nbsp;ms by default) and only when the value actually changed — a signal-based\ndebounce with no rxjs involved. The live value is exposed as the `value` signal, and\n`clear()` empties the field immediately (cancelling any pending emit).\nIt wears the shared input chrome (color, border, typeface, focus ring) via the input\nbox, and offers `pre-input` / `post-input` attribute slots for adornments plus ARIA\npassthrough inputs (`role`, `ariaExpanded`, `ariaControls`, `ariaActivedescendant`)\nso composite widgets can annotate the real input element.\nUsed by the [Search Input](?path=/docs/components-forms-search-input--search-input), which\nprojects its magnifier and clear button through the slots and drives the combobox\nARIA through the passthroughs.",
         "dos": [],
         "donts": [],
         "accessibility": [
@@ -2908,11 +2908,11 @@
           "selectorOrTag": "[uni-drag-n-drop], [dragAndDrop]",
           "api": [
             {
-              "name": "onFileDropped",
+              "name": "fileDropped",
               "kind": "output",
               "type": "FileList",
               "required": false,
-              "description": ""
+              "description": "The dropped files."
             }
           ]
         }
@@ -3085,11 +3085,11 @@
               "description": ""
             },
             {
-              "name": "color",
+              "name": "containerColor",
               "kind": "input",
               "type": "ContainerColorToken | undefined",
               "required": false,
-              "description": ""
+              "description": "A container color pair; `color` belongs to `uni-text` across the library."
             },
             {
               "name": "dropdownShowing",
@@ -5519,18 +5519,18 @@
               "description": "Type-ahead entries. Keep them fresh from `change` emissions; the list shows while the field has focus and entries exist."
             },
             {
-              "name": "change",
+              "name": "searchChange",
               "kind": "output",
               "type": "string",
               "required": false,
-              "description": ""
+              "description": "The debounced query, emitted as the user types."
             },
             {
-              "name": "search",
+              "name": "searchSubmit",
               "kind": "output",
               "type": "string",
               "required": false,
-              "description": ""
+              "description": "A committed search: Enter, or a suggestion chosen from the list."
             },
             {
               "name": "suggestionSelected",
@@ -5546,16 +5546,16 @@
         {
           "title": "Primary",
           "framework": "angular",
-          "code": "<!-- Storybook story: Primary -->\n<div box-layout maxWidth=\"420px\">\n<uni-search-input\n  label=\"Search the docs\"\n  [debounceTime]=\"200\"\n  [suggestions]=\"suggestions\"\n  (change)=\"filter($event)\"\n  (search)=\"log($event)\"\n></uni-search-input>\n</div>\n<!-- args:\n{ label: 'Search' }\n-->"
+          "code": "<!-- Storybook story: Primary -->\n<div box-layout maxWidth=\"420px\">\n<uni-search-input\n  label=\"Search the docs\"\n  [debounceTime]=\"200\"\n  [suggestions]=\"suggestions\"\n  (searchChange)=\"filter($event)\"\n  (searchSubmit)=\"log($event)\"\n></uni-search-input>\n</div>\n<!-- args:\n{ label: 'Search' }\n-->"
         },
         {
           "title": "Type-ahead",
           "framework": "angular",
-          "code": "<!-- Storybook story: Type-ahead -->\n<div box-layout maxWidth=\"420px\">\n<uni-search-input\n  label=\"Search the docs\"\n  [debounceTime]=\"200\"\n  [suggestions]=\"suggestions\"\n  (change)=\"filter($event)\"\n  (search)=\"log($event)\"\n></uni-search-input>\n</div>"
+          "code": "<!-- Storybook story: Type-ahead -->\n<div box-layout maxWidth=\"420px\">\n<uni-search-input\n  label=\"Search the docs\"\n  [debounceTime]=\"200\"\n  [suggestions]=\"suggestions\"\n  (searchChange)=\"filter($event)\"\n  (searchSubmit)=\"log($event)\"\n></uni-search-input>\n</div>"
         }
       ],
       "guidelines": {
-        "whenToUse": "Generic search field wearing the shared input chrome: a decorative leading magnifier,\na clear button while there's a query, and Enter to submit (`search`). `change` emits\ndebounced as the user types — use it to refresh results or the `suggestions` input.\nWith `suggestions`, the field becomes an ARIA combobox: entries render in a listbox\nunder the field, ArrowUp/Down move the highlight, Enter selects (emitting both\n`suggestionSelected` and `search`), and Escape closes the list first, then clears the\nquery. The suggestion list's surface, elevation and radius resolve from the theme's\n`searchInput` options, alongside the search/clear symbols.",
+        "whenToUse": "Generic search field wearing the shared input chrome: a decorative leading magnifier,\na clear button while there's a query, and Enter to submit (`searchSubmit`). `searchChange` emits\ndebounced as the user types — use it to refresh results or the `suggestions` input.\nWith `suggestions`, the field becomes an ARIA combobox: entries render in a listbox\nunder the field, ArrowUp/Down move the highlight, Enter selects (emitting both\n`suggestionSelected` and `searchSubmit`), and Escape closes the list first, then clears the\nquery. The suggestion list's surface, elevation and radius resolve from the theme's\n`searchInput` options, alongside the search/clear symbols.",
         "dos": [],
         "donts": [],
         "accessibility": [
@@ -7697,14 +7697,6 @@
               "required": false,
               "default": "false",
               "description": ""
-            },
-            {
-              "name": "appendToBody",
-              "kind": "input",
-              "type": "boolean",
-              "required": false,
-              "default": "false",
-              "description": "@deprecated The tooltip renders in the native top layer; ignored."
             }
           ]
         }

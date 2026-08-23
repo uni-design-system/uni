@@ -274,9 +274,12 @@ export class ThemeService {
       return { ...fixed, ...variantStyle, ...sizeStyle };
     });
 
-  getSpacing = (size: NullableSize) => {
-    return size === 'none' ? 'none' : this.resolveSpacing(size);
-  };
+  /**
+   * Resolve a spacing token to its CSS value. `'none'` resolves through the
+   * scale like any other token — it is `0`, not the string `'none'`, which is
+   * not a valid length and was silently dropped wherever it landed.
+   */
+  getSpacing = (size: NullableSize) => this.resolveSpacing(size);
 
   private readonly warnedSpacing = new Set<string>();
 

@@ -15,18 +15,11 @@ export interface UniInputBoxOptions {
   border: Border;
   errorBorder: Border;
   borderRadius: Radius;
-  /**
-   * @deprecated Never read by `uni-input-box` — setting it has no effect and
-   * never had. Optional now, removed next major.
-   */
-  transitionSpeed?: number;
   shadow?: Shadow;
   errorShadow?: Shadow;
   height?: string | number;
   paddingLeft: OptionalSize;
   typeface?: Typeface;
-  /** @deprecated Use `typeface` (matching tooltip/button/tabs casing). */
-  typeFace?: Typeface;
   textColor: ColorKey;
   disabledTextColor: ColorKey;
   focusOutline: string;

@@ -11,12 +11,4 @@ export interface UniExpandOptions {
    * reads the same token so trigger and region move on one clock.
    */
   motion?: Motion;
-  /**
-   * Base reveal/collapse duration in seconds.
-   *
-   * @deprecated Use `motion` and retime the `reveal` token instead — one edit
-   * covers the region and its toggle together. Still honoured when set, and
-   * wins over `motion`, so existing themes are unaffected. Removed next major.
-   */
-  transitionSpeed?: number;
 }

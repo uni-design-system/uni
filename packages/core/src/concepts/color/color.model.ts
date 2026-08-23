@@ -1,12 +1,5 @@
 import { ColorCategory, ColorRole, ColorScheme, ColorStyles } from './color.types';
 
-export interface UniColor {
-  scheme: ColorScheme;
-  role: ColorRole;
-  category: ColorCategory;
-  alpha?: number;
-}
-
 export interface Color {
   /* Meta */
   scheme?: ColorScheme;

@@ -110,7 +110,6 @@ export class UniBoxDirective {
   gridColumn = input<string>();
   gridRow = input<string>();
   overflow = input<OptionalOverflow>();
-  elevation = input<Shadow>(); // Deprecated, use shadow instead
   shadow = input<Shadow>();
   gap = input<OptionalSize>();
   fullWidth = input<boolean>();
@@ -144,7 +143,6 @@ export class UniBoxDirective {
         ...this.theme.paddingRight(this.paddingRight()),
         ...this.theme.paddingTop(this.paddingTop()),
         ...this.theme.paddingBottom(this.paddingBottom()),
-        ...this.theme.boxShadow(this.elevation()),
         ...this.theme.boxShadow(this.shadow()),
         ...this.theme.radius(this.borderRadius()),
         ...this.theme.getRadiusLeft(this.borderRadiusLeft()),

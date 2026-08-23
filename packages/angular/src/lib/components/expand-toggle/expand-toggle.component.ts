@@ -83,9 +83,8 @@ export class UniExpandToggleComponent {
   private readonly speed = computed(() => {
     const override = this.transitionSpeed();
     if (override !== undefined) return override;
+    // Same token uni-expand uses, so the chevron and the region never drift.
     const options = this.expandOptions();
-    // Same order uni-expand uses, so the chevron and the region never drift.
-    if (options.transitionSpeed !== undefined) return options.transitionSpeed;
     return this.themeService.motion(options.motion ?? 'reveal').duration / 1000;
   });
 

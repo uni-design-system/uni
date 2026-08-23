@@ -1,6 +1,6 @@
 ---
-'@uni-design-system/uni-core': minor
-'@uni-design-system/uni-angular': minor
+'@uni-design-system/uni-core': major
+'@uni-design-system/uni-angular': major
 ---
 
 The spacing scale is open, and `createTheme` finally accepts one.

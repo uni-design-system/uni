@@ -29,6 +29,7 @@ import {
   type Thicknesses,
   type Typography,
   type UniTheme,
+  type Motions,
 } from '@uni-design-system/uni-core';
 
 export interface WellsourcedPalette {
@@ -271,6 +272,11 @@ const shadows = (p: WellsourcedPalette): Shadows => ({
  */
 const thicknesses: Thicknesses = {};
 
+/** Menu hover was instant in the old app CSS; a duration-0 token says so. */
+const motion: Motions = {
+  instant: { duration: 0, easing: 'linear' },
+};
+
 const spacing: Spacing = {
   none: 0,
   xxs: '2px',
@@ -510,7 +516,8 @@ const components = (p: WellsourcedPalette): ComponentThemes => ({
       textColor: 'on-surface', // --c-dark #1a1a1a
       hoverColor: 'tertiary-surface', // --c-canvas #f3f2ef
       activeSymbol: 'check',
-      transitionSpeed: 0,
+      // The old `.rowmenu` had no hover transition at all.
+      motion: 'instant',
     },
     variants: {
       // `.rowmenu button.danger`: red ink; hover keeps the neutral canvas
@@ -564,6 +571,7 @@ export const WellsourcedLight: UniTheme = withWellsourcedScales(
     radii,
     thicknesses,
     spacing,
+    motion,
   })
 );
 
@@ -578,6 +586,7 @@ export const WellsourcedDark: UniTheme = withWellsourcedScales(
     radii,
     thicknesses,
     spacing,
+    motion,
   })
 );
 

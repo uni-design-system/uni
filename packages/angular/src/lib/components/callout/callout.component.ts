@@ -344,18 +344,10 @@ export class UniCalloutComponent extends BaseComponent<UniCalloutOptions> {
     });
   });
 
-  /**
-   * Timing for the open/close fade and the teardown that follows it. The
-   * deprecated `transitionMs` wins when a theme still sets it, so existing
-   * themes keep their timing; otherwise the `motion` token decides.
-   */
-  private readonly motion = computed(() => {
-    const options = this.componentOptions();
-    const token = this.theme.motion(options.motion ?? 'panel');
-    return options.transitionMs === undefined
-      ? token
-      : { ...token, duration: options.transitionMs };
-  });
+  /** Timing for the open/close fade and the teardown that follows it. */
+  private readonly motion = computed(() =>
+    this.theme.motion(this.componentOptions().motion ?? 'panel')
+  );
 
   protected readonly scrimClassName = computed(() => {
     const motion = this.motion();

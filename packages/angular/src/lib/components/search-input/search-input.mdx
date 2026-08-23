@@ -13,12 +13,12 @@ import { ThemeOptions } from '../../../stories/blocks/ThemeOptionsBlock';
 ## Overview
 
 Generic search field wearing the shared input chrome: a decorative leading magnifier,
-a clear button while there's a query, and Enter to submit (`search`). `change` emits
+a clear button while there's a query, and Enter to submit (`searchSubmit`). `searchChange` emits
 debounced as the user types — use it to refresh results or the `suggestions` input.
 
 With `suggestions`, the field becomes an ARIA combobox: entries render in a listbox
 under the field, ArrowUp/Down move the highlight, Enter selects (emitting both
-`suggestionSelected` and `search`), and Escape closes the list first, then clears the
+`suggestionSelected` and `searchSubmit`), and Escape closes the list first, then clears the
 query. The suggestion list's surface, elevation and radius resolve from the theme's
 `searchInput` options, alongside the search/clear symbols.
 
@@ -28,7 +28,7 @@ query. The suggestion list's surface, elevation and radius resolve from the them
 
 ## Type-ahead
 
-Feed `suggestions` from your data source on every `change` emission:
+Feed `suggestions` from your data source on every `searchChange` emission:
 
 <StoryExample of={Stories.TypeAhead} />
 

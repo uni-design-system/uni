@@ -19,6 +19,7 @@ import {
   type Shadows,
   type Typography,
   type UniTheme,
+  type Motions,
 } from '@uni-design-system/uni-core';
 
 // ==========================================
@@ -403,7 +404,7 @@ const components = (colors: Colors): ComponentThemes => ({
       hoverColor: 'secondary-container',
       borderRadius: 'none',
       activeSymbol: 'check',
-      transitionSpeed: 0.11,
+      motion: 'productive',
     },
     variants: {
       warn: {
@@ -416,6 +417,15 @@ const components = (colors: Colors): ComponentThemes => ({
     },
   },
 });
+
+/**
+ * Carbon's productive motion: 110ms, the duration-fast-02 step it uses for
+ * small state changes like a menu option's hover fill. A named token rather
+ * than a per-component duration, so anything else adopting it retimes together.
+ */
+const motion: Motions = {
+  productive: { duration: 110, easing: 'ease' },
+};
 
 const withCarbonTypography = (theme: UniTheme): UniTheme => ({
   ...theme,
@@ -431,6 +441,7 @@ export const CarbonLight: UniTheme = withCarbonTypography(
     components: components(lightColors),
     shadows: carbonShadows,
     radii,
+    motion,
   })
 );
 
@@ -443,6 +454,7 @@ export const CarbonDark: UniTheme = withCarbonTypography(
     components: components(darkColors),
     shadows: carbonShadows,
     radii,
+    motion,
   })
 );
 

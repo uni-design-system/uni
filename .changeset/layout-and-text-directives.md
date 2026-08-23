@@ -23,10 +23,10 @@ pinning that.
 <uni-card box-layout padding="lg">…</uni-card>
 ```
 
-**Renames, with deprecated aliases.** `UniBoxComponent` → `UniBoxDirective`, and
-likewise for Row, Stack, Center, Wrap, Grid, GridArea and Text. The old names
-are still exported as deprecated aliases, so existing `imports: [UniBoxComponent]`
-keeps compiling — but they will go in a future major.
+**BREAKING: class renames.** `UniBoxComponent` → `UniBoxDirective`, and likewise
+for Row, Stack, Center, Wrap, Grid, GridArea and Text. No compatibility aliases:
+a major is where the break belongs, and an alias shipped on day one of a major
+tends to survive to the next one. Rename the symbols in your `imports: []`.
 
 **BREAKING: the layout directives' `color` is now `containerColor`.**
 

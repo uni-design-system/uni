@@ -10,9 +10,8 @@ import { Directive, output, signal } from '@angular/core';
   },
 })
 export class DragAndDropDirective {
-  // TODO(v4): rename to fileDropped — renaming is breaking
-  // eslint-disable-next-line @angular-eslint/no-output-on-prefix
-  onFileDropped = output<FileList>();
+  /** The dropped files. */
+  fileDropped = output<FileList>();
 
   protected workspaceOpacity = signal('1');
 
@@ -37,7 +36,7 @@ export class DragAndDropDirective {
     this.workspaceOpacity.set('1');
     const files = event.dataTransfer?.files;
     if (files && files.length > 0) {
-      this.onFileDropped.emit(files);
+      this.fileDropped.emit(files);
     }
   }
 }

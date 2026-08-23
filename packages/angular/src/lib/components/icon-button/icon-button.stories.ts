@@ -1,5 +1,5 @@
 import { argsToTemplate, Meta, StoryObj } from '@storybook/angular';
-import { icons } from '../icon/icon.record';
+import { BaseIcons } from '@uni-design-system/uni-core';
 import { UniIconButtonComponent as IconButton } from './icon-button.component';
 
 type StoryType = IconButton;
@@ -26,7 +26,7 @@ const meta: Meta<StoryType> = {
     },
     iconName: {
       control: 'select',
-      options: Object.keys(icons),
+      options: Object.keys(BaseIcons),
       description: 'The name of the icon as defined by the loaded theme.',
     },
     symbolName: {

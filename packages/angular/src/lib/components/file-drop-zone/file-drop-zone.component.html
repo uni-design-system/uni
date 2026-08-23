@@ -10,7 +10,7 @@
   justifyContent="center"
   [padding]="padding()"
   dragAndDrop
-  (onFileDropped)="selectFiles($event)"
+  (fileDropped)="selectFiles($event)"
   [height]="height()"
   [attr.role]="zoneIsInteractive() ? 'button' : null"
   [attr.tabindex]="zoneIsInteractive() ? 0 : null"

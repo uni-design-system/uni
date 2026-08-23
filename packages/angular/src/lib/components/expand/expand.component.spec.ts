@@ -1,8 +1,7 @@
 /**
  * Covers the timing resolution only — the reveal's own animation is CSS and
  * belongs to Storybook. What matters here is that the `motion` token drives
- * the clock, and that a theme still setting the deprecated `transitionSpeed`
- * is not retimed underneath it.
+ * the clock and that a per-instance `transitionSpeed` input still outranks it.
  */
 import { TestBed } from '@angular/core/testing';
 import { createTheme, LightTheme } from '@uni-design-system/uni-core';
@@ -52,15 +51,8 @@ describe('UniExpandComponent timing', () => {
     expect(fixture.componentInstance.duration()).toBeCloseTo(0.8, 5);
   });
 
-  it('still honours a theme setting the deprecated transitionSpeed', () => {
-    // Backward compatibility: the option outranks the token, so a theme that
-    // set it before the motion scale existed keeps exactly its timing.
-    const fixture = withExpandOptions({ motion: 'reveal', transitionSpeed: 0.6 });
-    expect(fixture.componentInstance.duration()).toBeCloseTo(0.6, 5);
-  });
-
-  it('lets a per-instance transitionSpeed outrank both', () => {
-    const fixture = withExpandOptions({ motion: 'reveal', transitionSpeed: 0.6 });
+  it('lets a per-instance transitionSpeed outrank the token', () => {
+    const fixture = withExpandOptions({ motion: 'reveal' });
     fixture.componentRef.setInput('transitionSpeed', 0.1);
     fixture.detectChanges();
 

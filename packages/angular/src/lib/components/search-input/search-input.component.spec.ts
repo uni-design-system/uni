@@ -37,7 +37,7 @@ describe('UniSearchInputComponent', () => {
 
   it('shows the clear button only with a query, and clearing refocuses + emits', async () => {
     let changed: string | undefined;
-    fixture.componentInstance.change.subscribe((v) => (changed = v));
+    fixture.componentInstance.searchChange.subscribe((v) => (changed = v));
     expect(host().querySelector('button[post-input]')).toBeNull();
 
     await type('theme');
@@ -51,9 +51,9 @@ describe('UniSearchInputComponent', () => {
     expect(document.activeElement).toBe(inputEl());
   });
 
-  it('emits search on Enter with the current query', async () => {
+  it('emits searchSubmit on Enter with the current query', async () => {
     let searched: string | undefined;
-    fixture.componentInstance.search.subscribe((v) => (searched = v));
+    fixture.componentInstance.searchSubmit.subscribe((v) => (searched = v));
     await type('oklch');
     key('Enter');
     expect(searched).toBe('oklch');

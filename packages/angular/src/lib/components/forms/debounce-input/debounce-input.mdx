@@ -10,7 +10,7 @@ import { ThemeOptions } from '../../../../stories/blocks/ThemeOptionsBlock';
 
 ## Overview
 
-A themed text input that emits its `change` output only after the user pauses typing
+A themed text input that emits its `valueChange` output only after the user pauses typing
 (400&nbsp;ms by default) and only when the value actually changed — a signal-based
 debounce with no rxjs involved. The live value is exposed as the `value` signal, and
 `clear()` empties the field immediately (cancelling any pending emit).

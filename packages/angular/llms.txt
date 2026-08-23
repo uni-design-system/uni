@@ -31,7 +31,7 @@ Inheritance (inputs listed once, available on all subclasses):
 ## DragAndDropDirective
 - selector: `[uni-drag-n-drop], [dragAndDrop]`
 - outputs:
-  - `onFileDropped: FileList`
+  - `fileDropped: FileList` — The dropped files.
 
 ## NotificationsComponent
 - selector: `uni-notifications`
@@ -346,7 +346,7 @@ Inheritance (inputs listed once, available on all subclasses):
   - `ariaControls: string`
   - `ariaActivedescendant: string`
 - outputs:
-  - `change: string`
+  - `valueChange: string` — The debounced value, emitted once the user pauses typing.
 
 ## UniDialogButtonsComponent
 - selector: `[uni-dialog-buttons], [dialog-buttons]`
@@ -403,7 +403,7 @@ Inheritance (inputs listed once, available on all subclasses):
   - `border: Border | undefined`
   - `borderRadius: Radius | undefined`
   - `shadow: Shadow | undefined`
-  - `color: ContainerColorToken | undefined`
+  - `containerColor: ContainerColorToken | undefined` — A container color pair; `color` belongs to `uni-text` across the library.
 - outputs:
   - `dropdownShowing: boolean`
   - `dropdownHiding: boolean`
@@ -687,8 +687,8 @@ Inheritance (inputs listed once, available on all subclasses):
   - `debounceTime: number` = 400
   - `suggestions: string[]` = [] — Type-ahead entries. Keep them fresh from `change` emissions; the list shows while the field has focus and entries exist.
 - outputs:
-  - `change: string`
-  - `search: string`
+  - `searchChange: string` — The debounced query, emitted as the user types.
+  - `searchSubmit: string` — A committed search: Enter, or a suggestion chosen from the list.
   - `suggestionSelected: string`
 
 ## UniSelectComponent
@@ -937,7 +937,6 @@ Inheritance (inputs listed once, available on all subclasses):
   - `label: string` (required)
   - `placement: Placement` = 'top'
   - `inlineText: boolean` = false
-  - `appendToBody: boolean` = false — @deprecated The tooltip renders in the native top layer; ignored.
 
 ## UniTourComponent
 - selector: `uni-tour`

@@ -84,8 +84,6 @@ export class UniTooltipComponent extends BaseComponent<UniTooltipOptions> {
   placement = input<Placement>('top');
   inlineText = input<boolean>(false);
 
-  /** @deprecated The tooltip renders in the native top layer; ignored. */
-  appendToBody = input<boolean>(false);
 
   private tipRef = viewChild.required<ElementRef<HTMLElement>>('tip');
 

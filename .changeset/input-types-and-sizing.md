@@ -1,5 +1,5 @@
 ---
-'@uni-design-system/uni-angular': minor
+'@uni-design-system/uni-angular': major
 ---
 
 `uni-input` gets a `type`, and the input chrome stops needing a wrapper div.

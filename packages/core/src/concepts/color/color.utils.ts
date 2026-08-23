@@ -1,16 +1,4 @@
-import { Range } from './color.model';
 import type { ColorScheme } from './color.types';
-
-/**
- * @deprecated Randomized generation is superseded by the deterministic OKLCH
- * engine in `concepts/generation` — same input, same theme. Seeded "surprise
- * me" behavior belongs in the consumer (playground), not the engine.
- */
-export const randomRangeValue = ({ low, high }: Range): number => {
-  low = Math.ceil(low);
-  high = Math.floor(high);
-  return Math.floor(Math.random() * (high - low + 1)) + low;
-};
 
 export const cycle = (angle: number): number => {
   if (angle > 360) return angle - 360;

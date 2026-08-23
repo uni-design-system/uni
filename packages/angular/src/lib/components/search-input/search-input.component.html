@@ -11,7 +11,7 @@
     [ariaExpanded]="list.open()"
     [ariaControls]="listboxId"
     [ariaActivedescendant]="list.activeDescendantId() ?? undefined"
-    (change)="handleChange($event)"
+    (valueChange)="handleChange($event)"
   >
     <uni-symbol pre-input class="uni-search-lead" name="{{ componentOptions().searchSymbol ?? 'search' }}" aria-hidden="true" />
     @if (hasQuery()) {

@@ -32,8 +32,8 @@ region.
 
 ## Speed
 
-The reveal's base duration is the `expand` theme options' `transitionSpeed`
-(seconds; the default theme uses `0.35`). The actual duration scales with the
+The reveal's base duration comes from the `expand` theme options' `motion`
+token (`reveal` by default, 350ms). The actual duration scales with the
 region's content height — √-of-height around a 240px reference, clamped to
 roughly 0.15–0.6s at the default speed — so a two-line region snaps open while
 a full-page region gets the time its distance deserves, and perceived speed

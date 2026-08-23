@@ -55,7 +55,7 @@ export type AriaHasPopup = 'menu' | 'listbox' | 'dialog' | 'grid' | 'tree' | 'tr
         [borderRadius]="borderRadius() ?? componentOptions().borderRadius"
         [paddingVertical]="paddingVertical()"
         [paddingHorizontal]="paddingHorizontal()"
-        [containerColor]="color() ?? componentOptions().color"
+        [containerColor]="containerColor() ?? componentOptions().color"
         [shadow]="shadow() ?? componentOptions().shadow"
       >
         <ng-content></ng-content>
@@ -99,7 +99,8 @@ export class UniDropdownComponent
   border = input<Border | undefined>();
   borderRadius = input<Radius | undefined>();
   shadow = input<Shadow | undefined>();
-  color = input<ContainerColorToken | undefined>();
+  /** A container color pair; `color` belongs to `uni-text` across the library. */
+  containerColor = input<ContainerColorToken | undefined>();
 
   dropdownShowing = output<boolean>();
   dropdownHiding = output<boolean>();

@@ -59,10 +59,10 @@ export class UniMenuItemComponent<T = any> {
     const variantStyle = variant
       ? this.theme.component('menuItem')().variants?.[variant]
       : undefined;
-    // Neither set means no transition at all — the escape hatch predates the
-    // motion scale and still works. The deprecated option wins over the token.
+    // No `motion` at all means no transition: a theme opts out by clearing
+    // the token, and a token with `duration: 0` is instant.
     const motion = options.motion ? this.theme.motion(options.motion) : undefined;
-    const transitionSpeed = options.transitionSpeed ?? (motion ? motion.duration / 1000 : 0);
+    const transitionSpeed = motion ? motion.duration / 1000 : 0;
 
     return css([
       {

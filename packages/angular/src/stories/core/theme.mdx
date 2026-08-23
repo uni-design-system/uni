@@ -167,12 +167,13 @@ Tokens you don't restate keep their base values, and components may point at
 a token of their own — `components.dropdown.options.motion` — so one panel can
 differ without forking the scale.
 
-Every animated component now reads this scale. The per-component options they
-used to carry — `callout.transitionMs`, `expand.transitionSpeed`,
+Every animated component reads this scale. The per-component duration options
+they used to carry — `callout.transitionMs`, `expand.transitionSpeed`,
 `alert.transitionSpeed`, `snackbar.transitionDelay`, `radio.transitionSpeed`,
-`menuItem.transitionSpeed` — still work and still win over the token, so a
-theme that set them keeps its exact timing. All are deprecated and go away
-next major.
+`menuItem.transitionSpeed` — were removed in 9.0.0. Retime the token instead:
+one edit covers every component pointing at it, which is the point of a scale.
+To retime just one component, give it a token of its own and point that
+component's `motion` option at it.
 
 `uni-skeleton` deliberately stays out: its shimmer is a loop rather than a
 transition, so it keeps its own `duration`.

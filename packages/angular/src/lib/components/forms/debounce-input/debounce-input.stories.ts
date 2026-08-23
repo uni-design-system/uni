@@ -12,7 +12,7 @@ const meta: Meta<StoryType> = {
     return {
       props,
       template: `
-        <uni-debounce-input ${argsToTemplate(props)} (change)="lastEmitted = $event" #debounce />
+        <uni-debounce-input ${argsToTemplate(props)} (valueChange)="lastEmitted = $event" #debounce />
         <div box-layout paddingTop="md">
           <div>Live value: {{ debounce.value() }}</div>
           <div>Debounced value: {{ lastEmitted }}</div>
@@ -33,12 +33,12 @@ const meta: Meta<StoryType> = {
     debounceTime: {
       control: 'number',
       description:
-        'Milliseconds to wait after the last keystroke before emitting `change`. Default: 400.',
+        'Milliseconds to wait after the last keystroke before emitting `valueChange`. Default: 400.',
     },
-    change: {
+    valueChange: {
       description:
         'Emits the input value after the debounce window, only when the value actually changed.',
-      action: 'change',
+      action: 'valueChange',
     },
   },
 };

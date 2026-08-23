@@ -68,19 +68,10 @@ export class UniSnackbarComponent
     effect(() => (this.show() ? this.open() : this.close()));
   }
 
-  /**
-   * Timing for the enter/leave transition. The deprecated `transitionDelay`
-   * wins when a theme still sets it — it is a CSS time string, so `0.35s` and
-   * `350ms` both parse back to milliseconds.
-   */
-  protected readonly motion = computed(() => {
-    const options = this.componentOptions();
-    const token = this.theme.motion(options.motion ?? 'notification');
-    const legacy = options.transitionDelay;
-    if (!legacy) return token;
-    const ms = legacy.trim().endsWith('ms') ? parseFloat(legacy) : parseFloat(legacy) * 1000;
-    return Number.isFinite(ms) ? { ...token, duration: ms } : token;
-  });
+  /** Timing for the enter/leave transition. */
+  protected readonly motion = computed(() =>
+    this.theme.motion(this.componentOptions().motion ?? 'notification')
+  );
 
   protected readonly snackbarClass = computed(() =>
     css({

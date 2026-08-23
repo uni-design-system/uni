@@ -109,15 +109,12 @@ export class UniExpandComponent extends BaseComponent<UniExpandOptions> {
   });
 
   /**
-   * Base speed in seconds, before the size-aware scaling above. The
-   * deprecated `transitionSpeed` option wins when a theme still sets it;
-   * otherwise the `motion` token's duration (ms) converts to seconds.
+   * Base speed in seconds, before the size-aware scaling above: the `motion`
+   * token's duration (ms) converted to seconds.
    */
-  private readonly baseSpeed = computed(() => {
-    const options = this.componentOptions();
-    if (options.transitionSpeed !== undefined) return options.transitionSpeed;
-    return this.theme.motion(options.motion ?? 'reveal').duration / 1000;
-  });
+  private readonly baseSpeed = computed(
+    () => this.theme.motion(this.componentOptions().motion ?? 'reveal').duration / 1000
+  );
 
   /** Curve for the reveal, from the same token as the speed. */
   private readonly easing = computed(

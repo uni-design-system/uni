@@ -34,7 +34,7 @@ import { ThemeService } from '../../theming';
         [trigger]="trigger"
         [placement]="placement()"
         ariaHasPopup="menu"
-        [color]="menuOptions().color"
+        [containerColor]="menuOptions().color"
         [border]="menuOptions().border"
         [borderRadius]="menuOptions().borderRadius"
         [shadow]="menuOptions().shadow"
@@ -102,9 +102,7 @@ export class UniMenuComponent {
 
   protected readonly dividerClassName = computed(() => {
     const { dividerBorder, dividerSpacing } = this.menuOptions();
-    // Read spacing directly: getSpacing('none') yields the string 'none',
-    // which is invalid as a margin and must resolve to 0 instead.
-    const spacing = this.theme.spacing()[dividerSpacing ?? 'none'];
+    const spacing = this.theme.getSpacing(dividerSpacing ?? 'none');
     return css({
       ...this.theme.borderTop(dividerBorder),
       marginBlock: spacing,

@@ -48,11 +48,10 @@ export class UniSearchInputComponent extends BaseComponent<UniSearchInputOptions
    */
   suggestions = input<string[]>([]);
 
-  // TODO(v4): rename to searchChange/searchSubmit — renaming is breaking
-  // eslint-disable-next-line @angular-eslint/no-output-native
-  change = output<string>();
-  // eslint-disable-next-line @angular-eslint/no-output-native
-  search = output<string>();
+  /** The debounced query, emitted as the user types. */
+  searchChange = output<string>();
+  /** A committed search: Enter, or a suggestion chosen from the list. */
+  searchSubmit = output<string>();
   suggestionSelected = output<string>();
 
   protected readonly field = viewChild.required(UniDebounceInputComponent);
@@ -85,7 +84,7 @@ export class UniSearchInputComponent extends BaseComponent<UniSearchInputOptions
   protected handleChange(value: string) {
     this.list.show();
     this.list.setActive(-1);
-    this.change.emit(value);
+    this.searchChange.emit(value);
   }
 
   protected submit() {
@@ -95,14 +94,14 @@ export class UniSearchInputComponent extends BaseComponent<UniSearchInputOptions
       return;
     }
     this.list.hide();
-    this.search.emit(this.field().value() ?? '');
+    this.searchSubmit.emit(this.field().value() ?? '');
   }
 
   protected select(suggestion: string) {
     this.field().value.set(suggestion);
     this.list.hide();
     this.suggestionSelected.emit(suggestion);
-    this.search.emit(suggestion);
+    this.searchSubmit.emit(suggestion);
   }
 
   protected clear() {

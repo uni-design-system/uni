@@ -55,11 +55,4 @@ export interface UniMenuItemOptions {
   /** Named motion primitive for the hover/focus fill. Defaults to `control`;
       omit both this and `transitionSpeed` for no transition at all. */
   motion?: Motion;
-  /**
-   * Hover/focus transition in seconds; 0 switches instantly.
-   *
-   * @deprecated Use `motion` and retime the `control` token instead. Still
-   * honoured when set, and wins over `motion`. Removed next major.
-   */
-  transitionSpeed?: number;
 }

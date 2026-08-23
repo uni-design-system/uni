@@ -1,7 +1,6 @@
 /**
- * The deprecated-option contract, which is the whole backward-compatibility
- * claim of the motion migration: a theme that set `transitionSpeed` before the
- * scale existed must keep its exact timing, not be retimed underneath it.
+ * Timing comes from the `control` motion token: retiming the token retimes the
+ * radio, and a `duration: 0` token is the way to opt out of motion entirely.
  */
 import { TestBed } from '@angular/core/testing';
 import { createTheme, LightTheme } from '@uni-design-system/uni-core';
@@ -53,12 +52,7 @@ describe('UniRadioComponent motion', () => {
     expect(html).toContain('linear');
   });
 
-  it('still honours a theme setting the deprecated transitionSpeed', () => {
-    // Wins over the token, so pre-existing themes are untouched.
-    expect(render({ motion: 'control', transitionSpeed: 0.75 })).toContain('0.75s');
-  });
-
-  it('supports an instant token, the way transitionSpeed: 0 did', () => {
+  it('supports an instant token, for themes that want no motion', () => {
     expect(render({ motion: 'instant' }, { instant: { duration: 0, easing: 'linear' } })).toContain(
       '0s'
     );

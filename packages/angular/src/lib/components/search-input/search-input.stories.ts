@@ -20,10 +20,10 @@ const meta: Meta<StoryType> = {
   argTypes: {
     label: { control: 'text', description: 'Accessible name; placeholder fallback.' },
     placeholder: { control: 'text', description: 'Placeholder override.' },
-    debounceTime: { control: 'number', description: 'Pause before `change` emits. Default: 400ms' },
+    debounceTime: { control: 'number', description: 'Pause before `searchChange` emits. Default: 400ms' },
     suggestions: {
       control: 'object',
-      description: 'Type-ahead entries; refresh them from `change` emissions.',
+      description: 'Type-ahead entries; refresh them from `searchChange` emissions.',
     },
     width: { control: 'text', description: "Field width. Default: '100%'" },
   },
@@ -57,8 +57,8 @@ export const TypeAhead: Story = {
           label="Search the docs"
           [debounceTime]="200"
           [suggestions]="suggestions"
-          (change)="filter($event)"
-          (search)="log($event)"
+          (searchChange)="filter($event)"
+          (searchSubmit)="log($event)"
         ></uni-search-input>
       </div>
     `,

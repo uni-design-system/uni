@@ -46,9 +46,8 @@ export class UniDebounceInputComponent {
   ariaControls = input<string>();
   ariaActivedescendant = input<string>();
 
-  // TODO(v4): rename to valueChange — renaming is breaking
-  // eslint-disable-next-line @angular-eslint/no-output-native
-  change = output<string>();
+  /** The debounced value, emitted once the user pauses typing. */
+  valueChange = output<string>();
 
   value = signal<string | undefined>(undefined);
 
@@ -71,7 +70,7 @@ export class UniDebounceInputComponent {
     this.timeoutId = setTimeout(() => {
       if (value !== this.lastEmitted) {
         this.lastEmitted = value;
-        this.change.emit(value);
+        this.valueChange.emit(value);
       }
     }, this.debounceTime());
   }
@@ -82,7 +81,7 @@ export class UniDebounceInputComponent {
     this.value.set('');
     if (this.lastEmitted !== '') {
       this.lastEmitted = '';
-      this.change.emit('');
+      this.valueChange.emit('');
     }
   }
 

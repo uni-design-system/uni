@@ -39,8 +39,8 @@ const meta: Meta<StoryType> = {
       description:
         "A container color pair from the theme: the named surface plus its paired on-color. Not `color` — that name belongs to `uni-text`, which maps it to the CSS property.",
     },
-    elevation: {
-      description: "Applies a box shadow based on the theme's elevation levels.",
+    shadow: {
+      description: "Applies a named elevation shadow from the theme's shadow scale.",
       control: {
         type: 'select',
         labels: {

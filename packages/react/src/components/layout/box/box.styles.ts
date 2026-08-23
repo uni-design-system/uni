@@ -73,8 +73,6 @@ export interface BoxStyleProps {
   gridColumn?: string;
   gridRow?: string;
   overflow?: OptionalOverflow;
-  /** @deprecated Use `shadow`. */
-  elevation?: Shadow;
   shadow?: Shadow;
   gap?: OptionalSize;
   fullWidth?: boolean;
@@ -129,7 +127,6 @@ export const BOX_STYLE_PROP_KEYS = [
   'gridColumn',
   'gridRow',
   'overflow',
-  'elevation',
   'shadow',
   'gap',
   'fullWidth',
@@ -196,7 +193,6 @@ export function boxClassName(props: BoxStyleProps, styles: ThemeStyles): string 
       ...styles.paddingRight(props.paddingRight),
       ...styles.paddingTop(props.paddingTop),
       ...styles.paddingBottom(props.paddingBottom),
-      ...styles.boxShadow(props.elevation),
       ...styles.boxShadow(props.shadow),
       ...styles.radius(props.borderRadius),
       ...styles.getRadiusLeft(props.borderRadiusLeft),

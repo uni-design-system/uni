@@ -26,7 +26,7 @@ describe('UniDebounceInputComponent', () => {
 
   it('emits once after the pause, not per keystroke', () => {
     const emissions: string[] = [];
-    fixture.componentInstance.change.subscribe((v) => emissions.push(v));
+    fixture.componentInstance.valueChange.subscribe((v) => emissions.push(v));
 
     for (const value of ['o', 'ok', 'okl']) {
       inputEl().value = value;
@@ -40,7 +40,7 @@ describe('UniDebounceInputComponent', () => {
 
   it('clear() cancels pending emits and emits an empty value immediately', () => {
     const emissions: string[] = [];
-    fixture.componentInstance.change.subscribe((v) => emissions.push(v));
+    fixture.componentInstance.valueChange.subscribe((v) => emissions.push(v));
 
     inputEl().value = 'draft';
     inputEl().dispatchEvent(new Event('input'));
