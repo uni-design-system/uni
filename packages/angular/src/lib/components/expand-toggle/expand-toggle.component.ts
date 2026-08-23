@@ -1,6 +1,5 @@
 import { ChangeDetectionStrategy, Component, computed, inject, input, model } from '@angular/core';
 import { css } from '@emotion/css';
-import { EXPAND_DEFAULT_SPEED } from '@uni-design-system/uni-core';
 import { motionSafe } from '../../cdk';
 import { ThemeService } from '../../theming';
 import type { UniExpandOptions } from '../expand/expand.model';
@@ -75,12 +74,20 @@ export class UniExpandToggleComponent {
    */
   transitionSpeed = input<number>();
 
-  /** Fallback clock when no `transitionSpeed` is bound: the `expand` theme options' `transitionSpeed`. */
-  private readonly expandOptions = inject(ThemeService).getComponentOptions<UniExpandOptions>('expand');
+  /** Fallback clock when no `transitionSpeed` is bound: the `expand` entry's
+      motion token — the same one the region itself reads. */
+  private readonly themeService = inject(ThemeService);
+  private readonly expandOptions =
+    this.themeService.getComponentOptions<UniExpandOptions>('expand');
 
-  private readonly speed = computed(
-    () => this.transitionSpeed() ?? this.expandOptions().transitionSpeed ?? EXPAND_DEFAULT_SPEED,
-  );
+  private readonly speed = computed(() => {
+    const override = this.transitionSpeed();
+    if (override !== undefined) return override;
+    const options = this.expandOptions();
+    // Same order uni-expand uses, so the chevron and the region never drift.
+    if (options.transitionSpeed !== undefined) return options.transitionSpeed;
+    return this.themeService.motion(options.motion ?? 'reveal').duration / 1000;
+  });
 
   /**
    * The glyph rotates, never the host.

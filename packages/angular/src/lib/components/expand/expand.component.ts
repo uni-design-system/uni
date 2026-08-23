@@ -13,7 +13,6 @@ import {
 import { css, keyframes } from '@emotion/css';
 import {
   collapseFadeOut,
-  EXPAND_DEFAULT_SPEED,
   expandDuration,
   expandFadeIn,
 } from '@uni-design-system/uni-core';
@@ -28,8 +27,8 @@ import type { UniExpandOptions } from './expand.model';
   providers: [{ provide: COMPONENT_NAME, useValue: 'expand' }],
   template: `@if (!collapsed()) {
     <div
-      [animate.enter]="ready() ? expandAnimation : ''"
-      [animate.leave]="collapseAnimation"
+      [animate.enter]="ready() ? expandAnimation() : ''"
+      [animate.leave]="collapseAnimation()"
       [class]="expandClassName"
       [style.animation-duration]="cssDuration()"
     >
@@ -104,10 +103,26 @@ export class UniExpandComponent extends BaseComponent<UniExpandOptions> {
   readonly duration = computed(() => {
     const override = this.transitionSpeed();
     if (override !== undefined) return override;
-    const speed = this.componentOptions().transitionSpeed ?? EXPAND_DEFAULT_SPEED;
     const height = this.contentHeight();
+    const speed = this.baseSpeed();
     return height === undefined ? speed : expandDuration(height, speed);
   });
+
+  /**
+   * Base speed in seconds, before the size-aware scaling above. The
+   * deprecated `transitionSpeed` option wins when a theme still sets it;
+   * otherwise the `motion` token's duration (ms) converts to seconds.
+   */
+  private readonly baseSpeed = computed(() => {
+    const options = this.componentOptions();
+    if (options.transitionSpeed !== undefined) return options.transitionSpeed;
+    return this.theme.motion(options.motion ?? 'reveal').duration / 1000;
+  });
+
+  /** Curve for the reveal, from the same token as the speed. */
+  private readonly easing = computed(
+    () => this.theme.motion(this.componentOptions().motion ?? 'reveal').easing
+  );
 
   protected readonly cssDuration = computed(() => `${this.duration()}s`);
 
@@ -146,17 +161,21 @@ export class UniExpandComponent extends BaseComponent<UniExpandOptions> {
    * `duration`, so the classes stay static while timing tracks the theme and
    * the content's size through signals alone.
    */
-  expandAnimation = css(
-    motionSafe({
-      overflow: 'hidden',
-      animation: `${this.expand} ease-in-out ${EXPAND_DEFAULT_SPEED}s`,
-    }),
+  expandAnimation = computed(() =>
+    css(
+      motionSafe({
+        overflow: 'hidden',
+        animation: `${this.expand} ${this.easing()} ${this.baseSpeed()}s`,
+      }),
+    ),
   );
 
-  collapseAnimation = css(
-    motionSafe({
-      overflow: 'hidden',
-      animation: `${this.collapse} ease-in-out ${EXPAND_DEFAULT_SPEED}s`,
-    }),
+  collapseAnimation = computed(() =>
+    css(
+      motionSafe({
+        overflow: 'hidden',
+        animation: `${this.collapse} ${this.easing()} ${this.baseSpeed()}s`,
+      }),
+    ),
   );
 }

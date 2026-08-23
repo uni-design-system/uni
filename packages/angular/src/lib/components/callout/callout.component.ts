@@ -224,7 +224,7 @@ export class UniCalloutComponent extends BaseComponent<UniCalloutOptions> {
       if (target) clearAnchorName(target);
       this.activeTarget.set(null);
       this.scrimContent.set(false);
-    }, this.componentOptions().transitionMs);
+    }, this.motion().duration);
 
     // The duet loop may have sent the user into the target on purpose — don't
     // yank them back out of it.
@@ -344,8 +344,21 @@ export class UniCalloutComponent extends BaseComponent<UniCalloutOptions> {
     });
   });
 
-  protected readonly scrimClassName = computed(() => {
+  /**
+   * Timing for the open/close fade and the teardown that follows it. The
+   * deprecated `transitionMs` wins when a theme still sets it, so existing
+   * themes keep their timing; otherwise the `motion` token decides.
+   */
+  private readonly motion = computed(() => {
     const options = this.componentOptions();
+    const token = this.theme.motion(options.motion ?? 'panel');
+    return options.transitionMs === undefined
+      ? token
+      : { ...token, duration: options.transitionMs };
+  });
+
+  protected readonly scrimClassName = computed(() => {
+    const motion = this.motion();
     return css({
       position: 'fixed',
       inset: 0,
@@ -358,7 +371,7 @@ export class UniCalloutComponent extends BaseComponent<UniCalloutOptions> {
       overflow: 'visible',
       pointerEvents: 'none',
       '& > *': { position: 'fixed' },
-      ...discreteOverlayTransition(options.transitionMs, { opacity: 0 }, { opacity: 1 }),
+      ...discreteOverlayTransition(motion.duration, { opacity: 0 }, { opacity: 1 }, motion.easing),
     });
   });
 
@@ -388,6 +401,7 @@ export class UniCalloutComponent extends BaseComponent<UniCalloutOptions> {
 
   protected readonly panelClassName = computed(() => {
     const options = this.componentOptions();
+    const motion = this.motion();
     const anchored = this.activeTarget() !== null;
     return css({
       ...this.theme.colorPair(options.color),
@@ -407,9 +421,10 @@ export class UniCalloutComponent extends BaseComponent<UniCalloutOptions> {
           })
         : {}),
       ...discreteOverlayTransition(
-        options.transitionMs,
+        motion.duration,
         { opacity: 0, translate: '0 6px' },
-        { opacity: 1, translate: '0 0' }
+        { opacity: 1, translate: '0 0' },
+        motion.easing
       ),
     });
   });

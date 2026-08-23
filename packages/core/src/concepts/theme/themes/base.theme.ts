@@ -158,9 +158,10 @@ const BaseSpacing: Spacing = {
 const BaseThicknesses: Thicknesses = { thin: 1, standard: 2, thick: 4 };
 
 /**
- * Shared overlay timing. Two tokens, because two things actually move
- * differently: a small panel attached to a control snaps (`popup`), while a
- * larger free-floating surface settles (`panel`).
+ * Shared motion timing. Three tokens, because three things actually move
+ * differently: a small panel attached to a control snaps (`popup`), a larger
+ * free-floating surface settles (`panel`), and content growing in place needs
+ * a curve that eases at both ends (`reveal`).
  *
  * Fast and linear is deliberate for `popup`. It is the timing every
  * trigger-anchored panel in the library uses — dropdown, menu, multi-select
@@ -171,6 +172,10 @@ const BaseThicknesses: Thicknesses = { thin: 1, standard: 2, thick: 4 };
 const BaseMotion: Motions = {
   popup: { duration: 100, easing: 'linear', scale: 0.8 },
   panel: { duration: 250, easing: 'ease' },
+  // The base speed for a reveal, not its final duration: uni-expand scales
+  // this by content height (see `expandDuration`) so perceived speed stays
+  // even across short and tall regions.
+  reveal: { duration: 350, easing: 'ease-in-out' },
 };
 
 const BaseRadii: Radii = {
@@ -422,11 +427,11 @@ const buildComponents = (c: Colors): ComponentThemes => ({
       motion: 'panel',
     },
   },
-  // Base reveal/collapse duration (seconds, matching alert/card
-  // `transitionSpeed`) at a 240px-tall region; actual duration scales with
-  // content height (√-of-height, clamped ~0.15–0.6s at this speed — see
-  // `expandDuration`). The toggle's chevron rotation shares the clock.
-  expand: { options: { transitionSpeed: 0.35 } },
+  // The `reveal` token's duration is the base speed at a 240px-tall region;
+  // the actual duration scales with content height (√-of-height, clamped
+  // ~0.15–0.6s at this speed — see `expandDuration`). The toggle's chevron
+  // rotation shares the clock.
+  expand: { options: { motion: 'reveal' } },
   footer: { options: { height: 52, color: 'primary', logoHeight: 18.6, logoPadding: 'md' } },
   input: {
     options: {
@@ -862,7 +867,7 @@ const buildComponents = (c: Colors): ComponentThemes => ({
       spotlightPadding: 6,
       spotlightRadius: 'xs',
       ringWidth: 2,
-      transitionMs: 250,
+      motion: 'panel',
     },
   },
   // Panel chrome, scrim and spotlight all come from the `callout` entry; the

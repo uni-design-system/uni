@@ -116,10 +116,16 @@ one edit rather than a hunt through components.
 Two tokens, because two things genuinely move differently — a small panel
 attached to a control snaps, a larger free-floating surface settles:
 
-| Token   | Default              | Used by                                              |
-| ------- | -------------------- | ---------------------------------------------------- |
-| `popup` | 100ms linear, ×0.8   | dropdown, menu, multi-select, combobox, search-input, tag-input, time-input |
-| `panel` | 250ms ease           | popover                                              |
+| Token    | Default              | Used by                                             |
+| -------- | -------------------- | --------------------------------------------------- |
+| `popup`  | 100ms linear, ×0.8   | dropdown, menu, multi-select, combobox, search-input, tag-input, time-input |
+| `panel`  | 250ms ease           | popover, callout                                    |
+| `reveal` | 350ms ease-in-out    | expand, expand-toggle                               |
+
+`reveal` is a *base* speed rather than a final duration: `uni-expand` scales it
+by content height (√-of-height, clamped) so a short region stays snappy and a
+tall one isn't rushed, and `uni-expand-toggle` reads the same token so the
+chevron turns on the region's clock.
 
 A token carries `duration` (ms), `easing` (any CSS easing function) and an
 optional `scale` for panels that grow into place. Slow every popup down, and
@@ -137,6 +143,11 @@ createTheme({
 Tokens you don't restate keep their base values, and components may point at
 a token of their own — `components.dropdown.options.motion` — so one panel can
 differ without forking the scale.
+
+`callout` and `expand` previously carried their own `transitionMs` and
+`transitionSpeed` options. Both still work and still win over the token, so a
+theme that set them keeps its exact timing; they are deprecated and go away
+next major.
 
 Motion is always behind `prefers-reduced-motion` where a component applies it
 through `motionSafe`: a theme sets how things move for people who want

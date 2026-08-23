@@ -1,4 +1,5 @@
 import type {
+  Motion,
   ContainerColorToken,
   Radius,
   Shadow,
@@ -36,5 +37,14 @@ export interface UniCalloutOptions {
   spotlightRadius: Radius;
   /** Spotlight ring width, px. */
   ringWidth: number;
-  transitionMs: number;
+  /**
+   * Named motion primitive for the open/close fade. Defaults to `panel`.
+   */
+  motion?: Motion;
+  /**
+   * @deprecated Use `motion` and retime the token instead — one edit covers
+   * every panel rather than this one. Still honoured when set, and wins over
+   * `motion` so existing themes are unaffected. Removed next major.
+   */
+  transitionMs?: number;
 }

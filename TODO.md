@@ -152,13 +152,23 @@ audits: `packages/angular/TODO.md` (v4 audit) and `uni-theme-generation-plan.md`
       validator doesn't require it and `createTheme` fills it in, so nothing
       breaks. Defaults preserve every current timing exactly (verified in
       browser). `motionSafe` remains the floor.
-- [ ] **Fold the remaining motion options into the `motion` scale** — `callout`
-      still has `transitionMs`, and `expand`/`skeleton`/`alert` carry their own
-      `duration`/`transitionSpeed` in seconds. They predate the scale and each
-      invented a different unit and name. Migrating them is a breaking option
-      change per component, so batch it with a major; `expand`'s duration also
-      scales with content height, so it needs a token *plus* its curve rather
-      than a straight swap.
+- [x] ~~Fold callout and expand into the `motion` scale~~ — done 2026-08-23.
+      Not breaking after all: following the `typeFace` → `typeface` precedent,
+      `transitionMs`/`transitionSpeed` stay as deprecated options that
+      *outrank* the token, so a theme that set them keeps its exact timing
+      (removed next major). `callout` maps to `panel` (its 250ms already
+      matched); `expand` gets a new `reveal` token whose duration is the base
+      speed for the existing √-of-height scaling and whose easing replaces the
+      hardcoded `ease-in-out`. `uni-expand-toggle` resolves it identically so
+      the chevron can't drift from the region. Defaults verified unchanged in
+      browser.
+- [ ] **`skeleton` and `alert`/`card` motion options** — the last holdouts:
+      `skeleton.duration` (shimmer sweep, seconds) and the `transitionSpeed`
+      shared by `alert`/`card`. Neither is an overlay or a reveal, so both
+      want new tokens rather than `popup`/`panel`/`reveal` — a shimmer is a
+      *loop*, not a transition, so it may not belong in this scale at all.
+      Decide that before migrating; the deprecated-alias route above makes it
+      non-breaking whenever it happens.
 - [ ] JSDoc coverage on public inputs/outputs — ongoing; feeds `llms.txt` and MCP
       summaries (empty where class JSDoc is missing).
 - [ ] **uni-symbol → uni-icon migration** (rule established 2026-08-21, AGENTS.md
