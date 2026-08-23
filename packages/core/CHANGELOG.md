@@ -1,5 +1,124 @@
 # @uni-design-system/uni-core
 
+## 8.4.0
+
+### Minor Changes
+
+- [`1aca747`](https://github.com/uni-design-system/uni/commit/1aca747c7bdff6cf72a9fa349e77a6e7985b97c7) Thanks [@gaenglish](https://github.com/gaenglish)! - `uni-callout` and `uni-expand` now read their timing from the theme's `motion`
+  scale, so every animated surface in the library is retimed from one place.
+  They were the last two carrying their own motion options — in different units,
+  under different names (`transitionMs` in milliseconds, `transitionSpeed` in
+  seconds).
+
+  A third token joins `popup` and `panel`:
+
+  | Token    | Default           | Used by               |
+  | -------- | ----------------- | --------------------- |
+  | `reveal` | 350ms ease-in-out | expand, expand-toggle |
+
+  `reveal` is a _base_ speed, not a final duration: `uni-expand` still scales it
+  by content height (√-of-height, clamped) so short regions stay snappy and tall
+  ones aren't rushed, and its easing now drives the reveal curve, which was
+  hardcoded. `uni-expand-toggle` resolves the token the same way, so the chevron
+  and the region cannot drift apart. `uni-callout` maps onto `panel`, whose
+  250ms matches what it already used.
+
+  **Not breaking.** `transitionMs` and `transitionSpeed` are deprecated but
+  still honoured, and deliberately outrank `motion` — a theme that set either
+  keeps precisely its current timing rather than being retimed underneath it.
+  They are removed next major. Per-instance inputs, like `uni-expand`'s
+  `transitionSpeed`, still outrank everything.
+
+  Nothing moves differently by default: callout renders 0.25s ease and expand
+  0.35s ease-in-out exactly as before, verified against the rendered styles.
+
+- [`6f76c1d`](https://github.com/uni-design-system/uni/commit/6f76c1d3cc1ba2ed5e2747b6d2142d16cb4f537b) Thanks [@gaenglish](https://github.com/gaenglish)! - `uni-alert`, `uni-snackbar`, `uni-radio` and `uni-menu-item` now read their
+  timing from the theme's `motion` scale, which completes the migration: every
+  animated component in the library is retimed from one place.
+
+  Two tokens join `popup`, `panel` and `reveal`:
+
+  | Token          | Default           | Used by          |
+  | -------------- | ----------------- | ---------------- |
+  | `notification` | 350ms ease-in-out | alert, snackbar  |
+  | `control`      | 300ms ease        | radio, menu-item |
+
+  **One thing moves differently:** `menu-item`'s hover transition goes from
+  0.35s to 0.3s, joining `radio` on the shared `control` token. The two were
+  never deliberately different — `radio`'s own option documented its 0.3 as
+  "matching menuItem", which was not true — so this corrects drift rather than
+  changing a decision. A theme that wants the old timing can set the deprecated
+  `transitionSpeed`, or retime `control`. Everything else is byte-identical,
+  verified against the rendered styles.
+
+  **Deprecated, still honoured, removed next major:**
+  `alert.transitionSpeed`, `snackbar.transitionDelay`, `radio.transitionSpeed`
+  and `menuItem.transitionSpeed` all still work and still outrank `motion`, so a
+  theme that set them keeps its exact timing. `menu-item`'s escape hatch is
+  intact too: with neither the option nor a token set it still renders no
+  transition at all, and a token with `duration: 0` is the way to ask for
+  instant now.
+
+  `card.transitionSpeed` and `input-box.transitionSpeed` are also deprecated,
+  for a different reason: **neither was ever read by its component.** Setting
+  them has never had any effect. They are removed next major and nothing needs
+  to replace them.
+
+  `uni-skeleton` is deliberately left out. Its shimmer is a loop rather than a
+  transition, and folding a repeating animation into a scale built around
+  entering and leaving would make the scale mean two different things.
+
+- [`228c17f`](https://github.com/uni-design-system/uni/commit/228c17f9fb7a4e4eb8d6a9cd0a6301d02ddd3dd3) Thanks [@gaenglish](https://github.com/gaenglish)! - `uni-skeleton` picks up the knobs an app theme could not reach. `color`, `highlightColor` and `borderRadius` are now inputs that take a token name and fall back to the theme option, because one screen routinely needs several of each — text bars and a pill chip do not share a corner (`borderRadius="max"`), and a skeleton on a card wants a different tint than one on the page background.
+
+  The shimmer is now a band swept with `transform` rather than an animated `background-position`: it composites instead of repainting every frame, and its geometry is themeable via two new options, `direction` (`'ltr' | 'rtl'`, default `'ltr'` — the sweep previously ran right-to-left) and `highlightWidth` (band width as a percentage of the block, default `40`). Both ends of the band are the base color, so it dissolves into the block with no alpha and no fringing.
+
+  A new `label` input announces a standalone skeleton: set it and the host becomes `role="status"` with visually hidden text instead of `aria-hidden="true"`. Unlabelled skeletons stay `aria-hidden`, so container-level `aria-busy` patterns are unchanged.
+
+- [`3b51ace`](https://github.com/uni-design-system/uni/commit/3b51acee92659526c1c8c91668b37db8c5933162) Thanks [@gaenglish](https://github.com/gaenglish)! - Overlay timing is now a theme token. `UniTheme` gains a `motion` scale
+  alongside `radii`, `shadows` and the rest, and the overlays point at it by
+  name instead of carrying their own hardcoded durations.
+
+  Until now a theme could slow a skeleton shimmer but not a dropdown: `expand`,
+  `skeleton` and `callout` each exposed their own motion option while
+  `uni-dropdown` hardcoded 100ms and the combobox-style listbox popups copied
+  that constant. Retiming the library meant editing components.
+
+  Two tokens ship, because two things genuinely move differently — a small panel
+  attached to a control snaps, a larger free-floating surface settles:
+
+  | Token   | Default            | Used by                                                                     |
+  | ------- | ------------------ | --------------------------------------------------------------------------- |
+  | `popup` | 100ms linear, ×0.8 | dropdown, menu, multi-select, combobox, search-input, tag-input, time-input |
+  | `panel` | 250ms ease         | popover                                                                     |
+
+  A token carries `duration` (ms), `easing`, and an optional `scale` for panels
+  that grow into place — one token rather than separate duration and easing
+  scales, because they are one design decision: slowing a panel without
+  softening its curve reads as sluggish rather than calm.
+
+  ```ts
+  createTheme({
+    id: 'Calm',
+    name: 'Calm',
+    colors,
+    motion: { popup: { duration: 240, easing: 'ease-out', scale: 0.95 } },
+  });
+  ```
+
+  Tokens you don't restate keep their base values, and a component can still
+  point at a token of its own through its `motion` option.
+
+  Nothing moves differently by default — every current duration, easing and
+  scale is preserved exactly, verified against the rendered styles. Themes that
+  predate the scale keep working: `createTheme` fills it in, the validator does
+  not require it, and a theme registered as JSON without it resolves to the base
+  timing rather than failing. `motionSafe` remains the floor, so a theme decides
+  how overlays move for people who want movement, never whether they move at
+  all.
+
+  `callout`'s existing `transitionMs` option and the `expand`/`skeleton`
+  durations are untouched for now; folding them into this scale is a follow-up.
+
 ## 8.3.1
 
 ## 8.3.0

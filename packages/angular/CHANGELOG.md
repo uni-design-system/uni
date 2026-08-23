@@ -1,5 +1,282 @@
 # @uni-design-system/uni-angular
 
+## 8.4.0
+
+### Minor Changes
+
+- [`1aca747`](https://github.com/uni-design-system/uni/commit/1aca747c7bdff6cf72a9fa349e77a6e7985b97c7) Thanks [@gaenglish](https://github.com/gaenglish)! - `uni-callout` and `uni-expand` now read their timing from the theme's `motion`
+  scale, so every animated surface in the library is retimed from one place.
+  They were the last two carrying their own motion options — in different units,
+  under different names (`transitionMs` in milliseconds, `transitionSpeed` in
+  seconds).
+
+  A third token joins `popup` and `panel`:
+
+  | Token    | Default           | Used by               |
+  | -------- | ----------------- | --------------------- |
+  | `reveal` | 350ms ease-in-out | expand, expand-toggle |
+
+  `reveal` is a _base_ speed, not a final duration: `uni-expand` still scales it
+  by content height (√-of-height, clamped) so short regions stay snappy and tall
+  ones aren't rushed, and its easing now drives the reveal curve, which was
+  hardcoded. `uni-expand-toggle` resolves the token the same way, so the chevron
+  and the region cannot drift apart. `uni-callout` maps onto `panel`, whose
+  250ms matches what it already used.
+
+  **Not breaking.** `transitionMs` and `transitionSpeed` are deprecated but
+  still honoured, and deliberately outrank `motion` — a theme that set either
+  keeps precisely its current timing rather than being retimed underneath it.
+  They are removed next major. Per-instance inputs, like `uni-expand`'s
+  `transitionSpeed`, still outrank everything.
+
+  Nothing moves differently by default: callout renders 0.25s ease and expand
+  0.35s ease-in-out exactly as before, verified against the rendered styles.
+
+- [`e459f91`](https://github.com/uni-design-system/uni/commit/e459f916e6f097041d04c8209e896b8fd7d11362) Thanks [@gaenglish](https://github.com/gaenglish)! - New `createAnnouncer()` in the CDK's a11y helpers: the polite live region a
+  form control uses for its running commentary — commits, clears, refused
+  entries, result counts — changes a sighted user sees but that are otherwise
+  silent to a screen reader.
+
+  `uni-combobox`, `uni-tag-input`, `uni-time-input`, `uni-date-input`,
+  `uni-calendar` and `uni-tour` now share it instead of carrying byte-identical
+  copies. The helper holds no DOM and no styling: the `role="status"` element
+  stays in each component's own template, where its placement and
+  visually-hidden class already belong.
+
+  This fixes a real bug in `uni-tour`, which had a plain signal rather than a
+  copy of the shared idiom. Assistive tech reads a live region when its content
+  _changes_, so writing the identical string is a no-op — its "Next available"
+  gate message was announced on the first step that used it and silently dropped
+  on every later one. `createAnnouncer` breaks the equality with a trailing
+  space, inaudible to a screen reader, alternating between the two forms so
+  nothing accumulates.
+
+  Consuming the helper directly:
+
+  ```ts
+  protected readonly announcer = createAnnouncer();
+  // this.announcer.announce('Alabama selected.');
+  ```
+
+  ```html
+  <span role="status" aria-live="polite" [class]="srOnly"> {{ announcer.message() }} </span>
+  ```
+
+  The region must already be in the DOM when the component renders — one added
+  at the moment it gains text is not reliably announced.
+
+- [`6e2cfb1`](https://github.com/uni-design-system/uni/commit/6e2cfb1f9bfd82c7165e2a853b1729abdda5194a) Thanks [@gaenglish](https://github.com/gaenglish)! - Home and End now move the caret in the combobox-style controls —
+  `uni-combobox`, `uni-search-input`, `uni-tag-input` — instead of jumping to
+  the ends of the suggestion list. APG reserves those keys for text editing in
+  an editable combobox, and a field that claims them makes its own text
+  un-navigable exactly when you are most likely to be editing it: with the list
+  open. `uni-time-input` already behaved this way.
+
+  Nothing is lost. ArrowUp on a closed list already opens it on the last option,
+  ArrowDown on the first, and navigation wraps at both ends, so every position
+  Home/End reached is still one keystroke away.
+
+  `uni-multi-select-dropdown` keeps them: its roving focus rides the option
+  checkboxes rather than a text field, so there is no caret with a better claim.
+
+  `ListboxNavigation` carries the switch as `homeEndNavigates`, defaulting to
+  false — off is the right default for a control built around a text input,
+  which is every consumer but one. If you build on the CDK helper directly and
+  want the old behavior, pass `homeEndNavigates: true`.
+
+  This also fixes a sharper bug in `uni-search-input` and `uni-tag-input`, where
+  Home/End reached the navigation helper unconditionally: pressing either not
+  only moved the active option but _opened a closed suggestion list_.
+
+- [`dd33baa`](https://github.com/uni-design-system/uni/commit/dd33baa821922f257980cc3543dcac0ba118a0c3) Thanks [@gaenglish](https://github.com/gaenglish)! - The four listbox popups — `uni-search-input`, `uni-tag-input`,
+  `uni-time-input` and `uni-combobox` — now render in the browser's top layer,
+  anchored to their field, instead of as absolutely-positioned children of it.
+  Put any of them inside a card, a table cell, a scroll area or a dialog and the
+  suggestion list is no longer clipped by that ancestor's `overflow`. The browser
+  tracks the field natively, so the list follows on scroll and resize with no
+  listeners, and flips above the field near the bottom of the viewport.
+
+  They also open the way `uni-dropdown` does now — the same 100 ms scale-and-fade
+  — so every popup panel in the library animates alike instead of the listboxes
+  alone snapping into place. The origin is measured from where the popup actually
+  opened, so one that flips above its field near the bottom of the viewport still
+  grows out of the edge it is attached to. Under `prefers-reduced-motion` there is
+  no transition at all.
+
+  Nothing changes in the components' APIs or in how they dismiss. The popups use
+  `popover="manual"`, not `auto`: these controls already own dismissal through
+  focusout, Escape and commit, and `auto`'s light-dismiss fires on pointerdown
+  outside the popup — which includes their own input, so it would close the list
+  on every click into the field.
+
+  Positioning is gated on CSS anchor positioning support, checked together with
+  the top layer rather than separately. Browsers that have `popover` but not
+  anchors — Safari 17 through 25 — keep the previous in-flow popup, which still
+  clips inside `overflow: hidden` ancestors but stays on its field; promoting it
+  there would strand the list a viewport height down the page, since a top-layer
+  element has no positioned ancestor to resolve against.
+
+  Shared plumbing lives in `components/forms/listbox-popup.ts` alongside
+  `listboxPopupStyles()`, which grew an optional `anchor` and now emits the
+  in-flow rules as the base with the anchored ones in an `@supports` block.
+
+- [`2910c67`](https://github.com/uni-design-system/uni/commit/2910c67c9ac0c5b47be7f67c4407514aa22a4f60) Thanks [@gaenglish](https://github.com/gaenglish)! - `Option.disabled` now works in the three remaining `Options<T>` consumers, not
+  just `uni-combobox`: `uni-select`, `uni-multi-select-dropdown` and
+  `uni-multi-select`. Marking an individual choice `disabled` shows it without
+  offering it — the plan that needs an upgrade, the channel that needs a verified
+  phone number — instead of dropping it from the array and leaving the list
+  lying about what exists.
+
+  `uni-select` passes it to the native `<option>`, so the platform handles
+  skipping, greying and announcement. The two multi-selects disable the option's
+  checkbox and refuse the toggle even when called directly. In
+  `uni-multi-select-dropdown` the arrow keys step over disabled rows and Home/End
+  land on the nearest enabled option — `ListboxNavigation` already knew how, it
+  just was not being told which rows were disabled — so focus never parks on a
+  checkbox that cannot take it.
+
+  `selectAll()` on both multi-selects now selects only enabled options. A
+  disabled option is not committable, so nothing may commit one on the user's
+  behalf; `deselectAll()` still clears everything. If you relied on `selectAll()`
+  returning every value including disabled ones, note that only options you have
+  explicitly marked `disabled` are affected. Whole-field `disabled` is unchanged
+  and still disables the entire control.
+
+- [`6f76c1d`](https://github.com/uni-design-system/uni/commit/6f76c1d3cc1ba2ed5e2747b6d2142d16cb4f537b) Thanks [@gaenglish](https://github.com/gaenglish)! - `uni-alert`, `uni-snackbar`, `uni-radio` and `uni-menu-item` now read their
+  timing from the theme's `motion` scale, which completes the migration: every
+  animated component in the library is retimed from one place.
+
+  Two tokens join `popup`, `panel` and `reveal`:
+
+  | Token          | Default           | Used by          |
+  | -------------- | ----------------- | ---------------- |
+  | `notification` | 350ms ease-in-out | alert, snackbar  |
+  | `control`      | 300ms ease        | radio, menu-item |
+
+  **One thing moves differently:** `menu-item`'s hover transition goes from
+  0.35s to 0.3s, joining `radio` on the shared `control` token. The two were
+  never deliberately different — `radio`'s own option documented its 0.3 as
+  "matching menuItem", which was not true — so this corrects drift rather than
+  changing a decision. A theme that wants the old timing can set the deprecated
+  `transitionSpeed`, or retime `control`. Everything else is byte-identical,
+  verified against the rendered styles.
+
+  **Deprecated, still honoured, removed next major:**
+  `alert.transitionSpeed`, `snackbar.transitionDelay`, `radio.transitionSpeed`
+  and `menuItem.transitionSpeed` all still work and still outrank `motion`, so a
+  theme that set them keeps its exact timing. `menu-item`'s escape hatch is
+  intact too: with neither the option nor a token set it still renders no
+  transition at all, and a token with `duration: 0` is the way to ask for
+  instant now.
+
+  `card.transitionSpeed` and `input-box.transitionSpeed` are also deprecated,
+  for a different reason: **neither was ever read by its component.** Setting
+  them has never had any effect. They are removed next major and nothing needs
+  to replace them.
+
+  `uni-skeleton` is deliberately left out. Its shimmer is a loop rather than a
+  transition, and folding a repeating animation into a scale built around
+  entering and leaving would make the scale mean two different things.
+
+- [`228c17f`](https://github.com/uni-design-system/uni/commit/228c17f9fb7a4e4eb8d6a9cd0a6301d02ddd3dd3) Thanks [@gaenglish](https://github.com/gaenglish)! - `uni-skeleton` picks up the knobs an app theme could not reach. `color`, `highlightColor` and `borderRadius` are now inputs that take a token name and fall back to the theme option, because one screen routinely needs several of each — text bars and a pill chip do not share a corner (`borderRadius="max"`), and a skeleton on a card wants a different tint than one on the page background.
+
+  The shimmer is now a band swept with `transform` rather than an animated `background-position`: it composites instead of repainting every frame, and its geometry is themeable via two new options, `direction` (`'ltr' | 'rtl'`, default `'ltr'` — the sweep previously ran right-to-left) and `highlightWidth` (band width as a percentage of the block, default `40`). Both ends of the band are the base color, so it dissolves into the block with no alpha and no fringing.
+
+  A new `label` input announces a standalone skeleton: set it and the host becomes `role="status"` with visually hidden text instead of `aria-hidden="true"`. Unlabelled skeletons stay `aria-hidden`, so container-level `aria-busy` patterns are unchanged.
+
+- [`eb795a3`](https://github.com/uni-design-system/uni/commit/eb795a3874c4642e571651dfdebd1a392d62d5ab) Thanks [@gaenglish](https://github.com/gaenglish)! - `uni-snackbar` now renders in the browser's top layer, so it can no longer be
+  covered by a high `z-index` or clipped by an `overflow: hidden` or transformed
+  ancestor. It was the last overlay in the library still competing on stacking
+  order: a `<dialog>` opened with `.show()`, which is the _non-modal_ form and
+  never enters the top layer, left it relying on `zIndex: Z_INDEX.dialog`. That
+  held only because apps mount the bar near the root — anywhere else, a
+  confirmation of what just happened could be silently buried.
+
+  The bar is now a `popover="manual"`. Manual rather than auto because a
+  snackbar must not light-dismiss: a click anywhere else on the page would tear
+  it away from someone still reading it. It is not `showModal()` either — that
+  would make the rest of the page inert to announce a transient message.
+
+  `role="status"`, the auto-close timer, its pause-on-hover and pause-on-focus
+  behaviour, the entry and exit animations, and the `[(show)]` / `open()` /
+  `close()` API are all unchanged.
+
+  The element behind the component changed from `<dialog>` to `<div>`: the bar
+  is never modal, and `<dialog>`'s `open` attribute would have been a second,
+  competing notion of "shown" alongside the popover's own state. Styles that
+  reach inside the component to target `uni-snackbar dialog` need updating —
+  `uni-snackbar [role="status"]` is the stable selector.
+
+- [`3b51ace`](https://github.com/uni-design-system/uni/commit/3b51acee92659526c1c8c91668b37db8c5933162) Thanks [@gaenglish](https://github.com/gaenglish)! - Overlay timing is now a theme token. `UniTheme` gains a `motion` scale
+  alongside `radii`, `shadows` and the rest, and the overlays point at it by
+  name instead of carrying their own hardcoded durations.
+
+  Until now a theme could slow a skeleton shimmer but not a dropdown: `expand`,
+  `skeleton` and `callout` each exposed their own motion option while
+  `uni-dropdown` hardcoded 100ms and the combobox-style listbox popups copied
+  that constant. Retiming the library meant editing components.
+
+  Two tokens ship, because two things genuinely move differently — a small panel
+  attached to a control snaps, a larger free-floating surface settles:
+
+  | Token   | Default            | Used by                                                                     |
+  | ------- | ------------------ | --------------------------------------------------------------------------- |
+  | `popup` | 100ms linear, ×0.8 | dropdown, menu, multi-select, combobox, search-input, tag-input, time-input |
+  | `panel` | 250ms ease         | popover                                                                     |
+
+  A token carries `duration` (ms), `easing`, and an optional `scale` for panels
+  that grow into place — one token rather than separate duration and easing
+  scales, because they are one design decision: slowing a panel without
+  softening its curve reads as sluggish rather than calm.
+
+  ```ts
+  createTheme({
+    id: 'Calm',
+    name: 'Calm',
+    colors,
+    motion: { popup: { duration: 240, easing: 'ease-out', scale: 0.95 } },
+  });
+  ```
+
+  Tokens you don't restate keep their base values, and a component can still
+  point at a token of its own through its `motion` option.
+
+  Nothing moves differently by default — every current duration, easing and
+  scale is preserved exactly, verified against the rendered styles. Themes that
+  predate the scale keep working: `createTheme` fills it in, the validator does
+  not require it, and a theme registered as JSON without it resolves to the base
+  timing rather than failing. `motionSafe` remains the floor, so a theme decides
+  how overlays move for people who want movement, never whether they move at
+  all.
+
+  `callout`'s existing `transitionMs` option and the `expand`/`skeleton`
+  durations are untouched for now; folding them into this scale is a follow-up.
+
+### Patch Changes
+
+- [`676ec55`](https://github.com/uni-design-system/uni/commit/676ec5549cf4b10c549538aebd8f5a56fc0cb68a) Thanks [@gaenglish](https://github.com/gaenglish)! - `uni-dropdown` now uses the CDK's overlay helpers instead of its own copies of
+  them. It predates `cdk/overlay`, so it had been carrying a duplicate
+  placement-to-`transform-origin` map, a duplicate focus-restore rule, a
+  duplicate discrete-transition block, and hand-written anchor and toggle-state
+  code. `TRANSFORM_ORIGINS` had no consumers at all as a result — the shared
+  constant existed while the one component that needed it used its own copy.
+
+  No behaviour change: the dropdown's 100 ms linear scale-and-fade, its measured
+  transform origin, its focus restore and its ARIA wiring are all identical,
+  verified against the rendered styles. Every export in `cdk/overlay` now has a
+  consumer, and the component is 35 lines shorter.
+
+  `discreteOverlayTransition()` takes an optional fourth argument, a
+  `transition-timing-function`. Omitted, nothing is emitted and the CSS initial
+  value stands, so existing callers are untouched.
+
+  One real inconsistency fixed along the way: the listbox popups
+  (`uni-combobox`, `uni-search-input`, `uni-tag-input`, `uni-time-input`) were
+  introduced to match `uni-dropdown`'s animation but ran on the default `ease`,
+  while the dropdown uses `linear` — so a combobox and a multi-select dropdown
+  in the same form opened at visibly different rates. They now share the
+  dropdown's easing exactly.
+
 ## 8.3.1
 
 ### Patch Changes

@@ -1,15 +1,15 @@
 {
   "meta": {
-    "version": "8.3.1",
-    "builtAt": "2026-08-21T22:45:34.366Z",
+    "version": "8.4.0",
+    "builtAt": "2026-08-23T08:33:20.998Z",
     "frameworks": [
       "angular"
     ],
     "counts": {
       "components": 79,
-      "tokens": 396,
+      "tokens": 400,
       "themes": 2,
-      "examples": 185
+      "examples": 189
     }
   },
   "components": [
@@ -20,7 +20,7 @@
       "summary": "",
       "description": "",
       "category": "feedback",
-      "version": "8.3.1",
+      "version": "8.4.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -83,7 +83,7 @@
       "relatedTokens": [
         "alert.behavior.topPosition",
         "alert.behavior.borderRadius",
-        "alert.behavior.transitionSpeed",
+        "alert.behavior.motion",
         "alert.behavior.elevation"
       ]
     },
@@ -94,7 +94,7 @@
       "summary": "Horizontal application bar: project leading controls (menu button, logo) with the `leading` attribute, actions with `trailing` (pushed to the far edge), and either pass `title` or project custom center content.",
       "description": "Horizontal application bar: project leading controls (menu button, logo) with the `leading` attribute, actions with `trailing` (pushed to the far edge), and either pass `title` or project custom center content. Surface, divider, height, typography and spacing all resolve from `appBar` tokens. Place it inside your page's `<header>` landmark.",
       "category": "components",
-      "version": "8.3.1",
+      "version": "8.4.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -143,7 +143,7 @@
       "summary": "Identity avatar with a graceful fallback chain: image → initials from `name` → themed symbol.",
       "description": "Identity avatar with a graceful fallback chain: image → initials from `name` → themed symbol. Coloring, radius, typeface and sizes all resolve from `avatar` theme tokens; `variant` picks the container palette.",
       "category": "components",
-      "version": "8.3.1",
+      "version": "8.4.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -212,7 +212,7 @@
       "summary": "Overlapping stack of avatars.",
       "description": "Overlapping stack of avatars. `max` collapses the overflow into a themed “+N” chip (itself a `uni-avatar`). Overlap and separator ring resolve from `avatarGroup` theme tokens.",
       "category": "components",
-      "version": "8.3.1",
+      "version": "8.4.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -245,7 +245,7 @@
       "summary": "",
       "description": "",
       "category": "primitives",
-      "version": "8.3.1",
+      "version": "8.4.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -326,7 +326,7 @@
       "summary": "",
       "description": "",
       "category": "feedback",
-      "version": "8.3.1",
+      "version": "8.4.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -387,7 +387,7 @@
       "summary": "",
       "description": "",
       "category": "directives",
-      "version": "8.3.1",
+      "version": "8.4.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -411,7 +411,7 @@
       "summary": "The base layout primitive, applied as an attribute to any element so semantics stay yours: `<main box-layout [grow]=\"1\" padding=\"md\">`.",
       "description": "The base layout primitive, applied as an attribute to any element so semantics stay yours: `<main box-layout [grow]=\"1\" padding=\"md\">`. Exception: other components' host elements (`<uni-card box-layout>` would put two components on one element) — wrap those in a `<div box-layout>`. Sizing convention (height/width/min/max/inset): a **number is px and needs a binding** — `[height]=\"420\"`; a **plain attribute is a CSS length string** — `height=\"420px\"`. Spacing/radius/color inputs take theme tokens.",
       "category": "layout",
-      "version": "8.3.1",
+      "version": "8.4.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -774,7 +774,7 @@
       "summary": "WAI-ARIA breadcrumb: a `nav` landmark wrapping an ordered list; the last item is the current page (`aria-current=\"page\"`), separators are decorative.",
       "description": "WAI-ARIA breadcrumb: a `nav` landmark wrapping an ordered list; the last item is the current page (`aria-current=\"page\"`), separators are decorative. Items with `href` render as real links; without one they render as link-styled buttons emitting `itemClicked` — wire that to your router.",
       "category": "components",
-      "version": "8.3.1",
+      "version": "8.4.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -843,7 +843,7 @@
       "summary": "",
       "description": "",
       "category": "primitives",
-      "version": "8.3.1",
+      "version": "8.4.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -938,7 +938,7 @@
       "summary": "",
       "description": "",
       "category": "primitives",
-      "version": "8.3.1",
+      "version": "8.4.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -970,7 +970,7 @@
       "summary": "Inline month calendar: single-date or start–end range selection, day markers (availability dots), min/max fences and disabled dates.",
       "description": "Inline month calendar: single-date or start–end range selection, day markers (availability dots), min/max fences and disabled dates. One tab stop with a roving-tabindex `role=\"grid\"`; every day is a real button named with its full date. Values are plain ISO strings (`'YYYY-MM-DD'`), never `Date` objects, so bindings are timezone-free and serializable. Selection and today colours come from the theme's `primary` role pair; geometry and glyphs come from the `calendar` theme entry.",
       "category": "forms",
-      "version": "8.3.1",
+      "version": "8.4.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -1182,7 +1182,7 @@
       "summary": "Anchored coach-mark panel that dims the page and cuts a spotlight hole around its target.",
       "description": "Anchored coach-mark panel that dims the page and cuts a spotlight hole around its target. Both the scrim and the panel are `popover=\"manual\"` elements shown in order, so they stack deterministically in the top layer above every app z-index, and every scrim piece is CSS-anchor-positioned to the target — the hole tracks scroll/resize/layout with zero listeners. The panel is a non-modal `role=\"dialog\"` (deliberately no `aria-modal`): focus moves into it on open, Tab runs a \"duet loop\" over the panel's focusables plus the spotlit target while it stays interactive, and on close focus returns to the pre-open element — unless the user moved into the target, where it stays. Storage-free by rule: `key` and the `dismissed` output are the \"don't show again\" hooks; persistence is the app's business (e.g. cdk local-storage).",
       "category": "components",
-      "version": "8.3.1",
+      "version": "8.4.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -1369,7 +1369,7 @@
         "callout.behavior.spotlightPadding",
         "callout.behavior.spotlightRadius",
         "callout.behavior.ringWidth",
-        "callout.behavior.transitionMs"
+        "callout.behavior.motion"
       ]
     },
     {
@@ -1379,7 +1379,7 @@
       "summary": "",
       "description": "",
       "category": "layout",
-      "version": "8.3.1",
+      "version": "8.4.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -1411,7 +1411,7 @@
       "summary": "",
       "description": "",
       "category": "layout",
-      "version": "8.3.1",
+      "version": "8.4.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -1435,7 +1435,7 @@
       "summary": "",
       "description": "",
       "category": "layout",
-      "version": "8.3.1",
+      "version": "8.4.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -1476,7 +1476,7 @@
       "summary": "",
       "description": "",
       "category": "layout",
-      "version": "8.3.1",
+      "version": "8.4.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -1531,7 +1531,7 @@
       "summary": "",
       "description": "",
       "category": "forms",
-      "version": "8.3.1",
+      "version": "8.4.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -1670,7 +1670,7 @@
       "summary": "Form-bound, closed-set, single-select autocomplete: `FormValueControl<T | null>` over object `Options<T>`, type-to-filter, commit-on-select.",
       "description": "Form-bound, closed-set, single-select autocomplete: `FormValueControl<T | null>` over object `Options<T>`, type-to-filter, commit-on-select. Typing produces a draft — a filter, never a value; the value changes only when an option commits, `clear()` runs, or the model is written from outside. Select semantics, not search: a real label, a chevron, no magnifier, nothing submits. For short lists with no need to type, prefer `uni-select` — the value contract is identical, so swapping is a template-only change.",
       "category": "layout",
-      "version": "8.3.1",
+      "version": "8.4.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -1874,6 +1874,7 @@
         ],
         "accessibility": [
           "The input is `role=\"combobox\"` with `aria-expanded`, `aria-controls` and",
+          "Home and End move the caret, never the list, per APG's editable-combobox",
           "`aria-selected` marks the **committed** option; the active one is carried by",
           "Disabled options are rendered, announced (`aria-disabled`), and skipped by",
           "Commits (*\"Alabama selected.\"*), clears, refusals and debounced result",
@@ -1899,7 +1900,7 @@
       "summary": "",
       "description": "",
       "category": "feedback",
-      "version": "8.3.1",
+      "version": "8.4.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -1946,7 +1947,7 @@
       "summary": "",
       "description": "",
       "category": "forms",
-      "version": "8.3.1",
+      "version": "8.4.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -2004,7 +2005,7 @@
       "summary": "",
       "description": "",
       "category": "data",
-      "version": "8.3.1",
+      "version": "8.4.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -2105,7 +2106,7 @@
       "summary": "Date field with free-typed parsing and a popup calendar.",
       "description": "Date field with free-typed parsing and a popup calendar. Type `aug 20`, `8/20/2026` or `2026-08-20`, or pick from the grid — the form gets the same canonical `'YYYY-MM-DD'` string either way. Parsing is `Intl`-driven (locale digit order and month names, never hardcoded); unreadable text stays in the field, flagged, with a `rejected` event. The popup is a native popover hosting the same `uni-calendar` an app could render inline.",
       "category": "forms",
-      "version": "8.3.1",
+      "version": "8.4.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -2313,7 +2314,7 @@
       "summary": "One field for a date and a time: a thin composer seating a uni-date-input and a uni-time-input in one input-box chrome under one label, yielding one combined `'YYYY-MM-DDTHH:mm'` value.",
       "description": "One field for a date and a time: a thin composer seating a uni-date-input and a uni-time-input in one input-box chrome under one label, yielding one combined `'YYYY-MM-DDTHH:mm'` value. The value emits only when both parts are set — a time without a day is not an answer — and clearing the date clears it. With `slotsFor`, the time part stays disabled until a day is chosen and offers exactly that day's slots: the scheduling flow in one attribute. Two honest tab stops (it is two questions); apps needing a different arrangement compose the primitives directly.",
       "category": "forms",
-      "version": "8.3.1",
+      "version": "8.4.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -2483,7 +2484,7 @@
       "summary": "Text input that emits `change` only after the user pauses typing.",
       "description": "Text input that emits `change` only after the user pauses typing. Wears the shared input chrome (themed color, border, typeface, focus ring) via `uni-input-box`; project adornments with the `pre-input` / `post-input` slots, matching `uni-input`'s convention. The ARIA passthrough inputs let a wrapping composite (e.g. SearchInput's combobox) annotate the real input element.",
       "category": "forms",
-      "version": "8.3.1",
+      "version": "8.4.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -2598,7 +2599,7 @@
       "summary": "",
       "description": "",
       "category": "feedback",
-      "version": "8.3.1",
+      "version": "8.4.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -2676,7 +2677,7 @@
       "summary": "",
       "description": "",
       "category": "feedback",
-      "version": "8.3.1",
+      "version": "8.4.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -2764,7 +2765,7 @@
       "summary": "",
       "description": "",
       "category": "feedback",
-      "version": "8.3.1",
+      "version": "8.4.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -2788,7 +2789,7 @@
       "summary": "",
       "description": "",
       "category": "layout",
-      "version": "8.3.1",
+      "version": "8.4.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -2835,7 +2836,7 @@
       "summary": "",
       "description": "",
       "category": "directives",
-      "version": "8.3.1",
+      "version": "8.4.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -2867,7 +2868,7 @@
       "summary": "Navigation drawer with two modes sharing one content slot: - `side` — an in-flow `<aside>` that pushes content (dashboard sidenav); opening/closing animates its width, and the divider border primitive separates it from the page.",
       "description": "Navigation drawer with two modes sharing one content slot: - `side` — an in-flow `<aside>` that pushes content (dashboard sidenav); opening/closing animates its width, and the divider border primitive separates it from the page. - `over` — a native `<dialog>` in the top layer: focus trap, Escape and scrim backdrop come from the platform (same machinery as `uni-dialog`), sliding in from its edge. Surface, width, divider, elevation, padding and backdrop all resolve from `drawer` theme tokens.",
       "category": "components",
-      "version": "8.3.1",
+      "version": "8.4.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -2946,7 +2947,7 @@
       "summary": "",
       "description": "",
       "category": "components",
-      "version": "8.3.1",
+      "version": "8.4.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -3053,7 +3054,8 @@
         "dropdown.behavior.border",
         "dropdown.behavior.borderRadius",
         "dropdown.behavior.color",
-        "dropdown.behavior.shadow"
+        "dropdown.behavior.shadow",
+        "dropdown.behavior.motion"
       ]
     },
     {
@@ -3063,7 +3065,7 @@
       "summary": "",
       "description": "",
       "category": "layout",
-      "version": "8.3.1",
+      "version": "8.4.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -3114,7 +3116,7 @@
         ]
       },
       "relatedTokens": [
-        "expand.behavior.transitionSpeed"
+        "expand.behavior.motion"
       ]
     },
     {
@@ -3124,7 +3126,7 @@
       "summary": "",
       "description": "",
       "category": "layout",
-      "version": "8.3.1",
+      "version": "8.4.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -3185,7 +3187,7 @@
       "summary": "Trigger for a {@link UniExpandComponent} region.",
       "description": "Trigger for a {@link UniExpandComponent} region. Two shapes, chosen by whether `label` is set: - **Icon only** (default) — the bare chevron, sized for a Card Header. - **Labelled** — chevron plus a label and optional muted sublabel, as a single full-width button. Most real disclosures need a name for the section, and building that row by hand is the thing this saves; it also makes the label the button's accessible name rather than adjacent text.",
       "category": "forms",
-      "version": "8.3.1",
+      "version": "8.4.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -3261,7 +3263,7 @@
       "summary": "",
       "description": "",
       "category": "forms",
-      "version": "8.3.1",
+      "version": "8.4.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -3391,7 +3393,7 @@
       "summary": "",
       "description": "",
       "category": "layout",
-      "version": "8.3.1",
+      "version": "8.4.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -3465,7 +3467,7 @@
       "summary": "",
       "description": "",
       "category": "layout",
-      "version": "8.3.1",
+      "version": "8.4.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -3497,7 +3499,7 @@
       "summary": "",
       "description": "",
       "category": "primitives",
-      "version": "8.3.1",
+      "version": "8.4.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -3557,7 +3559,7 @@
       "summary": "",
       "description": "",
       "category": "primitives",
-      "version": "8.3.1",
+      "version": "8.4.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -3650,7 +3652,7 @@
       "summary": "",
       "description": "",
       "category": "forms",
-      "version": "8.3.1",
+      "version": "8.4.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -3795,7 +3797,7 @@
       "summary": "",
       "description": "",
       "category": "forms",
-      "version": "8.3.1",
+      "version": "8.4.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -3868,7 +3870,7 @@
       "summary": "",
       "description": "",
       "category": "components",
-      "version": "8.3.1",
+      "version": "8.4.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -3938,7 +3940,7 @@
       "summary": "",
       "description": "",
       "category": "layout",
-      "version": "8.3.1",
+      "version": "8.4.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -4012,7 +4014,7 @@
       "summary": "",
       "description": "",
       "category": "layout",
-      "version": "8.3.1",
+      "version": "8.4.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -4094,7 +4096,7 @@
       "summary": "",
       "description": "",
       "category": "forms",
-      "version": "8.3.1",
+      "version": "8.4.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -4159,6 +4161,11 @@
           "code": "<!-- Storybook story: Single Selection -->\n<uni-multi-select ${argsToTemplate(props)}>\n</uni-multi-select>\n<!-- args:\n{\n    options: [\n      { value: 'red', label: 'Red' },\n      { value: 'green', label: 'Green' },\n      { value: 'blue', label: 'Blue' },\n    ],\n    selections: ['red'],\n  }\n-->"
         },
         {
+          "title": "Disabled Options",
+          "framework": "angular",
+          "code": "<!-- Storybook story: Disabled Options -->\n<uni-multi-select ${argsToTemplate(props)}>\n</uni-multi-select>\n<!-- args:\n{\n    options: [\n      { value: 'email', label: 'Email' },\n      { value: 'sms', label: 'SMS — verify a phone number first', disabled: true },\n      { value: 'push', label: 'Push' },\n      { value: 'fax', label: 'Fax — retired', disabled: true },\n    ],\n    selections: ['email'],\n  }\n-->"
+        },
+        {
           "title": "Many Options",
           "framework": "angular",
           "code": "<!-- Storybook story: Many Options -->\n<uni-multi-select ${argsToTemplate(props)}>\n</uni-multi-select>\n<!-- args:\n{\n    options: [\n      { value: 'option1', label: 'First Option' },\n      { value: 'option2', label: 'Second Option' },\n      { value: 'option3', label: 'Third Option' },\n      { value: 'option4', label: 'Fourth Option' },\n      { value: 'option5', label: 'Fifth Option' },\n      { value: 'option6', label: 'Sixth Option' },\n      { value: 'option7', label: 'Seventh Option' },\n      { value: 'option8', label: 'Eighth Option' },\n    ],\n    selections: ['option2', 'option4', 'option6'],\n  }\n-->"
@@ -4170,7 +4177,8 @@
         "donts": [],
         "accessibility": [
           "Options are real checkboxes in a labelled group — Space toggles, Tab moves between them.",
-          "Selection state is announced per option."
+          "Selection state is announced per option.",
+          "Disabled options stay rendered and announced, not hidden — removing them would"
         ]
       },
       "relatedTokens": []
@@ -4182,7 +4190,7 @@
       "summary": "",
       "description": "",
       "category": "forms",
-      "version": "8.3.1",
+      "version": "8.4.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -4298,6 +4306,11 @@
           "code": "<!-- Storybook story: Many Options -->\n<uni-multi-select-dropdown ${argsToTemplate(props)}>\n</uni-multi-select-dropdown>\n<!-- args:\n{\n    options: [\n      { value: 'option1', label: 'First Option' },\n      { value: 'option2', label: 'Second Option' },\n      { value: 'option3', label: 'Third Option' },\n      { value: 'option4', label: 'Fourth Option' },\n      { value: 'option5', label: 'Fifth Option' },\n      { value: 'option6', label: 'Sixth Option' },\n      { value: 'option7', label: 'Seventh Option' },\n      { value: 'option8', label: 'Eighth Option' },\n    ],\n    value: ['option2', 'option4', 'option6'],\n  }\n-->"
         },
         {
+          "title": "Disabled Options",
+          "framework": "angular",
+          "code": "<!-- Storybook story: Disabled Options -->\n<uni-multi-select-dropdown ${argsToTemplate(props)}>\n</uni-multi-select-dropdown>\n<!-- args:\n{\n    options: [\n      { value: 'email', label: 'Email' },\n      { value: 'sms', label: 'SMS — verify a phone number first', disabled: true },\n      { value: 'push', label: 'Push' },\n      { value: 'fax', label: 'Fax — retired', disabled: true },\n    ],\n    value: ['email'],\n  }\n-->"
+        },
+        {
           "title": "Disabled",
           "framework": "angular",
           "code": "<!-- Storybook story: Disabled -->\n<uni-multi-select-dropdown ${argsToTemplate(props)}>\n</uni-multi-select-dropdown>\n<!-- args:\n{\n    options: [\n      { value: 'option1', label: 'Option 1' },\n      { value: 'option2', label: 'Option 2' },\n      { value: 'option3', label: 'Option 3' },\n    ],\n    value: ['option1'],\n    disabled: true,\n  }\n-->"
@@ -4320,7 +4333,8 @@
         "accessibility": [
           "The trigger is a disclosure (`aria-haspopup=\"dialog\"`, `aria-expanded`); the popover contains native focusables Tab reaches normally.",
           "The search input is labelled; options are real checkboxes announced with their state.",
-          "Escape closes the popover and returns focus to the trigger."
+          "Escape closes the popover and returns focus to the trigger.",
+          "Disabled options stay rendered and announced; arrows step over them and"
         ]
       },
       "relatedTokens": []
@@ -4332,7 +4346,7 @@
       "summary": "",
       "description": "",
       "category": "feedback",
-      "version": "8.3.1",
+      "version": "8.4.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -4463,7 +4477,7 @@
       "summary": "",
       "description": "",
       "category": "feedback",
-      "version": "8.3.1",
+      "version": "8.4.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -4487,7 +4501,7 @@
       "summary": "",
       "description": "",
       "category": "data",
-      "version": "8.3.1",
+      "version": "8.4.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -4572,7 +4586,7 @@
       "summary": "Anchored, top-layer panel on the native `popover` element — the browser owns positioning (CSS anchor positioning), stacking, and, in rich mode, light dismissal.",
       "description": "Anchored, top-layer panel on the native `popover` element — the browser owns positioning (CSS anchor positioning), stacking, and, in rich mode, light dismissal. Two modes share one implementation: - `rich` (default): a click-toggled disclosure. The projected `[trigger]` carries `aria-expanded`/`aria-controls`; with no trigger content the app drives `open` and no element claims controller ARIA. Focus stays on the trigger (APG disclosure) unless the panel marks an `[autofocus]` field, and returns to the trigger on close. - `tooltip`: hover/focus-triggered, `role=\"tooltip\"` + `aria-describedby`, WCAG 1.4.13 dismissable/hoverable/persistent. Content must not contain focusable elements. Anchoring and control are separate: `anchor` re-anchors the panel to any element (or id) while the trigger keeps the disclosure semantics.",
       "category": "layout",
-      "version": "8.3.1",
+      "version": "8.4.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -4737,7 +4751,8 @@
         "popover.behavior.headerTypeface",
         "popover.behavior.tooltipPadding",
         "popover.behavior.tooltipOpenDelay",
-        "popover.behavior.tooltipCloseDelay"
+        "popover.behavior.tooltipCloseDelay",
+        "popover.behavior.motion"
       ]
     },
     {
@@ -4747,7 +4762,7 @@
       "summary": "",
       "description": "",
       "category": "feedback",
-      "version": "8.3.1",
+      "version": "8.4.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -4811,7 +4826,7 @@
       "summary": "",
       "description": "",
       "category": "feedback",
-      "version": "8.3.1",
+      "version": "8.4.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -4859,7 +4874,7 @@
       "summary": "",
       "description": "",
       "category": "forms",
-      "version": "8.3.1",
+      "version": "8.4.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -5001,7 +5016,7 @@
         "radio.behavior.size",
         "radio.behavior.ringColor",
         "radio.behavior.fillColor",
-        "radio.behavior.transitionSpeed"
+        "radio.behavior.motion"
       ]
     },
     {
@@ -5011,7 +5026,7 @@
       "summary": "",
       "description": "",
       "category": "directives",
-      "version": "8.3.1",
+      "version": "8.4.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -5035,7 +5050,7 @@
       "summary": "",
       "description": "",
       "category": "layout",
-      "version": "8.3.1",
+      "version": "8.4.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -5090,7 +5105,7 @@
       "summary": "Native scroll area with theme-driven scrollbar styling.",
       "description": "Native scroll area with theme-driven scrollbar styling. Scrollbars are styled entirely through Emotion-generated CSS: `::-webkit-scrollbar` rules cover Chromium/Safari, with a `scrollbar-width`/`scrollbar-color` fallback for Firefox.",
       "category": "layout",
-      "version": "8.3.1",
+      "version": "8.4.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -5237,7 +5252,7 @@
       "summary": "Generic search field: shared input chrome with a leading magnifier, a clear button while there's a query, Enter to submit, and optional type-ahead — pass `suggestions` (refresh them from `change`) and the field becomes an ARIA combobox with a keyboard-navigable listbox.",
       "description": "Generic search field: shared input chrome with a leading magnifier, a clear button while there's a query, Enter to submit, and optional type-ahead — pass `suggestions` (refresh them from `change`) and the field becomes an ARIA combobox with a keyboard-navigable listbox. Escape closes the list first, then clears the query.",
       "category": "forms",
-      "version": "8.3.1",
+      "version": "8.4.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -5336,7 +5351,7 @@
       "summary": "",
       "description": "",
       "category": "forms",
-      "version": "8.3.1",
+      "version": "8.4.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -5439,6 +5454,11 @@
           "code": "<!-- Storybook story: Disabled -->\n<uni-select ${argsToTemplate(props)}>\n</uni-select>\n<!-- args:\n{\n    placeholder: 'Cannot select...',\n    options: [\n      { value: 'option1', label: 'Option 1' },\n      { value: 'option2', label: 'Option 2' },\n      { value: 'option3', label: 'Option 3' },\n    ],\n    value: 'option2',\n    disabled: true,\n    touched: false,\n    invalid: false,\n    dirty: false,\n  }\n-->"
         },
         {
+          "title": "Disabled Options",
+          "framework": "angular",
+          "code": "<!-- Storybook story: Disabled Options -->\n<uni-select ${argsToTemplate(props)}>\n</uni-select>\n<!-- args:\n{\n    placeholder: 'Select a plan...',\n    options: [\n      { value: 'free', label: 'Free' },\n      { value: 'pro', label: 'Pro' },\n      { value: 'team', label: 'Team — requires an organization', disabled: true },\n      { value: 'enterprise', label: 'Enterprise — contact sales', disabled: true },\n    ],\n    value: null,\n    disabled: false,\n    touched: false,\n    invalid: false,\n    dirty: false,\n  }\n-->"
+        },
+        {
           "title": "Invalid",
           "framework": "angular",
           "code": "<!-- Storybook story: Invalid -->\n<uni-select ${argsToTemplate(props)}>\n</uni-select>\n<!-- args:\n{\n    placeholder: 'Please select an option...',\n    options: [\n      { value: 'yes', label: 'Yes' },\n      { value: 'no', label: 'No' },\n      { value: 'maybe', label: 'Maybe' },\n    ],\n    value: null,\n    disabled: false,\n    touched: true,\n    invalid: true,\n  }\n-->"
@@ -5460,7 +5480,8 @@
         "donts": [],
         "accessibility": [
           "Native `<select>`: platform keyboard interaction and mobile pickers for free.",
-          "`label` becomes the accessible name; `aria-invalid` reflects the touched error state."
+          "`label` becomes the accessible name; `aria-invalid` reflects the touched error state.",
+          "Disabled options are rendered and announced, not hidden — removing them would"
         ]
       },
       "relatedTokens": []
@@ -5470,9 +5491,9 @@
       "name": "Skeleton",
       "status": "stable",
       "summary": "Loading placeholder painted with surface tokens.",
-      "description": "Loading placeholder painted with surface tokens. `text` renders one or more lines (the last line shortened, as real text would be), `rect` and `circle` render fixed shapes. The shimmer only animates when the user allows motion; it degrades to static blocks under `prefers-reduced-motion`.",
+      "description": "Loading placeholder painted with surface tokens. `text` renders one or more lines (the last line shortened, as real text would be), `rect` and `circle` render fixed shapes. The shimmer only animates when the user allows motion; it degrades to static blocks under `prefers-reduced-motion`. Color and radius are theme options with per-instance overrides, because one app routinely needs several: skeletons on a card and on the page background want different tints, and a pill placeholder wants a different corner than the text bars beside it.",
       "category": "components",
-      "version": "8.3.1",
+      "version": "8.4.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -5509,6 +5530,38 @@
               "required": false,
               "default": "1",
               "description": "Number of text lines (text shape only)."
+            },
+            {
+              "name": "color",
+              "kind": "input",
+              "type": "ColorKey | undefined",
+              "required": false,
+              "default": "undefined",
+              "description": "Base color token; overrides the theme option for this skeleton."
+            },
+            {
+              "name": "highlightColor",
+              "kind": "input",
+              "type": "ColorKey | undefined",
+              "required": false,
+              "default": "undefined",
+              "description": "Shimmer highlight token; overrides the theme option for this skeleton."
+            },
+            {
+              "name": "borderRadius",
+              "kind": "input",
+              "type": "Radius | undefined",
+              "required": false,
+              "default": "undefined",
+              "description": "Radius token; overrides the theme option. Circles are always round."
+            },
+            {
+              "name": "label",
+              "kind": "input",
+              "type": "string | undefined",
+              "required": false,
+              "default": "undefined",
+              "description": "Announces the skeleton to assistive tech as a polite status. Leave unset when a container already carries `aria-busy` — the skeleton then stays `aria-hidden`, as a decorative placeholder should."
             }
           ]
         }
@@ -5517,22 +5570,28 @@
         {
           "title": "Text Lines",
           "framework": "angular",
-          "code": "<!-- Storybook story: Text Lines -->\n<div box-layout maxWidth=\"360px\">\n<uni-card>\n  <div row-layout gap=\"sm\" alignItems=\"center\" padding=\"md\">\n    <uni-skeleton shape=\"circle\" [height]=\"40\" />\n    <div box-layout [grow]=\"1\">\n      <uni-skeleton [lines]=\"2\" />\n    </div>\n  </div>\n  <div box-layout paddingHorizontal=\"md\" paddingBottom=\"md\">\n    <uni-skeleton shape=\"rect\" [height]=\"120\" />\n  </div>\n</uni-card>\n</div>\n<!-- args:\n{ shape: 'text', lines: 3 }\n-->"
+          "code": "<!-- Storybook story: Text Lines -->\n<div box-layout maxWidth=\"360px\" gap=\"md\">\n<uni-card>\n  <div box-layout padding=\"md\" gap=\"sm\">\n    <div row-layout gap=\"sm\" alignItems=\"center\">\n      <uni-skeleton shape=\"rect\" borderRadius=\"max\" [width]=\"56\" [height]=\"20\" />\n      <uni-skeleton shape=\"rect\" [width]=\"120\" [height]=\"12\" />\n    </div>\n    <uni-skeleton [lines]=\"2\" />\n  </div>\n</uni-card>\n<uni-skeleton color=\"surface\" highlightColor=\"surface-variant\" [lines]=\"2\" />\n</div>\n<!-- args:\n{ shape: 'text', lines: 3 }\n-->"
+        },
+        {
+          "title": "Per Instance Tokens",
+          "framework": "angular",
+          "code": "<!-- Storybook story: Per Instance Tokens -->\n<div box-layout maxWidth=\"360px\" gap=\"md\">\n<uni-card>\n  <div box-layout padding=\"md\" gap=\"sm\">\n    <div row-layout gap=\"sm\" alignItems=\"center\">\n      <uni-skeleton shape=\"rect\" borderRadius=\"max\" [width]=\"56\" [height]=\"20\" />\n      <uni-skeleton shape=\"rect\" [width]=\"120\" [height]=\"12\" />\n    </div>\n    <uni-skeleton [lines]=\"2\" />\n  </div>\n</uni-card>\n<uni-skeleton color=\"surface\" highlightColor=\"surface-variant\" [lines]=\"2\" />\n</div>"
         },
         {
           "title": "Card Placeholder",
           "framework": "angular",
-          "code": "<!-- Storybook story: Card Placeholder -->\n<div box-layout maxWidth=\"360px\">\n<uni-card>\n  <div row-layout gap=\"sm\" alignItems=\"center\" padding=\"md\">\n    <uni-skeleton shape=\"circle\" [height]=\"40\" />\n    <div box-layout [grow]=\"1\">\n      <uni-skeleton [lines]=\"2\" />\n    </div>\n  </div>\n  <div box-layout paddingHorizontal=\"md\" paddingBottom=\"md\">\n    <uni-skeleton shape=\"rect\" [height]=\"120\" />\n  </div>\n</uni-card>\n</div>"
+          "code": "<!-- Storybook story: Card Placeholder -->\n<div box-layout maxWidth=\"360px\" gap=\"md\">\n<uni-card>\n  <div box-layout padding=\"md\" gap=\"sm\">\n    <div row-layout gap=\"sm\" alignItems=\"center\">\n      <uni-skeleton shape=\"rect\" borderRadius=\"max\" [width]=\"56\" [height]=\"20\" />\n      <uni-skeleton shape=\"rect\" [width]=\"120\" [height]=\"12\" />\n    </div>\n    <uni-skeleton [lines]=\"2\" />\n  </div>\n</uni-card>\n<uni-skeleton color=\"surface\" highlightColor=\"surface-variant\" [lines]=\"2\" />\n</div>"
         }
       ],
       "guidelines": {
-        "whenToUse": "Loading placeholder that sketches the shape of incoming content: `text` renders one or\nmore lines (ending on a short line, as real copy would), `rect` stands in for media and\ncharts, `circle` for avatars. Skeletons paint with the theme's surface tokens so they\nsit naturally on any brand in both modes, and the shimmer sweep only animates for users\nwho allow motion — under `prefers-reduced-motion` it degrades to calm static blocks.\nSkeletons are `aria-hidden`; announce loading on the container (e.g. `aria-busy`)\nwhere your app knows what is actually loading.",
+        "whenToUse": "Loading placeholder that sketches the shape of incoming content: `text` renders one or\nmore lines (ending on a short line, as real copy would), `rect` stands in for media and\ncharts, `circle` for avatars. Skeletons paint with the theme's surface tokens so they\nsit naturally on any brand in both modes, and the shimmer sweep only animates for users\nwho allow motion — under `prefers-reduced-motion` it degrades to calm static blocks.\nSkeletons are `aria-hidden` by default; announce loading on the container (e.g. `aria-busy`)\nwhere your app knows what is actually loading, or give a standalone skeleton a `label`.",
         "dos": [],
         "donts": [
-          "Announce individual skeletons to assistive tech — they are decorative placeholders"
+          "Announce every skeleton in a group — label the container, or one skeleton, not twelve"
         ],
         "accessibility": [
-          "Skeletons are `aria-hidden` — announce loading on the container (e.g. `aria-busy`) where your app knows what is loading.",
+          "Skeletons are `aria-hidden` unless given a `label` — announce loading on the container (e.g. `aria-busy`) where your app knows what is loading.",
+          "A `label` puts `role=\"status\"` on the host with visually hidden text, so a standalone skeleton announces politely on mount.",
           "The shimmer respects `prefers-reduced-motion`, degrading to static blocks."
         ]
       },
@@ -5542,6 +5601,8 @@
         "skeleton.behavior.borderRadius",
         "skeleton.behavior.animation",
         "skeleton.behavior.duration",
+        "skeleton.behavior.direction",
+        "skeleton.behavior.highlightWidth",
         "skeleton.behavior.gap"
       ]
     },
@@ -5552,7 +5613,7 @@
       "summary": "Range slider on a native `<input type=\"range\">` — keyboard interaction and the ARIA slider contract come from the platform.",
       "description": "Range slider on a native `<input type=\"range\">` — keyboard interaction and the ARIA slider contract come from the platform. Fill, track, thumb and radii resolve from `slider` theme tokens; the fill percentage rides a CSS custom property so dragging never regenerates styles.",
       "category": "forms",
-      "version": "8.3.1",
+      "version": "8.4.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -5689,7 +5750,7 @@
       "summary": "",
       "description": "",
       "category": "feedback",
-      "version": "8.3.1",
+      "version": "8.4.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -5766,11 +5827,15 @@
         "whenToUse": "The Snackbar component is used to give feedback to users after an action has taken place.\nIt appears near the bottom center of the screen temporarily and floats above the UI to not affect the application's layout.\nA side action can be defined (e.g. undoing a process or navigating to the details of a newly created record).",
         "dos": [],
         "donts": [],
-        "accessibility": []
+        "accessibility": [
+          "`role=\"status\"` announces the message politely, without moving focus away",
+          "The bar renders in the browser's top layer, so it cannot be covered by a",
+          "It is a `popover=\"manual\"`, not a modal: the rest of the page stays"
+        ]
       },
       "relatedTokens": [
         "snackbar.behavior.bottomPosition",
-        "snackbar.behavior.transitionDelay",
+        "snackbar.behavior.motion",
         "snackbar.behavior.autoCloseDelay"
       ]
     },
@@ -5781,7 +5846,7 @@
       "summary": "",
       "description": "",
       "category": "data",
-      "version": "8.3.1",
+      "version": "8.4.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -5826,7 +5891,7 @@
       "summary": "",
       "description": "",
       "category": "layout",
-      "version": "8.3.1",
+      "version": "8.4.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -5881,7 +5946,7 @@
       "summary": "KPI stat tile: muted label, large value (numbers auto-compact: 48234 → \"48.2K\"), an optional delta whose ink is decided by *direction × whether up is good* (never direction alone — churn going down is good news), and an optional decorative sparkline.",
       "description": "KPI stat tile: muted label, large value (numbers auto-compact: 48234 → \"48.2K\"), an optional delta whose ink is decided by *direction × whether up is good* (never direction alone — churn going down is good news), and an optional decorative sparkline. Frame, typography and inks are all `stat` theme tokens.",
       "category": "components",
-      "version": "8.3.1",
+      "version": "8.4.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -5983,7 +6048,7 @@
       "summary": "",
       "description": "",
       "category": "primitives",
-      "version": "8.3.1",
+      "version": "8.4.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -6056,7 +6121,7 @@
       "summary": "One tab inside `uni-tabs`: a label for the tablist plus projected panel content.",
       "description": "One tab inside `uni-tabs`: a label for the tablist plus projected panel content. Content is captured in a template and only instantiated while the tab is selected, so inactive panels cost nothing.",
       "category": "components",
-      "version": "8.3.1",
+      "version": "8.4.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -6096,7 +6161,7 @@
       "summary": "WAI-ARIA tabs: roving tabindex, automatic activation (arrow keys move focus and select), Home/End, disabled tabs skipped.",
       "description": "WAI-ARIA tabs: roving tabindex, automatic activation (arrow keys move focus and select), Home/End, disabled tabs skipped. Only the selected panel is instantiated. All styling resolves from `tabs` theme option tokens.",
       "category": "components",
-      "version": "8.3.1",
+      "version": "8.4.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -6160,7 +6225,7 @@
       "summary": "Compact chip for categories, states, filters and tokens.",
       "description": "Compact chip for categories, states, filters and tokens. Two orthogonal style axes: `variant` picks the colour role and `tone` picks the archetype (soft / solid / outline). Both live in the theme's `tag` entry, so a theme restyles every chip in the app without touching markup. Structurally a chip is **body + trailing action as siblings**, never nested buttons: an interactive chip whose body is a `<button>` cannot contain the remove `<button>` (invalid HTML, and the inner control becomes unreachable for keyboard users). Both stay independently operable.",
       "category": "data",
-      "version": "8.3.1",
+      "version": "8.4.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -6398,7 +6463,7 @@
       "summary": "",
       "description": "",
       "category": "forms",
-      "version": "8.3.1",
+      "version": "8.4.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -6638,7 +6703,7 @@
       "summary": "The typography primitive, applied as an attribute to any element so semantics stay yours.",
       "description": "The typography primitive, applied as an attribute to any element so semantics stay yours. The attribute value is the typeface: `<h1 uni-text=\"display-small\">`, `<span uni-text=\"caption\">`, dynamic via `[uni-text]=\"role()\"`. With no value, the typeface is inferred from the host element (h1 → headline-large, p → body-1-long, …), falling back to `title-small`; the `typeface` input remains as an explicit override.",
       "category": "primitives",
-      "version": "8.3.1",
+      "version": "8.4.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -6740,7 +6805,7 @@
       "summary": "",
       "description": "",
       "category": "primitives",
-      "version": "8.3.1",
+      "version": "8.4.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -6870,7 +6935,7 @@
       "summary": "",
       "description": "",
       "category": "primitives",
-      "version": "8.3.1",
+      "version": "8.4.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -6900,7 +6965,7 @@
       "summary": "Drop-in switcher for the themes registered via `UNI_THEMES`: a select over `ThemeService.themeOptions` that applies the choice through `selectTheme` (so it persists across reloads like any other theme selection).",
       "description": "Drop-in switcher for the themes registered via `UNI_THEMES`: a select over `ThemeService.themeOptions` that applies the choice through `selectTheme` (so it persists across reloads like any other theme selection).",
       "category": "components",
-      "version": "8.3.1",
+      "version": "8.4.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -6958,7 +7023,7 @@
       "summary": "Time field: a combobox over time options — the same listbox contract as uni-search-input and uni-tag-input.",
       "description": "Time field: a combobox over time options — the same listbox contract as uni-search-input and uni-tag-input. Type `3p`, `930` or `15:00`, or pick `3:00 PM` from the list; the form always gets 24-hour `'HH:mm'` (`hour12` affects display only). The list is assistive, not exhaustive: any parseable time commits, unless `slots` pins the choices (a slot picker) — then a typed time must match one. Unreadable or unavailable text stays in the field, flagged, with a `rejected` event.",
       "category": "forms",
-      "version": "8.3.1",
+      "version": "8.4.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -7150,7 +7215,7 @@
       "summary": "",
       "description": "",
       "category": "forms",
-      "version": "8.3.1",
+      "version": "8.4.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -7280,7 +7345,7 @@
       "summary": "",
       "description": "",
       "category": "feedback",
-      "version": "8.3.1",
+      "version": "8.4.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -7359,7 +7424,7 @@
       "summary": "A thin sequencer over one `uni-callout`: steps spotlight their targets, a footer walks Next/Back with dots-or-fraction progress, and `advanceOn` gates a step behind an interaction with its target (auto-advancing for clicks, unlocking Next otherwise — announced through one `role=\"status\"` region).",
       "description": "A thin sequencer over one `uni-callout`: steps spotlight their targets, a footer walks Next/Back with dots-or-fraction progress, and `advanceOn` gates a step behind an interaction with its target (auto-advancing for clicks, unlocking Next otherwise — announced through one `role=\"status\"` region). Escape or the close button skips the tour and reports the step. `active` is a two-way model, so a tour is deep-linkable and inspectable; steps whose declared target cannot be resolved are skipped (with a dev warning) in the direction of travel rather than erroring.",
       "category": "components",
-      "version": "8.3.1",
+      "version": "8.4.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -7470,7 +7535,7 @@
       "summary": "",
       "description": "",
       "category": "layout",
-      "version": "8.3.1",
+      "version": "8.4.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -8989,15 +9054,15 @@
       }
     },
     {
-      "id": "alert.behavior.transitionSpeed",
-      "value": 0.35,
-      "type": "number",
+      "id": "alert.behavior.motion",
+      "value": "notification",
+      "type": "string",
       "kind": "behavioral",
       "target": "component-prop",
       "appliesTo": "alert",
       "themeValues": {
-        "LightTheme": 0.35,
-        "DarkTheme": 0.35
+        "LightTheme": "notification",
+        "DarkTheme": "notification"
       }
     },
     {
@@ -9457,15 +9522,15 @@
       }
     },
     {
-      "id": "radio.behavior.transitionSpeed",
-      "value": 0.3,
-      "type": "number",
+      "id": "radio.behavior.motion",
+      "value": "control",
+      "type": "string",
       "kind": "behavioral",
       "target": "component-prop",
       "appliesTo": "radio",
       "themeValues": {
-        "LightTheme": 0.3,
-        "DarkTheme": 0.3
+        "LightTheme": "control",
+        "DarkTheme": "control"
       }
     },
     {
@@ -9781,6 +9846,18 @@
       }
     },
     {
+      "id": "dropdown.behavior.motion",
+      "value": "popup",
+      "type": "string",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "dropdown",
+      "themeValues": {
+        "LightTheme": "popup",
+        "DarkTheme": "popup"
+      }
+    },
+    {
       "id": "menu.behavior.minWidth",
       "value": 184,
       "type": "number",
@@ -9925,15 +10002,15 @@
       }
     },
     {
-      "id": "menuItem.behavior.transitionSpeed",
-      "value": 0.35,
-      "type": "number",
+      "id": "menuItem.behavior.motion",
+      "value": "control",
+      "type": "string",
       "kind": "behavioral",
       "target": "component-prop",
       "appliesTo": "menuItem",
       "themeValues": {
-        "LightTheme": 0.35,
-        "DarkTheme": 0.35
+        "LightTheme": "control",
+        "DarkTheme": "control"
       }
     },
     {
@@ -10105,15 +10182,27 @@
       }
     },
     {
-      "id": "expand.behavior.transitionSpeed",
-      "value": 0.35,
-      "type": "number",
+      "id": "popover.behavior.motion",
+      "value": "panel",
+      "type": "string",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "popover",
+      "themeValues": {
+        "LightTheme": "panel",
+        "DarkTheme": "panel"
+      }
+    },
+    {
+      "id": "expand.behavior.motion",
+      "value": "reveal",
+      "type": "string",
       "kind": "behavioral",
       "target": "component-prop",
       "appliesTo": "expand",
       "themeValues": {
-        "LightTheme": 0.35,
-        "DarkTheme": 0.35
+        "LightTheme": "reveal",
+        "DarkTheme": "reveal"
       }
     },
     {
@@ -11749,6 +11838,30 @@
       }
     },
     {
+      "id": "skeleton.behavior.direction",
+      "value": "ltr",
+      "type": "string",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "skeleton",
+      "themeValues": {
+        "LightTheme": "ltr",
+        "DarkTheme": "ltr"
+      }
+    },
+    {
+      "id": "skeleton.behavior.highlightWidth",
+      "value": 40,
+      "type": "number",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "skeleton",
+      "themeValues": {
+        "LightTheme": 40,
+        "DarkTheme": 40
+      }
+    },
+    {
       "id": "skeleton.behavior.gap",
       "value": "sm",
       "type": "string",
@@ -11773,15 +11886,15 @@
       }
     },
     {
-      "id": "snackbar.behavior.transitionDelay",
-      "value": "0.35s",
+      "id": "snackbar.behavior.motion",
+      "value": "notification",
       "type": "string",
       "kind": "behavioral",
       "target": "component-prop",
       "appliesTo": "snackbar",
       "themeValues": {
-        "LightTheme": "0.35s",
-        "DarkTheme": "0.35s"
+        "LightTheme": "notification",
+        "DarkTheme": "notification"
       }
     },
     {
@@ -12097,15 +12210,15 @@
       }
     },
     {
-      "id": "callout.behavior.transitionMs",
-      "value": 250,
-      "type": "number",
+      "id": "callout.behavior.motion",
+      "value": "panel",
+      "type": "string",
       "kind": "behavioral",
       "target": "component-prop",
       "appliesTo": "callout",
       "themeValues": {
-        "LightTheme": 250,
-        "DarkTheme": 250
+        "LightTheme": "panel",
+        "DarkTheme": "panel"
       }
     },
     {
@@ -12276,7 +12389,7 @@
         "alert": {
           "topPosition": 40,
           "borderRadius": "sm",
-          "transitionSpeed": 0.35,
+          "motion": "notification",
           "elevation": "md"
         },
         "breadcrumb": {
@@ -12331,7 +12444,7 @@
           "size": 20,
           "ringColor": "outline",
           "fillColor": "surface",
-          "transitionSpeed": 0.3
+          "motion": "control"
         },
         "dialog": {
           "borderRadius": "lg",
@@ -12365,7 +12478,8 @@
           "border": "none",
           "borderRadius": "xxs",
           "color": "primary-surface",
-          "shadow": "menu"
+          "shadow": "menu",
+          "motion": "popup"
         },
         "menu": {
           "minWidth": 184,
@@ -12382,7 +12496,7 @@
           "typeface": "label",
           "hoverColor": "primary-container",
           "activeSymbol": "check",
-          "transitionSpeed": 0.35
+          "motion": "control"
         },
         "popover": {
           "color": "primary-surface",
@@ -12398,10 +12512,11 @@
           "headerTypeface": "title-small",
           "tooltipPadding": "4px 8px",
           "tooltipOpenDelay": 500,
-          "tooltipCloseDelay": 150
+          "tooltipCloseDelay": 150,
+          "motion": "panel"
         },
         "expand": {
-          "transitionSpeed": 0.35
+          "motion": "reveal"
         },
         "footer": {
           "height": 52,
@@ -12584,11 +12699,13 @@
           "borderRadius": "xs",
           "animation": "shimmer",
           "duration": 1.4,
+          "direction": "ltr",
+          "highlightWidth": 40,
           "gap": "sm"
         },
         "snackbar": {
           "bottomPosition": 40,
-          "transitionDelay": "0.35s",
+          "motion": "notification",
           "autoCloseDelay": 35000
         },
         "symbol": {
@@ -12623,7 +12740,7 @@
           "spotlightPadding": 6,
           "spotlightRadius": "xs",
           "ringWidth": 2,
-          "transitionMs": 250
+          "motion": "panel"
         },
         "tour": {
           "progressStyle": "dots",
@@ -12774,7 +12891,7 @@
         "alert": {
           "topPosition": 40,
           "borderRadius": "sm",
-          "transitionSpeed": 0.35,
+          "motion": "notification",
           "elevation": "md"
         },
         "breadcrumb": {
@@ -12829,7 +12946,7 @@
           "size": 20,
           "ringColor": "outline",
           "fillColor": "surface",
-          "transitionSpeed": 0.3
+          "motion": "control"
         },
         "dialog": {
           "borderRadius": "lg",
@@ -12863,7 +12980,8 @@
           "border": "none",
           "borderRadius": "xxs",
           "color": "primary-surface",
-          "shadow": "menu"
+          "shadow": "menu",
+          "motion": "popup"
         },
         "menu": {
           "minWidth": 184,
@@ -12880,7 +12998,7 @@
           "typeface": "label",
           "hoverColor": "primary-container",
           "activeSymbol": "check",
-          "transitionSpeed": 0.35
+          "motion": "control"
         },
         "popover": {
           "color": "primary-surface",
@@ -12896,10 +13014,11 @@
           "headerTypeface": "title-small",
           "tooltipPadding": "4px 8px",
           "tooltipOpenDelay": 500,
-          "tooltipCloseDelay": 150
+          "tooltipCloseDelay": 150,
+          "motion": "panel"
         },
         "expand": {
-          "transitionSpeed": 0.35
+          "motion": "reveal"
         },
         "footer": {
           "height": 52,
@@ -13082,11 +13201,13 @@
           "borderRadius": "xs",
           "animation": "shimmer",
           "duration": 1.4,
+          "direction": "ltr",
+          "highlightWidth": 40,
           "gap": "sm"
         },
         "snackbar": {
           "bottomPosition": 40,
-          "transitionDelay": "0.35s",
+          "motion": "notification",
           "autoCloseDelay": 35000
         },
         "symbol": {
@@ -13121,7 +13242,7 @@
           "spotlightPadding": 6,
           "spotlightRadius": "xs",
           "ringWidth": 2,
-          "transitionMs": 250
+          "motion": "panel"
         },
         "tour": {
           "progressStyle": "dots",
@@ -13135,6 +13256,72 @@
     {
       "package": "@uni-design-system/uni-angular",
       "releases": [
+        {
+          "version": "8.4.0",
+          "entries": [
+            {
+              "bump": "minor",
+              "title": "`uni-callout` and `uni-expand` now read their timing from the theme's `motion`",
+              "body": "scale, so every animated surface in the library is retimed from one place.\nThey were the last two carrying their own motion options — in different units,\nunder different names (`transitionMs` in milliseconds, `transitionSpeed` in\nseconds).\n\nA third token joins `popup` and `panel`:\n\n| Token    | Default           | Used by               |\n| -------- | ----------------- | --------------------- |\n| `reveal` | 350ms ease-in-out | expand, expand-toggle |\n\n`reveal` is a _base_ speed, not a final duration: `uni-expand` still scales it\nby content height (√-of-height, clamped) so short regions stay snappy and tall\nones aren't rushed, and its easing now drives the reveal curve, which was\nhardcoded. `uni-expand-toggle` resolves the token the same way, so the chevron\nand the region cannot drift apart. `uni-callout` maps onto `panel`, whose\n250ms matches what it already used.\n\n**Not breaking.** `transitionMs` and `transitionSpeed` are deprecated but\nstill honoured, and deliberately outrank `motion` — a theme that set either\nkeeps precisely its current timing rather than being retimed underneath it.\nThey are removed next major. Per-instance inputs, like `uni-expand`'s\n`transitionSpeed`, still outrank everything.\n\nNothing moves differently by default: callout renders 0.25s ease and expand\n0.35s ease-in-out exactly as before, verified against the rendered styles.",
+              "commit": "1aca747"
+            },
+            {
+              "bump": "minor",
+              "title": "New `createAnnouncer()` in the CDK's a11y helpers: the polite live region a",
+              "body": "form control uses for its running commentary — commits, clears, refused\nentries, result counts — changes a sighted user sees but that are otherwise\nsilent to a screen reader.\n\n`uni-combobox`, `uni-tag-input`, `uni-time-input`, `uni-date-input`,\n`uni-calendar` and `uni-tour` now share it instead of carrying byte-identical\ncopies. The helper holds no DOM and no styling: the `role=\"status\"` element\nstays in each component's own template, where its placement and\nvisually-hidden class already belong.\n\nThis fixes a real bug in `uni-tour`, which had a plain signal rather than a\ncopy of the shared idiom. Assistive tech reads a live region when its content\n_changes_, so writing the identical string is a no-op — its \"Next available\"\ngate message was announced on the first step that used it and silently dropped\non every later one. `createAnnouncer` breaks the equality with a trailing\nspace, inaudible to a screen reader, alternating between the two forms so\nnothing accumulates.\n\nConsuming the helper directly:\n\n```ts\nprotected readonly announcer = createAnnouncer();\n// this.announcer.announce('Alabama selected.');\n```\n\n```html\n<span role=\"status\" aria-live=\"polite\" [class]=\"srOnly\"> {{ announcer.message() }} </span>\n```\n\nThe region must already be in the DOM when the component renders — one added\nat the moment it gains text is not reliably announced.",
+              "commit": "e459f91"
+            },
+            {
+              "bump": "minor",
+              "title": "Home and End now move the caret in the combobox-style controls —",
+              "body": "`uni-combobox`, `uni-search-input`, `uni-tag-input` — instead of jumping to\nthe ends of the suggestion list. APG reserves those keys for text editing in\nan editable combobox, and a field that claims them makes its own text\nun-navigable exactly when you are most likely to be editing it: with the list\nopen. `uni-time-input` already behaved this way.\n\nNothing is lost. ArrowUp on a closed list already opens it on the last option,\nArrowDown on the first, and navigation wraps at both ends, so every position\nHome/End reached is still one keystroke away.\n\n`uni-multi-select-dropdown` keeps them: its roving focus rides the option\ncheckboxes rather than a text field, so there is no caret with a better claim.\n\n`ListboxNavigation` carries the switch as `homeEndNavigates`, defaulting to\nfalse — off is the right default for a control built around a text input,\nwhich is every consumer but one. If you build on the CDK helper directly and\nwant the old behavior, pass `homeEndNavigates: true`.\n\nThis also fixes a sharper bug in `uni-search-input` and `uni-tag-input`, where\nHome/End reached the navigation helper unconditionally: pressing either not\nonly moved the active option but _opened a closed suggestion list_.",
+              "commit": "6e2cfb1"
+            },
+            {
+              "bump": "minor",
+              "title": "The four listbox popups — `uni-search-input`, `uni-tag-input`,",
+              "body": "`uni-time-input` and `uni-combobox` — now render in the browser's top layer,\nanchored to their field, instead of as absolutely-positioned children of it.\nPut any of them inside a card, a table cell, a scroll area or a dialog and the\nsuggestion list is no longer clipped by that ancestor's `overflow`. The browser\ntracks the field natively, so the list follows on scroll and resize with no\nlisteners, and flips above the field near the bottom of the viewport.\n\nThey also open the way `uni-dropdown` does now — the same 100 ms scale-and-fade\n— so every popup panel in the library animates alike instead of the listboxes\nalone snapping into place. The origin is measured from where the popup actually\nopened, so one that flips above its field near the bottom of the viewport still\ngrows out of the edge it is attached to. Under `prefers-reduced-motion` there is\nno transition at all.\n\nNothing changes in the components' APIs or in how they dismiss. The popups use\n`popover=\"manual\"`, not `auto`: these controls already own dismissal through\nfocusout, Escape and commit, and `auto`'s light-dismiss fires on pointerdown\noutside the popup — which includes their own input, so it would close the list\non every click into the field.\n\nPositioning is gated on CSS anchor positioning support, checked together with\nthe top layer rather than separately. Browsers that have `popover` but not\nanchors — Safari 17 through 25 — keep the previous in-flow popup, which still\nclips inside `overflow: hidden` ancestors but stays on its field; promoting it\nthere would strand the list a viewport height down the page, since a top-layer\nelement has no positioned ancestor to resolve against.\n\nShared plumbing lives in `components/forms/listbox-popup.ts` alongside\n`listboxPopupStyles()`, which grew an optional `anchor` and now emits the\nin-flow rules as the base with the anchored ones in an `@supports` block.",
+              "commit": "dd33baa"
+            },
+            {
+              "bump": "minor",
+              "title": "`Option.disabled` now works in the three remaining `Options<T>` consumers, not",
+              "body": "just `uni-combobox`: `uni-select`, `uni-multi-select-dropdown` and\n`uni-multi-select`. Marking an individual choice `disabled` shows it without\noffering it — the plan that needs an upgrade, the channel that needs a verified\nphone number — instead of dropping it from the array and leaving the list\nlying about what exists.\n\n`uni-select` passes it to the native `<option>`, so the platform handles\nskipping, greying and announcement. The two multi-selects disable the option's\ncheckbox and refuse the toggle even when called directly. In\n`uni-multi-select-dropdown` the arrow keys step over disabled rows and Home/End\nland on the nearest enabled option — `ListboxNavigation` already knew how, it\njust was not being told which rows were disabled — so focus never parks on a\ncheckbox that cannot take it.\n\n`selectAll()` on both multi-selects now selects only enabled options. A\ndisabled option is not committable, so nothing may commit one on the user's\nbehalf; `deselectAll()` still clears everything. If you relied on `selectAll()`\nreturning every value including disabled ones, note that only options you have\nexplicitly marked `disabled` are affected. Whole-field `disabled` is unchanged\nand still disables the entire control.",
+              "commit": "2910c67"
+            },
+            {
+              "bump": "minor",
+              "title": "`uni-alert`, `uni-snackbar`, `uni-radio` and `uni-menu-item` now read their",
+              "body": "timing from the theme's `motion` scale, which completes the migration: every\nanimated component in the library is retimed from one place.\n\nTwo tokens join `popup`, `panel` and `reveal`:\n\n| Token          | Default           | Used by          |\n| -------------- | ----------------- | ---------------- |\n| `notification` | 350ms ease-in-out | alert, snackbar  |\n| `control`      | 300ms ease        | radio, menu-item |\n\n**One thing moves differently:** `menu-item`'s hover transition goes from\n0.35s to 0.3s, joining `radio` on the shared `control` token. The two were\nnever deliberately different — `radio`'s own option documented its 0.3 as\n\"matching menuItem\", which was not true — so this corrects drift rather than\nchanging a decision. A theme that wants the old timing can set the deprecated\n`transitionSpeed`, or retime `control`. Everything else is byte-identical,\nverified against the rendered styles.\n\n**Deprecated, still honoured, removed next major:**\n`alert.transitionSpeed`, `snackbar.transitionDelay`, `radio.transitionSpeed`\nand `menuItem.transitionSpeed` all still work and still outrank `motion`, so a\ntheme that set them keeps its exact timing. `menu-item`'s escape hatch is\nintact too: with neither the option nor a token set it still renders no\ntransition at all, and a token with `duration: 0` is the way to ask for\ninstant now.\n\n`card.transitionSpeed` and `input-box.transitionSpeed` are also deprecated,\nfor a different reason: **neither was ever read by its component.** Setting\nthem has never had any effect. They are removed next major and nothing needs\nto replace them.\n\n`uni-skeleton` is deliberately left out. Its shimmer is a loop rather than a\ntransition, and folding a repeating animation into a scale built around\nentering and leaving would make the scale mean two different things.",
+              "commit": "6f76c1d"
+            },
+            {
+              "bump": "minor",
+              "title": "`uni-skeleton` picks up the knobs an app theme could not reach. `color`, `highlightColor` and `borderRadius` are now inputs that take a token name and fall back to the theme option, because one screen routinely needs several of each — text bars and a pill chip do not share a corner (`borderRadius=\"max\"`), and a skeleton on a card wants a different tint than one on the page background.",
+              "body": "The shimmer is now a band swept with `transform` rather than an animated `background-position`: it composites instead of repainting every frame, and its geometry is themeable via two new options, `direction` (`'ltr' | 'rtl'`, default `'ltr'` — the sweep previously ran right-to-left) and `highlightWidth` (band width as a percentage of the block, default `40`). Both ends of the band are the base color, so it dissolves into the block with no alpha and no fringing.\n\nA new `label` input announces a standalone skeleton: set it and the host becomes `role=\"status\"` with visually hidden text instead of `aria-hidden=\"true\"`. Unlabelled skeletons stay `aria-hidden`, so container-level `aria-busy` patterns are unchanged.",
+              "commit": "228c17f"
+            },
+            {
+              "bump": "minor",
+              "title": "`uni-snackbar` now renders in the browser's top layer, so it can no longer be",
+              "body": "covered by a high `z-index` or clipped by an `overflow: hidden` or transformed\nancestor. It was the last overlay in the library still competing on stacking\norder: a `<dialog>` opened with `.show()`, which is the _non-modal_ form and\nnever enters the top layer, left it relying on `zIndex: Z_INDEX.dialog`. That\nheld only because apps mount the bar near the root — anywhere else, a\nconfirmation of what just happened could be silently buried.\n\nThe bar is now a `popover=\"manual\"`. Manual rather than auto because a\nsnackbar must not light-dismiss: a click anywhere else on the page would tear\nit away from someone still reading it. It is not `showModal()` either — that\nwould make the rest of the page inert to announce a transient message.\n\n`role=\"status\"`, the auto-close timer, its pause-on-hover and pause-on-focus\nbehaviour, the entry and exit animations, and the `[(show)]` / `open()` /\n`close()` API are all unchanged.\n\nThe element behind the component changed from `<dialog>` to `<div>`: the bar\nis never modal, and `<dialog>`'s `open` attribute would have been a second,\ncompeting notion of \"shown\" alongside the popover's own state. Styles that\nreach inside the component to target `uni-snackbar dialog` need updating —\n`uni-snackbar [role=\"status\"]` is the stable selector.",
+              "commit": "eb795a3"
+            },
+            {
+              "bump": "minor",
+              "title": "Overlay timing is now a theme token. `UniTheme` gains a `motion` scale",
+              "body": "alongside `radii`, `shadows` and the rest, and the overlays point at it by\nname instead of carrying their own hardcoded durations.\n\nUntil now a theme could slow a skeleton shimmer but not a dropdown: `expand`,\n`skeleton` and `callout` each exposed their own motion option while\n`uni-dropdown` hardcoded 100ms and the combobox-style listbox popups copied\nthat constant. Retiming the library meant editing components.\n\nTwo tokens ship, because two things genuinely move differently — a small panel\nattached to a control snaps, a larger free-floating surface settles:\n\n| Token   | Default            | Used by                                                                     |\n| ------- | ------------------ | --------------------------------------------------------------------------- |\n| `popup` | 100ms linear, ×0.8 | dropdown, menu, multi-select, combobox, search-input, tag-input, time-input |\n| `panel` | 250ms ease         | popover                                                                     |\n\nA token carries `duration` (ms), `easing`, and an optional `scale` for panels\nthat grow into place — one token rather than separate duration and easing\nscales, because they are one design decision: slowing a panel without\nsoftening its curve reads as sluggish rather than calm.\n\n```ts\ncreateTheme({\n  id: 'Calm',\n  name: 'Calm',\n  colors,\n  motion: { popup: { duration: 240, easing: 'ease-out', scale: 0.95 } },\n});\n```\n\nTokens you don't restate keep their base values, and a component can still\npoint at a token of its own through its `motion` option.\n\nNothing moves differently by default — every current duration, easing and\nscale is preserved exactly, verified against the rendered styles. Themes that\npredate the scale keep working: `createTheme` fills it in, the validator does\nnot require it, and a theme registered as JSON without it resolves to the base\ntiming rather than failing. `motionSafe` remains the floor, so a theme decides\nhow overlays move for people who want movement, never whether they move at\nall.\n\n`callout`'s existing `transitionMs` option and the `expand`/`skeleton`\ndurations are untouched for now; folding them into this scale is a follow-up.",
+              "commit": "3b51ace"
+            },
+            {
+              "bump": "patch",
+              "title": "`uni-dropdown` now uses the CDK's overlay helpers instead of its own copies of",
+              "body": "them. It predates `cdk/overlay`, so it had been carrying a duplicate\nplacement-to-`transform-origin` map, a duplicate focus-restore rule, a\nduplicate discrete-transition block, and hand-written anchor and toggle-state\ncode. `TRANSFORM_ORIGINS` had no consumers at all as a result — the shared\nconstant existed while the one component that needed it used its own copy.\n\nNo behaviour change: the dropdown's 100 ms linear scale-and-fade, its measured\ntransform origin, its focus restore and its ARIA wiring are all identical,\nverified against the rendered styles. Every export in `cdk/overlay` now has a\nconsumer, and the component is 35 lines shorter.\n\n`discreteOverlayTransition()` takes an optional fourth argument, a\n`transition-timing-function`. Omitted, nothing is emitted and the CSS initial\nvalue stands, so existing callers are untouched.\n\nOne real inconsistency fixed along the way: the listbox popups\n(`uni-combobox`, `uni-search-input`, `uni-tag-input`, `uni-time-input`) were\nintroduced to match `uni-dropdown`'s animation but ran on the default `ease`,\nwhile the dropdown uses `linear` — so a combobox and a multi-select dropdown\nin the same form opened at visibly different rates. They now share the\ndropdown's easing exactly.",
+              "commit": "676ec55"
+            }
+          ],
+          "dependencyBumps": []
+        },
         {
           "version": "8.3.1",
           "entries": [
@@ -13652,6 +13839,36 @@
       "package": "@uni-design-system/uni-core",
       "releases": [
         {
+          "version": "8.4.0",
+          "entries": [
+            {
+              "bump": "minor",
+              "title": "`uni-callout` and `uni-expand` now read their timing from the theme's `motion`",
+              "body": "scale, so every animated surface in the library is retimed from one place.\nThey were the last two carrying their own motion options — in different units,\nunder different names (`transitionMs` in milliseconds, `transitionSpeed` in\nseconds).\n\nA third token joins `popup` and `panel`:\n\n| Token    | Default           | Used by               |\n| -------- | ----------------- | --------------------- |\n| `reveal` | 350ms ease-in-out | expand, expand-toggle |\n\n`reveal` is a _base_ speed, not a final duration: `uni-expand` still scales it\nby content height (√-of-height, clamped) so short regions stay snappy and tall\nones aren't rushed, and its easing now drives the reveal curve, which was\nhardcoded. `uni-expand-toggle` resolves the token the same way, so the chevron\nand the region cannot drift apart. `uni-callout` maps onto `panel`, whose\n250ms matches what it already used.\n\n**Not breaking.** `transitionMs` and `transitionSpeed` are deprecated but\nstill honoured, and deliberately outrank `motion` — a theme that set either\nkeeps precisely its current timing rather than being retimed underneath it.\nThey are removed next major. Per-instance inputs, like `uni-expand`'s\n`transitionSpeed`, still outrank everything.\n\nNothing moves differently by default: callout renders 0.25s ease and expand\n0.35s ease-in-out exactly as before, verified against the rendered styles.",
+              "commit": "1aca747"
+            },
+            {
+              "bump": "minor",
+              "title": "`uni-alert`, `uni-snackbar`, `uni-radio` and `uni-menu-item` now read their",
+              "body": "timing from the theme's `motion` scale, which completes the migration: every\nanimated component in the library is retimed from one place.\n\nTwo tokens join `popup`, `panel` and `reveal`:\n\n| Token          | Default           | Used by          |\n| -------------- | ----------------- | ---------------- |\n| `notification` | 350ms ease-in-out | alert, snackbar  |\n| `control`      | 300ms ease        | radio, menu-item |\n\n**One thing moves differently:** `menu-item`'s hover transition goes from\n0.35s to 0.3s, joining `radio` on the shared `control` token. The two were\nnever deliberately different — `radio`'s own option documented its 0.3 as\n\"matching menuItem\", which was not true — so this corrects drift rather than\nchanging a decision. A theme that wants the old timing can set the deprecated\n`transitionSpeed`, or retime `control`. Everything else is byte-identical,\nverified against the rendered styles.\n\n**Deprecated, still honoured, removed next major:**\n`alert.transitionSpeed`, `snackbar.transitionDelay`, `radio.transitionSpeed`\nand `menuItem.transitionSpeed` all still work and still outrank `motion`, so a\ntheme that set them keeps its exact timing. `menu-item`'s escape hatch is\nintact too: with neither the option nor a token set it still renders no\ntransition at all, and a token with `duration: 0` is the way to ask for\ninstant now.\n\n`card.transitionSpeed` and `input-box.transitionSpeed` are also deprecated,\nfor a different reason: **neither was ever read by its component.** Setting\nthem has never had any effect. They are removed next major and nothing needs\nto replace them.\n\n`uni-skeleton` is deliberately left out. Its shimmer is a loop rather than a\ntransition, and folding a repeating animation into a scale built around\nentering and leaving would make the scale mean two different things.",
+              "commit": "6f76c1d"
+            },
+            {
+              "bump": "minor",
+              "title": "`uni-skeleton` picks up the knobs an app theme could not reach. `color`, `highlightColor` and `borderRadius` are now inputs that take a token name and fall back to the theme option, because one screen routinely needs several of each — text bars and a pill chip do not share a corner (`borderRadius=\"max\"`), and a skeleton on a card wants a different tint than one on the page background.",
+              "body": "The shimmer is now a band swept with `transform` rather than an animated `background-position`: it composites instead of repainting every frame, and its geometry is themeable via two new options, `direction` (`'ltr' | 'rtl'`, default `'ltr'` — the sweep previously ran right-to-left) and `highlightWidth` (band width as a percentage of the block, default `40`). Both ends of the band are the base color, so it dissolves into the block with no alpha and no fringing.\n\nA new `label` input announces a standalone skeleton: set it and the host becomes `role=\"status\"` with visually hidden text instead of `aria-hidden=\"true\"`. Unlabelled skeletons stay `aria-hidden`, so container-level `aria-busy` patterns are unchanged.",
+              "commit": "228c17f"
+            },
+            {
+              "bump": "minor",
+              "title": "Overlay timing is now a theme token. `UniTheme` gains a `motion` scale",
+              "body": "alongside `radii`, `shadows` and the rest, and the overlays point at it by\nname instead of carrying their own hardcoded durations.\n\nUntil now a theme could slow a skeleton shimmer but not a dropdown: `expand`,\n`skeleton` and `callout` each exposed their own motion option while\n`uni-dropdown` hardcoded 100ms and the combobox-style listbox popups copied\nthat constant. Retiming the library meant editing components.\n\nTwo tokens ship, because two things genuinely move differently — a small panel\nattached to a control snaps, a larger free-floating surface settles:\n\n| Token   | Default            | Used by                                                                     |\n| ------- | ------------------ | --------------------------------------------------------------------------- |\n| `popup` | 100ms linear, ×0.8 | dropdown, menu, multi-select, combobox, search-input, tag-input, time-input |\n| `panel` | 250ms ease         | popover                                                                     |\n\nA token carries `duration` (ms), `easing`, and an optional `scale` for panels\nthat grow into place — one token rather than separate duration and easing\nscales, because they are one design decision: slowing a panel without\nsoftening its curve reads as sluggish rather than calm.\n\n```ts\ncreateTheme({\n  id: 'Calm',\n  name: 'Calm',\n  colors,\n  motion: { popup: { duration: 240, easing: 'ease-out', scale: 0.95 } },\n});\n```\n\nTokens you don't restate keep their base values, and a component can still\npoint at a token of its own through its `motion` option.\n\nNothing moves differently by default — every current duration, easing and\nscale is preserved exactly, verified against the rendered styles. Themes that\npredate the scale keep working: `createTheme` fills it in, the validator does\nnot require it, and a theme registered as JSON without it resolves to the base\ntiming rather than failing. `motionSafe` remains the floor, so a theme decides\nhow overlays move for people who want movement, never whether they move at\nall.\n\n`callout`'s existing `transitionMs` option and the `expand`/`skeleton`\ndurations are untouched for now; folding them into this scale is a follow-up.",
+              "commit": "3b51ace"
+            }
+          ],
+          "dependencyBumps": []
+        },
+        {
           "version": "8.3.1",
           "entries": [],
           "dependencyBumps": []
@@ -14050,6 +14267,18 @@
     {
       "package": "@uni-design-system/uni-react",
       "releases": [
+        {
+          "version": "8.4.0",
+          "entries": [
+            {
+              "bump": "minor",
+              "title": "React layout primitives, at parity with Angular: `Box`, `Stack`, `Row`, `Center`, `Wrap`, `Grid` and `GridArea`. Angular applies layout as an attribute so the element's semantics stay the author's (`<main box-layout>`); React's equivalent is the polymorphic `as` prop — `<Box as=\"main\" padding=\"md\">` — with refs and DOM props forwarded to whatever element it renders.",
+              "body": "Props, defaults and resolution order are ported one-for-one from `UniBoxComponent`, so the same tokens produce the same CSS in both frameworks: token-driven color pairs, padding, radius, border, shadow, gap and z-index; a number is px and a string is a CSS length for every sizing prop; `dashBorder` draws the SVG dashed outline; `ignoreDir` (default on) still flips flex direction under `dir=\"rtl\"`. `Stack` keeps its `minHeight: fit-content` guard and `Row` its `minWidth: fit-content` — set `minHeight={0}` / `minWidth={0}` to shrink inside a constrained flex parent.\n\nSupporting this: `createThemeStyles`/`useThemeStyles` — the React port of the Angular `ThemeService` token → CSS resolvers, method-for-method — and `@emotion/css` (new peer dependency, matching the Angular package) so pseudo-selectors like `:dir(rtl)` resolve in a real class rather than an inline style. A Box that paints a container color now also provides that token to its descendants, so `Text` inside it picks up the matching on-color.",
+              "commit": "82d1341"
+            }
+          ],
+          "dependencyBumps": []
+        },
         {
           "version": "8.3.1",
           "entries": [],
