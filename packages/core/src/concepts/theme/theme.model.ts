@@ -43,6 +43,28 @@ export type Thicknesses = Partial<Record<Thickness | string, string | number>>;
 export type Icons = Record<string, string>;
 export type Icon = keyof Icons;
 
+/**
+ * A named motion primitive. Duration and easing are one token rather than two
+ * scales because they are one design decision: slowing a panel without
+ * softening its curve reads as sluggish rather than calm.
+ */
+export interface MotionToken {
+  /** Milliseconds. */
+  duration: number;
+  /** Any CSS `<easing-function>` — `linear`, `ease-out`, `cubic-bezier(…)`. */
+  easing: string;
+  /**
+   * Entry scale for panels that grow into place, e.g. `0.8`. Omitted by
+   * motions that only fade, and ignored by components that only fade.
+   */
+  scale?: number;
+}
+
+export type MotionName = 'popup' | 'panel';
+/** Open like Borders/Shadows: extra named primitives allowed. */
+export type Motions = Partial<Record<MotionName | string, MotionToken>>;
+export type Motion = keyof Motions;
+
 export interface UniTheme {
   id: string;
   name: string;
@@ -59,6 +81,8 @@ export interface UniTheme {
   spacing: Spacing;
   thicknesses: Thicknesses;
   icons: Icons;
+  /** Shared timing for overlays and reveals; components point at a name. */
+  motion: Motions;
 
   /** Per-component theming: fixed base + state-aware variants + sizes + options. */
   components: ComponentThemes;

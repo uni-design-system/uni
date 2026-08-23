@@ -1,6 +1,13 @@
 import { afterRenderEffect, ElementRef, inject, type Signal } from '@angular/core';
 import type { CSSObject } from '@emotion/css/create-instance';
-import type { ColorKey, ContainerColorToken, Radius, Shadow } from '@uni-design-system/uni-core';
+import type {
+  ColorKey,
+  ContainerColorToken,
+  Motion,
+  MotionToken,
+  Radius,
+  Shadow,
+} from '@uni-design-system/uni-core';
 import {
   anchorStyles,
   discreteOverlayTransition,
@@ -9,12 +16,6 @@ import {
   transformOriginFor,
 } from '../../cdk';
 import type { ThemeService } from '../../theming';
-
-/** Entry/exit timing, matching `uni-dropdown` so every popup panel in the
-    library opens the same way — including its easing, which is the one place
-    an overlay in this library departs from the CSS default. */
-const POPUP_TRANSITION_MS = 100;
-const POPUP_TRANSITION_EASING = 'linear';
 
 /**
  * Whether the browser can keep a top-layer popup attached to its field.
@@ -105,6 +106,9 @@ export interface UniListboxPopupOptions {
   /** Active/hover option fill; the on-color pair is derived. Must contrast
       with `listColor` or keyboard navigation turns invisible. */
   activeColor?: ColorKey;
+  /** Named motion primitive for the open animation. Defaults to `popup`, the
+      same token `uni-dropdown` uses, so every panel in a form opens alike. */
+  motion?: Motion;
 }
 
 /**
@@ -126,7 +130,7 @@ export interface UniListboxPopupOptions {
  * yields the anchor's border-box width, which the base rules' padding would
  * otherwise widen by 8px.
  */
-const anchoredPopupStyles = (anchor: string): CSSObject => ({
+const anchoredPopupStyles = (anchor: string, motion: MotionToken): CSSObject => ({
   ...anchorStyles(anchor, 'bottom-start', { mainAxis: 4 }),
   positionTryFallbacks: 'flip-block',
   width: 'anchor-size(width)',
@@ -137,10 +141,10 @@ const anchoredPopupStyles = (anchor: string): CSSObject => ({
   transformOrigin: 'top center',
   ...(motionSafe(
     discreteOverlayTransition(
-      POPUP_TRANSITION_MS,
-      { opacity: 0, transform: 'scale(0.8)' },
+      motion.duration,
+      { opacity: 0, transform: `scale(${motion.scale ?? 1})` },
       { opacity: 1, transform: 'scale(1)' },
-      POPUP_TRANSITION_EASING
+      motion.easing
     )
   ) as CSSObject),
 });
@@ -194,5 +198,7 @@ export const listboxPopupStyles = (
     },
   },
   // Last, so the anchored rules win over the in-flow ones they replace.
-  ...(anchor ? { '@supports (position-anchor: --a)': anchoredPopupStyles(anchor) } : {}),
+  ...(anchor
+    ? { '@supports (position-anchor: --a)': anchoredPopupStyles(anchor, theme.motion(options.motion)) }
+    : {}),
 });

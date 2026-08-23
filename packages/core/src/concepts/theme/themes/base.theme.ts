@@ -9,6 +9,7 @@ import type {
   Borders,
   Colors,
   Icons,
+  Motions,
   Radii,
   Shadows,
   Spacing,
@@ -155,6 +156,22 @@ const BaseSpacing: Spacing = {
 };
 
 const BaseThicknesses: Thicknesses = { thin: 1, standard: 2, thick: 4 };
+
+/**
+ * Shared overlay timing. Two tokens, because two things actually move
+ * differently: a small panel attached to a control snaps (`popup`), while a
+ * larger free-floating surface settles (`panel`).
+ *
+ * Fast and linear is deliberate for `popup`. It is the timing every
+ * trigger-anchored panel in the library uses — dropdown, menu, multi-select
+ * and the combobox-style listboxes — so a form full of them opens uniformly;
+ * at 100ms an easing curve is imperceptible anyway, and linear avoids the
+ * lag a slow-in curve adds to something the user is waiting on.
+ */
+const BaseMotion: Motions = {
+  popup: { duration: 100, easing: 'linear', scale: 0.8 },
+  panel: { duration: 250, easing: 'ease' },
+};
 
 const BaseRadii: Radii = {
   none: 'none',
@@ -330,7 +347,13 @@ const buildComponents = (c: Colors): ComponentThemes => ({
     },
   },
   dropdown: {
-    options: { border: 'none', borderRadius: 'xxs', color: 'primary-surface', shadow: 'menu' },
+    options: {
+      border: 'none',
+      borderRadius: 'xxs',
+      color: 'primary-surface',
+      shadow: 'menu',
+      motion: 'popup',
+    },
   },
   // Menu panel chrome. The undefined color/border/borderRadius/shadow fall
   // back to the `dropdown` options above, so menus follow generic popovers
@@ -396,6 +419,7 @@ const buildComponents = (c: Colors): ComponentThemes => ({
       tooltipPadding: '4px 8px',
       tooltipOpenDelay: 500,
       tooltipCloseDelay: 150,
+      motion: 'panel',
     },
   },
   // Base reveal/collapse duration (seconds, matching alert/card
@@ -873,6 +897,12 @@ export interface ThemeConfig {
   /** Override the elevation shadows, e.g. brand-tinted generated stacks. */
   shadows?: Shadows;
   /**
+   * Named motion primitives, merged over {@link BaseMotion}. Retime every
+   * overlay at once by restating a token — components point at these by name
+   * rather than carrying their own durations.
+   */
+  motion?: Motions;
+  /**
    * Sparse typography overrides, deep-merged over the base type scale:
    * restate only the roles — or the individual {@link TextStyle} fields
    * within a role — that change, and add product-specific roles under any
@@ -918,6 +948,7 @@ export const createTheme = ({
   icons = {},
   radii = BaseRadii,
   shadows = BaseShadows,
+  motion,
   typography,
   borders,
   thicknesses,
@@ -931,6 +962,7 @@ export const createTheme = ({
   radii,
   shadows,
   spacing: BaseSpacing,
+  motion: { ...BaseMotion, ...motion },
   thicknesses: { ...BaseThicknesses, ...thicknesses },
   icons: { ...BaseIcons, ...icons },
   components: deepMerge(buildComponents(colors), components),

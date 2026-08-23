@@ -318,6 +318,7 @@ export class UniPopoverComponent extends BaseComponent<UniPopoverOptions> {
 
   protected readonly popoverClassName = computed(() => {
     const options = this.componentOptions();
+    const motion = this.theme.motion(options.motion);
     return css({
       ...this.theme.colorPair(options.color),
       ...this.theme.radius(options.borderRadius),
@@ -329,7 +330,7 @@ export class UniPopoverComponent extends BaseComponent<UniPopoverOptions> {
       maxWidth: this.resolvedMaxWidth(),
       overflow: 'visible',
       ...anchorStyles(this.anchorName, this.placement(), { mainAxis: options.offset }),
-      ...discreteOverlayTransition(250, { opacity: 0 }, { opacity: 1 }),
+      ...discreteOverlayTransition(motion.duration, { opacity: 0 }, { opacity: 1 }, motion.easing),
     });
   });
 

@@ -12,12 +12,16 @@ import {
   supportsAnchoredPopup,
 } from './listbox-popup';
 
-/** Only the four resolvers the popup styles call; each contributes nothing. */
+/**
+ * Only the resolvers the popup styles call. The style ones contribute nothing;
+ * `motion` returns the base `popup` token, which is what the theme resolves.
+ */
 const theme = {
   colorPair: () => ({}),
   boxShadow: () => ({}),
   radius: () => ({}),
   typeface: () => ({}),
+  motion: () => ({ duration: 100, easing: 'linear', scale: 0.8 }),
 } as unknown as ThemeService;
 
 /** Installs a `CSS.supports` answering `yes` for the duration of one test. */

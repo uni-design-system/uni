@@ -69,7 +69,6 @@ export class UniDropdownComponent
   implements OnInit, OnDestroy
 {
   private renderer = inject(Renderer2);
-  private delay = 100;
 
   // Reactively track visibility status using Signals
   showing = signal<boolean>(false);
@@ -117,6 +116,7 @@ export class UniDropdownComponent
 
   dropdownClass = computed(() => {
     const currentPlacement = this.placement();
+    const motion = this.theme.motion(this.componentOptions().motion);
 
     return css([
       {
@@ -137,12 +137,13 @@ export class UniDropdownComponent
         transformOrigin: TRANSFORM_ORIGINS[currentPlacement],
 
         // Scale-and-fade into and out of the top layer, including the
-        // `@starting-style` the entry transition runs from.
+        // `@starting-style` the entry transition runs from. Timing comes from
+        // the theme's motion scale, so retiming every overlay is one edit.
         ...discreteOverlayTransition(
-          this.delay,
-          { opacity: 0, transform: 'scale(0.8)' },
+          motion.duration,
+          { opacity: 0, transform: `scale(${motion.scale ?? 1})` },
           { opacity: 1, transform: 'scale(1)' },
-          'linear'
+          motion.easing
         ),
       },
     ]);

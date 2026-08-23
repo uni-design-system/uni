@@ -1,4 +1,5 @@
 import type {
+  Motion,
   Border,
   ContainerColorToken,
   Radius,
@@ -34,5 +35,6 @@ export interface UniPopoverOptions {
   /** Hover open delay in tooltip mode, ms. */
   tooltipOpenDelay: number;
   /** Pointer-leave close delay in tooltip mode, ms. */
-  tooltipCloseDelay: number;
+  tooltipCloseDelay: number;  /** Named motion primitive for the open/close animation. */
+  motion: Motion;
 }

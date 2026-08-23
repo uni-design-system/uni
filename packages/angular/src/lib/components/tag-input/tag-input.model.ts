@@ -1,4 +1,11 @@
-import type { ContainerColorToken, NullableSize, Radius, Shadow, Size } from '@uni-design-system/uni-core';
+import type {
+  ContainerColorToken,
+  Motion,
+  NullableSize,
+  Radius,
+  Shadow,
+  Size,
+} from '@uni-design-system/uni-core';
 
 /**
  * One committed token. `value` is canonical — what a form submits — and
@@ -50,5 +57,7 @@ export interface UniTagInputOptions {
   /** Active/hover suggestion fill; the on-color pair is derived. Must
       contrast with `listColor` or keyboard navigation turns invisible. */
   activeColor?: ContainerColorToken;
-  maxSuggestions?: number;
+  maxSuggestions?: number;  /** Named motion primitive for the suggestion popup's open animation.
+      Defaults to `popup` — the token `uni-dropdown` uses. */
+  motion?: Motion;
 }

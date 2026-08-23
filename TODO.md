@@ -141,17 +141,24 @@ audits: `packages/angular/TODO.md` (v4 audit) and `uni-theme-generation-plan.md`
       `manual` rule that was folklore is now documented at the top of
       `cdk/overlay/overlay.ts`. Closes the deferred "dropdown-internals
       adoption" from the popover-family port.
-- [ ] **Popup motion isn't themable** — `uni-dropdown` hardcodes its 100 ms
-      scale-and-fade (`delay = 100`, `scale(0.8)`), and the listbox popups
-      copied that constant when they moved to the top layer 2026-08-22
-      (`POPUP_TRANSITION_MS` in `components/forms/listbox-popup.ts`). Meanwhile
-      `expand`, `skeleton` and `callout` *do* expose motion as theme options
-      (`duration`, `transitionMs`), so the library is inconsistent: a theme can
-      slow a skeleton shimmer but not a dropdown. Add duration/easing/scale to
-      `dropdown` options and have the listbox popups read the same values —
-      ideally as shared motion tokens rather than a per-component option, since
-      every overlay wants the same answer. Keep `motionSafe` as the floor: a
-      reduced-motion user gets no transition regardless of the theme.
+- [x] ~~Popup motion isn't themable~~ — done 2026-08-22 as a `motion` scale on
+      `UniTheme`, a named primitive like `radii`/`shadows`: `MotionToken` pairs
+      `duration`, `easing` and an optional `scale`, because they are one design
+      decision. Two tokens with live consumers — `popup` (dropdown, menu,
+      multi-select and the four listbox popups) and `panel` (popover) —
+      deliberately not a third without one, having just learned that lesson
+      from `TRANSFORM_ORIGINS`. `ThemeService.motion()` resolves with a
+      fallback chain so JSON themes predating the scale still animate; the
+      validator doesn't require it and `createTheme` fills it in, so nothing
+      breaks. Defaults preserve every current timing exactly (verified in
+      browser). `motionSafe` remains the floor.
+- [ ] **Fold the remaining motion options into the `motion` scale** — `callout`
+      still has `transitionMs`, and `expand`/`skeleton`/`alert` carry their own
+      `duration`/`transitionSpeed` in seconds. They predate the scale and each
+      invented a different unit and name. Migrating them is a breaking option
+      change per component, so batch it with a major; `expand`'s duration also
+      scales with content height, so it needs a token *plus* its curve rather
+      than a straight swap.
 - [ ] JSDoc coverage on public inputs/outputs — ongoing; feeds `llms.txt` and MCP
       summaries (empty where class JSDoc is missing).
 - [ ] **uni-symbol → uni-icon migration** (rule established 2026-08-21, AGENTS.md

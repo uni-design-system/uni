@@ -20,6 +20,7 @@ component renders resolves from it by **token name**. Nine fields:
 - `shadows` — named elevation shadows.
 - `spacing` — the spatial scale, `none` → `xl`.
 - `thicknesses` — line weights: `thin`, `standard`, `thick`.
+- `motion` — shared overlay timing: `popup` and `panel`.
 - `icons` — icon primitives as data-URI masks — see
   [Iconography](?path=/docs/core-iconography--iconography).
 - `components` — per-component theming: a fixed base, state-aware `variants`,
@@ -105,6 +106,41 @@ keep them in sync.
 ## Thicknesses
 
 <Story of={Stories.Thicknesses} />
+
+## Motion
+
+Overlay timing is a token, not a component detail: every trigger-anchored
+panel in the library points at the same named primitive, so retiming them is
+one edit rather than a hunt through components.
+
+Two tokens, because two things genuinely move differently — a small panel
+attached to a control snaps, a larger free-floating surface settles:
+
+| Token   | Default              | Used by                                              |
+| ------- | -------------------- | ---------------------------------------------------- |
+| `popup` | 100ms linear, ×0.8   | dropdown, menu, multi-select, combobox, search-input, tag-input, time-input |
+| `panel` | 250ms ease           | popover                                              |
+
+A token carries `duration` (ms), `easing` (any CSS easing function) and an
+optional `scale` for panels that grow into place. Slow every popup down, and
+soften its curve to match, in one place:
+
+```ts
+createTheme({
+  id: 'Calm',
+  name: 'Calm',
+  colors,
+  motion: { popup: { duration: 240, easing: 'ease-out', scale: 0.95 } },
+});
+```
+
+Tokens you don't restate keep their base values, and components may point at
+a token of their own — `components.dropdown.options.motion` — so one panel can
+differ without forking the scale.
+
+Motion is always behind `prefers-reduced-motion` where a component applies it
+through `motionSafe`: a theme sets how things move for people who want
+movement, never whether they move at all.
 
 ## Component theming
 

@@ -31,6 +31,8 @@ import {
   type Radius,
   type Border,
   type Shadow,
+  type Motion,
+  type MotionToken,
 } from '@uni-design-system/uni-core';
 
 import {
@@ -98,6 +100,9 @@ export class ThemeService {
   borders = computed(() => this.theme().borders);
   shadows = computed(() => this.theme().shadows);
   icons = computed(() => this.theme().icons);
+  // `?? {}` for themes registered as JSON that predate the motion scale —
+  // the validator does not require it, so they must not crash on read.
+  motions = computed(() => this.theme().motion ?? {});
 
   constructor() {
     // Honor the user's reduced-motion preference across every component
@@ -364,6 +369,19 @@ export class ThemeService {
       backgroundImage: `url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' rx='${borderRadius}' ry='${borderRadius}' stroke='${strokeColor}' stroke-width='4' stroke-dasharray='6%2c 14' stroke-dashoffset='0' stroke-linecap='square'/%3e%3c/svg%3e")`,
       borderRadius,
     };
+  }
+
+  /**
+   * Resolves a named motion primitive. Falls back to `popup` and then to a
+   * hard default, so a theme that predates the motion scale — or names a
+   * token that isn't there — still animates rather than snapping.
+   */
+  motion(token: Motion | undefined): MotionToken {
+    const motions = this.motions();
+    return (
+      (token ? motions[token] : undefined) ??
+      motions['popup'] ?? { duration: 100, easing: 'linear', scale: 0.8 }
+    );
   }
 
   radius(size: Radius | undefined): NullableStyleExpression {

@@ -1,4 +1,5 @@
 import type {
+  Motion,
   ContentColorToken,
   ContainerColorToken,
   IconName,
@@ -29,5 +30,7 @@ export interface UniComboboxOptions {
   activeColor?: ContainerColorToken;
   /** Scroll height in rows — the list scrolls past this, never truncates. */
   maxVisibleOptions?: number;
-  descriptionColor?: ContentColorToken;
+  descriptionColor?: ContentColorToken;  /** Named motion primitive for the suggestion popup's open animation.
+      Defaults to `popup` — the token `uni-dropdown` uses. */
+  motion?: Motion;
 }

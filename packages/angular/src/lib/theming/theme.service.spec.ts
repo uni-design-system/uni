@@ -1,5 +1,11 @@
 import { TestBed } from '@angular/core/testing';
-import { BaseIcons, DarkTheme, dehydrateTheme, LightTheme } from '@uni-design-system/uni-core';
+import {
+  BaseIcons,
+  createTheme,
+  DarkTheme,
+  dehydrateTheme,
+  LightTheme,
+} from '@uni-design-system/uni-core';
 
 import { ThemeService } from './theme.service';
 import { UNI_THEMES } from './theme.token';
@@ -171,6 +177,49 @@ describe('ThemeService', () => {
         service.themeOptions().map((option) => option.value)
       ).not.toContain(ThemeService.CUSTOM_KEY);
       expect(service.selectedThemeKey()).toBe('LightTheme');
+    });
+  });
+
+  describe('motion tokens', () => {
+    it('resolves a named motion primitive from the theme', () => {
+      const service = setup();
+      expect(service.motion('popup')).toEqual({ duration: 100, easing: 'linear', scale: 0.8 });
+    });
+
+    it('gives popup and panel different timings, because they move differently', () => {
+      const service = setup();
+      expect(service.motion('panel').duration).toBeGreaterThan(service.motion('popup').duration);
+    });
+
+    it('falls back to popup for an unnamed or unknown token', () => {
+      // A component that never set one, or a theme that dropped the token it
+      // named, still animates rather than snapping into place.
+      const service = setup();
+      expect(service.motion(undefined)).toEqual(service.motion('popup'));
+      expect(service.motion('no-such-token')).toEqual(service.motion('popup'));
+    });
+
+    it('survives a theme that predates the motion scale', () => {
+      // Registered-as-JSON themes are a supported channel and the validator
+      // does not require `motion`, so reading it must not crash.
+      const { motion: _dropped, ...older } = LightTheme;
+      const service = setup({ Older: older });
+
+      expect(service.motion('popup')).toEqual({ duration: 100, easing: 'linear', scale: 0.8 });
+    });
+
+    it('lets a theme retime every overlay at once', () => {
+      const slow = createTheme({
+        id: 'Slow',
+        name: 'Slow',
+        colors: LightTheme.colors,
+        motion: { popup: { duration: 400, easing: 'ease-out', scale: 0.9 } },
+      });
+      const service = setup({ Slow: slow });
+
+      expect(service.motion('popup')).toEqual({ duration: 400, easing: 'ease-out', scale: 0.9 });
+      // Untouched tokens still come from the base scale.
+      expect(service.motion('panel').duration).toBe(250);
     });
   });
 });
