@@ -20,18 +20,18 @@ import { COMPONENT_NAME } from '../../base/base.component';
 import { UniIconButtonComponent } from '../../icon-button';
 import { UniIconComponent } from '../../icon';
 import { IconName } from '../../icon/icon.record';
-import { UniBoxComponent, UniRowComponent } from '../../layout';
+import { UniBoxDirective, UniRowDirective } from '../../layout';
 import { UniSymbolComponent } from '../../symbol';
-import { UniTextComponent } from '../../text';
+import { UniTextDirective } from '../../text';
 import type { UniAlertOptions } from './alert.model';
 
 @Component({
   selector: 'uni-alert',
   imports: [
-    UniRowComponent,
+    UniRowDirective,
     UniIconButtonComponent,
-    UniTextComponent,
-    UniBoxComponent,
+    UniTextDirective,
+    UniBoxDirective,
     UniIconComponent,
     UniSymbolComponent,
   ],

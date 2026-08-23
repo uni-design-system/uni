@@ -21,9 +21,41 @@ only after the user has interacted (touched or dirty), and `required` syncs from
 Project adornments with the `pre-input` / `post-input` slots. For multi-line text
 use Textarea; for search semantics use Search Input.
 
+## Types and native behavior
+
+`type` takes the text-like native types — `text` (default), `email`, `password`,
+`search`, `tel`, `url`, `number` — so email, password and number fields do not have
+to drop down to a raw `<input>` inside an Input Box.
+
+Non-text types (`checkbox`, `radio`, `file`, `range`, `color`) are deliberately
+excluded: they break both the input chrome and the string value contract, and have
+their own components. So are `date` / `time` / `datetime-local` — use
+[Date Input](?path=/docs/components-forms-date-input--date-input),
+Time Input or Date Time Input, which handle locale parsing and keyboard entry.
+
+The platform passthroughs are `autocomplete`, `inputMode`, `list` (a `<datalist>`
+id), `step` and `spellcheck`. `readonly`, `name`, `min`, `max`, `minLength`,
+`maxLength` and `pattern` are Signal Forms' own control inputs, so `[field]` syncs
+them from your validators the way it already syncs `required` — and they are
+reflected onto the native element so the browser can help too.
+
+```html
+<uni-input label="Email" type="email" autocomplete="email" [(value)]="email" />
+<uni-input label="Password" type="password" autocomplete="current-password" [(value)]="pw" />
+```
+
+Signal Forms treats multiple `pattern`s as all-must-match, which the native
+attribute cannot express — so it is reflected only when there is exactly one.
+
 ## Usage
 
 <StoryUsage of={Stories.Primary} />
+
+### Examples
+
+<StoryExample of={Stories.Types} />
+
+<StoryExample of={Stories.WithDatalist} />
 
 ## Invalid state
 

@@ -35,6 +35,21 @@ export class UniTextareaComponent implements FormValueControl<string> {
   placeholder = input('');
   /** Visible text rows. Defaults to the theme's `textarea` options. */
   rows = input<number | undefined>(undefined);
+  // Signal Forms' own optional control inputs: the `[field]` directive syncs
+  // them from the field's validators, as it does `required`.
+  readonly readonly = input(false);
+  readonly name = input('');
+  readonly minLength = input<number | undefined>(undefined);
+  readonly maxLength = input<number | undefined>(undefined);
+
+  // --- NATIVE ATTRIBUTE PASSTHROUGHS ---
+  autocomplete = input<string>();
+  spellcheck = input<boolean>();
+
+  // --- SIZING (forwarded to uni-input-box) ---
+  width = input<string | number | undefined>(undefined);
+  fullWidth = input<boolean>(false);
+  grow = input<number | undefined>(undefined);
 
   private options = this.theme.getComponentOptions<UniTextareaOptions>('textarea');
 

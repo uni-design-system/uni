@@ -2,13 +2,13 @@ import { booleanAttribute, ChangeDetectionStrategy, Component, input, output, vi
 import type { NullableSize } from '@uni-design-system/uni-core';
 import { UniExpandToggleComponent } from '../expand-toggle/expand-toggle.component';
 import { UniExpandComponent } from '../expand/expand.component';
-import { UniBoxComponent } from '../layout';
-import { UniTextComponent } from '../text/text.component';
+import { UniBoxDirective } from '../layout';
+import { UniTextDirective } from '../text/text.directive';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'uni-expand-area',
-  imports: [UniBoxComponent, UniTextComponent, UniExpandToggleComponent, UniExpandComponent],
+  imports: [UniBoxDirective, UniTextDirective, UniExpandToggleComponent, UniExpandComponent],
   template: `
     <div box-layout color="tertiary-surface" borderRadius="sm" border="quaternary" overflow="hidden">
       <div box-layout

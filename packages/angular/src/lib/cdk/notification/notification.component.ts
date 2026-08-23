@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, inject, input } from '@angular/core';
 import { NotificationService } from './notification.service';
 import { NotificationsComponent } from '../../components/notifications';
-import { UniButtonComponent, UniRowComponent } from '../../components';
+import { UniButtonComponent, UniRowDirective } from '../../components';
 
 @Component({
   selector: 'uni-notifications-story-component, notifications-story-component',
@@ -20,7 +20,7 @@ import { UniButtonComponent, UniRowComponent } from '../../components';
       <uni-notifications></uni-notifications>
     }`,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NotificationsComponent, UniRowComponent, UniButtonComponent],
+  imports: [NotificationsComponent, UniRowDirective, UniButtonComponent],
 })
 export class NotificationStoryComponent {
   private notifications = inject(NotificationService);

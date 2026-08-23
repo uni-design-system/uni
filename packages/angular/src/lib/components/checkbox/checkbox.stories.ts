@@ -1,6 +1,6 @@
 import { argsToTemplate, Meta, moduleMetadata, StoryObj } from '@storybook/angular';
 import { UniCheckboxComponent as CheckboxComponent } from './checkbox.component';
-import { UniBoxComponent, UniRowComponent, UniStackComponent } from '../layout';
+import { UniBoxDirective, UniRowDirective, UniStackDirective } from '../layout';
 
 type StoryType = CheckboxComponent;
 
@@ -9,7 +9,7 @@ const meta: Meta<StoryType> = {
   component: CheckboxComponent,
   decorators: [
     moduleMetadata({
-      imports: [UniStackComponent, UniRowComponent, UniBoxComponent, ],
+      imports: [UniStackDirective, UniRowDirective, UniBoxDirective, ],
     }),
   ],
   render: (args) => ({

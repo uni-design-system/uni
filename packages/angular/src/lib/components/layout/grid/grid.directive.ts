@@ -1,17 +1,14 @@
-import { ChangeDetectionStrategy, Component, computed, input } from '@angular/core';
+import { Directive, computed, input } from '@angular/core';
 import { css } from '@emotion/css';
 
-import { UniBoxComponent } from '../box/box.component';
+import { UniBoxDirective } from '../box/box.directive';
 import type { OptionalDisplay, Thickness, Variant } from '@uni-design-system/uni-core';
 
-@Component({
+@Directive({
   selector: '[uni-grid-layout], [grid-layout]',
-  imports: [],
-  template: `<ng-content></ng-content>`,
-  changeDetection: ChangeDetectionStrategy.OnPush,
   host: { '[class]': 'gridClassName()' },
 })
-export class UniGridComponent extends UniBoxComponent {
+export class UniGridDirective extends UniBoxDirective {
   override display = input<OptionalDisplay>('grid');
 
   templateAreas = input<string>();

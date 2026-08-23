@@ -1,9 +1,9 @@
 import { Meta, moduleMetadata, StoryObj } from '@storybook/angular';
 import { starWarsCharacters } from '../../../stories/data/star-wars-characters';
 import { UniRecordDatasource } from '../../cdk';
-import { UniTextComponent } from '../text/text.component';
+import { UniTextDirective } from '../text/text.directive';
 import { UniSortHeaderComponent as SortHeader } from './sort-header.component';
-import { UniBoxComponent } from '../layout';
+import { UniBoxDirective } from '../layout';
 
 type StoryType = SortHeader<any>;
 
@@ -12,7 +12,7 @@ const meta: Meta<StoryType> = {
   component: SortHeader,
   decorators: [
     moduleMetadata({
-      imports: [UniBoxComponent, UniTextComponent],
+      imports: [UniBoxDirective, UniTextDirective],
     }),
   ],
   argTypes: {

@@ -10,7 +10,7 @@ import {
 } from '@angular/core';
 import { css } from '@emotion/css';
 
-import { UniBoxComponent } from '../../layout';
+import { UniBoxDirective } from '../../layout';
 import { UniSymbolComponent } from '../../symbol';
 import { ThemeService } from '../../../theming';
 import { HOVER_OR_KEYBOARD_FOCUS, type ContainerColorToken, type Variant } from '@uni-design-system/uni-core';
@@ -18,7 +18,7 @@ import type { UniMenuItemOptions } from './menu-item.model';
 
 @Component({
   selector: '[uni-menu-item], [menu-item]',
-  imports: [UniSymbolComponent, UniBoxComponent, NgTemplateOutlet],
+  imports: [UniSymbolComponent, UniBoxDirective, NgTemplateOutlet],
   templateUrl: './menu-item.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {

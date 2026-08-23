@@ -4,7 +4,7 @@ import { css } from '@emotion/css';
 import { BaseComponent, COMPONENT_NAME } from '../base/base.component';
 import type { UniButtonOptions } from './button.model';
 import { UniIconComponent } from '../icon';
-import { UniBoxComponent } from '../layout';
+import { UniBoxDirective } from '../layout';
 import { UniSymbolComponent } from '../symbol';
 import { RippleDirective } from '../../directives/ripple';
 
@@ -25,7 +25,7 @@ import { RippleDirective } from '../../directives/ripple';
   imports: [
     RippleDirective, // Keep this import
     UniIconComponent,
-    UniBoxComponent,
+    UniBoxDirective,
     UniSymbolComponent,
   ],
   host: {

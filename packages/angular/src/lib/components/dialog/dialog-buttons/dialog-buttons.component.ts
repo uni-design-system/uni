@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, computed, inject, input, output } from '@angular/core';
 import { css } from '@emotion/css';
 import { UniButtonComponent } from '../../button';
-import { UniRowComponent } from '../../layout';
+import { UniRowDirective } from '../../layout';
 import { BaseComponent, COMPONENT_NAME } from '../../base/base.component';
 import { UniDialogComponent } from '../dialog.component';
 import type { JustifyContent, NullableSize, Size, Variant } from '@uni-design-system/uni-core';
@@ -9,7 +9,7 @@ import type { UniDialogButtonsOptions } from './dialog-buttons.model';
 
 @Component({
   selector: '[uni-dialog-buttons], [dialog-buttons]',
-  imports: [UniRowComponent, UniButtonComponent],
+  imports: [UniRowDirective, UniButtonComponent],
   templateUrl: './dialog-buttons.component.html',
   providers: [{ provide: COMPONENT_NAME, useValue: 'dialogButtons' }],
   changeDetection: ChangeDetectionStrategy.OnPush,

@@ -1,6 +1,6 @@
 import { argsToTemplate, Meta, StoryObj, moduleMetadata } from '@storybook/angular';
 import { UniStatComponent } from './stat.component';
-import { UniGridComponent } from '../layout';
+import { UniGridDirective } from '../layout';
 
 type StoryType = UniStatComponent;
 
@@ -11,7 +11,7 @@ const meta: Meta<StoryType> = {
     const { ...props } = args;
     return { props, template: `<uni-stat ${argsToTemplate(props)}></uni-stat>` };
   },
-  decorators: [moduleMetadata({ imports: [UniGridComponent] })],
+  decorators: [moduleMetadata({ imports: [UniGridDirective] })],
   argTypes: {
     label: { control: 'text', description: 'What is being measured, sentence case.' },
     value: {

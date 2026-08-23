@@ -2,7 +2,7 @@ import { argsToTemplate, Meta, StoryObj, moduleMetadata } from '@storybook/angul
 import { starWarsCharacters } from '../../../stories/data/star-wars-characters';
 import { UniRecordDatasource } from '../../cdk';
 import { UniPaginatorComponent as Paginator } from './paginator.component';
-import { UniBoxComponent } from '../layout';
+import { UniBoxDirective } from '../layout';
 
 type StoryType = Paginator<any>;
 
@@ -23,7 +23,7 @@ const meta: Meta<StoryType> = {
       `,
     };
   },
-  decorators: [moduleMetadata({ imports: [UniBoxComponent] })],
+  decorators: [moduleMetadata({ imports: [UniBoxDirective] })],
   argTypes: {
     datasource: {
       description: 'The UniDatasource instance the paginator controls.',

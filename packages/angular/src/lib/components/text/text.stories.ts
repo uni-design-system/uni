@@ -1,13 +1,13 @@
 import { Meta, StoryObj, moduleMetadata } from '@storybook/angular';
-import { UniTextComponent } from './text.component';
-import { UniBoxComponent, UniStackComponent } from '../layout';
+import { UniTextDirective } from './text.directive';
+import { UniBoxDirective, UniStackDirective } from '../layout';
 
-type StoryType = UniTextComponent;
+type StoryType = UniTextDirective;
 
 const meta: Meta<StoryType> = {
   title: 'Components/Primitives/Text',
-  component: UniTextComponent,
-  decorators: [moduleMetadata({ imports: [UniBoxComponent, UniStackComponent] })],
+  component: UniTextDirective,
+  decorators: [moduleMetadata({ imports: [UniBoxDirective, UniStackDirective] })],
   argTypes: {
     uniText: {
       control: 'text',

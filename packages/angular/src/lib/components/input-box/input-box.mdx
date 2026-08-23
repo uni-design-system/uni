@@ -20,6 +20,21 @@ disabled states.
 Use it directly when composing a custom form control that should match the design system's
 input styling.
 
+## Sizing
+
+The `<uni-input-box>` host is `display: contents` — it is layout-transparent, so the
+real box is the flex row inside it. That means a width, a `grow`, or a layout
+attribute set on the element itself is dropped.
+
+Size it with `width`, `fullWidth`, `grow` and `minWidth`, which reach the inner
+box; there is no need to wrap it in a `<div>`. `uni-input`, `uni-textarea` and
+`uni-select` forward the same four.
+
+```html
+<uni-input-box fullWidth>…</uni-input-box>
+<uni-input label="City" [grow]="1" />
+```
+
 ## Usage
 
 <StoryUsage of={Stories.Primary} />

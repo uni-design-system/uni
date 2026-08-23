@@ -125,11 +125,27 @@ const CATEGORY_BY_KEYWORD: Array<[RegExp, string]> = [
   [/button|icon|symbol|text|background|theme-builder/, 'primitives'],
 ];
 
+/**
+ * Ids the keyword pass gets wrong. The patterns match substrings and the rows
+ * are tried in order, so a name that merely contains an earlier row's keyword
+ * lands in the wrong bucket — and a miscategorized component is invisible to
+ * `list-components --category`, which is how agents and humans find things.
+ */
+const CATEGORY_OVERRIDES: Record<string, string> = {
+  // `/text/` matches inside "textarea" and wins before the forms row is tried.
+  textarea: 'forms',
+  // `/box/` matches inside "combobox", sending a form control to layout.
+  combobox: 'forms',
+  // `/toggle/` (forms) beats `/expand/` (layout); it is a disclosure control.
+  'expand-toggle': 'layout',
+};
+
 /** Classify a component by path segment first, then keyword heuristics. */
 function classify(path: string, id: string): string {
   if (path.startsWith('cdk/')) return 'cdk';
   if (path.startsWith('directives/')) return 'directives';
   if (path.startsWith('theming/')) return 'theming';
+  if (CATEGORY_OVERRIDES[id]) return CATEGORY_OVERRIDES[id];
   for (const [re, cat] of CATEGORY_BY_KEYWORD) if (re.test(id)) return cat;
   return 'components';
 }

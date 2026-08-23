@@ -1,6 +1,6 @@
 import { argsToTemplate, Meta, moduleMetadata, StoryObj } from '@storybook/angular';
 
-import { UniRowComponent as Row } from './row.component';
+import { UniRowDirective as Row } from './row.directive';
 import { UniButtonComponent } from '../../button';
 
 type StoryType = Row;

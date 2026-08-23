@@ -545,10 +545,12 @@ const components = (p: WellsourcedPalette): ComponentThemes => ({
   },
 });
 
+// Typography is fully explicit here (no base spread), so it replaces the scale
+// rather than merging over it — which `createTheme`'s deep merge would do.
+// Spacing goes through `createTheme` like every other scale.
 const withWellsourcedScales = (theme: UniTheme): UniTheme => ({
   ...theme,
   typography,
-  spacing,
 });
 
 export const WellsourcedLight: UniTheme = withWellsourcedScales(
@@ -561,6 +563,7 @@ export const WellsourcedLight: UniTheme = withWellsourcedScales(
     shadows: shadows(lightPalette),
     radii,
     thicknesses,
+    spacing,
   })
 );
 
@@ -574,6 +577,7 @@ export const WellsourcedDark: UniTheme = withWellsourcedScales(
     shadows: shadows(darkPalette),
     radii,
     thicknesses,
+    spacing,
   })
 );
 

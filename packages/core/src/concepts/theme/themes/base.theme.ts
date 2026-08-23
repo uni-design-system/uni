@@ -153,6 +153,9 @@ const BaseSpacing: Spacing = {
   md: '16px',
   lg: '32px',
   xl: '64px',
+  // Completes the doubling. It was in the `Size` union but absent from every
+  // base theme, so `padding="xxl"` type-checked and silently rendered nothing.
+  xxl: '128px',
 };
 
 const BaseThicknesses: Thicknesses = { thin: 1, standard: 2, thick: 4 };
@@ -933,6 +936,13 @@ export interface ThemeConfig {
    */
   thicknesses?: Thicknesses;
   /**
+   * Spacing steps, merged over the base scale (the named steps stay unless
+   * restated). Extra tokens may use any name — `{ tight: '6px' }` is then a
+   * valid `padding` / `gap` value everywhere — so an app's real rhythm does
+   * not have to be forced onto a doubling scale.
+   */
+  spacing?: Spacing;
+  /**
    * Sparse per-component overrides, deep-merged over the derived component
    * themes: only the sections you provide (fixed/variants/sizes/options keys)
    * are replaced; everything else keeps tracking the library defaults.
@@ -963,6 +973,7 @@ export const createTheme = ({
   typography,
   borders,
   thicknesses,
+  spacing,
   components,
 }: ThemeConfig): UniTheme => ({
   id,
@@ -972,7 +983,7 @@ export const createTheme = ({
   borders: deepMerge(buildBorders(colors), borders),
   radii,
   shadows,
-  spacing: BaseSpacing,
+  spacing: { ...BaseSpacing, ...spacing },
   motion: { ...BaseMotion, ...motion },
   thicknesses: { ...BaseThicknesses, ...thicknesses },
   icons: { ...BaseIcons, ...icons },

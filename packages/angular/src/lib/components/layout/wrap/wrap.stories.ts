@@ -1,11 +1,11 @@
 import { Meta, StoryObj } from '@storybook/angular';
-import { UniWrapComponent } from './wrap.component';
+import { UniWrapDirective } from './wrap.directive';
 
-type StoryType = UniWrapComponent;
+type StoryType = UniWrapDirective;
 
 const meta: Meta<StoryType> = {
   title: 'Components/Layout/Wrap',
-  component: UniWrapComponent,
+  component: UniWrapDirective,
 };
 
 export default meta;

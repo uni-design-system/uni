@@ -5,7 +5,7 @@ import { ThemeService } from '../../theming';
 import type { UniExpandOptions } from '../expand/expand.model';
 import { UniIconComponent } from '../icon/icon.component';
 import { UniIconButtonComponent } from '../icon-button/icon-button.component';
-import { UniTextComponent } from '../text/text.component';
+import { UniTextDirective } from '../text/text.directive';
 
 /**
  * Trigger for a {@link UniExpandComponent} region.
@@ -19,7 +19,7 @@ import { UniTextComponent } from '../text/text.component';
  */
 @Component({
   selector: 'uni-expand-toggle',
-  imports: [UniIconComponent, UniIconButtonComponent, UniTextComponent],
+  imports: [UniIconComponent, UniIconButtonComponent, UniTextDirective],
   template: `
     @if (label()) {
       <button

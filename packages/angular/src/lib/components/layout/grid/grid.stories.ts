@@ -1,8 +1,8 @@
 import { argsToTemplate, Meta, moduleMetadata, StoryObj } from '@storybook/angular';
-import { UniTextComponent } from '../../text';
-import { UniBoxComponent } from '../box/box.component';
-import { UniGridAreaComponent } from './grid-area/grid-area.component';
-import { UniGridComponent as Grid } from './grid.component';
+import { UniTextDirective } from '../../text';
+import { UniBoxDirective } from '../box/box.directive';
+import { UniGridAreaDirective } from './grid-area/grid-area.directive';
+import { UniGridDirective as Grid } from './grid.directive';
 
 type StoryType = Grid;
 
@@ -11,7 +11,7 @@ const meta: Meta<StoryType> = {
   component: Grid,
   decorators: [
     moduleMetadata({
-      imports: [UniGridAreaComponent, UniBoxComponent, UniTextComponent],
+      imports: [UniGridAreaDirective, UniBoxDirective, UniTextDirective],
     }),
   ],
 };

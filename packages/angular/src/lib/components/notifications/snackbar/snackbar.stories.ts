@@ -1,8 +1,8 @@
 import { argsToTemplate, Meta, moduleMetadata, StoryObj } from '@storybook/angular';
 import { UniButtonComponent } from '../../button';
 import { UniDialogHeaderComponent } from '../../dialog';
-import { UniCenterComponent } from '../../layout';
-import { UniTextComponent } from '../../text';
+import { UniCenterDirective } from '../../layout';
+import { UniTextDirective } from '../../text';
 import { UniSnackbarComponent as Snackbar } from './snackbar.component';
 
 type StoryType = Snackbar & { ngContent?: string };
@@ -12,7 +12,7 @@ const meta: Meta<StoryType> = {
   component: Snackbar,
   decorators: [
     moduleMetadata({
-      imports: [UniButtonComponent, UniTextComponent, UniCenterComponent, UniDialogHeaderComponent],
+      imports: [UniButtonComponent, UniTextDirective, UniCenterDirective, UniDialogHeaderComponent],
     }),
   ],
   render: (args) => {

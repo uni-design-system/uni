@@ -3,8 +3,8 @@ import { UniDrawerComponent } from './drawer.component';
 import { UniAppBarComponent } from '../app-bar';
 import { UniButtonComponent } from '../button';
 import { UniIconButtonComponent } from '../icon-button';
-import { UniBoxComponent, UniRowComponent, UniStackComponent } from '../layout';
-import { UniTextComponent } from '../text';
+import { UniBoxDirective, UniRowDirective, UniStackDirective } from '../layout';
+import { UniTextDirective } from '../text';
 
 type StoryType = UniDrawerComponent;
 
@@ -17,10 +17,10 @@ const meta: Meta<StoryType> = {
         UniAppBarComponent,
         UniButtonComponent,
         UniIconButtonComponent,
-        UniBoxComponent,
-        UniRowComponent,
-        UniStackComponent,
-        UniTextComponent,
+        UniBoxDirective,
+        UniRowDirective,
+        UniStackDirective,
+        UniTextDirective,
       ],
     }),
   ],

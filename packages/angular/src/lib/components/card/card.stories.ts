@@ -3,7 +3,7 @@ import { applicationConfig, Meta, moduleMetadata, StoryObj } from '@storybook/an
 import { UniCardContentComponent } from './card-content/card-content.component';
 import { UniCardHeaderComponent } from './card-header/card-header.component';
 import { UniCardComponent as Card } from './card.component';
-import { UniTextComponent } from '../text';
+import { UniTextDirective } from '../text';
 
 type StoryType = Card & { ngContent?: string };
 
@@ -12,7 +12,7 @@ const meta: Meta<StoryType> = {
   component: Card,
   decorators: [
     moduleMetadata({
-      imports: [UniCardHeaderComponent, UniCardContentComponent, UniTextComponent],
+      imports: [UniCardHeaderComponent, UniCardContentComponent, UniTextDirective],
     }),
     applicationConfig({
       providers: [],

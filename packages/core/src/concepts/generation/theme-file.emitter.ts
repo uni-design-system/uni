@@ -69,6 +69,7 @@ const themeExport = (
     `  shadows: ${shadowsConst},`,
     '  icons,',
     ...(radii ? ['  radii,'] : []),
+    '  spacing,',
     '});',
   ].join('\n');
 
@@ -146,6 +147,7 @@ export const emitThemeFile = (input: ThemeFileInput): EmittedThemeFile => {
     '  type ComponentThemes,',
     '  type Icons,',
     '  type Shadows,',
+    '  type Spacing,',
     '  type UniTheme,',
     "} from '@uni-design-system/uni-core';",
     '',
@@ -187,6 +189,15 @@ export const emitThemeFile = (input: ThemeFileInput): EmittedThemeFile => {
     ' * your set, or the glyphs will not share an optical weight.',
     ' */',
     'const icons: Icons = {};',
+    '',
+    '/**',
+    ' * Spacing steps, merged over the base scale',
+    " * (none: 0, xxs: 2px, xs: 4px, sm: 8px, md: 16px, lg: 32px, xl: 64px, xxl: 128px).",
+    ' * Restate a named step to retune the rhythm, and add your own names for the',
+    ' * gaps your design actually uses — every extra key is then a valid `padding`,',
+    " * `gap` or `marginInline` value: `<div stack-layout gap='tight'>`.",
+    ' */',
+    'const spacing: Spacing = {};',
     '',
     ...(radii
       ? [

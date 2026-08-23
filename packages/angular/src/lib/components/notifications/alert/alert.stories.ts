@@ -1,8 +1,8 @@
 import { argsToTemplate, Meta, moduleMetadata, StoryObj } from '@storybook/angular';
 import { UniButtonComponent } from '../../button';
 import { UniDialogHeaderComponent } from '../../dialog';
-import { UniCenterComponent } from '../../layout';
-import { UniTextComponent } from '../../text';
+import { UniCenterDirective } from '../../layout';
+import { UniTextDirective } from '../../text';
 import { UniAlertComponent as Alert } from './alert.component';
 
 type StoryType = Alert & { ngContent?: string };
@@ -12,7 +12,7 @@ const meta: Meta<StoryType> = {
   component: Alert,
   decorators: [
     moduleMetadata({
-      imports: [UniButtonComponent, UniTextComponent, UniCenterComponent, UniDialogHeaderComponent],
+      imports: [UniButtonComponent, UniTextDirective, UniCenterDirective, UniDialogHeaderComponent],
     }),
   ],
   render: (args) => {

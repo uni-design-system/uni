@@ -4,13 +4,13 @@ import { css } from '@emotion/css';
 import type { ColorToken } from '@uni-design-system/uni-core';
 import { BaseComponent } from '../base';
 import { COMPONENT_NAME } from '../base/base.component';
-import { UniTextComponent } from '../text/text.component';
+import { UniTextDirective } from '../text/text.directive';
 import type { UniRadioOption, UniRadioOptions } from './radio.model';
 import { uniqueId } from '../../cdk';
 
 @Component({
   selector: 'uni-radio',
-  imports: [UniTextComponent],
+  imports: [UniTextDirective],
   templateUrl: './radio.component.html',
   providers: [{ provide: COMPONENT_NAME, useValue: 'radio' }],
   changeDetection: ChangeDetectionStrategy.OnPush,

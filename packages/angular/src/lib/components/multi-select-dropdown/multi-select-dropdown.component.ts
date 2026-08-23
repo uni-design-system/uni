@@ -12,12 +12,12 @@ import { FormValueControl } from '@angular/forms/signals';
 import { css } from '@emotion/css';
 import { createListboxNavigation, Option, visuallyHidden, type Options } from '../../cdk';
 import { removeInputPlatformStyling } from '@uni-design-system/uni-core';
-import { UniBoxComponent, UniRowComponent, UniStackComponent } from '../layout';
+import { UniBoxDirective, UniRowDirective, UniStackDirective } from '../layout';
 import { UniButtonComponent } from '../button/button.component';
 import { UniDividerComponent } from '../divider';
 import { UniDropdownComponent } from '../dropdown/dropdown.component';
 import { UniSymbolComponent } from '../symbol';
-import { UniTextComponent } from '../text/text.component';
+import { UniTextDirective } from '../text/text.directive';
 import { BaseComponent, COMPONENT_NAME } from '../base/base.component';
 import { UniCheckboxComponent } from '../checkbox/checkbox.component';
 import { UniInputBoxComponent } from '../input-box/input-box.component';
@@ -27,14 +27,14 @@ import { UniMultiSelectDropdownOptions } from './multi-select-dropdown.model';
   selector: 'uni-multi-select-dropdown',
   imports: [
     UniCheckboxComponent,
-    UniBoxComponent,
+    UniBoxDirective,
     UniDropdownComponent,
-    UniStackComponent,
+    UniStackDirective,
     UniDividerComponent,
     UniButtonComponent,
-    UniTextComponent,
+    UniTextDirective,
     UniSymbolComponent,
-    UniRowComponent,
+    UniRowDirective,
     UniInputBoxComponent,
   ],
   templateUrl: './multi-select-dropdown.component.html',

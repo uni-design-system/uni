@@ -1,15 +1,15 @@
 {
   "meta": {
     "version": "8.4.0",
-    "builtAt": "2026-08-23T08:33:20.998Z",
+    "builtAt": "2026-08-23T11:08:39.048Z",
     "frameworks": [
       "angular"
     ],
     "counts": {
       "components": 79,
-      "tokens": 400,
+      "tokens": 401,
       "themes": 2,
-      "examples": 189
+      "examples": 194
     }
   },
   "components": [
@@ -409,7 +409,7 @@
       "name": "Box",
       "status": "stable",
       "summary": "The base layout primitive, applied as an attribute to any element so semantics stay yours: `<main box-layout [grow]=\"1\" padding=\"md\">`.",
-      "description": "The base layout primitive, applied as an attribute to any element so semantics stay yours: `<main box-layout [grow]=\"1\" padding=\"md\">`. Exception: other components' host elements (`<uni-card box-layout>` would put two components on one element) — wrap those in a `<div box-layout>`. Sizing convention (height/width/min/max/inset): a **number is px and needs a binding** — `[height]=\"420\"`; a **plain attribute is a CSS length string** — `height=\"420px\"`. Spacing/radius/color inputs take theme tokens.",
+      "description": "The base layout primitive, applied as an attribute to any element so semantics stay yours: `<main box-layout [grow]=\"1\" padding=\"md\">`. It is a directive, so it composes freely — with another layout attribute (`<div stack-layout uni-text=\"body-1-long\">`) and with a component's own host element (`<uni-card box-layout padding=\"lg\">`); Angular merges the host `class` bindings rather than letting one win. Sizing convention (height/width/min/max/inset): a **number is px and needs a binding** — `[height]=\"420\"`; a **plain attribute is a CSS length string** — `height=\"420px\"`. Spacing/radius/color inputs take theme tokens.",
       "category": "layout",
       "version": "8.4.0",
       "bindings": {
@@ -594,6 +594,34 @@
               "description": ""
             },
             {
+              "name": "flex",
+              "kind": "input",
+              "type": "number | string",
+              "required": false,
+              "description": "The `flex` shorthand. `[flex]=\"1\"` is `flex: 1` — grow, shrink and a zero basis — which `grow` alone cannot express, since it leaves `flex-basis: auto`. Wins over `grow` when both are set."
+            },
+            {
+              "name": "shrink",
+              "kind": "input",
+              "type": "number",
+              "required": false,
+              "description": ""
+            },
+            {
+              "name": "basis",
+              "kind": "input",
+              "type": "number | string",
+              "required": false,
+              "description": ""
+            },
+            {
+              "name": "marginInline",
+              "kind": "input",
+              "type": "'auto' | NullableSize",
+              "required": false,
+              "description": "Inline-axis margin. `marginInline=\"auto\"` centers a `maxWidth` container — the one thing flex centering cannot do without an extra wrapper. Only the inline axis is exposed: block margins collapse and fight `gap`, which is why the primitives carry no margin otherwise."
+            },
+            {
               "name": "display",
               "kind": "input",
               "type": "OptionalDisplay",
@@ -757,10 +785,25 @@
           "title": "Primary",
           "framework": "angular",
           "code": "<!-- Storybook story: Primary -->\n<div box-layout ${argsToTemplate(props)}>\n<span uni-text>${ngContent}</span>\n</div>\n<!-- args:\n{\n    color: 'secondary-container',\n    borderRadius: 'md',\n    padding: 'lg',\n    ngContent: 'Box Content.',\n  }\n-->"
+        },
+        {
+          "title": "Flex children",
+          "framework": "angular",
+          "code": "<!-- Storybook story: Flex children -->\n<div box-layout ${argsToTemplate(props)}>\n<span uni-text>${ngContent}</span>\n</div>"
+        },
+        {
+          "title": "Centered page shell",
+          "framework": "angular",
+          "code": "<!-- Storybook story: Centered page shell -->\n<div box-layout ${argsToTemplate(props)}>\n<span uni-text>${ngContent}</span>\n</div>"
+        },
+        {
+          "title": "Composition",
+          "framework": "angular",
+          "code": "<!-- Storybook story: Composition -->\n<div box-layout ${argsToTemplate(props)}>\n<span uni-text>${ngContent}</span>\n</div>"
         }
       ],
       "guidelines": {
-        "whenToUse": "Box is the base Layout component. It is highly configurable.\nEach layout component extends the Box component while providing presets to support their application.",
+        "whenToUse": "Box is the base layout primitive — an attribute directive you put on any element, so\nyour HTML semantics stay yours. It is highly configurable; every other layout\ndirective extends it and adds presets.\nBecause it is a directive rather than a component, it composes freely: with another\nlayout attribute, with `uni-text`, and with a component's own host element. Angular\nmerges the host `class` bindings, so each contributor's styles survive.\n```html\n```\nLayout attributes only apply when the directive is in your component's `imports`.\nAn unimported attribute compiles cleanly and silently does nothing — import\n`UNI_LAYOUT` to bring the whole family in at once.",
         "dos": [],
         "donts": [],
         "accessibility": []
@@ -1669,7 +1712,7 @@
       "status": "stable",
       "summary": "Form-bound, closed-set, single-select autocomplete: `FormValueControl<T | null>` over object `Options<T>`, type-to-filter, commit-on-select.",
       "description": "Form-bound, closed-set, single-select autocomplete: `FormValueControl<T | null>` over object `Options<T>`, type-to-filter, commit-on-select. Typing produces a draft — a filter, never a value; the value changes only when an option commits, `clear()` runs, or the model is written from outside. Select semantics, not search: a real label, a chevron, no magnifier, nothing submits. For short lists with no need to type, prefer `uni-select` — the value contract is identical, so swapping is a template-only change.",
-      "category": "layout",
+      "category": "forms",
       "version": "8.4.0",
       "bindings": {
         "angular": {
@@ -2536,6 +2579,28 @@
               "description": ""
             },
             {
+              "name": "type",
+              "kind": "input",
+              "type": "UniInputType",
+              "required": false,
+              "default": "'text'",
+              "description": "Native input type; text-like only, matching `uni-input`."
+            },
+            {
+              "name": "autocomplete",
+              "kind": "input",
+              "type": "string",
+              "required": false,
+              "description": ""
+            },
+            {
+              "name": "inputMode",
+              "kind": "input",
+              "type": "UniInputMode",
+              "required": false,
+              "description": ""
+            },
+            {
               "name": "role",
               "kind": "input",
               "type": "string",
@@ -3186,7 +3251,7 @@
       "status": "stable",
       "summary": "Trigger for a {@link UniExpandComponent} region.",
       "description": "Trigger for a {@link UniExpandComponent} region. Two shapes, chosen by whether `label` is set: - **Icon only** (default) — the bare chevron, sized for a Card Header. - **Labelled** — chevron plus a label and optional muted sublabel, as a single full-width button. Most real disclosures need a name for the section, and building that row by hand is the thing this saves; it also makes the label the button's accessible name rather than adjacent text.",
-      "category": "forms",
+      "category": "layout",
       "version": "8.4.0",
       "bindings": {
         "angular": {
@@ -3727,6 +3792,129 @@
               "required": false,
               "default": "''",
               "description": ""
+            },
+            {
+              "name": "type",
+              "kind": "input",
+              "type": "UniInputType",
+              "required": false,
+              "default": "'text'",
+              "description": "Native input type. Text-like types only — `date`/`time` have dedicated components, and non-text types break the input chrome and the string value."
+            },
+            {
+              "name": "readonly",
+              "kind": "input",
+              "type": "boolean",
+              "required": false,
+              "default": "false",
+              "description": ""
+            },
+            {
+              "name": "name",
+              "kind": "input",
+              "type": "string",
+              "required": false,
+              "default": "''",
+              "description": ""
+            },
+            {
+              "name": "min",
+              "kind": "input",
+              "type": "number | undefined",
+              "required": false,
+              "default": "undefined",
+              "description": ""
+            },
+            {
+              "name": "max",
+              "kind": "input",
+              "type": "number | undefined",
+              "required": false,
+              "default": "undefined",
+              "description": ""
+            },
+            {
+              "name": "minLength",
+              "kind": "input",
+              "type": "number | undefined",
+              "required": false,
+              "default": "undefined",
+              "description": ""
+            },
+            {
+              "name": "maxLength",
+              "kind": "input",
+              "type": "number | undefined",
+              "required": false,
+              "default": "undefined",
+              "description": ""
+            },
+            {
+              "name": "pattern",
+              "kind": "input",
+              "type": "readonly RegExp[]",
+              "required": false,
+              "default": "[]",
+              "description": "Patterns the value must match — all of them, per Signal Forms. The native `pattern` attribute can only express one, so it is reflected only when there is exactly one; Signal Forms validates the rest either way."
+            },
+            {
+              "name": "step",
+              "kind": "input",
+              "type": "number | string",
+              "required": false,
+              "description": "Granularity for `type=\"number\"`, e.g. `0.01` or `'any'`."
+            },
+            {
+              "name": "autocomplete",
+              "kind": "input",
+              "type": "string",
+              "required": false,
+              "description": "Autofill hint, e.g. `email`, `current-password`, `off`."
+            },
+            {
+              "name": "inputMode",
+              "kind": "input",
+              "type": "UniInputMode",
+              "required": false,
+              "description": "On-screen keyboard hint; defaults to whatever `type` implies."
+            },
+            {
+              "name": "list",
+              "kind": "input",
+              "type": "string",
+              "required": false,
+              "description": "Id of a `<datalist>` supplying suggestions."
+            },
+            {
+              "name": "spellcheck",
+              "kind": "input",
+              "type": "boolean",
+              "required": false,
+              "description": ""
+            },
+            {
+              "name": "width",
+              "kind": "input",
+              "type": "string | number | undefined",
+              "required": false,
+              "default": "undefined",
+              "description": ""
+            },
+            {
+              "name": "fullWidth",
+              "kind": "input",
+              "type": "boolean",
+              "required": false,
+              "default": "false",
+              "description": ""
+            },
+            {
+              "name": "grow",
+              "kind": "input",
+              "type": "number | undefined",
+              "required": false,
+              "default": "undefined",
+              "description": ""
             }
           ]
         }
@@ -3761,6 +3949,16 @@
           "title": "Long Label",
           "framework": "angular",
           "code": "<!-- Storybook story: Long Label -->\n<uni-input ${argsToTemplate(props)}>\n</uni-input>\n<!-- args:\n{\n    label: 'A Very Long Label That Demonstrates How The Component Handles Extended Text',\n    placeholder: 'Enter some text',\n    value: '',\n    disabled: false,\n    touched: false,\n    invalid: false,\n    dirty: false,\n  }\n-->"
+        },
+        {
+          "title": "Types",
+          "framework": "angular",
+          "code": "<!-- Storybook story: Types -->\n<uni-input ${argsToTemplate(props)}>\n</uni-input>"
+        },
+        {
+          "title": "With datalist",
+          "framework": "angular",
+          "code": "<!-- Storybook story: With datalist -->\n<uni-input ${argsToTemplate(props)}>\n</uni-input>"
         }
       ],
       "guidelines": {
@@ -3834,6 +4032,30 @@
               "required": false,
               "default": "undefined",
               "description": "Override the themed field height, e.g. `'auto'` for multi-line fields."
+            },
+            {
+              "name": "width",
+              "kind": "input",
+              "type": "string | number | undefined",
+              "required": false,
+              "default": "undefined",
+              "description": ""
+            },
+            {
+              "name": "fullWidth",
+              "kind": "input",
+              "type": "boolean",
+              "required": false,
+              "default": "false",
+              "description": ""
+            },
+            {
+              "name": "grow",
+              "kind": "input",
+              "type": "number | undefined",
+              "required": false,
+              "default": "undefined",
+              "description": ""
             }
           ]
         }
@@ -5428,6 +5650,30 @@
               "description": ""
             },
             {
+              "name": "width",
+              "kind": "input",
+              "type": "string | number | undefined",
+              "required": false,
+              "default": "undefined",
+              "description": ""
+            },
+            {
+              "name": "fullWidth",
+              "kind": "input",
+              "type": "boolean",
+              "required": false,
+              "default": "false",
+              "description": ""
+            },
+            {
+              "name": "grow",
+              "kind": "input",
+              "type": "number | undefined",
+              "required": false,
+              "default": "undefined",
+              "description": ""
+            },
+            {
               "name": "ariaLabel",
               "kind": "input",
               "type": "string",
@@ -6701,7 +6947,7 @@
       "name": "Text",
       "status": "stable",
       "summary": "The typography primitive, applied as an attribute to any element so semantics stay yours.",
-      "description": "The typography primitive, applied as an attribute to any element so semantics stay yours. The attribute value is the typeface: `<h1 uni-text=\"display-small\">`, `<span uni-text=\"caption\">`, dynamic via `[uni-text]=\"role()\"`. With no value, the typeface is inferred from the host element (h1 → headline-large, p → body-1-long, …), falling back to `title-small`; the `typeface` input remains as an explicit override.",
+      "description": "The typography primitive, applied as an attribute to any element so semantics stay yours. The attribute value is the typeface: `<h1 uni-text=\"display-small\">`, `<span uni-text=\"caption\">`, dynamic via `[uni-text]=\"role()\"`. With no value, the typeface is inferred from the host element (h1 → headline-large, p → body-1-long, …), falling back to `title-small`; the `typeface` input remains as an explicit override. It is a directive, so it stacks with anything else on the element — a layout attribute (`<div stack-layout uni-text=\"title-small\">`) or a component's own host — rather than colliding with it.",
       "category": "primitives",
       "version": "8.4.0",
       "bindings": {
@@ -6731,6 +6977,13 @@
               "type": "ColorKey",
               "required": false,
               "description": ""
+            },
+            {
+              "name": "textColor",
+              "kind": "input",
+              "type": "ColorKey",
+              "required": false,
+              "description": "The ink color, unambiguously. `color` is also an input on the layout directives, where it means a *container* pair (background plus its on-color). On an element carrying both — `<div row-layout uni-text>` — one `color` binding feeds both directives, so the text and the background resolve to the same token and the text disappears. Use `textColor` there; it wins over `color`."
             },
             {
               "name": "display",
@@ -6784,7 +7037,7 @@
         }
       ],
       "guidelines": {
-        "whenToUse": "The typography primitive, applied as an **attribute on any element** so your HTML\nsemantics stay intact. The attribute value is the typeface —\n`<h1 uni-text=\"display-small\">` — and `[uni-text]=\"role()\"` binds it dynamically.\nWith no value, the typeface is inferred from the host element (`h1` →\n`headline-large`, `p` → `body-1-long`, `small` → `caption`, `blockquote` → `quote`,\nfalling back to `title-small`), so plain semantic markup is correctly set with zero\nconfiguration. `color` takes any theme color token; `align`, `nowrap`, `maxWidth`,\nand `ellipsis` handle common text layout.",
+        "whenToUse": "The typography primitive, applied as an **attribute on any element** so your HTML\nsemantics stay intact. The attribute value is the typeface —\n`<h1 uni-text=\"display-small\">` — and `[uni-text]=\"role()\"` binds it dynamically.\nWith no value, the typeface is inferred from the host element (`h1` →\n`headline-large`, `p` → `body-1-long`, `small` → `caption`, `blockquote` → `quote`,\nfalling back to `title-small`), so plain semantic markup is correctly set with zero\nconfiguration. `color` takes any theme color token; `align`, `nowrap`, `maxWidth`,\nand `ellipsis` handle common text layout.\nIt is a directive, so it stacks with anything else on the element — a layout\nattribute or a component's own host — rather than colliding with it:\n```html\n```\nOne caveat on that combination: `color` is an input on the layout directives too,\nwhere it means a **container** pair (a background plus its on-color). A single\n`color` binding feeds both directives, so the ink and the background resolve to\nthe same token and the text vanishes. Use `textColor` on a shared element — it\nwins over `color`:\n```html\n  Heading\n```",
         "dos": [
           "Reach for semantic elements first and let the element-aware defaults set the type"
         ],
@@ -6804,7 +7057,7 @@
       "status": "stable",
       "summary": "",
       "description": "",
-      "category": "primitives",
+      "category": "forms",
       "version": "8.4.0",
       "bindings": {
         "angular": {
@@ -6888,6 +7141,76 @@
               "required": false,
               "default": "undefined",
               "description": "Visible text rows. Defaults to the theme's `textarea` options."
+            },
+            {
+              "name": "readonly",
+              "kind": "input",
+              "type": "boolean",
+              "required": false,
+              "default": "false",
+              "description": ""
+            },
+            {
+              "name": "name",
+              "kind": "input",
+              "type": "string",
+              "required": false,
+              "default": "''",
+              "description": ""
+            },
+            {
+              "name": "minLength",
+              "kind": "input",
+              "type": "number | undefined",
+              "required": false,
+              "default": "undefined",
+              "description": ""
+            },
+            {
+              "name": "maxLength",
+              "kind": "input",
+              "type": "number | undefined",
+              "required": false,
+              "default": "undefined",
+              "description": ""
+            },
+            {
+              "name": "autocomplete",
+              "kind": "input",
+              "type": "string",
+              "required": false,
+              "description": ""
+            },
+            {
+              "name": "spellcheck",
+              "kind": "input",
+              "type": "boolean",
+              "required": false,
+              "description": ""
+            },
+            {
+              "name": "width",
+              "kind": "input",
+              "type": "string | number | undefined",
+              "required": false,
+              "default": "undefined",
+              "description": ""
+            },
+            {
+              "name": "fullWidth",
+              "kind": "input",
+              "type": "boolean",
+              "required": false,
+              "default": "false",
+              "description": ""
+            },
+            {
+              "name": "grow",
+              "kind": "input",
+              "type": "number | undefined",
+              "required": false,
+              "default": "undefined",
+              "description": ""
             }
           ]
         }
@@ -8565,6 +8888,17 @@
       "themeValues": {
         "LightTheme": "64px",
         "DarkTheme": "64px"
+      }
+    },
+    {
+      "id": "spacing.xxl",
+      "value": "128px",
+      "type": "spacing",
+      "kind": "style",
+      "target": "emotion-css",
+      "themeValues": {
+        "LightTheme": "128px",
+        "DarkTheme": "128px"
       }
     },
     {
@@ -12342,6 +12676,7 @@
         "spacing.md": "16px",
         "spacing.lg": "32px",
         "spacing.xl": "64px",
+        "spacing.xxl": "128px",
         "border.primary": "1px solid #6A6F8F",
         "border.secondary": "1px solid #8C685D",
         "border.tertiary": "1px solid #597B66",
@@ -12844,6 +13179,7 @@
         "spacing.md": "16px",
         "spacing.lg": "32px",
         "spacing.xl": "64px",
+        "spacing.xxl": "128px",
         "border.primary": "1px solid #AFB5D8",
         "border.secondary": "1px solid #D5ADA1",
         "border.tertiary": "1px solid #9EC2AB",

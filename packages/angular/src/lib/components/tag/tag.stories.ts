@@ -1,11 +1,11 @@
 import { Meta, moduleMetadata, StoryObj } from '@storybook/angular';
-import { UniBoxComponent, UniRowComponent } from '../layout';
+import { UniBoxDirective, UniRowDirective } from '../layout';
 import { UniTagComponent } from './tag.component';
 
 const meta: Meta<UniTagComponent> = {
   title: 'Components/Data Display/Tag',
   component: UniTagComponent,
-  decorators: [moduleMetadata({ imports: [UniBoxComponent, UniRowComponent] })],
+  decorators: [moduleMetadata({ imports: [UniBoxDirective, UniRowDirective] })],
   args: { label: 'Design', value: 'design' },
   argTypes: {
     variant: {

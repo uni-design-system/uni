@@ -1,6 +1,6 @@
 import { argsToTemplate, Meta, moduleMetadata, StoryObj } from '@storybook/angular';
-import { UniStackComponent } from '../layout';
-import { UniTextComponent } from '../text/text.component';
+import { UniStackDirective } from '../layout';
+import { UniTextDirective } from '../text/text.directive';
 import { UniFileDropZoneComponent as FileDropZone } from './file-drop-zone.component';
 
 type StoryType = FileDropZone;
@@ -10,7 +10,7 @@ const meta: Meta<StoryType> = {
   component: FileDropZone,
   decorators: [
     moduleMetadata({
-      imports: [UniTextComponent, UniStackComponent],
+      imports: [UniTextDirective, UniStackDirective],
     }),
   ],
   argTypes: {

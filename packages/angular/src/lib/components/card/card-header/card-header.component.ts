@@ -2,14 +2,14 @@ import { NgClass } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject, input } from '@angular/core';
 import { css } from '@emotion/css';
 import { BaseComponent, COMPONENT_NAME } from '../../base/base.component';
-import { UniTextComponent } from '../../text';
+import { UniTextDirective } from '../../text';
 import { UniCardComponent } from '../card.component';
 import type { Typeface } from '@uni-design-system/uni-core';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'uni-card-header',
-  imports: [UniTextComponent, NgClass],
+  imports: [UniTextDirective, NgClass],
   templateUrl: './card-header.component.html',
   providers: [{ provide: COMPONENT_NAME, useValue: 'cardHeader' }],
   styleUrls: ['./card-header.component.scss'],

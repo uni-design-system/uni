@@ -16,7 +16,7 @@ import { css } from '@emotion/css';
 
 import { BaseComponent } from '../base';
 import { COMPONENT_NAME } from '../base/base.component';
-import { UniBoxComponent } from '../layout';
+import { UniBoxDirective } from '../layout';
 import type { UniDropdownOptions } from './dropdown.model';
 import type {
   Border,
@@ -45,7 +45,7 @@ export type AriaHasPopup = 'menu' | 'listbox' | 'dialog' | 'grid' | 'tree' | 'tr
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'uni-dropdown',
-  imports: [UniBoxComponent],
+  imports: [UniBoxDirective],
   template: `
     <!-- 1. The native 'popover' attribute brings it to the top layer with native light-dismiss -->
     <div #dropdown popover="auto" [id]="popoverId" [class]="dropdownClass()">

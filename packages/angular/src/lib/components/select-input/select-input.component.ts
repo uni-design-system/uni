@@ -32,6 +32,11 @@ export class UniSelectComponent<T> implements FormValueControl<T | null> {
   readonly options = input<Options<T>>([]);
   readonly placeholder = input<string>();
 
+  // --- SIZING (forwarded to uni-input-box) ---
+  readonly width = input<string | number | undefined>(undefined);
+  readonly fullWidth = input<boolean>(false);
+  readonly grow = input<number | undefined>(undefined);
+
   /**
    * Equality used to match `value` against option values, called as
    * `compareWith(optionValue, value)`. Defaults to reference equality, which

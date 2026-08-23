@@ -1,8 +1,8 @@
 import { Meta, moduleMetadata, StoryObj } from '@storybook/angular';
 import { UniButtonComponent } from '../button';
 import { UniCardComponent, UniCardContentComponent, UniCardHeaderComponent } from '../card';
-import { UniRowComponent, UniStackComponent } from '../layout';
-import { UniTextComponent } from '../text';
+import { UniRowDirective, UniStackDirective } from '../layout';
+import { UniTextDirective } from '../text';
 import { UniThemeSwitchComponent as ThemeSwitch } from './theme-switch.component';
 
 type StoryType = ThemeSwitch;
@@ -17,9 +17,9 @@ const meta: Meta<StoryType> = {
         UniCardComponent,
         UniCardHeaderComponent,
         UniCardContentComponent,
-        UniRowComponent,
-        UniStackComponent,
-        UniTextComponent,
+        UniRowDirective,
+        UniStackDirective,
+        UniTextDirective,
       ],
     }),
   ],

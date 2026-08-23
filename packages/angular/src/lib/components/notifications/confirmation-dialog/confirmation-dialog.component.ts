@@ -5,8 +5,8 @@ import {
   UniDialogComponent,
   UniDialogHeaderComponent,
 } from '../../dialog';
-import { UniBoxComponent } from '../../layout';
-import { UniTextComponent } from '../../text';
+import { UniBoxDirective } from '../../layout';
+import { UniTextDirective } from '../../text';
 import type { Confirmation } from '../../../cdk/notification';
 
 @Component({
@@ -15,8 +15,8 @@ import type { Confirmation } from '../../../cdk/notification';
   imports: [
     UniDialogComponent,
     UniDialogHeaderComponent,
-    UniBoxComponent,
-    UniTextComponent,
+    UniBoxDirective,
+    UniTextDirective,
     UniDialogButtonsComponent,
   ],
   templateUrl: './confirmation-dialog.component.html',

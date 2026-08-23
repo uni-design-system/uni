@@ -15,22 +15,22 @@ import { fadeIn, Z_INDEX } from '@uni-design-system/uni-core';
 import { BaseComponent } from '../base';
 import { COMPONENT_NAME } from '../base/base.component';
 import { UniIconComponent } from '../icon';
-import { UniBoxComponent, UniCenterComponent } from '../layout';
+import { UniBoxDirective, UniCenterDirective } from '../layout';
 import { UniScrollAreaComponent } from '../scroll-area/scroll-area.component';
 import { UniSortHeaderComponent } from '../sort-header/sort-header.component';
-import { UniTextComponent } from '../text/text.component';
+import { UniTextDirective } from '../text/text.directive';
 import { ColumnDefinition, type UniDataTableOptions } from './data-table.models';
 
 @Component({
   selector: 'uni-data-table',
   imports: [
     NgTemplateOutlet,
-    UniBoxComponent,
+    UniBoxDirective,
     UniScrollAreaComponent,
-    UniTextComponent,
+    UniTextDirective,
     UniSortHeaderComponent,
     UniIconComponent,
-    UniCenterComponent,
+    UniCenterDirective,
   ],
   templateUrl: './data-table.component.html',
   providers: [{ provide: COMPONENT_NAME, useValue: 'dataTable' }],

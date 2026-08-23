@@ -89,7 +89,7 @@ export function ingestMdx(opts: MdxOptions): Map<string, MdxGuidelines> {
   for (const [sourcePath, id] of opts.pathToId) {
     const dir = dirname(sourcePath);
     idsByDir.set(dir, [...(idsByDir.get(dir) ?? []), id]);
-    idByBase.set(sourcePath.replace(/\.component\.ts$/, ''), id);
+    idByBase.set(sourcePath.replace(/\.(component|directive)\.ts$/, ''), id);
   }
 
   const out = new Map<string, MdxGuidelines>();

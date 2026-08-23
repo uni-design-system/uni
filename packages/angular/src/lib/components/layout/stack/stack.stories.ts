@@ -1,7 +1,7 @@
 import { argsToTemplate, Meta, moduleMetadata, StoryObj } from '@storybook/angular';
 
-import { UniStackComponent as Stack } from './stack.component';
-import { UniTextComponent } from '../../text';
+import { UniStackDirective as Stack } from './stack.directive';
+import { UniTextDirective } from '../../text';
 import { UniCardComponent, UniCardContentComponent } from '../../card';
 
 type StoryType = Stack;
@@ -11,7 +11,7 @@ const meta: Meta<StoryType> = {
   component: Stack,
   decorators: [
     moduleMetadata({
-      imports: [UniCardComponent, UniCardContentComponent, UniTextComponent],
+      imports: [UniCardComponent, UniCardContentComponent, UniTextDirective],
     }),
   ],
 };

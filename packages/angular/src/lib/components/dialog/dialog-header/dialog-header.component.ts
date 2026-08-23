@@ -2,15 +2,15 @@ import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { BaseComponent } from '../../base';
 import { COMPONENT_NAME } from '../../base/base.component';
 import { UniIconButtonComponent } from '../../icon-button';
-import { UniBoxComponent, UniRowComponent } from '../../layout';
-import { UniTextComponent } from '../../text';
+import { UniBoxDirective, UniRowDirective } from '../../layout';
+import { UniTextDirective } from '../../text';
 import { UniDialogComponent } from '../dialog.component';
 import type { UniDialogHeaderOptions } from './dialog-header.model';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: '[uni-dialog-header]',
-  imports: [UniBoxComponent, UniIconButtonComponent, UniTextComponent, UniRowComponent],
+  imports: [UniBoxDirective, UniIconButtonComponent, UniTextDirective, UniRowDirective],
   templateUrl: './dialog-header.component.html',
   providers: [{ provide: COMPONENT_NAME, useValue: 'dialogHeader' }],
 })

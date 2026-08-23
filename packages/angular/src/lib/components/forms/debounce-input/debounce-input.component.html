@@ -3,7 +3,9 @@
   <input
     #field
     [class]="inputClass"
-    type="text"
+    [type]="type()"
+    [attr.autocomplete]="autocomplete() || null"
+    [attr.inputmode]="inputMode() || null"
     [name]="inputName()"
     [id]="inputId()"
     [value]="value() ?? ''"

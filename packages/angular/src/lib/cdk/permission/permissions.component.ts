@@ -1,10 +1,10 @@
 import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
 import {
   UniBadgeComponent,
-  UniBoxComponent,
-  UniRowComponent,
-  UniStackComponent,
-  UniTextComponent,
+  UniBoxDirective,
+  UniRowDirective,
+  UniStackDirective,
+  UniTextDirective,
 } from '../../components';
 import { PermissionService } from './permission.service';
 import type { Permission } from './permission.types';
@@ -32,10 +32,10 @@ import type { Variant } from '@uni-design-system/uni-core';
     </div>
   </div>`,
   imports: [
-    UniStackComponent,
-    UniBoxComponent,
-    UniRowComponent,
-    UniTextComponent,
+    UniStackDirective,
+    UniBoxDirective,
+    UniRowDirective,
+    UniTextDirective,
     UniBadgeComponent,
   ],
 })

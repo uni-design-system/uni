@@ -3,12 +3,12 @@ import { css } from '@emotion/css';
 
 import { Option } from '../../cdk';
 import type { NullableSize } from '@uni-design-system/uni-core';
-import { UniBoxComponent } from '../layout';
+import { UniBoxDirective } from '../layout';
 import { UniCheckboxComponent } from '../checkbox/checkbox.component';
 
 @Component({
   selector: 'uni-multi-select',
-  imports: [UniCheckboxComponent, UniBoxComponent],
+  imports: [UniCheckboxComponent, UniBoxDirective],
   templateUrl: './multi-select.component.html',
   host: { '[class]': 'className' },
   changeDetection: ChangeDetectionStrategy.OnPush,

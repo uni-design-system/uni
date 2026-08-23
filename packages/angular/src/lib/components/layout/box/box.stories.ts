@@ -1,7 +1,9 @@
 import { argsToTemplate, Meta, moduleMetadata, StoryObj } from '@storybook/angular';
 
-import { UniBoxComponent as Box } from './box.component';
-import { UniTextComponent } from '../../text';
+import { UniCardComponent } from '../../card';
+import { UniTextDirective } from '../../text';
+import { UniRowDirective, UniStackDirective } from '../index';
+import { UniBoxDirective as Box } from './box.directive';
 
 type StoryType = Box & { ngContent?: string };
 
@@ -11,7 +13,12 @@ const meta: Meta<StoryType> = {
   tags: ['layout'],
   decorators: [
     moduleMetadata({
-      imports: [UniTextComponent],
+      imports: [
+        UniTextDirective,
+        UniRowDirective,
+        UniStackDirective,
+        UniCardComponent,
+      ],
     }),
   ],
   render: (args) => {
@@ -152,6 +159,16 @@ const meta: Meta<StoryType> = {
     justifyContent: {
       description: 'Controls alignment of items along the main axis.',
     },
+    flex: {
+      description:
+        'The `flex` shorthand. `[flex]="1"` is `flex: 1` — grow, shrink and a zero basis — which `grow` alone cannot express.',
+    },
+    shrink: { description: 'Sets flex-shrink. `0` keeps the box from shrinking.' },
+    basis: { description: 'Sets flex-basis. Number = px via binding; string = CSS length.' },
+    marginInline: {
+      description:
+        'Inline-axis margin. `"auto"` centers a maxWidth container; otherwise a spacing token.',
+    },
     grow: {
       description:
         'Sets the flex grow factor, determining how much the box will grow relative to other flex items.',
@@ -194,4 +211,57 @@ export const Primary: Story = {
     padding: 'lg',
     ngContent: 'Box Content.',
   },
+};
+
+/** `flex: 1` shares space evenly; `grow` alone leaves flex-basis auto. */
+export const FlexChildren: Story = {
+  name: 'Flex children',
+  render: () => ({
+    template: `
+      <div row-layout gap="md" uni-text="body-2-short">
+        <div box-layout [flex]="1" color="primary-container" padding="md" borderRadius="xs">
+          flex 1 — a much longer label than its sibling
+        </div>
+        <div box-layout [flex]="1" color="primary-container" padding="md" borderRadius="xs">
+          flex 1
+        </div>
+        <div box-layout [shrink]="0" [basis]="120" color="secondary-container" padding="md" borderRadius="xs">
+          fixed 120
+        </div>
+      </div>
+    `,
+  }),
+};
+
+/** The page-shell recipe: a max-width container centered on the inline axis. */
+export const CenteredPageShell: Story = {
+  name: 'Centered page shell',
+  render: () => ({
+    template: `
+      <div box-layout color="surface" padding="md">
+        <main box-layout maxWidth="480px" marginInline="auto" padding="lg"
+              color="primary-container" borderRadius="sm" textAlign="center" uni-text="body-1-long">
+          maxWidth + marginInline="auto"
+        </main>
+      </div>
+    `,
+  }),
+};
+
+/**
+ * A layout attribute and `uni-text` on one element, and a layout attribute on a
+ * component's own host — both impossible while these were components.
+ */
+export const Composition: Story = {
+  render: () => ({
+    template: `
+      <div stack-layout gap="md">
+        <div row-layout uni-text="title-large" gap="sm" padding="md"
+             color="primary-container" borderRadius="xs">
+          row-layout + uni-text on one element
+        </div>
+        <uni-card box-layout padding="lg">uni-card + box-layout on one element</uni-card>
+      </div>
+    `,
+  }),
 };

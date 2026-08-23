@@ -1,7 +1,7 @@
 import { Meta, moduleMetadata, StoryObj } from '@storybook/angular';
 import { UniButtonComponent } from '../button/button.component';
 import { UniInputComponent } from '../input/input.component';
-import { UniStackComponent } from '../layout';
+import { UniStackDirective } from '../layout';
 import type { UniTourStep } from './tour.model';
 import { UniTourComponent as Tour } from './tour.component';
 
@@ -15,7 +15,7 @@ const meta: Meta<StoryType> = {
   },
   decorators: [
     moduleMetadata({
-      imports: [UniButtonComponent, UniInputComponent, UniStackComponent],
+      imports: [UniButtonComponent, UniInputComponent, UniStackDirective],
     }),
   ],
 };

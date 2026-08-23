@@ -46,6 +46,8 @@ import {
 import { UNI_THEMES } from './theme.token';
 import { safeParseInt } from '../cdk/helpers/number.helper';
 
+declare const ngDevMode: boolean | undefined;
+
 /**
  * The editable shape a theme builder manipulates: a seed + scheme + category
  * (plus optional saturation floor, brand colors, and light/dark mode).
@@ -273,8 +275,35 @@ export class ThemeService {
     });
 
   getSpacing = (size: NullableSize) => {
-    return size === 'none' ? 'none' : this.spacing()[size];
+    return size === 'none' ? 'none' : this.resolveSpacing(size);
   };
+
+  private readonly warnedSpacing = new Set<string>();
+
+  /**
+   * Resolve a spacing token against the active theme.
+   *
+   * The scale is open — a theme may name steps beyond `xxs`…`xxl` — so a
+   * mistyped token cannot be a compile error. It would otherwise vanish
+   * silently, since an `undefined` CSS value is simply dropped, so say so once
+   * per token in dev.
+   */
+  private resolveSpacing(size: NullableSize): string | number | undefined {
+    const value = this.spacing()[size];
+    if (
+      value === undefined &&
+      (typeof ngDevMode === 'undefined' || ngDevMode) &&
+      !this.warnedSpacing.has(size)
+    ) {
+      this.warnedSpacing.add(size);
+      console.warn(
+        `[uni] Unknown spacing token "${size}": the active theme does not define it, ` +
+          `so the declaration is dropped. Add it to the theme's \`spacing\` map, or use ` +
+          `one of: ${Object.keys(this.spacing()).join(', ')}.`
+      );
+    }
+    return value;
+  }
 
   getThickness = (thickness: Thickness) => this.theme().thicknesses[thickness];
 
@@ -421,31 +450,41 @@ export class ThemeService {
   }
 
   padding(size: OptionalSize): NullableStyleExpression {
-    return !size ? undefined : { padding: this.spacing()[size] };
+    return !size ? undefined : { padding: this.resolveSpacing(size) };
   }
 
   horizontalPadding(size: OptionalSize): NullableStyleExpression {
-    return !size ? undefined : { paddingInline: this.spacing()[size] };
+    return !size ? undefined : { paddingInline: this.resolveSpacing(size) };
   }
 
   verticalPadding(size: OptionalSize): NullableStyleExpression {
-    return !size ? undefined : { paddingBlock: this.spacing()[size] };
+    return !size ? undefined : { paddingBlock: this.resolveSpacing(size) };
   }
 
   paddingLeft(size: OptionalSize): NullableStyleExpression {
-    return !size ? undefined : { paddingLeft: this.spacing()[size] };
+    return !size ? undefined : { paddingLeft: this.resolveSpacing(size) };
   }
 
   paddingRight(size: OptionalSize): NullableStyleExpression {
-    return !size ? undefined : { paddingRight: this.spacing()[size] };
+    return !size ? undefined : { paddingRight: this.resolveSpacing(size) };
   }
 
   paddingTop(size: OptionalSize): NullableStyleExpression {
-    return !size ? undefined : { paddingTop: this.spacing()[size] };
+    return !size ? undefined : { paddingTop: this.resolveSpacing(size) };
   }
 
   paddingBottom(size: OptionalSize): NullableStyleExpression {
-    return !size ? undefined : { paddingBottom: this.spacing()[size] };
+    return !size ? undefined : { paddingBottom: this.resolveSpacing(size) };
+  }
+
+  /**
+   * Inline-axis margin only — `'auto'` passes through for centering, anything
+   * else resolves as a spacing token. Block margins are deliberately absent
+   * (they collapse and fight `gap`).
+   */
+  marginInline(margin: 'auto' | OptionalSize): NullableStyleExpression {
+    if (!margin) return undefined;
+    return { marginInline: margin === 'auto' ? 'auto' : this.getSpacing(margin) };
   }
 
   border(border: Border | undefined): NullableStyleExpression {
@@ -473,7 +512,7 @@ export class ThemeService {
   }
 
   gap(gap: OptionalSize): NullableStyleExpression {
-    return !gap || gap === 'none' ? undefined : { gap: this.spacing()[gap] };
+    return !gap || gap === 'none' ? undefined : { gap: this.resolveSpacing(gap) };
   }
 
   zIndex(element: ZIndexableElements | undefined): NullableStyleExpression {
@@ -502,5 +541,14 @@ export class ThemeService {
 
   style(prop: string, value: string | number | undefined): NullableStyleExpression {
     return !value ? undefined : { [prop]: value };
+  }
+
+  /**
+   * Like {@link style}, but only `undefined` means "unset" — so a meaningful
+   * `0` survives. `flex-shrink: 0` is the whole point of the input, and
+   * {@link style}'s truthiness check would drop it.
+   */
+  styleIfSet(prop: string, value: string | number | undefined): NullableStyleExpression {
+    return value === undefined ? undefined : { [prop]: value };
   }
 }

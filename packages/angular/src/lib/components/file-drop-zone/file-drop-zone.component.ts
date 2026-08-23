@@ -15,18 +15,18 @@ import { acceptableFile } from '../../cdk';
 import { DragAndDropDirective } from '../../directives/drag-and-drop/drag-and-drop.directive';
 import type { NullableSize, Radius, Variant } from '@uni-design-system/uni-core';
 import { UniButtonComponent } from '../button/button.component';
-import { UniBoxComponent, UniStackComponent } from '../layout';
-import { UniTextComponent } from '../text/text.component';
+import { UniBoxDirective, UniStackDirective } from '../layout';
+import { UniTextDirective } from '../text/text.directive';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'uni-file-drop-zone',
   imports: [
     DragAndDropDirective,
-    UniBoxComponent,
+    UniBoxDirective,
     UniButtonComponent,
-    UniStackComponent,
-    UniTextComponent,
+    UniStackDirective,
+    UniTextDirective,
     NgTemplateOutlet,
   ],
   templateUrl: './file-drop-zone.component.html',

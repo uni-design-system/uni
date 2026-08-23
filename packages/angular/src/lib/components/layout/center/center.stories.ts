@@ -1,14 +1,14 @@
 import { argsToTemplate, Meta, moduleMetadata, StoryObj } from '@storybook/angular';
 
-import { UniCenterComponent as Center } from './center.component';
-import { UniTextComponent } from '../../text';
+import { UniCenterDirective as Center } from './center.directive';
+import { UniTextDirective } from '../../text';
 
 type StoryType = Center & { ngContent?: string };
 
 const meta: Meta<StoryType> = {
   title: 'Components/Layout/Center',
   component: Center,
-  decorators: [moduleMetadata({ imports: [UniTextComponent] })],
+  decorators: [moduleMetadata({ imports: [UniTextDirective] })],
   render: (args) => {
     const { ngContent, ...props } = args;
     return {

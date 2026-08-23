@@ -11,6 +11,7 @@ import {
 } from '@angular/core';
 import { css } from '@emotion/css';
 import { UniInputBoxComponent } from '../../input-box/input-box.component';
+import type { UniInputMode, UniInputType } from '../../input/input.types';
 
 /**
  * Text input that emits `change` only after the user pauses typing. Wears the
@@ -34,6 +35,10 @@ export class UniDebounceInputComponent {
   label = input<string>();
   placeholder = input('');
   disabled = input(false);
+  /** Native input type; text-like only, matching `uni-input`. */
+  type = input<UniInputType>('text');
+  autocomplete = input<string>();
+  inputMode = input<UniInputMode>();
 
   // ARIA passthroughs for composite widgets (combobox etc.).
   role = input<string>();

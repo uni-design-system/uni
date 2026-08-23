@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, computed, ElementRef, inject, input } from '@angular/core';
+import { Directive, computed, ElementRef, inject, input } from '@angular/core';
 import { css } from '@emotion/css';
 
 import type {
@@ -34,15 +34,16 @@ const TagTypefaces: Record<string, Typeface> = {
  * `[uni-text]="role()"`. With no value, the typeface is inferred from the
  * host element (h1 → headline-large, p → body-1-long, …), falling back to
  * `title-small`; the `typeface` input remains as an explicit override.
+ *
+ * It is a directive, so it stacks with anything else on the element — a layout
+ * attribute (`<div stack-layout uni-text="title-small">`) or a component's own
+ * host — rather than colliding with it.
  */
-@Component({
+@Directive({
   selector: '[uni-text]',
-  imports: [],
-  template: '<ng-content></ng-content>',
   host: { '[class]': 'className()' },
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class UniTextComponent {
+export class UniTextDirective {
   theme = inject(ThemeService);
   private readonly tag = (inject(ElementRef).nativeElement as HTMLElement).tagName.toLowerCase();
 
@@ -51,6 +52,16 @@ export class UniTextComponent {
   /** Explicit typeface; the attribute value wins when both are set. */
   typeface = input<Typeface | undefined>(undefined);
   color = input<ColorKey>();
+  /**
+   * The ink color, unambiguously.
+   *
+   * `color` is also an input on the layout directives, where it means a
+   * *container* pair (background plus its on-color). On an element carrying
+   * both — `<div row-layout uni-text>` — one `color` binding feeds both
+   * directives, so the text and the background resolve to the same token and
+   * the text disappears. Use `textColor` there; it wins over `color`.
+   */
+  textColor = input<ColorKey>();
   display = input<OptionalDisplay>();
   align = input<OptionalTextAlign>();
   nowrap = input<boolean>();
@@ -65,7 +76,7 @@ export class UniTextComponent {
     return css([
       {
         ...this.theme.typeface(this.resolvedTypeface()),
-        ...this.theme.color(this.color()),
+        ...this.theme.color(this.textColor() ?? this.color()),
         display: this.display(),
       },
       this.align() && {

@@ -84,7 +84,7 @@ Inheritance (inputs listed once, available on all subclasses):
   - `useVariant: boolean` = false
   - `width: number`
 
-## UniBoxComponent
+## UniBoxDirective
 - selector: `[uni-box-layout], [box-layout]`
 - inputs:
   - `color: ContainerColorToken`
@@ -112,6 +112,10 @@ Inheritance (inputs listed once, available on all subclasses):
   - `alignContent: OptionalAlignContent`
   - `justifyContent: OptionalJustifyContent`
   - `grow: number`
+  - `flex: number | string` — The `flex` shorthand. `[flex]="1"` is `flex: 1` — grow, shrink and a zero basis — which `grow` alone cannot express, since it leaves `flex-basis: auto`. Wins over `grow` when both are set.
+  - `shrink: number`
+  - `basis: number | string`
+  - `marginInline: 'auto' | NullableSize` — Inline-axis margin. `marginInline="auto"` centers a `maxWidth` container — the one thing flex centering cannot do without an extra wrapper. Only the inline axis is exposed: block margins collapse and fight `gap`, which is why the primitives carry no margin otherwise.
   - `display: OptionalDisplay`
   - `position: OptionalPosition`
   - `inset: number | string`
@@ -212,7 +216,7 @@ Inheritance (inputs listed once, available on all subclasses):
   - `title: string` = ''
   - `titleTextRole: Typeface` = 'title-large'
 
-## UniCenterComponent
+## UniCenterDirective
 - selector: `[uni-center-layout], [center-layout]`
 - inputs:
   - `display: OptionalDisplay` = 'flex'
@@ -334,6 +338,9 @@ Inheritance (inputs listed once, available on all subclasses):
   - `label: string` — Accessible name for the input.
   - `placeholder: string` = ''
   - `disabled: boolean` = false
+  - `type: UniInputType` = 'text' — Native input type; text-like only, matching `uni-input`.
+  - `autocomplete: string`
+  - `inputMode: UniInputMode`
   - `role: string`
   - `ariaExpanded: boolean | undefined` = undefined
   - `ariaControls: string`
@@ -444,12 +451,12 @@ Inheritance (inputs listed once, available on all subclasses):
   - `fileAttached: File | undefined`
   - `fileRemoved: unknown`
 
-## UniGridAreaComponent
+## UniGridAreaDirective
 - selector: `[uni-grid-area-layout], [grid-area-layout]`
 - inputs:
   - `area: string` (required)
 
-## UniGridComponent
+## UniGridDirective
 - selector: `[uni-grid-layout], [grid-layout]`
 - inputs:
   - `display: OptionalDisplay` = 'grid'
@@ -485,6 +492,9 @@ Inheritance (inputs listed once, available on all subclasses):
   - `error: boolean` = false
   - `minWidth: string` = '0'
   - `height: string | number | undefined` = undefined — Override the themed field height, e.g. `'auto'` for multi-line fields.
+  - `width: string | number | undefined` = undefined
+  - `fullWidth: boolean` = false
+  - `grow: number | undefined` = undefined
 
 ## UniInputComponent
 - selector: `uni-input`
@@ -496,6 +506,22 @@ Inheritance (inputs listed once, available on all subclasses):
   - `ariaDescribedBy: string` — Id(s) of external element(s) describing this control — typically your app-rendered error message — exposed as aria-describedby.
   - `label: string` (required)
   - `placeholder: string` = ''
+  - `type: UniInputType` = 'text' — Native input type. Text-like types only — `date`/`time` have dedicated components, and non-text types break the input chrome and the string value.
+  - `readonly: boolean` = false
+  - `name: string` = ''
+  - `min: number | undefined` = undefined
+  - `max: number | undefined` = undefined
+  - `minLength: number | undefined` = undefined
+  - `maxLength: number | undefined` = undefined
+  - `pattern: readonly RegExp[]` = [] — Patterns the value must match — all of them, per Signal Forms. The native `pattern` attribute can only express one, so it is reflected only when there is exactly one; Signal Forms validates the rest either way.
+  - `step: number | string` — Granularity for `type="number"`, e.g. `0.01` or `'any'`.
+  - `autocomplete: string` — Autofill hint, e.g. `email`, `current-password`, `off`.
+  - `inputMode: UniInputMode` — On-screen keyboard hint; defaults to whatever `type` implies.
+  - `list: string` — Id of a `<datalist>` supplying suggestions.
+  - `spellcheck: boolean`
+  - `width: string | number | undefined` = undefined
+  - `fullWidth: boolean` = false
+  - `grow: number | undefined` = undefined
 - two-way models:
   - `value: string` = ''
   - `touched: boolean` = false
@@ -624,7 +650,7 @@ Inheritance (inputs listed once, available on all subclasses):
   - `value: string` = ''
   - `touched: boolean` = false
 
-## UniRowComponent
+## UniRowDirective
 - selector: `[uni-row-layout], [row-layout]`
 - inputs:
   - `display: OptionalDisplay` = 'flex'
@@ -675,6 +701,9 @@ Inheritance (inputs listed once, available on all subclasses):
   - `ariaDescribedBy: string` — Id(s) of external element(s) describing this control — typically your app-rendered error message — exposed as aria-describedby.
   - `options: Options<T>` = []
   - `placeholder: string`
+  - `width: string | number | undefined` = undefined
+  - `fullWidth: boolean` = false
+  - `grow: number | undefined` = undefined
   - `ariaLabel: string` — Accessible name for the select; a placeholder is not a label.
 - two-way models:
   - `value: T | null` = null
@@ -687,6 +716,10 @@ Inheritance (inputs listed once, available on all subclasses):
   - `width: string | number | undefined` = undefined — CSS width; defaults to 100% for text/rect and `height` for circles.
   - `height: string | number | undefined` = undefined — CSS height per block; defaults to 1em (text), 96px (rect), 40px (circle).
   - `lines: number` = 1 — Number of text lines (text shape only).
+  - `color: ColorKey | undefined` = undefined — Base color token; overrides the theme option for this skeleton.
+  - `highlightColor: ColorKey | undefined` = undefined — Shimmer highlight token; overrides the theme option for this skeleton.
+  - `borderRadius: Radius | undefined` = undefined — Radius token; overrides the theme option. Circles are always round.
+  - `label: string | undefined` = undefined — Announces the skeleton to assistive tech as a polite status. Leave unset when a container already carries `aria-busy` — the skeleton then stays `aria-hidden`, as a decorative placeholder should.
 
 ## UniSliderComponent
 - selector: `uni-slider`
@@ -724,7 +757,7 @@ Inheritance (inputs listed once, available on all subclasses):
   - `column: keyof T`
   - `datasource: UniDatasource<T>`
 
-## UniStackComponent
+## UniStackDirective
 - selector: `[uni-stack-layout], [stack-layout]`
 - inputs:
   - `display: OptionalDisplay` = 'flex'
@@ -825,16 +858,26 @@ Inheritance (inputs listed once, available on all subclasses):
   - `label: string` (required)
   - `placeholder: string` = ''
   - `rows: number | undefined` = undefined — Visible text rows. Defaults to the theme's `textarea` options.
+  - `readonly: boolean` = false
+  - `name: string` = ''
+  - `minLength: number | undefined` = undefined
+  - `maxLength: number | undefined` = undefined
+  - `autocomplete: string`
+  - `spellcheck: boolean`
+  - `width: string | number | undefined` = undefined
+  - `fullWidth: boolean` = false
+  - `grow: number | undefined` = undefined
 - two-way models:
   - `value: string` = ''
   - `touched: boolean` = false
 
-## UniTextComponent
+## UniTextDirective
 - selector: `[uni-text]`
 - inputs:
   - `uniText: Typeface | ''` = '', { alias: 'uni-text' } — Typeface via the selector attribute: `uni-text="headline-large"`.
   - `typeface: Typeface | undefined` = undefined — Explicit typeface; the attribute value wins when both are set.
   - `color: ColorKey`
+  - `textColor: ColorKey` — The ink color, unambiguously. `color` is also an input on the layout directives, where it means a *container* pair (background plus its on-color). On an element carrying both — `<div row-layout uni-text>` — one `color` binding feeds both directives, so the text and the background resolve to the same token and the text disappears. Use `textColor` there; it wins over `color`.
   - `display: OptionalDisplay`
   - `align: OptionalTextAlign`
   - `nowrap: boolean`
@@ -911,7 +954,7 @@ Inheritance (inputs listed once, available on all subclasses):
   - `started: void`
   - `finished: void`
 
-## UniWrapComponent
+## UniWrapDirective
 - selector: `[uni-wrap-layout], [wrap-layout]`
 - inputs:
   - `display: OptionalDisplay` = 'flex'

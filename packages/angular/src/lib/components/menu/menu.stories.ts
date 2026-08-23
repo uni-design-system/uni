@@ -1,7 +1,7 @@
 import { argsToTemplate, Meta, moduleMetadata, StoryObj } from '@storybook/angular';
 import { UniButtonComponent } from '../button';
-import { UniBoxComponent } from '../layout';
-import { UniTextComponent } from '../text';
+import { UniBoxDirective } from '../layout';
+import { UniTextDirective } from '../text';
 import { UniMenuComponent as Menu } from './menu.component';
 
 type StoryType = Menu;
@@ -11,7 +11,7 @@ const meta: Meta<StoryType> = {
   component: Menu,
   decorators: [
     moduleMetadata({
-      imports: [UniButtonComponent, UniBoxComponent, UniTextComponent],
+      imports: [UniButtonComponent, UniBoxDirective, UniTextDirective],
     }),
   ],
   render: (args) => {

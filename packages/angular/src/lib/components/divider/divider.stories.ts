@@ -1,5 +1,5 @@
 import { Meta, moduleMetadata, StoryObj } from '@storybook/angular';
-import { UniCenterComponent } from '../layout';
+import { UniCenterDirective } from '../layout';
 import { UniDividerComponent as Divider } from './divider.component';
 
 type StoryType = Divider;
@@ -9,7 +9,7 @@ const meta: Meta<StoryType> = {
   component: Divider,
   decorators: [
     moduleMetadata({
-      imports: [UniCenterComponent],
+      imports: [UniCenterDirective],
     }),
   ],
   render: (args) => {

@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, computed, inject, input } from '@angular/core';
 import { css } from '@emotion/css';
 import { ThemeService } from '../../lib/theming';
-import { UniTextComponent } from '../../lib/components/text';
+import { UniTextDirective } from '../../lib/components/text';
 
 export type ThemeManifestSection =
   | 'colors'
@@ -64,7 +64,7 @@ const ColorGroups: { name: string; match: (token: string) => boolean }[] = [
  */
 @Component({
   selector: 'sb-theme-manifest',
-  imports: [UniTextComponent],
+  imports: [UniTextDirective],
   template: `
     @switch (section()) {
       @case ('colors') {

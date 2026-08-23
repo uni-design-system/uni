@@ -2,14 +2,23 @@ import { TextRole, TextStyle, type TypeFaceDefinition } from '../typography';
 import { ColorToken } from '../color';
 import type { ComponentThemes } from '../component';
 import type { Variant } from './theme.types';
-import type { NullableSize } from '../size';
+import type { Size } from '../size';
 import type { Elevation } from '../elevation';
 
 export type Colors = Partial<Record<ColorToken, string>>;
 export type ColorKey = keyof Colors;
 export type OptionalColor = ColorKey | undefined;
 
-export type Spacing = Partial<Record<NullableSize, string | number>>;
+/**
+ * A theme's spacing scale. The named steps stay optional and discoverable;
+ * the index signature lets a theme add its own (`tight: '6px'`), which
+ * `NullableSize` accepts wherever a spacing token is taken. Spelled out rather
+ * than `Partial<Record<NullableSize, …>>`, which would collapse to a plain
+ * string record and lose autocomplete on the named steps.
+ */
+export type Spacing = { [K in Size | 'none']?: string | number } & {
+  [key: string]: string | number | undefined;
+};
 export type Orientation = 'horizontal' | 'vertical';
 export type LinearSpacing = Record<Orientation, Spacing>;
 

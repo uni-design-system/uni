@@ -5,13 +5,13 @@ import { BaseComponent } from '../base';
 import { COMPONENT_NAME } from '../base/base.component';
 import { UniIconComponent } from '../icon';
 import { UniIconButtonComponent } from '../icon-button/icon-button.component';
-import { UniCenterComponent, UniRowComponent } from '../layout';
+import { UniCenterDirective, UniRowDirective } from '../layout';
 import type { UniDataSearchOptions } from './data-search.model';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'uni-data-search',
-  imports: [UniRowComponent, UniIconButtonComponent, UniIconComponent, UniCenterComponent],
+  imports: [UniRowDirective, UniIconButtonComponent, UniIconComponent, UniCenterDirective],
   templateUrl: './data-search.component.html',
   providers: [{ provide: COMPONENT_NAME, useValue: 'dataSearch' }],
 })

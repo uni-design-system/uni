@@ -1,4 +1,5 @@
-import { argsToTemplate, Meta, StoryObj } from '@storybook/angular';
+import { argsToTemplate, Meta, moduleMetadata, StoryObj } from '@storybook/angular';
+import { UniBoxDirective, UniStackDirective } from '../layout';
 import { UniInputComponent } from './input.component';
 
 type StoryType = UniInputComponent;
@@ -6,6 +7,7 @@ type StoryType = UniInputComponent;
 const meta: Meta<StoryType> = {
   title: 'Components/Forms/Input',
   component: UniInputComponent,
+  decorators: [moduleMetadata({ imports: [UniBoxDirective, UniStackDirective] })],
   render: (args) => {
     const { ...props } = args;
     return {
@@ -136,4 +138,40 @@ export const LongLabel: Story = {
     invalid: false,
     dirty: false,
   },
+};
+
+/**
+ * Text-like native types, so email / password / number fields no longer have to
+ * drop down to a raw `<input>` inside an Input Box.
+ */
+export const Types: Story = {
+  render: () => ({
+    template: `
+      <div stack-layout gap="md" maxWidth="320px">
+        <uni-input label="Email" type="email" autocomplete="email" placeholder="you@example.com" />
+        <uni-input label="Password" type="password" autocomplete="current-password" placeholder="••••••••" />
+        <uni-input label="Quantity" type="number" inputMode="numeric" [min]="0" [max]="99" step="1" placeholder="0" />
+        <uni-input label="Website" type="url" placeholder="https://example.com" />
+        <uni-input label="Phone" type="tel" inputMode="tel" autocomplete="tel" placeholder="+1 555 0100" />
+      </div>
+    `,
+  }),
+};
+
+/** `list` points at a native `<datalist>`; the browser supplies the suggestions. */
+export const WithDatalist: Story = {
+  name: 'With datalist',
+  render: () => ({
+    template: `
+      <div box-layout maxWidth="320px">
+        <uni-input label="Country" list="uni-input-countries" placeholder="Start typing…" />
+        <datalist id="uni-input-countries">
+          <option value="Australia"></option>
+          <option value="Austria"></option>
+          <option value="Canada"></option>
+          <option value="Denmark"></option>
+        </datalist>
+      </div>
+    `,
+  }),
 };

@@ -18,17 +18,17 @@ import { UniButtonComponent } from '../../button';
 import { UniIconButtonComponent } from '../../icon-button';
 import { UniIconComponent } from '../../icon';
 import { IconName } from '../../icon/icon.record';
-import { UniBoxComponent, UniRowComponent } from '../../layout';
+import { UniBoxDirective, UniRowDirective } from '../../layout';
 import { UniSymbolComponent } from '../../symbol';
-import { UniTextComponent } from '../../text';
+import { UniTextDirective } from '../../text';
 import type { UniSnackbarOptions } from './snackbar.model';
 
 @Component({
   selector: 'uni-snackbar',
   imports: [
-    UniRowComponent,
-    UniBoxComponent,
-    UniTextComponent,
+    UniRowDirective,
+    UniBoxDirective,
+    UniTextDirective,
     UniIconButtonComponent,
     UniSymbolComponent,
     UniIconComponent,

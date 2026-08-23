@@ -5,8 +5,8 @@ import {
   UniDialogHeaderComponent,
 } from '../../lib/components/dialog';
 import { UniButtonComponent } from '../../lib/components/button';
-import { UniBoxComponent } from '../../lib/components/layout';
-import { UniTextComponent } from '../../lib/components/text';
+import { UniBoxDirective } from '../../lib/components/layout';
+import { UniTextDirective } from '../../lib/components/text';
 
 /**
  * Experiment: the Uni dialog re-themed to mirror IBM Carbon's dialog pattern
@@ -23,8 +23,8 @@ const meta: Meta<Dialog> = {
     moduleMetadata({
       imports: [
         UniButtonComponent,
-        UniTextComponent,
-        UniBoxComponent,
+        UniTextDirective,
+        UniBoxDirective,
         UniDialogHeaderComponent,
         UniDialogButtonsComponent,
       ],

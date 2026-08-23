@@ -1,5 +1,5 @@
 import { Meta, moduleMetadata, StoryObj } from '@storybook/angular';
-import { UniTextComponent } from '../';
+import { UniTextDirective } from '../';
 import { UniCardComponent, UniCardContentComponent, UniCardHeaderComponent } from '../card';
 import { UniExpandToggleComponent } from '../expand-toggle/expand-toggle.component';
 import { UniExpandComponent as Expand } from './expand.component';
@@ -13,7 +13,7 @@ const meta: Meta<StoryType> = {
     moduleMetadata({
       imports: [
         UniExpandToggleComponent,
-        UniTextComponent,
+        UniTextDirective,
         UniCardComponent,
         UniCardHeaderComponent,
         UniCardContentComponent,

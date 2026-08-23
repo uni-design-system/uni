@@ -1,5 +1,5 @@
 import { argsToTemplate, Meta, moduleMetadata, StoryObj } from '@storybook/angular';
-import { UniTextComponent } from '../text';
+import { UniTextDirective } from '../text';
 import { UniTooltipComponent as Tooltip } from './tooltip.component';
 
 type StoryType = Tooltip;
@@ -9,7 +9,7 @@ const meta: Meta<StoryType> = {
   component: Tooltip,
   decorators: [
     moduleMetadata({
-      imports: [UniTextComponent],
+      imports: [UniTextDirective],
     }),
   ],
   render: (args) => {

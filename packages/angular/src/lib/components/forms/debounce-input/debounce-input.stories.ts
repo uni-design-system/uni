@@ -1,6 +1,6 @@
 import { argsToTemplate, Meta, StoryObj, moduleMetadata } from '@storybook/angular';
 import { UniDebounceInputComponent as DebounceInput } from './debounce-input.component';
-import { UniBoxComponent } from '../../layout';
+import { UniBoxDirective } from '../../layout';
 
 type StoryType = DebounceInput;
 
@@ -20,7 +20,7 @@ const meta: Meta<StoryType> = {
       `,
     };
   },
-  decorators: [moduleMetadata({ imports: [UniBoxComponent] })],
+  decorators: [moduleMetadata({ imports: [UniBoxDirective] })],
   argTypes: {
     inputName: {
       control: 'text',

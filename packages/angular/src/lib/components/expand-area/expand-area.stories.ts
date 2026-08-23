@@ -1,7 +1,7 @@
 import { Meta, moduleMetadata, StoryObj } from '@storybook/angular';
 
 import { UniButtonComponent } from '../button/button.component';
-import { UniTextComponent } from '../text/text.component';
+import { UniTextDirective } from '../text/text.directive';
 import { UniExpandAreaComponent as ExpandArea } from './expand-area.component';
 
 type StoryType = ExpandArea;
@@ -11,7 +11,7 @@ const meta: Meta<StoryType> = {
   component: ExpandArea,
   decorators: [
     moduleMetadata({
-      imports: [UniTextComponent, UniButtonComponent],
+      imports: [UniTextDirective, UniButtonComponent],
     }),
   ],
   render: (args) => {

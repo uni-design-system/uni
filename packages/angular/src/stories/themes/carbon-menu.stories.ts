@@ -1,7 +1,7 @@
 import { Meta, moduleMetadata, StoryObj } from '@storybook/angular';
 import { UniMenuComponent as Menu } from '../../lib/components/menu';
 import { UniIconButtonComponent } from '../../lib/components/icon-button';
-import { UniBoxComponent } from '../../lib/components/layout';
+import { UniBoxDirective } from '../../lib/components/layout';
 
 /**
  * Experiment: the Uni menu re-themed to mirror IBM Carbon's overflow menu
@@ -17,7 +17,7 @@ const meta: Meta<Menu> = {
   globals: { uniTheme: 'CarbonLight' },
   decorators: [
     moduleMetadata({
-      imports: [UniIconButtonComponent, UniBoxComponent],
+      imports: [UniIconButtonComponent, UniBoxDirective],
     }),
   ],
   render: (args) => ({

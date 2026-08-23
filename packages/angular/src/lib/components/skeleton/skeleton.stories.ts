@@ -1,14 +1,14 @@
 import { Meta, StoryObj, moduleMetadata } from '@storybook/angular';
 import { UniSkeletonComponent } from './skeleton.component';
 import { UniCardComponent } from '../card';
-import { UniBoxComponent, UniRowComponent } from '../layout';
+import { UniBoxDirective, UniRowDirective } from '../layout';
 
 type StoryType = UniSkeletonComponent;
 
 const meta: Meta<StoryType> = {
   title: 'Components/Feedback/Skeleton',
   component: UniSkeletonComponent,
-  decorators: [moduleMetadata({ imports: [UniRowComponent, UniBoxComponent, UniCardComponent] })],
+  decorators: [moduleMetadata({ imports: [UniRowDirective, UniBoxDirective, UniCardComponent] })],
   argTypes: {
     shape: {
       control: 'select',

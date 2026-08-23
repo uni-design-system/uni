@@ -4,13 +4,13 @@ import { type UniDatasource } from '../../cdk';
 import { BaseComponent } from '../base';
 import { COMPONENT_NAME } from '../base/base.component';
 import { UniIconButtonComponent } from '../icon-button/icon-button.component';
-import { UniRowComponent } from '../layout';
-import { UniTextComponent } from '../text/text.component';
+import { UniRowDirective } from '../layout';
+import { UniTextDirective } from '../text/text.directive';
 import type { UniPaginatorOptions } from './paginator.model';
 
 @Component({
   selector: 'uni-paginator',
-  imports: [UniRowComponent, UniIconButtonComponent, UniTextComponent],
+  imports: [UniRowDirective, UniIconButtonComponent, UniTextDirective],
   templateUrl: './paginator.component.html',
   providers: [{ provide: COMPONENT_NAME, useValue: 'paginator' }],
   changeDetection: ChangeDetectionStrategy.OnPush,

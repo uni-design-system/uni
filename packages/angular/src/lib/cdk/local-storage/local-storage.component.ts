@@ -2,9 +2,9 @@ import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { LocalStorageService } from '../../../lib/cdk';
 import {
   UniButtonComponent,
-  UniRowComponent,
-  UniStackComponent,
-  UniTextComponent,
+  UniRowDirective,
+  UniStackDirective,
+  UniTextDirective,
 } from '../../components';
 
 @Component({
@@ -29,7 +29,7 @@ import {
       <textarea rows="8" cols="80" readonly>{{ displayContent }}</textarea>
     </div>
   </div>`,
-  imports: [UniButtonComponent, UniRowComponent, UniTextComponent, UniStackComponent],
+  imports: [UniButtonComponent, UniRowDirective, UniTextDirective, UniStackDirective],
 })
 export class LocalStorageStoryComponent {
   private localStorage = inject(LocalStorageService);

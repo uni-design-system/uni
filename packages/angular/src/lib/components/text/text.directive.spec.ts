@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { UniTextComponent } from './text.component';
+import { UniTextDirective } from './text.directive';
 
 @Component({
-  imports: [UniTextComponent],
+  imports: [UniTextDirective],
   template: `
     <h1 uni-text id="h1">Title</h1>
     <p uni-text id="p">Body</p>
@@ -15,7 +15,7 @@ import { UniTextComponent } from './text.component';
 })
 class Host {}
 
-describe('UniTextComponent', () => {
+describe('UniTextDirective', () => {
   let fixture: ComponentFixture<Host>;
 
   const fontSize = (id: string): string =>

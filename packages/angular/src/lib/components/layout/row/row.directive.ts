@@ -1,13 +1,11 @@
-import { ChangeDetectionStrategy, Component, input } from '@angular/core';
-import { UniBoxComponent } from '../box/box.component';
+import { Directive, input } from '@angular/core';
+import { UniBoxDirective } from '../box/box.directive';
 import type { OptionalDisplay, OptionalFlexDirection } from '@uni-design-system/uni-core';
 
-@Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
+@Directive({
   selector: '[uni-row-layout], [row-layout]',
-  template: `<ng-content></ng-content>`,
 })
-export class UniRowComponent extends UniBoxComponent {
+export class UniRowDirective extends UniBoxDirective {
   override display = input<OptionalDisplay>('flex');
   override flexDirection = input<OptionalFlexDirection>('row');
   /**

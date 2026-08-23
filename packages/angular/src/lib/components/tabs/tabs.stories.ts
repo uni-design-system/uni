@@ -2,14 +2,14 @@ import { Meta, StoryObj } from '@storybook/angular';
 import { moduleMetadata } from '@storybook/angular';
 import { UniTabsComponent } from './tabs.component';
 import { UniTabComponent } from './tab.component';
-import { UniTextComponent } from '../text';
+import { UniTextDirective } from '../text';
 
 type StoryType = UniTabsComponent;
 
 const meta: Meta<StoryType> = {
   title: 'Components/Navigation/Tabs',
   component: UniTabsComponent,
-  decorators: [moduleMetadata({ imports: [UniTabComponent, UniTextComponent] })],
+  decorators: [moduleMetadata({ imports: [UniTabComponent, UniTextDirective] })],
   argTypes: {
     selectedIndex: {
       control: 'number',

@@ -1,12 +1,18 @@
-<uni-input-box [error]="showError()" height="auto">
+<uni-input-box [error]="showError()" height="auto" [width]="width()" [fullWidth]="fullWidth()" [grow]="grow()">
   <textarea
     [value]="value()"
     (input)="handleInput($event)"
     [placeholder]="placeholder()"
     [disabled]="disabled()"
+    [readOnly]="readonly()"
     (blur)="markAsTouched()"
     [rows]="resolvedRows()"
     [class]="textareaClass()"
+    [attr.name]="name() || null"
+    [attr.autocomplete]="autocomplete() || null"
+    [attr.minlength]="minLength() ?? null"
+    [attr.maxlength]="maxLength() ?? null"
+    [attr.spellcheck]="spellcheck() ?? null"
     [attr.aria-label]="label()"
     [attr.aria-invalid]="showError() ? true : null"
     [attr.aria-required]="required() ? true : null"

@@ -5,7 +5,7 @@ import { StoryExample } from '../../../stories/blocks/StoryExample';
 
 <Meta of={Stories} name="Text" />
 <Title />
-`import { UniTextComponent } from '@uni-design-system/uni-angular';`
+`import { UniTextDirective } from '@uni-design-system/uni-angular';`
 
 ## Overview
 
@@ -18,6 +18,25 @@ With no value, the typeface is inferred from the host element (`h1` →
 falling back to `title-small`), so plain semantic markup is correctly set with zero
 configuration. `color` takes any theme color token; `align`, `nowrap`, `maxWidth`,
 and `ellipsis` handle common text layout.
+
+It is a directive, so it stacks with anything else on the element — a layout
+attribute or a component's own host — rather than colliding with it:
+
+```html
+<div row-layout uni-text="title-small" padding="md">Heading</div>
+```
+
+One caveat on that combination: `color` is an input on the layout directives too,
+where it means a **container** pair (a background plus its on-color). A single
+`color` binding feeds both directives, so the ink and the background resolve to
+the same token and the text vanishes. Use `textColor` on a shared element — it
+wins over `color`:
+
+```html
+<div row-layout uni-text="title-small" color="primary-container" textColor="on-surface-variant">
+  Heading
+</div>
+```
 
 ## Usage
 

@@ -1,17 +1,34 @@
 import * as Stories from './box.stories';
 import { Meta, Title } from '@storybook/addon-docs/blocks';
+import { StoryExample } from '../../../../stories/blocks/StoryExample';
 import { StoryUsage } from '../../../../stories/blocks/StoryUsage';
 
 <Meta of={Stories} name="Box" />
 
 <Title />
 
-`import { UniBoxComponent } from '@uni-design-system/uni-angular';`
+`import { UniBoxDirective } from '@uni-design-system/uni-angular';`
 
 ## Overview
 
-Box is the base Layout component. It is highly configurable.
-Each layout component extends the Box component while providing presets to support their application.
+Box is the base layout primitive — an attribute directive you put on any element, so
+your HTML semantics stay yours. It is highly configurable; every other layout
+directive extends it and adds presets.
+
+Because it is a directive rather than a component, it composes freely: with another
+layout attribute, with `uni-text`, and with a component's own host element. Angular
+merges the host `class` bindings, so each contributor's styles survive.
+
+```html
+<div stack-layout uni-text="body-1-long" gap="sm">…</div>
+<uni-card box-layout padding="lg">…</uni-card>
+```
+
+<blockquote>
+Layout attributes only apply when the directive is in your component's `imports`.
+An unimported attribute compiles cleanly and silently does nothing — import
+`UNI_LAYOUT` to bring the whole family in at once.
+</blockquote>
 
 ## Usage
 
@@ -19,6 +36,12 @@ Each layout component extends the Box component while providing presets to suppo
 
 
 ## Examples
+
+<StoryExample of={Stories.FlexChildren} />
+
+<StoryExample of={Stories.CenteredPageShell} />
+
+<StoryExample of={Stories.Composition} />
 
 ### Basic Box with Styling
 
@@ -49,3 +72,43 @@ Each layout component extends the Box component while providing presets to suppo
 ```html
 <div box-layout width="100%" maxWidth="800px" padding="md"> Responsive content </div>
 ```
+
+### Flex children
+
+`grow` emits `flex-grow` alone, which leaves `flex-basis: auto`. When you want the
+`flex: 1` shorthand — grow, shrink and a zero basis, so siblings share space evenly
+regardless of content width — use `flex`. `shrink` and `basis` are there for the
+rest.
+
+```html
+<div row-layout gap="md">
+  <div box-layout [flex]="1">Shares space evenly</div>
+  <div box-layout [shrink]="0" [basis]="200">Fixed 200px</div>
+</div>
+```
+
+### Centering a page shell
+
+`marginInline="auto"` centers a `maxWidth` container — the one case flex centering
+cannot cover without an extra wrapper element. It also takes a spacing token.
+
+```html
+<main box-layout maxWidth="1200px" marginInline="auto" padding="lg">…</main>
+```
+
+Only the inline axis is exposed. Block margins collapse and fight `gap`, which is
+why the primitives otherwise carry no margin at all — use `gap` on the parent.
+
+### Spacing tokens
+
+Every spacing input (`padding*`, `gap`, `marginInline`) takes a token from the
+theme's spacing scale, not a raw length. The named steps — `none`, `xxs`, `xs`,
+`sm`, `md`, `lg`, `xl`, `xxl` — are a doubling scale, and a theme may add its own
+names for the steps its design actually uses:
+
+```ts
+createTheme({ …, spacing: { tight: '6px', snug: '10px' } });
+```
+
+`<div box-layout padding="tight">` then resolves like any other token. A token the
+active theme does not define is dropped, and warns once in development.

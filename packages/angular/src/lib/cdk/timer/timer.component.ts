@@ -3,9 +3,9 @@ import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
 import { useTimer } from './timer';
 import {
   UniButtonComponent,
-  UniRowComponent,
-  UniStackComponent,
-  UniTextComponent,
+  UniRowDirective,
+  UniStackDirective,
+  UniTextDirective,
 } from '../../components';
 
 @Component({
@@ -44,7 +44,7 @@ import {
       <textarea rows="8" cols="80" readonly>{{ eventLog() }}</textarea>
     </div>
   </div>`,
-  imports: [UniButtonComponent, UniRowComponent, UniTextComponent, UniStackComponent],
+  imports: [UniButtonComponent, UniRowDirective, UniTextDirective, UniStackDirective],
 })
 export class TimerStoryComponent {
   timer = useTimer();

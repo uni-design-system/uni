@@ -1,6 +1,6 @@
 import { argsToTemplate, Meta, moduleMetadata, StoryObj } from '@storybook/angular';
 import { UniRadioComponent as RadioComponent } from './radio.component';
-import { UniBoxComponent, UniRowComponent, UniStackComponent } from '../layout';
+import { UniBoxDirective, UniRowDirective, UniStackDirective } from '../layout';
 
 type StoryType = RadioComponent;
 
@@ -9,7 +9,7 @@ const meta: Meta<StoryType> = {
   component: RadioComponent,
   decorators: [
     moduleMetadata({
-      imports: [UniStackComponent, UniRowComponent, UniBoxComponent, ],
+      imports: [UniStackDirective, UniRowDirective, UniBoxDirective, ],
     }),
   ],
   render: (args) => ({

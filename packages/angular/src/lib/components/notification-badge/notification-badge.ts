@@ -3,13 +3,13 @@ import { css } from '@emotion/css';
 import type { Variant } from '@uni-design-system/uni-core';
 import { BaseComponent } from '../base';
 import { COMPONENT_NAME } from '../base/base.component';
-import { UniTextComponent } from '../text';
+import { UniTextDirective } from '../text';
 import { visuallyHidden } from '../../cdk';
 import type { UniNotificationBadgeOptions } from './notification-badge.model';
 
 @Component({
   selector: 'uni-notification-badge',
-  imports: [UniTextComponent],
+  imports: [UniTextDirective],
   templateUrl: './notification-badge.html',
   providers: [{ provide: COMPONENT_NAME, useValue: 'notificationBadge' }],
   host: { '[class]': 'className()' },

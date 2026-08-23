@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@a
 import { css } from '@emotion/css';
 import { ThemeService } from '../../lib/theming';
 import { UniIconComponent } from '../../lib/components/icon';
-import { UniTextComponent } from '../../lib/components/text';
+import { UniTextDirective } from '../../lib/components/text';
 
 /**
  * Storybook-only manifest of every icon primitive registered in the active
@@ -12,7 +12,7 @@ import { UniTextComponent } from '../../lib/components/text';
  */
 @Component({
   selector: 'sb-icon-manifest',
-  imports: [UniIconComponent, UniTextComponent],
+  imports: [UniIconComponent, UniTextDirective],
   template: `
     <p uni-text="body-2-short" color="on-surface-variant">
       {{ names().length }} icons registered in {{ theme.selectedThemeName() }}. Click a tile to

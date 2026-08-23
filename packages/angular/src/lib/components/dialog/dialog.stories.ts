@@ -1,7 +1,7 @@
 import { Meta, moduleMetadata, StoryObj } from '@storybook/angular';
 import { UniButtonComponent } from '../button';
-import { UniCenterComponent } from '../layout';
-import { UniTextComponent } from '../text';
+import { UniCenterDirective } from '../layout';
+import { UniTextDirective } from '../text';
 import { UniDialogButtonsComponent } from './dialog-buttons/dialog-buttons.component';
 import { UniDialogHeaderComponent } from './dialog-header/dialog-header.component';
 import { UniDialogComponent as Dialog } from './dialog.component';
@@ -15,8 +15,8 @@ const meta: Meta<StoryType> = {
     moduleMetadata({
       imports: [
         UniButtonComponent,
-        UniTextComponent,
-        UniCenterComponent,
+        UniTextDirective,
+        UniCenterDirective,
         UniDialogHeaderComponent,
         UniDialogButtonsComponent,
       ],

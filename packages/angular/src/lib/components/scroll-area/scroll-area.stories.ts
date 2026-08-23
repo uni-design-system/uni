@@ -1,6 +1,6 @@
 import { argsToTemplate, Meta, moduleMetadata, StoryObj } from '@storybook/angular';
 import { UniButtonComponent } from '../button/button.component';
-import { UniTextComponent } from '../text/text.component';
+import { UniTextDirective } from '../text/text.directive';
 import { UniScrollAreaComponent as ScrollArea } from './scroll-area.component';
 
 type StoryType = ScrollArea & { ngContent?: string };
@@ -10,7 +10,7 @@ const meta: Meta<StoryType> = {
   component: ScrollArea,
   decorators: [
     moduleMetadata({
-      imports: [UniTextComponent, UniButtonComponent],
+      imports: [UniTextDirective, UniButtonComponent],
     }),
   ],
   argTypes: {},

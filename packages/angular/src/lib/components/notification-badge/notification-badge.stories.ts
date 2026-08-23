@@ -1,7 +1,7 @@
 import { type Meta, moduleMetadata, type StoryObj } from '@storybook/angular';
 import { UniButtonComponent } from '../button';
 import { UniNotificationBadgeComponent } from './notification-badge';
-import { UniBoxComponent, UniCenterComponent, UniWrapComponent } from '../layout';
+import { UniBoxDirective, UniCenterDirective, UniWrapDirective } from '../layout';
 
 const meta: Meta<UniNotificationBadgeComponent> = {
   title: 'Components/Feedback/Notification Badge',
@@ -9,7 +9,7 @@ const meta: Meta<UniNotificationBadgeComponent> = {
   tags: ['experimental'],
   decorators: [
     moduleMetadata({
-      imports: [UniWrapComponent, UniCenterComponent, UniBoxComponent, UniButtonComponent],
+      imports: [UniWrapDirective, UniCenterDirective, UniBoxDirective, UniButtonComponent],
     }),
   ],
   argTypes: {

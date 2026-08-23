@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, computed, inject, input } from '@angular/core';
+import { Directive, computed, inject, input } from '@angular/core';
 import { css } from '@emotion/css';
 
 import type {
@@ -10,6 +10,7 @@ import type {
   OptionalColor,
   OptionalDisplay,
   OptionalFlexDirection,
+  NullableSize,
   OptionalJustifyContent,
   OptionalOverflow,
   OptionalPosition,
@@ -26,22 +27,21 @@ import { ThemeService } from '../../../theming';
 
 /**
  * The base layout primitive, applied as an attribute to any element so
- * semantics stay yours: `<main box-layout [grow]="1" padding="md">`.
- * Exception: other components' host elements (`<uni-card box-layout>` would
- * put two components on one element) — wrap those in a `<div box-layout>`.
+ * semantics stay yours: `<main box-layout [grow]="1" padding="md">`. It is a
+ * directive, so it composes freely — with another layout attribute
+ * (`<div stack-layout uni-text="body-1-long">`) and with a component's own host
+ * element (`<uni-card box-layout padding="lg">`); Angular merges the host
+ * `class` bindings rather than letting one win.
  *
  * Sizing convention (height/width/min/max/inset): a **number is px and needs
  * a binding** — `[height]="420"`; a **plain attribute is a CSS length
  * string** — `height="420px"`. Spacing/radius/color inputs take theme tokens.
  */
-@Component({
+@Directive({
   selector: '[uni-box-layout], [box-layout]',
-  imports: [],
-  template: `<ng-content></ng-content>`,
   host: { '[class]': 'boxClassName()' },
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class UniBoxComponent {
+export class UniBoxDirective {
   theme = inject(ThemeService);
 
   color = input<ContainerColorToken>();
@@ -69,6 +69,21 @@ export class UniBoxComponent {
   alignContent = input<OptionalAlignContent>();
   justifyContent = input<OptionalJustifyContent>();
   grow = input<number>();
+  /**
+   * The `flex` shorthand. `[flex]="1"` is `flex: 1` — grow, shrink and a zero
+   * basis — which `grow` alone cannot express, since it leaves
+   * `flex-basis: auto`. Wins over `grow` when both are set.
+   */
+  flex = input<number | string>();
+  shrink = input<number>();
+  basis = input<number | string>();
+  /**
+   * Inline-axis margin. `marginInline="auto"` centers a `maxWidth` container —
+   * the one thing flex centering cannot do without an extra wrapper. Only the
+   * inline axis is exposed: block margins collapse and fight `gap`, which is
+   * why the primitives carry no margin otherwise.
+   */
+  marginInline = input<'auto' | NullableSize>();
   display = input<OptionalDisplay>();
   position = input<OptionalPosition>();
   inset = input<number | string>();
@@ -137,6 +152,12 @@ export class UniBoxComponent {
         ...this.theme.style('justifyContent', this.justifyContent()),
         ...this.theme.style('alignContent', this.alignContent()),
         ...this.theme.style('flexGrow', this.grow()),
+        // styleIfSet, not style: `[shrink]="0"` and `[basis]="0"` are
+        // meaningful values that a truthiness check would drop.
+        ...this.theme.styleIfSet('flex', this.flex()),
+        ...this.theme.styleIfSet('flexShrink', this.shrink()),
+        ...this.theme.styleIfSet('flexBasis', this.basis()),
+        ...this.theme.marginInline(this.marginInline()),
         ...this.theme.style('flexDirection', this.flexDirection()),
         ...this.theme.style('gridArea', this.gridArea()),
         ...this.theme.style('gridColumn', this.gridColumn()),

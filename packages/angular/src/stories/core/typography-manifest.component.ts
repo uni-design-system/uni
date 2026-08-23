@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/c
 import { css } from '@emotion/css';
 import type { TypeFaceDefinition } from '@uni-design-system/uni-core';
 import { ThemeService } from '../../lib/theming';
-import { UniTextComponent } from '../../lib/components/text';
+import { UniTextDirective } from '../../lib/components/text';
 
 interface FaceRow {
   token: string;
@@ -46,7 +46,7 @@ const specSummary = (face: TypeFaceDefinition): string => {
  */
 @Component({
   selector: 'sb-typography-manifest',
-  imports: [UniTextComponent],
+  imports: [UniTextDirective],
   template: `
     <p uni-text="body-2-short" color="on-surface-variant">
       {{ count() }} typefaces registered in {{ theme.selectedThemeName() }}.

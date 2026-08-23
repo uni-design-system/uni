@@ -18,7 +18,8 @@ component renders resolves from it by **token name**. Nine fields:
   overrides).
 - `radii` — corner radius scale, `none` → `max`.
 - `shadows` — named elevation shadows.
-- `spacing` — the spatial scale, `none` → `xl`.
+- `spacing` — the spatial scale, `none` → `xxl`, extensible with your own
+  named steps.
 - `thicknesses` — line weights: `thin`, `standard`, `thick`.
 - `motion` — shared overlay timing: `popup` and `panel`.
 - `icons` — icon primitives as data-URI masks — see
@@ -32,7 +33,8 @@ component renders resolves from it by **token name**. Nine fields:
 the only required raw material**: borders and the color-bearing parts of
 `components` are built from it (`buildBorders`, `buildComponents`), typography,
 spacing, and thicknesses come from the shared base scales, radii and shadows
-take the base set unless overridden, and `icons` merge over `BaseIcons`.
+take the base set unless overridden, and `icons` and `spacing` merge over their
+base scales.
 `createThemeFromPalette` goes one step earlier — a seed + scheme + category
 generates the `colors` record itself, which is how the Theme Builder and the
 custom brand flow produce complete themes from a single brand color.
@@ -85,6 +87,23 @@ color, so each pair's contrast is visible at a glance.
 <Story of={Stories.Colors} />
 
 ## Spacing
+
+The named steps are a doubling scale (2, 4, 8, 16, 32, 64, 128px). Real layouts
+are rarely built exclusively on one, so the scale is **open**: a theme may add
+steps under any name, and they are valid everywhere a spacing token is taken —
+`padding`, `gap`, `marginInline`, and component options.
+
+```ts
+createTheme({ id, name, colors, spacing: { tight: '6px', snug: '10px' } });
+```
+
+```html
+<div stack-layout padding="tight" gap="snug">…</div>
+```
+
+Because the scale is open, a mistyped token cannot be a compile error. It is
+dropped (an `undefined` CSS value simply does not render) and warns once per
+token in development.
 
 <Story of={Stories.Spacing} />
 

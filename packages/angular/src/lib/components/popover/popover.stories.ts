@@ -1,8 +1,8 @@
 import { Meta, moduleMetadata, StoryObj } from '@storybook/angular';
 import { UniButtonComponent } from '../button/button.component';
 import { UniInputComponent } from '../input/input.component';
-import { UniStackComponent } from '../layout';
-import { UniTextComponent } from '../text/text.component';
+import { UniStackDirective } from '../layout';
+import { UniTextDirective } from '../text/text.directive';
 import { UniPopoverComponent as Popover } from './popover.component';
 
 type StoryType = Popover;
@@ -15,7 +15,7 @@ const meta: Meta<StoryType> = {
   },
   decorators: [
     moduleMetadata({
-      imports: [UniButtonComponent, UniInputComponent, UniStackComponent, UniTextComponent],
+      imports: [UniButtonComponent, UniInputComponent, UniStackDirective, UniTextDirective],
     }),
   ],
   render: (args) => {

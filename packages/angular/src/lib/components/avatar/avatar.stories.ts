@@ -1,14 +1,14 @@
 import { Meta, StoryObj, moduleMetadata } from '@storybook/angular';
 import { UniAvatarComponent } from './avatar.component';
 import { UniAvatarGroupComponent } from './avatar-group.component';
-import { UniRowComponent } from '../layout';
+import { UniRowDirective } from '../layout';
 
 type StoryType = UniAvatarComponent;
 
 const meta: Meta<StoryType> = {
   title: 'Components/Data Display/Avatar',
   component: UniAvatarComponent,
-  decorators: [moduleMetadata({ imports: [UniRowComponent, UniAvatarGroupComponent] })],
+  decorators: [moduleMetadata({ imports: [UniRowDirective, UniAvatarGroupComponent] })],
   argTypes: {
     name: {
       control: 'text',

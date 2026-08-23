@@ -8,9 +8,9 @@ import {
 import { starWarsCharacters } from '../../../stories/data/star-wars-characters';
 import { UniRecordDatasource } from '../../cdk';
 import { UniDataSearchComponent } from '../data-search/data-search.component';
-import { UniBoxComponent, UniRowComponent } from '../layout';
+import { UniBoxDirective, UniRowDirective } from '../layout';
 import { UniPaginatorComponent } from '../paginator/paginator.component';
-import { UniTextComponent } from '../text/text.component';
+import { UniTextDirective } from '../text/text.directive';
 import { UniDataTableComponent as DataTable } from './data-table.component';
 
 type StoryType = DataTable<any>;
@@ -21,10 +21,10 @@ const meta: Meta<StoryType> = {
   decorators: [
     moduleMetadata({
       imports: [
-        UniBoxComponent,
-        UniRowComponent,
+        UniBoxDirective,
+        UniRowDirective,
         UniPaginatorComponent,
-        UniTextComponent,
+        UniTextDirective,
         UniDataSearchComponent,
       ],
     }),

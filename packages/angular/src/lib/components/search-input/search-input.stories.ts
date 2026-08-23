@@ -1,6 +1,6 @@
 import { Meta, StoryObj, moduleMetadata } from '@storybook/angular';
 import { UniSearchInputComponent as Search } from './search-input.component';
-import { UniBoxComponent } from '../layout';
+import { UniBoxDirective } from '../layout';
 
 type StoryType = Search;
 
@@ -16,7 +16,7 @@ const SUGGESTIONS = [
 const meta: Meta<StoryType> = {
   title: 'Components/Forms/Search Input',
   component: Search,
-  decorators: [moduleMetadata({ imports: [UniBoxComponent] })],
+  decorators: [moduleMetadata({ imports: [UniBoxDirective] })],
   argTypes: {
     label: { control: 'text', description: 'Accessible name; placeholder fallback.' },
     placeholder: { control: 'text', description: 'Placeholder override.' },

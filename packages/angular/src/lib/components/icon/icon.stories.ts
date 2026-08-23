@@ -3,7 +3,7 @@ import { Meta, StoryObj, moduleMetadata } from '@storybook/angular';
 import { UniIconComponent as Icon } from './icon.component';
 import { BaseIcons } from '@uni-design-system/uni-core';
 import type { ContainerColorToken } from '@uni-design-system/uni-core';
-import { UniBoxComponent } from '../layout';
+import { UniBoxDirective } from '../layout';
 
 type StoryType = Icon & { containerSize?: number; containerColor?: ContainerColorToken };
 
@@ -21,7 +21,7 @@ const meta: Meta<StoryType> = {
       `,
     };
   },
-  decorators: [moduleMetadata({ imports: [UniBoxComponent] })],
+  decorators: [moduleMetadata({ imports: [UniBoxDirective] })],
   argTypes: {
     containerSize: {
       description: 'Size of the surrounding box. With no `size` set, the icon scales to fill it.',

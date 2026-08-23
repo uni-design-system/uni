@@ -3,12 +3,12 @@ import { css } from '@emotion/css';
 import { removeInputPlatformStyling } from '@uni-design-system/uni-core';
 import { BaseComponent } from '../base';
 import { COMPONENT_NAME } from '../base/base.component';
-import { UniRowComponent } from '../layout';
+import { UniRowDirective } from '../layout';
 import type { UniInputBoxOptions } from './input-box.model';
 
 @Component({
   selector: 'uni-input-box',
-  imports: [UniRowComponent],
+  imports: [UniRowDirective],
   templateUrl: './input-box.component.html',
   providers: [{ provide: COMPONENT_NAME, useValue: 'input' }],
   host: { '[class]': 'className' },
@@ -22,6 +22,13 @@ export class UniInputBoxComponent extends BaseComponent<UniInputBoxOptions> {
   minWidth = input<string>('0');
   /** Override the themed field height, e.g. `'auto'` for multi-line fields. */
   height = input<string | number | undefined>(undefined);
+
+  // Sizing passthroughs. The host is `display: contents`, so width and layout
+  // set on `<uni-input-box>` itself would be dropped; these reach the real
+  // field element instead, which is what a call site actually wants.
+  width = input<string | number | undefined>(undefined);
+  fullWidth = input<boolean>(false);
+  grow = input<number | undefined>(undefined);
 
   protected readonly color = computed(() =>
     this.error() ? this.componentOptions().errorColor : this.componentOptions().color
