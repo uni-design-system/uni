@@ -32,5 +32,9 @@ jobs:
       - name: Test
         run: pnpm turbo run test
 
-      - name: Build Storybook (smoke test)
-        run: pnpm --filter @uni-design-system/uni-angular build-storybook
+      # Both Storybooks: these bundle uni-core rather than treating it as an
+      # external, so they are the step that resolves its exports against real
+      # consumer source. A core export removed without updating a consumer
+      # fails here — the React build alone would not catch it.
+      - name: Build Storybooks (smoke test)
+        run: pnpm turbo run build-storybook

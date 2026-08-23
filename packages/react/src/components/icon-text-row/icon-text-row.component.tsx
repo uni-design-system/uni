@@ -1,5 +1,6 @@
 import React, { ReactNode } from 'react';
 import {
+  type CssLength,
   ContentColorToken,
   getValue,
   HorizontalAlign,
@@ -8,6 +9,19 @@ import {
 
 import { alignCenter, expand, fix, row, Text, Icon, useTheme } from '../../core';
 import { IconName } from '../../core/icon';
+
+/**
+ * The type scale stores CSS lengths (`number | string`), but this row does
+ * arithmetic on them and sizes the icon in px. Numbers pass through; a string
+ * is read as its leading numeric part, which is what the arithmetic has always
+ * assumed — a non-px unit (`1rem`) therefore reads as `1`, so keep the scale
+ * numeric if you use this component.
+ */
+const toPx = (value: CssLength | undefined, fallback: number): number => {
+  if (typeof value === 'number') return value;
+  const parsed = typeof value === 'string' ? parseFloat(value) : NaN;
+  return Number.isFinite(parsed) ? parsed : fallback;
+};
 
 export interface IconTextRowProps {
   iconName: IconName;
@@ -28,8 +42,8 @@ export const IconTextRow = ({
 }: IconTextRowProps): JSX.Element => {
   const theme = useTheme();
   const textProps = getValue(theme, `typography.${textRole}`, theme.typography['title-medium']);
-  const textHeight = textProps.fontSize;
-  const textLineHeight = textProps.lineHeight || textHeight;
+  const textHeight = toPx(textProps.fontSize, 16);
+  const textLineHeight = toPx(textProps.lineHeight, textHeight);
   const textMargin = text || children ? textLineHeight - textHeight : 0;
 
   function RowIcon() {
