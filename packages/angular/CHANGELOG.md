@@ -1,5 +1,252 @@
 # @uni-design-system/uni-angular
 
+## 9.0.0
+
+### Major Changes
+
+- [`c0c6056`](https://github.com/uni-design-system/uni/commit/c0c6056c61e994a45af9c379f3c99f55eebcb79a) Thanks [@gaenglish](https://github.com/gaenglish)! - Box learns `flex` / `shrink` / `basis` and `marginInline`.
+
+  **`flex`.** `grow` emits `flex-grow` alone, which leaves `flex-basis: auto` — so
+  it cannot express `flex: 1`, and any layout wanting siblings to share space
+  evenly regardless of content width had to stay in CSS. `[flex]="1"` now emits
+  the shorthand; `shrink` and `basis` cover the rest. `grow` is unchanged, so no
+  existing layout moves.
+
+  These three go through a new `ThemeService.styleIfSet()`, which treats only
+  `undefined` as unset — the shared `style()` helper drops falsy values, which
+  would have silently swallowed `[shrink]="0"`, the single most useful value.
+
+  **`marginInline`.** `margin: 0 auto` on a max-width container had no Box
+  equivalent, so page shells kept an inline style for it. `marginInline="auto"`
+  centers such a container, and a spacing token works too.
+
+  ```html
+  <main box-layout maxWidth="1200px" marginInline="auto" padding="lg">…</main>
+  ```
+
+  Only the inline axis is exposed. Block margins collapse and fight `gap`, which
+  is why the primitives carry no margin otherwise — inline margins do neither, so
+  this is a deliberate line rather than a crack in the token-only surface.
+
+- [`8250162`](https://github.com/uni-design-system/uni/commit/8250162c35e418f976080904df4c20783feeb6e2) Thanks [@gaenglish](https://github.com/gaenglish)! - Every deprecated API is removed. The library now carries no `@deprecated`
+  symbols at all.
+
+  **Per-component duration options → the `motion` scale.** Six components carried
+  their own duration knob that predated the motion scale and _won over_ it:
+  `expand.transitionSpeed`, `callout.transitionMs`, `radio.transitionSpeed`,
+  `menuItem.transitionSpeed`, `alert.transitionSpeed` and
+  `snackbar.transitionDelay`. All are gone, along with the precedence branch each
+  one required — timing now comes from the token, full stop.
+
+  Retime the token instead; one edit covers every component pointing at it. To
+  retime a single component, define a token of your own and point that
+  component's `motion` option at it:
+
+  ```ts
+  createTheme({
+    …,
+    motion: { productive: { duration: 110, easing: 'ease' } },
+    components: { menuItem: { options: { motion: 'productive' } } },
+  });
+  ```
+
+  A `duration: 0` token is how a theme opts out of motion — that is what
+  `transitionSpeed: 0` used to mean. Both showcase themes are migrated this way
+  (Carbon to a 110ms `productive` token, Wellsourced to an `instant` one).
+
+  **Options that never did anything.** `card.transitionSpeed` and
+  `inputBox.transitionSpeed` were read by nothing and never had been. Delete them
+  from your theme; nothing replaces them.
+
+  **Renames and obsolete APIs**
+  - `inputBox.typeFace` → `typeface` (the casing every other component uses).
+  - `uni-tooltip`'s `appendToBody` input — inert since the tooltip moved to the
+    native top layer, which escapes any overflow context by itself.
+  - Box's `elevation` input → `shadow`, in both the Angular and React packages.
+    It was a second name for the same thing.
+  - The Angular `icons` re-export → import `BaseIcons` from
+    `@uni-design-system/uni-core`. The default set ships with every theme.
+
+  **The HSL color legacy is gone from uni-core.** `uniColor`, `randomRangeValue`,
+  `CategorySaturation` and `CategoryLightness` are removed, superseded by the
+  deterministic OKLCH engine (`generateThemes` / `generatePalette`) — same input,
+  same theme, WCAG-checked. `RoleHues` and the `UniColor` type go with them: they
+  were reachable only through `uniColor`, and `RoleHues` had gone stale enough to
+  hold saturation values in a table of hues.
+
+  **Deferred output renames.** Three outputs were held back because renaming is
+  breaking; this is that release. Each also drops an eslint escape it needed for
+  shadowing a native event name or using an `on` prefix.
+
+  | Component            | Before            | After            |
+  | -------------------- | ----------------- | ---------------- |
+  | `uni-debounce-input` | `(change)`        | `(valueChange)`  |
+  | `uni-search-input`   | `(change)`        | `(searchChange)` |
+  | `uni-search-input`   | `(search)`        | `(searchSubmit)` |
+  | `dragAndDrop`        | `(onFileDropped)` | `(fileDropped)`  |
+
+  **`uni-dropdown`'s `color` input → `containerColor`,** completing the rule the
+  layout directives set: every container-pair input in the library is now
+  `containerColor`, and plain `color` always means the CSS property.
+
+  **`ThemeService.getSpacing('none')` now returns `0`, not the string `'none'`.**
+  `'none'` is not a valid length, so it was silently dropped wherever it landed —
+  `uni-menu` carried a comment working around exactly that, which is now deleted.
+
+- [`c0c6056`](https://github.com/uni-design-system/uni/commit/c0c6056c61e994a45af9c379f3c99f55eebcb79a) Thanks [@gaenglish](https://github.com/gaenglish)! - `uni-input` gets a `type`, and the input chrome stops needing a wrapper div.
+
+  **Types.** `uni-input` was text-only with no `type` at all, so every email, URL,
+  number and phone field had to fall back to `uni-input-box` plus a hand-written
+  native `<input>`, and `type="password"` could not go through it. It now takes
+  the text-like types: `text` (default), `email`, `password`, `search`, `tel`,
+  `url`, `number`.
+
+  Non-text types (`checkbox`, `radio`, `file`, `range`, `color`) stay out — they
+  break both the input chrome and the `FormValueControl<string>` value contract —
+  as do `date` / `time` / `datetime-local`, which have dedicated components.
+
+  **Native passthroughs.** `autocomplete`, `inputMode`, `list` (a `<datalist>` id),
+  `step` and `spellcheck` are plain passthroughs; an unset one emits no attribute.
+  `readonly`, `name`, `min`, `max`, `minLength`, `maxLength` and `pattern` are
+  Signal Forms' own optional control inputs, so the `[field]` directive syncs them
+  from your validators exactly as it already syncs `required` — and they are
+  reflected onto the native element so the browser contributes too. Signal Forms
+  treats multiple `pattern`s as all-must-match, which the native attribute cannot
+  express, so it is reflected only when there is exactly one.
+
+  `uni-textarea` gains `readonly`, `name`, `minLength`, `maxLength`, `autocomplete`
+  and `spellcheck`; `uni-debounce-input` gains `type`, `autocomplete` and
+  `inputMode`.
+
+  **Sizing.** `uni-input-box`'s host is `display: contents`, so a width or layout
+  attribute set on the element itself was silently dropped and every call site
+  needed a wrapper `<div>`. It now takes `width`, `fullWidth` and `grow` (joining
+  `minWidth`), which reach the real box inside; `uni-input`, `uni-textarea` and
+  `uni-select` forward all four. The `display: contents` behavior is now documented
+  too — it stays surprising even once sizing works.
+
+  Both `uni-input` and `uni-debounce-input` now accept the adornment slots as
+  either element or attribute selectors (`<span pre-input>` as well as
+  `<pre-input>`), which had drifted apart between them.
+
+- [`c0c6056`](https://github.com/uni-design-system/uni/commit/c0c6056c61e994a45af9c379f3c99f55eebcb79a) Thanks [@gaenglish](https://github.com/gaenglish)! - The layout primitives and `uni-text` are now **directives**, so they compose.
+
+  They were components with attribute-only selectors, which meant any two of them
+  on one element threw NG0300 ("multiple components match"). `<div row-layout
+uni-text="title-small">` — the most natural thing to write — threw in dev only,
+  so it reached production as a silent style mismatch. `<uni-card box-layout>`
+  was blocked for the same reason, and `box.component.ts` documented the
+  wrap-it-in-a-div workaround as permanent.
+
+  All eight are pure host-styling wrappers (an `<ng-content>`-only template plus a
+  `[class]` host binding), so as directives they render identically and now stack
+  freely — with each other, with `uni-text`, and with a component's own host
+  element. Angular reconciles the host `class` bindings additively, so each
+  contributor's styles survive rather than one silently winning; there is a spec
+  pinning that.
+
+  ```html
+  <div row-layout uni-text="title-small" padding="md">Heading</div>
+  <uni-card box-layout padding="lg">…</uni-card>
+  ```
+
+  **BREAKING: class renames.** `UniBoxComponent` → `UniBoxDirective`, and likewise
+  for Row, Stack, Center, Wrap, Grid, GridArea and Text. No compatibility aliases:
+  a major is where the break belongs, and an alias shipped on day one of a major
+  tends to survive to the next one. Rename the symbols in your `imports: []`.
+
+  **BREAKING: the layout directives' `color` is now `containerColor`.**
+
+  Composing the two directives exposed a name collision. `color` was an input on
+  both — a _container pair_ on the layout primitives, the CSS `color` property on
+  `uni-text` — so on a shared element one binding fed both: the box painted the
+  surface, the text took the same token, and the text rendered as ink on identical
+  ink. A deprecated alias would have kept that path alive, so there isn't one.
+
+  `color` belongs to `uni-text`, which maps it straight to the CSS property. The
+  container pair is an invented concept and now says so:
+
+  ```html
+  <!-- before -->
+  <div box-layout color="surface">
+    <!-- after -->
+    <div box-layout containerColor="surface"></div>
+  </div>
+  ```
+
+  This applies to all seven layout directives (Box and its subclasses) and to
+  `uni-scroll-area`, which is attribute-selected too and carried the identical
+  hazard. `backgroundColor`, which sets only the background and no paired
+  on-color, is unchanged, as is `color` on `uni-icon` / `uni-skeleton` /
+  `uni-badge` — there it already means a foreground color, the same sense as
+  `uni-text`'s.
+
+  Codemod: rename `color` → `containerColor` on any element carrying a `*-layout`
+  or `scroll-area` attribute; leave `color` alone everywhere else.
+
+  The rename fixed the input collision; a second one sat underneath it in CSS.
+  `containerColor` emits a background **and** its paired on-color, so both
+  directives write `color` to the element — at equal specificity, which left the
+  cascade to Emotion's insertion order (text won on `row-layout`, lost on
+  `scroll-area`). An explicit `uni-text` `color` is now emitted at doubled
+  specificity, so it deterministically wins; with no explicit color, the
+  container's on-color still shows through as intended.
+
+  `uni-dropdown` still names its container pair `color`. It is an element selector
+  (`<uni-dropdown>`), so the collision needs someone to put `uni-text` on a
+  component host — possible, but not the natural path the layout attributes are.
+
+  **New: `UNI_LAYOUT` and `UNI_FORMS`.** These are attribute selectors, so an
+  element carrying one whose directive was never imported compiles cleanly and
+  silently does nothing. Spreading a family is the cheapest guard:
+
+  ```ts
+  imports: [...UNI_LAYOUT];
+  ```
+
+- [`c0c6056`](https://github.com/uni-design-system/uni/commit/c0c6056c61e994a45af9c379f3c99f55eebcb79a) Thanks [@gaenglish](https://github.com/gaenglish)! - The spacing scale is open, and `createTheme` finally accepts one.
+
+  The scale was a closed seven-name union on a doubling curve (2/4/8/16/32/64px).
+  Real layouts are rarely built exclusively on one — the gaps between 8 and 16,
+  and 16 and 32, are where a lot of real spacing lives — and there was no way to
+  add a step, because **`ThemeConfig` had no `spacing` field at all**:
+  `createTheme` hardcoded the base scale. The Wellsourced showcase theme had to
+  bolt its scale on after the fact with a post-hoc spread.
+
+  Three changes, which only work together:
+  - `NullableSize` gains a `(string & {})` arm, so any name the theme defines is a
+    valid `padding` / `gap` / `marginInline` value while the seven named steps keep
+    their autocomplete. `Size` itself stays closed — it also types _component_
+    sizes, where an arbitrary name has nothing to resolve against.
+  - `Spacing` is spelled out as named-optional-keys plus an index signature
+    (mirroring `Typography`), rather than a `Partial<Record<…>>` that would
+    collapse to a plain string record and lose the named steps.
+  - `createTheme({ spacing })` merges over the base scale.
+
+  ```ts
+  createTheme({ id, name, colors, spacing: { tight: '6px', snug: '10px' } });
+  ```
+
+  ```html
+  <div stack-layout padding="tight" gap="snug">…</div>
+  ```
+
+  Because the scale is open, a mistyped token can no longer be a compile error. It
+  is dropped — an `undefined` CSS value simply does not render — and
+  `ThemeService` now warns once per unknown token in development, naming the
+  tokens the active theme does define. Scaffolded `uni-theme.ts` files carry a
+  `spacing` block so the static theme file stays the editable source of truth.
+
+  **Behavior change:** `xxl` was in the `Size` union but defined by no base theme,
+  so `padding="xxl"` type-checked and rendered nothing. It is now `128px`,
+  completing the doubling — any element relying on the silent drop will start
+  showing spacing.
+
+### Patch Changes
+
+- Updated dependencies [[`8250162`](https://github.com/uni-design-system/uni/commit/8250162c35e418f976080904df4c20783feeb6e2), [`c0c6056`](https://github.com/uni-design-system/uni/commit/c0c6056c61e994a45af9c379f3c99f55eebcb79a)]:
+  - @uni-design-system/uni-core@9.0.0
+
 ## 8.4.0
 
 ### Minor Changes
