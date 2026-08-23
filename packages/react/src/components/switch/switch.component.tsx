@@ -1,6 +1,7 @@
 import { motion, Transition } from 'framer-motion';
 import React, { CSSProperties, useState } from 'react';
-import { RoleHues, Size } from '@uni-design-system/uni-core';
+import { Size } from '@uni-design-system/uni-core';
+import { useTheme } from '../../core';
 import { SwitchConfigs } from './switch.config';
 
 export interface SwitchProps {
@@ -12,7 +13,9 @@ export interface SwitchProps {
 export const Switch = ({ size = 'sm', on = false, onChange }: SwitchProps) => {
   const [isOn, setIsOn] = useState(on);
 
-  const successColor = `hsl(${RoleHues.success.default}, 32%, 50%)`;
+  // The themed success token, not a hand-rolled HSL — the switch's "on" state
+  // recolors with the theme like everything else.
+  const successColor = useTheme().colors.success;
 
   const toggleSwitch = () => {
     setIsOn(!isOn);
