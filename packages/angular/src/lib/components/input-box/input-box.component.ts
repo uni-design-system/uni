@@ -30,6 +30,12 @@ export class UniInputBoxComponent extends BaseComponent<UniInputBoxOptions> {
   fullWidth = input<boolean>(false);
   grow = input<number | undefined>(undefined);
 
+  /** Auto-height fields (tag input, textarea) still keep the themed height as
+      a floor, so a single-line field lines up with every other input. */
+  protected readonly minHeight = computed(() =>
+    this.height() === 'auto' ? this.componentOptions().height : undefined
+  );
+
   protected readonly color = computed(() =>
     this.error() ? this.componentOptions().errorColor : this.componentOptions().color
   );

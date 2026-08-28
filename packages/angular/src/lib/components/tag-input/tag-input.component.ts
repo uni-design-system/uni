@@ -426,6 +426,10 @@ export class UniTagInputComponent
       listStyle: 'none',
       margin: 0,
       padding: 0,
+      // Wrapped chip rows keep clear of the field border; one 24px chip row
+      // plus this padding fills the themed 32px minimum exactly.
+      ...this.theme.paddingTop('xs'),
+      ...this.theme.paddingBottom('xs'),
       ...this.theme.gap(options.chipGap),
     });
   });
