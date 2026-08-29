@@ -1,0 +1,1981 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Uni — Number input prototype</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Red+Hat+Display:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      /* ============================================================
+         Tokens — the real generated Uni palettes (seed #4F46E5,
+         triadic / neutral), dumped from @uni-design-system/uni-core.
+         Nothing here is invented: swap the block, reskin the proto.
+         ============================================================ */
+      :root {
+        --primary: #6a6f8f;
+        --on-primary: #f9faff;
+        --primary-container: #dbddea;
+        --on-primary-container: #1a1c37;
+        --on-primary-container-variant: #5b5d68;
+        --on-primary-container-border: #6a6f8f;
+        --primary-surface: #f3f5fd;
+        --on-primary-surface: #1e1f25;
+        --on-primary-surface-variant: #6a6f8f;
+        --secondary: #8c685d;
+        --on-secondary: #fff8f6;
+        --secondary-container: #e9dad6;
+        --on-secondary-container: #33160d;
+        --on-secondary-container-border: #8c685d;
+        --tertiary: #597b66;
+        --on-tertiary: #f0fff5;
+        --tertiary-container: #d5e2d9;
+        --on-tertiary-container: #052615;
+        --on-tertiary-container-border: #597b66;
+        --error: #cc2827;
+        --on-error: #fff8f7;
+        --error-container: #ffd2cc;
+        --on-error-container: #331512;
+        --warn: #ac5700;
+        --on-warn: #fff9f5;
+        --warn-container: #fdd5ba;
+        --on-warn-container: #311805;
+        --on-warn-container-border: #ac5700;
+        --success: #008341;
+        --on-success: #f1fef4;
+        --success-container: #c3eacc;
+        --on-success-container: #092613;
+        --on-success-container-border: #008341;
+        --background: #fdfdff;
+        --on-background: #202127;
+        --on-background-variant: #5c5d65;
+        --surface: #f9faff;
+        --surface-variant: #e9ebf3;
+        --on-surface-variant: #36373e;
+        --outline: #7e8088;
+        --disabled: rgba(0, 0, 0, 0.12);
+        --on-disabled: rgba(0, 0, 0, 0.38);
+        --disabled-container: #eff1fa;
+        --on-disabled-container: rgba(0, 0, 0, 0.38);
+        --shadow-menu: rgba(0, 0, 0, 0.2) 0 3px 3px -2px, rgba(0, 0, 0, 0.14) 0 3px 4px 0,
+          rgba(0, 0, 0, 0.12) 0 1px 8px 0;
+
+        /* radii + spacing scales, verbatim from base.theme.ts */
+        --radius-xxs: 4px;
+        --radius-xs: 8px;
+        --radius-sm: 16px;
+        --radius-max: 999px;
+        --space-xxs: 2px;
+        --space-xs: 4px;
+        --space-sm: 8px;
+        --space-md: 16px;
+        --space-lg: 32px;
+      }
+      html[data-theme='dark'] {
+        --primary: #afb5d8;
+        --on-primary: #11132c;
+        --primary-container: #4a4c57;
+        --on-primary-container: #f9faff;
+        --on-primary-container-variant: #bcbecb;
+        --on-primary-container-border: #afb5d8;
+        --primary-surface: #22242a;
+        --on-primary-surface: #f9faff;
+        --on-primary-surface-variant: #afb5d8;
+        --secondary: #d5ada1;
+        --on-secondary: #280c05;
+        --secondary-container: #564a46;
+        --on-secondary-container: #fff8f7;
+        --on-secondary-container-border: #d5ada1;
+        --tertiary: #9ec2ab;
+        --on-tertiary: #001c0d;
+        --tertiary-container: #465049;
+        --on-tertiary-container: #f0fff5;
+        --on-tertiary-container-border: #9ec2ab;
+        --error: #ff968a;
+        --on-error: #290b09;
+        --error-container: #69413c;
+        --on-error-container: #fff8f7;
+        --warn: #ff9b51;
+        --on-warn: #270e00;
+        --warn-container: #66442e;
+        --on-warn-container: #fff9f5;
+        --on-warn-container-border: #ff9b51;
+        --success: #59d483;
+        --on-success: #011c0a;
+        --success-container: #34563d;
+        --on-success-container: #f1fef4;
+        --on-success-container-border: #59d483;
+        --background: #101117;
+        --on-background: #e5e7f0;
+        --on-background-variant: #afb0b9;
+        --surface: #17181e;
+        --surface-variant: #313239;
+        --on-surface-variant: #afb0b9;
+        --outline: #90929a;
+        --disabled: rgba(255, 255, 255, 0.12);
+        --on-disabled: rgba(255, 255, 255, 0.38);
+        --disabled-container: #2c2d34;
+        --on-disabled-container: rgba(255, 255, 255, 0.38);
+      }
+
+      /* ============================================================
+         Page chrome (prototype only — not part of the component)
+         ============================================================ */
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        padding: 0 0 96px;
+        font-family: 'Red Hat Display', system-ui, sans-serif;
+        background: var(--background);
+        color: var(--on-background);
+        -webkit-font-smoothing: antialiased;
+      }
+      .page { max-width: 940px; margin: 0 auto; padding: 0 24px; }
+      header.top {
+        position: sticky; top: 0; z-index: 30;
+        background: var(--background);
+        border-bottom: 1px solid var(--surface-variant);
+        margin-bottom: 32px;
+      }
+      header.top .page {
+        display: flex; align-items: center; gap: 16px;
+        padding-top: 18px; padding-bottom: 18px;
+      }
+      h1 { font-size: 20px; margin: 0; font-weight: 700; letter-spacing: -0.2px; }
+      h1 small { display: block; font-size: 13px; font-weight: 400; color: var(--on-background-variant); }
+      h2 {
+        font-size: 15px; text-transform: uppercase; letter-spacing: 0.08em;
+        color: var(--on-background-variant); font-weight: 600;
+        margin: 48px 0 4px; padding-top: 24px;
+        border-top: 1px solid var(--surface-variant);
+      }
+      p.lede { color: var(--on-background-variant); font-size: 14px; line-height: 1.6; margin: 0 0 20px; max-width: 68ch; }
+      .toggle {
+        margin-left: auto; display: inline-flex; align-items: center; gap: 6px;
+        height: 32px; padding: 0 14px; cursor: pointer;
+        border-radius: var(--radius-max); border: 1px solid var(--outline);
+        background: transparent; color: inherit;
+        font-family: inherit; font-size: 13px; font-weight: 600;
+      }
+      .toggle:hover { background: var(--surface-variant); }
+      .panel {
+        background: var(--surface); border: 1px solid var(--surface-variant);
+        border-radius: var(--radius-xs); padding: 20px 22px; margin-bottom: 16px;
+      }
+      .cols { display: grid; grid-template-columns: minmax(0, 1fr) 300px; gap: 24px; align-items: start; }
+      @media (max-width: 760px) { .cols { grid-template-columns: 1fr; } }
+      .stack > * + * { margin-top: 18px; }
+      code, kbd { font-family: ui-monospace, 'SF Mono', Menlo, monospace; }
+      kbd {
+        display: inline-block; padding: 1px 6px; font-size: 11.5px;
+        border: 1px solid var(--outline); border-bottom-width: 2px;
+        border-radius: var(--radius-xxs); background: var(--surface-variant);
+        white-space: nowrap;
+      }
+      table.keys { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+      table.keys th {
+        text-align: left; font-size: 11px; text-transform: uppercase; letter-spacing: 0.06em;
+        color: var(--on-background-variant); padding: 6px 10px; border-bottom: 1px solid var(--surface-variant);
+      }
+      table.keys td { padding: 7px 10px; border-bottom: 1px solid var(--surface-variant); vertical-align: top; }
+      table.keys td:first-child { width: 230px; white-space: nowrap; }
+      .log {
+        font-family: ui-monospace, Menlo, monospace; font-size: 12px; line-height: 1.7;
+        background: var(--primary-surface); color: var(--on-primary-surface-variant);
+        border-radius: var(--radius-xxs); padding: 10px 12px; height: 132px; overflow: auto;
+      }
+      .log b { color: var(--on-background); font-weight: 600; }
+      .field-label {
+        display: block; font-size: 12px; font-weight: 600; margin-bottom: 6px;
+        color: var(--on-background-variant);
+      }
+      .hint { font-size: 12px; color: var(--on-background-variant); margin: 8px 0 0; }
+      .sr-only {
+        position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+        overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+      }
+      .uni-icon { width: 1em; height: 1em; display: block; flex: none; }
+
+      /* ============================================================
+         uni-number-input — box chrome mirrors uni-input-box; the
+         steppers are real buttons with a padded 24×24 hit area.
+         ============================================================ */
+      .uni-num { display: flex; align-items: stretch; gap: 6px; max-width: 320px; }
+      .uni-num__box {
+        flex: 1 1 auto; min-width: 0;
+        display: flex; align-items: center; gap: 2px;
+        height: 38px; padding: 0 var(--space-sm);
+        background: var(--primary-surface);
+        color: var(--on-primary-surface);
+        border: 1px solid var(--outline);
+        border-radius: var(--radius-xs);
+        cursor: text;
+      }
+      .uni-num__box:focus-within { outline: 2px solid var(--primary); outline-offset: 2px; }
+      .uni-num--error .uni-num__box {
+        border-color: var(--error);
+        box-shadow: 0 0 5px rgba(204, 40, 39, 0.35), inset 0 0 5px rgba(204, 40, 39, 0.2);
+      }
+      .uni-num--disabled .uni-num__box {
+        background: var(--disabled-container); color: var(--on-disabled);
+        cursor: not-allowed; border-color: transparent;
+      }
+      .uni-num__input {
+        flex: 1 1 auto; min-width: 0; width: 100%; height: 100%;
+        border: 0; outline: 0; background: transparent; color: inherit;
+        font-family: 'Red Hat Display', sans-serif; font-size: 14px;
+        font-variant-numeric: tabular-nums;              /* theme: tabularNumerals */
+      }
+      .uni-num--align-end .uni-num__input { text-align: right; }
+      .uni-num__input::placeholder { color: var(--on-primary-surface-variant); opacity: 0.75; }
+      /* unparseable draft: colour alone can't carry it (WCAG 1.4.1) */
+      .uni-num--baddraft .uni-num__input {
+        text-decoration: underline dashed var(--error) 1px;
+        text-underline-offset: 3px;
+        color: var(--error);
+      }
+      .uni-num__affix {
+        flex: none; font-size: 13px; color: var(--on-primary-surface-variant);
+        user-select: none; white-space: nowrap;
+      }
+      /* split / trailing steppers — outside the box */
+      .uni-num__btn {
+        flex: none; width: 38px; height: 38px;
+        display: grid; place-items: center; padding: 0;
+        border: 1px solid var(--outline); border-radius: var(--radius-xs);
+        background: var(--primary-surface); color: var(--on-primary-surface-variant);
+        cursor: pointer; font-size: 18px;
+        touch-action: none;   /* hold-to-repeat must not start a scroll */
+      }
+      .uni-num__btn:hover:not(:disabled) { background: var(--primary-container); color: var(--on-primary-container); }
+      .uni-num__btn:active:not(:disabled) { background: var(--primary); color: var(--on-primary); }
+      .uni-num__btn:disabled { color: var(--on-disabled); border-color: var(--disabled); cursor: not-allowed; }
+      .uni-num__btn:focus-visible { outline: 2px solid var(--primary); outline-offset: 2px; }
+      /* stacked steppers — inside the box, 12px glyphs padded to 24×24 hits */
+      .uni-num__stack { flex: none; display: flex; flex-direction: column; margin-right: -4px; }
+      .uni-num__stack .uni-num__btn {
+        width: 26px; height: 17px; border: 0; border-radius: var(--radius-xxs);
+        background: transparent; font-size: 13px;
+      }
+      .uni-num__stack .uni-num__btn:hover:not(:disabled) { background: var(--surface-variant); color: var(--on-background); }
+      .uni-num--disabled .uni-num__btn { pointer-events: none; color: var(--on-disabled); }
+
+      /* ============================================================
+         uni-quantity-stepper — the bare − n + control
+         ============================================================ */
+      .uni-qty { display: inline-flex; align-items: stretch; }
+      .uni-qty__btn {
+        width: 32px; height: 32px; display: grid; place-items: center; padding: 0;
+        border: 1px solid var(--outline); background: var(--primary-surface);
+        color: var(--on-primary-surface-variant); cursor: pointer; font-size: 16px;
+        touch-action: none;
+      }
+      .uni-qty__btn:first-child { border-radius: var(--radius-xs) 0 0 var(--radius-xs); }
+      .uni-qty__btn:last-child { border-radius: 0 var(--radius-xs) var(--radius-xs) 0; }
+      .uni-qty__btn:hover:not(:disabled) { background: var(--primary-container); color: var(--on-primary-container); }
+      .uni-qty__btn:disabled { color: var(--on-disabled); cursor: not-allowed; }
+      .uni-qty__btn:focus-visible { outline: 2px solid var(--primary); outline-offset: 1px; z-index: 1; }
+      .uni-qty__btn--delete { color: var(--error); }
+      .uni-qty__value {
+        min-width: 3.5ch; height: 32px; padding: 0 4px; text-align: center;
+        border: 1px solid var(--outline); border-left: 0; border-right: 0;
+        background: var(--primary-surface); color: var(--on-primary-surface);
+        font-family: 'Red Hat Display', sans-serif; font-size: 14px; font-weight: 600;
+        font-variant-numeric: tabular-nums; outline: 0;
+      }
+      .uni-qty__value:focus-visible { outline: 2px solid var(--primary); outline-offset: -2px; }
+      .uni-qty__value[readonly] { cursor: default; }
+      .uni-qty--baddraft .uni-qty__value {
+        text-decoration: underline dashed var(--error) 1px; color: var(--error);
+      }
+      .cart-row { display: flex; align-items: center; gap: 16px; padding: 10px 0; border-bottom: 1px solid var(--surface-variant); }
+      .cart-row:last-child { border-bottom: 0; }
+      .cart-row .name { flex: 1; font-size: 14px; }
+      .cart-row .price { width: 90px; text-align: right; font-variant-numeric: tabular-nums; font-size: 14px; }
+
+      /* ============================================================
+         uni-number-range-input — two parts, one chrome
+         ============================================================ */
+      .uni-range { max-width: 360px; }
+      .uni-range__box {
+        display: flex; align-items: center; height: 38px;
+        background: var(--primary-surface); color: var(--on-primary-surface);
+        border: 1px solid var(--outline); border-radius: var(--radius-xs);
+        padding: 0 var(--space-sm);
+      }
+      .uni-range__box:focus-within { outline: 2px solid var(--primary); outline-offset: 2px; }
+      .uni-range__part { flex: 1 1 0; min-width: 0; display: flex; align-items: center; gap: 2px; height: 100%; }
+      .uni-range__divider { flex: none; padding: 0 10px; color: var(--on-primary-surface-variant); user-select: none; }
+      .uni-range .uni-num__input { font-size: 14px; }
+
+      /* ============================================================
+         uni-slider — track, fill, marks, 24×24-padded thumbs
+         ============================================================ */
+      .uni-slider { max-width: 420px; }
+      .uni-slider__row { display: flex; align-items: center; gap: 16px; }
+      .uni-slider__row .uni-num { max-width: 130px; flex: none; }
+      .uni-slider__track {
+        position: relative; flex: 1 1 auto; height: 4px; border-radius: var(--radius-max);
+        background: var(--primary-container); cursor: pointer;
+        margin: 14px 8px;                 /* room for the 24px hit areas + marks */
+        touch-action: none;
+      }
+      .uni-slider--disabled .uni-slider__track { background: var(--disabled); cursor: not-allowed; }
+      .uni-slider__fill {
+        position: absolute; top: 0; bottom: 0; border-radius: var(--radius-max);
+        background: var(--primary);
+      }
+      .uni-slider__mark {
+        position: absolute; top: 50%; width: 3px; height: 3px; border-radius: 50%;
+        background: var(--on-primary-container); transform: translate(-50%, -50%); opacity: 0.7;
+      }
+      .uni-slider__thumb {
+        position: absolute; top: 50%; width: 24px; height: 24px;   /* the hit area */
+        transform: translate(-50%, -50%);
+        display: grid; place-items: center; cursor: grab; border-radius: 50%;
+        touch-action: none; outline-offset: 2px;
+      }
+      .uni-slider__thumb::after {
+        content: ''; width: 16px; height: 16px; border-radius: 50%;  /* the visual dot */
+        background: var(--primary); border: 2px solid var(--background);
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+      }
+      .uni-slider__thumb:focus-visible { outline: 2px solid var(--primary); }
+      .uni-slider__thumb:active { cursor: grabbing; }
+      .uni-slider--disabled .uni-slider__thumb { pointer-events: none; }
+      .uni-slider--disabled .uni-slider__thumb::after { background: var(--on-disabled); }
+      .uni-slider__labels { position: relative; height: 18px; margin: 0 8px; }
+      .uni-slider__labels span {
+        position: absolute; transform: translateX(-50%); font-size: 11.5px;
+        color: var(--on-background-variant); white-space: nowrap;
+      }
+
+      @media (prefers-reduced-motion: no-preference) {
+        .uni-slider__thumb { transition: left 0.12s ease; }        /* click-to-jump only */
+        .uni-slider__fill { transition: left 0.12s ease, right 0.12s ease; }
+        .uni-slider--dragging .uni-slider__thumb,
+        .uni-slider--dragging .uni-slider__fill { transition: none; } /* drag is never animated */
+      }
+    </style>
+  </head>
+
+  <body>
+    <header class="top">
+      <div class="page">
+        <h1>
+          Number input · stepper · range · slider
+          <small>Uni Design System — prototype, not shipped code</small>
+        </h1>
+        <button class="toggle" id="themeToggle" type="button">
+          <svg class="uni-icon" style="width:16px;height:16px" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21q-3.75 0-6.37-2.63T3 12q0-3.75 2.63-6.37T12 3q.35 0 .69.03.34.02.67.07-1.03.73-1.64 1.9-.62 1.16-.62 2.5 0 2.25 1.57 3.82Q14.25 12.9 16.5 12.9q1.35 0 2.51-.62 1.16-.61 1.86-1.64.05.33.09.67.03.34.03.69 0 3.75-2.62 6.37Q15.75 21 12 21z" fill="currentColor"/></svg>
+          <span id="themeToggleText">Dark</span>
+        </button>
+      </div>
+    </header>
+
+    <main class="page">
+      <p class="lede">
+        <code>uni-number-input</code> replaces <code>&lt;input type="number"&gt;</code>, which
+        reports <code>value === ''</code> for any text it can't parse — paste <code>1.234,56</code>
+        and the app reads an <em>empty field</em>. Here the field is free text over a
+        <b>canonical decimal string</b>: locale-aware parsing on commit, <code>Intl</code>
+        formatting on blur, scaled-integer stepping (never floats), affix adornments outside
+        the editable text, and steppers with real hit areas. Everything on this page uses the
+        live Uni palette generated from seed <code>#4F46E5</code>.
+      </p>
+
+      <!-- ================= 1. Order line ================= -->
+      <h2>1 · The pieces together — an order line</h2>
+      <p class="lede">
+        A money field, a percent field, and a quantity stepper computing one total —
+        the first application. The unit price parses anything a spreadsheet exports;
+        the discount is a display-number percent (<code>15</code> means 15%, the model is
+        never silently ÷100); the stepper is the same core with no field chrome.
+      </p>
+      <div class="panel cols">
+        <div class="stack">
+          <div>
+            <label class="field-label" for="linePrice-input">Unit price</label>
+            <div id="linePriceHost"></div>
+            <p class="hint">Paste <code>$1,299.00</code> or <code>1.299,00</code>-style text · <kbd>ArrowUp</kbd> steps · hold the + button.</p>
+          </div>
+          <div>
+            <label class="field-label" for="lineDisc-input">Discount</label>
+            <div id="lineDiscHost"></div>
+          </div>
+          <div>
+            <span class="field-label" id="lineQtyLabel">Quantity</span>
+            <div id="lineQtyHost"></div>
+          </div>
+        </div>
+        <div>
+          <span class="field-label">order total · events</span>
+          <div class="log" id="lineLog"></div>
+        </div>
+      </div>
+
+      <!-- ================= 2. Stepping ================= -->
+      <h2>2 · Steppers, fences, snap grid, hold-to-repeat</h2>
+      <p class="lede">
+        Steps land on <code>origin + n·step</code> and never on a float: the fence disables
+        the button <em>and</em> announces; an off-grid value snaps in the direction of travel;
+        <kbd>↑</kbd> on an empty field commits <code>emptyStepValue ?? min ?? 0</code>; holding
+        a stepper repeats at 10/s and accelerates — announcing only on release.
+      </p>
+      <div class="panel cols">
+        <div class="stack">
+          <div>
+            <label class="field-label" for="seats-input">Seats <span style="font-weight:400">(min 1 · max 200 · split)</span></label>
+            <div id="seatsHost"></div>
+            <p class="hint">Hold + to feel the ramp. At 200 the button disables and the fence announces.</p>
+          </div>
+          <div>
+            <label class="field-label" for="snap-input">Session length <span style="font-weight:400">(min 5 · step 10 · stacked)</span></label>
+            <div id="snapHost"></div>
+            <p class="hint">Type <code>7</code>, press <kbd>↑</kbd>: it snaps to 15, not 17 — the grid is <code>5, 15, 25…</code></p>
+          </div>
+          <div>
+            <label class="field-label" for="hour-input">Hour <span style="font-weight:400">(0–23 · wrap)</span></label>
+            <div id="hourHost"></div>
+            <p class="hint">Step past 23 → 0. <code>wrap</code> is for genuinely cyclic fields only.</p>
+          </div>
+        </div>
+        <div>
+          <span class="field-label">events</span>
+          <div class="log" id="stepLog"></div>
+        </div>
+      </div>
+
+      <!-- ================= 3. Money & locale ================= -->
+      <h2>3 · Money &amp; locale parsing</h2>
+      <p class="lede">
+        Separators, symbols, and digit sets come from <code>Intl</code>, never hardcoded.
+        The en-US field takes <code>1,234.56</code>, <code>$1,234.56</code>, and accounting
+        <code>(1,234.56)</code>; the de-DE field takes <code>1.234,56</code> and puts the €
+        on the locale's side. Unparseable text <b>stays in the field</b>, dashed-underlined,
+        with a <code>rejected</code> event — never silently swallowed.
+      </p>
+      <div class="panel cols">
+        <div class="stack">
+          <div>
+            <label class="field-label" for="usd-input">Amount (en-US · USD)</label>
+            <div id="usdHost"></div>
+            <p class="hint">Try <code>(1,234.56)</code> · <code>12..5</code> stays put, flagged · focus strips the formatting.</p>
+          </div>
+          <div>
+            <label class="field-label" for="eur-input">Betrag (de-DE · EUR)</label>
+            <div id="eurHost"></div>
+            <p class="hint">Try <code>1.234,56</code> — the platform control calls this invalid.</p>
+          </div>
+        </div>
+        <div>
+          <span class="field-label">value · events</span>
+          <div class="log" id="moneyLog"></div>
+        </div>
+      </div>
+
+      <!-- ================= 4. Precision ================= -->
+      <h2>4 · Precision — scaled integers, never floats</h2>
+      <p class="lede">
+        Stepping <code>0.1</code> from <code>0.2</code> yields exactly <code>0.3</code>
+        (a double yields <code>0.30000000000000004</code>). Rounding is decimal:
+        <code>1.15 → 1.2</code> under half-up, because <code>(1.15).toFixed(1)</code> is
+        <code>"1.1"</code>. <code>valueAsString</code> keeps digits <code>number</code> can't.
+      </p>
+      <div class="panel cols">
+        <div class="stack">
+          <div>
+            <label class="field-label" for="tenth-input">Weight (step 0.1)</label>
+            <div id="tenthHost"></div>
+            <p class="hint">Set 0.2, press <kbd>↑</kbd> — watch the log for the exact value.</p>
+          </div>
+          <div>
+            <label class="field-label" for="roundup-input">Rate (1 decimal · half-up)</label>
+            <div id="roundupHost"></div>
+            <p class="hint">Commit <code>1.15</code> → 1.2.</p>
+          </div>
+          <div>
+            <label class="field-label" for="roundeven-input">Rate (1 decimal · half-even)</label>
+            <div id="roundevenHost"></div>
+            <p class="hint">Commit <code>1.25</code> → 1.2 (half-up says 1.3) · <code>1.35</code> → 1.4 — ties go to the even digit.</p>
+          </div>
+          <div>
+            <label class="field-label" for="exact-input">Exact (unbounded · <code>valueAsString</code>)</label>
+            <div id="exactHost"></div>
+            <p class="hint">Commit <code>1234567890.1234567</code> — 17 significant digits — and compare the two models in the log.</p>
+          </div>
+        </div>
+        <div>
+          <span class="field-label">value · valueAsString</span>
+          <div class="log" id="precLog"></div>
+        </div>
+      </div>
+
+      <!-- ================= 5. Percent & units ================= -->
+      <h2>5 · Percent &amp; unit suffixes</h2>
+      <p class="lede">
+        <code>preset="percent"</code> displays <code>15</code> as <b>15%</b> and the model stays
+        <code>15</code> — no silent ÷100. Apps whose model <em>is</em> a fraction opt into
+        <code>valueIsFraction</code>: <code>0.15</code> displays as 15% and steps in fraction
+        units. Suffixes are adornments outside the editable text; <code>unitAnnouncement</code>
+        gives the screen reader the long form.
+      </p>
+      <div class="panel cols">
+        <div class="stack">
+          <div>
+            <label class="field-label" for="pct-input">Completion (display-number model)</label>
+            <div id="pctHost"></div>
+          </div>
+          <div>
+            <label class="field-label" for="frac-input">Completion (fraction model · <code>valueIsFraction</code>)</label>
+            <div id="fracHost"></div>
+            <p class="hint">Shows 15% — the model reads <code>0.15</code>. Check the log.</p>
+          </div>
+          <div>
+            <label class="field-label" for="kg-input">Weight (suffix <code>kg</code>)</label>
+            <div id="kgHost"></div>
+            <p class="hint">Typing <code>72kg</code> parses — pasted units are stripped. Announced as "72 kilograms".</p>
+          </div>
+        </div>
+        <div>
+          <span class="field-label">value · events</span>
+          <div class="log" id="pctLog"></div>
+        </div>
+      </div>
+
+      <!-- ================= 6. Expressions & compact ================= -->
+      <h2>6 · Expressions &amp; compact entry</h2>
+      <p class="lede">
+        <code>allowExpressions</code> accepts spreadsheet arithmetic — <kbd>12*3</kbd>,
+        <kbd>(2+3)*1.5</kbd> — via a tiny shunting-yard evaluator, never <code>eval</code>,
+        and announces the result. Off by default. With compact notation, <kbd>1.5k</kbd>
+        parses to 1500 and large values display as <code>1.5K</code>.
+      </p>
+      <div class="panel cols">
+        <div class="stack">
+          <div>
+            <label class="field-label" for="expr-input">Budget (expressions on · USD)</label>
+            <div id="exprHost"></div>
+            <p class="hint">Type <code>1200/4+50</code> then <kbd>Enter</kbd>. <code>2+</code> is rejected, not truncated.</p>
+          </div>
+          <div>
+            <label class="field-label" for="views-input">Views (compact notation)</label>
+            <div id="viewsHost"></div>
+            <p class="hint">Type <code>1.5k</code> or <code>2m</code>.</p>
+          </div>
+        </div>
+        <div>
+          <span class="field-label">value · events</span>
+          <div class="log" id="exprLog"></div>
+        </div>
+      </div>
+
+      <!-- ================= 7. Quantity stepper ================= -->
+      <h2>7 · <code>uni-quantity-stepper</code></h2>
+      <p class="lede">
+        The same step/clamp core with no field chrome, for table rows and cart lines.
+        The middle is a real input — typing <code>12</code> beats tapping + eleven times.
+        <code>deleteAtMin</code> turns − into a remove affordance at quantity 1, which is
+        the cart pattern in one attribute.
+      </p>
+      <div class="panel cols">
+        <div id="cart">
+          <div class="cart-row">
+            <span class="name">Blue T-shirt (M)</span>
+            <div id="cart0Host"></div>
+            <span class="price" id="cart0Price"></span>
+          </div>
+          <div class="cart-row">
+            <span class="name">Canvas tote</span>
+            <div id="cart1Host"></div>
+            <span class="price" id="cart1Price"></span>
+          </div>
+          <div class="cart-row">
+            <span class="name">Sticker pack <span style="color:var(--on-background-variant)">(read-only)</span></span>
+            <div id="cart2Host"></div>
+            <span class="price" id="cart2Price"></span>
+          </div>
+        </div>
+        <div>
+          <span class="field-label">events</span>
+          <div class="log" id="cartLog"></div>
+        </div>
+      </div>
+
+      <!-- ================= 8. Range input ================= -->
+      <h2>8 · <code>uni-number-range-input</code></h2>
+      <p class="lede">
+        Two linked fields, one chrome, one <code>{ start, end }</code> value — the same field
+        names as <code>UniDateRange</code>. A backwards commit <b>swaps the ends</b> (the
+        calendar's rule); either end alone is a valid filter; the ends fence each other's
+        steppers through <code>minGap</code>.
+      </p>
+      <div class="panel cols">
+        <div>
+          <span class="field-label" id="priceRangeLabel">Price range (USD · minGap 10)</span>
+          <div id="priceRangeHost"></div>
+          <p class="hint">Type a start above the end — they swap. Step the start up against the end — it fences at end − 10.</p>
+        </div>
+        <div>
+          <span class="field-label">value · events</span>
+          <div class="log" id="rangeLog"></div>
+        </div>
+      </div>
+
+      <!-- ================= 9. Slider ================= -->
+      <h2>9 · <code>uni-slider</code></h2>
+      <p class="lede">
+        Bounded, low-precision values by pointer — same step model, same keyboard map.
+        Click anywhere on the track and the nearest thumb jumps there. <code>valueDisplay="input"</code>
+        seats a compact number field as the slider's readout and precise-entry escape hatch:
+        drag for the ballpark, type for the exact value.
+      </p>
+      <div class="panel cols">
+        <div class="stack">
+          <div>
+            <span class="field-label" id="volLabel">Volume (0–100 · <code>valueDisplay="input"</code>)</span>
+            <div id="volHost"></div>
+          </div>
+          <div>
+            <span class="field-label" id="budgetLabel">Budget (range · $0–$1,000 · step 10)</span>
+            <div id="budgetHost"></div>
+            <p class="hint">Drag one thumb across the other — they pass and the labels swap; focus never jumps.</p>
+          </div>
+          <div>
+            <span class="field-label" id="sizeLabel">Size (marks · <code>snapToMarks</code>)</span>
+            <div id="sizeHost"></div>
+          </div>
+        </div>
+        <div>
+          <span class="field-label">sliding · changed</span>
+          <div class="log" id="sliderLog"></div>
+        </div>
+      </div>
+
+      <!-- ================= 10. showError ================= -->
+      <h2>10 · <code>showError()</code> gating</h2>
+      <p class="lede">
+        A required field is invalid from birth but shows nothing until touched or dirty —
+        <code>invalid &amp;&amp; (touched || dirty)</code>, the library-wide rule. The
+        <em>unparseable-draft</em> underline is independent and immediate: it describes text
+        just typed.
+      </p>
+      <div class="panel cols">
+        <div>
+          <label class="field-label" for="amount-input">Amount (required · USD)</label>
+          <div id="amountHost"></div>
+          <p class="hint">Blur while empty → error chrome + <code>aria-invalid</code>. Commit a value → it clears.</p>
+        </div>
+        <div>
+          <span class="field-label">state</span>
+          <div class="log" id="amountLog"></div>
+        </div>
+      </div>
+
+      <!-- ================= 11. Keyboard ================= -->
+      <h2>11 · Keyboard maps</h2>
+      <div class="panel">
+        <table class="keys">
+          <thead><tr><th>Key — focus in the field</th><th>Behaviour</th></tr></thead>
+          <tbody>
+            <tr><td>printable</td><td>edits the draft; no live reformat, no caret arithmetic</td></tr>
+            <tr><td><kbd>ArrowUp</kbd> / <kbd>ArrowDown</kbd></td><td>±<code>step</code>, committed immediately; on an empty field commits <code>emptyStepValue ?? min ?? 0</code></td></tr>
+            <tr><td><kbd>Shift</kbd>+Arrow, <kbd>PageUp</kbd> / <kbd>PageDown</kbd></td><td>±<code>largeStep</code> (default step × 10)</td></tr>
+            <tr><td><kbd>Alt</kbd>+Arrow</td><td>±<code>smallStep</code> when set</td></tr>
+            <tr><td><kbd>Home</kbd> / <kbd>End</kbd></td><td><code>min</code> / <code>max</code> — no-op when that bound is undefined</td></tr>
+            <tr><td><kbd>Enter</kbd></td><td>parses and commits; reformats; announces. Never submits with an uncommitted draft</td></tr>
+            <tr><td><kbd>Escape</kbd></td><td>reverts the draft to the committed value; cancels a held repeat</td></tr>
+            <tr><td><kbd>Tab</kbd> / blur</td><td>commits (<code>commitOnBlur</code>), marks touched — never traps</td></tr>
+          </tbody>
+        </table>
+        <table class="keys" style="margin-top:24px">
+          <thead><tr><th>Key — focus on a slider thumb</th><th>Behaviour</th></tr></thead>
+          <tbody>
+            <tr><td><kbd>ArrowUp</kbd> / <kbd>ArrowDown</kbd></td><td>+<code>step</code> / −<code>step</code> — always, in every writing direction</td></tr>
+            <tr><td><kbd>ArrowRight</kbd> / <kbd>ArrowLeft</kbd></td><td>toward / away from the visual end of the track (mirrors in RTL)</td></tr>
+            <tr><td><kbd>Shift</kbd>+Arrow, <kbd>PageUp</kbd> / <kbd>PageDown</kbd></td><td>±<code>largeStep</code> (default a tenth of the range, snapped to <code>step</code>)</td></tr>
+            <tr><td><kbd>Home</kbd> / <kbd>End</kbd></td><td><code>min</code> / <code>max</code> — always defined here</td></tr>
+            <tr><td><kbd>Tab</kbd></td><td>next thumb, then out — range mode is two tab stops</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </main>
+
+    <script>
+      'use strict';
+      /* ============================================================
+         Inline Material Symbols (the real components use uni-symbol)
+         ============================================================ */
+      const ICON_PATHS = {
+        add: 'M11 13H5v-2h6V5h2v6h6v2h-6v6h-2z',
+        remove: 'M5 13v-2h14v2z',
+        delete:
+          'M7 21q-.825 0-1.412-.587Q5 19.825 5 19V6H4V4h5V3h6v1h5v2h-1v13q0 .825-.587 1.413Q17.825 21 17 21zM17 6H7v13h10zM9 17h2V8H9zm4 0h2V8h-2z',
+        keyboard_arrow_up: 'M12 8.6 18 14.575l-1.4 1.425-4.6-4.6-4.6 4.6L6 14.575z',
+        keyboard_arrow_down: 'M12 15.375 6 9.4l1.4-1.425 4.6 4.6 4.6-4.6L18 9.4z',
+      };
+      const icon = (name, cls) =>
+        `<svg class="uni-icon ${cls || ''}" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="${ICON_PATHS[name] || ''}" fill="currentColor"/></svg>`;
+
+      /* ============================================================
+         Canonical-decimal arithmetic — the cdk's scaled-BigInt core.
+         A canonical string is /^-?\d+(\.\d+)?$/ : no grouping, no affix.
+         Nothing below ever puts a value through a float.
+         ============================================================ */
+      const decScale = (s) => { const i = s.indexOf('.'); return i < 0 ? 0 : s.length - i - 1; };
+      const decToScaled = (s, scale) => {
+        let neg = s.startsWith('-');
+        if (neg || s.startsWith('+')) s = s.slice(1);
+        let [int, frac = ''] = s.split('.');
+        frac = (frac + '0'.repeat(scale)).slice(0, scale);
+        const bi = BigInt((int + frac).replace(/^0+(?=\d)/, '') || '0');
+        return neg ? -bi : bi;
+      };
+      const scaledToDec = (bi, scale) => {
+        const neg = bi < 0n;
+        let d = (neg ? -bi : bi).toString();
+        if (scale > 0) {
+          d = d.padStart(scale + 1, '0');
+          d = d.slice(0, -scale) + '.' + d.slice(-scale);
+          d = d.replace(/0+$/, '').replace(/\.$/, '');
+        }
+        if (d === '' || d === '0') return '0';
+        return (neg ? '-' : '') + d;
+      };
+      const decNorm = (s) => scaledToDec(decToScaled(s, decScale(s)), decScale(s));
+      const decCmp = (a, b) => {
+        const sc = Math.max(decScale(a), decScale(b));
+        const x = decToScaled(a, sc), y = decToScaled(b, sc);
+        return x < y ? -1 : x > y ? 1 : 0;
+      };
+      /** Round to `frac` fraction digits. mode: half-up | half-even | ceil | floor | trunc */
+      const decRound = (s, frac, mode = 'half-up') => {
+        const scale = decScale(s);
+        if (scale <= frac) return decNorm(s);
+        const bi = decToScaled(s, scale);
+        const div = 10n ** BigInt(scale - frac);
+        let q = bi / div;                      // truncates toward zero
+        const r = bi % div;
+        const neg = bi < 0n;
+        const absR2 = (r < 0n ? -r : r) * 2n;
+        const away = () => { q += neg ? -1n : 1n; };
+        if (mode === 'ceil') { if (r !== 0n && !neg) q += 1n; }
+        else if (mode === 'floor') { if (r !== 0n && neg) q -= 1n; }
+        else if (mode === 'trunc') { /* q already */ }
+        else if (mode === 'half-even') { if (absR2 > div || (absR2 === div && q % 2n !== 0n)) away(); }
+        else { if (absR2 >= div) away(); }     // half-up: away from zero at .5
+        return scaledToDec(q, frac);
+      };
+      /** Multiply by 10^n exactly (valueIsFraction shifting). */
+      const decShift = (s, n) => {
+        const sc = decScale(s);
+        let bi = decToScaled(s, sc);
+        let scale = sc - n;
+        if (scale < 0) { bi *= 10n ** BigInt(-scale); scale = 0; }
+        return scaledToDec(bi, scale);
+      };
+      /**
+       * One step from `cur` — the cdk stepValue().
+       * Steps land on origin + n·step; an off-grid value snaps in the
+       * direction of travel; fences clamp unless `wrap`.
+       */
+      const stepDec = (cur, dir, cfg) => {
+        const stepS = decNorm(String(cfg.step ?? 1));
+        const originS =
+          cfg.stepOrigin === 'zero' || cfg.min == null ? '0' : decNorm(String(cfg.min));
+        const scale = Math.max(decScale(cur), decScale(stepS), decScale(originS),
+          cfg.min != null ? decScale(String(cfg.min)) : 0,
+          cfg.max != null ? decScale(String(cfg.max)) : 0);
+        const c = decToScaled(cur, scale);
+        const st = decToScaled(stepS, scale);
+        if (st === 0n) return cur;
+        const or = decToScaled(originS, scale);
+        let rem = (c - or) % st;
+        if (rem < 0n) rem += st;
+        let next;
+        if (rem === 0n) next = c + (dir > 0 ? st : -st);
+        else next = dir > 0 ? c + (st - rem) : c - rem;     // snap toward travel
+        const minB = cfg.min != null ? decToScaled(String(cfg.min), scale) : null;
+        const maxB = cfg.max != null ? decToScaled(String(cfg.max), scale) : null;
+        if (cfg.wrap && minB != null && maxB != null) {
+          const range = maxB - minB + st;
+          let m = (next - minB) % range;
+          if (m < 0n) m += range;
+          next = minB + m;
+        } else {
+          if (maxB != null && next > maxB) next = maxB;
+          if (minB != null && next < minB) next = minB;
+        }
+        return scaledToDec(next, scale);
+      };
+
+      /* ============================================================
+         Locale machinery — separators, symbols, and digits all come
+         from Intl.NumberFormat. Nothing is hardcoded per language.
+         ============================================================ */
+      const localeInfo = (locale, currency) => {
+        const parts = new Intl.NumberFormat(locale).formatToParts(12345.6);
+        const group = (parts.find((p) => p.type === 'group') || {}).value || ',';
+        const decimal = (parts.find((p) => p.type === 'decimal') || {}).value || '.';
+        let curSym = '', curBefore = true, curDecimals = 2;
+        if (currency) {
+          const f = new Intl.NumberFormat(locale, { style: 'currency', currency });
+          curDecimals = f.resolvedOptions().maximumFractionDigits;
+          const cp = f.formatToParts(1);
+          const ci = cp.findIndex((p) => p.type === 'currency');
+          curSym = cp[ci].value;
+          curBefore = ci < cp.findIndex((p) => p.type === 'integer');
+        }
+        // the locale's own digits, for mapping localized input back to ASCII
+        const digits = new Intl.NumberFormat(locale, { useGrouping: false }).format(9876543210);
+        return { group, decimal, curSym, curBefore, curDecimals, digits };
+      };
+      /** Map any known localized digits (and Arabic separators) to ASCII. */
+      const DIGIT_ZEROS = [0x0660, 0x06f0, 0x0966, 0x09e6, 0x0e50];
+      const normDigits = (s) => {
+        let out = '';
+        for (const ch of s) {
+          const cp = ch.codePointAt(0);
+          const z = DIGIT_ZEROS.find((z) => cp >= z && cp <= z + 9);
+          if (z != null) out += String(cp - z);
+          else if (ch === '٫') out += '.';        // Arabic decimal separator
+          else if (ch === '٬') out += '';         // Arabic thousands separator
+          else out += ch;
+        }
+        return out;
+      };
+      const CANON_RE = /^[+-]?(\d+(\.\d*)?|\.\d+)$/;
+
+      /* ============================================================
+         Tiny expression evaluator — shunting-yard over + − × ÷ ( ).
+         Never eval(). Returns a canonical string or null.
+         ============================================================ */
+      const tryExpression = (s) => {
+        const src = s.replace(/×/g, '*').replace(/÷/g, '/').replace(/−/g, '-');
+        if (!/^[\d.\s+\-*/()]+$/.test(src)) return null;
+        if (!/[\d)]\s*[+\-*/]\s*[\d(.]/.test(src) && !/\(/.test(src)) return null; // needs a real operator
+        const tokens = src.match(/\d+\.?\d*|\.\d+|[+\-*/()]/g);
+        if (!tokens) return null;
+        const out = [], ops = [];
+        const prec = { '+': 1, '-': 1, '*': 2, '/': 2 };
+        let prev = null; // for unary minus
+        for (const t of tokens) {
+          if (/^[\d.]/.test(t)) { out.push(Number(t)); }
+          else if (t === '(') ops.push(t);
+          else if (t === ')') {
+            while (ops.length && ops[ops.length - 1] !== '(') out.push(ops.pop());
+            if (!ops.length) return null;
+            ops.pop();
+          } else {
+            if (t === '-' && (prev === null || (prev in prec) || prev === '(')) out.push(0); // unary
+            while (ops.length && prec[ops[ops.length - 1]] >= prec[t]) out.push(ops.pop());
+            ops.push(t);
+          }
+          prev = t;
+        }
+        while (ops.length) { const o = ops.pop(); if (o === '(') return null; out.push(o); }
+        const st = [];
+        for (const t of out) {
+          if (typeof t === 'number') st.push(t);
+          else {
+            const b = st.pop(), a = st.pop();
+            if (a === undefined || b === undefined) return null;
+            st.push(t === '+' ? a + b : t === '-' ? a - b : t === '*' ? a * b : a / b);
+          }
+        }
+        if (st.length !== 1 || !isFinite(st[0])) return null;
+        // floats are fine here (convenience entry) — settle to 10 decimals
+        return decNorm(Number(st[0].toFixed(10)).toString());
+      };
+
+      /* ============================================================
+         NumCore — resolves a config (preset, currency, locale,
+         decimals, grouping) into parse / format / step / clamp.
+         Shared by the field, the stepper, the range, and the slider.
+         ============================================================ */
+      const PRESETS = {
+        decimal:  { decimals: [0, 3], grouping: 'min2', inputmode: 'decimal' },
+        integer:  { decimals: [0, 0], grouping: 'min2', inputmode: 'numeric' },
+        currency: { decimals: null,  grouping: 'always', inputmode: 'decimal' }, // decimals from Intl
+        percent:  { decimals: [0, 2], grouping: 'min2', inputmode: 'decimal', suffix: '%' },
+      };
+      function makeCore(cfg) {
+        const preset = PRESETS[cfg.currency ? 'currency' : (cfg.preset || 'decimal')];
+        const locale = cfg.locale || 'en-US';
+        const L = localeInfo(locale, cfg.currency);
+        let [minF, maxF] = Array.isArray(cfg.decimals)
+          ? cfg.decimals
+          : cfg.decimals != null
+            ? [cfg.decimals, cfg.decimals]
+            : preset.decimals || [L.curDecimals, L.curDecimals];
+        const grouping = cfg.grouping !== undefined ? cfg.grouping : preset.grouping;
+        const compact = cfg.numberFormat && cfg.numberFormat.notation === 'compact';
+        const isPercent = (cfg.preset === 'percent');
+        const isInteger = (cfg.preset === 'integer');
+        const shift = cfg.valueIsFraction ? 2 : 0;   // display = value × 10^shift
+
+        // Adornments live OUTSIDE the editable text.
+        const prefix = cfg.prefix || (cfg.currency && L.curBefore ? L.curSym : '');
+        const suffix = cfg.suffix || (cfg.currency && !L.curBefore ? L.curSym : '') || (isPercent ? '%' : '');
+
+        /** raw display text → { canon } | { empty } | { error } ; canon is in VALUE units */
+        const parse = (raw) => {
+          let s = normDigits(String(raw)).trim();
+          if (s === '') return { empty: true };
+          // strip this field's own affixes, the currency symbol/code, %
+          if (prefix) s = s.split(prefix).join('');
+          if (suffix) s = s.split(suffix).join('');
+          if (cfg.currency) { s = s.split(L.curSym).join(''); s = s.replace(new RegExp(cfg.currency, 'i'), ''); }
+          s = s.replace(/%/g, '');
+          s = s.replace(/[\s   ]/g, '');
+          if (s === '') return { error: 'unparseable' };
+          // accounting negative
+          let neg = false;
+          const acc = s.match(/^\((.+)\)$/);
+          if (acc) { neg = true; s = acc[1]; }
+          // compact suffix
+          let mult = 0;
+          if (compact) {
+            const m = s.match(/^(.+?)([kKmMbB])$/);
+            if (m) { s = m[1]; mult = { k: 3, m: 6, b: 9 }[m[2].toLowerCase()]; }
+          }
+          let canon = null;
+          if (CANON_RE.test(s)) canon = s;                            // 1. canonical / ASCII
+          else {
+            const t = s.split(L.group).join('').split(L.decimal).join('.');
+            if (CANON_RE.test(t)) canon = t;                          // 2. locale-grouped
+            else if (cfg.allowExpressions) {
+              // evaluate the ORIGINAL text — parens here are grouping, not accounting
+              const ex = tryExpression(normDigits(String(raw)).trim());
+              if (ex != null) return { canon: decShift(ex, -shift), expr: true };
+            }
+          }
+          if (canon == null) return { error: 'unparseable' };
+          canon = decNorm(canon);
+          if (mult) canon = decShift(canon, mult);
+          canon = applySign(canon, neg);
+          if (isInteger && decScale(canon) > 0) return { error: 'not-integer' };
+          return { canon: decShift(canon, -shift) };
+        };
+        const applySign = (canon, neg) =>
+          neg && !canon.startsWith('-') && canon !== '0' ? '-' + canon : canon;
+
+        /** canonical (value units) → bare formatted number for the input (no affixes) */
+        const format = (canon) => {
+          let disp = decShift(canon, shift);
+          if (compact) {
+            return new Intl.NumberFormat(locale, { notation: 'compact', maximumFractionDigits: 1 })
+              .format(Number(disp));
+          }
+          let r = decRound(disp, maxF, cfg.roundingMode || 'half-up');
+          const neg = r.startsWith('-');
+          let [int, frac = ''] = (neg ? r.slice(1) : r).split('.');
+          while (frac.length < minF) frac += '0';
+          const doGroup =
+            grouping === false ? false : grouping === 'always' ? int.length > 3 : int.length > 4; // min2
+          if (doGroup) int = int.replace(/\B(?=(\d{3})+(?!\d))/g, '|').split('|').join(L.group);
+          return (neg ? '-' : '') + int + (frac ? L.decimal + frac : '');
+        };
+        /** canonical in value units, editable raw (what the field shows while focused) */
+        const rawText = (canon) => decRound(decShift(canon, shift), maxF, cfg.roundingMode || 'half-up');
+        /** round a committed value to the field's precision (value units) */
+        const settle = (canon) =>
+          decShift(decRound(decShift(canon, shift), maxF, cfg.roundingMode || 'half-up'), -shift);
+        const clamp = (canon) => {
+          if (cfg.min != null && decCmp(canon, String(cfg.min)) < 0) return { canon: decNorm(String(cfg.min)), hit: 'min' };
+          if (cfg.max != null && decCmp(canon, String(cfg.max)) > 0) return { canon: decNorm(String(cfg.max)), hit: 'max' };
+          return { canon, hit: null };
+        };
+        const step = (cur, dir, mult = 1) => {
+          const stepSize = mult === 1 ? (cfg.step ?? 1)
+            : mult === 'large' ? (cfg.largeStep ?? decShift(String(cfg.step ?? 1), 1))  // ×10, exactly
+            : (cfg.smallStep ?? null);
+          if (stepSize == null) return null;
+          return stepDec(cur, dir, { ...cfg, step: stepSize });
+        };
+        const atFence = (canon, which) => {
+          const bound = which === 'min' ? cfg.min : cfg.max;
+          if (bound == null || canon == null) return false;
+          return which === 'min' ? decCmp(canon, String(bound)) <= 0 : decCmp(canon, String(bound)) >= 0;
+        };
+        /** spoken form: affixes + long units, for aria-valuetext */
+        const speak = (canon) => {
+          if (canon == null) return 'Empty';
+          const num = format(canon);
+          const unit = cfg.unitAnnouncement || suffix;
+          return (prefix ? prefix : '') + num + (unit ? (unit === '%' ? ' percent' : ' ' + unit) : '');
+        };
+        return { parse, format, rawText, settle, clamp, step, atFence, speak,
+                 prefix, suffix, isInteger, minF, maxF, L,
+                 inputmode: isInteger && (cfg.min == null || cfg.min < 0) ? 'decimal' : preset.inputmode };
+      }
+
+      /* ============================================================
+         PressRepeat — hold-to-repeat with acceleration. 500ms delay,
+         10/s, ramping to 40/s after 2s. Pointer capture; cancelled by
+         pointercancel / blur / Escape. Fires `onRelease` once.
+         ============================================================ */
+      function pressRepeat(btn, onStep, onRelease) {
+        let timer = null, t0 = 0, repeated = false;
+        const tick = () => {
+          repeated = true;
+          onStep(true);
+          const el = Date.now() - t0;
+          timer = setTimeout(tick, el > 2500 ? 25 : el > 2000 ? 25 + (2500 - el) * 0.15 : 100);
+        };
+        const stop = () => {
+          if (timer != null) { clearTimeout(timer); timer = null; }
+          if (t0) { onRelease(repeated); t0 = 0; repeated = false; }
+        };
+        btn.addEventListener('pointerdown', (e) => {
+          if (btn.disabled) return;
+          e.preventDefault();
+          btn.setPointerCapture(e.pointerId);
+          t0 = Date.now();
+          repeated = false;
+          onStep(false);
+          timer = setTimeout(tick, 500);
+        });
+        btn.addEventListener('pointerup', stop);
+        btn.addEventListener('pointercancel', stop);
+        btn.addEventListener('lostpointercapture', stop);
+        window.addEventListener('blur', stop);
+        return { stop };
+      }
+
+      /* ============================================================
+         createNumberInput — the behaviour under test. Mirrors the
+         spec'd Angular API. value is number | null; valueAsString is
+         the exact canonical decimal; both stay in sync.
+         ============================================================ */
+      function createNumberInput(hostId, config) {
+        const host = document.getElementById(hostId);
+        const id = config.id;
+        const core = makeCore(config);
+        const layout = config.stepperLayout || 'stacked';
+        const state = {
+          value: null,        // canonical string | null — source of truth
+          draft: null,        // string | null — raw text being edited
+          badDraft: false,
+          touched: false,
+          dirty: false,
+          focused: false,
+        };
+        if (config.value != null) state.value = decNorm(String(config.value));
+        const emit = (type, detail) => config.on && config.on(type, detail);
+        const emitValue = () => {
+          emit('value', state.value === null ? null : Number(state.value));
+          emit('valueAsString', state.value);
+          if (state.value !== null && String(Number(state.value)) !== state.value) {
+            console.warn(`[uni-number-input] value "${state.value}" cannot round-trip through number — bind valueAsString`);
+            emit('precisionWarning', state.value);
+          }
+        };
+
+        const splitBtns = layout === 'split';
+        const stacked = layout === 'stacked';
+        const trailing = layout === 'trailing';
+        host.innerHTML = `
+          <div class="uni-num ${config.align === 'end' ? 'uni-num--align-end' : ''}">
+            ${splitBtns ? `<button type="button" class="uni-num__btn" data-dir="-1" tabindex="-1" aria-label="Decrease ${config.label}">${icon('remove')}</button>` : ''}
+            <div class="uni-num__box">
+              ${core.prefix ? `<span class="uni-num__affix" aria-hidden="true">${core.prefix}</span>` : ''}
+              <input
+                id="${id}-input"
+                class="uni-num__input"
+                type="text"
+                role="spinbutton"
+                inputmode="${core.inputmode}"
+                aria-label="${config.label}"
+                ${config.required ? 'aria-required="true"' : ''}
+                placeholder="${config.placeholder || ''}"
+                autocomplete="off" spellcheck="false"
+                ${config.disabled ? 'disabled' : ''}
+              />
+              ${core.suffix ? `<span class="uni-num__affix" aria-hidden="true">${core.suffix}</span>` : ''}
+              ${stacked ? `<span class="uni-num__stack">
+                <button type="button" class="uni-num__btn" data-dir="1" tabindex="-1" aria-label="Increase ${config.label}">${icon('keyboard_arrow_up')}</button>
+                <button type="button" class="uni-num__btn" data-dir="-1" tabindex="-1" aria-label="Decrease ${config.label}">${icon('keyboard_arrow_down')}</button>
+              </span>` : ''}
+            </div>
+            ${splitBtns || trailing ? `${trailing ? `<button type="button" class="uni-num__btn" data-dir="-1" tabindex="-1" aria-label="Decrease ${config.label}">${icon('remove')}</button>` : ''}
+            <button type="button" class="uni-num__btn" data-dir="1" tabindex="-1" aria-label="Increase ${config.label}">${icon('add')}</button>` : ''}
+            <span class="sr-only" role="status" aria-live="polite" data-role="live"></span>
+          </div>`;
+
+        const root = host.firstElementChild;
+        const input = root.querySelector('input');
+        const live = root.querySelector('[data-role="live"]');
+        const btnUp = root.querySelector('[data-dir="1"]');
+        const btnDown = root.querySelector('[data-dir="-1"]');
+        // re-announcing the same message must still fire the live region
+        const announce = (msg) => { live.textContent = live.textContent === msg ? msg + ' ' : msg; };
+
+        const render = () => {
+          root.classList.toggle('uni-num--error', !!(config.showError && config.showError(state)));
+          root.classList.toggle('uni-num--baddraft', state.badDraft);
+          root.classList.toggle('uni-num--disabled', !!config.disabled);
+          input.setAttribute('aria-invalid',
+            (state.badDraft || (config.showError && config.showError(state))) ? 'true' : 'false');
+          if (config.min != null) input.setAttribute('aria-valuemin', String(config.min));
+          if (config.max != null) input.setAttribute('aria-valuemax', String(config.max));
+          if (state.value === null) input.removeAttribute('aria-valuenow'); // APG: empty omits valuenow
+          else input.setAttribute('aria-valuenow', state.value);
+          input.setAttribute('aria-valuetext', state.badDraft ? input.value : core.speak(state.value));
+          if (btnUp) btnUp.disabled = !!config.disabled || (!config.wrap && core.atFence(state.value, 'max'));
+          if (btnDown) btnDown.disabled = !!config.disabled || (!config.wrap && core.atFence(state.value, 'min'));
+          const display = state.draft !== null ? state.draft
+            : state.value === null ? ''
+            : state.focused ? core.rawText(state.value)
+            : core.format(state.value);
+          if (input.value !== display) input.value = display;
+        };
+
+        /** commit whatever is in the field. Returns true when the field is settled. */
+        const commit = (announceIt = true) => {
+          if (state.draft === null) return true;
+          const p = core.parse(state.draft);
+          if (p.empty) {
+            state.value = null; state.draft = null; state.badDraft = false; state.dirty = true;
+            emitValue(); render();
+            return true;
+          }
+          if (p.error) {
+            state.badDraft = true;
+            announce(`Couldn't read “${state.draft}” as a number.`);
+            emit('rejected', { raw: state.draft, reason: p.error });
+            render();
+            return false;
+          }
+          let canon = core.settle(p.canon);
+          const c = core.clamp(canon);
+          if (c.hit && config.clampOnCommit === false) {
+            state.badDraft = true;
+            announce(c.hit === 'max' ? `Maximum is ${core.format(decNorm(String(config.max)))}.`
+                                     : `Minimum is ${core.format(decNorm(String(config.min)))}.`);
+            emit('rejected', { raw: state.draft, reason: c.hit });
+            render();
+            return false;
+          }
+          state.value = c.canon; state.draft = null; state.badDraft = false; state.dirty = true;
+          emitValue();
+          if (announceIt) {
+            if (c.hit) announce(`${c.hit === 'max' ? 'Maximum' : 'Minimum'} is ${core.format(c.canon)}. Value set to ${core.format(c.canon)}.`);
+            else if (p.expr) announce(`${state.draftExprSrc || ''}${core.speak(c.canon)}.`.trim());
+            else announce(core.speak(c.canon) + '.');
+          }
+          render();
+          return true;
+        };
+
+        /** one step (dir ±1, mult 1|'large'|'small'); silent=true while a hold repeats */
+        const doStep = (dir, mult = 1, silent = false) => {
+          if (config.disabled) return;
+          // an editable draft steps from its parsed value; a bad draft blocks stepping
+          if (state.draft !== null && !commit(false)) return;
+          const from = state.value;
+          let next;
+          if (from === null) {
+            next = decNorm(String(config.emptyStepValue ?? config.min ?? 0));
+            next = core.clamp(next).canon;
+          } else {
+            next = core.step(from, dir, mult);
+            if (next == null) return; // smallStep unset
+          }
+          if (from !== null && next === from) {
+            // at the fence
+            if (!silent) announce(`${dir > 0 ? 'Maximum' : 'Minimum'}, ${core.format(from)}.`);
+            return;
+          }
+          state.value = next; state.dirty = true;
+          emitValue();
+          emit('stepped', { from: from === null ? null : Number(from), to: Number(next), by: dir });
+          if (!silent) announce(core.speak(next) + '.');
+          render();
+        };
+
+        input.addEventListener('focus', () => {
+          state.focused = true;
+          if (state.draft === null && state.value !== null) render();
+          if (config.selectOnFocus) requestAnimationFrame(() => input.select());
+        });
+        input.addEventListener('input', () => {
+          state.draft = input.value;
+          state.badDraft = false;
+          render();
+        });
+        input.addEventListener('keydown', (e) => {
+          if (e.key === 'ArrowUp' || e.key === 'ArrowDown') {
+            e.preventDefault();
+            const dir = e.key === 'ArrowUp' ? 1 : -1;
+            doStep(dir, e.altKey ? 'small' : e.shiftKey ? 'large' : 1);
+            return;
+          }
+          if (e.key === 'PageUp' || e.key === 'PageDown') {
+            e.preventDefault();
+            doStep(e.key === 'PageUp' ? 1 : -1, 'large');
+            return;
+          }
+          if (e.key === 'Home' || e.key === 'End') {
+            const bound = e.key === 'Home' ? config.min : config.max;
+            if (bound == null) return;                    // no-op when unbounded
+            e.preventDefault();
+            const from = state.value;
+            state.value = decNorm(String(bound));
+            state.draft = null; state.badDraft = false; state.dirty = true;
+            emitValue();
+            emit('stepped', { from: from === null ? null : Number(from), to: Number(state.value), by: 0 });
+            announce(core.speak(state.value) + '.');
+            render();
+            return;
+          }
+          if (e.key === 'Enter') {
+            if (state.draft !== null) {
+              e.preventDefault();                          // never submits an uncommitted draft
+              const src = state.draft;
+              const p = core.parse(src);
+              state.draftExprSrc = p.expr ? src.replace(/\*/g, ' × ').replace(/\//g, ' ÷ ') + ' = ' : '';
+              commit();
+              state.draftExprSrc = '';
+            }
+            return;
+          }
+          if (e.key === 'Escape') {
+            if (state.draft !== null) {
+              state.draft = null; state.badDraft = false;
+              render();
+              announce('Reverted to ' + core.speak(state.value) + '.');
+            }
+            return;
+          }
+        });
+        input.addEventListener('blur', () => {
+          state.focused = false;
+          state.touched = true;
+          if (config.commitOnBlur !== false) commit(false);
+          else { state.draft = null; state.badDraft = false; }
+          render();
+          emit('touched');
+        });
+
+        for (const btn of [btnUp, btnDown].filter(Boolean)) {
+          const dir = Number(btn.dataset.dir);
+          pressRepeat(
+            btn,
+            (repeating) => doStep(dir, 1, repeating),
+            (repeated) => { if (repeated) announce(core.speak(state.value) + '.'); }
+          );
+        }
+        // Escape anywhere in the widget cancels a held repeat (pressRepeat stops on lostpointercapture)
+        root.addEventListener('keydown', (e) => { if (e.key === 'Escape') window.dispatchEvent(new Event('blur')); });
+
+        render();
+
+        return {
+          state,
+          getValue: () => (state.value === null ? null : Number(state.value)),
+          getValueAsString: () => state.value,
+          setValue(v) {
+            state.value = v == null ? null : core.clamp(core.settle(decNorm(String(v)))).canon;
+            state.draft = null; state.badDraft = false;
+            emitValue(); render();
+          },
+          step: (dir, mult) => doStep(dir, mult),
+          core,
+          el: { root, input, live, btnUp, btnDown },
+        };
+      }
+
+      /* ============================================================
+         createQuantityStepper — the same core, no field chrome.
+         deleteAtMin turns − into a remove affordance at the floor.
+         ============================================================ */
+      function createQuantityStepper(hostId, config) {
+        const host = document.getElementById(hostId);
+        const id = config.id;
+        const cfg = { preset: 'integer', min: 0, step: 1, ...config };
+        const core = makeCore(cfg);
+        const state = { value: null, draft: null, badDraft: false, touched: false, dirty: false };
+        if (cfg.value != null) state.value = decNorm(String(cfg.value));
+        const emit = (type, detail) => cfg.on && cfg.on(type, detail);
+        const editable = cfg.editable !== false;
+
+        host.innerHTML = `
+          <div class="uni-qty">
+            <button type="button" class="uni-qty__btn" data-dir="-1" aria-label="Decrease ${cfg.label}">${icon('remove')}</button>
+            <input class="uni-qty__value" id="${id}-input" type="text" inputmode="numeric"
+              role="spinbutton" aria-label="${cfg.label}" autocomplete="off"
+              ${editable ? '' : 'readonly tabindex="-1"'} />
+            <button type="button" class="uni-qty__btn" data-dir="1" aria-label="Increase ${cfg.label}">${icon('add')}</button>
+            <span class="sr-only" role="status" aria-live="polite" data-role="live"></span>
+          </div>`;
+        const root = host.firstElementChild;
+        const input = root.querySelector('input');
+        const live = root.querySelector('[data-role="live"]');
+        const btnDown = root.querySelector('[data-dir="-1"]');
+        const btnUp = root.querySelector('[data-dir="1"]');
+        const announce = (msg) => { live.textContent = live.textContent === msg ? msg + ' ' : msg; };
+
+        const atMin = () => state.value !== null && core.atFence(state.value, 'min');
+        const render = () => {
+          root.classList.toggle('uni-qty--baddraft', state.badDraft);
+          const del = cfg.deleteAtMin && atMin();
+          btnDown.classList.toggle('uni-qty__btn--delete', !!del);
+          btnDown.innerHTML = del ? icon('delete') : icon('remove');
+          btnDown.setAttribute('aria-label', del ? `Remove ${cfg.label}` : `Decrease ${cfg.label}`);
+          btnDown.disabled = !del && atMin();
+          btnUp.disabled = state.value !== null && core.atFence(state.value, 'max');
+          if (state.value === null) input.removeAttribute('aria-valuenow');
+          else input.setAttribute('aria-valuenow', state.value);
+          input.setAttribute('aria-valuetext', core.speak(state.value));
+          if (cfg.min != null) input.setAttribute('aria-valuemin', String(cfg.min));
+          if (cfg.max != null) input.setAttribute('aria-valuemax', String(cfg.max));
+          const display = state.draft !== null ? state.draft : state.value === null ? '' : core.format(state.value);
+          if (input.value !== display) input.value = display;
+        };
+        const set = (canon, by) => {
+          const from = state.value;
+          state.value = canon; state.dirty = true;
+          emit('value', canon === null ? null : Number(canon));
+          if (by !== undefined) emit('stepped', { from: from === null ? null : Number(from), to: Number(canon), by });
+          render();
+        };
+        const commit = () => {
+          if (state.draft === null) return true;
+          const p = core.parse(state.draft);
+          if (p.empty) { state.draft = null; render(); return true; }   // qty keeps its last value
+          if (p.error) {
+            state.badDraft = true;
+            announce(`Couldn't read “${state.draft}” as a quantity.`);
+            emit('rejected', { raw: state.draft, reason: p.error });
+            render();
+            return false;
+          }
+          state.draft = null; state.badDraft = false;
+          set(core.clamp(core.settle(p.canon)).canon);
+          announce(core.speak(state.value) + '.');
+          return true;
+        };
+        const doStep = (dir, silent) => {
+          if (state.draft !== null && !commit()) return;
+          if (cfg.deleteAtMin && dir < 0 && atMin()) { emit('emptied'); announce(`${cfg.label} removed.`); return; }
+          const from = state.value;
+          const next = from === null
+            ? core.clamp(decNorm(String(cfg.emptyStepValue ?? cfg.min ?? 0))).canon
+            : core.step(from, dir, 1);
+          if (from !== null && next === from) {
+            if (!silent) announce(`${dir > 0 ? 'Maximum' : 'Minimum'}, ${core.format(from)}.`);
+            return;
+          }
+          set(next, dir);
+          if (!silent) announce(core.speak(next) + '.');
+        };
+        pressRepeat(btnUp, (r) => doStep(1, r), (r) => { if (r) announce(core.speak(state.value) + '.'); });
+        pressRepeat(btnDown, (r) => doStep(-1, r), (r) => { if (r) announce(core.speak(state.value) + '.'); });
+        if (editable) {
+          input.addEventListener('input', () => { state.draft = input.value; state.badDraft = false; render(); });
+          input.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowUp' || e.key === 'ArrowDown') { e.preventDefault(); doStep(e.key === 'ArrowUp' ? 1 : -1); }
+            if (e.key === 'Enter' && state.draft !== null) { e.preventDefault(); commit(); }
+            if (e.key === 'Escape' && state.draft !== null) { state.draft = null; state.badDraft = false; render(); }
+          });
+          input.addEventListener('blur', () => { state.touched = true; commit(); });
+        }
+        render();
+        return {
+          state,
+          getValue: () => (state.value === null ? null : Number(state.value)),
+          setValue(v) { set(v == null ? null : core.clamp(decNorm(String(v))).canon); },
+          el: { root, input, btnUp, btnDown, live },
+        };
+      }
+
+      /* ============================================================
+         createRangeInput — two linked parts, one chrome, one
+         { start, end } value. Backwards commits swap; minGap fences
+         the steppers; either end alone is valid.
+         ============================================================ */
+      function createRangeInput(hostId, config) {
+        const host = document.getElementById(hostId);
+        const id = config.id;
+        const core = makeCore(config);
+        const state = {
+          start: config.value?.start != null ? decNorm(String(config.value.start)) : null,
+          end: config.value?.end != null ? decNorm(String(config.value.end)) : null,
+          touched: false, dirty: false,
+        };
+        const emit = (type, detail) => config.on && config.on(type, detail);
+        const gap = config.minGap != null ? decNorm(String(config.minGap)) : '0';
+
+        const partHtml = (part, label) => `
+          <span class="uni-range__part" data-part="${part}">
+            ${core.prefix ? `<span class="uni-num__affix" aria-hidden="true">${core.prefix}</span>` : ''}
+            <input id="${id}-${part}-input" class="uni-num__input" type="text" role="spinbutton"
+              inputmode="${core.inputmode}" aria-label="${config.label}, ${label}"
+              placeholder="${part === 'start' ? (config.startLabel || 'Minimum') : (config.endLabel || 'Maximum')}"
+              autocomplete="off" spellcheck="false" />
+            ${core.suffix ? `<span class="uni-num__affix" aria-hidden="true">${core.suffix}</span>` : ''}
+          </span>`;
+        host.innerHTML = `
+          <div class="uni-range" role="group" aria-label="${config.label}">
+            <div class="uni-range__box">
+              ${partHtml('start', config.startLabel || 'Minimum')}
+              <span class="uni-range__divider" aria-hidden="true">–</span>
+              ${partHtml('end', config.endLabel || 'Maximum')}
+            </div>
+            <span class="sr-only" role="status" aria-live="polite" data-role="live"></span>
+          </div>`;
+        const root = host.firstElementChild;
+        const live = root.querySelector('[data-role="live"]');
+        const announce = (msg) => { live.textContent = live.textContent === msg ? msg + ' ' : msg; };
+        const inputs = {
+          start: root.querySelector(`#${id}-start-input`),
+          end: root.querySelector(`#${id}-end-input`),
+        };
+        const drafts = { start: null, end: null };
+        const focused = { start: false, end: false };
+
+        const emitValue = () => {
+          const v = state.start === null && state.end === null ? undefined
+            : { ...(state.start !== null && { start: Number(state.start) }),
+                ...(state.end !== null && { end: Number(state.end) }) };
+          emit('value', v);
+        };
+        /** the fence a part's STEPPER sees: the other end minus/plus minGap */
+        const stepFence = (part) => {
+          if (part === 'start') {
+            const cap = state.end !== null ? scaledToDec(
+              decToScaled(state.end, Math.max(decScale(state.end), decScale(gap))) -
+              decToScaled(gap, Math.max(decScale(state.end), decScale(gap))),
+              Math.max(decScale(state.end), decScale(gap))) : null;
+            return { min: config.min, max: cap != null ? (config.max != null && decCmp(cap, String(config.max)) > 0 ? config.max : cap) : config.max };
+          }
+          const floor = state.start !== null ? scaledToDec(
+            decToScaled(state.start, Math.max(decScale(state.start), decScale(gap))) +
+            decToScaled(gap, Math.max(decScale(state.start), decScale(gap))),
+            Math.max(decScale(state.start), decScale(gap))) : null;
+          return { min: floor != null ? (config.min != null && decCmp(floor, String(config.min)) < 0 ? config.min : floor) : config.min, max: config.max };
+        };
+        const render = () => {
+          for (const part of ['start', 'end']) {
+            const el = inputs[part];
+            const v = state[part];
+            if (v === null) el.removeAttribute('aria-valuenow');
+            else el.setAttribute('aria-valuenow', v);
+            el.setAttribute('aria-valuetext', core.speak(v));
+            const f = stepFence(part);
+            if (f.min != null) el.setAttribute('aria-valuemin', String(f.min));
+            if (f.max != null) el.setAttribute('aria-valuemax', String(f.max));
+            const display = drafts[part] !== null ? drafts[part]
+              : v === null ? '' : focused[part] ? core.rawText(v) : core.format(v);
+            if (el.value !== display) el.value = display;
+          }
+        };
+        const commitPart = (part) => {
+          if (drafts[part] === null) return;
+          const p = core.parse(drafts[part]);
+          drafts[part] = null;
+          if (p.empty) { state[part] = null; state.dirty = true; emitValue(); render(); return; }
+          if (p.error) { announce(`Couldn't read that as a number.`); emit('rejected', { part, reason: p.error }); render(); return; }
+          let canon = core.clamp(core.settle(p.canon)).canon;
+          state[part] = canon; state.dirty = true;
+          // backwards? swap the ends — the calendar's rule
+          if (state.start !== null && state.end !== null && decCmp(state.start, state.end) > 0) {
+            const t = state.start; state.start = state.end; state.end = t;
+            announce(`Range ${core.format(state.start)} to ${core.format(state.end)}. Ends swapped.`);
+            emit('swapped', {});
+          } else if (state.start !== null && state.end !== null) {
+            // enforce minGap on typed commits by pushing the edited end
+            const need = decCmp(gap, '0') > 0 &&
+              decCmp(state.end, state.start) >= 0 &&
+              decCmp(scaledToDec(
+                decToScaled(state.end, Math.max(decScale(state.end), decScale(state.start), decScale(gap))) -
+                decToScaled(state.start, Math.max(decScale(state.end), decScale(state.start), decScale(gap))),
+                Math.max(decScale(state.end), decScale(state.start), decScale(gap))), gap) < 0;
+            if (need) {
+              if (part === 'end') state.end = decNorm(scaledToDec(
+                decToScaled(state.start, Math.max(decScale(state.start), decScale(gap))) + decToScaled(gap, Math.max(decScale(state.start), decScale(gap))),
+                Math.max(decScale(state.start), decScale(gap))));
+              else state.start = decNorm(scaledToDec(
+                decToScaled(state.end, Math.max(decScale(state.end), decScale(gap))) - decToScaled(gap, Math.max(decScale(state.end), decScale(gap))),
+                Math.max(decScale(state.end), decScale(gap))));
+              announce(`Kept ${core.format(gap)} between the ends.`);
+            }
+          }
+          emitValue(); render();
+        };
+        for (const part of ['start', 'end']) {
+          const el = inputs[part];
+          el.addEventListener('focus', () => { focused[part] = true; render(); });
+          el.addEventListener('input', () => { drafts[part] = el.value; render(); });
+          el.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowUp' || e.key === 'ArrowDown') {
+              e.preventDefault();
+              commitPart(part);
+              const dir = e.key === 'ArrowUp' ? 1 : -1;
+              const f = stepFence(part);
+              const cur = state[part];
+              const next = cur === null
+                ? decNorm(String(f.min ?? 0))
+                : stepDec(cur, dir, { step: config.step ?? 1, min: f.min, max: f.max, stepOrigin: 'min' });
+              if (next !== cur) { state[part] = next; state.dirty = true; emitValue(); announce(core.speak(next) + '.'); render(); }
+              else announce(`${dir > 0 ? 'Maximum' : 'Minimum'}, ${core.format(cur)}.`);
+            }
+            if (e.key === 'Enter' && drafts[part] !== null) { e.preventDefault(); commitPart(part); }
+            if (e.key === 'Escape' && drafts[part] !== null) { drafts[part] = null; render(); }
+          });
+          el.addEventListener('blur', () => { focused[part] = false; state.touched = true; commitPart(part); render(); });
+        }
+        render();
+        return {
+          state,
+          getValue: () => (state.start === null && state.end === null ? undefined
+            : { ...(state.start !== null && { start: Number(state.start) }),
+                ...(state.end !== null && { end: Number(state.end) }) }),
+          el: { root, inputs, live },
+        };
+      }
+
+      /* ============================================================
+         createSlider — same NumericStepModel, same keyboard map.
+         Two thumbs each own a value; crossing swaps their roles, so
+         the dragged thumb keeps focus through a swap for free.
+         ============================================================ */
+      function createSlider(hostId, config) {
+        const host = document.getElementById(hostId);
+        const id = config.id;
+        const min = config.min ?? 0, max = config.max ?? 100, step = config.step ?? 1;
+        const range = config.mode === 'range';
+        const dec = decScale(String(step));
+        const fix = (n) => Number(n.toFixed(dec));
+        const largeStep = config.largeStep ?? Math.max(step, fix((max - min) / 10 - ((max - min) / 10) % step || step));
+        const fmtV = config.formatValue || ((v) => String(v));
+        const state = {
+          a: range ? (config.value?.start ?? min) : (config.value ?? min),
+          b: range ? (config.value?.end ?? max) : null,
+          dragging: null,
+        };
+        const emit = (type, detail) => config.on && config.on(type, detail);
+
+        host.innerHTML = `
+          <div class="uni-slider ${range ? 'uni-slider--range' : ''}" ${range ? `role="group" aria-label="${config.label}"` : ''}>
+            <div class="uni-slider__row">
+              <div class="uni-slider__track" id="${id}-track">
+                <div class="uni-slider__fill"></div>
+                ${(config.marks || []).map((m) => `<div class="uni-slider__mark" style="left:${((m.value - min) / (max - min)) * 100}%"></div>`).join('')}
+                <div class="uni-slider__thumb" id="${id}-thumb-a" role="slider" tabindex="0" data-thumb="a"></div>
+                ${range ? `<div class="uni-slider__thumb" id="${id}-thumb-b" role="slider" tabindex="0" data-thumb="b"></div>` : ''}
+              </div>
+              ${config.valueDisplay === 'input' ? `<div id="${id}-readout"></div>` : ''}
+            </div>
+            ${(config.marks || []).some((m) => m.label) ? `<div class="uni-slider__labels">${(config.marks || [])
+              .map((m) => (m.label ? `<span style="left:${((m.value - min) / (max - min)) * 100}%">${m.label}</span>` : ''))
+              .join('')}</div>` : ''}
+            <span class="sr-only" role="status" aria-live="polite" data-role="live"></span>
+          </div>`;
+        const root = host.firstElementChild;
+        const track = root.querySelector('.uni-slider__track');
+        const fill = root.querySelector('.uni-slider__fill');
+        const thumbs = { a: root.querySelector('[data-thumb="a"]'), b: root.querySelector('[data-thumb="b"]') };
+        const live = root.querySelector('[data-role="live"]');
+        const announce = (msg) => { live.textContent = live.textContent === msg ? msg + ' ' : msg; };
+
+        let syncReadout = () => {};
+        const lo = () => (range ? Math.min(state.a, state.b) : min);
+        const hi = () => (range ? Math.max(state.a, state.b) : state.a);
+        const pct = (v) => ((v - min) / (max - min)) * 100;
+        const markLabelFor = (v) => (config.marks || []).find((m) => m.value === v && m.label)?.label;
+
+        const render = () => {
+          const origin = config.origin ?? min;
+          const left = range ? lo() : Math.min(origin, state.a);
+          const right = range ? hi() : Math.max(origin, state.a);
+          fill.style.left = pct(left) + '%';
+          fill.style.right = 100 - pct(right) + '%';
+          for (const key of range ? ['a', 'b'] : ['a']) {
+            const t = thumbs[key];
+            const v = state[key];
+            t.style.left = pct(v) + '%';
+            t.setAttribute('aria-valuenow', String(v));
+            const other = key === 'a' ? state.b : state.a;
+            if (range) {
+              const isLow = v <= other;
+              t.setAttribute('aria-label', `${config.label}, ${isLow ? 'minimum' : 'maximum'}`);
+              t.setAttribute('aria-valuemin', String(isLow ? min : other));   // the other thumb is the wall
+              t.setAttribute('aria-valuemax', String(isLow ? other : max));
+            } else {
+              t.setAttribute('aria-label', config.label);
+              t.setAttribute('aria-valuemin', String(min));
+              t.setAttribute('aria-valuemax', String(max));
+            }
+            t.setAttribute('aria-valuetext', markLabelFor(v) || fmtV(v));
+          }
+          syncReadout();
+        };
+        const valueOut = () => (range ? { start: lo(), end: hi() } : state.a);
+        const snap = (raw) => {
+          if (config.snapToMarks && (config.marks || []).length) {
+            return (config.marks || []).reduce((best, m) =>
+              Math.abs(m.value - raw) < Math.abs(best - raw) ? m.value : best, (config.marks)[0].value);
+          }
+          let v = min + Math.round((raw - min) / step) * step;
+          return fix(Math.min(max, Math.max(min, v)));
+        };
+        const setThumb = (key, v, commit) => {
+          if (config.minGap != null && range) {
+            const other = key === 'a' ? state.b : state.a;
+            // fence instead of swapping when a minimum gap is required
+            if (state[key] <= other && v > other - config.minGap) v = fix(other - config.minGap);
+            if (state[key] > other && v < other + config.minGap) v = fix(other + config.minGap);
+          }
+          if (state[key] === v && !commit) return;
+          const changed = state[key] !== v;
+          state[key] = v;
+          if (changed) emit('sliding', valueOut());
+          if (commit) emit('changed', valueOut());
+          render();
+        };
+        const nearestThumb = (raw) => {
+          if (!range) return 'a';
+          return Math.abs(state.a - raw) <= Math.abs(state.b - raw) ? 'a' : 'b';
+        };
+        const rawFromEvent = (e) => {
+          const r = track.getBoundingClientRect();
+          return min + ((e.clientX - r.left) / r.width) * (max - min);
+        };
+
+        track.addEventListener('pointerdown', (e) => {
+          if (config.disabled) return;
+          e.preventDefault();
+          const fromThumb = e.target.closest('.uni-slider__thumb');
+          const key = fromThumb ? fromThumb.dataset.thumb : nearestThumb(rawFromEvent(e));
+          state.dragging = key;
+          root.classList.toggle('uni-slider--dragging', !fromThumb ? false : true); // click-to-jump animates
+          thumbs[key].focus();
+          if (!fromThumb) setThumb(key, snap(rawFromEvent(e)), false);
+          track.setPointerCapture(e.pointerId);
+          const move = (ev) => {
+            root.classList.add('uni-slider--dragging');
+            setThumb(state.dragging, snap(rawFromEvent(ev)), false);
+          };
+          const up = (ev) => {
+            track.removeEventListener('pointermove', move);
+            track.removeEventListener('pointerup', up);
+            track.removeEventListener('pointercancel', up);
+            root.classList.remove('uni-slider--dragging');
+            if (state.dragging) {
+              emit('changed', valueOut());
+              announce((markLabelFor(state[state.dragging]) || fmtV(state[state.dragging])) + '.');
+              state.dragging = null;
+            }
+          };
+          track.addEventListener('pointermove', move);
+          track.addEventListener('pointerup', up);
+          track.addEventListener('pointercancel', up);
+        });
+
+        for (const key of range ? ['a', 'b'] : ['a']) {
+          const t = thumbs[key];
+          let keyed = false;
+          t.addEventListener('keydown', (e) => {
+            let v = null;
+            const cur = state[key];
+            const stepMarks = config.snapToMarks && (config.marks || []).length;
+            const markStep = (dir) => {
+              const vals = (config.marks || []).map((m) => m.value).sort((x, y) => x - y);
+              const i = vals.indexOf(cur);
+              return vals[Math.min(vals.length - 1, Math.max(0, i + dir))];
+            };
+            const by = (dir, big) => stepMarks ? markStep(dir) : fix(cur + dir * (big ? largeStep : step));
+            if (e.key === 'ArrowUp') v = by(1, e.shiftKey);
+            else if (e.key === 'ArrowDown') v = by(-1, e.shiftKey);
+            else if (e.key === 'ArrowRight') v = by(1, e.shiftKey);   // LTR page: toward max
+            else if (e.key === 'ArrowLeft') v = by(-1, e.shiftKey);
+            else if (e.key === 'PageUp') v = by(1, true);
+            else if (e.key === 'PageDown') v = by(-1, true);
+            else if (e.key === 'Home') v = min;
+            else if (e.key === 'End') v = max;
+            if (v === null) return;
+            e.preventDefault();
+            keyed = true;
+            setThumb(key, Math.min(max, Math.max(min, v)), false);
+          });
+          t.addEventListener('keyup', () => {
+            if (keyed) {
+              keyed = false;
+              emit('changed', valueOut());
+              announce((markLabelFor(state[key]) || fmtV(state[key])) + '.');
+            }
+          });
+        }
+
+        // valueDisplay="input": a compact uni-number-input as the readout.
+        // render() calls syncReadout on every slider-side change; the guard
+        // (`detail !== state.a`) breaks the write-back cycle.
+        let readout = null;
+        if (config.valueDisplay === 'input' && !range) {
+          readout = createNumberInput(`${id}-readout`, {
+            id: `${id}-ro`,
+            label: `${config.label} value`,
+            min, max, step,
+            stepperLayout: 'stacked',
+            decimals: [0, dec],
+            value: state.a,
+            on: (type, detail) => {
+              if (type === 'value' && detail !== null && detail !== state.a) {
+                setThumb('a', snap(detail), true);
+              }
+            },
+          });
+          syncReadout = () => { if (readout.getValue() !== state.a) readout.setValue(state.a); };
+        }
+
+        render();
+        return {
+          state,
+          getValue: valueOut,
+          setValue(v) {
+            if (range) { state.a = v.start; state.b = v.end; } else { state.a = v; }
+            render();
+            if (readout) readout.setValue(state.a);
+          },
+          readout,
+          el: { root, track, thumbs, live },
+        };
+      }
+
+      /* ============================================================
+         Wiring the demos
+         ============================================================ */
+      const logTo = (el) => {
+        const lines = [];
+        return (msg) => {
+          lines.unshift(msg);
+          if (lines.length > 40) lines.pop();
+          el.innerHTML = lines.join('<br>');
+        };
+      };
+      const fmtUSD = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' });
+
+      // 1 · Order line
+      const lineLog = logTo(document.getElementById('lineLog'));
+      let lineState = { price: 1299, disc: 15, qty: 2 };
+      const lineTotal = () => {
+        const t = lineState.price * lineState.qty * (1 - lineState.disc / 100);
+        lineLog(`<b>total</b> = ${fmtUSD.format(t)} · ${lineState.qty} × ${fmtUSD.format(lineState.price)} − ${lineState.disc}%`);
+      };
+      const linePrice = createNumberInput('linePriceHost', {
+        id: 'linePrice', label: 'Unit price', currency: 'USD', locale: 'en-US',
+        min: 0, step: 1, value: 1299, stepperLayout: 'split',
+        on: (type, d) => { if (type === 'value' && d !== null) { lineState.price = d; lineTotal(); } },
+      });
+      const lineDisc = createNumberInput('lineDiscHost', {
+        id: 'lineDisc', label: 'Discount', preset: 'percent', min: 0, max: 100, step: 5, value: 15,
+        on: (type, d) => { if (type === 'value' && d !== null) { lineState.disc = d; lineTotal(); } },
+      });
+      const lineQty = createQuantityStepper('lineQtyHost', {
+        id: 'lineQty', label: 'Quantity', min: 1, max: 99, value: 2,
+        on: (type, d) => { if (type === 'value' && d !== null) { lineState.qty = d; lineTotal(); } },
+      });
+      lineTotal();
+
+      // 2 · Stepping
+      const stepLog = logTo(document.getElementById('stepLog'));
+      const seats = createNumberInput('seatsHost', {
+        id: 'seats', label: 'Seats', preset: 'integer', min: 1, max: 200, step: 1, largeStep: 10,
+        value: 8, stepperLayout: 'split', emptyStepValue: 1,
+        on: (type, d) => {
+          if (type === 'value') stepLog('<b>seats</b> = ' + JSON.stringify(d));
+          if (type === 'stepped') stepLog(`<b>stepped</b> ${d.from} → ${d.to}`);
+        },
+      });
+      const snapField = createNumberInput('snapHost', {
+        id: 'snap', label: 'Session length', preset: 'integer', min: 5, max: 95, step: 10,
+        suffix: 'min', unitAnnouncement: 'minutes', stepperLayout: 'stacked',
+        on: (type, d) => { if (type === 'value') stepLog('<b>session</b> = ' + JSON.stringify(d)); },
+      });
+      const hourField = createNumberInput('hourHost', {
+        id: 'hour', label: 'Hour', preset: 'integer', min: 0, max: 23, step: 1, wrap: true,
+        value: 22, stepperLayout: 'split',
+        on: (type, d) => { if (type === 'value') stepLog('<b>hour</b> = ' + JSON.stringify(d)); },
+      });
+
+      // 3 · Money & locale
+      const moneyLog = logTo(document.getElementById('moneyLog'));
+      const usd = createNumberInput('usdHost', {
+        id: 'usd', label: 'Amount', currency: 'USD', locale: 'en-US', stepperLayout: 'stacked',
+        on: (type, d) => {
+          if (type === 'value') moneyLog('<b>usd</b> = ' + JSON.stringify(d));
+          if (type === 'rejected') moneyLog('<b>rejected</b> ' + JSON.stringify(d));
+        },
+      });
+      const eur = createNumberInput('eurHost', {
+        id: 'eur', label: 'Betrag', currency: 'EUR', locale: 'de-DE', stepperLayout: 'stacked',
+        on: (type, d) => {
+          if (type === 'value') moneyLog('<b>eur</b> = ' + JSON.stringify(d));
+          if (type === 'rejected') moneyLog('<b>rejected</b> ' + JSON.stringify(d));
+        },
+      });
+
+      // 4 · Precision
+      const precLog = logTo(document.getElementById('precLog'));
+      const tenth = createNumberInput('tenthHost', {
+        id: 'tenth', label: 'Weight', step: 0.1, decimals: [0, 3], suffix: 'kg',
+        unitAnnouncement: 'kilograms', value: 0.2, stepperLayout: 'split',
+        on: (type, d) => { if (type === 'valueAsString') precLog('<b>tenth</b> valueAsString = ' + JSON.stringify(d)); },
+      });
+      const roundup = createNumberInput('roundupHost', {
+        id: 'roundup', label: 'Rate half-up', decimals: 1, roundingMode: 'half-up',
+        on: (type, d) => { if (type === 'valueAsString') precLog('<b>half-up</b> = ' + JSON.stringify(d)); },
+      });
+      const roundeven = createNumberInput('roundevenHost', {
+        id: 'roundeven', label: 'Rate half-even', decimals: 1, roundingMode: 'half-even',
+        on: (type, d) => { if (type === 'valueAsString') precLog('<b>half-even</b> = ' + JSON.stringify(d)); },
+      });
+      const exact = createNumberInput('exactHost', {
+        id: 'exact', label: 'Exact', decimals: [0, 12], grouping: false,
+        on: (type, d) => {
+          if (type === 'valueAsString') precLog('<b>exact</b> valueAsString = ' + JSON.stringify(d));
+          if (type === 'value') precLog('<b>exact</b> value (number) = ' + (d === null ? 'null' : d.toString()));
+          if (type === 'precisionWarning') precLog('<b>⚠ precision</b> — number cannot round-trip ' + JSON.stringify(d));
+        },
+      });
+
+      // 5 · Percent & units
+      const pctLog = logTo(document.getElementById('pctLog'));
+      const pct = createNumberInput('pctHost', {
+        id: 'pct', label: 'Completion', preset: 'percent', min: 0, max: 100, step: 1, value: 15,
+        on: (type, d) => { if (type === 'value') pctLog('<b>pct</b> = ' + JSON.stringify(d)); },
+      });
+      const frac = createNumberInput('fracHost', {
+        id: 'frac', label: 'Completion fraction', preset: 'percent', valueIsFraction: true,
+        min: 0, max: 1, step: 0.01, value: 0.15,
+        on: (type, d) => { if (type === 'value') pctLog('<b>frac</b> = ' + JSON.stringify(d)); },
+      });
+      const kg = createNumberInput('kgHost', {
+        id: 'kg', label: 'Weight', suffix: 'kg', unitAnnouncement: 'kilograms',
+        decimals: [0, 1], min: 0, value: 72, stepperLayout: 'stacked',
+        on: (type, d) => { if (type === 'value') pctLog('<b>kg</b> = ' + JSON.stringify(d)); },
+      });
+
+      // 6 · Expressions & compact
+      const exprLog = logTo(document.getElementById('exprLog'));
+      const expr = createNumberInput('exprHost', {
+        id: 'expr', label: 'Budget', currency: 'USD', locale: 'en-US', allowExpressions: true,
+        min: 0, stepperLayout: 'stacked',
+        on: (type, d) => {
+          if (type === 'value') exprLog('<b>budget</b> = ' + JSON.stringify(d));
+          if (type === 'rejected') exprLog('<b>rejected</b> ' + JSON.stringify(d));
+        },
+      });
+      const views = createNumberInput('viewsHost', {
+        id: 'views', label: 'Views', preset: 'integer', min: 0,
+        numberFormat: { notation: 'compact' }, stepperLayout: 'none',
+        on: (type, d) => { if (type === 'value') exprLog('<b>views</b> = ' + JSON.stringify(d)); },
+      });
+
+      // 7 · Quantity steppers (cart)
+      const cartLog = logTo(document.getElementById('cartLog'));
+      const CART = [
+        { host: 'cart0Host', priceEl: 'cart0Price', label: 'Blue T-shirt (M)', price: 24, qty: 1 },
+        { host: 'cart1Host', priceEl: 'cart1Price', label: 'Canvas tote', price: 18, qty: 3 },
+        { host: 'cart2Host', priceEl: 'cart2Price', label: 'Sticker pack', price: 6, qty: 2, editable: false },
+      ];
+      const cartBoxes = CART.map((row, i) => {
+        const priceEl = document.getElementById(row.priceEl);
+        const paint = (q) => { priceEl.textContent = fmtUSD.format(row.price * q); };
+        const box = createQuantityStepper(row.host, {
+          id: 'cart' + i, label: row.label, min: 1, max: 99, value: row.qty,
+          editable: row.editable !== false, deleteAtMin: row.editable !== false,
+          on: (type, d) => {
+            if (type === 'value') { paint(d); cartLog(`<b>${row.label}</b> qty = ${d}`); }
+            if (type === 'emptied') cartLog(`<b>emptied</b> — remove ${row.label} from the cart`);
+            if (type === 'rejected') cartLog('<b>rejected</b> ' + JSON.stringify(d));
+          },
+        });
+        paint(row.qty);
+        return box;
+      });
+
+      // 8 · Range input
+      const rangeLog = logTo(document.getElementById('rangeLog'));
+      const priceRange = createRangeInput('priceRangeHost', {
+        id: 'priceRange', label: 'Price range', currency: 'USD', locale: 'en-US',
+        min: 0, max: 2000, step: 10, minGap: 10,
+        value: { start: 50, end: 500 },
+        on: (type, d) => {
+          if (type === 'value') rangeLog('<b>value</b> = ' + JSON.stringify(d));
+          if (type === 'swapped') rangeLog('<b>swapped</b> — backwards commit');
+          if (type === 'rejected') rangeLog('<b>rejected</b> ' + JSON.stringify(d));
+        },
+      });
+      rangeLog('<b>value</b> = ' + JSON.stringify(priceRange.getValue()));
+
+      // 9 · Sliders
+      const sliderLog = logTo(document.getElementById('sliderLog'));
+      let slidingCount = 0;
+      const vol = createSlider('volHost', {
+        id: 'vol', label: 'Volume', min: 0, max: 100, step: 1, value: 64,
+        valueDisplay: 'input', formatValue: (v) => v + '%',
+        on: (type, d) => {
+          if (type === 'sliding') slidingCount++;
+          if (type === 'changed') sliderLog(`<b>volume changed</b> = ${JSON.stringify(d)} (after ${slidingCount} sliding)`);
+        },
+      });
+      const budget = createSlider('budgetHost', {
+        id: 'budget', label: 'Budget', mode: 'range', min: 0, max: 1000, step: 10,
+        value: { start: 200, end: 600 }, formatValue: (v) => fmtUSD.format(v),
+        on: (type, d) => { if (type === 'changed') sliderLog('<b>budget changed</b> = ' + JSON.stringify(d)); },
+      });
+      const size = createSlider('sizeHost', {
+        id: 'size', label: 'Size', min: 1, max: 5, step: 1, value: 3, snapToMarks: true,
+        marks: [
+          { value: 1, label: 'XS' }, { value: 2, label: 'S' }, { value: 3, label: 'M' },
+          { value: 4, label: 'L' }, { value: 5, label: 'XL' },
+        ],
+        on: (type, d) => { if (type === 'changed') sliderLog('<b>size changed</b> = ' + JSON.stringify(d)); },
+      });
+
+      // 10 · showError gating
+      const amountLog = logTo(document.getElementById('amountLog'));
+      const amount = createNumberInput('amountHost', {
+        id: 'amount', label: 'Amount', currency: 'USD', locale: 'en-US', required: true,
+        min: 0, stepperLayout: 'stacked',
+        showError: (s) => s.value === null && (s.touched || s.dirty),
+        on: (type) => {
+          const s = amount ? amount.state : null;
+          if (!s) return;
+          amountLog(`<b>${type}</b> · value=${JSON.stringify(s.value)} touched=${s.touched} dirty=${s.dirty}`);
+        },
+      });
+      amountLog('<b>init</b> · invalid (required, empty) but not yet shown');
+
+      /* theme toggle */
+      document.getElementById('themeToggle').onclick = () => {
+        const el = document.documentElement;
+        const dark = el.getAttribute('data-theme') !== 'dark';
+        el.setAttribute('data-theme', dark ? 'dark' : 'light');
+        document.getElementById('themeToggleText').textContent = dark ? 'Light' : 'Dark';
+      };
+
+      /* test hooks */
+      window.__proto = {
+        linePrice, lineDisc, lineQty,
+        seats, snapField, hourField,
+        usd, eur,
+        tenth, roundup, roundeven, exact,
+        pct, frac, kg,
+        expr, views,
+        cartBoxes, priceRange,
+        vol, budget, size,
+        amount,
+        // the raw cdk surface, for unit-style assertions
+        cdk: { decRound, decCmp, decNorm, stepDec, decShift, tryExpression },
+      };
+    </script>
+  </body>
+</html>
