@@ -608,16 +608,27 @@ export class UniNumberInputComponent
 
   protected readonly fieldRowClass = computed(() => {
     const options = this.componentOptions();
-    return css({
-      display: 'flex',
-      alignItems: 'center',
-      width: '100%',
-      // Full field height, so a stretched stepper column is the height of the
-      // field rather than of the text inside it.
-      height: '100%',
-      ...this.theme.gap(options.affixGap ?? 'xs'),
-    });
+    return css([
+      {
+        display: 'flex',
+        alignItems: 'center',
+        width: '100%',
+        // Full field height, so a stretched stepper column is the height of the
+        // field rather than of the text inside it.
+        height: '100%',
+      },
+      this.theme.gap(options.affixGap ?? 'xs'),
+      // Trailing inset, matching the leading one, so a suffix — or the text
+      // itself — does not sit against the border. It rides the row because
+      // `removeInputPlatformStyling` zeroes padding on `& input` at a higher
+      // specificity than this class. Skipped when a stepper holds the trailing
+      // edge: a button is meant to reach the border.
+      this.showSteppers() ? undefined : this.theme.paddingRight(this.trailingInset()),
+    ]);
   });
+
+  /** The shared field inset, reused on the trailing side so the two match. */
+  private readonly trailingInset = computed(() => this.fieldChrome().paddingLeft);
 
   protected readonly inputClass = computed(() => {
     const options = this.componentOptions();

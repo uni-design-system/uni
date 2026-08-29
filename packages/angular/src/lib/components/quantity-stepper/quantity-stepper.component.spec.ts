@@ -273,6 +273,22 @@ describe('UniQuantityStepperComponent', () => {
     });
   });
 
+  describe('focus', () => {
+    it('shows the shared field focus indicator on the container', () => {
+      // The middle input clears its own outline, so without a container rule
+      // the control would have no focus state at all.
+      const root = host().querySelector('div')!;
+      const sheets = Array.from(document.querySelectorAll('style'))
+        .map((s) => s.textContent ?? '')
+        .filter((text) => Array.from(root.classList).some((c) => text.includes(`.${c}`)))
+        .join('');
+
+      expect(sheets).toContain(':has(input:focus)');
+      // The same tokens uni-input-box uses for every other field.
+      expect(sheets).toContain('outline-offset:2px');
+    });
+  });
+
   describe('sizing', () => {
     it('takes its outer height from the theme size, buttons square at it', () => {
       for (const [size, height] of [

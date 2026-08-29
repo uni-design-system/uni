@@ -457,11 +457,14 @@ export class UniNumberRangeInputComponent
         height: '100%',
       },
       this.theme.gap(options.partGap ?? 'sm'),
-      // The inset rides the row, not the first `<input>`: uni-input-box styles
+      // Both insets ride the row, not the `<input>`s: uni-input-box styles
       // `& input` at a higher specificity than this class can reach, so an
-      // inset set on the input itself is silently overridden. See
-      // `managedInset`, which is why the box is not applying it either.
+      // inset set on an input is silently overridden. See `managedInset`,
+      // which is why the box is not applying the leading one either. There are
+      // never steppers here, so the trailing edge always gets one — otherwise
+      // the upper end's suffix sits against the border.
       this.theme.paddingLeft(this.fieldChrome().paddingLeft),
+      this.theme.paddingRight(this.fieldChrome().paddingLeft),
     ]);
   });
 

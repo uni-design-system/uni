@@ -29,6 +29,7 @@ import {
 } from '../../cdk';
 import { BaseComponent, COMPONENT_NAME } from '../base/base.component';
 import { UniIconComponent } from '../icon/icon.component';
+import type { UniInputBoxOptions } from '../input-box/input-box.model';
 import type { UniQuantityStepperOptions } from './quantity-stepper.model';
 
 /**
@@ -312,9 +313,18 @@ export class UniQuantityStepperComponent
   /** Overall height, from the theme's `sizes` block. */
   private readonly height = computed(() => Number(this.style()['height'] ?? 32));
 
+  /**
+   * The shared field chrome, read from the same `input` theme entry
+   * `uni-input-box` resolves. This control has its own container tokens, but the
+   * **focus indicator** has to be the one every other field uses — a stepper
+   * that highlights differently from the field beside it reads as a bug.
+   */
+  private readonly fieldChrome = this.theme.getComponentOptions<UniInputBoxOptions>('input');
+
   protected readonly rootClass = computed(() => {
     const options = this.componentOptions();
     const colors = this.theme.colors();
+    const chrome = this.fieldChrome();
     return css({
       display: 'inline-flex',
       alignItems: 'stretch',
@@ -330,6 +340,23 @@ export class UniQuantityStepperComponent
       ...this.theme.radius(options.borderRadius ?? 'xs'),
       ...(this.showError() ? { borderColor: colors['warn'] } : {}),
       ...(this.disabled() ? { cursor: 'not-allowed' } : {}),
+
+      // The middle input clears its own outline (removeInputPlatformStyling),
+      // so the focus indicator belongs on the container — the same `:has()`
+      // rule and the same `input` tokens uni-input-box uses, so a stepper
+      // highlights exactly like the field next to it. Error state wins, to
+      // keep a flagged control visibly flagged while it is being corrected.
+      '&:has(input:focus)': {
+        outline: chrome.focusOutline,
+        outlineOffset: chrome.focusOutlineOffset,
+        ...(this.showError()
+          ? {}
+          : {
+              ...this.theme.border(chrome.focusBorder),
+              ...this.theme.boxShadow(chrome.focusShadow),
+              ...this.theme.backgroundColor(chrome.focusColor),
+            }),
+      },
     });
   });
 

@@ -180,6 +180,22 @@ describe('UniNumberInputComponent', () => {
       const suffix = host().querySelector('span[aria-hidden="true"]')!;
       expect(insetOf(suffix)).toBe(0);
     });
+
+    const trailingOf = (element: Element): number =>
+      parseFloat(getComputedStyle(element).paddingRight) || 0;
+
+    it('gives the row a trailing inset when no stepper holds that edge', () => {
+      // Otherwise a suffix — or the text itself — sits against the border.
+      set('stepperLayout', 'none');
+      set('suffix', 'kg');
+      expect(trailingOf(field().parentElement!)).toBe(8);
+    });
+
+    it('leaves the trailing edge to the stepper when there is one', () => {
+      // A button is meant to reach the border.
+      set('suffix', 'kg');
+      expect(trailingOf(field().parentElement!)).toBe(0);
+    });
   });
 
   describe('typed entry', () => {

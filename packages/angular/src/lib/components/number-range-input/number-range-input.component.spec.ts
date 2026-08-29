@@ -369,5 +369,11 @@ describe('UniNumberRangeInputComponent', () => {
       expect(insetOf(start())).toBe(0);
       expect(insetOf(end())).toBe(0);
     });
+
+    it('insets the trailing edge to match, so a suffix is not flush', () => {
+      set('suffix', '°C');
+      const row = start().closest('div')!;
+      expect(parseFloat(getComputedStyle(row).paddingRight) || 0).toBe(8);
+    });
   });
 });
