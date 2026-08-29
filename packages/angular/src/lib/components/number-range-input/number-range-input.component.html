@@ -1,0 +1,67 @@
+<!-- One label names the group; the parts are named "{label}, Minimum" and
+     "{label}, Maximum". Two tab stops, honestly — it is two questions. -->
+<div role="group" [attr.aria-label]="label()" [attr.aria-describedby]="describedBy()">
+  <uni-input-box
+    [error]="showError()"
+    [disabled]="disabled()"
+    [fullWidth]="true"
+    [managedInset]="true"
+  >
+    <div [class]="rowClass()">
+      @for (part of parts; track part) {
+        @if (part === 'end') {
+          <!-- Punctuation between two numbers, not a glyph: aria-hidden, since
+               the two parts are already named minimum and maximum. -->
+          <span [class]="dividerClass()" aria-hidden="true">{{ dividerText() }}</span>
+        }
+
+        <span [class]="partWrapClass()">
+          <!-- Adornments, not text: outside the <input> so the caret,
+               select-all and paste never step over them, and aria-hidden
+               because aria-valuetext already speaks them. -->
+          @if (format().prefix) {
+            <span [class]="affixClass()" aria-hidden="true">{{ format().prefix }}</span>
+          }
+
+          <input
+            #field
+            type="text"
+            role="spinbutton"
+            autocomplete="off"
+            [class]="partClass() + (isInvalid(part) ? ' ' + invalidClass() : '')"
+            [value]="displayText(part)"
+            [disabled]="disabled()"
+            [attr.inputmode]="format().inputMode"
+            [attr.placeholder]="
+              (part === 'start' ? placeholderStart() : placeholderEnd()) ?? null
+            "
+            [attr.aria-label]="partLabel(part)"
+            [attr.aria-valuenow]="valueOf(part)"
+            [attr.aria-valuemin]="stepFence(part).min ?? null"
+            [attr.aria-valuemax]="stepFence(part).max ?? null"
+            [attr.aria-valuetext]="valueTextOf(part)"
+            [attr.aria-invalid]="isInvalid(part) || formError() ? true : null"
+            [attr.aria-required]="required() ? true : null"
+            (input)="onInput(part, $any($event.target).value)"
+            (keydown)="onKeydown($event, part)"
+            (focus)="onFocus(part)"
+            (blur)="onBlur(part)"
+          />
+
+          @if (format().suffix) {
+            <span [class]="affixClass()" aria-hidden="true">{{ format().suffix }}</span>
+          }
+        </span>
+      }
+    </div>
+  </uni-input-box>
+</div>
+
+<!-- Said once for the whole field rather than on both ends. -->
+<span [id]="hintId" [class]="srOnly">
+  Two values. Use the up and down arrow keys to change either end; entering them
+  the wrong way round swaps them.
+</span>
+
+<!-- Swaps, gap corrections, fences and refusals are each otherwise silent. -->
+<span role="status" aria-live="polite" [class]="srOnly">{{ announcer.message() }}</span>

@@ -1,0 +1,83 @@
+import { Meta, Title } from '@storybook/addon-docs/blocks';
+
+import * as Stories from './number-range-input.stories';
+import { StoryUsage } from '../../../stories/blocks/StoryUsage';
+import { StoryExample } from '../../../stories/blocks/StoryExample';
+import { ThemeOptions } from '../../../stories/blocks/ThemeOptionsBlock';
+
+<Meta of={Stories} name="NumberRangeInput" />
+<Title />
+
+`import { UniNumberRangeInputComponent } from '@uni-design-system/uni-angular';`
+
+## Overview
+
+Two linked numeric fields in one chrome, with a single `{ start, end }` value —
+price filters, thresholds, tolerances. Reach for it when both ends of a range
+need typing; reach for `uni-slider` in `range` mode when the *position* is the
+information, and for two separate `uni-number-input`s when the values are not
+two ends of one answer.
+
+The value uses `start`/`end` deliberately, matching `UniDateRange`, so the
+library has one range vocabulary — and so they never collide with the `min` and
+`max` **inputs**, which mean the fence rather than the value. Formatting,
+parsing and the exact decimal arithmetic are the same cdk primitives every other
+numeric control uses, so `1,200` and the keyboard map behave identically here.
+
+## Usage
+
+<StoryUsage of={Stories.Primary} />
+
+## Price filter
+
+`preset` and `currency` are forwarded to both ends, so the two halves always
+read alike.
+
+<StoryExample of={Stories.PriceFilter} />
+
+## Minimum gap
+
+`minGap` is what keeps the ends from meeting. It fences both steppers at the
+boundary, and a typed value that would breach it pushes the end you just edited
+back rather than dragging the other one along.
+
+<StoryExample of={Stories.MinimumGap} />
+
+## One end only
+
+Either end alone is a valid value: `{ start: 50 }` means "50 and up", which is a
+real filter. This is where it diverges from `uni-date-time-input`, whose two
+parts are two halves of one answer — a time without a day is not one.
+
+<StoryExample of={Stories.OpenEnded} />
+
+## Custom end labels
+
+<StoryExample of={Stories.CustomEndLabels} />
+
+## Theme options
+
+<ThemeOptions componentName="numberRangeInput" />
+
+## Accessibility
+
+- The two ends sit in a `role="group"` named by `label`, and each is an `<input role="spinbutton">` named `{label}, Minimum` and `{label}, Maximum`. **Two tab stops, honestly — it is two questions.**
+- Each end's `aria-valuemin` / `aria-valuemax` report **the other end's position**, held off by `minGap`, not the outer bounds — so a screen-reader user is told where the wall actually is rather than where the range ends.
+- `aria-valuetext` carries the formatted value with its affixes on both ends, so a price range announces "$500", not "500".
+- Keyboard map is `uni-number-input`'s: arrows step, `Shift+Arrow` and `Page Up`/`Page Down` step large, `Home`/`End` jump to **that end's own wall**, `Enter` commits, `Escape` reverts, blur commits.
+- **Stepping is fenced; typing swaps.** A stepper can never walk one end through the other. A *typed* backwards commit is swapped instead, and announced — the user pointed at the range they meant, and clamping would destroy the number they just entered.
+- A refused draft flags only the end it was typed into. It keeps its text and gets a dashed underline as well as the error border, because colour alone cannot carry "this is not a number" (WCAG 1.4.1). The other end stays valid.
+- Swaps, gap corrections, fences and refusals each announce through one `role="status"` region — every one of them is otherwise a purely visual event.
+- The divider is `aria-hidden`: it is punctuation, and the two ends are already named.
+
+## Do
+
+- Give it a `label` that names the quantity, not the widget — "Price range", not "Range".
+- Use `minGap` wherever a zero-width range is meaningless.
+- Set `min`/`max` for the outer fence and let the ends fence each other.
+
+## Don't
+
+- Don't use it for two unrelated numbers. One value means one question; two questions want two fields.
+- Don't assume both ends are set — `{ start }` and `{ end }` alone are valid, so narrow before arithmetic.
+- Don't add your own swap or ordering logic on top; the component guarantees `start <= end` in the value it emits.

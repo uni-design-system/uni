@@ -641,6 +641,38 @@ Inheritance (inputs listed once, available on all subclasses):
   - `stepped: UniNumberStepped`
   - `rejected: UniNumberRejection` — A commit was refused; the raw text stays in the field.
 
+## UniNumberRangeInputComponent
+- selector: `uni-number-range-input, NumberRangeInput`
+- inputs:
+  - `disabled: boolean` = false
+  - `invalid: boolean` = false
+  - `dirty: boolean` = false
+  - `required: boolean` = false
+  - `ariaDescribedBy: string`
+  - `label: string` (required) — Names the group, e.g. "Price range".
+  - `startLabel: string` = 'Minimum'
+  - `endLabel: string` = 'Maximum'
+  - `preset: UniNumberPreset` = 'decimal'
+  - `currency: string`
+  - `locale: string`
+  - `prefix: string`
+  - `suffix: string`
+  - `decimals: number | [min: number, max: number]`
+  - `grouping: 'auto' | 'always' | 'min2' | false`
+  - `roundingMode: UniRoundingMode` = 'half-up'
+  - `placeholderStart: string`
+  - `placeholderEnd: string`
+  - `min: number | undefined`
+  - `max: number | undefined`
+  - `step: number` = 1
+  - `minGap: number` — Enforced distance between the two ends.
+- two-way models:
+  - `value: UniNumberRange | null` = null
+  - `touched: boolean` = false
+- outputs:
+  - `swapped: UniNumberRange` — The ends were entered backwards and have been exchanged.
+  - `rejected: UniNumberRangeRejection` — A typed commit on one end could not be read; its text stays in place.
+
 ## UniPaginatorComponent
 - selector: `uni-paginator`
 - inputs:

@@ -490,6 +490,20 @@ const buildComponents = (c: Colors): ComponentThemes => ({
       repeatRampMs: 2000,
     },
   },
+  // Two linked numeric fields in one chrome — price filters, thresholds,
+  // tolerances. Field chrome again comes from `input` via uni-input-box; these
+  // are the composer's own bits. `dividerText` is literal text rather than an
+  // icon token: an en dash between two numbers is punctuation, not a glyph.
+  numberRangeInput: {
+    options: {
+      partGap: 'sm',
+      dividerText: '–',
+      dividerColor: 'outline',
+      // Each end carries its own adornment — the spec's `$ 50 – $ 500`.
+      affixColor: 'on-primary-surface-variant',
+      affixGap: 'xs',
+    },
+  },
   // The cart line, the table cell, the seat count: the numeric core with no
   // field chrome and no room for a label. It does need a container, so it gets
   // its own colour/border/radius rather than reaching into `input` — a cart

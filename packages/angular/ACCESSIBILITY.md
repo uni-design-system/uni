@@ -213,6 +213,34 @@ All controls implement `FormValueControl`/`FormCheckboxControl` and set
 - `readOnly` keeps the text selectable, hides the steppers and sets
   `aria-readonly`. `aria-invalid` is gated on `invalid && (touched || dirty)`.
 
+### NumberRangeInput
+- The two ends sit in a `role="group"` named by `label`; each is an
+  `<input role="spinbutton">` named "{label}, Minimum" / "{label}, Maximum".
+  **Two tab stops, honestly — it is two questions.**
+- Each end's `aria-valuemin`/`aria-valuemax` report **the other end's
+  position**, held off by `minGap`, rather than the outer `min`/`max`. A
+  screen-reader user is told where the wall actually is, not where the range
+  ends. With one end still open, that end's bounds fall back to the outer ones.
+- `aria-valuetext` carries the formatted value with affixes on both ends, so a
+  price range announces "$500", not "500".
+- Keyboard map is NumberInput's: arrows step, `Shift+Arrow` and `PageUp` /
+  `PageDown` step large, `Home` / `End` jump to **that end's own wall**, `Enter`
+  commits, `Escape` reverts the draft, blur commits.
+- **Stepping is fenced; typing swaps.** A stepper can never walk one end through
+  the other — the fence is the other end minus `minGap`. A *typed* backwards
+  commit is swapped and announced instead, the rule `uni-calendar` applies to a
+  backwards date range: clamping would destroy the number just entered, and the
+  user pointed at the range they meant.
+- A refused draft flags **only the end it was typed into** — it keeps its text
+  and takes a dashed underline as well as the error border (WCAG 1.4.1) — while
+  the other end stays valid. The shared box chrome shows the error either way.
+- One `role="status"` region announces swaps, gap corrections, fences and
+  refusals; each is otherwise a purely visual event.
+- The divider is `aria-hidden`: it is punctuation between two numbers, and both
+  ends are already named.
+- Either end alone is a valid value, so `aria-valuenow` is omitted on an end
+  that is not set.
+
 ### QuantityStepper
 - The middle is an `<input role="spinbutton">` named by `label`, with
   `aria-valuenow` / `aria-valuemin` / `aria-valuemax`. An empty stepper omits
