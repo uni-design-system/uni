@@ -44,7 +44,12 @@ export interface UniNumberInputOptions {
   stepDownIcon?: IconName;
   /** Width of a stepper column in px. */
   stepperWidth?: number;
-  /** Minimum pointer target for a stepper button, in px — WCAG 2.2 SC 2.5.8. */
+  /**
+   * Minimum pointer target for a stepper button, in px — WCAG 2.2 SC 2.5.8.
+   * Applies to the `split` and `trailing` layouts; the two `stacked` arrows
+   * share the field height instead, which is why a coarse pointer switches to
+   * `split`.
+   */
   minTouchTarget?: number;
   /** Colour of the prefix/suffix adornments. */
   affixColor?: ColorKey;

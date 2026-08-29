@@ -563,6 +563,46 @@ describe('UniNumberInputComponent', () => {
     });
   });
 
+  describe('coarse pointers', () => {
+    /** Two stacked 16px arrows under a fingertip is a coin toss, so the
+        component swaps itself to the full-height split layout. */
+    const withPointer = async (kind: 'coarse' | 'fine') => {
+      vi.stubGlobal('matchMedia', (query: string) => ({
+        matches: query.includes('pointer: coarse') && kind === 'coarse',
+        addEventListener: () => undefined,
+        removeEventListener: () => undefined,
+      }));
+      TestBed.resetTestingModule();
+      await TestBed.configureTestingModule({
+        imports: [UniNumberInputComponent],
+      }).compileComponents();
+      fixture = TestBed.createComponent(UniNumberInputComponent);
+      fixture.componentRef.setInput('label', 'Quantity');
+      fixture.detectChanges();
+    };
+
+    afterEach(() => vi.unstubAllGlobals());
+
+    it('promotes the stacked layout to split on a coarse pointer', async () => {
+      await withPointer('coarse');
+      // Split buttons are full-height squares, so both clear the 24px floor.
+      const styles = buttons().map((b) => getComputedStyle(b).width);
+      expect(styles.every((w) => w === '32px')).toBe(true);
+      expect(buttons()).toHaveLength(2);
+    });
+
+    it('leaves an explicitly chosen layout alone', async () => {
+      await withPointer('coarse');
+      set('stepperLayout', 'trailing');
+      expect(buttons()).toHaveLength(2);
+    });
+
+    it('keeps the stacked layout on a fine pointer', async () => {
+      await withPointer('fine');
+      expect(buttons()).toHaveLength(2);
+    });
+  });
+
   describe('wheel', () => {
     it('ignores the wheel unless enabled and focused', () => {
       fixture.componentInstance.value.set(5);

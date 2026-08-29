@@ -3,8 +3,10 @@ import {
   ChangeDetectionStrategy,
   Component,
   computed,
+  DestroyRef,
   effect,
   ElementRef,
+  inject,
   input,
   isDevMode,
   linkedSignal,
@@ -198,6 +200,14 @@ export class UniNumberInputComponent
   constructor() {
     super();
 
+    // A hybrid device can gain or lose a coarse pointer mid-session.
+    if (typeof matchMedia === 'function') {
+      const query = matchMedia('(pointer: coarse)');
+      const onChange = () => this.coarsePointer.set(query.matches);
+      query.addEventListener('change', onChange);
+      inject(DestroyRef).onDestroy(() => query.removeEventListener('change', onChange));
+    }
+
     // Keep both models reflecting the source of truth, so an app that binds
     // only one of them still reads a consistent value from the other.
     effect(() => {
@@ -252,9 +262,20 @@ export class UniNumberInputComponent
     })
   );
 
-  protected readonly layout = computed(
-    () => this.stepperLayout() ?? this.componentOptions().stepperLayout ?? 'stacked'
+  /**
+   * Two stacked arrows cannot both be 24px tall inside a 32px field, so on a
+   * coarse pointer the stacked layout becomes `split`, where each button is a
+   * full-height square and clears the WCAG 2.2 SC 2.5.8 floor. Two 12px
+   * targets under a fingertip is a coin toss.
+   */
+  private readonly coarsePointer = signal(
+    typeof matchMedia === 'function' ? matchMedia('(pointer: coarse)').matches : false
   );
+
+  protected readonly layout = computed(() => {
+    const requested = this.stepperLayout() ?? this.componentOptions().stepperLayout ?? 'stacked';
+    return requested === 'stacked' && this.coarsePointer() ? 'split' : requested;
+  });
 
   protected readonly showSteppers = computed(
     () => this.layout() !== 'none' && !this.readOnly()
@@ -590,6 +611,9 @@ export class UniNumberInputComponent
       display: 'flex',
       alignItems: 'center',
       width: '100%',
+      // Full field height, so a stretched stepper column is the height of the
+      // field rather than of the text inside it.
+      height: '100%',
       ...this.theme.gap(options.affixGap ?? 'xs'),
     });
   });
@@ -674,12 +698,11 @@ export class UniNumberInputComponent
     css({
       ...this.stepperButton(),
       width: '100%',
+      // The two arrows split the field height between them. They cannot each
+      // reach `minTouchTarget` — 2 × 24 does not fit a 32px field — which is
+      // why a coarse pointer gets the `split` layout instead; see `layout`.
       minHeight: 0,
-      // The glyph is ~12px; padding takes the target to the WCAG floor, and
-      // the two together fill the field height.
-      height: '50%',
-      // Two 12px targets stacked under a thumb-sized finger is a coin toss.
-      '@media (pointer: coarse)': { minHeight: this.componentOptions().minTouchTarget ?? 24 },
+      flex: 1,
     })
   );
 

@@ -475,8 +475,10 @@ const buildComponents = (c: Colors): ComponentThemes => ({
       stepUpIcon: 'chevronUp',
       stepDownIcon: 'chevronDown',
       stepperWidth: 32,
-      // WCAG 2.2 SC 2.5.8 floor. Stacked arrows are visually ~12px tall; each
-      // gets padding to this hit area regardless.
+      // WCAG 2.2 SC 2.5.8 floor, honoured by the `split` and `trailing`
+      // layouts. Two `stacked` arrows share the field height (16px each in a
+      // 32px field) because 2 × 24 does not fit — so a coarse pointer, where
+      // target size actually decides whether a tap lands, gets `split`.
       minTouchTarget: 24,
       affixColor: 'on-primary-surface-variant',
       affixGap: 'xs',

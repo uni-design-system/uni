@@ -188,9 +188,14 @@ All controls implement `FormValueControl`/`FormCheckboxControl` and set
 - **One tab stop for the whole field.** The stepper buttons are real `<button>`s
   named "Increase {label}" / "Decrease {label}" with `tabindex="-1"`: they are
   pointer affordances, and the keyboard route is the arrow keys. The same
-  reasoning governs Combobox's chevron and TagInput's per-chip remove. Stacked
-  arrows are visually ~12px but each is padded to a 24×24 target (WCAG 2.2 SC
-  2.5.8), and on coarse pointers that padding grows.
+  reasoning governs Combobox's chevron and TagInput's per-chip remove.
+- **Target size, honestly.** The `split` and `trailing` layouts give each button
+  a full-height square, clearing the 24×24 minimum of WCAG 2.2 SC 2.5.8. The
+  `stacked` layout cannot: two arrows sharing a 32px field are 16px each, and
+  2 × 24 does not fit. It stays the default because a mouse is precise, and on
+  a **coarse pointer the component switches itself to `split`**, which is where
+  target size actually decides whether a tap lands. A theme needing the larger
+  targets on every pointer sets `stepperLayout: 'split'`.
 - One `role="status"` region announces clamps ("Maximum is 100. Value set to
   100."), fences, rejections and expression results — each otherwise a purely
   visual event. Hold-to-repeat announces **on release only**; a screen reader
