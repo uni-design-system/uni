@@ -10,6 +10,33 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { UniTagInputComponent } from './tag-input.component';
 import type { UniTagItem } from './tag-input.model';
 
+describe('UniTagInputComponent chrome', () => {
+  // jsdom reports an unset padding as '0', not '0px'.
+  const insetOf = (element: Element): number =>
+    parseFloat(getComputedStyle(element).paddingLeft) || 0;
+
+  let chromeFixture: ComponentFixture<UniTagInputComponent>;
+
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({ imports: [UniTagInputComponent] }).compileComponents();
+    chromeFixture = TestBed.createComponent(UniTagInputComponent);
+    chromeFixture.componentRef.setInput('label', 'To');
+    chromeFixture.componentInstance.value.set([{ value: 'alice@uni.dev' }]);
+    chromeFixture.detectChanges();
+  });
+
+  it('gives the leading inset to the chip row, not the inner input', () => {
+    // Otherwise the first chip rides the field's border while the text after
+    // it sits indented.
+    const host = chromeFixture.nativeElement as HTMLElement;
+    const row = host.querySelector('ul')!;
+    const input = host.querySelector('input')!;
+
+    expect(insetOf(row)).toBe(8);
+    expect(insetOf(input)).toBe(0);
+  });
+});
+
 describe('UniTagInputComponent', () => {
   let fixture: ComponentFixture<UniTagInputComponent>;
   let host: HTMLElement;

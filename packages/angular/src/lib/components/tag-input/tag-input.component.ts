@@ -23,6 +23,7 @@ import {
   promoteListboxPopup,
 } from '../forms/listbox-popup';
 import { UniInputBoxComponent } from '../input-box/input-box.component';
+import type { UniInputBoxOptions } from '../input-box/input-box.model';
 import { UniTagComponent } from '../tag';
 import type {
   UniTagInputOptions,
@@ -416,6 +417,14 @@ export class UniTagInputComponent
 
   protected readonly wrapperClass = computed(() => css({ position: 'relative' }));
 
+  /**
+   * The shared field chrome, from the same `input` theme entry
+   * `uni-input-box` resolves — not a duplicate token, because the inset has to
+   * match every other field or a chip field stops lining up with the text
+   * field above it.
+   */
+  private readonly fieldChrome = this.theme.getComponentOptions<UniInputBoxOptions>('input');
+
   protected readonly fieldClass = computed(() => {
     const options = this.componentOptions();
     return css({
@@ -430,6 +439,10 @@ export class UniTagInputComponent
       // plus this padding fills the themed 32px minimum exactly.
       ...this.theme.paddingTop('xs'),
       ...this.theme.paddingBottom('xs'),
+      // The leading inset lives here rather than on the inner <input> (see
+      // `managedInset`): the chips are this field's leading edge, and an inset
+      // on the text alone leaves the first chip riding the border.
+      ...this.theme.paddingLeft(this.fieldChrome().paddingLeft),
       ...this.theme.gap(options.chipGap),
     });
   });
