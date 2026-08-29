@@ -722,20 +722,31 @@ Inheritance (inputs listed once, available on all subclasses):
   - `label: string | undefined` = undefined — Announces the skeleton to assistive tech as a polite status. Leave unset when a container already carries `aria-busy` — the skeleton then stays `aria-hidden`, as a decorative placeholder should.
 
 ## UniSliderComponent
-- selector: `uni-slider`
+- selector: `uni-slider, Slider`
 - inputs:
   - `disabled: boolean` = false
   - `invalid: boolean` = false
   - `dirty: boolean` = false
-  - `required: boolean` = false — Synced from required() validators by the Signal Forms [field] directive.
-  - `ariaDescribedBy: string` — Id(s) of external element(s) describing this control — typically your app-rendered value or error text — exposed as aria-describedby.
-  - `label: string` (required)
+  - `required: boolean` = false
+  - `ariaDescribedBy: string`
+  - `label: string` (required) — Accessible name, e.g. "Opacity". Names the group in range mode.
+  - `mode: 'single' | 'range'` = 'single'
   - `min: number | undefined` = 0
   - `max: number | undefined` = 100
   - `step: number` = 1
+  - `largeStep: number` — `PageUp`/`PageDown` and `Shift+Arrow`. Default: a tenth of the range.
+  - `origin: number` — Fill anchor. Defaults to `min`; set `0` for a slider that spans ±.
+  - `marks: UniSliderMark[]` = []
+  - `snapToMarks: boolean` = false — Marks become the only valid stops — t-shirt sizing, Likert scales.
+  - `valueDisplay: 'none' | 'inline' | 'tooltip'` = 'none' — Where the current value is shown. `tooltip` appears on hover, focus and drag; `inline` sits at the trailing edge of the track. A fourth mode, `'input'` — a compact `uni-number-input` as the readout — lands with that component; widening this union is not a breaking change.
+  - `minGap: number` — Enforced distance between the two ends, in range mode.
+  - `variant: Variant` = 'primary'
 - two-way models:
-  - `value: number` = 0
+  - `value: number | UniNumberRange | null` = null — Shape follows `mode`: a number when `single`, a `UniNumberRange` when `range`.
   - `touched: boolean` = false
+- outputs:
+  - `sliding: number | UniNumberRange` — Continuous, during a drag or a held key. Bind this for a live preview.
+  - `changed: number | UniNumberRange` — Committed — on pointer release and key-up. **A form should bind this**: piping a 60 Hz stream into a model is how sliders get blamed for jank.
 
 ## UniSnackbarComponent
 - selector: `uni-snackbar`

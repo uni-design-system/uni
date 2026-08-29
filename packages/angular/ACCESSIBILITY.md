@@ -163,6 +163,36 @@ All controls implement `FormValueControl`/`FormCheckboxControl` and set
 - `aria-invalid` is gated on `invalid && (touched || dirty)`; per-chip
   invalidity shows immediately, since it describes a token just typed.
 
+### Slider
+- Each thumb is a `role="slider"` with `tabindex="0"`, `aria-valuenow`,
+  `aria-valuemin`, `aria-valuemax` and **`aria-valuetext` in the display
+  format** — a money slider says "$500", not "500", and a marks-only slider says
+  "Medium", not "3".
+- Keyboard map, shared with the numeric input family so nothing is learned
+  twice: `ArrowUp`/`ArrowDown` ±`step`; `ArrowRight`/`ArrowLeft` ±`step`;
+  `Shift+Arrow` and `PageUp`/`PageDown` ±`largeStep` (default a tenth of the
+  range); `Home`/`End` to `min`/`max`. One commit and one announcement per key
+  run, on key-up.
+- **Up and Down follow the number; Left and Right follow the picture.** The
+  horizontal arrows mirror in right-to-left layouts, the vertical ones never do
+  (APG's rule). The track's visual direction flips in RTL; the value's does not.
+- Range mode wraps both thumbs in a `role="group"` named by `label`; the thumbs
+  are named "{label}, minimum" and "{label}, maximum", and each thumb's
+  `aria-valuemin`/`aria-valuemax` report **the other thumb's position**, so a
+  screen-reader user is told where the wall actually is. Two tab stops — it is
+  two questions.
+- Thumbs may cross and swap roles; the dragged thumb keeps its identity and its
+  focus through the swap, so the control never jumps out from under the pointer.
+- The thumb's pointer target is padded to at least 24×24 (WCAG 2.2 SC 2.5.8)
+  even when the visual dot is 16px; `touch-action: none` is set on the track
+  only, so a vertical page scroll that starts there still scrolls.
+- Marks with labels render in a `role="presentation"` row and are not separately
+  focusable — their text is folded into `aria-valuetext` at the matching value.
+- The `role="status"` region carries fences and swaps only. Ordinary movement is
+  already narrated by `aria-valuetext`, and doubling it is noise.
+- `aria-invalid` is gated on `invalid && (touched || dirty)`, per the shared
+  form-control rule.
+
 ### Calendar
 - The month grid is `role="grid"` with `aria-labelledby` pointing at the month
   heading (or `aria-label` when standalone); weekday cells are

@@ -1,0 +1,90 @@
+<!-- Range mode is two questions, so it is a group with two tab stops; single
+     mode needs no wrapper role — the thumb itself is the control. -->
+<div
+  [class]="rootClass()"
+  [attr.role]="isRange() ? 'group' : null"
+  [attr.aria-label]="isRange() ? label() : null"
+>
+  <div [class]="rowClass()">
+    <!-- Pointer move/up ride the track because it holds the pointer capture,
+         so a drag that leaves the element still tracks and still releases. -->
+    <div
+      #track
+      [class]="trackClass()"
+      (pointerdown)="onTrackPointerDown($event)"
+      (pointermove)="onTrackPointerMove($event)"
+      (pointerup)="onTrackPointerUp()"
+      (pointercancel)="onTrackPointerUp()"
+      (lostpointercapture)="onTrackPointerUp()"
+    >
+      <div
+        [class]="fillClass()"
+        [style.inset-inline-start.%]="fillStart()"
+        [style.inset-inline-end.%]="fillEnd()"
+      ></div>
+
+      @for (mark of marks(); track mark.value) {
+        <div [class]="markClass()" [style.inset-inline-start.%]="percentOf(mark.value)"></div>
+      }
+
+      @for (index of thumbIndexes(); track index) {
+        <div
+          #thumb
+          role="slider"
+          tabindex="0"
+          [attr.data-thumb]="index"
+          [class]="thumbClass()"
+          [style.inset-inline-start.%]="percentOf(thumbValue(index))"
+          [attr.aria-label]="thumbLabel(index)"
+          [attr.aria-valuenow]="thumbValue(index)"
+          [attr.aria-valuemin]="thumbMin(index)"
+          [attr.aria-valuemax]="thumbMax(index)"
+          [attr.aria-valuetext]="valueText(thumbValue(index))"
+          [attr.aria-orientation]="'horizontal'"
+          [attr.aria-disabled]="disabled() ? true : null"
+          [attr.aria-invalid]="showError() ? true : null"
+          [attr.aria-required]="required() ? true : null"
+          [attr.aria-describedby]="ariaDescribedBy() || null"
+          (keydown)="onThumbKeydown($event, index)"
+          (keyup)="onThumbKeyup(index)"
+          (blur)="onThumbBlur()"
+        >
+          @if (valueDisplay() === 'tooltip') {
+            <span [class]="tooltipClass()" aria-hidden="true">
+              {{ valueText(thumbValue(index)) }}
+            </span>
+          }
+        </div>
+      }
+    </div>
+
+    @if (valueDisplay() === 'inline') {
+      <!-- Duplicated from aria-valuetext, so it is hidden from the reader. -->
+      <span [class]="readoutClass()" aria-hidden="true">
+        @if (isRange()) {
+          {{ valueText(lowValue()) }} – {{ valueText(highValue()) }}
+        } @else {
+          {{ valueText(thumbValue(0)) }}
+        }
+      </span>
+    }
+  </div>
+
+  @if (hasMarkLabels()) {
+    <!-- Presentational: the text is folded into aria-valuetext at the matching
+         value rather than being separately focusable. -->
+    <div [class]="labelsClass()" role="presentation">
+      @for (mark of marks(); track mark.value) {
+        @if (mark.label) {
+          <span [class]="labelClass()" [style.inset-inline-start.%]="percentOf(mark.value)">
+            {{ mark.label }}
+          </span>
+        }
+      }
+    </div>
+  }
+
+  <!-- Fences and swaps only; ordinary movement is already narrated by
+       aria-valuetext, and doubling it is noise. -->
+  <span role="status" aria-live="polite" [class]="srOnly">{{ announcer.message() }}</span>
+</div>

@@ -12,24 +12,60 @@ import { ThemeOptions } from '../../../stories/blocks/ThemeOptionsBlock';
 
 ## Overview
 
-Range slider for picking a number within bounds. It renders a native
-`<input type="range">`, so keyboard interaction (arrows, Home/End, Page Up/Down) and
-the ARIA slider contract come from the platform. The same Signal Forms contract as
-Input applies — bind with the `[field]` directive or drive `[(value)]` directly.
+Reach for a slider when the *position* is the information — volume, opacity,
+weightings, price filters — and for a number field when the exact figure is. A
+slider is a poor way to enter 47, and a text field is a poor way to feel where
+47 sits between 0 and 100. Bind `changed` in a form; `sliding` streams every
+frame of a drag and is there for live previews.
 
-Fill and thumb color, track color, radii and geometry resolve from the theme's
-`slider` options; the fill level rides a CSS custom property, so dragging never
-regenerates styles.
+One thumb by default, two when `mode="range"`, with a `{ start, end }` value
+that reuses the range vocabulary from `uni-calendar`. Stepping is exact decimal
+arithmetic from the cdk, shared with the numeric input family, so a `0.1` step
+never lands on `0.30000000000000004`. Fill and thumb colour come from the
+`variant` role pair; the track, geometry, marks and tooltip resolve from the
+theme's `slider` options.
 
 ## Usage
 
 <StoryUsage of={Stories.Default} />
 
+## Range
+
+Two thumbs, two tab stops — it is two questions. The thumbs may cross and swap
+roles, and `minGap` keeps an enforced distance between the ends.
+
+<StoryExample of={Stories.TwoThumbs} />
+
+## Marks
+
+With `snapToMarks` the marks become the only stops, and a mark's label is spoken
+in place of its number — so a screen reader hears "Medium", not "3".
+
+<StoryExample of={Stories.Marks} />
+
+## Value display
+
+`inline` seats the value at the trailing edge; `tooltip` shows it above the thumb
+on hover, focus and drag.
+
+<StoryExample of={Stories.Tooltip} />
+
+## Spanning zero
+
+Set `origin` to anchor the fill somewhere other than `min`, so a ± slider fills
+outward from the middle.
+
+<StoryExample of={Stories.SpanningZero} />
+
 ## Stepped range
 
-Fractional `step` values work naturally — the value model carries real numbers.
+Fractional steps work naturally, and land exactly.
 
 <StoryExample of={Stories.SteppedRange} />
+
+## Variant
+
+<StoryExample of={Stories.Variant} />
 
 ## Disabled
 
@@ -41,6 +77,22 @@ Fractional `step` values work naturally — the value model carries real numbers
 
 ## Accessibility
 
-- Native `<input type="range">`: arrows, Home/End, and Page Up/Down come from the platform, and the ARIA slider contract (valuenow/min/max) is native.
+- Each thumb is a `role="slider"` with `aria-valuenow`, `aria-valuemin`, `aria-valuemax`, and `aria-valuetext` in the display format — so a money slider says "$500", not "500".
+- Arrow keys step by `step`; `Shift+Arrow` and `Page Up`/`Page Down` step by `largeStep`; `Home`/`End` jump to the fences.
+- Up and Down always follow the number. Left and Right follow the *picture*, so they mirror in right-to-left layouts.
+- In range mode the thumbs are wrapped in a `role="group"` named by `label`, named "minimum" and "maximum", and each thumb's `aria-valuemin`/`aria-valuemax` report the other thumb's position — the wall where it actually is.
+- The thumb's hit area is padded to at least 24×24 (WCAG 2.2 SC 2.5.8) even when the visual dot is 16px.
 - `label` is required and becomes the accessible name.
-- Expose the current value textually nearby and link it with `ariaDescribedBy` when the number matters.
+- The live region announces only fences and swaps; ordinary movement is already narrated by `aria-valuetext`.
+
+## Do
+
+- Use `changed` for form binding and `sliding` only for live previews.
+- Pair a slider with a number field when users need both a ballpark and an exact value.
+- Give `marks` labels when the underlying numbers are not meaningful to a reader.
+
+## Don't
+
+- Don't use a slider for a value that needs precision or a wide range — a number field is faster and more accurate.
+- Don't put a slider in a scrolling list without testing touch: the track claims horizontal drags.
+- Don't rely on the visible readout alone; the value is already in `aria-valuetext`, and duplicating it into the live region is noise.

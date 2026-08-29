@@ -818,15 +818,32 @@ const buildComponents = (c: Colors): ComponentThemes => ({
       gap: 'xxs',
     },
   },
-  // Range input: fill/thumb in the accent, track in the muted surface, both
-  // radius-tokened — geometry knobs are plain numbers.
+  // Bounded numeric input. Fill and thumb colour are deliberately NOT options
+  // — they are the `variant` role pair, the rule every other component
+  // follows, so `variant="warn"` recolours a slider with no theme edit. The
+  // track is a groove rather than an accent, so it stays a token. Geometry
+  // knobs are plain px.
   slider: {
     options: {
-      color: 'primary',
-      trackColor: 'surface-variant',
-      borderRadius: 'max',
       trackHeight: 4,
+      trackColor: 'primary-container',
+      borderRadius: 'max',
       thumbSize: 16,
+      thumbBorderRadius: 'max',
+      // WCAG 2.2 SC 2.5.8 floor. The visual dot stays `thumbSize`; the
+      // transparent hit area around it grows to this.
+      minTouchTarget: 24,
+      markSize: 3,
+      markColor: 'on-primary-container',
+      labelTypeface: 'label',
+      labelColor: 'on-surface-variant',
+      tooltipColor: 'inverse-surface',
+      tooltipTextColor: 'on-inverse-surface',
+      tooltipShadow: 'menu',
+      tooltipBorderRadius: 'xs',
+      // Click-to-jump and keyboard only; a transition on a dragged thumb
+      // reads as lag, so drag is deliberately unanimated.
+      transitionMs: 120,
     },
   },
   // Loading placeholders paint with surface tokens so they sit naturally on
