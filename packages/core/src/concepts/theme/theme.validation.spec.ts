@@ -167,10 +167,23 @@ describe('hydrateTheme / dehydrateTheme (the wire format)', () => {
     expect(parseTheme(JSON.parse(JSON.stringify(wire))).success).toBe(true);
   });
 
-  it('dehydrating cuts the serialized payload by ~70%', () => {
+  it('dehydrating saves exactly the built-in icon set', () => {
     const full = JSON.stringify(LightTheme).length;
     const wire = JSON.stringify(dehydrateTheme(LightTheme)).length;
-    expect(wire).toBeLessThan(full * 0.35);
+    const icons = JSON.stringify(LightTheme.icons).length;
+
+    // Assert the saving against the icons rather than as a share of the
+    // payload. Every component that gains theme options grows `full` and
+    // `wire` by the same bytes, which raises the ratio without anything having
+    // regressed — this was `wire < full * 0.35` until the numeric family added
+    // four components' worth of options and tipped it to 0.357.
+    // The `{}` that replaces the set is the only difference.
+    expect(full - wire).toBeGreaterThanOrEqual(icons - 4);
+
+    // And it is still the dominant part of a serialized theme. Loose on
+    // purpose: if this ever trips, the icons genuinely stopped dominating and
+    // the wire format deserves another look rather than a bigger number.
+    expect(wire).toBeLessThan(full * 0.5);
   });
 
   it('keeps genuine icon overrides on the wire', () => {

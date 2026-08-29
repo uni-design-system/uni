@@ -299,12 +299,18 @@ audits: `packages/angular/TODO.md` (v4 audit) and `uni-theme-generation-plan.md`
       explorations, missing deps by design), and three latent type errors were
       fixed (`vitest.config.ts` took `defineConfig` from `vite`, whose overload
       rejects the `test` block; an untyped `vi.spyOn` return; a `Motions` arg).
-- [ ] **MDX prose braces are unvalidated.** `{label}` written in MDX prose
-      compiles to a JSX expression and kills the docs page at runtime with
-      `ReferenceError: label is not defined` — and **`build-storybook` passes**,
-      so neither CI nor `check-doc-links.mjs` catches it. Bit us twice on
-      2026-08-29. A lint pass over `*.mdx` for `{` outside backticks and fenced
-      code would close it.
+- [x] ~~MDX prose braces are unvalidated~~ — closed 2026-08-29 with
+      `scripts/check-mdx-braces.mjs`, wired into the angular package's `lint`
+      script so `turbo run lint` (i.e. CI) enforces it. `{label}` in prose
+      compiles to a JSX expression and killed the docs page at runtime with
+      `ReferenceError: label is not defined` while **`build-storybook` passed**,
+      because it is a React render error rather than a compile error. The check
+      skips the four places braces are legitimate — fenced code, inline code
+      spans (including ones that soft-wrap across a line), ESM `import`/`export`,
+      and JSX tags — plus MDX comment containers.
+- [ ] **`check-doc-links.mjs` is still manual.** CI builds Storybook but never
+      runs it, so a retitled story silently breaks every cross-link pointing at
+      the old id. One step after the `build-storybook` job would close it.
 - [ ] **Story compile smoke-test in CI** — story templates are JIT-compiled at runtime,
       so neither `build-storybook` nor vitest validates them (the selector sweep proved
       it: only the ng-packagr AOT build catches template errors, and it doesn't see
