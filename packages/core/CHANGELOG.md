@@ -1,5 +1,203 @@
 # @uni-design-system/uni-core
 
+## 10.0.0
+
+### Major Changes
+
+- [`21b655d`](https://github.com/uni-design-system/uni/commit/21b655df0f93e2e2de6a22ccf38050b474d4e5ab) Thanks [@gaenglish](https://github.com/gaenglish)! - `uni-slider` is rebuilt on custom thumbs instead of `<input type="range">`,
+  gaining range mode, marks, a value readout and an exact decimal step model. This
+  is a breaking change to both the component's value shape and its theme options.
+
+  **Why it could not stay native.** One `<input type="range">` cannot carry two
+  thumbs, so range mode, thumb crossing and per-thumb ARIA bounds were all
+  unreachable; marks and a value tooltip were unstyleable through it. The
+  alternative — a second component for the range case — would have meant two
+  keyboard implementations to keep in step, which is the drift the shared step
+  model exists to prevent. What the platform was giving us (the slider ARIA
+  pattern and the keyboard map) is reimplemented explicitly and covered by 29
+  specs.
+
+  **Breaking: value shape.**
+
+  ```ts
+  // before
+  value = model<number>(0);
+  // after — the shape follows `mode`, and `null` is empty
+  value = model<number | UniNumberRange | null>(null);
+  ```
+
+  A `single` slider still reads and writes a plain number, so
+  `[(value)]="volume"` is unchanged. Code that relied on `value()` being
+  non-nullable, or that read it without narrowing, now needs to handle `null` and
+  the `{ start, end }` range.
+
+  **Breaking: theme options.** `slider.options.color` is **removed**. Fill and
+  thumb colour now come from the `variant` role pair, the rule every other
+  component follows, so `variant="warn"` recolours a slider with no theme edit. A
+  theme that set `color` should delete it and pass `variant` at the call site.
+  `trackColor` now defaults to `primary-container` rather than `surface-variant`.
+
+  New options: `thumbBorderRadius`, `minTouchTarget`, `markSize`, `markColor`,
+  `labelTypeface`, `labelColor`, `tooltipColor`, `tooltipTextColor`,
+  `tooltipShadow`, `tooltipBorderRadius`, `transitionMs`. `trackHeight`,
+  `thumbSize` and `borderRadius` are unchanged.
+
+  **New capability.**
+  - `mode="range"` — two thumbs, a `{ start, end }` value, `minGap` to fence the
+    ends apart. Thumbs may cross and swap, and the dragged one keeps focus.
+  - `marks` and `snapToMarks` — labelled stops, spoken in place of the number.
+  - `valueDisplay` — `none`, `inline`, `tooltip`, or `input`, which seats a
+    compact `uni-number-input` at the trailing edge, two-way bound to the same
+    value: drag for the ballpark, type for the exact figure. Single mode only.
+  - `origin` — anchor the fill somewhere other than `min`, for sliders spanning ±.
+  - `sliding` and `changed` outputs, replacing an implicit per-frame model write.
+    **Bind `changed` in forms**; `sliding` fires every frame of a drag.
+  - `largeStep`, defaulting to a tenth of the range, for `PageUp`/`PageDown` and
+    `Shift+Arrow`.
+  - Right-to-left support: the horizontal arrows and the track mirror; the value
+    does not.
+
+  **Also new: the `cdk/number` primitives** this is built on, shared with the
+  numeric input family still to come — exact scaled-`BigInt` decimal arithmetic
+  (`stepDecimal`, `roundDecimal`, `clampDecimal`), locale-aware
+  `parseNumber`/`formatNumber` over `Intl`, and `createPressRepeat` for
+  hold-to-repeat stepper buttons. Stepping `0.1` twenty times from `0` now lands
+  on exactly `2`, and `1.15` rounds to `1.2` where `(1.15).toFixed(1)` gives
+  `'1.1'`.
+
+### Minor Changes
+
+- [`2a79bb8`](https://github.com/uni-design-system/uni/commit/2a79bb8ebd8fd0b5cd792697972b6f48b444c80f) Thanks [@gaenglish](https://github.com/gaenglish)! - New `uni-number-input`: the field for a quantity, a price, a percentage or a
+  measurement, with locale-aware parsing, `Intl` formatting on commit,
+  prefix/suffix adornments, min/max/step fences and steppers that hold to repeat.
+
+  ```html
+  <uni-number-input label="Quantity" [(value)]="qty" [min]="1" />
+  <uni-number-input label="Unit price" currency="USD" [(value)]="price" />
+  ```
+
+  **Why not `<input type="number">`.** Per the HTML value sanitization algorithm,
+  a number input whose text is not a valid floating-point number reports
+  `value === ''`. Type `12,50` as most of Europe does, or paste `1,234.56` from a
+  spreadsheet, and the app reads an empty field with no way to tell that from a
+  blank one — a data-loss bug, and the reason this is `type="text"` with
+  `role="spinbutton"`. The platform control also cannot group thousands, cannot
+  place an affix outside the editable text, has ~10px unstyleable spinners below
+  the WCAG 2.2 target minimum, changes value on the scroll wheel while focused,
+  and steps in floats.
+
+  **What it does instead.**
+  - **Presets** — `decimal`, `integer`, `currency`, `percent` — supply decimals,
+    grouping, affix and `inputmode` together, so a money field is `label`,
+    `currency="USD"`, `[(value)]`. `numberFormat` is the escape hatch, merged over
+    the preset.
+  - **Parses what people actually type**: canonical ASCII always, locale grouping
+    (`1.234,56` in German), pasted affixes and currency symbols, accounting
+    negatives `(1,234.56)`, localized digit systems, compact `1.5k`, and — behind
+    `allowExpressions` — spreadsheet arithmetic like `12*3`, via a shunting-yard
+    parser that never calls `eval`.
+  - **Unreadable text stays in the field**, flagged with a dashed underline and a
+    `rejected` event, rather than being silently swallowed.
+  - **Exact arithmetic.** Stepping `0.1` twenty times from `0` lands on exactly
+    `2`; `1.15` rounds to `1.2` where `(1.15).toFixed(1)` gives `'1.1'`. A second
+    `valueAsString` model carries digits a `number` cannot, and a dev-mode warning
+    fires when a bound `value` cannot round-trip.
+  - **Percent never divides behind your back**: `preset="percent"` shows `15%` for
+    `15`. Models that really are fractions set `valueIsFraction`.
+  - Clamping on commit rather than per keystroke, visible fences that disable the
+    matching stepper and announce, `wrap` for cyclic fields, `emptyStepValue`,
+    four stepper layouts, and hold-to-repeat that announces once on release.
+
+  `uni-slider` gains `valueDisplay="input"`, which seats one of these as its
+  readout — drag for the ballpark, type for the exact value.
+
+  Adds `numberInput` to `ComponentName` with a theme entry. Field chrome is not
+  duplicated there: colour, border, radius and focus come from the shared `input`
+  options via `uni-input-box`, so a number field restyles with every other field.
+
+  `uni-input-box` gains a `managedInset` input. The themed leading inset normally
+  rides the inner `<input>`, which is right while the text is the field's leading
+  edge and wrong the moment an adornment sits in front — a currency prefix would
+  hug the border while the number it belongs to sat indented past it. A field with
+  adornments sets `managedInset` and places the inset on whichever element is
+  actually first. Existing fields are unaffected: the default is `false`.
+
+- [`e7875ee`](https://github.com/uni-design-system/uni/commit/e7875ee81030a703f4ca1904bb94cb8ddc7f57b9) Thanks [@gaenglish](https://github.com/gaenglish)! - New `uni-number-range-input`: two linked numeric fields in one chrome with a
+  single `{ start, end }` value — price filters, thresholds, tolerances. This
+  completes the numeric family alongside `uni-number-input`,
+  `uni-quantity-stepper` and the rebuilt `uni-slider`.
+
+  ```html
+  <uni-number-range-input label="Price range" currency="USD" [(value)]="price" [minGap]="50" />
+  ```
+
+  `start`/`end` deliberately match `UniDateRange`, so the library has one range
+  vocabulary, and they never collide with the `min`/`max` **inputs**, which mean
+  the fence rather than the value.
+
+  **The rules that make it one field rather than two glued together:**
+  - **Either end alone is a valid value.** `{ start: 50 }` means "50 and up",
+    which is a real filter. This is where it diverges from `uni-date-time-input`,
+    whose two parts are two halves of one answer.
+  - **Stepping is fenced; typing swaps.** A stepper can never walk one end through
+    the other — its wall is the other end, held off by `minGap`, and each end's
+    `aria-valuemin`/`aria-valuemax` report that wall rather than the outer bounds.
+    A _typed_ backwards commit is swapped and announced instead, the rule
+    `uni-calendar` applies to a backwards date range: clamping against the other
+    end would destroy the number just entered.
+  - **`minGap` pushes the end you edited**, not the other one, which is what makes
+    stepping behave as a fence rather than dragging the range along.
+  - A refused draft flags only the end it was typed into; the other stays valid.
+  - `preset`, `currency`, `prefix`, `suffix`, `decimals`, `grouping`, `locale` and
+    `roundingMode` are forwarded to both ends so the halves always read alike.
+
+  It owns its commit path rather than nesting two `uni-number-input`s, because the
+  two behaviours above need _different_ bounds — a stepper must be fenced at the
+  other end while a typed commit must arrive un-clamped — and a child field
+  applies one bound pair to both. The arithmetic, parsing and formatting are still
+  the shared `cdk/number` primitives.
+
+  Adds `numberRangeInput` to `ComponentName` with a theme entry (`partGap`,
+  `dividerText`, `dividerColor`). Field chrome is not duplicated there: colour,
+  border, radius and focus come from the shared `input` options via
+  `uni-input-box`. `dividerText` is literal punctuation rather than an icon token —
+  an en dash between two numbers is not a glyph a theme swaps artwork for.
+
+- [`589cecb`](https://github.com/uni-design-system/uni/commit/589cecb178d9119eea3fbc3f3cd9149eefdaa036) Thanks [@gaenglish](https://github.com/gaenglish)! - New `uni-quantity-stepper`: `− 3 +` for cart lines, table cells and seat counts
+  — the numeric core with no field chrome, no label and no room for either.
+
+  ```html
+  <uni-quantity-stepper label="Quantity, Blue T-shirt (M)" [(value)]="qty" [min]="1" />
+  ```
+
+  A separate component rather than a `chrome="bare"` flag on `uni-number-input`,
+  because this control is defined by what it does _not_ have — presets, affixes,
+  expressions, four stepper layouts — and eight inputs are easier to write
+  correctly than forty plus a list of which ones to leave alone. The arithmetic,
+  parsing and hold-to-repeat come from the same `cdk/number` primitives, so
+  `1,200` and the keyboard map behave identically in both.
+  - **`deleteAtMin`** is the cart pattern in one attribute: at the floor the
+    decrement becomes a remove affordance, renamed `Remove {label}`, and emits
+    `removed` rather than stepping to zero. Without it every shop reimplements the
+    same `value === 1 ? remove() : step(-1)` branch outside the component. (The
+    spec called this output `emptied`; that is a native `HTMLMediaElement` event
+    name, which `@angular-eslint/no-output-native` rightly rejects, and `removed`
+    is already what `uni-tag` calls the same request.)
+  - The middle is a real input by default — typing `12` beats tapping `+` eleven
+    times, and it takes the same grouped and locale-aware entry the field does.
+    `editable=false` renders the number as text for read-mostly tables, and the
+    buttons become the tab stops since there is nothing else to focus.
+  - `size` is `sm` / `md` / `lg` at 24 / 32 / 40px _outer_ height, so an `md`
+    stepper lines up with a 32px field beside it, with the buttons square at that
+    height. `md` and `lg` clear the 24×24 pointer target of WCAG 2.2 SC 2.5.8;
+    `sm` leaves 22px inside its border and is the dense desktop option.
+
+  Adds `quantityStepper` to `ComponentName` with a theme entry. Unlike the other
+  numeric controls it does **not** inherit the shared `input` chrome — it is not a
+  field — so it carries its own container tokens, defaulted to the same values
+  `input` uses so a cart stepper and a form field look related out of the box.
+  Height comes from the entry's `sizes` block rather than an option.
+
 ## 9.0.1
 
 ### Patch Changes
