@@ -1,0 +1,86 @@
+import { Meta, Title } from '@storybook/addon-docs/blocks';
+
+import * as Stories from './quantity-stepper.stories';
+import { StoryUsage } from '../../../stories/blocks/StoryUsage';
+import { StoryExample } from '../../../stories/blocks/StoryExample';
+import { ThemeOptions } from '../../../stories/blocks/ThemeOptionsBlock';
+
+<Meta of={Stories} name="QuantityStepper" />
+<Title />
+
+`import { UniQuantityStepperComponent } from '@uni-design-system/uni-angular';`
+
+## Overview
+
+`− 3 +` for a cart line, a table cell or a seat count: the numeric core with no
+field chrome, no label and no room for either. Reach for it inside a row that
+already says what is being counted; reach for `uni-number-input` when the field
+needs a label, an affix or a currency, and `uni-slider` when the position is
+the information.
+
+A separate component rather than a flag on `uni-number-input`, because this
+control is defined by what it does *not* have — presets, affixes, expressions,
+four stepper layouts — and eight inputs are easier to write correctly than forty
+plus a list of which ones to leave alone. The arithmetic, parsing and
+hold-to-repeat come from the same cdk primitives, so `1,200` and the keyboard
+map behave identically in both.
+
+## Usage
+
+<StoryUsage of={Stories.Primary} />
+
+## Cart line
+
+`deleteAtMin` is the cart pattern in one attribute: at the floor the decrement
+becomes a remove affordance, renamed `Remove {label}`, and emits `removed`
+rather than stepping. Without it every shop reimplements the same
+`value === 1 ? remove() : step(-1)` branch outside the component.
+
+<StoryExample of={Stories.CartLine} />
+
+## Sizes
+
+24, 32 and 40px overall — outer height, so an `md` stepper lines up with a 32px
+field beside it — with the buttons square at that height. `md` and `lg` clear
+the 24×24 pointer target of WCAG 2.2 SC 2.5.8; `sm` leaves 22px inside its
+border, so treat it as the dense desktop option and stay on `md` or larger for
+touch.
+
+<StoryExample of={Stories.Sizes} />
+
+## Read-only value
+
+`editable=false` renders the number as text for read-mostly tables. The buttons
+still step, and they become the tab stops since there is no input to focus.
+
+<StoryExample of={Stories.ReadOnlyValue} />
+
+## Bounded
+
+<StoryExample of={Stories.Bounded} />
+
+## Theme options
+
+<ThemeOptions componentName="quantityStepper" />
+
+## Accessibility
+
+- The middle is an `<input role="spinbutton">` named by `label`, with `aria-valuenow`, `aria-valuemin` and `aria-valuemax`. An empty stepper omits `aria-valuenow` and reads "Empty".
+- **`label` is never visible and always required.** A cart with six of these needs "Quantity, Blue T-shirt (M)" on each, not six controls all called "Quantity".
+- While `editable`, the input is the single tab stop and the buttons carry `tabindex="-1"` as pointer affordances — the keyboard route is the arrow keys. With `editable=false` there is nothing else to focus, so the buttons become the tab stops and the wrapper takes `role="group"` with the name.
+- The buttons are square at the component's height, so the 24×24 pointer target of WCAG 2.2 SC 2.5.8 holds at `sm`, `md` and `lg`.
+- Arrow keys step, `Enter` commits, `Escape` reverts, blur commits — the same map as `uni-number-input`.
+- A `role="status"` region announces fences, clamps and removals. Hold-to-repeat announces once, on release.
+- At the fence the matching button is `disabled` rather than a silent no-op. With `deleteAtMin` the decrement stays enabled at `min`, because there it is the one control that still does something.
+
+## Do
+
+- Name the row's subject in `label`, not just the measure.
+- Use `deleteAtMin` for cart lines so removal lives in the control rather than beside it.
+- Keep `editable` on wherever someone might enter a large quantity — typing 12 beats tapping + eleven times.
+
+## Don't
+
+- Don't use it where a value needs a visible label, a unit or a currency; that is `uni-number-input`.
+- Don't wire `removed` to a silent delete. It means "the user asked to remove this row" — confirm or offer an undo as your flow requires.
+- Don't give it a wide range. Past a couple of dozen taps a typed field is the faster control.

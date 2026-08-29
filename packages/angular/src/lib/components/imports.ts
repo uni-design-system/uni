@@ -18,6 +18,7 @@ import { UniSearchInputComponent } from './search-input/search-input.component';
 import { UniSelectComponent } from './select-input/select-input.component';
 import { UniSliderComponent } from './slider/slider.component';
 import { UniNumberInputComponent } from './number-input/number-input.component';
+import { UniQuantityStepperComponent } from './quantity-stepper/quantity-stepper.component';
 import { UniTagInputComponent } from './tag-input/tag-input.component';
 import { UniTextDirective } from './text/text.directive';
 import { UniTextareaComponent } from './textarea/textarea.component';
@@ -58,6 +59,7 @@ export const UNI_FORMS = [
   UniSearchInputComponent,
   UniTagInputComponent,
   UniNumberInputComponent,
+  UniQuantityStepperComponent,
   UniSliderComponent,
   UniDateInputComponent,
   UniTimeInputComponent,

@@ -683,6 +683,27 @@ Inheritance (inputs listed once, available on all subclasses):
   - `percent: number` = 0
   - `ariaLabel: string` — Accessible name describing what is progressing.
 
+## UniQuantityStepperComponent
+- selector: `uni-quantity-stepper, QuantityStepper`
+- inputs:
+  - `disabled: boolean` = false
+  - `invalid: boolean` = false
+  - `dirty: boolean` = false
+  - `required: boolean` = false
+  - `ariaDescribedBy: string`
+  - `label: string` (required) — Accessible name. Never visible and always needed — a cart with six of these needs "Quantity, Blue T-shirt (M)", not six controls called "Quantity".
+  - `min: number | undefined` = 0
+  - `max: number`
+  - `step: number` = 1
+  - `size: Size` = 'md'
+  - `editable: boolean` = true — `false` renders the number as text: read-mostly tables.
+  - `deleteAtMin: boolean` = false — The cart pattern in one attribute: at `min` the decrement button becomes a remove affordance and emits `removed` rather than stepping. Without it every shop reimplements the same `value === 1 ? remove() : step(-1)` branch outside the component.
+- two-way models:
+  - `value: number | null` = null
+  - `touched: boolean` = false
+- outputs:
+  - `removed: void` — The remove affordance was activated — the row should come out. Named `removed`, not the spec's `emptied`: that word is a native `HTMLMediaElement` event, which `@angular-eslint/no-output-native` bans for good reason, and `removed` is already what `uni-tag` calls this same request.
+
 ## UniRadioComponent
 - selector: `uni-radio`
 - inputs:

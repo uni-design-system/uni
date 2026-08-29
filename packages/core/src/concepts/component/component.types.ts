@@ -39,6 +39,7 @@ export type ComponentName =
   | 'numberInput'
   | 'paginator'
   | 'popover'
+  | 'quantityStepper'
   | 'radio'
   | 'searchInput'
   | 'select'

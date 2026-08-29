@@ -138,6 +138,9 @@ const CATEGORY_OVERRIDES: Record<string, string> = {
   combobox: 'forms',
   // `/toggle/` (forms) beats `/expand/` (layout); it is a disclosure control.
   'expand-toggle': 'layout',
+  // No forms keyword at all, so the keyword pass drops it in `components`.
+  // `number-input` and `number-range-input` match `/input/` and need no help.
+  'quantity-stepper': 'forms',
 };
 
 /** Classify a component by path segment first, then keyword heuristics. */

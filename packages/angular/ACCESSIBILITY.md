@@ -213,6 +213,36 @@ All controls implement `FormValueControl`/`FormCheckboxControl` and set
 - `readOnly` keeps the text selectable, hides the steppers and sets
   `aria-readonly`. `aria-invalid` is gated on `invalid && (touched || dirty)`.
 
+### QuantityStepper
+- The middle is an `<input role="spinbutton">` named by `label`, with
+  `aria-valuenow` / `aria-valuemin` / `aria-valuemax`. An empty stepper omits
+  `aria-valuenow` and reads "Empty".
+- **`label` is never visible and always required.** A cart with six of these
+  needs "Quantity, Blue T-shirt (M)" on each, not six controls all announced as
+  "Quantity".
+- Tab stops shift with `editable`. While editable the input is the single stop
+  and the buttons carry `tabindex="-1"` as pointer affordances, the keyboard
+  route being the arrow keys — the same split as NumberInput. With
+  `editable=false` there is no input to focus, so the buttons become the tab
+  stops and the wrapper takes `role="group"` with the accessible name; the
+  value itself is plain text, with no role and no tab stop.
+- The buttons are square at the component's outer height (`sm` 24 / `md` 32 /
+  `lg` 40). `md` — the default — and `lg` clear the 24×24 pointer target of
+  WCAG 2.2 SC 2.5.8. **`sm` does not**: a 24px bordered box leaves 22px inside,
+  two short. It is the dense desktop option; keep touch surfaces on `md` or
+  larger. Same trade-off as NumberInput's stacked arrows, and the same advice.
+- Keyboard map is NumberInput's, minus what this control does not have: arrows
+  step, `Enter` commits, `Escape` reverts the draft, blur commits.
+- A `role="status"` region announces fences, clamps and removals;
+  hold-to-repeat announces once, on release.
+- At a fence the matching button is `disabled` rather than a silent no-op. With
+  `deleteAtMin` the decrement stays **enabled** at `min`, because there it is
+  the one control that still does something — it is renamed "Remove {label}"
+  and emits `removed` instead of stepping.
+- Unreadable typed text reverts rather than being kept and flagged: this control
+  has no room to show an error and no `rejected` output to report one. Use
+  NumberInput where the input needs to be validated in place.
+
 ### Slider
 - Each thumb is a `role="slider"` with `tabindex="0"`, `aria-valuenow`,
   `aria-valuemin`, `aria-valuemax` and **`aria-valuetext` in the display

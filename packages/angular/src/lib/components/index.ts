@@ -45,6 +45,7 @@ export * from './popover';
 export * from './progress-bar';
 export * from './progress-gauge';
 //export * from './qrcode';
+export * from './quantity-stepper';
 export * from './radio';
 export * from './scroll-area';
 export * from './search-input';

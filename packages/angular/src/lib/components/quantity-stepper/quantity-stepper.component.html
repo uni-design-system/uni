@@ -1,0 +1,76 @@
+<!-- With an editable middle the input is the tab stop and the buttons are
+     pointer affordances (tabindex="-1"), exactly as in uni-number-input. With a
+     read-only middle there is nothing else to focus, so the buttons become the
+     tab stops and the group carries the name. -->
+<div
+  [class]="rootClass()"
+  [attr.role]="editable() ? null : 'group'"
+  [attr.aria-label]="editable() ? null : label()"
+>
+  <button
+    type="button"
+    [class]="buttonClass()"
+    [attr.tabindex]="editable() ? -1 : null"
+    [disabled]="disabled() || (atMin() && !showDelete())"
+    [attr.aria-label]="decrementLabel()"
+    (pointerdown)="onDecrementPress($event)"
+    (pointerup)="decrement.release()"
+    (pointercancel)="decrement.cancel()"
+    (lostpointercapture)="decrement.release()"
+    (click)="onDecrementClick()"
+  >
+    <uni-icon [name]="decrementIcon()" [size]="glyphSize()" />
+  </button>
+
+  @if (editable()) {
+    <input
+      #field
+      type="text"
+      role="spinbutton"
+      inputmode="numeric"
+      autocomplete="off"
+      [class]="inputClass()"
+      [value]="displayText()"
+      [disabled]="disabled()"
+      [attr.aria-label]="label()"
+      [attr.aria-valuenow]="value() ?? null"
+      [attr.aria-valuemin]="resolvedMin()"
+      [attr.aria-valuemax]="max() ?? null"
+      [attr.aria-valuetext]="displayText() || 'Empty'"
+      [attr.aria-describedby]="describedBy()"
+      [attr.aria-invalid]="showError() ? true : null"
+      [attr.aria-required]="required() ? true : null"
+      (input)="onInput($any($event.target).value)"
+      (keydown)="onKeydown($event)"
+      (blur)="onBlur()"
+    />
+  } @else {
+    <!-- Text, not a control: no role and no tab stop, so a reader reads it as
+         the group's content. -->
+    <span [class]="readoutClass()">{{ displayText() }}</span>
+  }
+
+  <button
+    type="button"
+    [class]="buttonClass()"
+    [attr.tabindex]="editable() ? -1 : null"
+    [disabled]="disabled() || atMax()"
+    [attr.aria-label]="'Increase ' + label()"
+    (pointerdown)="increment.press($event)"
+    (pointerup)="increment.release()"
+    (pointercancel)="increment.cancel()"
+    (lostpointercapture)="increment.release()"
+  >
+    <uni-icon [name]="componentOptions().incrementIcon ?? 'plus'" [size]="glyphSize()" />
+  </button>
+</div>
+
+@if (editable()) {
+  <span [id]="hintId" [class]="srOnly">
+    Use the up and down arrow keys to change the quantity.
+  </span>
+}
+
+<!-- Fences, clamps and removals are otherwise silent. Held stepping announces
+     once, on release. -->
+<span role="status" aria-live="polite" [class]="srOnly">{{ announcer.message() }}</span>

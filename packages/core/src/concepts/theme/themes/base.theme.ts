@@ -490,6 +490,35 @@ const buildComponents = (c: Colors): ComponentThemes => ({
       repeatRampMs: 2000,
     },
   },
+  // The cart line, the table cell, the seat count: the numeric core with no
+  // field chrome and no room for a label. It does need a container, so it gets
+  // its own colour/border/radius rather than reaching into `input` — a cart
+  // stepper and a form field are styled together by default (same token
+  // values) but a theme can part them without touching every field.
+  quantityStepper: {
+    options: {
+      color: 'primary-surface',
+      border: 'light',
+      borderRadius: 'xs',
+      dividerColor: 'outline',
+      incrementIcon: 'plus',
+      decrementIcon: 'minus',
+      // At `min` with `deleteAtMin`, the − becomes a remove affordance.
+      deleteIcon: 'delete',
+      tabularNumerals: true,
+      // Grows with the digits, so stepping never reflows the row it sits in.
+      valueWidth: '3ch',
+    },
+    // Outer height; the buttons are square at it. `md` (the default) and `lg`
+    // clear the 24×24 pointer target of WCAG 2.2 SC 2.5.8; `sm` cannot — a
+    // 24px bordered box leaves 22px inside — so it is the dense desktop
+    // option and touch surfaces should stay on `md` or larger.
+    sizes: {
+      sm: { height: 24 },
+      md: { height: 32 },
+      lg: { height: 40 },
+    },
+  },
   // Every visual knob is a token, so a theme can turn the default underline
   // tabs into pills (borderRadius 'max' + activeColor) or restyle the
   // indicator without touching component code.
