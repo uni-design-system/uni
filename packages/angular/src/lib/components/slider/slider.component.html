@@ -58,6 +58,25 @@
       }
     </div>
 
+    @if (showReadoutField()) {
+      <!-- The field is the slider's precise-entry escape hatch: drag for the
+           ballpark, type for the exact value. It carries its own label because
+           it is a second tab stop, and the thumb's ARIA already names the
+           slider itself. -->
+      <uni-number-input
+        [class]="readoutFieldClass()"
+        [label]="label() + ' value'"
+        [value]="thumbValue(0)"
+        [min]="resolvedMin()"
+        [max]="resolvedMax()"
+        [step]="step()"
+        [decimals]="readoutDecimals()"
+        [disabled]="disabled()"
+        align="end"
+        (valueChange)="onReadoutValue($event)"
+      />
+    }
+
     @if (valueDisplay() === 'inline') {
       <!-- Duplicated from aria-valuetext, so it is hidden from the reader. -->
       <span [class]="readoutClass()" aria-hidden="true">

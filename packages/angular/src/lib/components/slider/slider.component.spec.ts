@@ -355,6 +355,57 @@ describe('UniSliderComponent', () => {
     });
   });
 
+  describe('valueDisplay="input"', () => {
+    const readout = (): HTMLInputElement =>
+      (fixture.nativeElement as HTMLElement).querySelector('uni-number-input input')!;
+
+    beforeEach(() => {
+      fixture.componentRef.setInput('valueDisplay', 'input');
+      fixture.componentInstance.value.set(40);
+      fixture.detectChanges();
+    });
+
+    it('seats a number field as the readout, tracking the thumb', () => {
+      expect(readout()).not.toBeNull();
+      expect(readout().value).toBe('40');
+
+      press(thumb(), 'ArrowUp');
+      expect(readout().value).toBe('41');
+    });
+
+    it('drives the thumb from the field — the precise-entry escape hatch', () => {
+      readout().value = '85';
+      readout().dispatchEvent(new Event('input'));
+      readout().dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', bubbles: true }));
+      fixture.detectChanges();
+
+      expect(fixture.componentInstance.value()).toBe(85);
+      expect(thumb().getAttribute('aria-valuenow')).toBe('85');
+    });
+
+    it('snaps a typed value to the step grid', () => {
+      fixture.componentRef.setInput('step', 25);
+      fixture.detectChanges();
+
+      readout().value = '67';
+      readout().dispatchEvent(new Event('input'));
+      readout().dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', bubbles: true }));
+      fixture.detectChanges();
+
+      expect(fixture.componentInstance.value()).toBe(75);
+    });
+
+    it('is suppressed in range mode, which would need two fields', () => {
+      fixture.componentRef.setInput('mode', 'range');
+      fixture.componentInstance.value.set({ start: 10, end: 90 });
+      fixture.detectChanges();
+
+      expect(
+        (fixture.nativeElement as HTMLElement).querySelector('uni-number-input')
+      ).toBeNull();
+    });
+  });
+
   describe('geometry', () => {
     it('positions the thumb and fill as percentages of the range', () => {
       fixture.componentRef.setInput('min', 50);

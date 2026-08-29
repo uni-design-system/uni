@@ -36,6 +36,7 @@ export type ComponentName =
   | 'menuItem'
   | 'multiSelectDropdown'
   | 'notificationBadge'
+  | 'numberInput'
   | 'paginator'
   | 'popover'
   | 'radio'

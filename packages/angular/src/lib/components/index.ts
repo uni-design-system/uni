@@ -37,6 +37,7 @@ export * from './multi-select';
 export * from './multi-select-dropdown';
 export * from './notification-badge';
 export * from './notifications';
+export * from './number-input';
 //export * from './pages';
 export * from './paginator';
 export * from './popover';

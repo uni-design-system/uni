@@ -64,6 +64,12 @@ export interface PressRepeatConfig {
   onRelease?: (repeated: boolean) => void;
   /** Consulted on press; a disabled button must not start a run. */
   disabled?: () => boolean;
+  /**
+   * When this returns `false`, a press steps exactly once and the repeat timer
+   * is never armed — `onRelease` still fires, with `repeated: false`. Lets a
+   * caller turn hold-to-repeat off without a second set of event bindings.
+   */
+  repeat?: () => boolean;
   timing?: () => PressRepeatTiming;
 }
 
@@ -156,6 +162,7 @@ export function createPressRepeat(config: PressRepeatConfig): PressRepeat {
       repeated = false;
       startedAt = Date.now();
       config.onStep(false);
+      if (config.repeat?.() === false) return;
       timer = setTimeout(tick, timing().delayMs);
     },
 

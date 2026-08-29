@@ -593,6 +593,53 @@ Inheritance (inputs listed once, available on all subclasses):
   - `show: boolean` = true
   - `ariaLabel: string` — Screen-reader text for the badge (e.g. "5 unread messages"). Without it a sensible default is announced; a bare number or dot carries no meaning.
 
+## UniNumberInputComponent
+- selector: `uni-number-input, NumberInput`
+- inputs:
+  - `disabled: boolean` = false
+  - `invalid: boolean` = false
+  - `dirty: boolean` = false
+  - `required: boolean` = false
+  - `ariaDescribedBy: string`
+  - `label: string` (required) — Accessible name, e.g. "Unit price".
+  - `placeholder: string`
+  - `preset: UniNumberPreset` = 'decimal'
+  - `currency: string` — ISO 4217 code, e.g. `'USD'`. Implies `preset="currency"`.
+  - `locale: string` — BCP 47 tag. Defaults to the document language, then the browser's.
+  - `prefix: string` — Static adornment before the number, e.g. `'$'`. Never parseable input.
+  - `suffix: string` — Static adornment after the number, e.g. `'kg'`, `'/mo'`.
+  - `decimals: number | [min: number, max: number]`
+  - `grouping: 'auto' | 'always' | 'min2' | false`
+  - `numberFormat: Intl.NumberFormatOptions` — Escape hatch, merged over the preset.
+  - `roundingMode: UniRoundingMode` = 'half-up'
+  - `align: 'start' | 'end' | 'center'`
+  - `valueIsFraction: boolean` = false — The model is a fraction: `0.15` displays as `15%`.
+  - `unitAnnouncement: string` — Spoken long form of an abbreviated suffix, e.g. `'kilograms'` for `kg`.
+  - `readOnly: boolean` = false
+  - `embedded: boolean` = false — Renders without its own input-box chrome, for composers like uni-slider.
+  - `min: number | undefined`
+  - `max: number | undefined`
+  - `step: number` = 1
+  - `largeStep: number` — `PageUp`/`PageDown` and `Shift+Arrow`. Default: `step × 10`.
+  - `smallStep: number` — `Alt+Arrow`, Figma's fine-nudge convention. Unset disables it.
+  - `stepOrigin: 'min' | 'zero'` = 'min'
+  - `wrap: boolean` = false — Cyclic fields only — 23 → 0 hours, 359 → 0 degrees.
+  - `clampOnCommit: boolean` = true — `false` refuses an out-of-range commit instead of clamping it.
+  - `emptyStepValue: number` — What ↑ commits on an empty field. Default: `min ?? 0`.
+  - `commitOnBlur: boolean` = true
+  - `selectOnFocus: boolean` = false
+  - `allowExpressions: boolean` = false — `12*3` → 36. Off by default: a parser in a form field is a real cost.
+  - `wheel: boolean` = false — Scroll-to-step. Off by default — see `onWheel`.
+  - `repeat: boolean` = true
+  - `stepperLayout: UniNumberInputOptions['stepperLayout']` — Overrides the themed layout for this instance.
+- two-way models:
+  - `value: number | null` = null
+  - `touched: boolean` = false
+  - `valueAsString: string | null` = null — Exact binding, as a canonical decimal string. Bind this instead of `value` where a cent in the fifth decimal place matters; both stay in sync, so it is a one-word change from the ordinary case.
+- outputs:
+  - `stepped: UniNumberStepped`
+  - `rejected: UniNumberRejection` — A commit was refused; the raw text stays in the field.
+
 ## UniPaginatorComponent
 - selector: `uni-paginator`
 - inputs:
@@ -738,7 +785,7 @@ Inheritance (inputs listed once, available on all subclasses):
   - `origin: number` — Fill anchor. Defaults to `min`; set `0` for a slider that spans ±.
   - `marks: UniSliderMark[]` = []
   - `snapToMarks: boolean` = false — Marks become the only valid stops — t-shirt sizing, Likert scales.
-  - `valueDisplay: 'none' | 'inline' | 'tooltip'` = 'none' — Where the current value is shown. `tooltip` appears on hover, focus and drag; `inline` sits at the trailing edge of the track. A fourth mode, `'input'` — a compact `uni-number-input` as the readout — lands with that component; widening this union is not a breaking change.
+  - `valueDisplay: 'none' | 'inline' | 'tooltip' | 'input'` = 'none' — Where the current value is shown. `tooltip` appears on hover, focus and drag; `inline` sits at the trailing edge of the track; `input` seats a compact `uni-number-input` there, two-way bound to the same value — drag for the ballpark, type for the exact figure, which is the pairing that makes bounded numeric input actually usable. `input` applies to `single` mode only; a range would need two fields, and `inline` already reads well for two ends.
   - `minGap: number` — Enforced distance between the two ends, in range mode.
   - `variant: Variant` = 'primary'
 - two-way models:

@@ -462,6 +462,32 @@ const buildComponents = (c: Colors): ComponentThemes => ({
   // Field chrome (color/border/typeface/focus) comes from the shared `input`
   // options via uni-input-box; these are the textarea-specific behaviors.
   textarea: { options: { rows: 3, resize: 'vertical' } },
+  // Numeric field. Chrome again comes from `input` via uni-input-box, so a
+  // number field restyles with every other field; these are the numeric
+  // specifics. `tabularNumerals` earns its place — with proportional figures a
+  // held-down stepper makes the number visibly jitter as 1 and 8 swap widths,
+  // and a column of prices stops lining up.
+  numberInput: {
+    options: {
+      stepperLayout: 'stacked',
+      incrementIcon: 'plus',
+      decrementIcon: 'minus',
+      stepUpIcon: 'chevronUp',
+      stepDownIcon: 'chevronDown',
+      stepperWidth: 32,
+      // WCAG 2.2 SC 2.5.8 floor. Stacked arrows are visually ~12px tall; each
+      // gets padding to this hit area regardless.
+      minTouchTarget: 24,
+      affixColor: 'on-primary-surface-variant',
+      affixGap: 'xs',
+      align: 'start',
+      tabularNumerals: true,
+      repeatDelayMs: 500,
+      repeatIntervalMs: 100,
+      repeatFastIntervalMs: 25,
+      repeatRampMs: 2000,
+    },
+  },
   // Every visual knob is a token, so a theme can turn the default underline
   // tabs into pills (borderRadius 'max' + activeColor) or restyle the
   // indicator without touching component code.

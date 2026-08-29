@@ -30,6 +30,7 @@ import {
   type UniNumberRange,
 } from '../../cdk';
 import { BaseComponent, COMPONENT_NAME } from '../base/base.component';
+import { UniNumberInputComponent } from '../number-input/number-input.component';
 import type { UniSliderMark, UniSliderOptions } from './slider.model';
 
 /** Index into the thumb pair. `0` is the `start` thumb, `1` the `end` thumb. */
@@ -52,6 +53,7 @@ type ThumbIndex = 0 | 1;
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'uni-slider, Slider',
+  imports: [UniNumberInputComponent],
   templateUrl: './slider.component.html',
   providers: [{ provide: COMPONENT_NAME, useValue: 'slider' }],
   host: { '[class]': 'className()' },
@@ -88,12 +90,15 @@ export class UniSliderComponent
   snapToMarks = input(false);
   /**
    * Where the current value is shown. `tooltip` appears on hover, focus and
-   * drag; `inline` sits at the trailing edge of the track.
+   * drag; `inline` sits at the trailing edge of the track; `input` seats a
+   * compact `uni-number-input` there, two-way bound to the same value — drag
+   * for the ballpark, type for the exact figure, which is the pairing that
+   * makes bounded numeric input actually usable.
    *
-   * A fourth mode, `'input'` — a compact `uni-number-input` as the readout —
-   * lands with that component; widening this union is not a breaking change.
+   * `input` applies to `single` mode only; a range would need two fields, and
+   * `inline` already reads well for two ends.
    */
-  valueDisplay = input<'none' | 'inline' | 'tooltip'>('none');
+  valueDisplay = input<'none' | 'inline' | 'tooltip' | 'input'>('none');
   /** Overrides how a value is rendered and spoken. */
   formatValue = input<(value: number) => string>();
   /** Enforced distance between the two ends, in range mode. */
@@ -231,6 +236,28 @@ export class UniSliderComponent
   });
 
   protected readonly hasMarkLabels = computed(() => this.marks().some((mark) => !!mark.label));
+
+  /** The number-field readout only makes sense for a single value. */
+  protected readonly showReadoutField = computed(
+    () => this.valueDisplay() === 'input' && !this.isRange()
+  );
+
+  /** Fraction digits the readout should accept, taken from the step. */
+  protected readonly readoutDecimals = computed<[number, number]>(() => [
+    0,
+    decimalScale(toDecimal(this.step())),
+  ]);
+
+  /**
+   * The readout drives the thumb. Guarded against the write-back cycle: the
+   * field is fed from `value`, so a commit here would otherwise bounce.
+   */
+  protected onReadoutValue(next: number | null): void {
+    if (next == null) return;
+    const snapped = this.snapToGrid(next);
+    if (snapped === this.thumbs()[0]) return;
+    this.setThumb(0, snapped, true);
+  }
 
   // --- ARIA per thumb -------------------------------------------------------
 
@@ -663,6 +690,11 @@ export class UniSliderComponent
       ...this.theme.typeface(options.labelTypeface ?? 'label'),
     });
   });
+
+  /** Narrow enough that the track keeps most of the row. */
+  protected readonly readoutFieldClass = computed(() =>
+    css({ flex: 'none', width: 130 })
+  );
 
   protected readonly readoutClass = computed(() => {
     const options = this.componentOptions();

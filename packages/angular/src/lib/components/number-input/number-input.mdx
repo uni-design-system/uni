@@ -1,0 +1,111 @@
+import { Meta, Title } from '@storybook/addon-docs/blocks';
+
+import * as Stories from './number-input.stories';
+import { StoryUsage } from '../../../stories/blocks/StoryUsage';
+import { StoryExample } from '../../../stories/blocks/StoryExample';
+import { ThemeOptions } from '../../../stories/blocks/ThemeOptionsBlock';
+
+<Meta of={Stories} name="NumberInput" />
+<Title />
+
+`import { UniNumberInputComponent } from '@uni-design-system/uni-angular';`
+
+## Overview
+
+The field for a quantity, a price, a percentage or a measurement — typed entry
+with locale-aware parsing, `Intl` formatting on commit, prefix and suffix
+adornments, min/max/step fences, and steppers that hold to repeat. Reach for it
+whenever the exact figure matters; reach for `uni-slider` when the *position*
+is the information, and pair the two when users need both.
+
+It is deliberately not `<input type="number">`. Per the HTML value sanitization
+algorithm, a number input whose text is not a valid floating-point number
+reports `value === ''` — so `12,50` as most of Europe writes it, or `1,234.56`
+pasted from a spreadsheet, arrives at your app as an empty field. This is
+`type="text"` with `role="spinbutton"`, which keeps the user's text on screen
+and tells them what is wrong with it. All arithmetic runs on exact scaled-integer
+decimals, so stepping `0.1` never lands on `0.30000000000000004` and `1.15`
+rounds to `1.2` where `toFixed(1)` gives `1.1`. Field chrome comes from the
+shared `input` theme options via `uni-input-box`.
+
+## Usage
+
+<StoryUsage of={Stories.Default} />
+
+## Money
+
+`currency` supplies the grouping, the correct number of decimals for that
+currency (JPY 0, USD 2), the symbol on the locale's side, and `inputmode`.
+
+<StoryExample of={Stories.Money} />
+
+## Percent
+
+`preset="percent"` displays `15` as `15%` and the model **stays 15** — a control
+that turns 15 into 0.15 behind the user's back is a bug generator. Apps whose
+model really is a fraction set `valueIsFraction`.
+
+<StoryExample of={Stories.Percent} />
+
+## Units
+
+Affixes are adornments, not text: they live outside the `<input>`, so the caret,
+select-all and paste never step over them. Give an abbreviation a spoken long
+form with `unitAnnouncement`.
+
+<StoryExample of={Stories.Units} />
+
+## Stepper layouts
+
+`stacked` is the dense desktop default, `split` is the touch and quantity
+language, `trailing` groups both at the end, and `none` leaves the arrow keys as
+the only route.
+
+<StoryExample of={Stories.SplitSteppers} />
+
+## Expressions
+
+With `allowExpressions`, `12*3` commits 36 and `100/4+5` commits 30 — a small
+shunting-yard parser over `+ − × ÷ ( )`, never `eval`. Off by default, because a
+field that silently truncates `12*3` to `12` is worse than one that refuses it.
+
+<StoryExample of={Stories.Expressions} />
+
+## Cyclic fields
+
+`wrap` cycles at the fences, for values that genuinely wrap — 23 → 0 hours,
+359 → 0 degrees. Everything else should stop at the fence.
+
+<StoryExample of={Stories.CyclicHours} />
+
+## Read-only
+
+<StoryExample of={Stories.ReadOnly} />
+
+## Theme options
+
+<ThemeOptions componentName="numberInput" />
+
+## Accessibility
+
+- The control is `<input type="text" inputmode="decimal">` with `role="spinbutton"`, `aria-valuenow`, `aria-valuemin` and `aria-valuemax`. `type="text"` is what keeps malformed text visible instead of reporting an empty value.
+- `aria-valuetext` carries the formatted string *with* its affixes — "$1,234.56", "15 percent", "72 kilograms" — because `aria-valuenow` alone announces "1234.56", which is the one thing about a money field that is not the point. The adornments are `aria-hidden` so they are not read twice.
+- An empty field omits `aria-valuenow` entirely, per APG, and sets `aria-valuetext` to "Empty".
+- Keyboard: arrows step by `step`; `Shift+Arrow` and `Page Up`/`Page Down` by `largeStep`; `Alt+Arrow` by `smallStep` when set; `Home`/`End` to the fences, and they no-op when that bound is undefined. `Enter` commits without submitting the form, `Escape` reverts the draft, `Tab` commits and moves on.
+- The stepper buttons are real `<button>`s named "Increase {label}" / "Decrease {label}" with `tabindex="-1"` — they are pointer affordances, and the keyboard route is the arrow keys. The whole field is one tab stop.
+- One `role="status"` region announces clamps, fences, rejections and expression results. Held stepping announces **on release only**: narrating two hundred intermediate values is a denial of service.
+- An unparseable draft gets a dashed underline as well as the error border, because colour alone cannot carry "this is not a number" (WCAG 1.4.1).
+- `inputmode` is `numeric` only when negatives and decimals are both impossible, since several mobile keypads omit `−` and `.` from that layout.
+
+## Do
+
+- Use `preset` and `currency` rather than assembling `decimals` and `grouping` by hand.
+- Set `align="end"` in tables and numeric columns — that is a layout decision, made where the layout is.
+- Bind `[(valueAsString)]` for money that accumulates through arithmetic; a dev-mode warning fires when a bound `value` cannot round-trip.
+- Set `min` to say a field cannot go negative. There is no `allowNegative`, because two inputs saying the same thing can disagree.
+
+## Don't
+
+- Don't use it for formatted *strings* — phone numbers, card numbers, postcodes. Those are not quantities and belong to a masked text input.
+- Don't turn on `wheel` for fields in a long scrolling form; a value that changes as the page scrolls past is silent data corruption.
+- Don't clamp values yourself on every keystroke. Clamping happens on commit, because a `min=10` field that clamps live can never be typed into.

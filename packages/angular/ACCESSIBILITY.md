@@ -163,6 +163,51 @@ All controls implement `FormValueControl`/`FormCheckboxControl` and set
 - `aria-invalid` is gated on `invalid && (touched || dirty)`; per-chip
   invalidity shows immediately, since it describes a token just typed.
 
+### NumberInput
+- The control is `<input type="text">` with `role="spinbutton"`,
+  `aria-valuenow`, `aria-valuemin` and `aria-valuemax`. `type="text"` is
+  deliberate: per the HTML value sanitization algorithm a `type="number"` input
+  holding text that is not a valid floating-point number reports `value === ''`,
+  so `12,50` or a pasted `1,234.56` becomes an empty field with nothing shown to
+  the user. Keeping the text is the whole point.
+- **`aria-valuetext` carries the formatted string with its affixes** — "$1,234.56",
+  "15 percent", "72 kilograms". `aria-valuenow` alone announces "1234.56", which
+  is the one thing about a money field that is not the point. The `prefix` /
+  `suffix` adornments are `aria-hidden` so they are not read twice;
+  `unitAnnouncement` supplies the spoken long form of an abbreviation.
+- An **empty** field omits `aria-valuenow` entirely (per APG) and sets
+  `aria-valuetext` to "Empty" — a spinbutton reporting 0 for "nothing yet" is a
+  wrong answer, not a missing one.
+- Keyboard map, shared with Slider so nothing is learned twice: `ArrowUp` /
+  `ArrowDown` ±`step`, committed immediately; `Shift+Arrow` and `PageUp` /
+  `PageDown` ±`largeStep`; `Alt+Arrow` ±`smallStep` when set; `Home` / `End` to
+  `min` / `max`, **no-op when that bound is undefined** — nothing sensible lives
+  at an unbounded fence. `Enter` parses and commits and never submits the form
+  while an uncommitted draft is in the field; `Escape` reverts the draft and
+  cancels an in-flight hold; `Tab` commits, then moves on, never trapping.
+- **One tab stop for the whole field.** The stepper buttons are real `<button>`s
+  named "Increase {label}" / "Decrease {label}" with `tabindex="-1"`: they are
+  pointer affordances, and the keyboard route is the arrow keys. The same
+  reasoning governs Combobox's chevron and TagInput's per-chip remove. Stacked
+  arrows are visually ~12px but each is padded to a 24×24 target (WCAG 2.2 SC
+  2.5.8), and on coarse pointers that padding grows.
+- One `role="status"` region announces clamps ("Maximum is 100. Value set to
+  100."), fences, rejections and expression results — each otherwise a purely
+  visual event. Hold-to-repeat announces **on release only**; a screen reader
+  narrating two hundred intermediate values is a denial of service.
+- An unparseable draft **stays in the field**, flagged with `aria-invalid` and a
+  dashed underline as well as the error border, since colour alone cannot carry
+  "this is not a number" (WCAG 1.4.1). A field that swallows `12..5` and shows
+  an empty box has lost the user's work and told them nothing.
+- `inputmode` follows the preset and is `numeric` only when negatives and
+  decimals are both impossible, since several mobile keypads omit `−` and `.`
+  from the numeric layout entirely.
+- Clamping happens **on commit, never per keystroke**: a `min=10` field that
+  clamps live can never be typed into, because the `1` becomes `10` before the
+  `5` arrives.
+- `readOnly` keeps the text selectable, hides the steppers and sets
+  `aria-readonly`. `aria-invalid` is gated on `invalid && (touched || dirty)`.
+
 ### Slider
 - Each thumb is a `role="slider"` with `tabindex="0"`, `aria-valuenow`,
   `aria-valuemin`, `aria-valuemax` and **`aria-valuetext` in the display
@@ -192,6 +237,10 @@ All controls implement `FormValueControl`/`FormCheckboxControl` and set
   already narrated by `aria-valuetext`, and doubling it is noise.
 - `aria-invalid` is gated on `invalid && (touched || dirty)`, per the shared
   form-control rule.
+- `valueDisplay="input"` seats a NumberInput as the readout, two-way bound to
+  the same value. That is a **second tab stop** with its own label ("{label}
+  value"), because it is a separate control — drag for the ballpark, type for
+  the exact figure. Single mode only.
 
 ### Calendar
 - The month grid is `role="grid"` with `aria-labelledby` pointing at the month

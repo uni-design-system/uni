@@ -151,6 +151,17 @@ describe('createPressRepeat', () => {
     expect(releases).toEqual([]);
   });
 
+  it('steps once and never repeats when repeat is off', () => {
+    const repeat = build({ repeat: () => false });
+    repeat.press();
+
+    vi.advanceTimersByTime(5000);
+    expect(steps).toEqual([false]);
+
+    repeat.release();
+    expect(releases).toEqual([false]);
+  });
+
   it('takes its timings from the config', () => {
     const repeat = build({ timing: () => ({ delayMs: 100, intervalMs: 50 }) });
     repeat.press();

@@ -46,9 +46,9 @@ New options: `thumbBorderRadius`, `minTouchTarget`, `markSize`, `markColor`,
 - `mode="range"` — two thumbs, a `{ start, end }` value, `minGap` to fence the
   ends apart. Thumbs may cross and swap, and the dragged one keeps focus.
 - `marks` and `snapToMarks` — labelled stops, spoken in place of the number.
-- `valueDisplay` — `inline` or `tooltip`. A fourth mode, `input`, seats a
-  compact `uni-number-input` as the readout and lands with that component;
-  widening the union later is not breaking.
+- `valueDisplay` — `none`, `inline`, `tooltip`, or `input`, which seats a
+  compact `uni-number-input` at the trailing edge, two-way bound to the same
+  value: drag for the ballpark, type for the exact figure. Single mode only.
 - `origin` — anchor the fill somewhere other than `min`, for sliders spanning ±.
 - `sliding` and `changed` outputs, replacing an implicit per-frame model write.
   **Bind `changed` in forms**; `sliding` fires every frame of a drag.

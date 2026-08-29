@@ -1,0 +1,153 @@
+<!-- Stepper buttons, shared by every layout. Real <button>s so they are
+     announced and activated as buttons, but tabindex="-1": they are pointer
+     affordances, and the keyboard route is the arrow keys. The same reasoning
+     governs uni-combobox's chevron and uni-tag-input's per-chip remove. -->
+<ng-template #decrementButton let-styleClass="styleClass" let-icon="icon">
+  <button
+    type="button"
+    tabindex="-1"
+    [class]="styleClass"
+    [disabled]="disabled() || atMin()"
+    [attr.aria-label]="'Decrease ' + label()"
+    (pointerdown)="decrement.press($event)"
+    (pointerup)="decrement.release()"
+    (pointercancel)="decrement.cancel()"
+    (lostpointercapture)="decrement.release()"
+  >
+    <uni-icon [name]="icon" [size]="glyphSize()" />
+  </button>
+</ng-template>
+
+<ng-template #incrementButton let-styleClass="styleClass" let-icon="icon">
+  <button
+    type="button"
+    tabindex="-1"
+    [class]="styleClass"
+    [disabled]="disabled() || atMax()"
+    [attr.aria-label]="'Increase ' + label()"
+    (pointerdown)="increment.press($event)"
+    (pointerup)="increment.release()"
+    (pointercancel)="increment.cancel()"
+    (lostpointercapture)="increment.release()"
+  >
+    <uni-icon [name]="icon" [size]="glyphSize()" />
+  </button>
+</ng-template>
+
+<ng-template #fieldContent>
+  <div [class]="fieldRowClass()">
+    @if (showSteppers() && layout() === 'split') {
+      <ng-container
+        [ngTemplateOutlet]="decrementButton"
+        [ngTemplateOutletContext]="{
+          styleClass: stepperClass(),
+          icon: componentOptions().decrementIcon ?? 'minus',
+        }"
+      ></ng-container>
+    }
+
+    <!-- Affixes are adornments, not text: they live outside the <input>, so
+         caret math, select-all and paste never step over them, and they are
+         aria-hidden because aria-valuetext already speaks them. -->
+    @if (format().prefix) {
+      <span [class]="affixClass()" aria-hidden="true">{{ format().prefix }}</span>
+    }
+
+    <input
+      #field
+      type="text"
+      role="spinbutton"
+      autocomplete="off"
+      [class]="inputClass()"
+      [value]="displayText()"
+      [disabled]="disabled()"
+      [readOnly]="readOnly()"
+      [attr.inputmode]="format().inputMode"
+      [attr.placeholder]="placeholder() ?? null"
+      [attr.aria-label]="label()"
+      [attr.aria-valuenow]="canonicalForAria()"
+      [attr.aria-valuemin]="min() ?? null"
+      [attr.aria-valuemax]="max() ?? null"
+      [attr.aria-valuetext]="valueTextForAria()"
+      [attr.aria-describedby]="describedBy()"
+      [attr.aria-invalid]="showError() ? true : null"
+      [attr.aria-required]="required() ? true : null"
+      [attr.aria-readonly]="readOnly() ? true : null"
+      (input)="onInput($any($event.target).value)"
+      (keydown)="onKeydown($event)"
+      (focus)="onFocus()"
+      (blur)="onBlur()"
+      (wheel)="onWheel($event)"
+    />
+
+    @if (format().suffix) {
+      <span [class]="affixClass()" aria-hidden="true">{{ format().suffix }}</span>
+    }
+
+    @if (showSteppers()) {
+      @switch (layout()) {
+        @case ('split') {
+          <ng-container
+            [ngTemplateOutlet]="incrementButton"
+            [ngTemplateOutletContext]="{
+              styleClass: stepperClass(),
+              icon: componentOptions().incrementIcon ?? 'plus',
+            }"
+          ></ng-container>
+        }
+        @case ('trailing') {
+          <ng-container
+            [ngTemplateOutlet]="decrementButton"
+            [ngTemplateOutletContext]="{
+              styleClass: stepperClass(),
+              icon: componentOptions().decrementIcon ?? 'minus',
+            }"
+          ></ng-container>
+          <ng-container
+            [ngTemplateOutlet]="incrementButton"
+            [ngTemplateOutletContext]="{
+              styleClass: stepperClass(),
+              icon: componentOptions().incrementIcon ?? 'plus',
+            }"
+          ></ng-container>
+        }
+        @case ('stacked') {
+          <span [class]="stackedColumnClass()">
+            <ng-container
+              [ngTemplateOutlet]="incrementButton"
+              [ngTemplateOutletContext]="{
+                styleClass: stackedButtonClass(),
+                icon: componentOptions().stepUpIcon ?? 'chevronUp',
+              }"
+            ></ng-container>
+            <ng-container
+              [ngTemplateOutlet]="decrementButton"
+              [ngTemplateOutletContext]="{
+                styleClass: stackedButtonClass(),
+                icon: componentOptions().stepDownIcon ?? 'chevronDown',
+              }"
+            ></ng-container>
+          </span>
+        }
+      }
+    }
+  </div>
+</ng-template>
+
+<!-- `embedded` drops the field chrome for composers that supply their own. -->
+@if (embedded()) {
+  <ng-container [ngTemplateOutlet]="fieldContent"></ng-container>
+} @else {
+  <uni-input-box [error]="showError()" [disabled]="disabled()" [fullWidth]="true">
+    <ng-container [ngTemplateOutlet]="fieldContent"></ng-container>
+  </uni-input-box>
+}
+
+<!-- Said once per field rather than repeated on both buttons. -->
+<span [id]="hintId" [class]="srOnly">
+  Use the up and down arrow keys to change the value.
+</span>
+
+<!-- Clamps, fences, rejections and expression results are each a purely visual
+     event otherwise. Held stepping announces on release only. -->
+<span role="status" aria-live="polite" [class]="srOnly">{{ announcer.message() }}</span>
