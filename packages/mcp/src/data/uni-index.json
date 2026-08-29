@@ -1,7 +1,7 @@
 {
   "meta": {
-    "version": "9.0.0",
-    "builtAt": "2026-08-29T19:02:00.339Z",
+    "version": "9.0.1",
+    "builtAt": "2026-08-29T21:28:32.870Z",
     "frameworks": [
       "angular"
     ],
@@ -20,7 +20,7 @@
       "summary": "",
       "description": "",
       "category": "feedback",
-      "version": "9.0.0",
+      "version": "9.0.1",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -94,7 +94,7 @@
       "summary": "Horizontal application bar: project leading controls (menu button, logo) with the `leading` attribute, actions with `trailing` (pushed to the far edge), and either pass `title` or project custom center content.",
       "description": "Horizontal application bar: project leading controls (menu button, logo) with the `leading` attribute, actions with `trailing` (pushed to the far edge), and either pass `title` or project custom center content. Surface, divider, height, typography and spacing all resolve from `appBar` tokens. Place it inside your page's `<header>` landmark.",
       "category": "components",
-      "version": "9.0.0",
+      "version": "9.0.1",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -143,7 +143,7 @@
       "summary": "Identity avatar with a graceful fallback chain: image → initials from `name` → themed symbol.",
       "description": "Identity avatar with a graceful fallback chain: image → initials from `name` → themed symbol. Coloring, radius, typeface and sizes all resolve from `avatar` theme tokens; `variant` picks the container palette.",
       "category": "components",
-      "version": "9.0.0",
+      "version": "9.0.1",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -212,7 +212,7 @@
       "summary": "Overlapping stack of avatars.",
       "description": "Overlapping stack of avatars. `max` collapses the overflow into a themed “+N” chip (itself a `uni-avatar`). Overlap and separator ring resolve from `avatarGroup` theme tokens.",
       "category": "components",
-      "version": "9.0.0",
+      "version": "9.0.1",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -245,7 +245,7 @@
       "summary": "",
       "description": "",
       "category": "primitives",
-      "version": "9.0.0",
+      "version": "9.0.1",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -326,7 +326,7 @@
       "summary": "",
       "description": "",
       "category": "feedback",
-      "version": "9.0.0",
+      "version": "9.0.1",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -387,7 +387,7 @@
       "summary": "",
       "description": "",
       "category": "directives",
-      "version": "9.0.0",
+      "version": "9.0.1",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -411,7 +411,7 @@
       "summary": "The base layout primitive, applied as an attribute to any element so semantics stay yours: `<main box-layout [grow]=\"1\" padding=\"md\">`.",
       "description": "The base layout primitive, applied as an attribute to any element so semantics stay yours: `<main box-layout [grow]=\"1\" padding=\"md\">`. It is a directive, so it composes freely — with another layout attribute (`<div stack-layout uni-text=\"body-1-long\">`) and with a component's own host element (`<uni-card box-layout padding=\"lg\">`); Angular merges the host `class` bindings rather than letting one win. Sizing convention (height/width/min/max/inset): a **number is px and needs a binding** — `[height]=\"420\"`; a **plain attribute is a CSS length string** — `height=\"420px\"`. Spacing/radius/color inputs take theme tokens.",
       "category": "layout",
-      "version": "9.0.0",
+      "version": "9.0.1",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -817,7 +817,7 @@
       "summary": "WAI-ARIA breadcrumb: a `nav` landmark wrapping an ordered list; the last item is the current page (`aria-current=\"page\"`), separators are decorative.",
       "description": "WAI-ARIA breadcrumb: a `nav` landmark wrapping an ordered list; the last item is the current page (`aria-current=\"page\"`), separators are decorative. Items with `href` render as real links; without one they render as link-styled buttons emitting `itemClicked` — wire that to your router.",
       "category": "components",
-      "version": "9.0.0",
+      "version": "9.0.1",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -886,7 +886,7 @@
       "summary": "",
       "description": "",
       "category": "primitives",
-      "version": "9.0.0",
+      "version": "9.0.1",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -981,7 +981,7 @@
       "summary": "",
       "description": "",
       "category": "primitives",
-      "version": "9.0.0",
+      "version": "9.0.1",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -1013,7 +1013,7 @@
       "summary": "Inline month calendar: single-date or start–end range selection, day markers (availability dots), min/max fences and disabled dates.",
       "description": "Inline month calendar: single-date or start–end range selection, day markers (availability dots), min/max fences and disabled dates. One tab stop with a roving-tabindex `role=\"grid\"`; every day is a real button named with its full date. Values are plain ISO strings (`'YYYY-MM-DD'`), never `Date` objects, so bindings are timezone-free and serializable. Selection and today colours come from the theme's `primary` role pair; geometry and glyphs come from the `calendar` theme entry.",
       "category": "forms",
-      "version": "9.0.0",
+      "version": "9.0.1",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -1225,7 +1225,7 @@
       "summary": "Anchored coach-mark panel that dims the page and cuts a spotlight hole around its target.",
       "description": "Anchored coach-mark panel that dims the page and cuts a spotlight hole around its target. Both the scrim and the panel are `popover=\"manual\"` elements shown in order, so they stack deterministically in the top layer above every app z-index, and every scrim piece is CSS-anchor-positioned to the target — the hole tracks scroll/resize/layout with zero listeners. The panel is a non-modal `role=\"dialog\"` (deliberately no `aria-modal`): focus moves into it on open, Tab runs a \"duet loop\" over the panel's focusables plus the spotlit target while it stays interactive, and on close focus returns to the pre-open element — unless the user moved into the target, where it stays. Storage-free by rule: `key` and the `dismissed` output are the \"don't show again\" hooks; persistence is the app's business (e.g. cdk local-storage).",
       "category": "components",
-      "version": "9.0.0",
+      "version": "9.0.1",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -1422,7 +1422,7 @@
       "summary": "",
       "description": "",
       "category": "layout",
-      "version": "9.0.0",
+      "version": "9.0.1",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -1454,7 +1454,7 @@
       "summary": "",
       "description": "",
       "category": "layout",
-      "version": "9.0.0",
+      "version": "9.0.1",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -1478,7 +1478,7 @@
       "summary": "",
       "description": "",
       "category": "layout",
-      "version": "9.0.0",
+      "version": "9.0.1",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -1519,7 +1519,7 @@
       "summary": "",
       "description": "",
       "category": "layout",
-      "version": "9.0.0",
+      "version": "9.0.1",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -1574,7 +1574,7 @@
       "summary": "",
       "description": "",
       "category": "forms",
-      "version": "9.0.0",
+      "version": "9.0.1",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -1713,7 +1713,7 @@
       "summary": "Form-bound, closed-set, single-select autocomplete: `FormValueControl<T | null>` over object `Options<T>`, type-to-filter, commit-on-select.",
       "description": "Form-bound, closed-set, single-select autocomplete: `FormValueControl<T | null>` over object `Options<T>`, type-to-filter, commit-on-select. Typing produces a draft — a filter, never a value; the value changes only when an option commits, `clear()` runs, or the model is written from outside. Select semantics, not search: a real label, a chevron, no magnifier, nothing submits. For short lists with no need to type, prefer `uni-select` — the value contract is identical, so swapping is a template-only change.",
       "category": "forms",
-      "version": "9.0.0",
+      "version": "9.0.1",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -1943,7 +1943,7 @@
       "summary": "",
       "description": "",
       "category": "feedback",
-      "version": "9.0.0",
+      "version": "9.0.1",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -1990,7 +1990,7 @@
       "summary": "",
       "description": "",
       "category": "forms",
-      "version": "9.0.0",
+      "version": "9.0.1",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -2048,7 +2048,7 @@
       "summary": "",
       "description": "",
       "category": "data",
-      "version": "9.0.0",
+      "version": "9.0.1",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -2149,7 +2149,7 @@
       "summary": "Date field with free-typed parsing and a popup calendar.",
       "description": "Date field with free-typed parsing and a popup calendar. Type `aug 20`, `8/20/2026` or `2026-08-20`, or pick from the grid — the form gets the same canonical `'YYYY-MM-DD'` string either way. Parsing is `Intl`-driven (locale digit order and month names, never hardcoded); unreadable text stays in the field, flagged, with a `rejected` event. The popup is a native popover hosting the same `uni-calendar` an app could render inline.",
       "category": "forms",
-      "version": "9.0.0",
+      "version": "9.0.1",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -2357,7 +2357,7 @@
       "summary": "One field for a date and a time: a thin composer seating a uni-date-input and a uni-time-input in one input-box chrome under one label, yielding one combined `'YYYY-MM-DDTHH:mm'` value.",
       "description": "One field for a date and a time: a thin composer seating a uni-date-input and a uni-time-input in one input-box chrome under one label, yielding one combined `'YYYY-MM-DDTHH:mm'` value. The value emits only when both parts are set — a time without a day is not an answer — and clearing the date clears it. With `slotsFor`, the time part stays disabled until a day is chosen and offers exactly that day's slots: the scheduling flow in one attribute. Two honest tab stops (it is two questions); apps needing a different arrangement compose the primitives directly.",
       "category": "forms",
-      "version": "9.0.0",
+      "version": "9.0.1",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -2527,7 +2527,7 @@
       "summary": "Text input that emits `change` only after the user pauses typing.",
       "description": "Text input that emits `change` only after the user pauses typing. Wears the shared input chrome (themed color, border, typeface, focus ring) via `uni-input-box`; project adornments with the `pre-input` / `post-input` slots, matching `uni-input`'s convention. The ARIA passthrough inputs let a wrapping composite (e.g. SearchInput's combobox) annotate the real input element.",
       "category": "forms",
-      "version": "9.0.0",
+      "version": "9.0.1",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -2664,7 +2664,7 @@
       "summary": "",
       "description": "",
       "category": "feedback",
-      "version": "9.0.0",
+      "version": "9.0.1",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -2742,7 +2742,7 @@
       "summary": "",
       "description": "",
       "category": "feedback",
-      "version": "9.0.0",
+      "version": "9.0.1",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -2830,7 +2830,7 @@
       "summary": "",
       "description": "",
       "category": "feedback",
-      "version": "9.0.0",
+      "version": "9.0.1",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -2854,7 +2854,7 @@
       "summary": "",
       "description": "",
       "category": "layout",
-      "version": "9.0.0",
+      "version": "9.0.1",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -2901,7 +2901,7 @@
       "summary": "",
       "description": "",
       "category": "directives",
-      "version": "9.0.0",
+      "version": "9.0.1",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -2933,7 +2933,7 @@
       "summary": "Navigation drawer with two modes sharing one content slot: - `side` — an in-flow `<aside>` that pushes content (dashboard sidenav); opening/closing animates its width, and the divider border primitive separates it from the page.",
       "description": "Navigation drawer with two modes sharing one content slot: - `side` — an in-flow `<aside>` that pushes content (dashboard sidenav); opening/closing animates its width, and the divider border primitive separates it from the page. - `over` — a native `<dialog>` in the top layer: focus trap, Escape and scrim backdrop come from the platform (same machinery as `uni-dialog`), sliding in from its edge. Surface, width, divider, elevation, padding and backdrop all resolve from `drawer` theme tokens.",
       "category": "components",
-      "version": "9.0.0",
+      "version": "9.0.1",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -3012,7 +3012,7 @@
       "summary": "",
       "description": "",
       "category": "components",
-      "version": "9.0.0",
+      "version": "9.0.1",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -3130,7 +3130,7 @@
       "summary": "",
       "description": "",
       "category": "layout",
-      "version": "9.0.0",
+      "version": "9.0.1",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -3191,7 +3191,7 @@
       "summary": "",
       "description": "",
       "category": "layout",
-      "version": "9.0.0",
+      "version": "9.0.1",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -3252,7 +3252,7 @@
       "summary": "Trigger for a {@link UniExpandComponent} region.",
       "description": "Trigger for a {@link UniExpandComponent} region. Two shapes, chosen by whether `label` is set: - **Icon only** (default) — the bare chevron, sized for a Card Header. - **Labelled** — chevron plus a label and optional muted sublabel, as a single full-width button. Most real disclosures need a name for the section, and building that row by hand is the thing this saves; it also makes the label the button's accessible name rather than adjacent text.",
       "category": "layout",
-      "version": "9.0.0",
+      "version": "9.0.1",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -3328,7 +3328,7 @@
       "summary": "",
       "description": "",
       "category": "forms",
-      "version": "9.0.0",
+      "version": "9.0.1",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -3458,7 +3458,7 @@
       "summary": "",
       "description": "",
       "category": "layout",
-      "version": "9.0.0",
+      "version": "9.0.1",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -3532,7 +3532,7 @@
       "summary": "",
       "description": "",
       "category": "layout",
-      "version": "9.0.0",
+      "version": "9.0.1",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -3564,7 +3564,7 @@
       "summary": "",
       "description": "",
       "category": "primitives",
-      "version": "9.0.0",
+      "version": "9.0.1",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -3624,7 +3624,7 @@
       "summary": "",
       "description": "",
       "category": "primitives",
-      "version": "9.0.0",
+      "version": "9.0.1",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -3717,7 +3717,7 @@
       "summary": "",
       "description": "",
       "category": "forms",
-      "version": "9.0.0",
+      "version": "9.0.1",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -3995,7 +3995,7 @@
       "summary": "",
       "description": "",
       "category": "forms",
-      "version": "9.0.0",
+      "version": "9.0.1",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -4100,7 +4100,7 @@
       "summary": "",
       "description": "",
       "category": "components",
-      "version": "9.0.0",
+      "version": "9.0.1",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -4170,7 +4170,7 @@
       "summary": "",
       "description": "",
       "category": "layout",
-      "version": "9.0.0",
+      "version": "9.0.1",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -4244,7 +4244,7 @@
       "summary": "",
       "description": "",
       "category": "layout",
-      "version": "9.0.0",
+      "version": "9.0.1",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -4326,7 +4326,7 @@
       "summary": "",
       "description": "",
       "category": "forms",
-      "version": "9.0.0",
+      "version": "9.0.1",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -4420,7 +4420,7 @@
       "summary": "",
       "description": "",
       "category": "forms",
-      "version": "9.0.0",
+      "version": "9.0.1",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -4576,7 +4576,7 @@
       "summary": "",
       "description": "",
       "category": "feedback",
-      "version": "9.0.0",
+      "version": "9.0.1",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -4707,7 +4707,7 @@
       "summary": "",
       "description": "",
       "category": "feedback",
-      "version": "9.0.0",
+      "version": "9.0.1",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -4731,7 +4731,7 @@
       "summary": "Numeric field with locale-aware parsing, `Intl` formatting on commit, prefix/suffix adornments and steppers that hold to repeat.",
       "description": "Numeric field with locale-aware parsing, `Intl` formatting on commit, prefix/suffix adornments and steppers that hold to repeat. Not `<input type=\"number\">`, and the first reason is a data-loss bug: per the HTML value sanitization algorithm, a number input whose text is not a valid floating-point number reports `value === ''`. Type `12,50` as most of Europe does, or paste `1,234.56` from a spreadsheet, and the app reads an empty field. This is `type=\"text\"` with `role=\"spinbutton\"`, which is the only way to keep the user's malformed text on screen and tell them about it. Chrome comes from `uni-input-box`, so error, disabled and focus states match every other field. All arithmetic runs on the cdk's exact decimal helpers.",
       "category": "forms",
-      "version": "9.0.0",
+      "version": "9.0.1",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -5134,7 +5134,7 @@
       "summary": "Two linked numeric fields in one chrome, with one `{ start, end }` value — price filters, thresholds, tolerances.",
       "description": "Two linked numeric fields in one chrome, with one `{ start, end }` value — price filters, thresholds, tolerances. `start`/`end` deliberately match `UniDateRange`, so the library has one range vocabulary, and they avoid colliding with the `min`/`max` **inputs**, which mean the fence rather than the value. It owns its commit path rather than nesting two `uni-number-input`s, because the two behaviours the spec asks for need *different* bounds: a stepper must be fenced at the other end, while a typed commit must reach the parent un-clamped so a backwards range can be swapped instead of destroyed. A child field applies one bound pair to both. The arithmetic, parsing and formatting are still the cdk's, shared with every other numeric control.",
       "category": "forms",
-      "version": "9.0.0",
+      "version": "9.0.1",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -5400,7 +5400,7 @@
       "summary": "",
       "description": "",
       "category": "data",
-      "version": "9.0.0",
+      "version": "9.0.1",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -5485,7 +5485,7 @@
       "summary": "Anchored, top-layer panel on the native `popover` element — the browser owns positioning (CSS anchor positioning), stacking, and, in rich mode, light dismissal.",
       "description": "Anchored, top-layer panel on the native `popover` element — the browser owns positioning (CSS anchor positioning), stacking, and, in rich mode, light dismissal. Two modes share one implementation: - `rich` (default): a click-toggled disclosure. The projected `[trigger]` carries `aria-expanded`/`aria-controls`; with no trigger content the app drives `open` and no element claims controller ARIA. Focus stays on the trigger (APG disclosure) unless the panel marks an `[autofocus]` field, and returns to the trigger on close. - `tooltip`: hover/focus-triggered, `role=\"tooltip\"` + `aria-describedby`, WCAG 1.4.13 dismissable/hoverable/persistent. Content must not contain focusable elements. Anchoring and control are separate: `anchor` re-anchors the panel to any element (or id) while the trigger keeps the disclosure semantics.",
       "category": "layout",
-      "version": "9.0.0",
+      "version": "9.0.1",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -5661,7 +5661,7 @@
       "summary": "",
       "description": "",
       "category": "feedback",
-      "version": "9.0.0",
+      "version": "9.0.1",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -5725,7 +5725,7 @@
       "summary": "",
       "description": "",
       "category": "feedback",
-      "version": "9.0.0",
+      "version": "9.0.1",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -5773,7 +5773,7 @@
       "summary": "`− 3 +` for cart lines, table cells and seat counts: the numeric core with no field chrome, no label and no room for either.",
       "description": "`− 3 +` for cart lines, table cells and seat counts: the numeric core with no field chrome, no label and no room for either. A separate component rather than a `chrome=\"bare\"` flag on `uni-number-input`, because this control is defined by what it does *not* have — presets, affixes, expressions, four stepper layouts — and eight inputs are easier to write correctly than forty with a list of which ones to leave alone. The arithmetic, parsing and hold-to-repeat are the cdk's, shared with the field, so `1,200` and the keyboard map behave identically in both. The middle stays a real input by default: typing `12` beats tapping `+` eleven times. `editable=false` is for read-mostly tables.",
       "category": "forms",
-      "version": "9.0.0",
+      "version": "9.0.1",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -5961,7 +5961,7 @@
       "summary": "",
       "description": "",
       "category": "forms",
-      "version": "9.0.0",
+      "version": "9.0.1",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -6113,7 +6113,7 @@
       "summary": "",
       "description": "",
       "category": "directives",
-      "version": "9.0.0",
+      "version": "9.0.1",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -6137,7 +6137,7 @@
       "summary": "",
       "description": "",
       "category": "layout",
-      "version": "9.0.0",
+      "version": "9.0.1",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -6192,7 +6192,7 @@
       "summary": "Native scroll area with theme-driven scrollbar styling.",
       "description": "Native scroll area with theme-driven scrollbar styling. Scrollbars are styled entirely through Emotion-generated CSS: `::-webkit-scrollbar` rules cover Chromium/Safari, with a `scrollbar-width`/`scrollbar-color` fallback for Firefox.",
       "category": "layout",
-      "version": "9.0.0",
+      "version": "9.0.1",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -6339,7 +6339,7 @@
       "summary": "Generic search field: shared input chrome with a leading magnifier, a clear button while there's a query, Enter to submit, and optional type-ahead — pass `suggestions` (refresh them from `change`) and the field becomes an ARIA combobox with a keyboard-navigable listbox.",
       "description": "Generic search field: shared input chrome with a leading magnifier, a clear button while there's a query, Enter to submit, and optional type-ahead — pass `suggestions` (refresh them from `change`) and the field becomes an ARIA combobox with a keyboard-navigable listbox. Escape closes the list first, then clears the query.",
       "category": "forms",
-      "version": "9.0.0",
+      "version": "9.0.1",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -6438,7 +6438,7 @@
       "summary": "",
       "description": "",
       "category": "forms",
-      "version": "9.0.0",
+      "version": "9.0.1",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -6604,7 +6604,7 @@
       "summary": "Loading placeholder painted with surface tokens.",
       "description": "Loading placeholder painted with surface tokens. `text` renders one or more lines (the last line shortened, as real text would be), `rect` and `circle` render fixed shapes. The shimmer only animates when the user allows motion; it degrades to static blocks under `prefers-reduced-motion`. Color and radius are theme options with per-instance overrides, because one app routinely needs several: skeletons on a card and on the page background want different tints, and a pill placeholder wants a different corner than the text bars beside it.",
       "category": "components",
-      "version": "9.0.0",
+      "version": "9.0.1",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -6724,7 +6724,7 @@
       "summary": "Bounded numeric input by pointer, for values where the *position* is the information: volume, opacity, weightings, price filters.",
       "description": "Bounded numeric input by pointer, for values where the *position* is the information: volume, opacity, weightings, price filters. Custom thumbs rather than `<input type=\"range\">`, which the previous version used: one native range input cannot carry two thumbs, marks or a tooltip, and a second component for the range case would mean two keyboard maps to keep in step. The step model and the keyboard map are the cdk's, shared with the numeric fields, so nothing new is learned moving between them. All arithmetic on values runs through the cdk's exact decimal helpers — stepping `0.1` never yields `0.30000000000000004`. Only pointer *positions* use floats, and they are snapped to the grid before becoming a value.",
       "category": "forms",
-      "version": "9.0.0",
+      "version": "9.0.1",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -6983,7 +6983,7 @@
       "summary": "",
       "description": "",
       "category": "feedback",
-      "version": "9.0.0",
+      "version": "9.0.1",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -7079,7 +7079,7 @@
       "summary": "",
       "description": "",
       "category": "data",
-      "version": "9.0.0",
+      "version": "9.0.1",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -7124,7 +7124,7 @@
       "summary": "",
       "description": "",
       "category": "layout",
-      "version": "9.0.0",
+      "version": "9.0.1",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -7179,7 +7179,7 @@
       "summary": "KPI stat tile: muted label, large value (numbers auto-compact: 48234 → \"48.2K\"), an optional delta whose ink is decided by *direction × whether up is good* (never direction alone — churn going down is good news), and an optional decorative sparkline.",
       "description": "KPI stat tile: muted label, large value (numbers auto-compact: 48234 → \"48.2K\"), an optional delta whose ink is decided by *direction × whether up is good* (never direction alone — churn going down is good news), and an optional decorative sparkline. Frame, typography and inks are all `stat` theme tokens.",
       "category": "components",
-      "version": "9.0.0",
+      "version": "9.0.1",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -7281,7 +7281,7 @@
       "summary": "",
       "description": "",
       "category": "primitives",
-      "version": "9.0.0",
+      "version": "9.0.1",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -7354,7 +7354,7 @@
       "summary": "One tab inside `uni-tabs`: a label for the tablist plus projected panel content.",
       "description": "One tab inside `uni-tabs`: a label for the tablist plus projected panel content. Content is captured in a template and only instantiated while the tab is selected, so inactive panels cost nothing.",
       "category": "components",
-      "version": "9.0.0",
+      "version": "9.0.1",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -7394,7 +7394,7 @@
       "summary": "WAI-ARIA tabs: roving tabindex, automatic activation (arrow keys move focus and select), Home/End, disabled tabs skipped.",
       "description": "WAI-ARIA tabs: roving tabindex, automatic activation (arrow keys move focus and select), Home/End, disabled tabs skipped. Only the selected panel is instantiated. All styling resolves from `tabs` theme option tokens.",
       "category": "components",
-      "version": "9.0.0",
+      "version": "9.0.1",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -7458,7 +7458,7 @@
       "summary": "Compact chip for categories, states, filters and tokens.",
       "description": "Compact chip for categories, states, filters and tokens. Two orthogonal style axes: `variant` picks the colour role and `tone` picks the archetype (soft / solid / outline). Both live in the theme's `tag` entry, so a theme restyles every chip in the app without touching markup. Structurally a chip is **body + trailing action as siblings**, never nested buttons: an interactive chip whose body is a `<button>` cannot contain the remove `<button>` (invalid HTML, and the inner control becomes unreachable for keyboard users). Both stay independently operable.",
       "category": "data",
-      "version": "9.0.0",
+      "version": "9.0.1",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -7696,7 +7696,7 @@
       "summary": "",
       "description": "",
       "category": "forms",
-      "version": "9.0.0",
+      "version": "9.0.1",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -7936,7 +7936,7 @@
       "summary": "The typography primitive, applied as an attribute to any element so semantics stay yours.",
       "description": "The typography primitive, applied as an attribute to any element so semantics stay yours. The attribute value is the typeface: `<h1 uni-text=\"display-small\">`, `<span uni-text=\"caption\">`, dynamic via `[uni-text]=\"role()\"`. With no value, the typeface is inferred from the host element (h1 → headline-large, p → body-1-long, …), falling back to `title-small`; the `typeface` input remains as an explicit override. It is a directive, so it stacks with anything else on the element — a layout attribute (`<div stack-layout uni-text=\"title-small\">`) or a component's own host — rather than colliding with it.",
       "category": "primitives",
-      "version": "9.0.0",
+      "version": "9.0.1",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -8038,7 +8038,7 @@
       "summary": "",
       "description": "",
       "category": "forms",
-      "version": "9.0.0",
+      "version": "9.0.1",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -8238,7 +8238,7 @@
       "summary": "",
       "description": "",
       "category": "primitives",
-      "version": "9.0.0",
+      "version": "9.0.1",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -8268,7 +8268,7 @@
       "summary": "Drop-in switcher for the themes registered via `UNI_THEMES`: a select over `ThemeService.themeOptions` that applies the choice through `selectTheme` (so it persists across reloads like any other theme selection).",
       "description": "Drop-in switcher for the themes registered via `UNI_THEMES`: a select over `ThemeService.themeOptions` that applies the choice through `selectTheme` (so it persists across reloads like any other theme selection).",
       "category": "components",
-      "version": "9.0.0",
+      "version": "9.0.1",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -8326,7 +8326,7 @@
       "summary": "Time field: a combobox over time options — the same listbox contract as uni-search-input and uni-tag-input.",
       "description": "Time field: a combobox over time options — the same listbox contract as uni-search-input and uni-tag-input. Type `3p`, `930` or `15:00`, or pick `3:00 PM` from the list; the form always gets 24-hour `'HH:mm'` (`hour12` affects display only). The list is assistive, not exhaustive: any parseable time commits, unless `slots` pins the choices (a slot picker) — then a typed time must match one. Unreadable or unavailable text stays in the field, flagged, with a `rejected` event.",
       "category": "forms",
-      "version": "9.0.0",
+      "version": "9.0.1",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -8518,7 +8518,7 @@
       "summary": "",
       "description": "",
       "category": "forms",
-      "version": "9.0.0",
+      "version": "9.0.1",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -8648,7 +8648,7 @@
       "summary": "",
       "description": "",
       "category": "feedback",
-      "version": "9.0.0",
+      "version": "9.0.1",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -8719,7 +8719,7 @@
       "summary": "A thin sequencer over one `uni-callout`: steps spotlight their targets, a footer walks Next/Back with dots-or-fraction progress, and `advanceOn` gates a step behind an interaction with its target (auto-advancing for clicks, unlocking Next otherwise — announced through one `role=\"status\"` region).",
       "description": "A thin sequencer over one `uni-callout`: steps spotlight their targets, a footer walks Next/Back with dots-or-fraction progress, and `advanceOn` gates a step behind an interaction with its target (auto-advancing for clicks, unlocking Next otherwise — announced through one `role=\"status\"` region). Escape or the close button skips the tour and reports the step. `active` is a two-way model, so a tour is deep-linkable and inspectable; steps whose declared target cannot be resolved are skipped (with a dev warning) in the direction of travel rather than erroring.",
       "category": "components",
-      "version": "9.0.0",
+      "version": "9.0.1",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -8830,7 +8830,7 @@
       "summary": "",
       "description": "",
       "category": "layout",
-      "version": "9.0.0",
+      "version": "9.0.1",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -15109,6 +15109,11 @@
       "package": "@uni-design-system/uni-angular",
       "releases": [
         {
+          "version": "9.0.1",
+          "entries": [],
+          "dependencyBumps": []
+        },
+        {
           "version": "9.0.0",
           "entries": [
             {
@@ -15729,6 +15734,18 @@
       "package": "@uni-design-system/uni-core",
       "releases": [
         {
+          "version": "9.0.1",
+          "entries": [
+            {
+              "bump": "patch",
+              "title": "`uni-react`'s Switch reads the `success` color token instead of hand-rolling an",
+              "body": "HSL string from a color-generation internal, and both packages now typecheck as\npart of their build.\n\nThe Switch built its \"on\" color as `hsl(${RoleHues.success.default}, 32%, 50%)`\n— a fixed green assembled from the HSL generation tables rather than the theme,\nso it never recolored with the theme and broke when those tables were removed.\nIt now reads `useTheme().colors.success`.\n\nThe reason that reached a deploy is the build. `vite build` transpiles with\nesbuild, which strips types without checking them, and it treats\n`@uni-design-system/uni-core` as an external — so neither the type layer nor the\nmodule graph ever verified that an imported core export exists. `pnpm turbo run\n- `core` and `react` now run `tsc --noEmit` as the first half of `build`, so a\n  removed or renamed core export fails the consumer's build.\n- A `type-check` turbo task exists for running that pass alone.\n- CI builds **both** Storybooks, not just Angular's. These bundle uni-core\n  instead of externalizing it, so they are the step that resolves its exports\n  against real consumer source.\n\nThis also cleared four pre-existing type errors in `IconTextRow`, which did\narithmetic on `fontSize` / `lineHeight` — typed `CssLength` (`number | string`)\n— and passed the result to props typed `number`. They are coerced through one\ndocumented helper now.",
+              "commit": "f926cd5"
+            }
+          ],
+          "dependencyBumps": []
+        },
+        {
           "version": "9.0.0",
           "entries": [
             {
@@ -16175,6 +16192,18 @@
     {
       "package": "@uni-design-system/uni-react",
       "releases": [
+        {
+          "version": "9.0.1",
+          "entries": [
+            {
+              "bump": "patch",
+              "title": "`uni-react`'s Switch reads the `success` color token instead of hand-rolling an",
+              "body": "HSL string from a color-generation internal, and both packages now typecheck as\npart of their build.\n\nThe Switch built its \"on\" color as `hsl(${RoleHues.success.default}, 32%, 50%)`\n— a fixed green assembled from the HSL generation tables rather than the theme,\nso it never recolored with the theme and broke when those tables were removed.\nIt now reads `useTheme().colors.success`.\n\nThe reason that reached a deploy is the build. `vite build` transpiles with\nesbuild, which strips types without checking them, and it treats\n`@uni-design-system/uni-core` as an external — so neither the type layer nor the\nmodule graph ever verified that an imported core export exists. `pnpm turbo run\n- `core` and `react` now run `tsc --noEmit` as the first half of `build`, so a\n  removed or renamed core export fails the consumer's build.\n- A `type-check` turbo task exists for running that pass alone.\n- CI builds **both** Storybooks, not just Angular's. These bundle uni-core\n  instead of externalizing it, so they are the step that resolves its exports\n  against real consumer source.\n\nThis also cleared four pre-existing type errors in `IconTextRow`, which did\narithmetic on `fontSize` / `lineHeight` — typed `CssLength` (`number | string`)\n— and passed the result to props typed `number`. They are coerced through one\ndocumented helper now.",
+              "commit": "f926cd5"
+            }
+          ],
+          "dependencyBumps": []
+        },
         {
           "version": "9.0.0",
           "entries": [
