@@ -73,7 +73,21 @@ audits: `packages/angular/TODO.md` (v4 audit) and `uni-theme-generation-plan.md`
 - [ ] **Stepper / wizard** — multi-step forms; pairs with Signal Forms.
 - [ ] **List** — structured items (leading avatar/icon, primary/secondary text,
       trailing action); the "settings screen" primitive.
-- [ ] **Number input** with increment/decrement steppers.
+- [x] **Number input** with increment/decrement steppers — shipped 2026-08-29 as
+      the whole numeric family, from `packages/angular/prototypes/number-input/`:
+      `uni-number-input` (locale parsing, `Intl` formatting on commit,
+      prefix/suffix adornments, four stepper layouts, hold-to-repeat, dual
+      `value`/`valueAsString` models), `uni-quantity-stepper` (bare `− n +`,
+      `deleteAtMin` → `removed`), `uni-number-range-input` (one `{start,end}`
+      value, steppers fenced at the other end while typed backwards commits
+      swap), and a **breaking `uni-slider` rewrite** off `<input type="range">`
+      onto custom two-thumb markup (range mode, marks, tooltip, RTL,
+      `valueDisplay="input"`). Underneath: `cdk/number/` — exact scaled-BigInt
+      decimal arithmetic, `Intl` parse/format, a shunting-yard expression
+      evaluator, and `createPressRepeat`. Deferred by the SPEC: unit conversion
+      (`uni-unit-input`), drag-to-scrub, masked numeric formats, vertical
+      sliders, >2 thumbs, currency selection, live grouping while typing.
+      Open questions carried forward under *Process / quality* below.
 - [x] **Chips / tag input** — shipped in 8.0.0 as `uni-tag-input` (type-to-add,
       backspace-to-remove, listbox keyboard nav) alongside `uni-tag` v2; ARIA
       polish followed in the 8.1-era upgrade.
@@ -247,8 +261,50 @@ audits: `packages/angular/TODO.md` (v4 audit) and `uni-theme-generation-plan.md`
 - [ ] Prototype cdk modules (`breakpoint`, `clipboard`, `validation`, `image`,
       `save`, `scroll`) — port on demand.
 
+## Numeric family — carried forward (2026-08-29)
+
+- [ ] **Settle `null` vs `undefined` for "empty", library-wide.** The numeric
+      components use `null` (matching `uni-combobox`, and it survives JSON
+      round-trips where `undefined` is dropped); `uni-calendar`, `uni-date-input`
+      and `uni-time-input` use `undefined`. Worth one deliberate pass rather than
+      per-component drift — a signals-forms control that can't say "empty" the
+      same way twice is an agent-facing trap. SPEC open question 1.
+- [ ] **Decide `allowExpressions`' default.** Ships off: a field that silently
+      truncates `12*3` to `12` is worse than one that refuses it, but the parser
+      is real and delightful. Revisit with a consumer report. SPEC open question 2.
+- [ ] **Confirm `stepOrigin`'s default.** Ships as `'min'`, matching the
+      platform; `min=0.5, step=1` therefore steps 0.5/1.5/2.5. Whichever the
+      first three real consumers assume should win. SPEC open question 3.
+- [ ] **`valueIsFraction` vs a general `scale`.** The boolean patches over "the
+      value is the display number ÷ 100"; a `scale` input would also cover basis
+      points and per-mille — and be one more thing to misread. SPEC open question 4.
+- [ ] **`uni-slider` `size`** is inherited from `BaseComponent` and ignored, as
+      the old slider did. Doing it properly means a `sizes` block in the theme
+      entry; deliberately not half-done.
+- [ ] **WCAG 2.5.8 shortfalls are documented, not fixed** — two targets cannot
+      reach 24×24 in the space available: number-input's *stacked* arrows (15px
+      each in a 32px field; a coarse pointer auto-promotes to `split`, which is
+      compliant) and quantity-stepper's `sm` size (24px outer leaves 22px
+      inside; `md`, the default, and `lg` are compliant). Both are the dense
+      desktop option and both are stated honestly in ACCESSIBILITY.md. Revisit
+      only with a taller field or a different stacked layout.
+
 ## Process / quality
 
+- [x] ~~Angular build does no typechecking~~ — fixed 2026-08-29: `pnpm build` is
+      now `tsc --noEmit && build-schematics && ng-packagr`, plus a `type-check`
+      script matching core and react, so `turbo type-check` covers the workspace.
+      It had let a real `FormValueControl` variance error reach a Storybook
+      build. `prototypes/**` is excluded from the package tsconfig (standalone
+      explorations, missing deps by design), and three latent type errors were
+      fixed (`vitest.config.ts` took `defineConfig` from `vite`, whose overload
+      rejects the `test` block; an untyped `vi.spyOn` return; a `Motions` arg).
+- [ ] **MDX prose braces are unvalidated.** `{label}` written in MDX prose
+      compiles to a JSX expression and kills the docs page at runtime with
+      `ReferenceError: label is not defined` — and **`build-storybook` passes**,
+      so neither CI nor `check-doc-links.mjs` catches it. Bit us twice on
+      2026-08-29. A lint pass over `*.mdx` for `{` outside backticks and fenced
+      code would close it.
 - [ ] **Story compile smoke-test in CI** — story templates are JIT-compiled at runtime,
       so neither `build-storybook` nor vitest validates them (the selector sweep proved
       it: only the ng-packagr AOT build catches template errors, and it doesn't see

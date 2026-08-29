@@ -1,15 +1,15 @@
 {
   "meta": {
     "version": "9.0.0",
-    "builtAt": "2026-08-23T15:31:18.523Z",
+    "builtAt": "2026-08-29T19:02:00.339Z",
     "frameworks": [
       "angular"
     ],
     "counts": {
-      "components": 79,
-      "tokens": 401,
+      "components": 82,
+      "tokens": 439,
       "themes": 2,
-      "examples": 194
+      "examples": 221
     }
   },
   "components": [
@@ -4056,6 +4056,14 @@
               "required": false,
               "default": "undefined",
               "description": ""
+            },
+            {
+              "name": "managedInset",
+              "kind": "input",
+              "type": "boolean",
+              "required": false,
+              "default": "false",
+              "description": "Stop applying the themed leading inset to the inner control, for fields that place it themselves. The inset normally rides the `<input>`, which is right while the text is the field's leading edge. It is wrong the moment an adornment sits in front: a currency prefix would hug the border while the number it belongs to is indented past it. A field with adornments takes the inset over and puts it on whichever element is actually first."
             }
           ]
         }
@@ -4717,6 +4725,675 @@
       "relatedTokens": []
     },
     {
+      "id": "number-input",
+      "name": "NumberInput",
+      "status": "stable",
+      "summary": "Numeric field with locale-aware parsing, `Intl` formatting on commit, prefix/suffix adornments and steppers that hold to repeat.",
+      "description": "Numeric field with locale-aware parsing, `Intl` formatting on commit, prefix/suffix adornments and steppers that hold to repeat. Not `<input type=\"number\">`, and the first reason is a data-loss bug: per the HTML value sanitization algorithm, a number input whose text is not a valid floating-point number reports `value === ''`. Type `12,50` as most of Europe does, or paste `1,234.56` from a spreadsheet, and the app reads an empty field. This is `type=\"text\"` with `role=\"spinbutton\"`, which is the only way to keep the user's malformed text on screen and tell them about it. Chrome comes from `uni-input-box`, so error, disabled and focus states match every other field. All arithmetic runs on the cdk's exact decimal helpers.",
+      "category": "forms",
+      "version": "9.0.0",
+      "bindings": {
+        "angular": {
+          "importPath": "@uni-design-system/uni-angular",
+          "selectorOrTag": "uni-number-input, NumberInput",
+          "api": [
+            {
+              "name": "value",
+              "kind": "model",
+              "type": "number | null",
+              "required": false,
+              "default": "null",
+              "description": ""
+            },
+            {
+              "name": "disabled",
+              "kind": "input",
+              "type": "boolean",
+              "required": false,
+              "default": "false",
+              "description": ""
+            },
+            {
+              "name": "touched",
+              "kind": "model",
+              "type": "boolean",
+              "required": false,
+              "default": "false",
+              "description": ""
+            },
+            {
+              "name": "invalid",
+              "kind": "input",
+              "type": "boolean",
+              "required": false,
+              "default": "false",
+              "description": ""
+            },
+            {
+              "name": "dirty",
+              "kind": "input",
+              "type": "boolean",
+              "required": false,
+              "default": "false",
+              "description": ""
+            },
+            {
+              "name": "required",
+              "kind": "input",
+              "type": "boolean",
+              "required": false,
+              "default": "false",
+              "description": ""
+            },
+            {
+              "name": "ariaDescribedBy",
+              "kind": "input",
+              "type": "string",
+              "required": false,
+              "description": ""
+            },
+            {
+              "name": "valueAsString",
+              "kind": "model",
+              "type": "string | null",
+              "required": false,
+              "default": "null",
+              "description": "Exact binding, as a canonical decimal string. Bind this instead of `value` where a cent in the fifth decimal place matters; both stay in sync, so it is a one-word change from the ordinary case."
+            },
+            {
+              "name": "label",
+              "kind": "input",
+              "type": "string",
+              "required": true,
+              "description": "Accessible name, e.g. \"Unit price\"."
+            },
+            {
+              "name": "placeholder",
+              "kind": "input",
+              "type": "string",
+              "required": false,
+              "description": ""
+            },
+            {
+              "name": "preset",
+              "kind": "input",
+              "type": "UniNumberPreset",
+              "required": false,
+              "default": "'decimal'",
+              "description": ""
+            },
+            {
+              "name": "currency",
+              "kind": "input",
+              "type": "string",
+              "required": false,
+              "description": "ISO 4217 code, e.g. `'USD'`. Implies `preset=\"currency\"`."
+            },
+            {
+              "name": "locale",
+              "kind": "input",
+              "type": "string",
+              "required": false,
+              "description": "BCP 47 tag. Defaults to the document language, then the browser's."
+            },
+            {
+              "name": "prefix",
+              "kind": "input",
+              "type": "string",
+              "required": false,
+              "description": "Static adornment before the number, e.g. `'$'`. Never parseable input."
+            },
+            {
+              "name": "suffix",
+              "kind": "input",
+              "type": "string",
+              "required": false,
+              "description": "Static adornment after the number, e.g. `'kg'`, `'/mo'`."
+            },
+            {
+              "name": "decimals",
+              "kind": "input",
+              "type": "number | [min: number, max: number]",
+              "required": false,
+              "description": ""
+            },
+            {
+              "name": "grouping",
+              "kind": "input",
+              "type": "'auto' | 'always' | 'min2' | false",
+              "required": false,
+              "description": ""
+            },
+            {
+              "name": "numberFormat",
+              "kind": "input",
+              "type": "Intl.NumberFormatOptions",
+              "required": false,
+              "description": "Escape hatch, merged over the preset."
+            },
+            {
+              "name": "roundingMode",
+              "kind": "input",
+              "type": "UniRoundingMode",
+              "required": false,
+              "default": "'half-up'",
+              "description": ""
+            },
+            {
+              "name": "align",
+              "kind": "input",
+              "type": "'start' | 'end' | 'center'",
+              "required": false,
+              "description": ""
+            },
+            {
+              "name": "valueIsFraction",
+              "kind": "input",
+              "type": "boolean",
+              "required": false,
+              "default": "false",
+              "description": "The model is a fraction: `0.15` displays as `15%`."
+            },
+            {
+              "name": "unitAnnouncement",
+              "kind": "input",
+              "type": "string",
+              "required": false,
+              "description": "Spoken long form of an abbreviated suffix, e.g. `'kilograms'` for `kg`."
+            },
+            {
+              "name": "readOnly",
+              "kind": "input",
+              "type": "boolean",
+              "required": false,
+              "default": "false",
+              "description": ""
+            },
+            {
+              "name": "embedded",
+              "kind": "input",
+              "type": "boolean",
+              "required": false,
+              "default": "false",
+              "description": "Renders without its own input-box chrome, for composers like uni-slider."
+            },
+            {
+              "name": "min",
+              "kind": "input",
+              "type": "number | undefined",
+              "required": false,
+              "description": ""
+            },
+            {
+              "name": "max",
+              "kind": "input",
+              "type": "number | undefined",
+              "required": false,
+              "description": ""
+            },
+            {
+              "name": "step",
+              "kind": "input",
+              "type": "number",
+              "required": false,
+              "default": "1",
+              "description": ""
+            },
+            {
+              "name": "largeStep",
+              "kind": "input",
+              "type": "number",
+              "required": false,
+              "description": "`PageUp`/`PageDown` and `Shift+Arrow`. Default: `step × 10`."
+            },
+            {
+              "name": "smallStep",
+              "kind": "input",
+              "type": "number",
+              "required": false,
+              "description": "`Alt+Arrow`, Figma's fine-nudge convention. Unset disables it."
+            },
+            {
+              "name": "stepOrigin",
+              "kind": "input",
+              "type": "'min' | 'zero'",
+              "required": false,
+              "default": "'min'",
+              "description": ""
+            },
+            {
+              "name": "wrap",
+              "kind": "input",
+              "type": "boolean",
+              "required": false,
+              "default": "false",
+              "description": "Cyclic fields only — 23 → 0 hours, 359 → 0 degrees."
+            },
+            {
+              "name": "clampOnCommit",
+              "kind": "input",
+              "type": "boolean",
+              "required": false,
+              "default": "true",
+              "description": "`false` refuses an out-of-range commit instead of clamping it."
+            },
+            {
+              "name": "emptyStepValue",
+              "kind": "input",
+              "type": "number",
+              "required": false,
+              "description": "What ↑ commits on an empty field. Default: `min ?? 0`."
+            },
+            {
+              "name": "commitOnBlur",
+              "kind": "input",
+              "type": "boolean",
+              "required": false,
+              "default": "true",
+              "description": ""
+            },
+            {
+              "name": "selectOnFocus",
+              "kind": "input",
+              "type": "boolean",
+              "required": false,
+              "default": "false",
+              "description": ""
+            },
+            {
+              "name": "allowExpressions",
+              "kind": "input",
+              "type": "boolean",
+              "required": false,
+              "default": "false",
+              "description": "`12*3` → 36. Off by default: a parser in a form field is a real cost."
+            },
+            {
+              "name": "wheel",
+              "kind": "input",
+              "type": "boolean",
+              "required": false,
+              "default": "false",
+              "description": "Scroll-to-step. Off by default — see `onWheel`."
+            },
+            {
+              "name": "repeat",
+              "kind": "input",
+              "type": "boolean",
+              "required": false,
+              "default": "true",
+              "description": ""
+            },
+            {
+              "name": "stepperLayout",
+              "kind": "input",
+              "type": "UniNumberInputOptions['stepperLayout']",
+              "required": false,
+              "description": "Overrides the themed layout for this instance."
+            },
+            {
+              "name": "stepped",
+              "kind": "output",
+              "type": "UniNumberStepped",
+              "required": false,
+              "description": ""
+            },
+            {
+              "name": "rejected",
+              "kind": "output",
+              "type": "UniNumberRejection",
+              "required": false,
+              "description": "A commit was refused; the raw text stays in the field."
+            }
+          ]
+        }
+      },
+      "examples": [
+        {
+          "title": "Default",
+          "framework": "angular",
+          "code": "<!-- Storybook story: Default -->\n<uni-number-input ${argsToTemplate(props)}></uni-number-input>\n<!-- args:\n{ label: 'Quantity', value: 1, min: 1, max: 99 }\n-->"
+        },
+        {
+          "title": "Money",
+          "framework": "angular",
+          "code": "<!-- Storybook story: Money -->\n<uni-number-input ${argsToTemplate(props)}></uni-number-input>\n<!-- args:\n{ label: 'Unit price', currency: 'USD', value: 1234.5, min: 0, step: 0.01 }\n-->"
+        },
+        {
+          "title": "Percent",
+          "framework": "angular",
+          "code": "<!-- Storybook story: Percent -->\n<uni-number-input ${argsToTemplate(props)}></uni-number-input>\n<!-- args:\n{ label: 'Discount', preset: 'percent', value: 15, min: 0, max: 100 }\n-->"
+        },
+        {
+          "title": "Units",
+          "framework": "angular",
+          "code": "<!-- Storybook story: Units -->\n<uni-number-input ${argsToTemplate(props)}></uni-number-input>\n<!-- args:\n{\n    label: 'Weight',\n    suffix: 'kg',\n    unitAnnouncement: 'kilograms',\n    value: 72,\n    min: 0,\n    step: 0.5,\n  }\n-->"
+        },
+        {
+          "title": "Split Steppers",
+          "framework": "angular",
+          "code": "<!-- Storybook story: Split Steppers -->\n<uni-number-input ${argsToTemplate(props)}></uni-number-input>\n<!-- args:\n{ label: 'Seats', preset: 'integer', stepperLayout: 'split', value: 2, min: 1, max: 8 }\n-->"
+        },
+        {
+          "title": "Expressions",
+          "framework": "angular",
+          "code": "<!-- Storybook story: Expressions -->\n<uni-number-input ${argsToTemplate(props)}></uni-number-input>\n<!-- args:\n{ label: 'Line total', currency: 'USD', allowExpressions: true, value: 350 }\n-->"
+        },
+        {
+          "title": "Cyclic Hours",
+          "framework": "angular",
+          "code": "<!-- Storybook story: Cyclic Hours -->\n<uni-number-input ${argsToTemplate(props)}></uni-number-input>\n<!-- args:\n{ label: 'Hour', preset: 'integer', value: 23, min: 0, max: 23, wrap: true }\n-->"
+        },
+        {
+          "title": "No Steppers",
+          "framework": "angular",
+          "code": "<!-- Storybook story: No Steppers -->\n<uni-number-input ${argsToTemplate(props)}></uni-number-input>\n<!-- args:\n{ label: 'Year', preset: 'integer', stepperLayout: 'none', value: 2026 }\n-->"
+        },
+        {
+          "title": "Read Only",
+          "framework": "angular",
+          "code": "<!-- Storybook story: Read Only -->\n<uni-number-input ${argsToTemplate(props)}></uni-number-input>\n<!-- args:\n{ label: 'Invoice total', currency: 'USD', value: 4820.75, readOnly: true }\n-->"
+        },
+        {
+          "title": "Disabled",
+          "framework": "angular",
+          "code": "<!-- Storybook story: Disabled -->\n<uni-number-input ${argsToTemplate(props)}></uni-number-input>\n<!-- args:\n{ label: 'Quantity', value: 3, disabled: true }\n-->"
+        }
+      ],
+      "guidelines": {
+        "whenToUse": "The field for a quantity, a price, a percentage or a measurement — typed entry\nwith locale-aware parsing, `Intl` formatting on commit, prefix and suffix\nadornments, min/max/step fences, and steppers that hold to repeat. Reach for it\nwhenever the exact figure matters; reach for `uni-slider` when the *position*\nis the information, and pair the two when users need both.\nIt is deliberately not `<input type=\"number\">`. Per the HTML value sanitization\nalgorithm, a number input whose text is not a valid floating-point number\nreports `value === ''` — so `12,50` as most of Europe writes it, or `1,234.56`\npasted from a spreadsheet, arrives at your app as an empty field. This is\n`type=\"text\"` with `role=\"spinbutton\"`, which keeps the user's text on screen\nand tells them what is wrong with it. All arithmetic runs on exact scaled-integer\ndecimals, so stepping `0.1` never lands on `0.30000000000000004` and `1.15`\nrounds to `1.2` where `toFixed(1)` gives `1.1`. Field chrome comes from the\nshared `input` theme options via `uni-input-box`.",
+        "dos": [
+          "Use `preset` and `currency` rather than assembling `decimals` and `grouping` by hand.",
+          "Set `align=\"end\"` in tables and numeric columns — that is a layout decision, made where the layout is.",
+          "Bind `[(valueAsString)]` for money that accumulates through arithmetic; a dev-mode warning fires when a bound `value` cannot round-trip.",
+          "Set `min` to say a field cannot go negative. There is no `allowNegative`, because two inputs saying the same thing can disagree."
+        ],
+        "donts": [
+          "Don't use it for formatted *strings* — phone numbers, card numbers, postcodes. Those are not quantities and belong to a masked text input.",
+          "Don't turn on `wheel` for fields in a long scrolling form; a value that changes as the page scrolls past is silent data corruption.",
+          "Don't clamp values yourself on every keystroke. Clamping happens on commit, because a `min=10` field that clamps live can never be typed into."
+        ],
+        "accessibility": [
+          "The control is `<input type=\"text\" inputmode=\"decimal\">` with `role=\"spinbutton\"`, `aria-valuenow`, `aria-valuemin` and `aria-valuemax`. `type=\"text\"` is what keeps malformed text visible instead of reporting an empty value.",
+          "`aria-valuetext` carries the formatted string *with* its affixes — \"$1,234.56\", \"15 percent\", \"72 kilograms\" — because `aria-valuenow` alone announces \"1234.56\", which is the one thing about a money field that is not the point. The adornments are `aria-hidden` so they are not read twice.",
+          "An empty field omits `aria-valuenow` entirely, per APG, and sets `aria-valuetext` to \"Empty\".",
+          "Keyboard: arrows step by `step`; `Shift+Arrow` and `Page Up`/`Page Down` by `largeStep`; `Alt+Arrow` by `smallStep` when set; `Home`/`End` to the fences, and they no-op when that bound is undefined. `Enter` commits without submitting the form, `Escape` reverts the draft, `Tab` commits and moves on.",
+          "The stepper buttons are real `<button>`s named `Increase {label}` / `Decrease {label}` with `tabindex=\"-1\"` — they are pointer affordances, and the keyboard route is the arrow keys. The whole field is one tab stop.",
+          "**Target size.** `split` and `trailing` give each button a full-height square that clears the 24×24 minimum of WCAG 2.2 SC 2.5.8. `stacked` cannot: two arrows sharing a 32px field are 16px each. It is the dense desktop default because a mouse is precise, and on a **coarse pointer the layout switches to `split` automatically**. Set `stepperLayout: 'split'` in the theme if you need the larger targets everywhere.",
+          "One `role=\"status\"` region announces clamps, fences, rejections and expression results. Held stepping announces **on release only**: narrating two hundred intermediate values is a denial of service.",
+          "An unparseable draft gets a dashed underline as well as the error border, because colour alone cannot carry \"this is not a number\" (WCAG 1.4.1).",
+          "`inputmode` is `numeric` only when negatives and decimals are both impossible, since several mobile keypads omit `−` and `.` from that layout."
+        ]
+      },
+      "relatedTokens": []
+    },
+    {
+      "id": "number-range-input",
+      "name": "NumberRangeInput",
+      "status": "stable",
+      "summary": "Two linked numeric fields in one chrome, with one `{ start, end }` value — price filters, thresholds, tolerances.",
+      "description": "Two linked numeric fields in one chrome, with one `{ start, end }` value — price filters, thresholds, tolerances. `start`/`end` deliberately match `UniDateRange`, so the library has one range vocabulary, and they avoid colliding with the `min`/`max` **inputs**, which mean the fence rather than the value. It owns its commit path rather than nesting two `uni-number-input`s, because the two behaviours the spec asks for need *different* bounds: a stepper must be fenced at the other end, while a typed commit must reach the parent un-clamped so a backwards range can be swapped instead of destroyed. A child field applies one bound pair to both. The arithmetic, parsing and formatting are still the cdk's, shared with every other numeric control.",
+      "category": "forms",
+      "version": "9.0.0",
+      "bindings": {
+        "angular": {
+          "importPath": "@uni-design-system/uni-angular",
+          "selectorOrTag": "uni-number-range-input, NumberRangeInput",
+          "api": [
+            {
+              "name": "value",
+              "kind": "model",
+              "type": "UniNumberRange | null",
+              "required": false,
+              "default": "null",
+              "description": ""
+            },
+            {
+              "name": "disabled",
+              "kind": "input",
+              "type": "boolean",
+              "required": false,
+              "default": "false",
+              "description": ""
+            },
+            {
+              "name": "touched",
+              "kind": "model",
+              "type": "boolean",
+              "required": false,
+              "default": "false",
+              "description": ""
+            },
+            {
+              "name": "invalid",
+              "kind": "input",
+              "type": "boolean",
+              "required": false,
+              "default": "false",
+              "description": ""
+            },
+            {
+              "name": "dirty",
+              "kind": "input",
+              "type": "boolean",
+              "required": false,
+              "default": "false",
+              "description": ""
+            },
+            {
+              "name": "required",
+              "kind": "input",
+              "type": "boolean",
+              "required": false,
+              "default": "false",
+              "description": ""
+            },
+            {
+              "name": "ariaDescribedBy",
+              "kind": "input",
+              "type": "string",
+              "required": false,
+              "description": ""
+            },
+            {
+              "name": "label",
+              "kind": "input",
+              "type": "string",
+              "required": true,
+              "description": "Names the group, e.g. \"Price range\"."
+            },
+            {
+              "name": "startLabel",
+              "kind": "input",
+              "type": "string",
+              "required": false,
+              "default": "'Minimum'",
+              "description": ""
+            },
+            {
+              "name": "endLabel",
+              "kind": "input",
+              "type": "string",
+              "required": false,
+              "default": "'Maximum'",
+              "description": ""
+            },
+            {
+              "name": "preset",
+              "kind": "input",
+              "type": "UniNumberPreset",
+              "required": false,
+              "default": "'decimal'",
+              "description": ""
+            },
+            {
+              "name": "currency",
+              "kind": "input",
+              "type": "string",
+              "required": false,
+              "description": ""
+            },
+            {
+              "name": "locale",
+              "kind": "input",
+              "type": "string",
+              "required": false,
+              "description": ""
+            },
+            {
+              "name": "prefix",
+              "kind": "input",
+              "type": "string",
+              "required": false,
+              "description": ""
+            },
+            {
+              "name": "suffix",
+              "kind": "input",
+              "type": "string",
+              "required": false,
+              "description": ""
+            },
+            {
+              "name": "decimals",
+              "kind": "input",
+              "type": "number | [min: number, max: number]",
+              "required": false,
+              "description": ""
+            },
+            {
+              "name": "grouping",
+              "kind": "input",
+              "type": "'auto' | 'always' | 'min2' | false",
+              "required": false,
+              "description": ""
+            },
+            {
+              "name": "roundingMode",
+              "kind": "input",
+              "type": "UniRoundingMode",
+              "required": false,
+              "default": "'half-up'",
+              "description": ""
+            },
+            {
+              "name": "placeholderStart",
+              "kind": "input",
+              "type": "string",
+              "required": false,
+              "description": ""
+            },
+            {
+              "name": "placeholderEnd",
+              "kind": "input",
+              "type": "string",
+              "required": false,
+              "description": ""
+            },
+            {
+              "name": "min",
+              "kind": "input",
+              "type": "number | undefined",
+              "required": false,
+              "description": ""
+            },
+            {
+              "name": "max",
+              "kind": "input",
+              "type": "number | undefined",
+              "required": false,
+              "description": ""
+            },
+            {
+              "name": "step",
+              "kind": "input",
+              "type": "number",
+              "required": false,
+              "default": "1",
+              "description": ""
+            },
+            {
+              "name": "minGap",
+              "kind": "input",
+              "type": "number",
+              "required": false,
+              "description": "Enforced distance between the two ends."
+            },
+            {
+              "name": "swapped",
+              "kind": "output",
+              "type": "UniNumberRange",
+              "required": false,
+              "description": "The ends were entered backwards and have been exchanged."
+            },
+            {
+              "name": "rejected",
+              "kind": "output",
+              "type": "UniNumberRangeRejection",
+              "required": false,
+              "description": "A typed commit on one end could not be read; its text stays in place."
+            }
+          ]
+        }
+      },
+      "examples": [
+        {
+          "title": "Primary",
+          "framework": "angular",
+          "code": "<!-- Storybook story: Primary -->\n<!-- args:\n{\n    label: 'Price range',\n    currency: 'USD',\n    min: 0,\n    max: 5000,\n    step: 10,\n    value: { start: 200, end: 1500 },\n  }\n-->"
+        },
+        {
+          "title": "Price Filter",
+          "framework": "angular",
+          "code": "<!-- Storybook story: Price Filter -->\n<!-- args:\n{\n    label: 'Price range',\n    currency: 'USD',\n    min: 0,\n    max: 5000,\n    step: 10,\n    value: { start: 200, end: 1500 },\n  }\n-->"
+        },
+        {
+          "title": "Minimum Gap",
+          "framework": "angular",
+          "code": "<!-- Storybook story: Minimum Gap -->\n<!-- args:\n{ label: 'Temperature tolerance', suffix: '°C', min: -20, max: 40, minGap: 5, value: { start: 5, end: 20 } }\n-->"
+        },
+        {
+          "title": "Open Ended",
+          "framework": "angular",
+          "code": "<!-- Storybook story: Open Ended -->\n<!-- args:\n{ label: 'Price range', currency: 'USD', value: { start: 50 } }\n-->"
+        },
+        {
+          "title": "Custom End Labels",
+          "framework": "angular",
+          "code": "<!-- Storybook story: Custom End Labels -->\n<!-- args:\n{ label: 'Delivery window', suffix: ' days', startLabel: 'From', endLabel: 'To', min: 0, value: { start: 2, end: 7 } }\n-->"
+        },
+        {
+          "title": "Disabled",
+          "framework": "angular",
+          "code": "<!-- Storybook story: Disabled -->\n<!-- args:\n{ disabled: true }\n-->"
+        }
+      ],
+      "guidelines": {
+        "whenToUse": "Two linked numeric fields in one chrome, with a single `{ start, end }` value —\nprice filters, thresholds, tolerances. Reach for it when both ends of a range\nneed typing; reach for `uni-slider` in `range` mode when the *position* is the\ninformation, and for two separate `uni-number-input`s when the values are not\ntwo ends of one answer.\nThe value uses `start`/`end` deliberately, matching `UniDateRange`, so the\nlibrary has one range vocabulary — and so they never collide with the `min` and\n`max` **inputs**, which mean the fence rather than the value. Formatting,\nparsing and the exact decimal arithmetic are the same cdk primitives every other\nnumeric control uses, so `1,200` and the keyboard map behave identically here.",
+        "dos": [
+          "Give it a `label` that names the quantity, not the widget — \"Price range\", not \"Range\".",
+          "Use `minGap` wherever a zero-width range is meaningless.",
+          "Set `min`/`max` for the outer fence and let the ends fence each other."
+        ],
+        "donts": [
+          "Don't use it for two unrelated numbers. One value means one question; two questions want two fields.",
+          "Don't assume both ends are set — `{ start }` and `{ end }` alone are valid, so narrow before arithmetic.",
+          "Don't add your own swap or ordering logic on top; the component guarantees `start <= end` in the value it emits."
+        ],
+        "accessibility": [
+          "The two ends sit in a `role=\"group\"` named by `label`, and each is an `<input role=\"spinbutton\">` named `{label}, Minimum` and `{label}, Maximum`. **Two tab stops, honestly — it is two questions.**",
+          "Each end's `aria-valuemin` / `aria-valuemax` report **the other end's position**, held off by `minGap`, not the outer bounds — so a screen-reader user is told where the wall actually is rather than where the range ends.",
+          "`aria-valuetext` carries the formatted value with its affixes on both ends, so a price range announces \"$500\", not \"500\".",
+          "Keyboard map is `uni-number-input`'s: arrows step, `Shift+Arrow` and `Page Up`/`Page Down` step large, `Home`/`End` jump to **that end's own wall**, `Enter` commits, `Escape` reverts, blur commits.",
+          "**Stepping is fenced; typing swaps.** A stepper can never walk one end through the other. A *typed* backwards commit is swapped instead, and announced — the user pointed at the range they meant, and clamping would destroy the number they just entered.",
+          "A refused draft flags only the end it was typed into. It keeps its text and gets a dashed underline as well as the error border, because colour alone cannot carry \"this is not a number\" (WCAG 1.4.1). The other end stays valid.",
+          "Swaps, gap corrections, fences and refusals each announce through one `role=\"status\"` region — every one of them is otherwise a purely visual event.",
+          "The divider is `aria-hidden`: it is punctuation, and the two ends are already named."
+        ]
+      },
+      "relatedTokens": []
+    },
+    {
       "id": "paginator",
       "name": "Paginator",
       "status": "stable",
@@ -5085,6 +5762,194 @@
         "donts": [],
         "accessibility": [
           "`role=\"progressbar\"` with `aria-valuenow`/`min`/`max`; name it with `ariaLabel`. The SVG is decorative."
+        ]
+      },
+      "relatedTokens": []
+    },
+    {
+      "id": "quantity-stepper",
+      "name": "QuantityStepper",
+      "status": "stable",
+      "summary": "`− 3 +` for cart lines, table cells and seat counts: the numeric core with no field chrome, no label and no room for either.",
+      "description": "`− 3 +` for cart lines, table cells and seat counts: the numeric core with no field chrome, no label and no room for either. A separate component rather than a `chrome=\"bare\"` flag on `uni-number-input`, because this control is defined by what it does *not* have — presets, affixes, expressions, four stepper layouts — and eight inputs are easier to write correctly than forty with a list of which ones to leave alone. The arithmetic, parsing and hold-to-repeat are the cdk's, shared with the field, so `1,200` and the keyboard map behave identically in both. The middle stays a real input by default: typing `12` beats tapping `+` eleven times. `editable=false` is for read-mostly tables.",
+      "category": "forms",
+      "version": "9.0.0",
+      "bindings": {
+        "angular": {
+          "importPath": "@uni-design-system/uni-angular",
+          "selectorOrTag": "uni-quantity-stepper, QuantityStepper",
+          "api": [
+            {
+              "name": "value",
+              "kind": "model",
+              "type": "number | null",
+              "required": false,
+              "default": "null",
+              "description": ""
+            },
+            {
+              "name": "disabled",
+              "kind": "input",
+              "type": "boolean",
+              "required": false,
+              "default": "false",
+              "description": ""
+            },
+            {
+              "name": "touched",
+              "kind": "model",
+              "type": "boolean",
+              "required": false,
+              "default": "false",
+              "description": ""
+            },
+            {
+              "name": "invalid",
+              "kind": "input",
+              "type": "boolean",
+              "required": false,
+              "default": "false",
+              "description": ""
+            },
+            {
+              "name": "dirty",
+              "kind": "input",
+              "type": "boolean",
+              "required": false,
+              "default": "false",
+              "description": ""
+            },
+            {
+              "name": "required",
+              "kind": "input",
+              "type": "boolean",
+              "required": false,
+              "default": "false",
+              "description": ""
+            },
+            {
+              "name": "ariaDescribedBy",
+              "kind": "input",
+              "type": "string",
+              "required": false,
+              "description": ""
+            },
+            {
+              "name": "label",
+              "kind": "input",
+              "type": "string",
+              "required": true,
+              "description": "Accessible name. Never visible and always needed — a cart with six of these needs \"Quantity, Blue T-shirt (M)\", not six controls called \"Quantity\"."
+            },
+            {
+              "name": "min",
+              "kind": "input",
+              "type": "number | undefined",
+              "required": false,
+              "default": "0",
+              "description": ""
+            },
+            {
+              "name": "max",
+              "kind": "input",
+              "type": "number",
+              "required": false,
+              "description": ""
+            },
+            {
+              "name": "step",
+              "kind": "input",
+              "type": "number",
+              "required": false,
+              "default": "1",
+              "description": ""
+            },
+            {
+              "name": "size",
+              "kind": "input",
+              "type": "Size",
+              "required": false,
+              "default": "'md'",
+              "description": ""
+            },
+            {
+              "name": "editable",
+              "kind": "input",
+              "type": "boolean",
+              "required": false,
+              "default": "true",
+              "description": "`false` renders the number as text: read-mostly tables."
+            },
+            {
+              "name": "deleteAtMin",
+              "kind": "input",
+              "type": "boolean",
+              "required": false,
+              "default": "false",
+              "description": "The cart pattern in one attribute: at `min` the decrement button becomes a remove affordance and emits `removed` rather than stepping. Without it every shop reimplements the same `value === 1 ? remove() : step(-1)` branch outside the component."
+            },
+            {
+              "name": "removed",
+              "kind": "output",
+              "type": "void",
+              "required": false,
+              "description": "The remove affordance was activated — the row should come out. Named `removed`, not the spec's `emptied`: that word is a native `HTMLMediaElement` event, which `@angular-eslint/no-output-native` bans for good reason, and `removed` is already what `uni-tag` calls this same request."
+            }
+          ]
+        }
+      },
+      "examples": [
+        {
+          "title": "Primary",
+          "framework": "angular",
+          "code": "<!-- Storybook story: Primary -->\n<div row-layout gap=\"md\" alignItems=\"center\">\n<uni-quantity-stepper label=\"Quantity, small\" size=\"sm\" [value]=\"value\" [min]=\"min\" />\n<uni-quantity-stepper label=\"Quantity, medium\" size=\"md\" [value]=\"value\" [min]=\"min\" />\n<uni-quantity-stepper label=\"Quantity, large\" size=\"lg\" [value]=\"value\" [min]=\"min\" />\n</div>\n<!-- args:\n{ value: 1, min: 1, deleteAtMin: true }\n-->"
+        },
+        {
+          "title": "Cart Line",
+          "framework": "angular",
+          "code": "<!-- Storybook story: Cart Line -->\n<div row-layout gap=\"md\" alignItems=\"center\">\n<uni-quantity-stepper label=\"Quantity, small\" size=\"sm\" [value]=\"value\" [min]=\"min\" />\n<uni-quantity-stepper label=\"Quantity, medium\" size=\"md\" [value]=\"value\" [min]=\"min\" />\n<uni-quantity-stepper label=\"Quantity, large\" size=\"lg\" [value]=\"value\" [min]=\"min\" />\n</div>\n<!-- args:\n{ value: 1, min: 1, deleteAtMin: true }\n-->"
+        },
+        {
+          "title": "Sizes",
+          "framework": "angular",
+          "code": "<!-- Storybook story: Sizes -->\n<div row-layout gap=\"md\" alignItems=\"center\">\n<uni-quantity-stepper label=\"Quantity, small\" size=\"sm\" [value]=\"value\" [min]=\"min\" />\n<uni-quantity-stepper label=\"Quantity, medium\" size=\"md\" [value]=\"value\" [min]=\"min\" />\n<uni-quantity-stepper label=\"Quantity, large\" size=\"lg\" [value]=\"value\" [min]=\"min\" />\n</div>\n<!-- args:\n{ editable: false, value: 4 }\n-->"
+        },
+        {
+          "title": "Read Only Value",
+          "framework": "angular",
+          "code": "<!-- Storybook story: Read Only Value -->\n<div row-layout gap=\"md\" alignItems=\"center\">\n<uni-quantity-stepper label=\"Quantity, small\" size=\"sm\" [value]=\"value\" [min]=\"min\" />\n<uni-quantity-stepper label=\"Quantity, medium\" size=\"md\" [value]=\"value\" [min]=\"min\" />\n<uni-quantity-stepper label=\"Quantity, large\" size=\"lg\" [value]=\"value\" [min]=\"min\" />\n</div>\n<!-- args:\n{ editable: false, value: 4 }\n-->"
+        },
+        {
+          "title": "Bounded",
+          "framework": "angular",
+          "code": "<!-- Storybook story: Bounded -->\n<div row-layout gap=\"md\" alignItems=\"center\">\n<uni-quantity-stepper label=\"Quantity, small\" size=\"sm\" [value]=\"value\" [min]=\"min\" />\n<uni-quantity-stepper label=\"Quantity, medium\" size=\"md\" [value]=\"value\" [min]=\"min\" />\n<uni-quantity-stepper label=\"Quantity, large\" size=\"lg\" [value]=\"value\" [min]=\"min\" />\n</div>\n<!-- args:\n{ value: 8, min: 1, max: 8 }\n-->"
+        },
+        {
+          "title": "Disabled",
+          "framework": "angular",
+          "code": "<!-- Storybook story: Disabled -->\n<div row-layout gap=\"md\" alignItems=\"center\">\n<uni-quantity-stepper label=\"Quantity, small\" size=\"sm\" [value]=\"value\" [min]=\"min\" />\n<uni-quantity-stepper label=\"Quantity, medium\" size=\"md\" [value]=\"value\" [min]=\"min\" />\n<uni-quantity-stepper label=\"Quantity, large\" size=\"lg\" [value]=\"value\" [min]=\"min\" />\n</div>\n<!-- args:\n{ disabled: true }\n-->"
+        }
+      ],
+      "guidelines": {
+        "whenToUse": "`− 3 +` for a cart line, a table cell or a seat count: the numeric core with no\nfield chrome, no label and no room for either. Reach for it inside a row that\nalready says what is being counted; reach for `uni-number-input` when the field\nneeds a label, an affix or a currency, and `uni-slider` when the position is\nthe information.\nA separate component rather than a flag on `uni-number-input`, because this\ncontrol is defined by what it does *not* have — presets, affixes, expressions,\nfour stepper layouts — and eight inputs are easier to write correctly than forty\nplus a list of which ones to leave alone. The arithmetic, parsing and\nhold-to-repeat come from the same cdk primitives, so `1,200` and the keyboard\nmap behave identically in both.",
+        "dos": [
+          "Name the row's subject in `label`, not just the measure.",
+          "Use `deleteAtMin` for cart lines so removal lives in the control rather than beside it.",
+          "Keep `editable` on wherever someone might enter a large quantity — typing 12 beats tapping + eleven times."
+        ],
+        "donts": [
+          "Don't use it where a value needs a visible label, a unit or a currency; that is `uni-number-input`.",
+          "Don't wire `removed` to a silent delete. It means \"the user asked to remove this row\" — confirm or offer an undo as your flow requires.",
+          "Don't give it a wide range. Past a couple of dozen taps a typed field is the faster control."
+        ],
+        "accessibility": [
+          "The middle is an `<input role=\"spinbutton\">` named by `label`, with `aria-valuenow`, `aria-valuemin` and `aria-valuemax`. An empty stepper omits `aria-valuenow` and reads \"Empty\".",
+          "**`label` is never visible and always required.** A cart with six of these needs \"Quantity, Blue T-shirt (M)\" on each, not six controls all called \"Quantity\".",
+          "While `editable`, the input is the single tab stop and the buttons carry `tabindex=\"-1\"` as pointer affordances — the keyboard route is the arrow keys. With `editable=false` there is nothing else to focus, so the buttons become the tab stops and the wrapper takes `role=\"group\"` with the name.",
+          "The buttons are square at the component's height, so the 24×24 pointer target of WCAG 2.2 SC 2.5.8 holds at `sm`, `md` and `lg`.",
+          "Arrow keys step, `Enter` commits, `Escape` reverts, blur commits — the same map as `uni-number-input`.",
+          "A `role=\"status\"` region announces fences, clamps and removals. Hold-to-repeat announces once, on release.",
+          "At the fence the matching button is `disabled` rather than a silent no-op. With `deleteAtMin` the decrement stays enabled at `min`, because there it is the one control that still does something."
         ]
       },
       "relatedTokens": []
@@ -5856,22 +6721,22 @@
       "id": "slider",
       "name": "Slider",
       "status": "stable",
-      "summary": "Range slider on a native `<input type=\"range\">` — keyboard interaction and the ARIA slider contract come from the platform.",
-      "description": "Range slider on a native `<input type=\"range\">` — keyboard interaction and the ARIA slider contract come from the platform. Fill, track, thumb and radii resolve from `slider` theme tokens; the fill percentage rides a CSS custom property so dragging never regenerates styles.",
+      "summary": "Bounded numeric input by pointer, for values where the *position* is the information: volume, opacity, weightings, price filters.",
+      "description": "Bounded numeric input by pointer, for values where the *position* is the information: volume, opacity, weightings, price filters. Custom thumbs rather than `<input type=\"range\">`, which the previous version used: one native range input cannot carry two thumbs, marks or a tooltip, and a second component for the range case would mean two keyboard maps to keep in step. The step model and the keyboard map are the cdk's, shared with the numeric fields, so nothing new is learned moving between them. All arithmetic on values runs through the cdk's exact decimal helpers — stepping `0.1` never yields `0.30000000000000004`. Only pointer *positions* use floats, and they are snapped to the grid before becoming a value.",
       "category": "forms",
       "version": "9.0.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
-          "selectorOrTag": "uni-slider",
+          "selectorOrTag": "uni-slider, Slider",
           "api": [
             {
               "name": "value",
               "kind": "model",
-              "type": "number",
+              "type": "number | UniNumberRange | null",
               "required": false,
-              "default": "0",
-              "description": ""
+              "default": "null",
+              "description": "Shape follows `mode`: a number when `single`, a `UniNumberRange` when `range`."
             },
             {
               "name": "disabled",
@@ -5911,20 +6776,28 @@
               "type": "boolean",
               "required": false,
               "default": "false",
-              "description": "Synced from required() validators by the Signal Forms [field] directive."
+              "description": ""
             },
             {
               "name": "ariaDescribedBy",
               "kind": "input",
               "type": "string",
               "required": false,
-              "description": "Id(s) of external element(s) describing this control — typically your app-rendered value or error text — exposed as aria-describedby."
+              "description": ""
             },
             {
               "name": "label",
               "kind": "input",
               "type": "string",
               "required": true,
+              "description": "Accessible name, e.g. \"Opacity\". Names the group in range mode."
+            },
+            {
+              "name": "mode",
+              "kind": "input",
+              "type": "'single' | 'range'",
+              "required": false,
+              "default": "'single'",
               "description": ""
             },
             {
@@ -5950,6 +6823,73 @@
               "required": false,
               "default": "1",
               "description": ""
+            },
+            {
+              "name": "largeStep",
+              "kind": "input",
+              "type": "number",
+              "required": false,
+              "description": "`PageUp`/`PageDown` and `Shift+Arrow`. Default: a tenth of the range."
+            },
+            {
+              "name": "origin",
+              "kind": "input",
+              "type": "number",
+              "required": false,
+              "description": "Fill anchor. Defaults to `min`; set `0` for a slider that spans ±."
+            },
+            {
+              "name": "marks",
+              "kind": "input",
+              "type": "UniSliderMark[]",
+              "required": false,
+              "default": "[]",
+              "description": ""
+            },
+            {
+              "name": "snapToMarks",
+              "kind": "input",
+              "type": "boolean",
+              "required": false,
+              "default": "false",
+              "description": "Marks become the only valid stops — t-shirt sizing, Likert scales."
+            },
+            {
+              "name": "valueDisplay",
+              "kind": "input",
+              "type": "'none' | 'inline' | 'tooltip' | 'input'",
+              "required": false,
+              "default": "'none'",
+              "description": "Where the current value is shown. `tooltip` appears on hover, focus and drag; `inline` sits at the trailing edge of the track; `input` seats a compact `uni-number-input` there, two-way bound to the same value — drag for the ballpark, type for the exact figure, which is the pairing that makes bounded numeric input actually usable. `input` applies to `single` mode only; a range would need two fields, and `inline` already reads well for two ends."
+            },
+            {
+              "name": "minGap",
+              "kind": "input",
+              "type": "number",
+              "required": false,
+              "description": "Enforced distance between the two ends, in range mode."
+            },
+            {
+              "name": "variant",
+              "kind": "input",
+              "type": "Variant",
+              "required": false,
+              "default": "'primary'",
+              "description": ""
+            },
+            {
+              "name": "sliding",
+              "kind": "output",
+              "type": "number | UniNumberRange",
+              "required": false,
+              "description": "Continuous, during a drag or a held key. Bind this for a live preview."
+            },
+            {
+              "name": "changed",
+              "kind": "output",
+              "type": "number | UniNumberRange",
+              "required": false,
+              "description": "Committed — on pointer release and key-up. **A form should bind this**: piping a 60 Hz stream into a model is how sliders get blamed for jank."
             }
           ]
         }
@@ -5958,12 +6898,37 @@
         {
           "title": "Default",
           "framework": "angular",
-          "code": "<!-- Storybook story: Default -->\n<uni-slider ${argsToTemplate(props)}></uni-slider>\n<!-- args:\n{ label: 'Volume', value: 40 }\n-->"
+          "code": "<!-- Storybook story: Default -->\n<uni-slider ${argsToTemplate(props)}></uni-slider>\n<!-- args:\n{ label: 'Volume', value: 40, valueDisplay: 'inline' }\n-->"
         },
         {
           "title": "Stepped Range",
           "framework": "angular",
-          "code": "<!-- Storybook story: Stepped Range -->\n<uni-slider ${argsToTemplate(props)}></uni-slider>\n<!-- args:\n{ label: 'Opacity', min: 0, max: 1, step: 0.05, value: 0.6 }\n-->"
+          "code": "<!-- Storybook story: Stepped Range -->\n<uni-slider ${argsToTemplate(props)}></uni-slider>\n<!-- args:\n{ label: 'Opacity', min: 0, max: 1, step: 0.05, value: 0.6, valueDisplay: 'inline' }\n-->"
+        },
+        {
+          "title": "Two Thumbs",
+          "framework": "angular",
+          "code": "<!-- Storybook story: Two Thumbs -->\n<uni-slider ${argsToTemplate(props)}></uni-slider>\n<!-- args:\n{\n    label: 'Price range',\n    mode: 'range',\n    min: 0,\n    max: 1000,\n    step: 10,\n    minGap: 50,\n    value: { start: 200, end: 700 },\n    valueDisplay: 'inline',\n  }\n-->"
+        },
+        {
+          "title": "Marks",
+          "framework": "angular",
+          "code": "<!-- Storybook story: Marks -->\n<uni-slider ${argsToTemplate(props)}></uni-slider>\n<!-- args:\n{\n    label: 'Size',\n    min: 1,\n    max: 5,\n    value: 3,\n    snapToMarks: true,\n    marks: [\n      { value: 1, label: 'XS' },\n      { value: 2, label: 'S' },\n      { value: 3, label: 'M' },\n      { value: 4, label: 'L' },\n      { value: 5, label: 'XL' },\n    ],\n  }\n-->"
+        },
+        {
+          "title": "Tooltip",
+          "framework": "angular",
+          "code": "<!-- Storybook story: Tooltip -->\n<uni-slider ${argsToTemplate(props)}></uni-slider>\n<!-- args:\n{ label: 'Brightness', value: 64, valueDisplay: 'tooltip' }\n-->"
+        },
+        {
+          "title": "Spanning Zero",
+          "framework": "angular",
+          "code": "<!-- Storybook story: Spanning Zero -->\n<uni-slider ${argsToTemplate(props)}></uni-slider>\n<!-- args:\n{ label: 'Balance', min: -100, max: 100, origin: 0, value: -40, valueDisplay: 'inline' }\n-->"
+        },
+        {
+          "title": "Variant",
+          "framework": "angular",
+          "code": "<!-- Storybook story: Variant -->\n<uni-slider ${argsToTemplate(props)}></uni-slider>\n<!-- args:\n{ label: 'Storage used', value: 88, variant: 'warn', valueDisplay: 'inline' }\n-->"
         },
         {
           "title": "Disabled",
@@ -5972,21 +6937,43 @@
         }
       ],
       "guidelines": {
-        "whenToUse": "Range slider for picking a number within bounds. It renders a native\n`<input type=\"range\">`, so keyboard interaction (arrows, Home/End, Page Up/Down) and\nthe ARIA slider contract come from the platform. The same Signal Forms contract as\nInput applies — bind with the `[field]` directive or drive `[(value)]` directly.\nFill and thumb color, track color, radii and geometry resolve from the theme's\n`slider` options; the fill level rides a CSS custom property, so dragging never\nregenerates styles.",
-        "dos": [],
-        "donts": [],
+        "whenToUse": "Reach for a slider when the *position* is the information — volume, opacity,\nweightings, price filters — and for a number field when the exact figure is. A\nslider is a poor way to enter 47, and a text field is a poor way to feel where\n47 sits between 0 and 100. Bind `changed` in a form; `sliding` streams every\nframe of a drag and is there for live previews.\nOne thumb by default, two when `mode=\"range\"`, with a `{ start, end }` value\nthat reuses the range vocabulary from `uni-calendar`. Stepping is exact decimal\narithmetic from the cdk, shared with the numeric input family, so a `0.1` step\nnever lands on `0.30000000000000004`. Fill and thumb colour come from the\n`variant` role pair; the track, geometry, marks and tooltip resolve from the\ntheme's `slider` options.",
+        "dos": [
+          "Use `changed` for form binding and `sliding` only for live previews.",
+          "Pair a slider with a number field when users need both a ballpark and an exact value.",
+          "Give `marks` labels when the underlying numbers are not meaningful to a reader."
+        ],
+        "donts": [
+          "Don't use a slider for a value that needs precision or a wide range — a number field is faster and more accurate.",
+          "Don't put a slider in a scrolling list without testing touch: the track claims horizontal drags.",
+          "Don't rely on the visible readout alone; the value is already in `aria-valuetext`, and duplicating it into the live region is noise."
+        ],
         "accessibility": [
-          "Native `<input type=\"range\">`: arrows, Home/End, and Page Up/Down come from the platform, and the ARIA slider contract (valuenow/min/max) is native.",
+          "Each thumb is a `role=\"slider\"` with `aria-valuenow`, `aria-valuemin`, `aria-valuemax`, and `aria-valuetext` in the display format — so a money slider says \"$500\", not \"500\".",
+          "Arrow keys step by `step`; `Shift+Arrow` and `Page Up`/`Page Down` step by `largeStep`; `Home`/`End` jump to the fences.",
+          "Up and Down always follow the number. Left and Right follow the *picture*, so they mirror in right-to-left layouts.",
+          "In range mode the thumbs are wrapped in a `role=\"group\"` named by `label`, named \"minimum\" and \"maximum\", and each thumb's `aria-valuemin`/`aria-valuemax` report the other thumb's position — the wall where it actually is.",
+          "The thumb's hit area is padded to at least 24×24 (WCAG 2.2 SC 2.5.8) even when the visual dot is 16px.",
           "`label` is required and becomes the accessible name.",
-          "Expose the current value textually nearby and link it with `ariaDescribedBy` when the number matters."
+          "The live region announces only fences and swaps; ordinary movement is already narrated by `aria-valuetext`."
         ]
       },
       "relatedTokens": [
-        "slider.behavior.color",
+        "slider.behavior.trackHeight",
         "slider.behavior.trackColor",
         "slider.behavior.borderRadius",
-        "slider.behavior.trackHeight",
-        "slider.behavior.thumbSize"
+        "slider.behavior.thumbSize",
+        "slider.behavior.thumbBorderRadius",
+        "slider.behavior.minTouchTarget",
+        "slider.behavior.markSize",
+        "slider.behavior.markColor",
+        "slider.behavior.labelTypeface",
+        "slider.behavior.labelColor",
+        "slider.behavior.tooltipColor",
+        "slider.behavior.tooltipTextColor",
+        "slider.behavior.tooltipShadow",
+        "slider.behavior.tooltipBorderRadius",
+        "slider.behavior.transitionMs"
       ]
     },
     {
@@ -10753,6 +11740,342 @@
       }
     },
     {
+      "id": "numberInput.behavior.stepperLayout",
+      "value": "stacked",
+      "type": "string",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "numberInput",
+      "themeValues": {
+        "LightTheme": "stacked",
+        "DarkTheme": "stacked"
+      }
+    },
+    {
+      "id": "numberInput.behavior.incrementIcon",
+      "value": "plus",
+      "type": "string",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "numberInput",
+      "themeValues": {
+        "LightTheme": "plus",
+        "DarkTheme": "plus"
+      }
+    },
+    {
+      "id": "numberInput.behavior.decrementIcon",
+      "value": "minus",
+      "type": "string",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "numberInput",
+      "themeValues": {
+        "LightTheme": "minus",
+        "DarkTheme": "minus"
+      }
+    },
+    {
+      "id": "numberInput.behavior.stepUpIcon",
+      "value": "chevronUp",
+      "type": "string",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "numberInput",
+      "themeValues": {
+        "LightTheme": "chevronUp",
+        "DarkTheme": "chevronUp"
+      }
+    },
+    {
+      "id": "numberInput.behavior.stepDownIcon",
+      "value": "chevronDown",
+      "type": "string",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "numberInput",
+      "themeValues": {
+        "LightTheme": "chevronDown",
+        "DarkTheme": "chevronDown"
+      }
+    },
+    {
+      "id": "numberInput.behavior.stepperWidth",
+      "value": 32,
+      "type": "number",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "numberInput",
+      "themeValues": {
+        "LightTheme": 32,
+        "DarkTheme": 32
+      }
+    },
+    {
+      "id": "numberInput.behavior.minTouchTarget",
+      "value": 24,
+      "type": "number",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "numberInput",
+      "themeValues": {
+        "LightTheme": 24,
+        "DarkTheme": 24
+      }
+    },
+    {
+      "id": "numberInput.behavior.affixColor",
+      "value": "on-primary-surface-variant",
+      "type": "string",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "numberInput",
+      "themeValues": {
+        "LightTheme": "on-primary-surface-variant",
+        "DarkTheme": "on-primary-surface-variant"
+      }
+    },
+    {
+      "id": "numberInput.behavior.affixGap",
+      "value": "xs",
+      "type": "string",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "numberInput",
+      "themeValues": {
+        "LightTheme": "xs",
+        "DarkTheme": "xs"
+      }
+    },
+    {
+      "id": "numberInput.behavior.align",
+      "value": "start",
+      "type": "string",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "numberInput",
+      "themeValues": {
+        "LightTheme": "start",
+        "DarkTheme": "start"
+      }
+    },
+    {
+      "id": "numberInput.behavior.tabularNumerals",
+      "value": true,
+      "type": "boolean",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "numberInput",
+      "themeValues": {
+        "LightTheme": true,
+        "DarkTheme": true
+      }
+    },
+    {
+      "id": "numberInput.behavior.repeatDelayMs",
+      "value": 500,
+      "type": "number",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "numberInput",
+      "themeValues": {
+        "LightTheme": 500,
+        "DarkTheme": 500
+      }
+    },
+    {
+      "id": "numberInput.behavior.repeatIntervalMs",
+      "value": 100,
+      "type": "number",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "numberInput",
+      "themeValues": {
+        "LightTheme": 100,
+        "DarkTheme": 100
+      }
+    },
+    {
+      "id": "numberInput.behavior.repeatFastIntervalMs",
+      "value": 25,
+      "type": "number",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "numberInput",
+      "themeValues": {
+        "LightTheme": 25,
+        "DarkTheme": 25
+      }
+    },
+    {
+      "id": "numberInput.behavior.repeatRampMs",
+      "value": 2000,
+      "type": "number",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "numberInput",
+      "themeValues": {
+        "LightTheme": 2000,
+        "DarkTheme": 2000
+      }
+    },
+    {
+      "id": "numberRangeInput.behavior.partGap",
+      "value": "sm",
+      "type": "string",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "numberRangeInput",
+      "themeValues": {
+        "LightTheme": "sm",
+        "DarkTheme": "sm"
+      }
+    },
+    {
+      "id": "numberRangeInput.behavior.dividerText",
+      "value": "–",
+      "type": "string",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "numberRangeInput",
+      "themeValues": {
+        "LightTheme": "–",
+        "DarkTheme": "–"
+      }
+    },
+    {
+      "id": "numberRangeInput.behavior.dividerColor",
+      "value": "outline",
+      "type": "string",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "numberRangeInput",
+      "themeValues": {
+        "LightTheme": "outline",
+        "DarkTheme": "outline"
+      }
+    },
+    {
+      "id": "numberRangeInput.behavior.affixColor",
+      "value": "on-primary-surface-variant",
+      "type": "string",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "numberRangeInput",
+      "themeValues": {
+        "LightTheme": "on-primary-surface-variant",
+        "DarkTheme": "on-primary-surface-variant"
+      }
+    },
+    {
+      "id": "numberRangeInput.behavior.affixGap",
+      "value": "xs",
+      "type": "string",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "numberRangeInput",
+      "themeValues": {
+        "LightTheme": "xs",
+        "DarkTheme": "xs"
+      }
+    },
+    {
+      "id": "quantityStepper.behavior.color",
+      "value": "primary-surface",
+      "type": "string",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "quantityStepper",
+      "themeValues": {
+        "LightTheme": "primary-surface",
+        "DarkTheme": "primary-surface"
+      }
+    },
+    {
+      "id": "quantityStepper.behavior.border",
+      "value": "light",
+      "type": "string",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "quantityStepper",
+      "themeValues": {
+        "LightTheme": "light",
+        "DarkTheme": "light"
+      }
+    },
+    {
+      "id": "quantityStepper.behavior.borderRadius",
+      "value": "xs",
+      "type": "string",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "quantityStepper",
+      "themeValues": {
+        "LightTheme": "xs",
+        "DarkTheme": "xs"
+      }
+    },
+    {
+      "id": "quantityStepper.behavior.incrementIcon",
+      "value": "plus",
+      "type": "string",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "quantityStepper",
+      "themeValues": {
+        "LightTheme": "plus",
+        "DarkTheme": "plus"
+      }
+    },
+    {
+      "id": "quantityStepper.behavior.decrementIcon",
+      "value": "minus",
+      "type": "string",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "quantityStepper",
+      "themeValues": {
+        "LightTheme": "minus",
+        "DarkTheme": "minus"
+      }
+    },
+    {
+      "id": "quantityStepper.behavior.deleteIcon",
+      "value": "delete",
+      "type": "string",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "quantityStepper",
+      "themeValues": {
+        "LightTheme": "delete",
+        "DarkTheme": "delete"
+      }
+    },
+    {
+      "id": "quantityStepper.behavior.tabularNumerals",
+      "value": true,
+      "type": "boolean",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "quantityStepper",
+      "themeValues": {
+        "LightTheme": true,
+        "DarkTheme": true
+      }
+    },
+    {
+      "id": "quantityStepper.behavior.valueWidth",
+      "value": "3ch",
+      "type": "string",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "quantityStepper",
+      "themeValues": {
+        "LightTheme": "3ch",
+        "DarkTheme": "3ch"
+      }
+    },
+    {
       "id": "tabs.behavior.typeface",
       "value": "title-small",
       "type": "string",
@@ -12037,27 +13360,27 @@
       }
     },
     {
-      "id": "slider.behavior.color",
-      "value": "primary",
-      "type": "string",
+      "id": "slider.behavior.trackHeight",
+      "value": 4,
+      "type": "number",
       "kind": "behavioral",
       "target": "component-prop",
       "appliesTo": "slider",
       "themeValues": {
-        "LightTheme": "primary",
-        "DarkTheme": "primary"
+        "LightTheme": 4,
+        "DarkTheme": 4
       }
     },
     {
       "id": "slider.behavior.trackColor",
-      "value": "surface-variant",
+      "value": "primary-container",
       "type": "string",
       "kind": "behavioral",
       "target": "component-prop",
       "appliesTo": "slider",
       "themeValues": {
-        "LightTheme": "surface-variant",
-        "DarkTheme": "surface-variant"
+        "LightTheme": "primary-container",
+        "DarkTheme": "primary-container"
       }
     },
     {
@@ -12073,18 +13396,6 @@
       }
     },
     {
-      "id": "slider.behavior.trackHeight",
-      "value": 4,
-      "type": "number",
-      "kind": "behavioral",
-      "target": "component-prop",
-      "appliesTo": "slider",
-      "themeValues": {
-        "LightTheme": 4,
-        "DarkTheme": 4
-      }
-    },
-    {
       "id": "slider.behavior.thumbSize",
       "value": 16,
       "type": "number",
@@ -12094,6 +13405,138 @@
       "themeValues": {
         "LightTheme": 16,
         "DarkTheme": 16
+      }
+    },
+    {
+      "id": "slider.behavior.thumbBorderRadius",
+      "value": "max",
+      "type": "string",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "slider",
+      "themeValues": {
+        "LightTheme": "max",
+        "DarkTheme": "max"
+      }
+    },
+    {
+      "id": "slider.behavior.minTouchTarget",
+      "value": 24,
+      "type": "number",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "slider",
+      "themeValues": {
+        "LightTheme": 24,
+        "DarkTheme": 24
+      }
+    },
+    {
+      "id": "slider.behavior.markSize",
+      "value": 3,
+      "type": "number",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "slider",
+      "themeValues": {
+        "LightTheme": 3,
+        "DarkTheme": 3
+      }
+    },
+    {
+      "id": "slider.behavior.markColor",
+      "value": "on-primary-container",
+      "type": "string",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "slider",
+      "themeValues": {
+        "LightTheme": "on-primary-container",
+        "DarkTheme": "on-primary-container"
+      }
+    },
+    {
+      "id": "slider.behavior.labelTypeface",
+      "value": "label",
+      "type": "string",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "slider",
+      "themeValues": {
+        "LightTheme": "label",
+        "DarkTheme": "label"
+      }
+    },
+    {
+      "id": "slider.behavior.labelColor",
+      "value": "on-surface-variant",
+      "type": "string",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "slider",
+      "themeValues": {
+        "LightTheme": "on-surface-variant",
+        "DarkTheme": "on-surface-variant"
+      }
+    },
+    {
+      "id": "slider.behavior.tooltipColor",
+      "value": "inverse-surface",
+      "type": "string",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "slider",
+      "themeValues": {
+        "LightTheme": "inverse-surface",
+        "DarkTheme": "inverse-surface"
+      }
+    },
+    {
+      "id": "slider.behavior.tooltipTextColor",
+      "value": "on-inverse-surface",
+      "type": "string",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "slider",
+      "themeValues": {
+        "LightTheme": "on-inverse-surface",
+        "DarkTheme": "on-inverse-surface"
+      }
+    },
+    {
+      "id": "slider.behavior.tooltipShadow",
+      "value": "menu",
+      "type": "string",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "slider",
+      "themeValues": {
+        "LightTheme": "menu",
+        "DarkTheme": "menu"
+      }
+    },
+    {
+      "id": "slider.behavior.tooltipBorderRadius",
+      "value": "xs",
+      "type": "string",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "slider",
+      "themeValues": {
+        "LightTheme": "xs",
+        "DarkTheme": "xs"
+      }
+    },
+    {
+      "id": "slider.behavior.transitionMs",
+      "value": 120,
+      "type": "number",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "slider",
+      "themeValues": {
+        "LightTheme": 120,
+        "DarkTheme": 120
       }
     },
     {
@@ -12863,6 +14306,40 @@
           "rows": 3,
           "resize": "vertical"
         },
+        "numberInput": {
+          "stepperLayout": "stacked",
+          "incrementIcon": "plus",
+          "decrementIcon": "minus",
+          "stepUpIcon": "chevronUp",
+          "stepDownIcon": "chevronDown",
+          "stepperWidth": 32,
+          "minTouchTarget": 24,
+          "affixColor": "on-primary-surface-variant",
+          "affixGap": "xs",
+          "align": "start",
+          "tabularNumerals": true,
+          "repeatDelayMs": 500,
+          "repeatIntervalMs": 100,
+          "repeatFastIntervalMs": 25,
+          "repeatRampMs": 2000
+        },
+        "numberRangeInput": {
+          "partGap": "sm",
+          "dividerText": "–",
+          "dividerColor": "outline",
+          "affixColor": "on-primary-surface-variant",
+          "affixGap": "xs"
+        },
+        "quantityStepper": {
+          "color": "primary-surface",
+          "border": "light",
+          "borderRadius": "xs",
+          "incrementIcon": "plus",
+          "decrementIcon": "minus",
+          "deleteIcon": "delete",
+          "tabularNumerals": true,
+          "valueWidth": "3ch"
+        },
         "tabs": {
           "typeface": "title-small",
           "textColor": "on-surface-variant",
@@ -13007,11 +14484,21 @@
           "gap": "xxs"
         },
         "slider": {
-          "color": "primary",
-          "trackColor": "surface-variant",
-          "borderRadius": "max",
           "trackHeight": 4,
-          "thumbSize": 16
+          "trackColor": "primary-container",
+          "borderRadius": "max",
+          "thumbSize": 16,
+          "thumbBorderRadius": "max",
+          "minTouchTarget": 24,
+          "markSize": 3,
+          "markColor": "on-primary-container",
+          "labelTypeface": "label",
+          "labelColor": "on-surface-variant",
+          "tooltipColor": "inverse-surface",
+          "tooltipTextColor": "on-inverse-surface",
+          "tooltipShadow": "menu",
+          "tooltipBorderRadius": "xs",
+          "transitionMs": 120
         },
         "skeleton": {
           "color": "surface-variant",
@@ -13366,6 +14853,40 @@
           "rows": 3,
           "resize": "vertical"
         },
+        "numberInput": {
+          "stepperLayout": "stacked",
+          "incrementIcon": "plus",
+          "decrementIcon": "minus",
+          "stepUpIcon": "chevronUp",
+          "stepDownIcon": "chevronDown",
+          "stepperWidth": 32,
+          "minTouchTarget": 24,
+          "affixColor": "on-primary-surface-variant",
+          "affixGap": "xs",
+          "align": "start",
+          "tabularNumerals": true,
+          "repeatDelayMs": 500,
+          "repeatIntervalMs": 100,
+          "repeatFastIntervalMs": 25,
+          "repeatRampMs": 2000
+        },
+        "numberRangeInput": {
+          "partGap": "sm",
+          "dividerText": "–",
+          "dividerColor": "outline",
+          "affixColor": "on-primary-surface-variant",
+          "affixGap": "xs"
+        },
+        "quantityStepper": {
+          "color": "primary-surface",
+          "border": "light",
+          "borderRadius": "xs",
+          "incrementIcon": "plus",
+          "decrementIcon": "minus",
+          "deleteIcon": "delete",
+          "tabularNumerals": true,
+          "valueWidth": "3ch"
+        },
         "tabs": {
           "typeface": "title-small",
           "textColor": "on-surface-variant",
@@ -13510,11 +15031,21 @@
           "gap": "xxs"
         },
         "slider": {
-          "color": "primary",
-          "trackColor": "surface-variant",
-          "borderRadius": "max",
           "trackHeight": 4,
-          "thumbSize": 16
+          "trackColor": "primary-container",
+          "borderRadius": "max",
+          "thumbSize": 16,
+          "thumbBorderRadius": "max",
+          "minTouchTarget": 24,
+          "markSize": 3,
+          "markColor": "on-primary-container",
+          "labelTypeface": "label",
+          "labelColor": "on-surface-variant",
+          "tooltipColor": "inverse-surface",
+          "tooltipTextColor": "on-inverse-surface",
+          "tooltipShadow": "menu",
+          "tooltipBorderRadius": "xs",
+          "transitionMs": 120
         },
         "skeleton": {
           "color": "surface-variant",
