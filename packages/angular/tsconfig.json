@@ -16,5 +16,9 @@
     "ignoreDeprecations": "5.0"
   },
   "include": ["src/**/*", "**/*"],
-  "exclude": ["../node_modules", "../dist"]
+  // `prototypes/**` are standalone design explorations, deliberately outside
+  // the build — they reference modules and deps that do not exist here, and
+  // their decisions are already recorded. Excluding them is what lets `build`
+  // run a real `tsc --noEmit` over the code that ships.
+  "exclude": ["../node_modules", "../dist", "prototypes/**", "storybook-static/**"]
 }

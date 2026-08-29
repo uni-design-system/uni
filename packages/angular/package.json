@@ -18,7 +18,8 @@
     "save": "dependencies"
   },
   "scripts": {
-    "build": "node scripts/build-schematics.mjs && pnpm ng-packagr -p ng-package.json",
+    "build": "tsc --noEmit && node scripts/build-schematics.mjs && pnpm ng-packagr -p ng-package.json",
+    "type-check": "tsc --noEmit",
     "build:schematics": "node scripts/build-schematics.mjs",
     "test": "vitest run",
     "test:watch": "vitest",

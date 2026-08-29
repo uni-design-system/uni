@@ -3,7 +3,7 @@
  * radio, and a `duration: 0` token is the way to opt out of motion entirely.
  */
 import { TestBed } from '@angular/core/testing';
-import { createTheme, LightTheme } from '@uni-design-system/uni-core';
+import { createTheme, LightTheme, type Motions } from '@uni-design-system/uni-core';
 
 import { UniRadioComponent } from './radio.component';
 import { UNI_THEMES } from '../../theming/theme.token';
@@ -22,7 +22,7 @@ const stylesFor = (root: HTMLElement) => {
 };
 
 describe('UniRadioComponent motion', () => {
-  const render = (options: Record<string, unknown>, motion?: Record<string, unknown>) => {
+  const render = (options: Record<string, unknown>, motion?: Motions) => {
     const theme = createTheme({
       id: 'Test',
       name: 'Test',

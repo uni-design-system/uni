@@ -1,5 +1,8 @@
 /// <reference types="vitest" />
-import { defineConfig, transformWithOxc, type Plugin } from 'vite';
+// `defineConfig` from vitest/config, not vite: only vitest's overload accepts
+// the `test` block, so importing it from vite makes this file fail a typecheck.
+import { transformWithOxc, type Plugin } from 'vite';
+import { defineConfig } from 'vitest/config';
 import angular from '@analogjs/vite-plugin-angular';
 
 /**

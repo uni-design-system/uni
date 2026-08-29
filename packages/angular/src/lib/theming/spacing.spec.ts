@@ -57,7 +57,9 @@ describe('the spacing scale, applied', () => {
   // The scale is open, so a typo cannot be a compile error — it would
   // otherwise vanish silently, since an undefined CSS value is just dropped.
   it('warns once for a token the theme does not define', () => {
-    const messages = warn.mock.calls.map((c) => String(c[0]));
+    // `ReturnType<typeof vi.spyOn>` without type arguments leaves `calls` as
+    // `any`, which loses inference for every downstream callback.
+    const messages = (warn.mock.calls as unknown[][]).map((c) => String(c[0]));
     const hits = messages.filter((m) => m.includes('noSuchToken'));
     expect(hits).toHaveLength(1);
     expect(hits[0]).toContain('Unknown spacing token');
