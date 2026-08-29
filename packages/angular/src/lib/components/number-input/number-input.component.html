@@ -50,7 +50,7 @@
          caret math, select-all and paste never step over them, and they are
          aria-hidden because aria-valuetext already speaks them. -->
     @if (format().prefix) {
-      <span [class]="affixClass()" aria-hidden="true">{{ format().prefix }}</span>
+      <span [class]="prefixClass()" aria-hidden="true">{{ format().prefix }}</span>
     }
 
     <input
@@ -81,7 +81,7 @@
     />
 
     @if (format().suffix) {
-      <span [class]="affixClass()" aria-hidden="true">{{ format().suffix }}</span>
+      <span [class]="suffixClass()" aria-hidden="true">{{ format().suffix }}</span>
     }
 
     @if (showSteppers()) {
@@ -138,7 +138,14 @@
 @if (embedded()) {
   <ng-container [ngTemplateOutlet]="fieldContent"></ng-container>
 } @else {
-  <uni-input-box [error]="showError()" [disabled]="disabled()" [fullWidth]="true">
+  <!-- The inset moves onto the prefix (or the input when there is none), so an
+       adornment sits at the field's leading edge instead of hugging its border. -->
+  <uni-input-box
+    [error]="showError()"
+    [disabled]="disabled()"
+    [fullWidth]="true"
+    [managedInset]="!!format().prefix"
+  >
     <ng-container [ngTemplateOutlet]="fieldContent"></ng-container>
   </uni-input-box>
 }

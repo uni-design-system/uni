@@ -155,6 +155,31 @@ describe('UniNumberInputComponent', () => {
       set('align', 'end');
       expect(getComputedStyle(field()).textAlign).toBe('end');
     });
+
+    // jsdom reports an unset padding as '0', not '0px'.
+    const insetOf = (element: Element): number =>
+      parseFloat(getComputedStyle(element).paddingLeft) || 0;
+
+    it('gives the leading inset to the prefix, not the input', () => {
+      // Otherwise the $ hugs the border while the number it belongs to sits
+      // indented past it.
+      set('currency', 'USD');
+      const prefix = host().querySelector('span[aria-hidden="true"]')!;
+
+      expect(insetOf(prefix)).toBe(8);
+      expect(insetOf(field())).toBe(0);
+    });
+
+    it('keeps the inset on the input when there is no prefix', () => {
+      expect(host().querySelector('span[aria-hidden="true"]')).toBeNull();
+      expect(insetOf(field())).toBe(8);
+    });
+
+    it('leaves a trailing suffix un-inset', () => {
+      set('suffix', 'kg');
+      const suffix = host().querySelector('span[aria-hidden="true"]')!;
+      expect(insetOf(suffix)).toBe(0);
+    });
   });
 
   describe('typed entry', () => {

@@ -30,6 +30,18 @@ export class UniInputBoxComponent extends BaseComponent<UniInputBoxOptions> {
   fullWidth = input<boolean>(false);
   grow = input<number | undefined>(undefined);
 
+  /**
+   * Stop applying the themed leading inset to the inner control, for fields
+   * that place it themselves.
+   *
+   * The inset normally rides the `<input>`, which is right while the text is
+   * the field's leading edge. It is wrong the moment an adornment sits in
+   * front: a currency prefix would hug the border while the number it belongs
+   * to is indented past it. A field with adornments takes the inset over and
+   * puts it on whichever element is actually first.
+   */
+  managedInset = input<boolean>(false);
+
   /** Auto-height fields (tag input, textarea) still keep the themed height as
       a floor, so a single-line field lines up with every other input. */
   protected readonly minHeight = computed(() =>
@@ -59,7 +71,9 @@ export class UniInputBoxComponent extends BaseComponent<UniInputBoxOptions> {
         '& input, select, textarea': {
           ...removeInputPlatformStyling,
           height: '100%',
-          ...this.theme.paddingLeft(this.componentOptions().paddingLeft),
+          ...(this.managedInset()
+            ? undefined
+            : this.theme.paddingLeft(this.componentOptions().paddingLeft)),
           ...this.theme.color(this.componentOptions().textColor),
           ...this.theme.typeface(this.componentOptions().typeface),
         },

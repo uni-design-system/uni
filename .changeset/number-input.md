@@ -51,3 +51,10 @@ readout — drag for the ballpark, type for the exact value.
 Adds `numberInput` to `ComponentName` with a theme entry. Field chrome is not
 duplicated there: colour, border, radius and focus come from the shared `input`
 options via `uni-input-box`, so a number field restyles with every other field.
+
+`uni-input-box` gains a `managedInset` input. The themed leading inset normally
+rides the inner `<input>`, which is right while the text is the field's leading
+edge and wrong the moment an adornment sits in front — a currency prefix would
+hug the border while the number it belongs to sat indented past it. A field with
+adornments sets `managedInset` and places the inset on whichever element is
+actually first. Existing fields are unaffected: the default is `false`.

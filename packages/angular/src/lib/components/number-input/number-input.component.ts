@@ -41,6 +41,7 @@ import {
 import { BaseComponent, COMPONENT_NAME } from '../base/base.component';
 import { UniIconComponent } from '../icon/icon.component';
 import { UniInputBoxComponent } from '../input-box/input-box.component';
+import type { UniInputBoxOptions } from '../input-box/input-box.model';
 import type {
   UniNumberInputOptions,
   UniNumberRejection,
@@ -643,14 +644,41 @@ export class UniNumberInputComponent
     });
   });
 
-  protected readonly affixClass = computed(() => {
+  /**
+   * The shared field chrome, read from the `input` theme entry — the same entry
+   * `uni-input-box` resolves. Not a duplicate token: the inset has to be the
+   * one every other field uses, or a money field stops lining up with the text
+   * field above it.
+   */
+  private readonly fieldChrome = this.theme.getComponentOptions<UniInputBoxOptions>('input');
+
+  /**
+   * The leading inset for a prefix adornment. When there is a prefix the field
+   * tells the box to stop insetting the `<input>` (`managedInset`) and puts the
+   * inset here instead, so the `$` sits at the field's leading edge with the
+   * number right after it. With no prefix the box keeps doing it — the text is
+   * the leading edge then, and the box's rule outranks this class anyway.
+   * `embedded` fields have no chrome, so they get no inset either.
+   */
+  private readonly leadingInset = computed(() =>
+    this.embedded() ? undefined : this.theme.paddingLeft(this.fieldChrome().paddingLeft)
+  );
+
+  private affixBase() {
     const options = this.componentOptions();
-    return css({
-      flex: 'none',
-      userSelect: 'none',
+    return {
+      flex: 'none' as const,
+      userSelect: 'none' as const,
       ...this.theme.color(options.affixColor ?? 'on-primary-surface-variant'),
-    });
-  });
+    };
+  }
+
+  /** Carries the field's leading inset, being the first thing in the row. */
+  protected readonly prefixClass = computed(() =>
+    css([this.affixBase(), this.leadingInset()])
+  );
+
+  protected readonly suffixClass = computed(() => css([this.affixBase()]));
 
   /** Shared chrome for every stepper button, in any layout. */
   private stepperButton(): Record<string, unknown> {
