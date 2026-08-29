@@ -357,6 +357,16 @@ export class UniQuantityStepperComponent
               ...this.theme.backgroundColor(chrome.focusColor),
             }),
       },
+
+      // The dividers move with the frame, so a focused control does not end up
+      // amber on the outside and grey down the middle. Falls back to the resting
+      // border, which is a no-op in themes that show focus as an outline.
+      '&:has(input:focus) > input': this.showError()
+        ? {}
+        : {
+            ...this.theme.borderLeft(chrome.focusBorder ?? this.dividerBorder()),
+            ...this.theme.borderRight(chrome.focusBorder ?? this.dividerBorder()),
+          },
     });
   });
 
@@ -379,6 +389,9 @@ export class UniQuantityStepperComponent
     });
   });
 
+  /** The rules either side of the value, matching the frame around it. */
+  private readonly dividerBorder = computed(() => this.componentOptions().border ?? 'light');
+
   private valueBase() {
     const options = this.componentOptions();
     const colors = this.theme.colors();
@@ -395,8 +408,15 @@ export class UniQuantityStepperComponent
       outline: 'none',
       ...(options.tabularNumerals === false ? {} : { fontVariantNumeric: 'tabular-nums' as const }),
       // A rule either side, which is what makes the three parts read as one
-      // control rather than three loose ones.
-      borderInline: `1px solid ${colors[options.dividerColor ?? 'outline']}`,
+      // control rather than three loose ones. It uses the **same token as the
+      // outer border** so the frame reads as one weight — a heavier divider
+      // makes the control look like three stuck together. A theme wanting a
+      // distinct rule overrides just its colour.
+      ...this.theme.borderLeft(this.dividerBorder()),
+      ...this.theme.borderRight(this.dividerBorder()),
+      ...(options.dividerColor
+        ? { borderInlineColor: colors[options.dividerColor] }
+        : {}),
     };
   }
 

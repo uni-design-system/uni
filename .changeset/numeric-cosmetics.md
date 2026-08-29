@@ -2,7 +2,15 @@
 '@uni-design-system/uni-angular': patch
 ---
 
-Two cosmetic fixes in the numeric family.
+Three cosmetic fixes in the numeric family.
+
+**`uni-quantity-stepper`'s dividers were heavier than its frame.** The rules
+either side of the value took `dividerColor: 'outline'` — a solid grey — against
+an outer border of the 8%-alpha `light` token, so the control read as three
+pieces stuck together rather than one frame. They now take the **same `border`
+token as the container** and move with it on focus, so a focused stepper is not
+accented on the outside and grey down the middle. `dividerColor` remains as an
+opt-in override for a deliberately distinct rule, and is unset in the base theme.
 
 **`uni-quantity-stepper` had no focus state.** Every other field gets its focus
 chrome from `uni-input-box`, which the stepper deliberately does not use — and

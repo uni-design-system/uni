@@ -287,6 +287,33 @@ describe('UniQuantityStepperComponent', () => {
       // The same tokens uni-input-box uses for every other field.
       expect(sheets).toContain('outline-offset:2px');
     });
+
+    it('draws the dividers in the same weight as the outer border', () => {
+      // A heavier rule down the middle makes the control read as three parts
+      // stuck together rather than one frame.
+      fixture.componentInstance.value.set(3);
+      fixture.detectChanges();
+
+      const root = host().querySelector('div')!;
+      const outer = getComputedStyle(root).borderTopColor;
+      const divider = getComputedStyle(field()!).borderLeftColor;
+
+      expect(divider).toBe(outer);
+      expect(getComputedStyle(field()!).borderRightColor).toBe(outer);
+    });
+
+    it('moves the dividers with the focus border', () => {
+      const root = host().querySelector('div')!;
+      const sheets = Array.from(document.querySelectorAll('style'))
+        .map((s) => s.textContent ?? '')
+        .filter((text) => Array.from(root.classList).some((c) => text.includes(`.${c}`)))
+        .join('');
+
+      // Otherwise a focused control is amber outside and grey down the middle.
+      // Emotion serializes the child combinator without spaces.
+      expect(sheets).toContain(':has(input:focus)>input');
+      expect(sheets).toMatch(/:has\(input:focus\)>input\{border-left:/);
+    });
   });
 
   describe('sizing', () => {

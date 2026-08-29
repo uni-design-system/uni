@@ -514,7 +514,10 @@ const buildComponents = (c: Colors): ComponentThemes => ({
       color: 'primary-surface',
       border: 'light',
       borderRadius: 'xs',
-      dividerColor: 'outline',
+      // `dividerColor` is deliberately unset: the rules either side of the
+      // value take the `border` token above, so the frame reads as one weight
+      // and follows the focus border. Set it only for a deliberately distinct
+      // divider.
       incrementIcon: 'plus',
       decrementIcon: 'minus',
       // At `min` with `deleteAtMin`, the − becomes a remove affordance.

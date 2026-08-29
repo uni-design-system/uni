@@ -25,7 +25,12 @@ export interface UniQuantityStepperOptions {
   color?: ContainerColorToken;
   border?: Border;
   borderRadius?: Radius;
-  /** Rule between each button and the value. */
+  /**
+   * Colour override for the rules between the buttons and the value. Unset —
+   * the default — means they take `border`, so the frame reads as one weight
+   * and the dividers follow the focus border. Set this only for a deliberately
+   * distinct divider.
+   */
   dividerColor?: ColorKey;
   incrementIcon?: IconName;
   decrementIcon?: IconName;
