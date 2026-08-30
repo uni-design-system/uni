@@ -1,0 +1,57 @@
+<!-- Constrained on purpose: with a wide canvas every control gets what it asks
+     for and nothing competes, so the bug this page exists to show cannot
+     appear. The width is the pressure. -->
+<div [class]="frameClass">
+
+<!-- Each row is the real thing under test: a control in an `auto` track with a
+     sibling in `1fr`. The bar is what the control left behind. -->
+@for (name of names; track name; let i = $index) {
+  <div grid-layout templateColumns="9rem auto 1fr 9rem" gap="sm" [class]="rowClass">
+    <span [class]="nameClass">{{ name }}</span>
+
+    <div #cell>
+      @switch (name) {
+        @case ('uni-input') {
+          <uni-input label="Text" value="Hello" />
+        }
+        @case ('uni-number-input') {
+          <uni-number-input label="Quantity" [value]="3" [min]="1" />
+        }
+        @case ('uni-quantity-stepper') {
+          <uni-quantity-stepper label="Quantity, cart line" [value]="3" [min]="1" />
+        }
+        @case ('uni-number-range-input') {
+          <uni-number-range-input label="Price range" [value]="{ start: 50, end: 500 }" />
+        }
+        @case ('uni-slider') {
+          <uni-slider label="Opacity" [value]="40" />
+        }
+        @case ('uni-select') {
+          <uni-select ariaLabel="Fruit" [options]="options" />
+        }
+        @case ('uni-combobox') {
+          <uni-combobox label="Fruit" [options]="options" />
+        }
+        @case ('uni-tag-input') {
+          <uni-tag-input label="To" [value]="[{ value: 'alice@uni.dev' }]" />
+        }
+        @case ('uni-date-input') {
+          <uni-date-input label="Date" value="2026-08-20" />
+        }
+        @case ('uni-time-input') {
+          <uni-time-input label="Time" value="09:30" />
+        }
+        @case ('uni-textarea') {
+          <uni-textarea label="Notes" value="Hello" />
+        }
+      }
+    </div>
+
+    <!-- The bar's length is the signal; the numbers are the detail. -->
+    <div #filler [class]="fillerClass"></div>
+
+    <span [class]="readoutClass">{{ widthOf(i) }} · {{ remainingOf(i) }}</span>
+  </div>
+}
+
+</div>

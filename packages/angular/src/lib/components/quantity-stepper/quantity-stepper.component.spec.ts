@@ -351,6 +351,39 @@ describe('UniQuantityStepperComponent', () => {
     });
   });
 
+  describe('width', () => {
+    it('sizes the value cell from its content, not the browser default', () => {
+      // A bare <input> defaults to size="20", and `flex-basis: auto` resolves
+      // to that — which made the control claim ~230px and steal grid track
+      // width from whatever sat beside it.
+      fixture.componentInstance.value.set(3);
+      fixture.detectChanges();
+      expect(field()!.getAttribute('size')).toBe('1');
+
+      // Grows with the digits; `valueWidth` is only the floor.
+      fixture.componentInstance.value.set(1200);
+      fixture.detectChanges();
+      expect(field()!.getAttribute('size')).toBe('4'); // "1200" — min2 grouping
+
+      // And with the separator once grouping kicks in at five digits.
+      fixture.componentInstance.value.set(12000);
+      fixture.detectChanges();
+      expect(field()!.getAttribute('size')).toBe('6'); // "12,000"
+    });
+
+    it('never asks for a zero-width cell', () => {
+      fixture.componentInstance.value.set(null);
+      fixture.detectChanges();
+      expect(field()!.getAttribute('size')).toBe('1');
+    });
+
+    it('keeps valueWidth as the minimum', () => {
+      fixture.componentInstance.value.set(3);
+      fixture.detectChanges();
+      expect(getComputedStyle(field()!).minWidth).toBe('3ch');
+    });
+  });
+
   describe('sizing', () => {
     it('takes its outer height from the theme size, buttons square at it', () => {
       for (const [size, height] of [

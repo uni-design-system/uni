@@ -419,6 +419,19 @@ export class UniQuantityStepperComponent
   /** The rules either side of the value, matching the frame around it. */
   private readonly dividerBorder = computed(() => this.containerBorder());
 
+  /**
+   * Characters the value cell asks the browser to size itself for.
+   *
+   * Load-bearing: a bare `<input>` defaults to `size="20"`, and `flex-basis:
+   * auto` resolves to that intrinsic width — so the control claimed ~230px
+   * instead of the ~100px its buttons and `valueWidth` need, and stole track
+   * width from anything beside it in a grid (`1fr` is `minmax(auto, 1fr)`, and
+   * the `auto` floor includes this). Tracking the content keeps the cell honest
+   * while still letting it grow with the digits, which a fixed `width` would
+   * not. `valueWidth` remains the floor, via `min-width`.
+   */
+  protected readonly valueSize = computed(() => Math.max(this.displayText().length, 1));
+
   private valueBase() {
     const options = this.componentOptions();
     const colors = this.theme.colors();

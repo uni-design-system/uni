@@ -1,0 +1,53 @@
+import { Meta, Title } from '@storybook/addon-docs/blocks';
+
+import * as Stories from './layout-pressure.stories';
+import { StoryExample } from '../blocks/StoryExample';
+
+<Meta of={Stories} name="Layout pressure" />
+<Title />
+
+## Overview
+
+Every form control placed in a `grid-template-columns: auto 1fr` row, with a
+sibling in the `1fr` track reporting what it was left. It exists to make one
+specific class of bug visible, because nothing else in the repo can see it.
+
+A `1fr` track is `minmax(auto, 1fr)`, and that `auto` floor is the item's own
+min-content size. So a control that reports a larger intrinsic width than it
+actually needs quietly steals track width from whatever sits next to it — in a
+form, a table row, a cart line. The component still looks correct on its own,
+which is why this shipped once: `uni-quantity-stepper`'s value cell is a native
+`<input>`, and a bare input defaults to `size="20"`, so `flex-basis: auto`
+resolved to roughly twenty characters. The control measured about 230px where it
+needed 92, and a consumer found it by watching a grid column collapse.
+
+Neither the unit tests nor `build-storybook` can catch that. The specs assert
+computed styles and ARIA — real layout contribution is not something jsdom
+measures — and no other story renders these controls under width pressure.
+
+## How to read it
+
+Scan the **remaining** number down the page. The controls are not all the same
+width and are not meant to be, but a control whose remaining figure is much
+smaller than its neighbours' is claiming space it does not use. Drag the
+viewport narrower and the figures update live; a well-behaved control gives
+ground smoothly, and one with an inflated floor stops shrinking early.
+
+<StoryExample of={Stories.FormControls} />
+
+One row reads oddly on purpose. `uni-slider` is a full-width block, so its
+min-content size is barely the thumb and an `auto` track collapses it to about
+24px. That is correct behaviour rather than a defect — a control built to fill
+its container needs an explicit width, or a `1fr` track of its own — but it is
+the clearest illustration on the page of how much an `auto` track takes its
+instruction from the control rather than from the layout.
+
+## Do
+
+- Check this page after changing anything that renders a native `<input>`, `<select>` or `<textarea>` inside a flex or grid container.
+- Prefer sizing a native input from its content (`size`) over a fixed `width`, so the intrinsic width is honest and the control can still grow.
+
+## Don't
+
+- Don't read the control column as a target. A date field is legitimately wider than a stepper; it is the *unexplained* outlier that matters.
+- Don't fix an inflated floor with `width: 0` on the consumer side. It hides the symptom and pins the control at its minimum, so long values clip.

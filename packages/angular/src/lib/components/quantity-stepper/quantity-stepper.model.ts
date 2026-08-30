@@ -41,6 +41,11 @@ export interface UniQuantityStepperOptions {
   deleteIcon?: IconName;
   /** `font-variant-numeric: tabular-nums`, so held stepping does not jitter. */
   tabularNumerals?: boolean;
-  /** Minimum width of the value, e.g. `'3ch'`. Stops a step reflowing the row. */
+  /**
+   * Floor for the value cell, e.g. `'3ch'` — headroom so stepping 9 → 10 does
+   * not reflow the row. Beyond it the cell grows with the digits, because the
+   * input is sized from its content rather than the browser's 20-character
+   * default.
+   */
   valueWidth?: string | number;
 }
