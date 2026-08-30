@@ -173,6 +173,33 @@ describe('createPressRepeat', () => {
     expect(steps.filter(Boolean)).toHaveLength(3);
   });
 
+  it('hands focus over on press, since preventDefault would strand it', () => {
+    // Taking pointer capture means preventing the default, which suppresses the
+    // browser's own focus handling — so a spinner button would otherwise leave
+    // focus nowhere and the arrow keys dead.
+    const focused: unknown[] = [];
+    const repeat = build({ focus: (button) => focused.push(button) });
+
+    const button = document.createElement('button');
+    button.setPointerCapture = () => undefined;
+    const event = new Event('pointerdown') as PointerEvent;
+    Object.defineProperty(event, 'currentTarget', { value: button });
+    Object.defineProperty(event, 'pointerId', { value: 3 });
+
+    repeat.press(event);
+
+    // The pressed button comes through, as a fallback for controls with no
+    // field of their own to focus.
+    expect(focused).toEqual([button]);
+  });
+
+  it('does not ask for focus when the press is refused', () => {
+    const focused: unknown[] = [];
+    const repeat = build({ disabled: () => true, focus: () => focused.push(true) });
+    repeat.press();
+    expect(focused).toEqual([]);
+  });
+
   it('takes pointer capture so a slide off the button still releases', () => {
     const repeat = build();
     const button = document.createElement('button');

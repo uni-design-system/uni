@@ -494,6 +494,9 @@ export class UniNumberInputComponent
     onRelease: () => this.announceValue(),
     disabled: () => this.disabled() || this.readOnly() || this.atMax(),
     repeat: () => this.repeat(),
+    // A native spinner leaves focus in its field; without this the arrow keys
+    // go dead the moment you click a stepper.
+    focus: () => this.inputRef().nativeElement.focus(),
     timing: this.repeatTiming,
   });
 
@@ -502,6 +505,9 @@ export class UniNumberInputComponent
     onRelease: () => this.announceValue(),
     disabled: () => this.disabled() || this.readOnly() || this.atMin(),
     repeat: () => this.repeat(),
+    // A native spinner leaves focus in its field; without this the arrow keys
+    // go dead the moment you click a stepper.
+    focus: () => this.inputRef().nativeElement.focus(),
     timing: this.repeatTiming,
   });
 

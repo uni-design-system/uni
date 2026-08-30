@@ -432,6 +432,19 @@ describe('UniNumberInputComponent', () => {
       expect(live()).toBe('Maximum, 10.');
     });
 
+    it('puts focus in the field when a stepper is pressed', () => {
+      // A native spinner leaves focus in its input; without this the arrow keys
+      // stop working the moment you click a stepper.
+      field().blur();
+      const increase = buttons().find(
+        (b) => b.getAttribute('aria-label') === 'Increase Quantity'
+      )!;
+      increase.dispatchEvent(new Event('pointerdown', { bubbles: true }));
+      fixture.detectChanges();
+
+      expect(document.activeElement).toBe(field());
+    });
+
     it('disables the stepper at the fence it cannot pass', () => {
       set('min', 0);
       set('max', 10);

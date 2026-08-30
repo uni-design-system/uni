@@ -288,6 +288,41 @@ describe('UniQuantityStepperComponent', () => {
       expect(sheets).toContain('outline-offset:2px');
     });
 
+    it('puts focus in the field when a stepper is pressed', () => {
+      // Otherwise the arrow keys go dead the moment you click +, which is
+      // exactly when someone reaches for them.
+      field()!.blur();
+      increase().dispatchEvent(new Event('pointerdown', { bubbles: true }));
+      fixture.detectChanges();
+
+      expect(document.activeElement).toBe(field());
+    });
+
+    it('falls back to the button when there is no field to focus', () => {
+      set('editable', false);
+      expect(field()).toBeNull();
+
+      increase().dispatchEvent(new Event('pointerdown', { bubbles: true }));
+      fixture.detectChanges();
+
+      // Read-only mode makes the buttons the tab stops, so focus belongs there.
+      expect(document.activeElement).toBe(increase());
+    });
+
+    it('takes its container chrome from the shared input entry', () => {
+      // A theme that restyles its fields must carry the stepper beside them —
+      // the stepper is not a field, but it sits next to one in a cart row.
+      const root = host().querySelector('div')!;
+      const styles = getComputedStyle(root);
+
+      // `color`/`border`/`borderRadius` are unset in the base theme, so these
+      // resolve only if the fallback to `input` is working. jsdom does not
+      // expand the border-radius shorthand, so read it rather than a corner.
+      expect(styles.backgroundColor).not.toBe('');
+      expect(styles.borderTopWidth).toBe('1px');
+      expect(parseFloat(styles.borderRadius)).toBeGreaterThan(0);
+    });
+
     it('draws the dividers in the same weight as the outer border', () => {
       // A heavier rule down the middle makes the control read as three parts
       // stuck together rather than one frame.

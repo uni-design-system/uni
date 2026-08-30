@@ -260,12 +260,14 @@ export class UniQuantityStepperComponent
   protected readonly increment = createPressRepeat({
     onStep: () => this.applyStep(1, false),
     onRelease: () => this.announceValue(),
+    focus: (button) => this.focusField(button),
     disabled: () => this.disabled() || this.atMax(),
   });
 
   protected readonly decrement = createPressRepeat({
     onStep: () => this.applyStep(-1, false),
     onRelease: () => this.announceValue(),
+    focus: (button) => this.focusField(button),
     disabled: () => this.disabled() || this.atMin(),
   });
 
@@ -302,8 +304,15 @@ export class UniQuantityStepperComponent
     this.decrement.cancel();
   }
 
-  protected focusField(): void {
-    this.inputRef()?.nativeElement.focus();
+  /**
+   * Focus the field a stepper press should land in. With `editable=false` there
+   * is no field and the buttons are the tab stops, so the pressed button takes
+   * it instead.
+   */
+  protected focusField(fallback?: HTMLElement | null): void {
+    const input = this.inputRef()?.nativeElement;
+    if (input) input.focus();
+    else fallback?.focus();
   }
 
   // --- Styling --------------------------------------------------------------
@@ -322,7 +331,6 @@ export class UniQuantityStepperComponent
   private readonly fieldChrome = this.theme.getComponentOptions<UniInputBoxOptions>('input');
 
   protected readonly rootClass = computed(() => {
-    const options = this.componentOptions();
     const colors = this.theme.colors();
     const chrome = this.fieldChrome();
     return css({
@@ -334,10 +342,10 @@ export class UniQuantityStepperComponent
       boxSizing: 'border-box',
       overflow: 'hidden',
       ...this.theme.backgroundColor(
-        this.disabled() ? 'disabled-surface' : (options.color ?? 'primary-surface')
+        this.disabled() ? chrome.disabledColor : this.containerColor()
       ),
-      ...this.theme.border(options.border ?? 'light'),
-      ...this.theme.radius(options.borderRadius ?? 'xs'),
+      ...this.theme.border(this.containerBorder()),
+      ...this.theme.radius(this.containerRadius()),
       ...(this.showError() ? { borderColor: colors['warn'] } : {}),
       ...(this.disabled() ? { cursor: 'not-allowed' } : {}),
 
@@ -389,8 +397,27 @@ export class UniQuantityStepperComponent
     });
   });
 
+  /**
+   * Container chrome, defaulting to the shared `input` entry rather than to
+   * hardcoded tokens. It is not a field, but it sits beside them in carts and
+   * table rows, so a theme that restyles `input` must carry it along — the
+   * options below stay as per-component overrides for a deliberately different
+   * look.
+   */
+  private readonly containerColor = computed(
+    () => this.componentOptions().color ?? this.fieldChrome().color
+  );
+
+  private readonly containerBorder = computed(
+    () => this.componentOptions().border ?? this.fieldChrome().border
+  );
+
+  private readonly containerRadius = computed(
+    () => this.componentOptions().borderRadius ?? this.fieldChrome().borderRadius
+  );
+
   /** The rules either side of the value, matching the frame around it. */
-  private readonly dividerBorder = computed(() => this.componentOptions().border ?? 'light');
+  private readonly dividerBorder = computed(() => this.containerBorder());
 
   private valueBase() {
     const options = this.componentOptions();

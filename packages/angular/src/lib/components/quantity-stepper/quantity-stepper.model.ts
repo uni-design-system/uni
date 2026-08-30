@@ -9,11 +9,11 @@ import type {
 /**
  * Theme-level options for `uni-quantity-stepper`.
  *
- * Unlike the other numeric controls this does **not** inherit the shared
- * `input` chrome — it is not a field, has no label and no error border — so it
- * carries its own container tokens. They default to the same values `input`
- * uses, so a cart stepper and a form field look related out of the box, and a
- * theme can part them without editing every field.
+ * It is not a field — no label, no error border, no `uni-input-box` — but it
+ * sits beside fields in carts and table rows, so its container **defaults to
+ * the shared `input` chrome**: colour, border, radius and the focus indicator
+ * all follow whatever a theme does to its fields. The options below are
+ * per-component overrides, for parting them deliberately.
  *
  * Height comes from the `sizes` block (`sm` 24 / `md` 32 / `lg` 40) rather than
  * an option, and it is the *outer* height, so an `md` stepper lines up with a
@@ -22,8 +22,11 @@ import type {
  * and is therefore the dense desktop option.
  */
 export interface UniQuantityStepperOptions {
+  /** Container fill. Unset — the default — takes `input`'s. */
   color?: ContainerColorToken;
+  /** Frame, and the rules either side of the value. Unset takes `input`'s. */
   border?: Border;
+  /** Corner radius. Unset takes `input`'s. */
   borderRadius?: Radius;
   /**
    * Colour override for the rules between the buttons and the value. Unset —

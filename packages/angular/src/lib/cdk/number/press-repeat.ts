@@ -65,6 +65,15 @@ export interface PressRepeatConfig {
   /** Consulted on press; a disabled button must not start a run. */
   disabled?: () => boolean;
   /**
+   * Put focus where it belongs for this control — normally its text field, the
+   * way a native spinner does. Called on press, because taking pointer capture
+   * means preventing the default, which would otherwise leave focus nowhere.
+   *
+   * Receives the pressed button, as a fallback for controls with no field to
+   * focus.
+   */
+  focus?: (button: HTMLElement | null) => void;
+  /**
    * When this returns `false`, a press steps exactly once and the repeat timer
    * is never armed — `onRelease` still fires, with `repeated: false`. Lets a
    * caller turn hold-to-repeat off without a second set of event bindings.
@@ -146,8 +155,19 @@ export function createPressRepeat(config: PressRepeatConfig): PressRepeat {
       if (event) {
         // Keeps the pointer stream on the button even when the finger slides
         // off it, so `pointerup` still arrives and the run still ends.
+        //
+        // This also suppresses the browser's default focus handling, which is
+        // why `focus` exists: a spinner button that leaves focus nowhere means
+        // the arrow keys stop working the moment you click `+`, exactly when a
+        // user is most likely to reach for them.
         event.preventDefault();
+
         const target = event.currentTarget;
+        // The button is handed over as a fallback, for controls that have no
+        // text field to focus (a read-only quantity stepper, where the buttons
+        // are themselves the tab stops).
+        config.focus?.(target instanceof HTMLElement ? target : null);
+
         // jsdom and older engines lack the method entirely.
         if (target instanceof Element && typeof target.setPointerCapture === 'function') {
           try {

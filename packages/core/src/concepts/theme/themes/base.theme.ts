@@ -511,9 +511,9 @@ const buildComponents = (c: Colors): ComponentThemes => ({
   // values) but a theme can part them without touching every field.
   quantityStepper: {
     options: {
-      color: 'primary-surface',
-      border: 'light',
-      borderRadius: 'xs',
+      // `color`, `border` and `borderRadius` are deliberately unset: the
+      // container takes the shared `input` chrome, so a theme that restyles its
+      // fields carries the stepper beside them. Set one only to part them.
       // `dividerColor` is deliberately unset: the rules either side of the
       // value take the `border` token above, so the frame reads as one weight
       // and follows the focus border. Set it only for a deliberately distinct
