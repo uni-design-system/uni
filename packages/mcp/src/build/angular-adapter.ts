@@ -66,6 +66,35 @@ function jsdocBefore(src: string, index: number): string {
     .trim();
 }
 
+/**
+ * Inputs every `BaseComponent` subclass gets for free.
+ *
+ * They are declared once, on a class with no `selector` — so the decorator gate
+ * below drops that file before it is ever parsed, and 49 components lost both
+ * inputs from their API tables. Only the handful that redeclare them with
+ * `override` (tag, calendar, slider, quantity-stepper) ever showed them.
+ *
+ * A hand-maintained constant rather than a compiler pass, matching how
+ * `CATEGORY_OVERRIDES` below patches the same parser's other blind spot. Keep
+ * in sync with `base.component.ts`.
+ */
+const BASE_MEMBERS: ParsedMember[] = [
+  {
+    name: 'variant',
+    kind: 'input',
+    type: 'Variant',
+    default: "'primary'",
+    doc: 'Style archetype from the theme. Inherited from BaseComponent.',
+  },
+  {
+    name: 'size',
+    kind: 'input',
+    type: 'Size',
+    default: "'lg'",
+    doc: 'Size token from the theme. Inherited from BaseComponent. Only has an effect where the component theme defines a `sizes` block.',
+  },
+];
+
 function parseFile(srcRoot: string, path: string): ParsedFile | null {
   const src = readFileSync(path, 'utf8');
   const decorator = src.match(/@(Component|Directive)\(\{([\s\S]*?)\n\}\)/);
@@ -93,6 +122,14 @@ function parseFile(srcRoot: string, path: string): ParsedFile | null {
       else resolvedType = 'unknown';
     }
     members.push({ name, kind, type: resolvedType, default: def, doc: jsdocBefore(src, m.index) });
+  }
+
+  // Inherited inputs, appended so the component's own API reads first. A
+  // subclass that redeclares one with `override` has already been captured by
+  // the member regex, so dedupe on name and let the local declaration win.
+  if (/extends BaseComponent\b/.test(src)) {
+    const declared = new Set(members.map((member) => member.name));
+    members.push(...BASE_MEMBERS.filter((member) => !declared.has(member.name)));
   }
 
   // The class JSDoc conventionally sits above the decorator, not between the

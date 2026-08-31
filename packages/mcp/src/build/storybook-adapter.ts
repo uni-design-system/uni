@@ -38,15 +38,51 @@ function toLibRelative(componentPath: string): string {
   return componentPath.replace(/^\.\//, '').replace(/^src\/lib\//, '');
 }
 
-/** Grab the first `template: `...`` block from a stories/render source. */
-function extractTemplate(src: string): string | undefined {
-  const m = src.match(/template:\s*`([\s\S]*?)`/);
-  if (!m) return undefined;
-  return m[1]
+function dedent(template: string): string {
+  return template
     .split('\n')
     .map((l) => l.replace(/^\s{6,8}/, ''))
     .join('\n')
     .trim();
+}
+
+/**
+ * Grab the first `template: `...`` block from a stories/render source — the
+ * meta-level `render`, shared by every story that only sets `args`.
+ */
+function extractTemplate(src: string): string | undefined {
+  const m = src.match(/template:\s*`([\s\S]*?)`/);
+  return m ? dedent(m[1]) : undefined;
+}
+
+/**
+ * The template belonging to one named story, when it brings its own `render`.
+ *
+ * Without this every story in a file was handed the file's *first* template, so
+ * a component whose meta declares a generic `render` had all of its examples
+ * collapse into the same stub — the richest stories documented as the poorest.
+ * Brace-balances the story's object literal the way `extractArgs` does, so a
+ * later story's template cannot leak in.
+ */
+function extractStoryTemplate(src: string, exportName: string): string | undefined {
+  const start = src.search(new RegExp(`export const ${exportName}\\b`));
+  if (start === -1) return undefined;
+  const braceStart = src.indexOf('{', start);
+  if (braceStart === -1) return undefined;
+
+  let depth = 0;
+  for (let i = braceStart; i < src.length; i++) {
+    if (src[i] === '{') depth++;
+    else if (src[i] === '}') {
+      depth--;
+      if (depth === 0) {
+        const block = src.slice(braceStart, i + 1);
+        const m = block.match(/template:\s*`([\s\S]*?)`/);
+        return m ? dedent(m[1]) : undefined;
+      }
+    }
+  }
+  return undefined;
 }
 
 /** Grab the `args: { ... }` object literal for a named story export. */
@@ -102,11 +138,14 @@ export function ingestStorybook(opts: StorybookOptions): StorybookExample[] {
     }
 
     const args = extractArgs(cached.src, entry.exportName);
+    // The story's own template when it has one; otherwise the meta-level
+    // render it legitimately shares with every other args-only story.
+    const template = extractStoryTemplate(cached.src, entry.exportName) ?? cached.template;
     examples.push({
       componentId,
       title: entry.name,
       framework: opts.framework,
-      code: buildCode(entry.name, cached.template, args),
+      code: buildCode(entry.name, template, args),
       storybookUrl: opts.storybookBaseUrl
         ? `${opts.storybookBaseUrl.replace(/\/$/, '')}/?path=/story/${entry.id}`
         : undefined,

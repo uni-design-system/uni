@@ -21,7 +21,7 @@ export class UniTextareaComponent implements FormValueControl<string> {
   readonly invalid = input(false);
   readonly dirty = input(false);
 
-  /** Synced from required() validators by the Signal Forms [field] directive. */
+  /** Synced from required() validators by the Signal Forms [formField] directive. */
   readonly required = input(false);
 
   /**
@@ -35,7 +35,7 @@ export class UniTextareaComponent implements FormValueControl<string> {
   placeholder = input('');
   /** Visible text rows. Defaults to the theme's `textarea` options. */
   rows = input<number | undefined>(undefined);
-  // Signal Forms' own optional control inputs: the `[field]` directive syncs
+  // Signal Forms' own optional control inputs: the `[formField]` directive syncs
   // them from the field's validators, as it does `required`.
   readonly readonly = input(false);
   readonly name = input('');

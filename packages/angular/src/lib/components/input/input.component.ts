@@ -18,7 +18,7 @@ export class UniInputComponent implements FormValueControl<string> {
   readonly invalid = input(false);
   readonly dirty = input(false);
 
-  /** Synced from required() validators by the Signal Forms [field] directive. */
+  /** Synced from required() validators by the Signal Forms [formField] directive. */
   readonly required = input(false);
 
   /**
@@ -38,7 +38,7 @@ export class UniInputComponent implements FormValueControl<string> {
   type = input<UniInputType>('text');
 
   // --- CONSTRAINTS ---
-  // These are Signal Forms' own optional control inputs, so the `[field]`
+  // These are Signal Forms' own optional control inputs, so the `[formField]`
   // directive syncs them from the field's validators the same way it syncs
   // `required` — and they are reflected onto the native element so the browser
   // can do its part (number steppers, length limits, on-screen keyboards).

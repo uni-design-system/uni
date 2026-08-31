@@ -14,7 +14,7 @@ import { ThemeOptions } from '../../../stories/blocks/ThemeOptionsBlock';
 
 Single-line text field with the shared input chrome (themed color, border, typeface,
 focus ring, error state). It implements `FormValueControl<string>`: bind a Signal
-Forms field with `[field]`, or drive `[(value)]` directly. Errors style the field
+Forms field with `[formField]`, or drive `[(value)]` directly. Errors style the field
 only after the user has interacted (touched or dirty), and `required` syncs from
 `required()` validators automatically.
 
@@ -35,7 +35,7 @@ Time Input or Date Time Input, which handle locale parsing and keyboard entry.
 
 The platform passthroughs are `autocomplete`, `inputMode`, `list` (a `<datalist>`
 id), `step` and `spellcheck`. `readonly`, `name`, `min`, `max`, `minLength`,
-`maxLength` and `pattern` are Signal Forms' own control inputs, so `[field]` syncs
+`maxLength` and `pattern` are Signal Forms' own control inputs, so `[formField]` syncs
 them from your validators the way it already syncs `required` — and they are
 reflected onto the native element so the browser can help too.
 

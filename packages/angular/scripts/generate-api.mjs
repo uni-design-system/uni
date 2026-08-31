@@ -98,7 +98,7 @@ lines.push('');
 lines.push('Themed Angular component library. Signals-only API: every input below is a');
 lines.push('signal input — read as `component.name()`, bind as `[name]="..."`. Two-way');
 lines.push('model inputs support `[(name)]`. Form controls implement Signal Forms');
-lines.push('`FormValueControl`/`FormCheckboxControl` and bind with `[field]`.');
+lines.push('`FormValueControl`/`FormCheckboxControl` and bind with `[formField]`.');
 lines.push('');
 lines.push('Import everything from `@uni-design-system/uni-angular`.');
 lines.push('Canonical selectors are the `uni-`-prefixed form; the short/PascalCase');

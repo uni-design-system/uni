@@ -1,7 +1,7 @@
 {
   "meta": {
     "version": "9.0.1",
-    "builtAt": "2026-08-31T17:24:25.335Z",
+    "builtAt": "2026-08-31T19:23:37.435Z",
     "frameworks": [
       "angular"
     ],
@@ -9,7 +9,7 @@
       "components": 84,
       "tokens": 454,
       "themes": 2,
-      "examples": 223
+      "examples": 225
     }
   },
   "components": [
@@ -63,6 +63,22 @@
               "type": "boolean",
               "required": false,
               "description": ""
+            },
+            {
+              "name": "variant",
+              "kind": "input",
+              "type": "Variant",
+              "required": false,
+              "default": "'primary'",
+              "description": "Style archetype from the theme. Inherited from BaseComponent."
+            },
+            {
+              "name": "size",
+              "kind": "input",
+              "type": "Size",
+              "required": false,
+              "default": "'lg'",
+              "description": "Size token from the theme. Inherited from BaseComponent. Only has an effect where the component theme defines a `sizes` block."
             }
           ]
         }
@@ -114,6 +130,22 @@
               "required": false,
               "default": "false",
               "description": "Stick the bar to the top of its scroll container."
+            },
+            {
+              "name": "variant",
+              "kind": "input",
+              "type": "Variant",
+              "required": false,
+              "default": "'primary'",
+              "description": "Style archetype from the theme. Inherited from BaseComponent."
+            },
+            {
+              "name": "size",
+              "kind": "input",
+              "type": "Size",
+              "required": false,
+              "default": "'lg'",
+              "description": "Size token from the theme. Inherited from BaseComponent. Only has an effect where the component theme defines a `sizes` block."
             }
           ]
         }
@@ -169,6 +201,22 @@
               "type": "string",
               "required": false,
               "description": "Verbatim text instead of derived initials (e.g. a group's “+3”)."
+            },
+            {
+              "name": "variant",
+              "kind": "input",
+              "type": "Variant",
+              "required": false,
+              "default": "'primary'",
+              "description": "Style archetype from the theme. Inherited from BaseComponent."
+            },
+            {
+              "name": "size",
+              "kind": "input",
+              "type": "Size",
+              "required": false,
+              "default": "'lg'",
+              "description": "Size token from the theme. Inherited from BaseComponent. Only has an effect where the component theme defines a `sizes` block."
             }
           ]
         }
@@ -187,7 +235,7 @@
         {
           "title": "Group",
           "framework": "angular",
-          "code": "<!-- Storybook story: Group -->\n<div row-layout gap=\"sm\" alignItems=\"center\">\n<uni-avatar name=\"Ada Lovelace\" size=\"sm\" />\n<uni-avatar name=\"Grace Hopper\" size=\"md\" variant=\"secondary\" />\n<uni-avatar name=\"Katherine Johnson\" size=\"lg\" variant=\"tertiary\" />\n<uni-avatar name=\"Annie Easley\" size=\"xl\" variant=\"success\" />\n<uni-avatar size=\"lg\" variant=\"quaternary\" />\n</div>"
+          "code": "<!-- Storybook story: Group -->\n<uni-avatar-group [max]=\"3\" size=\"md\">\n<uni-avatar name=\"Ada Lovelace\" />\n<uni-avatar name=\"Grace Hopper\" variant=\"secondary\" />\n<uni-avatar name=\"Katherine Johnson\" variant=\"tertiary\" />\n<uni-avatar name=\"Annie Easley\" variant=\"success\" />\n<uni-avatar name=\"Mary Jackson\" variant=\"warn\" />\n</uni-avatar-group>"
         }
       ],
       "guidelines": {
@@ -225,6 +273,22 @@
               "required": false,
               "default": "undefined",
               "description": "Show at most this many avatars; the rest collapse into a “+N” chip."
+            },
+            {
+              "name": "variant",
+              "kind": "input",
+              "type": "Variant",
+              "required": false,
+              "default": "'primary'",
+              "description": "Style archetype from the theme. Inherited from BaseComponent."
+            },
+            {
+              "name": "size",
+              "kind": "input",
+              "type": "Size",
+              "required": false,
+              "default": "'lg'",
+              "description": "Size token from the theme. Inherited from BaseComponent. Only has an effect where the component theme defines a `sizes` block."
             }
           ]
         }
@@ -354,6 +418,22 @@
               "type": "number",
               "required": false,
               "description": ""
+            },
+            {
+              "name": "variant",
+              "kind": "input",
+              "type": "Variant",
+              "required": false,
+              "default": "'primary'",
+              "description": "Style archetype from the theme. Inherited from BaseComponent."
+            },
+            {
+              "name": "size",
+              "kind": "input",
+              "type": "Size",
+              "required": false,
+              "default": "'lg'",
+              "description": "Size token from the theme. Inherited from BaseComponent. Only has an effect where the component theme defines a `sizes` block."
             }
           ]
         }
@@ -789,17 +869,17 @@
         {
           "title": "Flex children",
           "framework": "angular",
-          "code": "<!-- Storybook story: Flex children -->\n<div box-layout ${argsToTemplate(props)}>\n<span uni-text>${ngContent}</span>\n</div>"
+          "code": "<!-- Storybook story: Flex children -->\n<div row-layout gap=\"md\" uni-text=\"body-2-short\">\n<div box-layout [flex]=\"1\" containerColor=\"primary-container\" padding=\"md\" borderRadius=\"xs\">\n  flex 1 — a much longer label than its sibling\n</div>\n<div box-layout [flex]=\"1\" containerColor=\"primary-container\" padding=\"md\" borderRadius=\"xs\">\n  flex 1\n</div>\n<div box-layout [shrink]=\"0\" [basis]=\"120\" containerColor=\"secondary-container\" padding=\"md\" borderRadius=\"xs\">\n  fixed 120\n</div>\n</div>"
         },
         {
           "title": "Centered page shell",
           "framework": "angular",
-          "code": "<!-- Storybook story: Centered page shell -->\n<div box-layout ${argsToTemplate(props)}>\n<span uni-text>${ngContent}</span>\n</div>"
+          "code": "<!-- Storybook story: Centered page shell -->\n<div box-layout containerColor=\"surface\" padding=\"md\">\n<main box-layout maxWidth=\"480px\" marginInline=\"auto\" padding=\"lg\"\n      containerColor=\"primary-container\" borderRadius=\"sm\" textAlign=\"center\" uni-text=\"body-1-long\">\n  maxWidth + marginInline=\"auto\"\n</main>\n</div>"
         },
         {
           "title": "Composition",
           "framework": "angular",
-          "code": "<!-- Storybook story: Composition -->\n<div box-layout ${argsToTemplate(props)}>\n<span uni-text>${ngContent}</span>\n</div>"
+          "code": "<!-- Storybook story: Composition -->\n<div stack-layout gap=\"md\">\n<div row-layout uni-text=\"title-large\" gap=\"sm\" padding=\"md\"\n     containerColor=\"primary-container\" borderRadius=\"xs\">\n  row-layout + uni-text on one element\n</div>\n<uni-card box-layout padding=\"lg\">uni-card + box-layout on one element</uni-card>\n</div>"
         }
       ],
       "guidelines": {
@@ -844,6 +924,22 @@
               "type": "BreadcrumbItem",
               "required": false,
               "description": "Emits the clicked ancestor item (also fires for `href` links)."
+            },
+            {
+              "name": "variant",
+              "kind": "input",
+              "type": "Variant",
+              "required": false,
+              "default": "'primary'",
+              "description": "Style archetype from the theme. Inherited from BaseComponent."
+            },
+            {
+              "name": "size",
+              "kind": "input",
+              "type": "Size",
+              "required": false,
+              "default": "'lg'",
+              "description": "Size token from the theme. Inherited from BaseComponent. Only has an effect where the component theme defines a `sizes` block."
             }
           ]
         }
@@ -929,6 +1025,22 @@
               "type": "string",
               "required": false,
               "description": ""
+            },
+            {
+              "name": "variant",
+              "kind": "input",
+              "type": "Variant",
+              "required": false,
+              "default": "'primary'",
+              "description": "Style archetype from the theme. Inherited from BaseComponent."
+            },
+            {
+              "name": "size",
+              "kind": "input",
+              "type": "Size",
+              "required": false,
+              "default": "'lg'",
+              "description": "Size token from the theme. Inherited from BaseComponent. Only has an effect where the component theme defines a `sizes` block."
             }
           ]
         }
@@ -1145,6 +1257,14 @@
               "type": "UniDate",
               "required": false,
               "description": "Each committed day, including both ends of a range."
+            },
+            {
+              "name": "variant",
+              "kind": "input",
+              "type": "Variant",
+              "required": false,
+              "default": "'primary'",
+              "description": "Style archetype from the theme. Inherited from BaseComponent."
             }
           ]
         }
@@ -1183,7 +1303,7 @@
         {
           "title": "Scheduling",
           "framework": "angular",
-          "code": "<!-- Storybook story: Scheduling -->\n<uni-calendar size=\"sm\" ariaLabel=\"Small\" month=\"${MONTH}\" />\n<uni-calendar size=\"md\" ariaLabel=\"Medium\" month=\"${MONTH}\" />\n<uni-calendar size=\"lg\" ariaLabel=\"Large\" month=\"${MONTH}\" />"
+          "code": "<!-- Storybook story: Scheduling -->\n<uni-calendar\n  ariaLabel=\"Appointment date\"\n  [minDate]=\"minDate\"\n  [maxDate]=\"maxDate\"\n  [disabledDates]=\"isFullyBooked\"\n  [markers]=\"markers\"\n/>"
         }
       ],
       "guidelines": {
@@ -1349,6 +1469,22 @@
               "type": "KeyboardEvent",
               "required": false,
               "description": "Keys pressed while focus is inside the panel (the tour's arrow-key hook)."
+            },
+            {
+              "name": "variant",
+              "kind": "input",
+              "type": "Variant",
+              "required": false,
+              "default": "'primary'",
+              "description": "Style archetype from the theme. Inherited from BaseComponent."
+            },
+            {
+              "name": "size",
+              "kind": "input",
+              "type": "Size",
+              "required": false,
+              "default": "'lg'",
+              "description": "Size token from the theme. Inherited from BaseComponent. Only has an effect where the component theme defines a `sizes` block."
             }
           ]
         }
@@ -1362,22 +1498,22 @@
         {
           "title": "Locked Spotlight",
           "framework": "angular",
-          "code": "<!-- Storybook story: Locked Spotlight -->\n<div stack-layout gap=\"md\">\n<button text-button (click)=\"open = true\">Show me around</button>\n<uni-input label=\"Search projects\" id=\"callout-demo-search\"></uni-input>\n<uni-callout\n  [(open)]=\"open\"\n  key=\"search-intro\"\n  target=\"callout-demo-search\"\n  header=\"Find anything\"\n  placement=\"bottom\"\n>\n  Type to filter projects, people, and documents — try it right here.\n  <button text-button callout-actions size=\"sm\" variant=\"secondary\" (click)=\"open = false\">Got it</button>\n</uni-callout>\n</div>"
+          "code": "<!-- Storybook story: Locked Spotlight -->\n<div stack-layout gap=\"md\">\n<button text-button (click)=\"open = true\">Explain the report</button>\n<uni-input label=\"Weekly report\" id=\"callout-demo-report\"></uni-input>\n<uni-callout\n  [(open)]=\"open\"\n  target=\"callout-demo-report\"\n  [targetInteractive]=\"false\"\n  header=\"Read-only for now\"\n  variant=\"secondary\"\n>\n  Reports unlock after your first project ships.\n  <button text-button callout-actions size=\"sm\" variant=\"secondary\" (click)=\"open = false\">OK</button>\n</uni-callout>\n</div>"
         },
         {
           "title": "Dim",
           "framework": "angular",
-          "code": "<!-- Storybook story: Dim -->\n<div stack-layout gap=\"md\">\n<button text-button (click)=\"open = true\">Show me around</button>\n<uni-input label=\"Search projects\" id=\"callout-demo-search\"></uni-input>\n<uni-callout\n  [(open)]=\"open\"\n  key=\"search-intro\"\n  target=\"callout-demo-search\"\n  header=\"Find anything\"\n  placement=\"bottom\"\n>\n  Type to filter projects, people, and documents — try it right here.\n  <button text-button callout-actions size=\"sm\" variant=\"secondary\" (click)=\"open = false\">Got it</button>\n</uni-callout>\n</div>"
+          "code": "<!-- Storybook story: Dim -->\n<div stack-layout gap=\"md\">\n<button text-button (click)=\"open = true\">What's new</button>\n<uni-callout [(open)]=\"open\" header=\"March release\">\n  Calendar inputs, themable focus rings, and release notes in the MCP server.\n  <button text-button callout-actions size=\"sm\" variant=\"secondary\" (click)=\"open = false\">Nice</button>\n</uni-callout>\n</div>"
         },
         {
           "title": "No Backdrop",
           "framework": "angular",
-          "code": "<!-- Storybook story: No Backdrop -->\n<div stack-layout gap=\"md\">\n<button text-button (click)=\"open = true\">Show me around</button>\n<uni-input label=\"Search projects\" id=\"callout-demo-search\"></uni-input>\n<uni-callout\n  [(open)]=\"open\"\n  key=\"search-intro\"\n  target=\"callout-demo-search\"\n  header=\"Find anything\"\n  placement=\"bottom\"\n>\n  Type to filter projects, people, and documents — try it right here.\n  <button text-button callout-actions size=\"sm\" variant=\"secondary\" (click)=\"open = false\">Got it</button>\n</uni-callout>\n</div>"
+          "code": "<!-- Storybook story: No Backdrop -->\n<div stack-layout gap=\"md\">\n<button text-button (click)=\"open = true\">Hint</button>\n<uni-input label=\"Amount\" id=\"callout-demo-amount\"></uni-input>\n<uni-callout [(open)]=\"open\" target=\"callout-demo-amount\" backdrop=\"none\" header=\"Pro tip\">\n  Press ↑/↓ to step the amount.\n</uni-callout>\n</div>"
         },
         {
           "title": "Dismissal Tracking",
           "framework": "angular",
-          "code": "<!-- Storybook story: Dismissal Tracking -->\n<div stack-layout gap=\"md\">\n<button text-button (click)=\"open = true\">Show me around</button>\n<uni-input label=\"Search projects\" id=\"callout-demo-search\"></uni-input>\n<uni-callout\n  [(open)]=\"open\"\n  key=\"search-intro\"\n  target=\"callout-demo-search\"\n  header=\"Find anything\"\n  placement=\"bottom\"\n>\n  Type to filter projects, people, and documents — try it right here.\n  <button text-button callout-actions size=\"sm\" variant=\"secondary\" (click)=\"open = false\">Got it</button>\n</uni-callout>\n</div>"
+          "code": "<!-- Storybook story: Dismissal Tracking -->\n<div stack-layout gap=\"md\">\n<button text-button (click)=\"open = true\">Show the callout</button>\n<uni-input label=\"Owner\" id=\"callout-demo-owner\"></uni-input>\n<uni-callout\n  [(open)]=\"open\"\n  key=\"owner-intro\"\n  target=\"callout-demo-owner\"\n  header=\"Assign an owner\"\n  [dismissOnBackdrop]=\"true\"\n  (dismissed)=\"record($event)\"\n>\n  Every project needs one accountable owner.\n</uni-callout>\n<div>\n  @for (entry of log; track $index) {\n    <div>{{ entry }}</div>\n  }\n</div>\n</div>"
         }
       ],
       "guidelines": {
@@ -1427,7 +1563,24 @@
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
           "selectorOrTag": "uni-card",
-          "api": []
+          "api": [
+            {
+              "name": "variant",
+              "kind": "input",
+              "type": "Variant",
+              "required": false,
+              "default": "'primary'",
+              "description": "Style archetype from the theme. Inherited from BaseComponent."
+            },
+            {
+              "name": "size",
+              "kind": "input",
+              "type": "Size",
+              "required": false,
+              "default": "'lg'",
+              "description": "Size token from the theme. Inherited from BaseComponent. Only has an effect where the component theme defines a `sizes` block."
+            }
+          ]
         }
       },
       "examples": [
@@ -1459,7 +1612,24 @@
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
           "selectorOrTag": "uni-card-content",
-          "api": []
+          "api": [
+            {
+              "name": "variant",
+              "kind": "input",
+              "type": "Variant",
+              "required": false,
+              "default": "'primary'",
+              "description": "Style archetype from the theme. Inherited from BaseComponent."
+            },
+            {
+              "name": "size",
+              "kind": "input",
+              "type": "Size",
+              "required": false,
+              "default": "'lg'",
+              "description": "Size token from the theme. Inherited from BaseComponent. Only has an effect where the component theme defines a `sizes` block."
+            }
+          ]
         }
       },
       "examples": [],
@@ -1499,6 +1669,22 @@
               "required": false,
               "default": "'title-large'",
               "description": ""
+            },
+            {
+              "name": "variant",
+              "kind": "input",
+              "type": "Variant",
+              "required": false,
+              "default": "'primary'",
+              "description": "Style archetype from the theme. Inherited from BaseComponent."
+            },
+            {
+              "name": "size",
+              "kind": "input",
+              "type": "Size",
+              "required": false,
+              "default": "'lg'",
+              "description": "Size token from the theme. Inherited from BaseComponent. Only has an effect where the component theme defines a `sizes` block."
             }
           ]
         }
@@ -1626,7 +1812,7 @@
               "type": "boolean",
               "required": false,
               "default": "false",
-              "description": "Synced from required() validators by the Signal Forms [field] directive."
+              "description": "Synced from required() validators by the Signal Forms [formField] directive."
             },
             {
               "name": "ariaDescribedBy",
@@ -1649,6 +1835,22 @@
               "required": false,
               "default": "false",
               "description": "Mixed state for \"select all\"-style parent checkboxes. Cleared automatically on the next user interaction, matching native behavior."
+            },
+            {
+              "name": "variant",
+              "kind": "input",
+              "type": "Variant",
+              "required": false,
+              "default": "'primary'",
+              "description": "Style archetype from the theme. Inherited from BaseComponent."
+            },
+            {
+              "name": "size",
+              "kind": "input",
+              "type": "Size",
+              "required": false,
+              "default": "'lg'",
+              "description": "Size token from the theme. Inherited from BaseComponent. Only has an effect where the component theme defines a `sizes` block."
             }
           ]
         }
@@ -1672,21 +1874,21 @@
         {
           "title": "Variants",
           "framework": "angular",
-          "code": "<!-- Storybook story: Variants -->\n<uni-checkbox ${argsToTemplate(args)}></uni-checkbox>"
+          "code": "<!-- Storybook story: Variants -->\n<div stack-layout gap=\"md\">\n<uni-checkbox label=\"Primary\" variant=\"primary\"></uni-checkbox>\n<uni-checkbox label=\"Secondary\" variant=\"secondary\"></uni-checkbox>\n<uni-checkbox label=\"Success\" variant=\"success\"></uni-checkbox>\n<uni-checkbox label=\"Warning\" variant=\"warn\"></uni-checkbox>\n<uni-checkbox label=\"Tertiary\" variant=\"tertiary\"></uni-checkbox>\n</div>"
         },
         {
           "title": "With Change Event",
           "framework": "angular",
-          "code": "<!-- Storybook story: With Change Event -->\n<uni-checkbox ${argsToTemplate(args)}></uni-checkbox>"
+          "code": "<!-- Storybook story: With Change Event -->\n<div>\n<uni-checkbox\n  label=\"Check me\"\n  [checked]=\"isChecked\"\n  (checkedChange)=\"onCheckboxChange($event)\"\n  variant=\"primary\">\n</uni-checkbox>\n<div box-layout paddingTop=\"md\">\n  Current state: {{ isChecked ? 'Checked' : 'Unchecked' }}\n</div>\n<div box-layout paddingTop=\"sm\">\n  Last change: {{ lastChangeValue }}\n</div>\n</div>"
         },
         {
           "title": "Form Signals",
           "framework": "angular",
-          "code": "<!-- Storybook story: Form Signals -->\n<uni-checkbox ${argsToTemplate(args)}></uni-checkbox>"
+          "code": "<!-- Storybook story: Form Signals -->\n<div>\n<uni-checkbox\n  label=\"Subscribe to newsletter\"\n  variant=\"primary\"\n  [checked]=\"isChecked\"\n  [disabled]=\"isDisabled\"\n  [invalid]=\"isInvalid\"\n  [touched]=\"isTouched\">\n</uni-checkbox>\n<div box-layout paddingTop=\"md\">\n  <p>Checked: {{ isChecked }}</p>\n  <p>Touched: {{ isTouched }}</p>\n  <p>Invalid: {{ isInvalid }}</p>\n  <p>Disabled: {{ isDisabled }}</p>\n</div>\n<div row-layout gap=\"sm\" paddingTop=\"sm\">\n<button\n  (click)=\"isTouched = true\">\n  Mark as Touched\n</button>\n<button\n  (click)=\"isDisabled = !isDisabled\">\n  Toggle Disabled\n</button>\n<button\n  (click)=\"isInvalid = !isInvalid\">\n  Toggle Invalid\n</button>\n</div>\n</div>"
         }
       ],
       "guidelines": {
-        "whenToUse": "Binary choice control for forms: check to opt in, submit to apply. It implements\n`FormCheckboxControl` for the Signal Forms `[field]` directive (or bind\n`[(checked)]` directly), exposes `aria-invalid` once touched, and supports an\n`indeterminate` model for \"select all\" parents — cleared automatically on the next\nuser interaction, matching native behavior.\nThe box color, check stroke (the variant's paired on-color), and size resolve from\nthe `checkbox` theme options.",
+        "whenToUse": "Binary choice control for forms: check to opt in, submit to apply. It implements\n`FormCheckboxControl` for the Signal Forms `[formField]` directive (or bind\n`[(checked)]` directly), exposes `aria-invalid` once touched, and supports an\n`indeterminate` model for \"select all\" parents — cleared automatically on the next\nuser interaction, matching native behavior.\nThe box color, check stroke (the variant's paired on-color), and size resolve from\nthe `checkbox` theme options.",
         "dos": [
           "Use for choices that apply when the form is submitted"
         ],
@@ -1871,6 +2073,22 @@
               "type": "UniComboboxRejection",
               "required": false,
               "description": "A commit was refused (no match); the field reverted."
+            },
+            {
+              "name": "variant",
+              "kind": "input",
+              "type": "Variant",
+              "required": false,
+              "default": "'primary'",
+              "description": "Style archetype from the theme. Inherited from BaseComponent."
+            },
+            {
+              "name": "size",
+              "kind": "input",
+              "type": "Size",
+              "required": false,
+              "default": "'lg'",
+              "description": "Size token from the theme. Inherited from BaseComponent. Only has an effect where the component theme defines a `sizes` block."
             }
           ]
         }
@@ -1894,7 +2112,7 @@
         {
           "title": "Create New Values",
           "framework": "angular",
-          "code": "<!-- Storybook story: Create New Values -->\n<uni-combobox\nlabel=\"Country\"\nplaceholder=\"Type to search countries\"\nemptyText=\"No countries found\"\n[filterLocally]=\"false\"\n[options]=\"options\"\n(query)=\"onQuery($event)\"\n/>\n<!-- args:\n{ required: true, invalid: true, touched: true }\n-->"
+          "code": "<!-- Storybook story: Create New Values -->\n<uni-combobox\nlabel=\"Team\"\nplaceholder=\"Choose or create a team\"\nemptyText=\"No teams\"\n[filterLocally]=\"false\"\n[options]=\"options\"\n[(value)]=\"value\"\n(query)=\"onQuery($event)\"\n(selected)=\"onSelected($event)\"\n/>\n<!-- args:\n{ required: true, invalid: true, touched: true }\n-->"
         },
         {
           "title": "Invalid",
@@ -2017,6 +2235,22 @@
               "type": "string[]",
               "required": false,
               "description": ""
+            },
+            {
+              "name": "variant",
+              "kind": "input",
+              "type": "Variant",
+              "required": false,
+              "default": "'primary'",
+              "description": "Style archetype from the theme. Inherited from BaseComponent."
+            },
+            {
+              "name": "size",
+              "kind": "input",
+              "type": "Size",
+              "required": false,
+              "default": "'lg'",
+              "description": "Size token from the theme. Inherited from BaseComponent. Only has an effect where the component theme defines a `sizes` block."
             }
           ]
         }
@@ -2104,6 +2338,22 @@
               "type": "T",
               "required": false,
               "description": ""
+            },
+            {
+              "name": "variant",
+              "kind": "input",
+              "type": "Variant",
+              "required": false,
+              "default": "'primary'",
+              "description": "Style archetype from the theme. Inherited from BaseComponent."
+            },
+            {
+              "name": "size",
+              "kind": "input",
+              "type": "Size",
+              "required": false,
+              "default": "'lg'",
+              "description": "Size token from the theme. Inherited from BaseComponent. Only has an effect where the component theme defines a `sizes` block."
             }
           ]
         }
@@ -2112,22 +2362,22 @@
         {
           "title": "Primary",
           "framework": "angular",
-          "code": "<!-- Storybook story: Primary -->\n<!-- args:\n{\n    columns: [\n      {\n        columnDef: 'id',\n        header: 'ID',\n        isSticky: true,\n      },\n      {\n        columnDef: 'name',\n        header: 'Name',\n        textAlign: 'left',\n      },\n      {\n        columnDef: 'species',\n        header: 'Species',\n      },\n      {\n        columnDef: 'height',\n        header: 'Height',\n        cell: (element: any) => (element.height ? `${element.height} m` : ''),\n      },\n      {\n        columnDef: 'homeworld',\n        header: 'Home World',\n      },\n    ],\n    datasource: new UniRecordDatasource<any>(starWarsCharacters),\n  }\n-->"
+          "code": "<!-- Storybook story: Primary -->\n<uni-data-table ${argsToTemplate(props)} #dataTable>\n<div row-layout ngProjectAs=\"data-table-header\" justifyContent=\"space-between\">\n  <span uni-text>Data Table</span>\n  <uni-paginator [datasource]=\"dataTable.datasource()\" [initPageSize]=\"10\" [showPageSize]=\"true\" [showPageJumper]=\"true\" [showPageNumbers]=\"false\" />\n</div>\n<div row-layout ngProjectAs=\"data-table-footer\" justifyContent=\"center\">\n  <uni-paginator [datasource]=\"dataTable.datasource()\" [showPageSize]=\"false\" [showPageJumper]=\"false\" [showPageNumbers]=\"true\" />\n</div>\n</uni-data-table>\n<!-- args:\n{\n    columns: [\n      {\n        columnDef: 'id',\n        header: 'ID',\n        isSticky: true,\n      },\n      {\n        columnDef: 'name',\n        header: 'Name',\n        textAlign: 'left',\n      },\n      {\n        columnDef: 'species',\n        header: 'Species',\n      },\n      {\n        columnDef: 'height',\n        header: 'Height',\n        cell: (element: any) => (element.height ? `${element.height} m` : ''),\n      },\n      {\n        columnDef: 'homeworld',\n        header: 'Home World',\n      },\n    ],\n    datasource: new UniRecordDatasource<any>(starWarsCharacters),\n  }\n-->"
         },
         {
           "title": "With Header",
           "framework": "angular",
-          "code": "<!-- Storybook story: With Header -->\n<!-- args:\n{\n    height: '300px',\n    columns: [\n      {\n        columnDef: 'id',\n        header: 'ID',\n      },\n      {\n        columnDef: 'name',\n        header: 'Name',\n        textAlign: 'left',\n      },\n      {\n        columnDef: 'homeworld',\n        header: 'Home World',\n      },\n    ],\n    datasource: new UniRecordDatasource<any>(starWarsCharacters),\n  }\n-->"
+          "code": "<!-- Storybook story: With Header -->\n<uni-data-table ${argsToTemplate(props)}>\n<div box-layout ngProjectAs=\"data-table-header\">Data Table Header</div>\n</uni-data-table>\n<!-- args:\n{\n    height: '300px',\n    columns: [\n      {\n        columnDef: 'id',\n        header: 'ID',\n      },\n      {\n        columnDef: 'name',\n        header: 'Name',\n        textAlign: 'left',\n      },\n      {\n        columnDef: 'homeworld',\n        header: 'Home World',\n      },\n    ],\n    datasource: new UniRecordDatasource<any>(starWarsCharacters),\n  }\n-->"
         },
         {
           "title": "With Search",
           "framework": "angular",
-          "code": "<!-- Storybook story: With Search -->\n<!-- args:\n{\n    height: '300px',\n    columns: [\n      {\n        columnDef: 'id',\n        header: 'ID',\n      },\n      {\n        columnDef: 'name',\n        header: 'Name',\n        textAlign: 'left',\n      },\n      {\n        columnDef: 'homeworld',\n        header: 'Home World',\n      },\n    ],\n    datasource: new UniRecordDatasource<any>(starWarsCharacters),\n  }\n-->"
+          "code": "<!-- Storybook story: With Search -->\n<uni-data-table ${argsToTemplate(props)} #dataTable>\n<div row-layout ngProjectAs=\"data-table-header\" justifyContent=\"space-between\">\n  <div box-layout ngProjectAs=\"data-table-header\">Data Table Header</div>\n  <uni-data-search [datasource]=\"dataTable.datasource()\" [fields]=\"['name', 'homeworld']\"></uni-data-search>\n</div>\n</uni-data-table>\n<!-- args:\n{\n    height: '300px',\n    columns: [\n      {\n        columnDef: 'id',\n        header: 'ID',\n      },\n      {\n        columnDef: 'name',\n        header: 'Name',\n        textAlign: 'left',\n      },\n      {\n        columnDef: 'homeworld',\n        header: 'Home World',\n      },\n    ],\n    datasource: new UniRecordDatasource<any>(starWarsCharacters),\n  }\n-->"
         },
         {
           "title": "With Detail Row",
           "framework": "angular",
-          "code": "<!-- Storybook story: With Detail Row -->\n<!-- args:\n{\n    height: '300px',\n    columns: [\n      {\n        columnDef: 'id',\n        header: 'ID',\n      },\n      {\n        columnDef: 'name',\n        header: 'Name',\n        textAlign: 'left',\n      },\n      {\n        columnDef: 'homeworld',\n        header: 'Home World',\n      },\n    ],\n    datasource: new UniRecordDatasource<any>(starWarsCharacters),\n  }\n-->"
+          "code": "<!-- Storybook story: With Detail Row -->\n<button (click)=\"dataTable.toggleRow(1)\">Expand</button>\n<uni-data-table ${argsToTemplate(props)} #dataTable [detailRowTemplate]=\"detailRowTemplate\">\n<div row-layout ngProjectAs=\"data-table-header\" justifyContent=\"space-between\">\n  <div box-layout ngProjectAs=\"data-table-header\">Data Table Header</div>\n  <uni-data-search [datasource]=\"dataTable.datasource()\" [fields]=\"['name', 'homeworld']\"></uni-data-search>\n</div>\n</uni-data-table>\n<ng-template #detailRowTemplate let-record>\n<div>\n  <p>Detail for {{ record.name }}</p>\n</div>\n</ng-template>\n<!-- args:\n{\n    height: '300px',\n    columns: [\n      {\n        columnDef: 'id',\n        header: 'ID',\n      },\n      {\n        columnDef: 'name',\n        header: 'Name',\n        textAlign: 'left',\n      },\n      {\n        columnDef: 'homeworld',\n        header: 'Home World',\n      },\n    ],\n    datasource: new UniRecordDatasource<any>(starWarsCharacters),\n  }\n-->"
         }
       ],
       "guidelines": {
@@ -2303,6 +2553,22 @@
               "type": "UniDateInputRejection",
               "required": false,
               "description": "A typed commit was refused; the raw text stays in the field."
+            },
+            {
+              "name": "variant",
+              "kind": "input",
+              "type": "Variant",
+              "required": false,
+              "default": "'primary'",
+              "description": "Style archetype from the theme. Inherited from BaseComponent."
+            },
+            {
+              "name": "size",
+              "kind": "input",
+              "type": "Size",
+              "required": false,
+              "default": "'lg'",
+              "description": "Size token from the theme. Inherited from BaseComponent. Only has an effect where the component theme defines a `sizes` block."
             }
           ]
         }
@@ -2481,6 +2747,22 @@
               "type": "string",
               "required": false,
               "description": ""
+            },
+            {
+              "name": "variant",
+              "kind": "input",
+              "type": "Variant",
+              "required": false,
+              "default": "'primary'",
+              "description": "Style archetype from the theme. Inherited from BaseComponent."
+            },
+            {
+              "name": "size",
+              "kind": "input",
+              "type": "Size",
+              "required": false,
+              "default": "'lg'",
+              "description": "Size token from the theme. Inherited from BaseComponent. Only has an effect where the component theme defines a `sizes` block."
             }
           ]
         }
@@ -2705,6 +2987,22 @@
               "type": "boolean",
               "required": false,
               "description": "Emits true once opened and false once the closing animation finishes."
+            },
+            {
+              "name": "variant",
+              "kind": "input",
+              "type": "Variant",
+              "required": false,
+              "default": "'primary'",
+              "description": "Style archetype from the theme. Inherited from BaseComponent."
+            },
+            {
+              "name": "size",
+              "kind": "input",
+              "type": "Size",
+              "required": false,
+              "default": "'lg'",
+              "description": "Size token from the theme. Inherited from BaseComponent. Only has an effect where the component theme defines a `sizes` block."
             }
           ]
         }
@@ -2810,6 +3108,22 @@
               "type": "unknown",
               "required": false,
               "description": ""
+            },
+            {
+              "name": "variant",
+              "kind": "input",
+              "type": "Variant",
+              "required": false,
+              "default": "'primary'",
+              "description": "Style archetype from the theme. Inherited from BaseComponent."
+            },
+            {
+              "name": "size",
+              "kind": "input",
+              "type": "Size",
+              "required": false,
+              "default": "'lg'",
+              "description": "Size token from the theme. Inherited from BaseComponent. Only has an effect where the component theme defines a `sizes` block."
             }
           ]
         }
@@ -2835,7 +3149,24 @@
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
           "selectorOrTag": "[uni-dialog-header]",
-          "api": []
+          "api": [
+            {
+              "name": "variant",
+              "kind": "input",
+              "type": "Variant",
+              "required": false,
+              "default": "'primary'",
+              "description": "Style archetype from the theme. Inherited from BaseComponent."
+            },
+            {
+              "name": "size",
+              "kind": "input",
+              "type": "Size",
+              "required": false,
+              "default": "'lg'",
+              "description": "Size token from the theme. Inherited from BaseComponent. Only has an effect where the component theme defines a `sizes` block."
+            }
+          ]
         }
       },
       "examples": [],
@@ -3020,6 +3351,22 @@
               "required": false,
               "default": "false",
               "description": "When true the drawer never closes itself; it only emits `closeRequest` and waits for the consumer to set `open`. Off by default, so a drawer that ignores `closeRequest` behaves exactly as it always has."
+            },
+            {
+              "name": "variant",
+              "kind": "input",
+              "type": "Variant",
+              "required": false,
+              "default": "'primary'",
+              "description": "Style archetype from the theme. Inherited from BaseComponent."
+            },
+            {
+              "name": "size",
+              "kind": "input",
+              "type": "Size",
+              "required": false,
+              "default": "'lg'",
+              "description": "Size token from the theme. Inherited from BaseComponent. Only has an effect where the component theme defines a `sizes` block."
             }
           ]
         }
@@ -3033,17 +3380,17 @@
         {
           "title": "Editor Panel",
           "framework": "angular",
-          "code": "<!-- Storybook story: Editor Panel -->\n<section stack-layout height=\"420px\" overflow=\"hidden\">\n<uni-app-bar title=\"Console\">\n  <button leading icon-button symbolName=\"menu\" (click)=\"open = !open\">Toggle navigation</button>\n  <button trailing icon-button symbolName=\"account_circle\">Account</button>\n</uni-app-bar>\n<div row-layout [grow]=\"1\" [minHeight]=\"0\">\n  <uni-drawer mode=\"side\" [(open)]=\"open\">\n    <nav stack-layout gap=\"sm\" aria-label=\"Main\">\n      <span uni-text=\"title-small\" display=\"block\">Dashboard</span>\n      <span uni-text=\"title-small\" display=\"block\">Reports</span>\n      <span uni-text=\"title-small\" display=\"block\">Settings</span>\n    </nav>\n  </uni-drawer>\n  <main box-layout [grow]=\"1\" padding=\"md\" [minWidth]=\"0\">\n    <h2 uni-text=\"headline-small\">Content</h2>\n    <span uni-text=\"body-1-long\" display=\"block\">\n      The side drawer pushes this content; toggle it from the app bar.\n    </span>\n  </main>\n</div>\n</section>"
+          "code": "<!-- Storybook story: Editor Panel -->\n<div box-layout padding=\"md\">\n<h2 uni-text=\"headline-small\">Product board</h2>\n<span uni-text=\"body-1-long\" display=\"block\">\n  The panel opens over this. Close it and reopen from the button.\n</span>\n<button text-button variant=\"primary\" size=\"md\" (click)=\"open = true\">Edit line item</button>\n</div>\n<uni-drawer\nmode=\"over\"\nposition=\"end\"\n[width]=\"480\"\nheadline=\"Edit line item\"\ninitialFocus=\"input\"\n[disableAutoClose]=\"dirty\"\n[(open)]=\"open\"\n(closeRequest)=\"onCloseRequest()\"\n>\n<div stack-layout gap=\"md\">\n  <uni-input label=\"SKU\" placeholder=\"WS-00000\" />\n  <uni-input label=\"Description\" placeholder=\"Describe the line\" />\n  <!-- Long enough that the body overflows at any plausible viewport:\n       the point of the story is that this scrolls while the rows above\n       and below it do not. -->\n  @for (n of attributes; track n) {\n    <uni-input [label]=\"'Attribute ' + n\" placeholder=\"Value\" />\n  }\n  <uni-number-input label=\"Unit price\" [value]=\"24.5\" />\n  <uni-quantity-stepper label=\"Quantity\" [(value)]=\"quantity\" />\n</div>\n<div drawer-buttons confirmButtonText=\"Save\" cancelButtonText=\"Cancel\"></div>\n</uni-drawer>"
         },
         {
           "title": "Without Scrim",
           "framework": "angular",
-          "code": "<!-- Storybook story: Without Scrim -->\n<section stack-layout height=\"420px\" overflow=\"hidden\">\n<uni-app-bar title=\"Console\">\n  <button leading icon-button symbolName=\"menu\" (click)=\"open = !open\">Toggle navigation</button>\n  <button trailing icon-button symbolName=\"account_circle\">Account</button>\n</uni-app-bar>\n<div row-layout [grow]=\"1\" [minHeight]=\"0\">\n  <uni-drawer mode=\"side\" [(open)]=\"open\">\n    <nav stack-layout gap=\"sm\" aria-label=\"Main\">\n      <span uni-text=\"title-small\" display=\"block\">Dashboard</span>\n      <span uni-text=\"title-small\" display=\"block\">Reports</span>\n      <span uni-text=\"title-small\" display=\"block\">Settings</span>\n    </nav>\n  </uni-drawer>\n  <main box-layout [grow]=\"1\" padding=\"md\" [minWidth]=\"0\">\n    <h2 uni-text=\"headline-small\">Content</h2>\n    <span uni-text=\"body-1-long\" display=\"block\">\n      The side drawer pushes this content; toggle it from the app bar.\n    </span>\n  </main>\n</div>\n</section>"
+          "code": "<!-- Storybook story: Without Scrim -->\n<div box-layout padding=\"md\">\n<h2 uni-text=\"headline-small\">Product board</h2>\n@for (row of rows; track row) {\n  <span uni-text=\"body-1-long\" display=\"block\">Line item {{ row }} — still readable.</span>\n}\n<button text-button variant=\"primary\" size=\"md\" (click)=\"open = true\">Edit line item</button>\n</div>\n<uni-drawer\nmode=\"over\"\nposition=\"end\"\n[width]=\"480\"\n[scrim]=\"false\"\nheadline=\"Edit line item\"\n[(open)]=\"open\"\n>\n<div stack-layout gap=\"md\">\n  <uni-input label=\"SKU\" placeholder=\"WS-00000\" />\n  <uni-input label=\"Description\" placeholder=\"Describe the line\" />\n</div>\n<div drawer-buttons confirmButtonText=\"Save\"></div>\n</uni-drawer>"
         },
         {
           "title": "Overlay",
           "framework": "angular",
-          "code": "<!-- Storybook story: Overlay -->\n<section stack-layout height=\"420px\" overflow=\"hidden\">\n<uni-app-bar title=\"Console\">\n  <button leading icon-button symbolName=\"menu\" (click)=\"open = !open\">Toggle navigation</button>\n  <button trailing icon-button symbolName=\"account_circle\">Account</button>\n</uni-app-bar>\n<div row-layout [grow]=\"1\" [minHeight]=\"0\">\n  <uni-drawer mode=\"side\" [(open)]=\"open\">\n    <nav stack-layout gap=\"sm\" aria-label=\"Main\">\n      <span uni-text=\"title-small\" display=\"block\">Dashboard</span>\n      <span uni-text=\"title-small\" display=\"block\">Reports</span>\n      <span uni-text=\"title-small\" display=\"block\">Settings</span>\n    </nav>\n  </uni-drawer>\n  <main box-layout [grow]=\"1\" padding=\"md\" [minWidth]=\"0\">\n    <h2 uni-text=\"headline-small\">Content</h2>\n    <span uni-text=\"body-1-long\" display=\"block\">\n      The side drawer pushes this content; toggle it from the app bar.\n    </span>\n  </main>\n</div>\n</section>"
+          "code": "<!-- Storybook story: Overlay -->\n<button text-button variant=\"primary\" size=\"md\" (click)=\"open = true\">Open drawer</button>\n<uni-drawer mode=\"over\" position=\"start\" [(open)]=\"open\" ariaLabel=\"Main navigation\">\n<span uni-text=\"title-small\" display=\"block\">Dashboard</span>\n<span uni-text=\"title-small\" display=\"block\">Reports</span>\n<span uni-text=\"title-small\" display=\"block\">Settings</span>\n<button text-button variant=\"secondary\" size=\"sm\" (click)=\"open = false\">Close</button>\n</uni-drawer>"
         }
       ],
       "guidelines": {
@@ -3137,6 +3484,22 @@
               "type": "unknown",
               "required": false,
               "description": ""
+            },
+            {
+              "name": "variant",
+              "kind": "input",
+              "type": "Variant",
+              "required": false,
+              "default": "'primary'",
+              "description": "Style archetype from the theme. Inherited from BaseComponent."
+            },
+            {
+              "name": "size",
+              "kind": "input",
+              "type": "Size",
+              "required": false,
+              "default": "'lg'",
+              "description": "Size token from the theme. Inherited from BaseComponent. Only has an effect where the component theme defines a `sizes` block."
             }
           ]
         }
@@ -3169,6 +3532,22 @@
               "type": "string",
               "required": false,
               "description": "Title text. Falls back to the drawer's `headline`; projected content wins over both."
+            },
+            {
+              "name": "variant",
+              "kind": "input",
+              "type": "Variant",
+              "required": false,
+              "default": "'primary'",
+              "description": "Style archetype from the theme. Inherited from BaseComponent."
+            },
+            {
+              "name": "size",
+              "kind": "input",
+              "type": "Size",
+              "required": false,
+              "default": "'lg'",
+              "description": "Size token from the theme. Inherited from BaseComponent. Only has an effect where the component theme defines a `sizes` block."
             }
           ]
         }
@@ -3281,6 +3660,22 @@
               "type": "boolean",
               "required": false,
               "description": ""
+            },
+            {
+              "name": "variant",
+              "kind": "input",
+              "type": "Variant",
+              "required": false,
+              "default": "'primary'",
+              "description": "Style archetype from the theme. Inherited from BaseComponent."
+            },
+            {
+              "name": "size",
+              "kind": "input",
+              "type": "Size",
+              "required": false,
+              "default": "'lg'",
+              "description": "Size token from the theme. Inherited from BaseComponent. Only has an effect where the component theme defines a `sizes` block."
             }
           ]
         }
@@ -3327,6 +3722,22 @@
               "type": "number",
               "required": false,
               "description": "Exact per-instance duration in seconds. Bypasses size-aware scaling — an explicit number means the consumer wants that number. Omitted, the duration derives from the `expand` theme options' `transitionSpeed` scaled by content height (see `duration`)."
+            },
+            {
+              "name": "variant",
+              "kind": "input",
+              "type": "Variant",
+              "required": false,
+              "default": "'primary'",
+              "description": "Style archetype from the theme. Inherited from BaseComponent."
+            },
+            {
+              "name": "size",
+              "kind": "input",
+              "type": "Size",
+              "required": false,
+              "default": "'lg'",
+              "description": "Size token from the theme. Inherited from BaseComponent. Only has an effect where the component theme defines a `sizes` block."
             }
           ]
         }
@@ -3946,7 +4357,7 @@
               "type": "boolean",
               "required": false,
               "default": "false",
-              "description": "Synced from required() validators by the Signal Forms [field] directive."
+              "description": "Synced from required() validators by the Signal Forms [formField] directive."
             },
             {
               "name": "ariaDescribedBy",
@@ -4130,16 +4541,16 @@
         {
           "title": "Types",
           "framework": "angular",
-          "code": "<!-- Storybook story: Types -->\n<uni-input ${argsToTemplate(props)}>\n</uni-input>"
+          "code": "<!-- Storybook story: Types -->\n<div stack-layout gap=\"md\" maxWidth=\"320px\">\n<uni-input label=\"Email\" type=\"email\" autocomplete=\"email\" placeholder=\"you@example.com\" />\n<uni-input label=\"Password\" type=\"password\" autocomplete=\"current-password\" placeholder=\"••••••••\" />\n<uni-input label=\"Quantity\" type=\"number\" inputMode=\"numeric\" [min]=\"0\" [max]=\"99\" step=\"1\" placeholder=\"0\" />\n<uni-input label=\"Website\" type=\"url\" placeholder=\"https://example.com\" />\n<uni-input label=\"Phone\" type=\"tel\" inputMode=\"tel\" autocomplete=\"tel\" placeholder=\"+1 555 0100\" />\n</div>"
         },
         {
           "title": "With datalist",
           "framework": "angular",
-          "code": "<!-- Storybook story: With datalist -->\n<uni-input ${argsToTemplate(props)}>\n</uni-input>"
+          "code": "<!-- Storybook story: With datalist -->\n<div box-layout maxWidth=\"320px\">\n<uni-input label=\"Country\" list=\"uni-input-countries\" placeholder=\"Start typing…\" />\n<datalist id=\"uni-input-countries\">\n  <option value=\"Australia\"></option>\n  <option value=\"Austria\"></option>\n  <option value=\"Canada\"></option>\n  <option value=\"Denmark\"></option>\n</datalist>\n</div>"
         }
       ],
       "guidelines": {
-        "whenToUse": "Single-line text field with the shared input chrome (themed color, border, typeface,\nfocus ring, error state). It implements `FormValueControl<string>`: bind a Signal\nForms field with `[field]`, or drive `[(value)]` directly. Errors style the field\nonly after the user has interacted (touched or dirty), and `required` syncs from\n`required()` validators automatically.\nProject adornments with the `pre-input` / `post-input` slots. For multi-line text\nuse Textarea; for search semantics use Search Input.",
+        "whenToUse": "Single-line text field with the shared input chrome (themed color, border, typeface,\nfocus ring, error state). It implements `FormValueControl<string>`: bind a Signal\nForms field with `[formField]`, or drive `[(value)]` directly. Errors style the field\nonly after the user has interacted (touched or dirty), and `required` syncs from\n`required()` validators automatically.\nProject adornments with the `pre-input` / `post-input` slots. For multi-line text\nuse Textarea; for search semantics use Search Input.",
         "dos": [],
         "donts": [],
         "accessibility": [
@@ -4241,6 +4652,22 @@
               "required": false,
               "default": "false",
               "description": "Stop applying the themed leading inset to the inner control, for fields that place it themselves. The inset normally rides the `<input>`, which is right while the text is the field's leading edge. It is wrong the moment an adornment sits in front: a currency prefix would hug the border while the number it belongs to is indented past it. A field with adornments takes the inset over and puts it on whichever element is actually first."
+            },
+            {
+              "name": "variant",
+              "kind": "input",
+              "type": "Variant",
+              "required": false,
+              "default": "'primary'",
+              "description": "Style archetype from the theme. Inherited from BaseComponent."
+            },
+            {
+              "name": "size",
+              "kind": "input",
+              "type": "Size",
+              "required": false,
+              "default": "'lg'",
+              "description": "Size token from the theme. Inherited from BaseComponent. Only has an effect where the component theme defines a `sizes` block."
             }
           ]
         }
@@ -4649,7 +5076,7 @@
               "type": "boolean",
               "required": false,
               "default": "false",
-              "description": "Synced from required() validators by the Signal Forms [field] directive."
+              "description": "Synced from required() validators by the Signal Forms [formField] directive."
             },
             {
               "name": "ariaDescribedBy",
@@ -4687,6 +5114,22 @@
               "required": false,
               "default": "200",
               "description": "Debounce for the filter box, matching the library's input debounce."
+            },
+            {
+              "name": "variant",
+              "kind": "input",
+              "type": "Variant",
+              "required": false,
+              "default": "'primary'",
+              "description": "Style archetype from the theme. Inherited from BaseComponent."
+            },
+            {
+              "name": "size",
+              "kind": "input",
+              "type": "Size",
+              "required": false,
+              "default": "'lg'",
+              "description": "Size token from the theme. Inherited from BaseComponent. Only has an effect where the component theme defines a `sizes` block."
             }
           ]
         }
@@ -4813,6 +5256,22 @@
               "type": "string",
               "required": false,
               "description": "Screen-reader text for the badge (e.g. \"5 unread messages\"). Without it a sensible default is announced; a bare number or dot carries no meaning."
+            },
+            {
+              "name": "variant",
+              "kind": "input",
+              "type": "Variant",
+              "required": false,
+              "default": "'primary'",
+              "description": "Style archetype from the theme. Inherited from BaseComponent."
+            },
+            {
+              "name": "size",
+              "kind": "input",
+              "type": "Size",
+              "required": false,
+              "default": "'lg'",
+              "description": "Size token from the theme. Inherited from BaseComponent. Only has an effect where the component theme defines a `sizes` block."
             }
           ]
         }
@@ -4846,22 +5305,22 @@
         {
           "title": "Different Colors",
           "framework": "angular",
-          "code": "<!-- Storybook story: Different Colors -->\n<div box-layout padding=\"md\">\n<uni-notification-badge\n  [count]=\"count\"\n  [maxCount]=\"maxCount\"\n  [badgeVariant]=\"badgeVariant\"\n  [color]=\"color\"\n  [position]=\"position\"\n  [show]=\"show\">\n  <button uni-text-button>\n    Button with Badge\n  </button>\n</uni-notification-badge>\n</div>"
+          "code": "<!-- Storybook story: Different Colors -->\n<div wrap-layout gap=\"md\" padding=\"md\">\n<uni-notification-badge [count]=\"3\" color=\"primary\" position=\"top-right\">\n  <button uni-text-button>Primary</button>\n</uni-notification-badge>\n<uni-notification-badge [count]=\"5\" color=\"secondary\" position=\"top-right\">\n  <button uni-text-button>Secondary</button>\n</uni-notification-badge>\n<uni-notification-badge [count]=\"7\" color=\"success\" position=\"top-right\">\n  <button uni-text-button>Success</button>\n</uni-notification-badge>\n<uni-notification-badge [count]=\"9\" color=\"warn\" position=\"top-right\">\n  <button uni-text-button>Warning</button>\n</uni-notification-badge>\n<uni-notification-badge [count]=\"11\" color=\"tertiary\" position=\"top-right\">\n  <button uni-text-button>Tertiary</button>\n</uni-notification-badge>\n<uni-notification-badge [count]=\"13\" color=\"quaternary\" position=\"top-right\">\n  <button uni-text-button>Quaternary</button>\n</uni-notification-badge>\n</div>"
         },
         {
           "title": "Different Positions",
           "framework": "angular",
-          "code": "<!-- Storybook story: Different Positions -->\n<div box-layout padding=\"md\">\n<uni-notification-badge\n  [count]=\"count\"\n  [maxCount]=\"maxCount\"\n  [badgeVariant]=\"badgeVariant\"\n  [color]=\"color\"\n  [position]=\"position\"\n  [show]=\"show\">\n  <button uni-text-button>\n    Button with Badge\n  </button>\n</uni-notification-badge>\n</div>"
+          "code": "<!-- Storybook story: Different Positions -->\n<div wrap-layout gap=\"lg\" padding=\"lg\">\n<uni-notification-badge [count]=\"1\" position=\"top-right\">\n  <div center-layout [width]=\"60\" [height]=\"60\" containerColor=\"surface-variant\" border=\"light\" borderRadius=\"xs\">\n    Top Right\n  </div>\n</uni-notification-badge>\n<uni-notification-badge [count]=\"2\" position=\"top-left\">\n  <div center-layout [width]=\"60\" [height]=\"60\" containerColor=\"surface-variant\" border=\"light\" borderRadius=\"xs\">\n    Top Left\n  </div>\n</uni-notification-badge>\n<uni-notification-badge [count]=\"3\" position=\"bottom-right\">\n  <div center-layout [width]=\"60\" [height]=\"60\" containerColor=\"surface-variant\" border=\"light\" borderRadius=\"xs\">\n    Bottom Right\n  </div>\n</uni-notification-badge>\n<uni-notification-badge [count]=\"4\" position=\"bottom-left\">\n  <div center-layout [width]=\"60\" [height]=\"60\" containerColor=\"surface-variant\" border=\"light\" borderRadius=\"xs\">\n    Bottom Left\n  </div>\n</uni-notification-badge>\n</div>"
         },
         {
           "title": "Variant Comparison",
           "framework": "angular",
-          "code": "<!-- Storybook story: Variant Comparison -->\n<div box-layout padding=\"md\">\n<uni-notification-badge\n  [count]=\"count\"\n  [maxCount]=\"maxCount\"\n  [badgeVariant]=\"badgeVariant\"\n  [color]=\"color\"\n  [position]=\"position\"\n  [show]=\"show\">\n  <button uni-text-button>\n    Button with Badge\n  </button>\n</uni-notification-badge>\n</div>"
+          "code": "<!-- Storybook story: Variant Comparison -->\n<div wrap-layout gap=\"lg\" padding=\"lg\">\n<uni-notification-badge badgeVariant=\"dot\">\n  <div center-layout [width]=\"80\" [height]=\"80\" containerColor=\"surface-variant\" border=\"light\" borderRadius=\"xs\">\n    Dot Variant\n  </div>\n</uni-notification-badge>\n<uni-notification-badge [count]=\"8\" badgeVariant=\"count\">\n  <div center-layout [width]=\"80\" [height]=\"80\" containerColor=\"surface-variant\" border=\"light\" borderRadius=\"xs\">\n    Count Variant\n  </div>\n</uni-notification-badge>\n<uni-notification-badge [count]=\"123\" badgeVariant=\"pill\" [maxCount]=\"99\">\n  <div center-layout [width]=\"80\" [height]=\"80\" containerColor=\"surface-variant\" border=\"light\" borderRadius=\"xs\">\n    Pill Variant\n  </div>\n</uni-notification-badge>\n</div>"
         },
         {
           "title": "With Icons",
           "framework": "angular",
-          "code": "<!-- Storybook story: With Icons -->\n<div box-layout padding=\"md\">\n<uni-notification-badge\n  [count]=\"count\"\n  [maxCount]=\"maxCount\"\n  [badgeVariant]=\"badgeVariant\"\n  [color]=\"color\"\n  [position]=\"position\"\n  [show]=\"show\">\n  <button uni-text-button>\n    Button with Badge\n  </button>\n</uni-notification-badge>\n</div>"
+          "code": "<!-- Storybook story: With Icons -->\n<div wrap-layout gap=\"lg\" padding=\"lg\">\n<uni-notification-badge [count]=\"12\">\n  <div center-layout [width]=\"48\" [height]=\"48\" containerColor=\"surface-variant\" border=\"light\" borderRadius=\"max\">\n    📧\n  </div>\n</uni-notification-badge>\n<uni-notification-badge badgeVariant=\"dot\">\n  <div center-layout [width]=\"48\" [height]=\"48\" containerColor=\"surface-variant\" border=\"light\" borderRadius=\"max\">\n    🔔\n  </div>\n</uni-notification-badge>\n<uni-notification-badge [count]=\"999\" [maxCount]=\"99\" badgeVariant=\"pill\">\n  <div center-layout [width]=\"48\" [height]=\"48\" containerColor=\"surface-variant\" border=\"light\" borderRadius=\"max\">\n    💬\n  </div>\n</uni-notification-badge>\n</div>"
         }
       ],
       "guidelines": {
@@ -5221,6 +5680,22 @@
               "type": "UniNumberRejection",
               "required": false,
               "description": "A commit was refused; the raw text stays in the field."
+            },
+            {
+              "name": "variant",
+              "kind": "input",
+              "type": "Variant",
+              "required": false,
+              "default": "'primary'",
+              "description": "Style archetype from the theme. Inherited from BaseComponent."
+            },
+            {
+              "name": "size",
+              "kind": "input",
+              "type": "Size",
+              "required": false,
+              "default": "'lg'",
+              "description": "Size token from the theme. Inherited from BaseComponent. Only has an effect where the component theme defines a `sizes` block."
             }
           ]
         }
@@ -5509,6 +5984,22 @@
               "type": "UniNumberRangeRejection",
               "required": false,
               "description": "A typed commit on one end could not be read; its text stays in place."
+            },
+            {
+              "name": "variant",
+              "kind": "input",
+              "type": "Variant",
+              "required": false,
+              "default": "'primary'",
+              "description": "Style archetype from the theme. Inherited from BaseComponent."
+            },
+            {
+              "name": "size",
+              "kind": "input",
+              "type": "Size",
+              "required": false,
+              "default": "'lg'",
+              "description": "Size token from the theme. Inherited from BaseComponent. Only has an effect where the component theme defines a `sizes` block."
             }
           ]
         }
@@ -5620,6 +6111,22 @@
               "required": false,
               "default": "true",
               "description": ""
+            },
+            {
+              "name": "variant",
+              "kind": "input",
+              "type": "Variant",
+              "required": false,
+              "default": "'primary'",
+              "description": "Style archetype from the theme. Inherited from BaseComponent."
+            },
+            {
+              "name": "size",
+              "kind": "input",
+              "type": "Size",
+              "required": false,
+              "default": "'lg'",
+              "description": "Size token from the theme. Inherited from BaseComponent. Only has an effect where the component theme defines a `sizes` block."
             }
           ]
         }
@@ -5764,6 +6271,22 @@
               "type": "void",
               "required": false,
               "description": ""
+            },
+            {
+              "name": "variant",
+              "kind": "input",
+              "type": "Variant",
+              "required": false,
+              "default": "'primary'",
+              "description": "Style archetype from the theme. Inherited from BaseComponent."
+            },
+            {
+              "name": "size",
+              "kind": "input",
+              "type": "Size",
+              "required": false,
+              "default": "'lg'",
+              "description": "Size token from the theme. Inherited from BaseComponent. Only has an effect where the component theme defines a `sizes` block."
             }
           ]
         }
@@ -5777,22 +6300,22 @@
         {
           "title": "Structured Form",
           "framework": "angular",
-          "code": "<!-- Storybook story: Structured Form -->\n<uni-popover placement=\"${placement}\" [autoClose]=\"${autoClose}\" [arrow]=\"${arrow}\" #popover>\n  <button text-button trigger>Open Popover</button>\n  <div stack-layout gap=\"sm\">\n    <div>\n      <span uni-text=\"title-small\" display=\"block\">\n      This is a Popover.\n      </span>\n      It is possible to add any markup you want to a Popover.\n    </div>\n    <div>\n      <button text-button symbolLeft=\"thumb_up\" size=\"sm\" variant=\"secondary\" (click)=\"popover.hidePopover()\">OK!</button>\n    </div>\n  </div>\n</uni-popover>"
+          "code": "<!-- Storybook story: Structured Form -->\n<uni-popover header=\"Rename view\" [closable]=\"true\" #popover>\n<button text-button trigger>Rename…</button>\n<uni-input label=\"Name\" autofocus></uni-input>\n<button text-button popover-footer size=\"sm\" variant=\"secondary\" (click)=\"popover.hidePopover()\">Apply</button>\n</uni-popover>"
         },
         {
           "title": "Detached Anchor",
           "framework": "angular",
-          "code": "<!-- Storybook story: Detached Anchor -->\n<uni-popover placement=\"${placement}\" [autoClose]=\"${autoClose}\" [arrow]=\"${arrow}\" #popover>\n  <button text-button trigger>Open Popover</button>\n  <div stack-layout gap=\"sm\">\n    <div>\n      <span uni-text=\"title-small\" display=\"block\">\n      This is a Popover.\n      </span>\n      It is possible to add any markup you want to a Popover.\n    </div>\n    <div>\n      <button text-button symbolLeft=\"thumb_up\" size=\"sm\" variant=\"secondary\" (click)=\"popover.hidePopover()\">OK!</button>\n    </div>\n  </div>\n</uni-popover>"
+          "code": "<!-- Storybook story: Detached Anchor -->\n<div stack-layout gap=\"md\">\n<uni-input label=\"Project name\" id=\"detached-demo-field\"></uni-input>\n<uni-popover anchor=\"detached-demo-field\" placement=\"bottom-start\" header=\"Naming rules\">\n  <button text-button trigger size=\"sm\" variant=\"ghost\">Show naming rules</button>\n  Lowercase, dashes for spaces, unique within the workspace.\n</uni-popover>\n</div>"
         },
         {
           "title": "Tooltip Mode",
           "framework": "angular",
-          "code": "<!-- Storybook story: Tooltip Mode -->\n<uni-popover placement=\"${placement}\" [autoClose]=\"${autoClose}\" [arrow]=\"${arrow}\" #popover>\n  <button text-button trigger>Open Popover</button>\n  <div stack-layout gap=\"sm\">\n    <div>\n      <span uni-text=\"title-small\" display=\"block\">\n      This is a Popover.\n      </span>\n      It is possible to add any markup you want to a Popover.\n    </div>\n    <div>\n      <button text-button symbolLeft=\"thumb_up\" size=\"sm\" variant=\"secondary\" (click)=\"popover.hidePopover()\">OK!</button>\n    </div>\n  </div>\n</uni-popover>"
+          "code": "<!-- Storybook story: Tooltip Mode -->\n<uni-popover mode=\"tooltip\" placement=\"top\">\n<button text-button trigger variant=\"ghost\">Publishing</button>\nPublishes to every connected space at once.\n</uni-popover>"
         },
         {
           "title": "Manual Close",
           "framework": "angular",
-          "code": "<!-- Storybook story: Manual Close -->\n<uni-popover placement=\"${placement}\" [autoClose]=\"${autoClose}\" [arrow]=\"${arrow}\" #popover>\n  <button text-button trigger>Open Popover</button>\n  <div stack-layout gap=\"sm\">\n    <div>\n      <span uni-text=\"title-small\" display=\"block\">\n      This is a Popover.\n      </span>\n      It is possible to add any markup you want to a Popover.\n    </div>\n    <div>\n      <button text-button symbolLeft=\"thumb_up\" size=\"sm\" variant=\"secondary\" (click)=\"popover.hidePopover()\">OK!</button>\n    </div>\n  </div>\n</uni-popover>"
+          "code": "<!-- Storybook story: Manual Close -->\n<uni-popover [autoClose]=\"false\" header=\"Cookie consent\" #popover>\n<button text-button trigger>Preferences</button>\nThis panel ignores outside clicks.\n<button text-button popover-footer size=\"sm\" (click)=\"popover.hidePopover()\">Save</button>\n</uni-popover>"
         }
       ],
       "guidelines": {
@@ -5922,6 +6445,22 @@
               "type": "string",
               "required": false,
               "description": "Accessible name describing what is progressing."
+            },
+            {
+              "name": "variant",
+              "kind": "input",
+              "type": "Variant",
+              "required": false,
+              "default": "'primary'",
+              "description": "Style archetype from the theme. Inherited from BaseComponent."
+            },
+            {
+              "name": "size",
+              "kind": "input",
+              "type": "Size",
+              "required": false,
+              "default": "'lg'",
+              "description": "Size token from the theme. Inherited from BaseComponent. Only has an effect where the component theme defines a `sizes` block."
             }
           ]
         }
@@ -6071,6 +6610,14 @@
               "type": "void",
               "required": false,
               "description": "The remove affordance was activated — the row should come out. Named `removed`, not the spec's `emptied`: that word is a native `HTMLMediaElement` event, which `@angular-eslint/no-output-native` bans for good reason, and `removed` is already what `uni-tag` calls this same request."
+            },
+            {
+              "name": "variant",
+              "kind": "input",
+              "type": "Variant",
+              "required": false,
+              "default": "'primary'",
+              "description": "Style archetype from the theme. Inherited from BaseComponent."
             }
           ]
         }
@@ -6190,7 +6737,7 @@
               "type": "boolean",
               "required": false,
               "default": "false",
-              "description": "Synced from required() validators by the Signal Forms [field] directive."
+              "description": "Synced from required() validators by the Signal Forms [formField] directive."
             },
             {
               "name": "ariaDescribedBy",
@@ -6221,6 +6768,22 @@
               "required": false,
               "default": "uniqueId('uni-radio-group')",
               "description": ""
+            },
+            {
+              "name": "variant",
+              "kind": "input",
+              "type": "Variant",
+              "required": false,
+              "default": "'primary'",
+              "description": "Style archetype from the theme. Inherited from BaseComponent."
+            },
+            {
+              "name": "size",
+              "kind": "input",
+              "type": "Size",
+              "required": false,
+              "default": "'lg'",
+              "description": "Size token from the theme. Inherited from BaseComponent. Only has an effect where the component theme defines a `sizes` block."
             }
           ]
         }
@@ -6249,17 +6812,17 @@
         {
           "title": "Variants",
           "framework": "angular",
-          "code": "<!-- Storybook story: Variants -->\n<uni-radio ${argsToTemplate(args)}></uni-radio>"
+          "code": "<!-- Storybook story: Variants -->\n<div stack-layout gap=\"md\">\n<uni-radio label=\"Primary\" variant=\"primary\" [options]=\"options\" name=\"primary-group\"></uni-radio>\n<uni-radio label=\"Secondary\" variant=\"secondary\" [options]=\"options\" name=\"secondary-group\"></uni-radio>\n<uni-radio label=\"Success\" variant=\"success\" [options]=\"options\" name=\"success-group\"></uni-radio>\n<uni-radio label=\"Warning\" variant=\"warn\" [options]=\"options\" name=\"warn-group\"></uni-radio>\n<uni-radio label=\"Tertiary\" variant=\"tertiary\" [options]=\"options\" name=\"tertiary-group\"></uni-radio>\n</div>"
         },
         {
           "title": "With Change Event",
           "framework": "angular",
-          "code": "<!-- Storybook story: With Change Event -->\n<uni-radio ${argsToTemplate(args)}></uni-radio>"
+          "code": "<!-- Storybook story: With Change Event -->\n<div>\n<uni-radio\n  label=\"Pick your favorite\"\n  [options]=\"options\"\n  [value]=\"selectedValue\"\n  (valueChange)=\"onRadioChange($event)\"\n  variant=\"primary\"\n  name=\"favorites\">\n</uni-radio>\n<div box-layout paddingTop=\"md\">\n  Current selection: {{ selectedValue || 'None' }}\n</div>\n<div box-layout paddingTop=\"sm\">\n  Last change: {{ lastChangeValue }}\n</div>\n</div>"
         },
         {
           "title": "Form Signals",
           "framework": "angular",
-          "code": "<!-- Storybook story: Form Signals -->\n<uni-radio ${argsToTemplate(args)}></uni-radio>"
+          "code": "<!-- Storybook story: Form Signals -->\n<div>\n<uni-radio\n  label=\"Select your choice\"\n  variant=\"primary\"\n  [options]=\"options\"\n  [value]=\"currentValue\"\n  [disabled]=\"isDisabled\"\n  [invalid]=\"isInvalid\"\n  [touched]=\"isTouched\"\n  name=\"signals-demo\">\n</uni-radio>\n<div box-layout paddingTop=\"md\">\n  <p>Value: {{ currentValue }}</p>\n  <p>Touched: {{ isTouched }}</p>\n  <p>Invalid: {{ isInvalid }}</p>\n  <p>Disabled: {{ isDisabled }}</p>\n</div>\n<div row-layout gap=\"sm\" paddingTop=\"sm\">\n<button\n  (click)=\"isTouched = true\">\n  Mark as Touched\n</button>\n<button\n  (click)=\"isDisabled = !isDisabled\">\n  Toggle Disabled\n</button>\n<button\n  (click)=\"isInvalid = !isInvalid\">\n  Toggle Invalid\n</button>\n</div>\n</div>"
         }
       ],
       "guidelines": {
@@ -6580,6 +7143,22 @@
               "type": "string",
               "required": false,
               "description": ""
+            },
+            {
+              "name": "variant",
+              "kind": "input",
+              "type": "Variant",
+              "required": false,
+              "default": "'primary'",
+              "description": "Style archetype from the theme. Inherited from BaseComponent."
+            },
+            {
+              "name": "size",
+              "kind": "input",
+              "type": "Size",
+              "required": false,
+              "default": "'lg'",
+              "description": "Size token from the theme. Inherited from BaseComponent. Only has an effect where the component theme defines a `sizes` block."
             }
           ]
         }
@@ -6667,7 +7246,7 @@
               "type": "boolean",
               "required": false,
               "default": "false",
-              "description": "Synced from required() validators by the Signal Forms [field] directive."
+              "description": "Synced from required() validators by the Signal Forms [formField] directive."
             },
             {
               "name": "ariaDescribedBy",
@@ -6763,7 +7342,7 @@
         }
       ],
       "guidelines": {
-        "whenToUse": "Single choice from a list, on a native `<select>` — platform pickers on mobile,\nplatform keyboard behavior everywhere. Options are typed generically\n(`options: T[]` with `optionLabel`/`optionValue` accessors), and the component\nimplements `FormValueControl` for the Signal Forms `[field]` directive. Errors\nstyle the field only after interaction, matching Input.\nFor choosing several, use Multi Select. When the list outgrows ~10 options, or\nusers know what they're looking for and want to type it, use Combobox — the\nvalue contract is identical (`T | null`, `compareWith`), so the swap is a\ntemplate-only change.",
+        "whenToUse": "Single choice from a list, on a native `<select>` — platform pickers on mobile,\nplatform keyboard behavior everywhere. Options are typed generically\n(`options: T[]` with `optionLabel`/`optionValue` accessors), and the component\nimplements `FormValueControl` for the Signal Forms `[formField]` directive. Errors\nstyle the field only after interaction, matching Input.\nFor choosing several, use Multi Select. When the list outgrows ~10 options, or\nusers know what they're looking for and want to type it, use Combobox — the\nvalue contract is identical (`T | null`, `compareWith`), so the swap is a\ntemplate-only change.",
         "dos": [],
         "donts": [],
         "accessibility": [
@@ -6850,6 +7429,22 @@
               "required": false,
               "default": "undefined",
               "description": "Announces the skeleton to assistive tech as a polite status. Leave unset when a container already carries `aria-busy` — the skeleton then stays `aria-hidden`, as a decorative placeholder should."
+            },
+            {
+              "name": "variant",
+              "kind": "input",
+              "type": "Variant",
+              "required": false,
+              "default": "'primary'",
+              "description": "Style archetype from the theme. Inherited from BaseComponent."
+            },
+            {
+              "name": "size",
+              "kind": "input",
+              "type": "Size",
+              "required": false,
+              "default": "'lg'",
+              "description": "Size token from the theme. Inherited from BaseComponent. Only has an effect where the component theme defines a `sizes` block."
             }
           ]
         }
@@ -6868,7 +7463,7 @@
         {
           "title": "Card Placeholder",
           "framework": "angular",
-          "code": "<!-- Storybook story: Card Placeholder -->\n<div box-layout maxWidth=\"360px\" gap=\"md\">\n<uni-card>\n  <div box-layout padding=\"md\" gap=\"sm\">\n    <div row-layout gap=\"sm\" alignItems=\"center\">\n      <uni-skeleton shape=\"rect\" borderRadius=\"max\" [width]=\"56\" [height]=\"20\" />\n      <uni-skeleton shape=\"rect\" [width]=\"120\" [height]=\"12\" />\n    </div>\n    <uni-skeleton [lines]=\"2\" />\n  </div>\n</uni-card>\n<uni-skeleton color=\"surface\" highlightColor=\"surface-variant\" [lines]=\"2\" />\n</div>"
+          "code": "<!-- Storybook story: Card Placeholder -->\n<div box-layout maxWidth=\"360px\">\n<uni-card>\n  <div row-layout gap=\"sm\" alignItems=\"center\" padding=\"md\">\n    <uni-skeleton shape=\"circle\" [height]=\"40\" />\n    <div box-layout [grow]=\"1\">\n      <uni-skeleton [lines]=\"2\" />\n    </div>\n  </div>\n  <div box-layout paddingHorizontal=\"md\" paddingBottom=\"md\">\n    <uni-skeleton shape=\"rect\" [height]=\"120\" />\n  </div>\n</uni-card>\n</div>"
         }
       ],
       "guidelines": {
@@ -7067,6 +7662,14 @@
               "type": "number | UniNumberRange",
               "required": false,
               "description": "Committed — on pointer release and key-up. **A form should bind this**: piping a 60 Hz stream into a model is how sliders get blamed for jank."
+            },
+            {
+              "name": "size",
+              "kind": "input",
+              "type": "Size",
+              "required": false,
+              "default": "'lg'",
+              "description": "Size token from the theme. Inherited from BaseComponent. Only has an effect where the component theme defines a `sizes` block."
             }
           ]
         }
@@ -7222,6 +7825,22 @@
               "type": "boolean",
               "required": false,
               "description": ""
+            },
+            {
+              "name": "variant",
+              "kind": "input",
+              "type": "Variant",
+              "required": false,
+              "default": "'primary'",
+              "description": "Style archetype from the theme. Inherited from BaseComponent."
+            },
+            {
+              "name": "size",
+              "kind": "input",
+              "type": "Size",
+              "required": false,
+              "default": "'lg'",
+              "description": "Size token from the theme. Inherited from BaseComponent. Only has an effect where the component theme defines a `sizes` block."
             }
           ]
         }
@@ -7405,6 +8024,22 @@
               "required": false,
               "default": "undefined",
               "description": "Recent values for the decorative sparkline (12 points reads best)."
+            },
+            {
+              "name": "variant",
+              "kind": "input",
+              "type": "Variant",
+              "required": false,
+              "default": "'primary'",
+              "description": "Style archetype from the theme. Inherited from BaseComponent."
+            },
+            {
+              "name": "size",
+              "kind": "input",
+              "type": "Size",
+              "required": false,
+              "default": "'lg'",
+              "description": "Size token from the theme. Inherited from BaseComponent. Only has an effect where the component theme defines a `sizes` block."
             }
           ]
         }
@@ -7423,7 +8058,7 @@
         {
           "title": "KPI row",
           "framework": "angular",
-          "code": "<!-- Storybook story: KPI row -->\n<uni-stat ${argsToTemplate(props)}></uni-stat>"
+          "code": "<!-- Storybook story: KPI row -->\n<div grid-layout templateColumns=\"repeat(auto-fit, minmax(210px, 1fr))\" gap=\"sm\">\n<uni-stat label=\"Monthly recurring revenue\" [value]=\"48234\" delta=\"+12.4%\" caption=\"vs last month\" [trend]=\"[31,34,33,38,37,41,40,44,43,46,47,48]\" />\n<uni-stat label=\"Active users\" [value]=\"12900\" delta=\"+3.1%\" caption=\"vs last week\" [trend]=\"[9,10,10,11,10,11,12,11,12,12,13,12.9]\" />\n<uni-stat label=\"Churn rate\" value=\"2.1%\" delta=\"-0.4%\" [upIsGood]=\"false\" caption=\"vs last month\" />\n<uni-stat label=\"Open tickets\" [value]=\"87\" delta=\"+16\" [upIsGood]=\"false\" caption=\"vs yesterday\" />\n</div>"
         }
       ],
       "guidelines": {
@@ -7498,6 +8133,22 @@
               "type": "number",
               "required": false,
               "description": ""
+            },
+            {
+              "name": "variant",
+              "kind": "input",
+              "type": "Variant",
+              "required": false,
+              "default": "'primary'",
+              "description": "Style archetype from the theme. Inherited from BaseComponent."
+            },
+            {
+              "name": "size",
+              "kind": "input",
+              "type": "Size",
+              "required": false,
+              "default": "'lg'",
+              "description": "Size token from the theme. Inherited from BaseComponent. Only has an effect where the component theme defines a `sizes` block."
             }
           ]
         }
@@ -7584,6 +8235,22 @@
               "required": false,
               "default": "0",
               "description": "Index of the selected tab; two-way bindable."
+            },
+            {
+              "name": "variant",
+              "kind": "input",
+              "type": "Variant",
+              "required": false,
+              "default": "'primary'",
+              "description": "Style archetype from the theme. Inherited from BaseComponent."
+            },
+            {
+              "name": "size",
+              "kind": "input",
+              "type": "Size",
+              "required": false,
+              "default": "'lg'",
+              "description": "Size token from the theme. Inherited from BaseComponent. Only has an effect where the component theme defines a `sizes` block."
             }
           ]
         }
@@ -7597,7 +8264,7 @@
         {
           "title": "With Disabled Tab",
           "framework": "angular",
-          "code": "<!-- Storybook story: With Disabled Tab -->\n<uni-tabs [selectedIndex]=\"selectedIndex ?? 0\">\n<uni-tab label=\"Overview\">\n  <span uni-text=\"body-1-long\">\n    Arrow keys move between tabs (disabled tabs are skipped), Home and End jump\n    to the extremes, and only the selected panel is rendered.\n  </span>\n</uni-tab>\n<uni-tab label=\"Activity\">\n  <span uni-text=\"body-1-long\">Recent activity would render here.</span>\n</uni-tab>\n<uni-tab label=\"Settings\">\n  <span uni-text=\"body-1-long\">Settings content, instantiated on selection.</span>\n</uni-tab>\n</uni-tabs>"
+          "code": "<!-- Storybook story: With Disabled Tab -->\n<uni-tabs>\n<uni-tab label=\"Open\"><span uni-text=\"body-1-long\">Open items.</span></uni-tab>\n<uni-tab label=\"Archived\" [disabled]=\"true\">\n  <span uni-text=\"body-1-long\">Unreachable while disabled.</span>\n</uni-tab>\n<uni-tab label=\"All\"><span uni-text=\"body-1-long\">Everything.</span></uni-tab>\n</uni-tabs>"
         }
       ],
       "guidelines": {
@@ -7782,6 +8449,14 @@
               "type": "UniTagValue",
               "required": false,
               "description": ""
+            },
+            {
+              "name": "variant",
+              "kind": "input",
+              "type": "Variant",
+              "required": false,
+              "default": "'primary'",
+              "description": "Style archetype from the theme. Inherited from BaseComponent."
             }
           ]
         }
@@ -7800,7 +8475,7 @@
         {
           "title": "Sizes",
           "framework": "angular",
-          "code": "<!-- Storybook story: Sizes -->\n<div box-layout gap=\"sm\">\n@for (tone of ['soft', 'solid', 'outline']; track tone) {\n  <div row-layout gap=\"sm\" alignItems=\"center\" style=\"margin-bottom:8px\">\n    @for (variant of ['primary', 'secondary', 'tertiary', 'warn', 'success', 'ghost']; track variant) {\n      <uni-tag [variant]=\"variant\" [tone]=\"tone\" [label]=\"variant\" />\n    }\n  </div>\n}\n</div>\n<!-- args:\n{ removable: true }\n-->"
+          "code": "<!-- Storybook story: Sizes -->\n<div row-layout gap=\"sm\" alignItems=\"center\">\n<uni-tag size=\"sm\" label=\"Small\" />\n<uni-tag size=\"md\" label=\"Medium\" />\n<uni-tag size=\"lg\" label=\"Large\" />\n</div>\n<!-- args:\n{ removable: true }\n-->"
         },
         {
           "title": "Removable",
@@ -7820,7 +8495,7 @@
         {
           "title": "Lead Elements",
           "framework": "angular",
-          "code": "<!-- Storybook story: Lead Elements -->\n<div box-layout gap=\"sm\">\n@for (tone of ['soft', 'solid', 'outline']; track tone) {\n  <div row-layout gap=\"sm\" alignItems=\"center\" style=\"margin-bottom:8px\">\n    @for (variant of ['primary', 'secondary', 'tertiary', 'warn', 'success', 'ghost']; track variant) {\n      <uni-tag [variant]=\"variant\" [tone]=\"tone\" [label]=\"variant\" />\n    }\n  </div>\n}\n</div>\n<!-- args:\n{ label: 'nope@@x', invalid: true, removable: true, variant: 'warn' }\n-->"
+          "code": "<!-- Storybook story: Lead Elements -->\n<div row-layout gap=\"sm\" alignItems=\"center\">\n<uni-tag label=\"Alice Chen\" avatarName=\"Alice Chen\" removable=\"true\" />\n<uni-tag label=\"Starred\" iconName=\"star\" />\n<uni-tag label=\"Live\" [dot]=\"true\" variant=\"success\" />\n<uni-tag label=\"Custom lead\">\n  <span tag-lead aria-hidden=\"true\">🎨</span>\n</uni-tag>\n</div>\n<!-- args:\n{ label: 'nope@@x', invalid: true, removable: true, variant: 'warn' }\n-->"
         },
         {
           "title": "Invalid",
@@ -8053,6 +8728,22 @@
               "type": "UniTagRejection",
               "required": false,
               "description": ""
+            },
+            {
+              "name": "variant",
+              "kind": "input",
+              "type": "Variant",
+              "required": false,
+              "default": "'primary'",
+              "description": "Style archetype from the theme. Inherited from BaseComponent."
+            },
+            {
+              "name": "size",
+              "kind": "input",
+              "type": "Size",
+              "required": false,
+              "default": "'lg'",
+              "description": "Size token from the theme. Inherited from BaseComponent. Only has an effect where the component theme defines a `sizes` block."
             }
           ]
         }
@@ -8190,7 +8881,7 @@
         {
           "title": "Element-aware defaults",
           "framework": "angular",
-          "code": "<!-- Storybook story: Element-aware defaults -->\n<div stack-layout gap=\"sm\">\n<span uni-text=\"display-small\" display=\"block\">Display small</span>\n<span uni-text=\"headline-medium\" display=\"block\">Headline medium</span>\n<span uni-text=\"body-1-long\" display=\"block\">\n  Body copy set with uni-text=\"body-1-long\" — the attribute value is the typeface.\n</span>\n<span uni-text=\"caption\" color=\"on-background-variant\" display=\"block\">\n  A caption in the muted ink.\n</span>\n</div>"
+          "code": "<!-- Storybook story: Element-aware defaults -->\n<article box-layout maxWidth=\"640px\">\n<h1 uni-text>An h1 is headline-large, free</h1>\n<h2 uni-text>An h2 is headline-medium</h2>\n<p uni-text>\n  A paragraph gets body-1-long with no configuration — semantic HTML and the\n  type scale reinforce each other. Explicit values always win:\n</p>\n<h2 uni-text=\"display-small\">An h2 promoted to display-small</h2>\n<blockquote uni-text>Blockquotes read as quotes.</blockquote>\n<small uni-text>And small print is caption.</small>\n</article>"
         }
       ],
       "guidelines": {
@@ -8267,7 +8958,7 @@
               "type": "boolean",
               "required": false,
               "default": "false",
-              "description": "Synced from required() validators by the Signal Forms [field] directive."
+              "description": "Synced from required() validators by the Signal Forms [formField] directive."
             },
             {
               "name": "ariaDescribedBy",
@@ -8395,7 +9086,7 @@
         }
       ],
       "guidelines": {
-        "whenToUse": "Multi-line text field with the same Signal Forms contract as Input — use it anywhere\nfree-form text runs past one line (comments, descriptions, feedback). It shares Input's\nthemed chrome (color, border, error state, focus outline, typeface) and adds\ntextarea-specific behavior from the theme's `textarea` options: default `rows` and the\nCSS `resize` mode. Bind it to a form with the `[field]` directive, or drive `[(value)]`\ndirectly.",
+        "whenToUse": "Multi-line text field with the same Signal Forms contract as Input — use it anywhere\nfree-form text runs past one line (comments, descriptions, feedback). It shares Input's\nthemed chrome (color, border, error state, focus outline, typeface) and adds\ntextarea-specific behavior from the theme's `textarea` options: default `rows` and the\nCSS `resize` mode. Bind it to a form with the `[formField]` directive, or drive `[(value)]`\ndirectly.",
         "dos": [],
         "donts": [],
         "accessibility": [
@@ -8642,6 +9333,22 @@
               "type": "UniTimeInputRejection",
               "required": false,
               "description": "A typed commit was refused; the raw text stays in the field."
+            },
+            {
+              "name": "variant",
+              "kind": "input",
+              "type": "Variant",
+              "required": false,
+              "default": "'primary'",
+              "description": "Style archetype from the theme. Inherited from BaseComponent."
+            },
+            {
+              "name": "size",
+              "kind": "input",
+              "type": "Size",
+              "required": false,
+              "default": "'lg'",
+              "description": "Size token from the theme. Inherited from BaseComponent. Only has an effect where the component theme defines a `sizes` block."
             }
           ]
         }
@@ -8747,7 +9454,7 @@
               "type": "boolean",
               "required": false,
               "default": "false",
-              "description": "Synced from required() validators by the Signal Forms [field] directive."
+              "description": "Synced from required() validators by the Signal Forms [formField] directive."
             },
             {
               "name": "ariaDescribedBy",
@@ -8762,6 +9469,29 @@
               "type": "string",
               "required": false,
               "description": ""
+            },
+            {
+              "name": "checkedColor",
+              "kind": "input",
+              "type": "ColorKey",
+              "required": false,
+              "description": "Checked-state track color token, overriding the theme's `toggle.behavior.checkedColor`. This exists alongside the theme option because `variant` — where this color used to live exclusively — defaults to `'primary'`, so the component cannot tell \"set to primary\" from \"not set\". Without an input, a theme-level `checkedColor` would silently make per-instance `variant` inert."
+            },
+            {
+              "name": "variant",
+              "kind": "input",
+              "type": "Variant",
+              "required": false,
+              "default": "'primary'",
+              "description": "Style archetype from the theme. Inherited from BaseComponent."
+            },
+            {
+              "name": "size",
+              "kind": "input",
+              "type": "Size",
+              "required": false,
+              "default": "'lg'",
+              "description": "Size token from the theme. Inherited from BaseComponent. Only has an effect where the component theme defines a `sizes` block."
             }
           ]
         }
@@ -8770,36 +9500,46 @@
         {
           "title": "Default",
           "framework": "angular",
-          "code": "<!-- Storybook story: Default -->\n<uni-toggle ${argsToTemplate(args)}></uni-toggle>\n<!-- args:\n{\n    label: 'Enable notifications',\n    variant: 'primary',\n    disabled: false,\n    checked: true,\n  }\n-->"
+          "code": "<!-- Storybook story: Default -->\n<div stack-layout gap=\"md\">\n<uni-toggle label=\"Enable feature\" [formField]=\"settings.enabled\" />\n<div box-layout>\n<p>Model: {{ model().enabled }}</p>\n<p>Touched: {{ settings.enabled().touched() }}</p>\n<p>Valid: {{ settings.enabled().valid() }}</p>\n</div>\n    </div>\n<!-- args:\n{\n    label: 'Enable notifications',\n    variant: 'primary',\n    disabled: false,\n    checked: true,\n  }\n-->"
         },
         {
           "title": "Without Label",
           "framework": "angular",
-          "code": "<!-- Storybook story: Without Label -->\n<uni-toggle ${argsToTemplate(args)}></uni-toggle>\n<!-- args:\n{\n    label: '',\n    variant: 'primary',\n    disabled: false,\n  }\n-->"
+          "code": "<!-- Storybook story: Without Label -->\n<div stack-layout gap=\"md\">\n<uni-toggle label=\"Enable feature\" [formField]=\"settings.enabled\" />\n<div box-layout>\n<p>Model: {{ model().enabled }}</p>\n<p>Touched: {{ settings.enabled().touched() }}</p>\n<p>Valid: {{ settings.enabled().valid() }}</p>\n</div>\n    </div>\n<!-- args:\n{\n    label: '',\n    variant: 'primary',\n    disabled: false,\n  }\n-->"
         },
         {
           "title": "Disabled",
           "framework": "angular",
-          "code": "<!-- Storybook story: Disabled -->\n<uni-toggle ${argsToTemplate(args)}></uni-toggle>\n<!-- args:\n{\n    label: 'Disabled toggle',\n    variant: 'primary',\n    disabled: true,\n  }\n-->"
+          "code": "<!-- Storybook story: Disabled -->\n<div stack-layout gap=\"md\">\n<uni-toggle label=\"Enable feature\" [formField]=\"settings.enabled\" />\n<div box-layout>\n<p>Model: {{ model().enabled }}</p>\n<p>Touched: {{ settings.enabled().touched() }}</p>\n<p>Valid: {{ settings.enabled().valid() }}</p>\n</div>\n    </div>\n<!-- args:\n{\n    label: 'Disabled toggle',\n    variant: 'primary',\n    disabled: true,\n  }\n-->"
         },
         {
           "title": "Variants",
           "framework": "angular",
-          "code": "<!-- Storybook story: Variants -->\n<uni-toggle ${argsToTemplate(args)}></uni-toggle>"
+          "code": "<!-- Storybook story: Variants -->\n<div stack-layout gap=\"md\">\n<uni-toggle label=\"Primary\" variant=\"primary\"></uni-toggle>\n<uni-toggle label=\"Secondary\" variant=\"secondary\"></uni-toggle>\n<uni-toggle label=\"Success\" variant=\"success\"></uni-toggle>\n<uni-toggle label=\"Warning\" variant=\"warn\"></uni-toggle>\n<uni-toggle label=\"Tertiary\" variant=\"tertiary\"></uni-toggle>\n</div>"
+        },
+        {
+          "title": "Sizes",
+          "framework": "angular",
+          "code": "<!-- Storybook story: Sizes -->\n<div stack-layout gap=\"md\">\n<uni-toggle label=\"Small — 28x16\" size=\"sm\" [checked]=\"true\"></uni-toggle>\n<uni-toggle label=\"Medium — 32x18\" size=\"md\" [checked]=\"true\"></uni-toggle>\n<uni-toggle label=\"Large — 40x20 (default)\" size=\"lg\" [checked]=\"true\"></uni-toggle>\n</div>"
+        },
+        {
+          "title": "Checked Color",
+          "framework": "angular",
+          "code": "<!-- Storybook story: Checked Color -->\n<div stack-layout gap=\"md\">\n<uni-toggle label=\"Variant primary (default)\" [checked]=\"true\"></uni-toggle>\n<uni-toggle label=\"checkedColor success\" checkedColor=\"success\" [checked]=\"true\"></uni-toggle>\n<uni-toggle label=\"checkedColor tertiary\" checkedColor=\"tertiary\" [checked]=\"true\"></uni-toggle>\n</div>"
         },
         {
           "title": "With Change Event",
           "framework": "angular",
-          "code": "<!-- Storybook story: With Change Event -->\n<uni-toggle ${argsToTemplate(args)}></uni-toggle>"
+          "code": "<!-- Storybook story: With Change Event -->\n<div>\n<uni-toggle\n  label=\"Toggle me\"\n  [checked]=\"isChecked\"\n  (checkedChange)=\"onToggleChange($event)\"\n  variant=\"primary\">\n</uni-toggle>\n<div box-layout paddingTop=\"md\">\n  Current state: {{ isChecked ? 'On' : 'Off' }}\n</div>\n<div box-layout paddingTop=\"sm\">\n  Last change: {{ lastChangeValue }}\n</div>\n</div>"
         },
         {
           "title": "Form Signals",
           "framework": "angular",
-          "code": "<!-- Storybook story: Form Signals -->\n<uni-toggle ${argsToTemplate(args)}></uni-toggle>"
+          "code": "<!-- Storybook story: Form Signals -->\n<toggle-form-demo />"
         }
       ],
       "guidelines": {
-        "whenToUse": "A switch-style control for turning an option on or off with immediate effect —\nprefer it over a checkbox when the change applies instantly (settings, feature\nswitches) rather than as part of a submitted form. It implements\n`FormCheckboxControl`, so it binds with the Signal Forms `[field]` directive or a\ndirect `[(checked)]` model.\nTrack, knob, and size resolve from the `toggle` theme options; the checked state\nwears the active `variant` color.",
+        "whenToUse": "A switch-style control for turning an option on or off with immediate effect —\nprefer it over a checkbox when the change applies instantly (settings, feature\nswitches) rather than as part of a submitted form. It implements\n`FormCheckboxControl`, so it binds with the Signal Forms `[formField]` directive or a\ndirect `[(checked)]` model.\nTrack and knob colors resolve from the `toggle` theme options; geometry comes\nfrom its `sizes` block, and the checked state wears `checkedColor` — falling back\nto the active `variant`.",
         "dos": [
           "Use for instant on/off effects (settings, feature switches)"
         ],
@@ -8813,9 +9553,9 @@
         ]
       },
       "relatedTokens": [
-        "toggle.behavior.size",
         "toggle.behavior.trackColor",
-        "toggle.behavior.knobColor"
+        "toggle.behavior.knobColor",
+        "toggle.behavior.motion"
       ]
     },
     {
@@ -8861,6 +9601,22 @@
               "required": false,
               "default": "false",
               "description": ""
+            },
+            {
+              "name": "variant",
+              "kind": "input",
+              "type": "Variant",
+              "required": false,
+              "default": "'primary'",
+              "description": "Style archetype from the theme. Inherited from BaseComponent."
+            },
+            {
+              "name": "size",
+              "kind": "input",
+              "type": "Size",
+              "required": false,
+              "default": "'lg'",
+              "description": "Size token from the theme. Inherited from BaseComponent. Only has an effect where the component theme defines a `sizes` block."
             }
           ]
         }
@@ -8962,6 +9718,22 @@
               "type": "void",
               "required": false,
               "description": ""
+            },
+            {
+              "name": "variant",
+              "kind": "input",
+              "type": "Variant",
+              "required": false,
+              "default": "'primary'",
+              "description": "Style archetype from the theme. Inherited from BaseComponent."
+            },
+            {
+              "name": "size",
+              "kind": "input",
+              "type": "Size",
+              "required": false,
+              "default": "'lg'",
+              "description": "Size token from the theme. Inherited from BaseComponent. Only has an effect where the component theme defines a `sizes` block."
             }
           ]
         }
@@ -8975,7 +9747,7 @@
         {
           "title": "Fraction Progress",
           "framework": "angular",
-          "code": "<!-- Storybook story: Fraction Progress -->\n<div stack-layout gap=\"md\">\n<button text-button (click)=\"tour.start()\">Start tour</button>\n<uni-input label=\"Search projects\" id=\"tour-demo-search\"></uni-input>\n<uni-input label=\"Weekly report\" id=\"tour-demo-report\"></uni-input>\n<uni-input label=\"Project name\" id=\"tour-demo-name\"></uni-input>\n<div><button text-button variant=\"secondary\" id=\"tour-demo-create\">Create project</button></div>\n<uni-tour #tour [steps]=\"steps\"></uni-tour>\n</div>"
+          "code": "<!-- Storybook story: Fraction Progress -->\n<div stack-layout gap=\"md\">\n<button text-button (click)=\"tour.start()\">Start short tour</button>\n<uni-input label=\"Search projects\" id=\"tour-demo-search\"></uni-input>\n<uni-tour #tour [steps]=\"steps\"></uni-tour>\n</div>"
         }
       ],
       "guidelines": {
@@ -14077,18 +14849,6 @@
       }
     },
     {
-      "id": "toggle.behavior.size",
-      "value": 20,
-      "type": "number",
-      "kind": "behavioral",
-      "target": "component-prop",
-      "appliesTo": "toggle",
-      "themeValues": {
-        "LightTheme": 20,
-        "DarkTheme": 20
-      }
-    },
-    {
       "id": "toggle.behavior.trackColor",
       "value": "surface-variant",
       "type": "string",
@@ -14110,6 +14870,18 @@
       "themeValues": {
         "LightTheme": "surface",
         "DarkTheme": "surface"
+      }
+    },
+    {
+      "id": "toggle.behavior.motion",
+      "value": "control",
+      "type": "string",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "toggle",
+      "themeValues": {
+        "LightTheme": "control",
+        "DarkTheme": "control"
       }
     },
     {
@@ -14898,9 +15670,9 @@
           "opticalSize": 24
         },
         "toggle": {
-          "size": 20,
           "trackColor": "surface-variant",
-          "knobColor": "surface"
+          "knobColor": "surface",
+          "motion": "control"
         },
         "tooltip": {
           "borderRadius": "xs",
@@ -15464,9 +16236,9 @@
           "opticalSize": 24
         },
         "toggle": {
-          "size": 20,
           "trackColor": "surface-variant",
-          "knobColor": "surface"
+          "knobColor": "surface",
+          "motion": "control"
         },
         "tooltip": {
           "borderRadius": "xs",

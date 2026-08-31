@@ -45,8 +45,11 @@ describe('generate-runtime-theme', () => {
   it('stays under the payload budget that elision buys', () => {
     // A theme carrying BaseIcons serializes to ~50 KB (~12.5k tokens) — this
     // guard fails loudly if the icon set ever creeps back into the wire form.
+    // The ceiling has room for ordinary token growth (the toggle's `sizes`
+    // block pushed a theme past a 20 KB ceiling); it is sized to catch the
+    // icon set, which would more than double the payload, not to freeze it.
     for (const { id, theme } of env.themes) {
-      expect(JSON.stringify(theme).length, `${id} payload`).toBeLessThan(20_000);
+      expect(JSON.stringify(theme).length, `${id} payload`).toBeLessThan(24_000);
     }
   });
 

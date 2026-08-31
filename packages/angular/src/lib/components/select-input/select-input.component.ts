@@ -19,7 +19,7 @@ export class UniSelectComponent<T> implements FormValueControl<T | null> {
   readonly invalid = input(false);
   readonly dirty = input(false);
 
-  /** Synced from required() validators by the Signal Forms [field] directive. */
+  /** Synced from required() validators by the Signal Forms [formField] directive. */
   readonly required = input(false);
 
   /**

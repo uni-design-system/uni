@@ -977,7 +977,22 @@ const buildComponents = (c: Colors): ComponentThemes => ({
     options: { bottomPosition: 40, motion: 'notification', autoCloseDelay: 35000 },
   },
   symbol: { options: { fill: 0, weight: 400, grade: 0, opticalSize: 24 } },
-  toggle: { options: { size: 20, trackColor: 'surface-variant', knobColor: 'surface' } },
+  // Switch geometry, like tag and calendar, is enumerated per size token rather
+  // than derived from one number — the track and knob proportions of a real
+  // switch design are not a constant ratio across sizes.
+  //
+  // `padding` is the knob's inset, and everything else falls out of the three:
+  // knob = height - 2 * padding, travel = width - height, radius = height / 2.
+  // `lg` is BaseComponent's default size and reproduces the pre-`sizes`
+  // geometry exactly (knob 16, travel 20), so no existing toggle moves.
+  toggle: {
+    options: { trackColor: 'surface-variant', knobColor: 'surface', motion: 'control' },
+    sizes: {
+      sm: { width: 28, height: 16, padding: 3 },
+      md: { width: 32, height: 18, padding: 3 },
+      lg: { width: 40, height: 20, padding: 2 },
+    },
+  },
   tooltip: {
     options: {
       border: undefined,

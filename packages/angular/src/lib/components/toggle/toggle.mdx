@@ -15,21 +15,70 @@ import { ThemeOptions } from '../../../stories/blocks/ThemeOptionsBlock';
 A switch-style control for turning an option on or off with immediate effect —
 prefer it over a checkbox when the change applies instantly (settings, feature
 switches) rather than as part of a submitted form. It implements
-`FormCheckboxControl`, so it binds with the Signal Forms `[field]` directive or a
+`FormCheckboxControl`, so it binds with the Signal Forms `[formField]` directive or a
 direct `[(checked)]` model.
 
-Track, knob, and size resolve from the `toggle` theme options; the checked state
-wears the active `variant` color.
+Track and knob colors resolve from the `toggle` theme options; geometry comes
+from its `sizes` block, and the checked state wears `checkedColor` — falling back
+to the active `variant`.
 
 ## Usage
 
 <StoryUsage of={Stories.Default} />
 
-## Variants
+## Sizes
+
+The `size` input selects a triple from the theme's `toggle` sizes block —
+`width`, `height`, and `padding`, the knob's inset. Everything else derives:
+
+| | derived as | at `lg` |
+| --- | --- | --- |
+| knob diameter | `height - 2 * padding` | 16 |
+| knob travel | `width - height` | 20 |
+| track radius | `height / 2` | 10 |
+
+Stating width and height per size rather than as one number plus a ratio is
+deliberate: real switch designs do not hold a constant proportion across sizes,
+so a single ratio can match one size or another but not both.
+
+<StoryExample of={Stories.Sizes} />
+
+## Variants and the checked color
 
 <StoryExample of={Stories.Variants} />
 
+The on-state color is `checkedColor` — an input, or `toggle.behavior.checkedColor`
+for a whole app — and falls back to `variant` when neither is set. Prefer the
+theme option to repeating an attribute on every switch in a product.
+
+<StoryExample of={Stories.CheckedColor} />
+
 ## Signal Forms
+
+It implements `FormCheckboxControl`, so Angular's `[formField]` directive drives
+`checked`, `touched`, `invalid` and `required` from the field and writes
+interaction back to the model.
+
+```ts
+readonly model = signal({ enabled: false });
+readonly settings = form(this.model, (path) => {
+  required(path.enabled);
+});
+```
+
+```html
+<uni-toggle label="Enable feature" [formField]="settings.enabled" />
+```
+
+<div class="tip">
+
+The selector is `[formField]`, not `[field]` — the latter was the Angular 21.0
+preview name and no longer exists.
+
+`form()` calls `inject()`, so build it in a component. A Storybook `render`
+function is not an injection context and will fail with NG0203.
+
+</div>
 
 <StoryExample of={Stories.FormSignals} />
 
