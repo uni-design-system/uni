@@ -1,7 +1,7 @@
 {
   "meta": {
-    "version": "9.0.1",
-    "builtAt": "2026-08-31T19:23:37.435Z",
+    "version": "10.0.0",
+    "builtAt": "2026-08-31T19:45:03.460Z",
     "frameworks": [
       "angular"
     ],
@@ -20,7 +20,7 @@
       "summary": "",
       "description": "",
       "category": "feedback",
-      "version": "9.0.1",
+      "version": "10.0.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -110,7 +110,7 @@
       "summary": "Horizontal application bar: project leading controls (menu button, logo) with the `leading` attribute, actions with `trailing` (pushed to the far edge), and either pass `title` or project custom center content.",
       "description": "Horizontal application bar: project leading controls (menu button, logo) with the `leading` attribute, actions with `trailing` (pushed to the far edge), and either pass `title` or project custom center content. Surface, divider, height, typography and spacing all resolve from `appBar` tokens. Place it inside your page's `<header>` landmark.",
       "category": "components",
-      "version": "9.0.1",
+      "version": "10.0.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -175,7 +175,7 @@
       "summary": "Identity avatar with a graceful fallback chain: image → initials from `name` → themed symbol.",
       "description": "Identity avatar with a graceful fallback chain: image → initials from `name` → themed symbol. Coloring, radius, typeface and sizes all resolve from `avatar` theme tokens; `variant` picks the container palette.",
       "category": "components",
-      "version": "9.0.1",
+      "version": "10.0.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -260,7 +260,7 @@
       "summary": "Overlapping stack of avatars.",
       "description": "Overlapping stack of avatars. `max` collapses the overflow into a themed “+N” chip (itself a `uni-avatar`). Overlap and separator ring resolve from `avatarGroup` theme tokens.",
       "category": "components",
-      "version": "9.0.1",
+      "version": "10.0.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -309,7 +309,7 @@
       "summary": "",
       "description": "",
       "category": "primitives",
-      "version": "9.0.1",
+      "version": "10.0.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -390,7 +390,7 @@
       "summary": "",
       "description": "",
       "category": "feedback",
-      "version": "9.0.1",
+      "version": "10.0.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -467,7 +467,7 @@
       "summary": "",
       "description": "",
       "category": "directives",
-      "version": "9.0.1",
+      "version": "10.0.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -491,7 +491,7 @@
       "summary": "The base layout primitive, applied as an attribute to any element so semantics stay yours: `<main box-layout [grow]=\"1\" padding=\"md\">`.",
       "description": "The base layout primitive, applied as an attribute to any element so semantics stay yours: `<main box-layout [grow]=\"1\" padding=\"md\">`. It is a directive, so it composes freely — with another layout attribute (`<div stack-layout uni-text=\"body-1-long\">`) and with a component's own host element (`<uni-card box-layout padding=\"lg\">`); Angular merges the host `class` bindings rather than letting one win. Sizing convention (height/width/min/max/inset): a **number is px and needs a binding** — `[height]=\"420\"`; a **plain attribute is a CSS length string** — `height=\"420px\"`. Spacing/radius/color inputs take theme tokens.",
       "category": "layout",
-      "version": "9.0.1",
+      "version": "10.0.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -897,7 +897,7 @@
       "summary": "WAI-ARIA breadcrumb: a `nav` landmark wrapping an ordered list; the last item is the current page (`aria-current=\"page\"`), separators are decorative.",
       "description": "WAI-ARIA breadcrumb: a `nav` landmark wrapping an ordered list; the last item is the current page (`aria-current=\"page\"`), separators are decorative. Items with `href` render as real links; without one they render as link-styled buttons emitting `itemClicked` — wire that to your router.",
       "category": "components",
-      "version": "9.0.1",
+      "version": "10.0.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -982,7 +982,7 @@
       "summary": "",
       "description": "",
       "category": "primitives",
-      "version": "9.0.1",
+      "version": "10.0.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -1093,7 +1093,7 @@
       "summary": "",
       "description": "",
       "category": "primitives",
-      "version": "9.0.1",
+      "version": "10.0.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -1125,7 +1125,7 @@
       "summary": "Inline month calendar: single-date or start–end range selection, day markers (availability dots), min/max fences and disabled dates.",
       "description": "Inline month calendar: single-date or start–end range selection, day markers (availability dots), min/max fences and disabled dates. One tab stop with a roving-tabindex `role=\"grid\"`; every day is a real button named with its full date. Values are plain ISO strings (`'YYYY-MM-DD'`), never `Date` objects, so bindings are timezone-free and serializable. Selection and today colours come from the theme's `primary` role pair; geometry and glyphs come from the `calendar` theme entry.",
       "category": "forms",
-      "version": "9.0.1",
+      "version": "10.0.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -1345,7 +1345,7 @@
       "summary": "Anchored coach-mark panel that dims the page and cuts a spotlight hole around its target.",
       "description": "Anchored coach-mark panel that dims the page and cuts a spotlight hole around its target. Both the scrim and the panel are `popover=\"manual\"` elements shown in order, so they stack deterministically in the top layer above every app z-index, and every scrim piece is CSS-anchor-positioned to the target — the hole tracks scroll/resize/layout with zero listeners. The panel is a non-modal `role=\"dialog\"` (deliberately no `aria-modal`): focus moves into it on open, Tab runs a \"duet loop\" over the panel's focusables plus the spotlit target while it stays interactive, and on close focus returns to the pre-open element — unless the user moved into the target, where it stays. Storage-free by rule: `key` and the `dismissed` output are the \"don't show again\" hooks; persistence is the app's business (e.g. cdk local-storage).",
       "category": "components",
-      "version": "9.0.1",
+      "version": "10.0.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -1558,7 +1558,7 @@
       "summary": "",
       "description": "",
       "category": "layout",
-      "version": "9.0.1",
+      "version": "10.0.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -1607,7 +1607,7 @@
       "summary": "",
       "description": "",
       "category": "layout",
-      "version": "9.0.1",
+      "version": "10.0.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -1648,7 +1648,7 @@
       "summary": "",
       "description": "",
       "category": "layout",
-      "version": "9.0.1",
+      "version": "10.0.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -1705,7 +1705,7 @@
       "summary": "",
       "description": "",
       "category": "layout",
-      "version": "9.0.1",
+      "version": "10.0.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -1760,7 +1760,7 @@
       "summary": "",
       "description": "",
       "category": "forms",
-      "version": "9.0.1",
+      "version": "10.0.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -1915,7 +1915,7 @@
       "summary": "Form-bound, closed-set, single-select autocomplete: `FormValueControl<T | null>` over object `Options<T>`, type-to-filter, commit-on-select.",
       "description": "Form-bound, closed-set, single-select autocomplete: `FormValueControl<T | null>` over object `Options<T>`, type-to-filter, commit-on-select. Typing produces a draft — a filter, never a value; the value changes only when an option commits, `clear()` runs, or the model is written from outside. Select semantics, not search: a real label, a chevron, no magnifier, nothing submits. For short lists with no need to type, prefer `uni-select` — the value contract is identical, so swapping is a template-only change.",
       "category": "forms",
-      "version": "9.0.1",
+      "version": "10.0.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -2161,7 +2161,7 @@
       "summary": "",
       "description": "",
       "category": "feedback",
-      "version": "9.0.1",
+      "version": "10.0.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -2208,7 +2208,7 @@
       "summary": "",
       "description": "",
       "category": "forms",
-      "version": "9.0.1",
+      "version": "10.0.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -2282,7 +2282,7 @@
       "summary": "",
       "description": "",
       "category": "data",
-      "version": "9.0.1",
+      "version": "10.0.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -2399,7 +2399,7 @@
       "summary": "Date field with free-typed parsing and a popup calendar.",
       "description": "Date field with free-typed parsing and a popup calendar. Type `aug 20`, `8/20/2026` or `2026-08-20`, or pick from the grid — the form gets the same canonical `'YYYY-MM-DD'` string either way. Parsing is `Intl`-driven (locale digit order and month names, never hardcoded); unreadable text stays in the field, flagged, with a `rejected` event. The popup is a native popover hosting the same `uni-calendar` an app could render inline.",
       "category": "forms",
-      "version": "9.0.1",
+      "version": "10.0.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -2623,7 +2623,7 @@
       "summary": "One field for a date and a time: a thin composer seating a uni-date-input and a uni-time-input in one input-box chrome under one label, yielding one combined `'YYYY-MM-DDTHH:mm'` value.",
       "description": "One field for a date and a time: a thin composer seating a uni-date-input and a uni-time-input in one input-box chrome under one label, yielding one combined `'YYYY-MM-DDTHH:mm'` value. The value emits only when both parts are set — a time without a day is not an answer — and clearing the date clears it. With `slotsFor`, the time part stays disabled until a day is chosen and offers exactly that day's slots: the scheduling flow in one attribute. Two honest tab stops (it is two questions); apps needing a different arrangement compose the primitives directly.",
       "category": "forms",
-      "version": "9.0.1",
+      "version": "10.0.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -2809,7 +2809,7 @@
       "summary": "Text input that emits `change` only after the user pauses typing.",
       "description": "Text input that emits `change` only after the user pauses typing. Wears the shared input chrome (themed color, border, typeface, focus ring) via `uni-input-box`; project adornments with the `pre-input` / `post-input` slots, matching `uni-input`'s convention. The ARIA passthrough inputs let a wrapping composite (e.g. SearchInput's combobox) annotate the real input element.",
       "category": "forms",
-      "version": "9.0.1",
+      "version": "10.0.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -2946,7 +2946,7 @@
       "summary": "",
       "description": "",
       "category": "feedback",
-      "version": "9.0.1",
+      "version": "10.0.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -3040,7 +3040,7 @@
       "summary": "",
       "description": "",
       "category": "feedback",
-      "version": "9.0.1",
+      "version": "10.0.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -3144,7 +3144,7 @@
       "summary": "",
       "description": "",
       "category": "feedback",
-      "version": "9.0.1",
+      "version": "10.0.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -3185,7 +3185,7 @@
       "summary": "",
       "description": "",
       "category": "layout",
-      "version": "9.0.1",
+      "version": "10.0.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -3232,7 +3232,7 @@
       "summary": "",
       "description": "",
       "category": "directives",
-      "version": "9.0.1",
+      "version": "10.0.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -3264,7 +3264,7 @@
       "summary": "Drawer with two modes sharing one three-row layout: - `side` — an in-flow `<aside>` that pushes content (dashboard sidenav); opening/closing animates its width, and the divider border primitive separates it from the page.",
       "description": "Drawer with two modes sharing one three-row layout: - `side` — an in-flow `<aside>` that pushes content (dashboard sidenav); opening/closing animates its width, and the divider border primitive separates it from the page. - `over` — a native `<dialog>` in the top layer: focus trap, Escape and scrim backdrop come from the platform (same machinery as `uni-dialog`), sliding in from its edge. **The panel is never the scroll container.** It is a flex column of three rows — an optional `[uni-drawer-header]`, the projected body, an optional `[uni-drawer-buttons]` — and only the body scrolls. The panel itself is `overflow: clip` on both axes. That is what lets a header and a save bar pin while a long form scrolls between them, and it is why the theme's `padding` option lands on the body row rather than the panel: padding on a scrolling box scrolls away with its content. Surface, width, divider, elevation, padding, backdrop, scrim and background all resolve from `drawer` theme tokens.",
       "category": "components",
-      "version": "9.0.1",
+      "version": "10.0.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -3423,7 +3423,7 @@
       "summary": "The drawer's pinned footer action row — the save bar of an editor panel.",
       "description": "The drawer's pinned footer action row — the save bar of an editor panel. Sits outside the scrolling body, so the actions stay reachable however long the form is. Mirrors `[dialog-buttons]`; the difference is posture, which lives in the `drawerButtons` theme options rather than here.",
       "category": "primitives",
-      "version": "9.0.1",
+      "version": "10.0.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -3520,7 +3520,7 @@
       "summary": "The drawer's pinned header row: a title, and optionally a close button.",
       "description": "The drawer's pinned header row: a title, and optionally a close button. Sits outside the scrolling body, so it stays put while the form beneath it moves. Reached either by projecting it — `<div uni-drawer-header>` — or implicitly, by giving `uni-drawer` a `headline`, in which case the drawer renders one of these itself.",
       "category": "components",
-      "version": "9.0.1",
+      "version": "10.0.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -3568,7 +3568,7 @@
       "summary": "",
       "description": "",
       "category": "components",
-      "version": "9.0.1",
+      "version": "10.0.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -3702,7 +3702,7 @@
       "summary": "",
       "description": "",
       "category": "layout",
-      "version": "9.0.1",
+      "version": "10.0.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -3779,7 +3779,7 @@
       "summary": "",
       "description": "",
       "category": "layout",
-      "version": "9.0.1",
+      "version": "10.0.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -3840,7 +3840,7 @@
       "summary": "Trigger for a {@link UniExpandComponent} region.",
       "description": "Trigger for a {@link UniExpandComponent} region. Two shapes, chosen by whether `label` is set: - **Icon only** (default) — the bare chevron, sized for a Card Header. - **Labelled** — chevron plus a label and optional muted sublabel, as a single full-width button. Most real disclosures need a name for the section, and building that row by hand is the thing this saves; it also makes the label the button's accessible name rather than adjacent text.",
       "category": "layout",
-      "version": "9.0.1",
+      "version": "10.0.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -3916,7 +3916,7 @@
       "summary": "",
       "description": "",
       "category": "forms",
-      "version": "9.0.1",
+      "version": "10.0.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -4046,7 +4046,7 @@
       "summary": "",
       "description": "",
       "category": "layout",
-      "version": "9.0.1",
+      "version": "10.0.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -4120,7 +4120,7 @@
       "summary": "",
       "description": "",
       "category": "layout",
-      "version": "9.0.1",
+      "version": "10.0.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -4152,7 +4152,7 @@
       "summary": "",
       "description": "",
       "category": "primitives",
-      "version": "9.0.1",
+      "version": "10.0.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -4212,7 +4212,7 @@
       "summary": "",
       "description": "",
       "category": "primitives",
-      "version": "9.0.1",
+      "version": "10.0.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -4305,7 +4305,7 @@
       "summary": "",
       "description": "",
       "category": "forms",
-      "version": "9.0.1",
+      "version": "10.0.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -4583,7 +4583,7 @@
       "summary": "",
       "description": "",
       "category": "forms",
-      "version": "9.0.1",
+      "version": "10.0.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -4704,7 +4704,7 @@
       "summary": "",
       "description": "",
       "category": "components",
-      "version": "9.0.1",
+      "version": "10.0.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -4774,7 +4774,7 @@
       "summary": "",
       "description": "",
       "category": "layout",
-      "version": "9.0.1",
+      "version": "10.0.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -4848,7 +4848,7 @@
       "summary": "",
       "description": "",
       "category": "layout",
-      "version": "9.0.1",
+      "version": "10.0.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -4930,7 +4930,7 @@
       "summary": "",
       "description": "",
       "category": "forms",
-      "version": "9.0.1",
+      "version": "10.0.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -5024,7 +5024,7 @@
       "summary": "",
       "description": "",
       "category": "forms",
-      "version": "9.0.1",
+      "version": "10.0.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -5196,7 +5196,7 @@
       "summary": "",
       "description": "",
       "category": "feedback",
-      "version": "9.0.1",
+      "version": "10.0.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -5343,7 +5343,7 @@
       "summary": "",
       "description": "",
       "category": "feedback",
-      "version": "9.0.1",
+      "version": "10.0.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -5367,7 +5367,7 @@
       "summary": "Numeric field with locale-aware parsing, `Intl` formatting on commit, prefix/suffix adornments and steppers that hold to repeat.",
       "description": "Numeric field with locale-aware parsing, `Intl` formatting on commit, prefix/suffix adornments and steppers that hold to repeat. Not `<input type=\"number\">`, and the first reason is a data-loss bug: per the HTML value sanitization algorithm, a number input whose text is not a valid floating-point number reports `value === ''`. Type `12,50` as most of Europe does, or paste `1,234.56` from a spreadsheet, and the app reads an empty field. This is `type=\"text\"` with `role=\"spinbutton\"`, which is the only way to keep the user's malformed text on screen and tell them about it. Chrome comes from `uni-input-box`, so error, disabled and focus states match every other field. All arithmetic runs on the cdk's exact decimal helpers.",
       "category": "forms",
-      "version": "9.0.1",
+      "version": "10.0.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -5786,7 +5786,7 @@
       "summary": "Two linked numeric fields in one chrome, with one `{ start, end }` value — price filters, thresholds, tolerances.",
       "description": "Two linked numeric fields in one chrome, with one `{ start, end }` value — price filters, thresholds, tolerances. `start`/`end` deliberately match `UniDateRange`, so the library has one range vocabulary, and they avoid colliding with the `min`/`max` **inputs**, which mean the fence rather than the value. It owns its commit path rather than nesting two `uni-number-input`s, because the two behaviours the spec asks for need *different* bounds: a stepper must be fenced at the other end, while a typed commit must reach the parent un-clamped so a backwards range can be swapped instead of destroyed. A child field applies one bound pair to both. The arithmetic, parsing and formatting are still the cdk's, shared with every other numeric control.",
       "category": "forms",
-      "version": "9.0.1",
+      "version": "10.0.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -6068,7 +6068,7 @@
       "summary": "",
       "description": "",
       "category": "data",
-      "version": "9.0.1",
+      "version": "10.0.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -6169,7 +6169,7 @@
       "summary": "Anchored, top-layer panel on the native `popover` element — the browser owns positioning (CSS anchor positioning), stacking, and, in rich mode, light dismissal.",
       "description": "Anchored, top-layer panel on the native `popover` element — the browser owns positioning (CSS anchor positioning), stacking, and, in rich mode, light dismissal. Two modes share one implementation: - `rich` (default): a click-toggled disclosure. The projected `[trigger]` carries `aria-expanded`/`aria-controls`; with no trigger content the app drives `open` and no element claims controller ARIA. Focus stays on the trigger (APG disclosure) unless the panel marks an `[autofocus]` field, and returns to the trigger on close. - `tooltip`: hover/focus-triggered, `role=\"tooltip\"` + `aria-describedby`, WCAG 1.4.13 dismissable/hoverable/persistent. Content must not contain focusable elements. Anchoring and control are separate: `anchor` re-anchors the panel to any element (or id) while the trigger keeps the disclosure semantics.",
       "category": "layout",
-      "version": "9.0.1",
+      "version": "10.0.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -6361,7 +6361,7 @@
       "summary": "",
       "description": "",
       "category": "feedback",
-      "version": "9.0.1",
+      "version": "10.0.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -6425,7 +6425,7 @@
       "summary": "",
       "description": "",
       "category": "feedback",
-      "version": "9.0.1",
+      "version": "10.0.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -6489,7 +6489,7 @@
       "summary": "`− 3 +` for cart lines, table cells and seat counts: the numeric core with no field chrome, no label and no room for either.",
       "description": "`− 3 +` for cart lines, table cells and seat counts: the numeric core with no field chrome, no label and no room for either. A separate component rather than a `chrome=\"bare\"` flag on `uni-number-input`, because this control is defined by what it does *not* have — presets, affixes, expressions, four stepper layouts — and eight inputs are easier to write correctly than forty with a list of which ones to leave alone. The arithmetic, parsing and hold-to-repeat are the cdk's, shared with the field, so `1,200` and the keyboard map behave identically in both. The middle stays a real input by default: typing `12` beats tapping `+` eleven times. `editable=false` is for read-mostly tables.",
       "category": "forms",
-      "version": "9.0.1",
+      "version": "10.0.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -6685,7 +6685,7 @@
       "summary": "",
       "description": "",
       "category": "forms",
-      "version": "9.0.1",
+      "version": "10.0.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -6853,7 +6853,7 @@
       "summary": "",
       "description": "",
       "category": "directives",
-      "version": "9.0.1",
+      "version": "10.0.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -6877,7 +6877,7 @@
       "summary": "",
       "description": "",
       "category": "layout",
-      "version": "9.0.1",
+      "version": "10.0.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -6932,7 +6932,7 @@
       "summary": "Native scroll area with theme-driven scrollbar styling.",
       "description": "Native scroll area with theme-driven scrollbar styling. Scrollbars are styled entirely through Emotion-generated CSS: `::-webkit-scrollbar` rules cover Chromium/Safari, with a `scrollbar-width`/`scrollbar-color` fallback for Firefox.",
       "category": "layout",
-      "version": "9.0.1",
+      "version": "10.0.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -7079,7 +7079,7 @@
       "summary": "Generic search field: shared input chrome with a leading magnifier, a clear button while there's a query, Enter to submit, and optional type-ahead — pass `suggestions` (refresh them from `change`) and the field becomes an ARIA combobox with a keyboard-navigable listbox.",
       "description": "Generic search field: shared input chrome with a leading magnifier, a clear button while there's a query, Enter to submit, and optional type-ahead — pass `suggestions` (refresh them from `change`) and the field becomes an ARIA combobox with a keyboard-navigable listbox. Escape closes the list first, then clears the query.",
       "category": "forms",
-      "version": "9.0.1",
+      "version": "10.0.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -7194,7 +7194,7 @@
       "summary": "",
       "description": "",
       "category": "forms",
-      "version": "9.0.1",
+      "version": "10.0.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -7360,7 +7360,7 @@
       "summary": "Loading placeholder painted with surface tokens.",
       "description": "Loading placeholder painted with surface tokens. `text` renders one or more lines (the last line shortened, as real text would be), `rect` and `circle` render fixed shapes. The shimmer only animates when the user allows motion; it degrades to static blocks under `prefers-reduced-motion`. Color and radius are theme options with per-instance overrides, because one app routinely needs several: skeletons on a card and on the page background want different tints, and a pill placeholder wants a different corner than the text bars beside it.",
       "category": "components",
-      "version": "9.0.1",
+      "version": "10.0.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -7496,7 +7496,7 @@
       "summary": "Bounded numeric input by pointer, for values where the *position* is the information: volume, opacity, weightings, price filters.",
       "description": "Bounded numeric input by pointer, for values where the *position* is the information: volume, opacity, weightings, price filters. Custom thumbs rather than `<input type=\"range\">`, which the previous version used: one native range input cannot carry two thumbs, marks or a tooltip, and a second component for the range case would mean two keyboard maps to keep in step. The step model and the keyboard map are the cdk's, shared with the numeric fields, so nothing new is learned moving between them. All arithmetic on values runs through the cdk's exact decimal helpers — stepping `0.1` never yields `0.30000000000000004`. Only pointer *positions* use floats, and they are snapped to the grid before becoming a value.",
       "category": "forms",
-      "version": "9.0.1",
+      "version": "10.0.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -7763,7 +7763,7 @@
       "summary": "",
       "description": "",
       "category": "feedback",
-      "version": "9.0.1",
+      "version": "10.0.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -7875,7 +7875,7 @@
       "summary": "",
       "description": "",
       "category": "data",
-      "version": "9.0.1",
+      "version": "10.0.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -7920,7 +7920,7 @@
       "summary": "",
       "description": "",
       "category": "layout",
-      "version": "9.0.1",
+      "version": "10.0.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -7975,7 +7975,7 @@
       "summary": "KPI stat tile: muted label, large value (numbers auto-compact: 48234 → \"48.2K\"), an optional delta whose ink is decided by *direction × whether up is good* (never direction alone — churn going down is good news), and an optional decorative sparkline.",
       "description": "KPI stat tile: muted label, large value (numbers auto-compact: 48234 → \"48.2K\"), an optional delta whose ink is decided by *direction × whether up is good* (never direction alone — churn going down is good news), and an optional decorative sparkline. Frame, typography and inks are all `stat` theme tokens.",
       "category": "components",
-      "version": "9.0.1",
+      "version": "10.0.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -8093,7 +8093,7 @@
       "summary": "",
       "description": "",
       "category": "primitives",
-      "version": "9.0.1",
+      "version": "10.0.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -8182,7 +8182,7 @@
       "summary": "One tab inside `uni-tabs`: a label for the tablist plus projected panel content.",
       "description": "One tab inside `uni-tabs`: a label for the tablist plus projected panel content. Content is captured in a template and only instantiated while the tab is selected, so inactive panels cost nothing.",
       "category": "components",
-      "version": "9.0.1",
+      "version": "10.0.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -8222,7 +8222,7 @@
       "summary": "WAI-ARIA tabs: roving tabindex, automatic activation (arrow keys move focus and select), Home/End, disabled tabs skipped.",
       "description": "WAI-ARIA tabs: roving tabindex, automatic activation (arrow keys move focus and select), Home/End, disabled tabs skipped. Only the selected panel is instantiated. All styling resolves from `tabs` theme option tokens.",
       "category": "components",
-      "version": "9.0.1",
+      "version": "10.0.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -8302,7 +8302,7 @@
       "summary": "Compact chip for categories, states, filters and tokens.",
       "description": "Compact chip for categories, states, filters and tokens. Two orthogonal style axes: `variant` picks the colour role and `tone` picks the archetype (soft / solid / outline). Both live in the theme's `tag` entry, so a theme restyles every chip in the app without touching markup. Structurally a chip is **body + trailing action as siblings**, never nested buttons: an interactive chip whose body is a `<button>` cannot contain the remove `<button>` (invalid HTML, and the inner control becomes unreachable for keyboard users). Both stay independently operable.",
       "category": "data",
-      "version": "9.0.1",
+      "version": "10.0.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -8548,7 +8548,7 @@
       "summary": "",
       "description": "",
       "category": "forms",
-      "version": "9.0.1",
+      "version": "10.0.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -8804,7 +8804,7 @@
       "summary": "The typography primitive, applied as an attribute to any element so semantics stay yours.",
       "description": "The typography primitive, applied as an attribute to any element so semantics stay yours. The attribute value is the typeface: `<h1 uni-text=\"display-small\">`, `<span uni-text=\"caption\">`, dynamic via `[uni-text]=\"role()\"`. With no value, the typeface is inferred from the host element (h1 → headline-large, p → body-1-long, …), falling back to `title-small`; the `typeface` input remains as an explicit override. It is a directive, so it stacks with anything else on the element — a layout attribute (`<div stack-layout uni-text=\"title-small\">`) or a component's own host — rather than colliding with it.",
       "category": "primitives",
-      "version": "9.0.1",
+      "version": "10.0.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -8906,7 +8906,7 @@
       "summary": "",
       "description": "",
       "category": "forms",
-      "version": "9.0.1",
+      "version": "10.0.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -9106,7 +9106,7 @@
       "summary": "",
       "description": "",
       "category": "primitives",
-      "version": "9.0.1",
+      "version": "10.0.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -9136,7 +9136,7 @@
       "summary": "Drop-in switcher for the themes registered via `UNI_THEMES`: a select over `ThemeService.themeOptions` that applies the choice through `selectTheme` (so it persists across reloads like any other theme selection).",
       "description": "Drop-in switcher for the themes registered via `UNI_THEMES`: a select over `ThemeService.themeOptions` that applies the choice through `selectTheme` (so it persists across reloads like any other theme selection).",
       "category": "components",
-      "version": "9.0.1",
+      "version": "10.0.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -9194,7 +9194,7 @@
       "summary": "Time field: a combobox over time options — the same listbox contract as uni-search-input and uni-tag-input.",
       "description": "Time field: a combobox over time options — the same listbox contract as uni-search-input and uni-tag-input. Type `3p`, `930` or `15:00`, or pick `3:00 PM` from the list; the form always gets 24-hour `'HH:mm'` (`hour12` affects display only). The list is assistive, not exhaustive: any parseable time commits, unless `slots` pins the choices (a slot picker) — then a typed time must match one. Unreadable or unavailable text stays in the field, flagged, with a `rejected` event.",
       "category": "forms",
-      "version": "9.0.1",
+      "version": "10.0.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -9402,7 +9402,7 @@
       "summary": "",
       "description": "",
       "category": "forms",
-      "version": "9.0.1",
+      "version": "10.0.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -9565,7 +9565,7 @@
       "summary": "",
       "description": "",
       "category": "feedback",
-      "version": "9.0.1",
+      "version": "10.0.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -9652,7 +9652,7 @@
       "summary": "A thin sequencer over one `uni-callout`: steps spotlight their targets, a footer walks Next/Back with dots-or-fraction progress, and `advanceOn` gates a step behind an interaction with its target (auto-advancing for clicks, unlocking Next otherwise — announced through one `role=\"status\"` region).",
       "description": "A thin sequencer over one `uni-callout`: steps spotlight their targets, a footer walks Next/Back with dots-or-fraction progress, and `advanceOn` gates a step behind an interaction with its target (auto-advancing for clicks, unlocking Next otherwise — announced through one `role=\"status\"` region). Escape or the close button skips the tour and reports the step. `active` is a two-way model, so a tour is deep-linkable and inspectable; steps whose declared target cannot be resolved are skipped (with a dev warning) in the direction of travel rather than erroring.",
       "category": "components",
-      "version": "9.0.1",
+      "version": "10.0.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -9779,7 +9779,7 @@
       "summary": "",
       "description": "",
       "category": "layout",
-      "version": "9.0.1",
+      "version": "10.0.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -16276,6 +16276,62 @@
       "package": "@uni-design-system/uni-angular",
       "releases": [
         {
+          "version": "10.0.0",
+          "entries": [
+            {
+              "bump": "major",
+              "title": "`uni-slider` is rebuilt on custom thumbs instead of `<input type=\"range\">`,",
+              "body": "gaining range mode, marks, a value readout and an exact decimal step model. This\nis a breaking change to both the component's value shape and its theme options.\n\n**Why it could not stay native.** One `<input type=\"range\">` cannot carry two\nthumbs, so range mode, thumb crossing and per-thumb ARIA bounds were all\nunreachable; marks and a value tooltip were unstyleable through it. The\nalternative — a second component for the range case — would have meant two\nkeyboard implementations to keep in step, which is the drift the shared step\nmodel exists to prevent. What the platform was giving us (the slider ARIA\npattern and the keyboard map) is reimplemented explicitly and covered by 29\nspecs.\n\n**Breaking: value shape.**\n\n```ts\n// before\nvalue = model<number>(0);\n// after — the shape follows `mode`, and `null` is empty\nvalue = model<number | UniNumberRange | null>(null);\n```\n\nA `single` slider still reads and writes a plain number, so\n`[(value)]=\"volume\"` is unchanged. Code that relied on `value()` being\nnon-nullable, or that read it without narrowing, now needs to handle `null` and\nthe `{ start, end }` range.\n\n**Breaking: theme options.** `slider.options.color` is **removed**. Fill and\nthumb colour now come from the `variant` role pair, the rule every other\ncomponent follows, so `variant=\"warn\"` recolours a slider with no theme edit. A\ntheme that set `color` should delete it and pass `variant` at the call site.\n`trackColor` now defaults to `primary-container` rather than `surface-variant`.\n\nNew options: `thumbBorderRadius`, `minTouchTarget`, `markSize`, `markColor`,\n`labelTypeface`, `labelColor`, `tooltipColor`, `tooltipTextColor`,\n`tooltipShadow`, `tooltipBorderRadius`, `transitionMs`. `trackHeight`,\n`thumbSize` and `borderRadius` are unchanged.\n\n**New capability.**\n- `mode=\"range\"` — two thumbs, a `{ start, end }` value, `minGap` to fence the\n  ends apart. Thumbs may cross and swap, and the dragged one keeps focus.\n- `marks` and `snapToMarks` — labelled stops, spoken in place of the number.\n- `valueDisplay` — `none`, `inline`, `tooltip`, or `input`, which seats a\n  compact `uni-number-input` at the trailing edge, two-way bound to the same\n  value: drag for the ballpark, type for the exact figure. Single mode only.\n- `origin` — anchor the fill somewhere other than `min`, for sliders spanning ±.\n- `sliding` and `changed` outputs, replacing an implicit per-frame model write.\n  **Bind `changed` in forms**; `sliding` fires every frame of a drag.\n- `largeStep`, defaulting to a tenth of the range, for `PageUp`/`PageDown` and\n  `Shift+Arrow`.\n- Right-to-left support: the horizontal arrows and the track mirror; the value\n  does not.\n\n**Also new: the `cdk/number` primitives** this is built on, shared with the\nnumeric input family still to come — exact scaled-`BigInt` decimal arithmetic\n(`stepDecimal`, `roundDecimal`, `clampDecimal`), locale-aware\n`parseNumber`/`formatNumber` over `Intl`, and `createPressRepeat` for\nhold-to-repeat stepper buttons. Stepping `0.1` twenty times from `0` now lands\non exactly `2`, and `1.15` rounds to `1.2` where `(1.15).toFixed(1)` gives\n`'1.1'`.",
+              "commit": "21b655d"
+            },
+            {
+              "bump": "minor",
+              "title": "New `uni-number-input`: the field for a quantity, a price, a percentage or a",
+              "body": "measurement, with locale-aware parsing, `Intl` formatting on commit,\nprefix/suffix adornments, min/max/step fences and steppers that hold to repeat.\n\n```html\n<uni-number-input label=\"Quantity\" [(value)]=\"qty\" [min]=\"1\" />\n<uni-number-input label=\"Unit price\" currency=\"USD\" [(value)]=\"price\" />\n```\n\n**Why not `<input type=\"number\">`.** Per the HTML value sanitization algorithm,\na number input whose text is not a valid floating-point number reports\n`value === ''`. Type `12,50` as most of Europe does, or paste `1,234.56` from a\nspreadsheet, and the app reads an empty field with no way to tell that from a\nblank one — a data-loss bug, and the reason this is `type=\"text\"` with\n`role=\"spinbutton\"`. The platform control also cannot group thousands, cannot\nplace an affix outside the editable text, has ~10px unstyleable spinners below\nthe WCAG 2.2 target minimum, changes value on the scroll wheel while focused,\nand steps in floats.\n\n**What it does instead.**\n- **Presets** — `decimal`, `integer`, `currency`, `percent` — supply decimals,\n  grouping, affix and `inputmode` together, so a money field is `label`,\n  `currency=\"USD\"`, `[(value)]`. `numberFormat` is the escape hatch, merged over\n  the preset.\n- **Parses what people actually type**: canonical ASCII always, locale grouping\n  (`1.234,56` in German), pasted affixes and currency symbols, accounting\n  negatives `(1,234.56)`, localized digit systems, compact `1.5k`, and — behind\n  `allowExpressions` — spreadsheet arithmetic like `12*3`, via a shunting-yard\n  parser that never calls `eval`.\n- **Unreadable text stays in the field**, flagged with a dashed underline and a\n  `rejected` event, rather than being silently swallowed.\n- **Exact arithmetic.** Stepping `0.1` twenty times from `0` lands on exactly\n  `2`; `1.15` rounds to `1.2` where `(1.15).toFixed(1)` gives `'1.1'`. A second\n  `valueAsString` model carries digits a `number` cannot, and a dev-mode warning\n  fires when a bound `value` cannot round-trip.\n- **Percent never divides behind your back**: `preset=\"percent\"` shows `15%` for\n  `15`. Models that really are fractions set `valueIsFraction`.\n- Clamping on commit rather than per keystroke, visible fences that disable the\n  matching stepper and announce, `wrap` for cyclic fields, `emptyStepValue`,\n  four stepper layouts, and hold-to-repeat that announces once on release.\n\n`uni-slider` gains `valueDisplay=\"input\"`, which seats one of these as its\nreadout — drag for the ballpark, type for the exact value.\n\nAdds `numberInput` to `ComponentName` with a theme entry. Field chrome is not\nduplicated there: colour, border, radius and focus come from the shared `input`\noptions via `uni-input-box`, so a number field restyles with every other field.\n\n`uni-input-box` gains a `managedInset` input. The themed leading inset normally\nrides the inner `<input>`, which is right while the text is the field's leading\nedge and wrong the moment an adornment sits in front — a currency prefix would\nhug the border while the number it belongs to sat indented past it. A field with\nadornments sets `managedInset` and places the inset on whichever element is\nactually first. Existing fields are unaffected: the default is `false`.",
+              "commit": "2a79bb8"
+            },
+            {
+              "bump": "minor",
+              "title": "New `uni-number-range-input`: two linked numeric fields in one chrome with a",
+              "body": "single `{ start, end }` value — price filters, thresholds, tolerances. This\ncompletes the numeric family alongside `uni-number-input`,\n`uni-quantity-stepper` and the rebuilt `uni-slider`.\n\n```html\n<uni-number-range-input label=\"Price range\" currency=\"USD\" [(value)]=\"price\" [minGap]=\"50\" />\n```\n\n`start`/`end` deliberately match `UniDateRange`, so the library has one range\nvocabulary, and they never collide with the `min`/`max` **inputs**, which mean\nthe fence rather than the value.\n\n**The rules that make it one field rather than two glued together:**\n- **Either end alone is a valid value.** `{ start: 50 }` means \"50 and up\",\n  which is a real filter. This is where it diverges from `uni-date-time-input`,\n  whose two parts are two halves of one answer.\n- **Stepping is fenced; typing swaps.** A stepper can never walk one end through\n  the other — its wall is the other end, held off by `minGap`, and each end's\n  `aria-valuemin`/`aria-valuemax` report that wall rather than the outer bounds.\n  A _typed_ backwards commit is swapped and announced instead, the rule\n  `uni-calendar` applies to a backwards date range: clamping against the other\n  end would destroy the number just entered.\n- **`minGap` pushes the end you edited**, not the other one, which is what makes\n  stepping behave as a fence rather than dragging the range along.\n- A refused draft flags only the end it was typed into; the other stays valid.\n- `preset`, `currency`, `prefix`, `suffix`, `decimals`, `grouping`, `locale` and\n  `roundingMode` are forwarded to both ends so the halves always read alike.\n\nIt owns its commit path rather than nesting two `uni-number-input`s, because the\ntwo behaviours above need _different_ bounds — a stepper must be fenced at the\nother end while a typed commit must arrive un-clamped — and a child field\napplies one bound pair to both. The arithmetic, parsing and formatting are still\nthe shared `cdk/number` primitives.\n\nAdds `numberRangeInput` to `ComponentName` with a theme entry (`partGap`,\n`dividerText`, `dividerColor`). Field chrome is not duplicated there: colour,\nborder, radius and focus come from the shared `input` options via\n`uni-input-box`. `dividerText` is literal punctuation rather than an icon token —\nan en dash between two numbers is not a glyph a theme swaps artwork for.",
+              "commit": "e7875ee"
+            },
+            {
+              "bump": "minor",
+              "title": "New `uni-quantity-stepper`: `− 3 +` for cart lines, table cells and seat counts",
+              "body": "— the numeric core with no field chrome, no label and no room for either.\n\n```html\n<uni-quantity-stepper label=\"Quantity, Blue T-shirt (M)\" [(value)]=\"qty\" [min]=\"1\" />\n```\n\nA separate component rather than a `chrome=\"bare\"` flag on `uni-number-input`,\nbecause this control is defined by what it does _not_ have — presets, affixes,\nexpressions, four stepper layouts — and eight inputs are easier to write\ncorrectly than forty plus a list of which ones to leave alone. The arithmetic,\nparsing and hold-to-repeat come from the same `cdk/number` primitives, so\n`1,200` and the keyboard map behave identically in both.\n- **`deleteAtMin`** is the cart pattern in one attribute: at the floor the\n  decrement becomes a remove affordance, renamed `Remove {label}`, and emits\n  `removed` rather than stepping to zero. Without it every shop reimplements the\n  same `value === 1 ? remove() : step(-1)` branch outside the component. (The\n  spec called this output `emptied`; that is a native `HTMLMediaElement` event\n  name, which `@angular-eslint/no-output-native` rightly rejects, and `removed`\n  is already what `uni-tag` calls the same request.)\n- The middle is a real input by default — typing `12` beats tapping `+` eleven\n  times, and it takes the same grouped and locale-aware entry the field does.\n  `editable=false` renders the number as text for read-mostly tables, and the\n  buttons become the tab stops since there is nothing else to focus.\n- `size` is `sm` / `md` / `lg` at 24 / 32 / 40px _outer_ height, so an `md`\n  stepper lines up with a 32px field beside it, with the buttons square at that\n  height. `md` and `lg` clear the 24×24 pointer target of WCAG 2.2 SC 2.5.8;\n  `sm` leaves 22px inside its border and is the dense desktop option.\n\nAdds `quantityStepper` to `ComponentName` with a theme entry. Unlike the other\nnumeric controls it does **not** inherit the shared `input` chrome — it is not a\nfield — so it carries its own container tokens, defaulted to the same values\n`input` uses so a cart stepper and a form field look related out of the box.\nHeight comes from the entry's `sizes` block rather than an option.",
+              "commit": "589cecb"
+            },
+            {
+              "bump": "patch",
+              "title": "`uni-angular`'s build now runs `tsc --noEmit` first, closing the last gap left",
+              "body": "by the earlier \"typecheck the builds\" change — core and react already did this,\nangular did not.\n\n`ng-packagr` alone does not surface every type error in the package. A real one\nreached a Storybook build unnoticed: a form control declaring\n`min = input(0)` where `FormValueControl` types the property as\n`InputSignal<number | undefined>` (Signal Forms syncs it from `min()`\nvalidators), which is a variance error `pnpm build` reported as success. Every\nform control must declare `min`/`max` as `input<number | undefined>(…)` and read\na `resolvedMin()` computed internally.\n\nAlso here:\n- A `type-check` script, matching core and react, so `turbo type-check` covers\n  the whole workspace.\n- `prototypes/**` is excluded from the package tsconfig. Those are standalone\n  design explorations that reference modules and dependencies which do not\n  exist in this package — excluding them is what makes a real typecheck\n  possible over the code that ships.\n- Three latent type errors fixed: `vitest.config.ts` took `defineConfig` from\n  `vite`, whose overload does not accept the `test` block (it comes from\n  `vitest/config`); `spacing.spec.ts` lost callback inference through an\n  untyped `vi.spyOn` return; and `radio.motion.spec.ts` typed a `motion`\n  argument as `Record<string, unknown>` rather than `Motions`.",
+              "commit": "ce94c8a"
+            },
+            {
+              "bump": "patch",
+              "title": "Lint MDX prose for stray `{`, which MDX compiles to a JSX expression.",
+              "body": "Writing `named \"Increase {label}\"` in a docs bullet makes `label` a reference to\nan undefined variable, and the page dies at runtime with\n`ReferenceError: label is not defined` under Storybook's \"The component failed to\nrender properly\" banner. Nothing caught it: it is a React render error rather\nthan a compile error, so **`build-storybook` passes**, and `check-doc-links.mjs`\nonly validates link ids. Only opening the page found it — twice.\n\n`scripts/check-mdx-braces.mjs` now runs as part of the package's `lint` script,\nso `turbo run lint` (and therefore CI) fails on it. It skips the four places a\nbrace is legitimate — fenced code blocks, inline code spans including ones that\nsoft-wrap across a line, ESM `import`/`export` statements, and JSX tags such as\n`of={Stories.X}` or `rows={[…]}` — plus MDX comment containers. Hits are\nreported as `file:line:column` with the offending line and the fix: backtick the\ntext, or escape the brace as `\\{`.\n\nAlso available on its own as `pnpm lint:mdx`.",
+              "commit": "5cf120b"
+            },
+            {
+              "bump": "patch",
+              "title": "Three cosmetic fixes in the numeric family.",
+              "body": "**`uni-quantity-stepper`'s dividers were heavier than its frame.** The rules\neither side of the value took `dividerColor: 'outline'` — a solid grey — against\nan outer border of the 8%-alpha `light` token, so the control read as three\npieces stuck together rather than one frame. They now take the **same `border`\ntoken as the container** and move with it on focus, so a focused stepper is not\naccented on the outside and grey down the middle. `dividerColor` remains as an\nopt-in override for a deliberately distinct rule, and is unset in the base theme.\n\n**`uni-quantity-stepper` had no focus state.** Every other field gets its focus\nchrome from `uni-input-box`, which the stepper deliberately does not use — and\nits inner input clears its own outline via `removeInputPlatformStyling`, so\nfocusing the middle showed nothing at all. The container now carries the same\n`:has(input:focus)` rule and the same `input` theme tokens the box applies\n(`focusOutline`, `focusOutlineOffset`, and the optional `focusBorder` /\n`focusShadow` / `focusColor`), so a stepper highlights exactly like the field\nbeside it — including in themes such as Wellsourced that express focus as a\nborder and ring rather than an outline. Error state still wins, keeping a\nflagged control visibly flagged while it is corrected.\n\n**A trailing suffix sat against the right border.** The leading inset was\nalready handled, so the two sides did not match. `uni-number-range-input` — which\nhas no steppers — now insets both edges of its row, and `uni-number-input` insets\nthe trailing edge whenever no stepper occupies it (`stepperLayout=\"none\"`, or a\nread-only field). Where a stepper _is_ present the trailing edge is still left\nto it, because a button is meant to reach the border.\n\nBoth insets ride the row rather than the `<input>`: `uni-input-box` styles\n`& input` at a higher specificity than a component class can reach, so padding\nset on the input itself is silently dropped.",
+              "commit": "05f991f"
+            },
+            {
+              "bump": "patch",
+              "title": "`uni-tag-input`'s first chip no longer rides the left border.",
+              "body": "The themed leading inset was applied by `uni-input-box` to the inner `<input>`,\nwhich is the field's leading edge only while it is empty. Once a chip existed,\nthe chip sat flush against the border while the text after it stayed indented.\nThe chip row now owns the inset — it is the leading content — via the\n`managedInset` input added alongside `uni-number-input`, so the first chip and\nan empty field's placeholder both start at the same 8px as every other field's\ntext. Wrapped chip rows are unaffected; vertical padding already handled those.",
+              "commit": "1fe8941"
+            }
+          ],
+          "dependencyBumps": [
+            "@uni-design-system/uni-core@10.0.0"
+          ]
+        },
+        {
           "version": "9.0.1",
           "entries": [],
           "dependencyBumps": []
@@ -16901,6 +16957,36 @@
       "package": "@uni-design-system/uni-core",
       "releases": [
         {
+          "version": "10.0.0",
+          "entries": [
+            {
+              "bump": "major",
+              "title": "`uni-slider` is rebuilt on custom thumbs instead of `<input type=\"range\">`,",
+              "body": "gaining range mode, marks, a value readout and an exact decimal step model. This\nis a breaking change to both the component's value shape and its theme options.\n\n**Why it could not stay native.** One `<input type=\"range\">` cannot carry two\nthumbs, so range mode, thumb crossing and per-thumb ARIA bounds were all\nunreachable; marks and a value tooltip were unstyleable through it. The\nalternative — a second component for the range case — would have meant two\nkeyboard implementations to keep in step, which is the drift the shared step\nmodel exists to prevent. What the platform was giving us (the slider ARIA\npattern and the keyboard map) is reimplemented explicitly and covered by 29\nspecs.\n\n**Breaking: value shape.**\n\n```ts\n// before\nvalue = model<number>(0);\n// after — the shape follows `mode`, and `null` is empty\nvalue = model<number | UniNumberRange | null>(null);\n```\n\nA `single` slider still reads and writes a plain number, so\n`[(value)]=\"volume\"` is unchanged. Code that relied on `value()` being\nnon-nullable, or that read it without narrowing, now needs to handle `null` and\nthe `{ start, end }` range.\n\n**Breaking: theme options.** `slider.options.color` is **removed**. Fill and\nthumb colour now come from the `variant` role pair, the rule every other\ncomponent follows, so `variant=\"warn\"` recolours a slider with no theme edit. A\ntheme that set `color` should delete it and pass `variant` at the call site.\n`trackColor` now defaults to `primary-container` rather than `surface-variant`.\n\nNew options: `thumbBorderRadius`, `minTouchTarget`, `markSize`, `markColor`,\n`labelTypeface`, `labelColor`, `tooltipColor`, `tooltipTextColor`,\n`tooltipShadow`, `tooltipBorderRadius`, `transitionMs`. `trackHeight`,\n`thumbSize` and `borderRadius` are unchanged.\n\n**New capability.**\n- `mode=\"range\"` — two thumbs, a `{ start, end }` value, `minGap` to fence the\n  ends apart. Thumbs may cross and swap, and the dragged one keeps focus.\n- `marks` and `snapToMarks` — labelled stops, spoken in place of the number.\n- `valueDisplay` — `none`, `inline`, `tooltip`, or `input`, which seats a\n  compact `uni-number-input` at the trailing edge, two-way bound to the same\n  value: drag for the ballpark, type for the exact figure. Single mode only.\n- `origin` — anchor the fill somewhere other than `min`, for sliders spanning ±.\n- `sliding` and `changed` outputs, replacing an implicit per-frame model write.\n  **Bind `changed` in forms**; `sliding` fires every frame of a drag.\n- `largeStep`, defaulting to a tenth of the range, for `PageUp`/`PageDown` and\n  `Shift+Arrow`.\n- Right-to-left support: the horizontal arrows and the track mirror; the value\n  does not.\n\n**Also new: the `cdk/number` primitives** this is built on, shared with the\nnumeric input family still to come — exact scaled-`BigInt` decimal arithmetic\n(`stepDecimal`, `roundDecimal`, `clampDecimal`), locale-aware\n`parseNumber`/`formatNumber` over `Intl`, and `createPressRepeat` for\nhold-to-repeat stepper buttons. Stepping `0.1` twenty times from `0` now lands\non exactly `2`, and `1.15` rounds to `1.2` where `(1.15).toFixed(1)` gives\n`'1.1'`.",
+              "commit": "21b655d"
+            },
+            {
+              "bump": "minor",
+              "title": "New `uni-number-input`: the field for a quantity, a price, a percentage or a",
+              "body": "measurement, with locale-aware parsing, `Intl` formatting on commit,\nprefix/suffix adornments, min/max/step fences and steppers that hold to repeat.\n\n```html\n<uni-number-input label=\"Quantity\" [(value)]=\"qty\" [min]=\"1\" />\n<uni-number-input label=\"Unit price\" currency=\"USD\" [(value)]=\"price\" />\n```\n\n**Why not `<input type=\"number\">`.** Per the HTML value sanitization algorithm,\na number input whose text is not a valid floating-point number reports\n`value === ''`. Type `12,50` as most of Europe does, or paste `1,234.56` from a\nspreadsheet, and the app reads an empty field with no way to tell that from a\nblank one — a data-loss bug, and the reason this is `type=\"text\"` with\n`role=\"spinbutton\"`. The platform control also cannot group thousands, cannot\nplace an affix outside the editable text, has ~10px unstyleable spinners below\nthe WCAG 2.2 target minimum, changes value on the scroll wheel while focused,\nand steps in floats.\n\n**What it does instead.**\n- **Presets** — `decimal`, `integer`, `currency`, `percent` — supply decimals,\n  grouping, affix and `inputmode` together, so a money field is `label`,\n  `currency=\"USD\"`, `[(value)]`. `numberFormat` is the escape hatch, merged over\n  the preset.\n- **Parses what people actually type**: canonical ASCII always, locale grouping\n  (`1.234,56` in German), pasted affixes and currency symbols, accounting\n  negatives `(1,234.56)`, localized digit systems, compact `1.5k`, and — behind\n  `allowExpressions` — spreadsheet arithmetic like `12*3`, via a shunting-yard\n  parser that never calls `eval`.\n- **Unreadable text stays in the field**, flagged with a dashed underline and a\n  `rejected` event, rather than being silently swallowed.\n- **Exact arithmetic.** Stepping `0.1` twenty times from `0` lands on exactly\n  `2`; `1.15` rounds to `1.2` where `(1.15).toFixed(1)` gives `'1.1'`. A second\n  `valueAsString` model carries digits a `number` cannot, and a dev-mode warning\n  fires when a bound `value` cannot round-trip.\n- **Percent never divides behind your back**: `preset=\"percent\"` shows `15%` for\n  `15`. Models that really are fractions set `valueIsFraction`.\n- Clamping on commit rather than per keystroke, visible fences that disable the\n  matching stepper and announce, `wrap` for cyclic fields, `emptyStepValue`,\n  four stepper layouts, and hold-to-repeat that announces once on release.\n\n`uni-slider` gains `valueDisplay=\"input\"`, which seats one of these as its\nreadout — drag for the ballpark, type for the exact value.\n\nAdds `numberInput` to `ComponentName` with a theme entry. Field chrome is not\nduplicated there: colour, border, radius and focus come from the shared `input`\noptions via `uni-input-box`, so a number field restyles with every other field.\n\n`uni-input-box` gains a `managedInset` input. The themed leading inset normally\nrides the inner `<input>`, which is right while the text is the field's leading\nedge and wrong the moment an adornment sits in front — a currency prefix would\nhug the border while the number it belongs to sat indented past it. A field with\nadornments sets `managedInset` and places the inset on whichever element is\nactually first. Existing fields are unaffected: the default is `false`.",
+              "commit": "2a79bb8"
+            },
+            {
+              "bump": "minor",
+              "title": "New `uni-number-range-input`: two linked numeric fields in one chrome with a",
+              "body": "single `{ start, end }` value — price filters, thresholds, tolerances. This\ncompletes the numeric family alongside `uni-number-input`,\n`uni-quantity-stepper` and the rebuilt `uni-slider`.\n\n```html\n<uni-number-range-input label=\"Price range\" currency=\"USD\" [(value)]=\"price\" [minGap]=\"50\" />\n```\n\n`start`/`end` deliberately match `UniDateRange`, so the library has one range\nvocabulary, and they never collide with the `min`/`max` **inputs**, which mean\nthe fence rather than the value.\n\n**The rules that make it one field rather than two glued together:**\n- **Either end alone is a valid value.** `{ start: 50 }` means \"50 and up\",\n  which is a real filter. This is where it diverges from `uni-date-time-input`,\n  whose two parts are two halves of one answer.\n- **Stepping is fenced; typing swaps.** A stepper can never walk one end through\n  the other — its wall is the other end, held off by `minGap`, and each end's\n  `aria-valuemin`/`aria-valuemax` report that wall rather than the outer bounds.\n  A _typed_ backwards commit is swapped and announced instead, the rule\n  `uni-calendar` applies to a backwards date range: clamping against the other\n  end would destroy the number just entered.\n- **`minGap` pushes the end you edited**, not the other one, which is what makes\n  stepping behave as a fence rather than dragging the range along.\n- A refused draft flags only the end it was typed into; the other stays valid.\n- `preset`, `currency`, `prefix`, `suffix`, `decimals`, `grouping`, `locale` and\n  `roundingMode` are forwarded to both ends so the halves always read alike.\n\nIt owns its commit path rather than nesting two `uni-number-input`s, because the\ntwo behaviours above need _different_ bounds — a stepper must be fenced at the\nother end while a typed commit must arrive un-clamped — and a child field\napplies one bound pair to both. The arithmetic, parsing and formatting are still\nthe shared `cdk/number` primitives.\n\nAdds `numberRangeInput` to `ComponentName` with a theme entry (`partGap`,\n`dividerText`, `dividerColor`). Field chrome is not duplicated there: colour,\nborder, radius and focus come from the shared `input` options via\n`uni-input-box`. `dividerText` is literal punctuation rather than an icon token —\nan en dash between two numbers is not a glyph a theme swaps artwork for.",
+              "commit": "e7875ee"
+            },
+            {
+              "bump": "minor",
+              "title": "New `uni-quantity-stepper`: `− 3 +` for cart lines, table cells and seat counts",
+              "body": "— the numeric core with no field chrome, no label and no room for either.\n\n```html\n<uni-quantity-stepper label=\"Quantity, Blue T-shirt (M)\" [(value)]=\"qty\" [min]=\"1\" />\n```\n\nA separate component rather than a `chrome=\"bare\"` flag on `uni-number-input`,\nbecause this control is defined by what it does _not_ have — presets, affixes,\nexpressions, four stepper layouts — and eight inputs are easier to write\ncorrectly than forty plus a list of which ones to leave alone. The arithmetic,\nparsing and hold-to-repeat come from the same `cdk/number` primitives, so\n`1,200` and the keyboard map behave identically in both.\n- **`deleteAtMin`** is the cart pattern in one attribute: at the floor the\n  decrement becomes a remove affordance, renamed `Remove {label}`, and emits\n  `removed` rather than stepping to zero. Without it every shop reimplements the\n  same `value === 1 ? remove() : step(-1)` branch outside the component. (The\n  spec called this output `emptied`; that is a native `HTMLMediaElement` event\n  name, which `@angular-eslint/no-output-native` rightly rejects, and `removed`\n  is already what `uni-tag` calls the same request.)\n- The middle is a real input by default — typing `12` beats tapping `+` eleven\n  times, and it takes the same grouped and locale-aware entry the field does.\n  `editable=false` renders the number as text for read-mostly tables, and the\n  buttons become the tab stops since there is nothing else to focus.\n- `size` is `sm` / `md` / `lg` at 24 / 32 / 40px _outer_ height, so an `md`\n  stepper lines up with a 32px field beside it, with the buttons square at that\n  height. `md` and `lg` clear the 24×24 pointer target of WCAG 2.2 SC 2.5.8;\n  `sm` leaves 22px inside its border and is the dense desktop option.\n\nAdds `quantityStepper` to `ComponentName` with a theme entry. Unlike the other\nnumeric controls it does **not** inherit the shared `input` chrome — it is not a\nfield — so it carries its own container tokens, defaulted to the same values\n`input` uses so a cart stepper and a form field look related out of the box.\nHeight comes from the entry's `sizes` block rather than an option.",
+              "commit": "589cecb"
+            }
+          ],
+          "dependencyBumps": []
+        },
+        {
           "version": "9.0.1",
           "entries": [
             {
@@ -17359,6 +17445,11 @@
     {
       "package": "@uni-design-system/uni-react",
       "releases": [
+        {
+          "version": "10.0.0",
+          "entries": [],
+          "dependencyBumps": []
+        },
         {
           "version": "9.0.1",
           "entries": [
