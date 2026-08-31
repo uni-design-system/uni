@@ -1,5 +1,108 @@
 # @uni-design-system/uni-core
 
+## 10.1.0
+
+### Minor Changes
+
+- [`f28c951`](https://github.com/uni-design-system/uni/commit/f28c95117f2844b58a265b59c2ea8b9715156670) Thanks [@gaenglish](https://github.com/gaenglish)! - `uni-drawer` is a three-row panel, and is no longer its own scroll container.
+
+  **The `<dialog>` used to be the scroller.** `over` mode set `overflowY: 'auto'`
+  on the panel and put the theme's padding there too, which made a pinned header
+  or footer impossible: padding on a scrolling box scrolls away with its content,
+  and any row you pinned against it could not sit flush to the panel edge. It also
+  set only the one axis — and a single explicit overflow axis computes the other
+  to `auto`, which is exactly how a container becomes an accidental scroller.
+  `side` had it right already, setting both.
+
+  The panel is now a flex column of three rows — an optional
+  `[uni-drawer-header]`, the projected body, an optional `[uni-drawer-buttons]`
+  (alias `[drawer-buttons]`) — and **only the body scrolls**. The panel itself is
+  `overflow: clip` on both axes, explicitly, never the shorthand. The body carries
+  `overscroll-behavior: contain`, so scrolling to its end does not start scrolling
+  the page behind it, and `position: relative`, so a stray absolutely positioned
+  descendant is contained rather than re-homed into an ancestor.
+
+  Those two must travel together: a positioned body _without_ a clipped shell is
+  worse than the status quo, because it pulls phantom overflow into the scroller
+  instead of out of the panel.
+
+  **`drawer.behavior.padding` is now the body's padding, not the panel's.** A
+  drawer with no header or footer looks the same as before. One that gains either
+  gets rows flush to the panel edge, which is the point.
+
+  Two new theme entries, `drawerHeader` and `drawerButtons`, mirror the dialog
+  pair knob for knob but default to a panel's posture rather than a dialog's: the
+  header's title is left-aligned rather than centered, and the footer trails its
+  actions rather than centering them.
+
+  Note one deliberate divergence from `[dialog-buttons]`: the drawer footer's
+  **confirm button does not close the drawer**. A panel's save is usually async
+  and can fail, so closing is left to the consumer via `(confirmed)`.
+
+- [`67e17ea`](https://github.com/uni-design-system/uni/commit/67e17ea927e3ca24b7abecdcccf134d53ac3656b) Thanks [@gaenglish](https://github.com/gaenglish)! - `uni-toggle` honours `size`, and the checked colour has a theme home.
+
+  **`size` did nothing.** `uni-toggle` inherits a bindable `size` input from
+  `BaseComponent`, but its geometry came from a single `toggle.behavior.size`
+  number, so `<uni-toggle size="sm">` compiled, read as deliberate, and rendered
+  identically to every other switch. The theme now carries a `sizes` block and the
+  input selects from it.
+
+  **Geometry is stated per size, not derived from ratios.** Each size token is a
+  `width` / `height` / `padding` triple — `padding` being the knob's inset — and
+  the rest falls out: knob is `height - 2 * padding`, travel is `width - height`,
+  radius is `height / 2`. Real switch designs do not hold a constant proportion
+  across sizes (a consumer's 32x18 and 28x16 pair differs in both track and knob
+  ratio), so a single ratio token could match one size or the other but never
+  both.
+
+  `lg` is `BaseComponent`'s default and reproduces the previous geometry exactly —
+  40x20, knob 16 — so **no existing toggle moves**. A theme still setting the
+  legacy `toggle.behavior.size` number keeps the old derived-ratio behaviour; that
+  option is now deprecated in favour of the `sizes` block.
+
+  **Fixed: the knob would have overhung the track at any other proportion.** The
+  checked transform was hardcoded to translate by one track height, which is only
+  correct while the track is `2x` wide and the knob `0.8x`. It is now derived, so
+  the knob lands the same distance from each edge at every size.
+
+  **New `checkedColor`, as an input and a theme option.** The on-state used to be
+  the instance's `variant`, which meant an app wanting one switch colour repeated
+  an attribute on every call site. `toggle.behavior.checkedColor` sets it once;
+  the input overrides per instance; `variant` remains the fallback when neither is
+  set. The focus ring follows the resolved colour rather than staying on `variant`.
+  An input as well as an option is necessary because `variant` defaults to
+  `'primary'` and so cannot be distinguished from unset — without one, a themed
+  `checkedColor` would have silently made `variant` inert with no way back.
+
+  **Toggle transitions are a motion token.** It hardcoded `0.3s ease` while
+  `uni-radio` already read `theme.motion(options.motion ?? 'control')`, so a theme
+  setting a motion scale moved the radio and not the switch.
+
+### Patch Changes
+
+- [`7545ff3`](https://github.com/uni-design-system/uni/commit/7545ff3e6dd85d29157963488f75f9e3681947c7) Thanks [@gaenglish](https://github.com/gaenglish)! - Stepper buttons now leave focus in their field, and `uni-quantity-stepper`
+  follows the theme's field chrome.
+
+  **Clicking `+` or `−` focused nothing.** Taking pointer capture means calling
+  `preventDefault()` on `pointerdown`, which also suppresses the browser's default
+  focus handling — and the buttons carry `tabindex="-1"`, so focus landed on
+  `<body>`. The arrow keys then did nothing, exactly when a user reaching for `+`
+  is most likely to try them. `createPressRepeat` gained a `focus` callback,
+  invoked on press and handed the pressed button; `uni-number-input` and
+  `uni-quantity-stepper` point it at their text field, the way a native spinner
+  does. Where there is no field — a read-only quantity stepper, whose buttons are
+  themselves the tab stops — focus goes to the button instead. **This affected
+  `uni-number-input` as well**, not just the stepper.
+
+  **`uni-quantity-stepper` ignored a theme's field styling.** It carried its own
+  `color` / `border` / `borderRadius` tokens, so a theme that restyles `input` —
+  Wellsourced fills its fields `#F3F2EF` — left the stepper stark white beside
+  them. Those three now default to the shared `input` chrome and are unset in the
+  base theme, so the stepper tracks whatever a theme does to its fields; they
+  remain available as per-component overrides for parting them deliberately. With
+  the focus indicator and the dividers already sourced this way, the container is
+  now consistently the field chrome unless a theme says otherwise.
+
 ## 10.0.0
 
 ### Major Changes
