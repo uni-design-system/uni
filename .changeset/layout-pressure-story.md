@@ -2,7 +2,7 @@
 '@uni-design-system/uni-angular': patch
 ---
 
-New **Core → Layout pressure** docs page: every form control in an
+New **Experiments → Forms layout pressure** docs page: every form control in an
 `auto 1fr` grid, with a bar showing what it left for its sibling.
 
 It exists to make one class of bug visible, because nothing else can see it. A
