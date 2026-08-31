@@ -1,0 +1,21 @@
+<div
+  row-layout
+  [gap]="gapValue()"
+  [padding]="paddingValue()"
+  [justifyContent]="justifyContentValue()"
+  [flexDirection]="componentOptions().reverseOrder ? 'row-reverse' : 'row'"
+  [class]="className()"
+>
+  <button text-button [variant]="cancelVariant()" [size]="buttonSize()" (click)="closeDrawer()">
+    {{ cancelButtonText() || 'Cancel' }}
+  </button>
+  <button
+    text-button
+    [variant]="confirmVariant()"
+    [size]="buttonSize()"
+    (click)="confirmed.emit()"
+    [disable]="disableConfirm()"
+  >
+    {{ confirmButtonText() || 'Save' }}
+  </button>
+</div>

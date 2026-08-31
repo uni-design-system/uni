@@ -12,7 +12,7 @@ import { ThemeOptions } from '../../../stories/blocks/ThemeOptionsBlock';
 
 ## Overview
 
-Navigation drawer with two modes sharing one content slot:
+A panel attached to an edge of the page, in one of two modes:
 
 - **`side`** renders an in-flow `<aside>` that pushes page content — the classic
   dashboard sidenav. Opening and closing animates its width; a divider border primitive
@@ -21,8 +21,40 @@ Navigation drawer with two modes sharing one content slot:
   the scrim backdrop come from the platform, and the panel slides in from its edge
   (`position`: `start` or `end`).
 
-`[(open)]` is two-way; Escape and backdrop clicks keep it in sync. Surface, width,
-divider, elevation, padding and backdrop all resolve from the theme's `drawer` options.
+`[(open)]` is two-way; Escape and backdrop clicks keep it in sync.
+
+## The three rows
+
+The panel is a flex column of three rows, and **only the middle one scrolls**:
+
+| Row | Content | Sizing |
+| --- | --- | --- |
+| Header | `[uni-drawer-header]`, or the `headline` shorthand | pinned |
+| Body | everything else you project | scrolls |
+| Footer | `[uni-drawer-buttons]` (alias `[drawer-buttons]`) | pinned |
+
+The panel itself is `overflow: clip` on **both** axes, so it is never a scroll
+container. This is what lets a header and a save bar stay put while a long form
+moves between them.
+
+It is also why the theme's `padding` option is the **body's** padding rather than
+the panel's: padding on a scrolling box scrolls away with its content, and a row
+pinned against it could never sit flush to the panel edge.
+
+<div class="tip">
+
+Setting one overflow axis computes the other to `auto`. If you write your own
+panel, always set both — a single `overflow-x: hidden` is enough to turn a
+container into an accidental scroller.
+
+</div>
+
+Do not measure this with `panel.scrollHeight === panel.clientHeight`. Under
+`overflow: clip` Chrome still reports a descendant's layout overflow in the
+panel's `scrollHeight`, reaching through the body's own scroll container, so
+that equality holds only while the body is short enough not to scroll. The
+invariant that actually holds is that the panel cannot be scrolled: set
+`scrollTop` on it and it stays at `0`.
 
 ## The dashboard shell
 
@@ -30,16 +62,101 @@ App bar with a menu toggle, side drawer, content — the standard application sk
 
 <StoryUsage of={Stories.DashboardShell} />
 
+## The editor panel
+
+A pinned header, a scrolling form, and a pinned save bar. This story carries a
+play function that asserts the scroll geometry in a real browser — the panel
+never scrolls, the body always does, and nothing escapes either.
+
+<StoryUsage of={Stories.EditorPanel} />
+
 ## Overlay mode
 
 <StoryExample of={Stories.Overlay} />
+
+## Closing, and refusing to close
+
+Escape, a backdrop click, the header's close button and the footer's cancel all
+funnel through one decision and emit `closeRequest` with the `reason`.
+
+By default the drawer then closes itself. Set `disableAutoClose` and it will not:
+it asks, and waits for you to set `open`. That is the hook for an async
+confirmation, which a synchronous veto could not express:
+
+```html
+<uni-drawer
+  mode="over"
+  [(open)]="open"
+  [disableAutoClose]="form.dirty()"
+  (closeRequest)="confirmDiscard()"
+>
+```
+
+```ts
+async confirmDiscard() {
+  if (await this.confirm.ask('Discard unsaved changes?')) this.open.set(false);
+}
+```
+
+Leave `disableAutoClose` off and the drawer behaves exactly as it always has, so
+adding a `closeRequest` listener alone changes nothing.
+
+<div class="tip">
+
+The footer's **confirm** button does not close the drawer — unlike
+`[dialog-buttons]`, whose confirm dismisses the dialog. A panel's save is
+usually async and can fail, so the drawer leaves the closing to you: handle
+`(confirmed)` and set `open` when the save resolves.
+
+</div>
+
+## Inputs
+
+| Input | Default | Notes |
+| --- | --- | --- |
+| `open` | `false` | Two-way. |
+| `mode` | `'side'` | `'side'` pushes content; `'over'` floats in the top layer. |
+| `position` | `'start'` | Logical edge — `start` is left in LTR. |
+| `width` | theme | Per-instance override of `drawer.behavior.width`. |
+| `headline` | — | Shorthand for a header row with a title. |
+| `defaultCloseButton` | `true` | Whether the header row renders a close button. |
+| `initialFocus` | — | CSS selector, resolved inside the panel when it opens. |
+| `ariaLabel` | — | Only consulted when there is no header to be labelled by. |
+| `scrim` | theme | `false` leaves the page behind undimmed. Still modal. |
+| `disableAutoClose` | `false` | Emit `closeRequest` without acting on it. |
+
+## Keeping the page visible
+
+`scrim` set to `false` leaves the backdrop transparent, so the page behind the
+panel stays fully legible — the shape an editor panel wants when the user is
+working against a board they still need to read.
+
+<StoryExample of={Stories.WithoutScrim} />
+
+<div class="tip">
+
+This does **not** make the drawer non-modal. `showModal()` still traps focus and
+still makes the page behind inert, so the board is readable but not clickable.
+`scrim` is a visibility choice, not a modality one.
+
+</div>
 
 ## Theme options
 
 <ThemeOptions componentName="drawer" />
 
+### Header row
+
+<ThemeOptions componentName="drawerHeader" />
+
+### Footer row
+
+<ThemeOptions componentName="drawerButtons" />
+
 ## Accessibility
 
 - Overlay mode is a native `<dialog>`: focus is trapped by `showModal()`, Escape closes, and the backdrop click closes — all kept in sync with `[(open)]`.
-- Give the overlay an accessible name via `ariaLabel` (defaults to "Navigation").
+- A drawer with a header is labelled by that header's title via `aria-labelledby`. Without one, give it an `ariaLabel`. There is deliberately no default: a panel that inherited the name "Navigation" would announce itself as something it is not, and a wrong accessible name is worse than a missing one.
+- `initialFocus` matters more here than in a dialog. The platform focuses the first focusable element, which in a panel with a header is the close button; point it at the first field instead.
+- `scrim: false` keeps the drawer modal — focus is still trapped, the page behind is still inert — while leaving the backdrop transparent. Do not read a missing scrim as a non-modal drawer.
 - A closed side drawer is `aria-hidden`, so its links leave the accessibility tree.

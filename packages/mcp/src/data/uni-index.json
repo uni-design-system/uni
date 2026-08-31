@@ -1,15 +1,15 @@
 {
   "meta": {
     "version": "9.0.1",
-    "builtAt": "2026-08-29T21:28:32.870Z",
+    "builtAt": "2026-08-31T17:24:25.335Z",
     "frameworks": [
       "angular"
     ],
     "counts": {
-      "components": 82,
-      "tokens": 439,
+      "components": 84,
+      "tokens": 454,
       "themes": 2,
-      "examples": 221
+      "examples": 223
     }
   },
   "components": [
@@ -2930,8 +2930,8 @@
       "id": "drawer",
       "name": "Drawer",
       "status": "stable",
-      "summary": "Navigation drawer with two modes sharing one content slot: - `side` — an in-flow `<aside>` that pushes content (dashboard sidenav); opening/closing animates its width, and the divider border primitive separates it from the page.",
-      "description": "Navigation drawer with two modes sharing one content slot: - `side` — an in-flow `<aside>` that pushes content (dashboard sidenav); opening/closing animates its width, and the divider border primitive separates it from the page. - `over` — a native `<dialog>` in the top layer: focus trap, Escape and scrim backdrop come from the platform (same machinery as `uni-dialog`), sliding in from its edge. Surface, width, divider, elevation, padding and backdrop all resolve from `drawer` theme tokens.",
+      "summary": "Drawer with two modes sharing one three-row layout: - `side` — an in-flow `<aside>` that pushes content (dashboard sidenav); opening/closing animates its width, and the divider border primitive separates it from the page.",
+      "description": "Drawer with two modes sharing one three-row layout: - `side` — an in-flow `<aside>` that pushes content (dashboard sidenav); opening/closing animates its width, and the divider border primitive separates it from the page. - `over` — a native `<dialog>` in the top layer: focus trap, Escape and scrim backdrop come from the platform (same machinery as `uni-dialog`), sliding in from its edge. **The panel is never the scroll container.** It is a flex column of three rows — an optional `[uni-drawer-header]`, the projected body, an optional `[uni-drawer-buttons]` — and only the body scrolls. The panel itself is `overflow: clip` on both axes. That is what lets a header and a save bar pin while a long form scrolls between them, and it is why the theme's `padding` option lands on the body row rather than the panel: padding on a scrolling box scrolls away with its content. Surface, width, divider, elevation, padding, backdrop, scrim and background all resolve from `drawer` theme tokens.",
       "category": "components",
       "version": "9.0.1",
       "bindings": {
@@ -2968,8 +2968,58 @@
               "kind": "input",
               "type": "string",
               "required": false,
-              "default": "'Navigation'",
-              "description": "Accessible name for the overlay mode's dialog."
+              "description": "Accessible name for the overlay mode. Only consulted when the drawer has no header to be labelled by. There is deliberately no default. A drawer used as an editor panel that inherited the literal \"Navigation\" would announce itself as something it is not, and a wrong accessible name is worse than a missing one — the missing one is at least caught by any audit."
+            },
+            {
+              "name": "headline",
+              "kind": "input",
+              "type": "string",
+              "required": false,
+              "description": "Title for the drawer's header row. Shorthand for projecting a `[uni-drawer-header]`; project one instead when the header needs more than a title (a record counter, prev/next navigation)."
+            },
+            {
+              "name": "defaultCloseButton",
+              "kind": "input",
+              "type": "boolean",
+              "required": false,
+              "default": "true",
+              "description": "Whether the header row renders a close button."
+            },
+            {
+              "name": "width",
+              "kind": "input",
+              "type": "number",
+              "required": false,
+              "description": "Panel width in px, overriding the theme's `drawer.behavior.width`."
+            },
+            {
+              "name": "scrim",
+              "kind": "input",
+              "type": "boolean",
+              "required": false,
+              "description": "Whether the overlay dims the page behind it, overriding the theme's `drawer.behavior.scrim`. False leaves the backdrop transparent so the page stays legible while the panel is open — an editor panel beside a board the user is still reading. This does not make the drawer non-modal: focus is still trapped and the page behind is still inert. It is a visibility choice, not a modality one."
+            },
+            {
+              "name": "initialFocus",
+              "kind": "input",
+              "type": "string",
+              "required": false,
+              "description": "CSS selector for the element to focus when the overlay opens. The native default is the first focusable element, which in an editor panel is usually the close button rather than the first field."
+            },
+            {
+              "name": "closeRequest",
+              "kind": "output",
+              "type": "UniDrawerCloseRequest",
+              "required": false,
+              "description": "The drawer is *asking* to close — Escape, the backdrop, or a close/cancel button. Pair with `disableAutoClose` to hold the panel open while an async confirmation runs."
+            },
+            {
+              "name": "disableAutoClose",
+              "kind": "input",
+              "type": "boolean",
+              "required": false,
+              "default": "false",
+              "description": "When true the drawer never closes itself; it only emits `closeRequest` and waits for the consumer to set `open`. Off by default, so a drawer that ignores `closeRequest` behaves exactly as it always has."
             }
           ]
         }
@@ -2981,18 +3031,30 @@
           "code": "<!-- Storybook story: Dashboard Shell -->\n<section stack-layout height=\"420px\" overflow=\"hidden\">\n<uni-app-bar title=\"Console\">\n  <button leading icon-button symbolName=\"menu\" (click)=\"open = !open\">Toggle navigation</button>\n  <button trailing icon-button symbolName=\"account_circle\">Account</button>\n</uni-app-bar>\n<div row-layout [grow]=\"1\" [minHeight]=\"0\">\n  <uni-drawer mode=\"side\" [(open)]=\"open\">\n    <nav stack-layout gap=\"sm\" aria-label=\"Main\">\n      <span uni-text=\"title-small\" display=\"block\">Dashboard</span>\n      <span uni-text=\"title-small\" display=\"block\">Reports</span>\n      <span uni-text=\"title-small\" display=\"block\">Settings</span>\n    </nav>\n  </uni-drawer>\n  <main box-layout [grow]=\"1\" padding=\"md\" [minWidth]=\"0\">\n    <h2 uni-text=\"headline-small\">Content</h2>\n    <span uni-text=\"body-1-long\" display=\"block\">\n      The side drawer pushes this content; toggle it from the app bar.\n    </span>\n  </main>\n</div>\n</section>"
         },
         {
+          "title": "Editor Panel",
+          "framework": "angular",
+          "code": "<!-- Storybook story: Editor Panel -->\n<section stack-layout height=\"420px\" overflow=\"hidden\">\n<uni-app-bar title=\"Console\">\n  <button leading icon-button symbolName=\"menu\" (click)=\"open = !open\">Toggle navigation</button>\n  <button trailing icon-button symbolName=\"account_circle\">Account</button>\n</uni-app-bar>\n<div row-layout [grow]=\"1\" [minHeight]=\"0\">\n  <uni-drawer mode=\"side\" [(open)]=\"open\">\n    <nav stack-layout gap=\"sm\" aria-label=\"Main\">\n      <span uni-text=\"title-small\" display=\"block\">Dashboard</span>\n      <span uni-text=\"title-small\" display=\"block\">Reports</span>\n      <span uni-text=\"title-small\" display=\"block\">Settings</span>\n    </nav>\n  </uni-drawer>\n  <main box-layout [grow]=\"1\" padding=\"md\" [minWidth]=\"0\">\n    <h2 uni-text=\"headline-small\">Content</h2>\n    <span uni-text=\"body-1-long\" display=\"block\">\n      The side drawer pushes this content; toggle it from the app bar.\n    </span>\n  </main>\n</div>\n</section>"
+        },
+        {
+          "title": "Without Scrim",
+          "framework": "angular",
+          "code": "<!-- Storybook story: Without Scrim -->\n<section stack-layout height=\"420px\" overflow=\"hidden\">\n<uni-app-bar title=\"Console\">\n  <button leading icon-button symbolName=\"menu\" (click)=\"open = !open\">Toggle navigation</button>\n  <button trailing icon-button symbolName=\"account_circle\">Account</button>\n</uni-app-bar>\n<div row-layout [grow]=\"1\" [minHeight]=\"0\">\n  <uni-drawer mode=\"side\" [(open)]=\"open\">\n    <nav stack-layout gap=\"sm\" aria-label=\"Main\">\n      <span uni-text=\"title-small\" display=\"block\">Dashboard</span>\n      <span uni-text=\"title-small\" display=\"block\">Reports</span>\n      <span uni-text=\"title-small\" display=\"block\">Settings</span>\n    </nav>\n  </uni-drawer>\n  <main box-layout [grow]=\"1\" padding=\"md\" [minWidth]=\"0\">\n    <h2 uni-text=\"headline-small\">Content</h2>\n    <span uni-text=\"body-1-long\" display=\"block\">\n      The side drawer pushes this content; toggle it from the app bar.\n    </span>\n  </main>\n</div>\n</section>"
+        },
+        {
           "title": "Overlay",
           "framework": "angular",
           "code": "<!-- Storybook story: Overlay -->\n<section stack-layout height=\"420px\" overflow=\"hidden\">\n<uni-app-bar title=\"Console\">\n  <button leading icon-button symbolName=\"menu\" (click)=\"open = !open\">Toggle navigation</button>\n  <button trailing icon-button symbolName=\"account_circle\">Account</button>\n</uni-app-bar>\n<div row-layout [grow]=\"1\" [minHeight]=\"0\">\n  <uni-drawer mode=\"side\" [(open)]=\"open\">\n    <nav stack-layout gap=\"sm\" aria-label=\"Main\">\n      <span uni-text=\"title-small\" display=\"block\">Dashboard</span>\n      <span uni-text=\"title-small\" display=\"block\">Reports</span>\n      <span uni-text=\"title-small\" display=\"block\">Settings</span>\n    </nav>\n  </uni-drawer>\n  <main box-layout [grow]=\"1\" padding=\"md\" [minWidth]=\"0\">\n    <h2 uni-text=\"headline-small\">Content</h2>\n    <span uni-text=\"body-1-long\" display=\"block\">\n      The side drawer pushes this content; toggle it from the app bar.\n    </span>\n  </main>\n</div>\n</section>"
         }
       ],
       "guidelines": {
-        "whenToUse": "Navigation drawer with two modes sharing one content slot:\n- **`side`** renders an in-flow `<aside>` that pushes page content — the classic\n  dashboard sidenav. Opening and closing animates its width; a divider border primitive\n  separates it from the content, and it is hidden from assistive tech while closed.\n- **`over`** renders a native `<dialog>` in the top layer: focus trapping, Escape, and\n  the scrim backdrop come from the platform, and the panel slides in from its edge\n  (`position`: `start` or `end`).\n`[(open)]` is two-way; Escape and backdrop clicks keep it in sync. Surface, width,\ndivider, elevation, padding and backdrop all resolve from the theme's `drawer` options.",
+        "whenToUse": "A panel attached to an edge of the page, in one of two modes:\n- **`side`** renders an in-flow `<aside>` that pushes page content — the classic\n  dashboard sidenav. Opening and closing animates its width; a divider border primitive\n  separates it from the content, and it is hidden from assistive tech while closed.\n- **`over`** renders a native `<dialog>` in the top layer: focus trapping, Escape, and\n  the scrim backdrop come from the platform, and the panel slides in from its edge\n  (`position`: `start` or `end`).\n`[(open)]` is two-way; Escape and backdrop clicks keep it in sync.",
         "dos": [],
         "donts": [],
         "accessibility": [
           "Overlay mode is a native `<dialog>`: focus is trapped by `showModal()`, Escape closes, and the backdrop click closes — all kept in sync with `[(open)]`.",
-          "Give the overlay an accessible name via `ariaLabel` (defaults to \"Navigation\").",
+          "A drawer with a header is labelled by that header's title via `aria-labelledby`. Without one, give it an `ariaLabel`. There is deliberately no default: a panel that inherited the name \"Navigation\" would announce itself as something it is not, and a wrong accessible name is worse than a missing one.",
+          "`initialFocus` matters more here than in a dialog. The platform focuses the first focusable element, which in a panel with a header is the close button; point it at the first field instead.",
+          "`scrim: false` keeps the drawer modal — focus is still trapped, the page behind is still inert — while leaving the backdrop transparent. Do not read a missing scrim as a non-modal drawer.",
           "A closed side drawer is `aria-hidden`, so its links leave the accessibility tree."
         ]
       },
@@ -3002,8 +3064,123 @@
         "drawer.behavior.divider",
         "drawer.behavior.elevation",
         "drawer.behavior.padding",
-        "drawer.behavior.backdrop"
+        "drawer.behavior.backdrop",
+        "drawer.behavior.scrim",
+        "drawer.behavior.background"
       ]
+    },
+    {
+      "id": "drawer-buttons",
+      "name": "DrawerButtons",
+      "status": "stable",
+      "summary": "The drawer's pinned footer action row — the save bar of an editor panel.",
+      "description": "The drawer's pinned footer action row — the save bar of an editor panel. Sits outside the scrolling body, so the actions stay reachable however long the form is. Mirrors `[dialog-buttons]`; the difference is posture, which lives in the `drawerButtons` theme options rather than here.",
+      "category": "primitives",
+      "version": "9.0.1",
+      "bindings": {
+        "angular": {
+          "importPath": "@uni-design-system/uni-angular",
+          "selectorOrTag": "[uni-drawer-buttons], [drawer-buttons]",
+          "api": [
+            {
+              "name": "confirmButtonText",
+              "kind": "input",
+              "type": "string",
+              "required": false,
+              "description": ""
+            },
+            {
+              "name": "confirmButtonVariant",
+              "kind": "input",
+              "type": "Variant",
+              "required": false,
+              "description": ""
+            },
+            {
+              "name": "cancelButtonText",
+              "kind": "input",
+              "type": "string",
+              "required": false,
+              "description": ""
+            },
+            {
+              "name": "cancelButtonVariant",
+              "kind": "input",
+              "type": "Variant",
+              "required": false,
+              "description": ""
+            },
+            {
+              "name": "disableConfirm",
+              "kind": "input",
+              "type": "boolean",
+              "required": false,
+              "description": ""
+            },
+            {
+              "name": "padding",
+              "kind": "input",
+              "type": "NullableSize",
+              "required": false,
+              "description": ""
+            },
+            {
+              "name": "justifyContent",
+              "kind": "input",
+              "type": "JustifyContent",
+              "required": false,
+              "description": ""
+            },
+            {
+              "name": "confirmed",
+              "kind": "output",
+              "type": "unknown",
+              "required": false,
+              "description": ""
+            }
+          ]
+        }
+      },
+      "examples": [],
+      "guidelines": {
+        "whenToUse": "",
+        "dos": [],
+        "donts": [],
+        "accessibility": []
+      },
+      "relatedTokens": []
+    },
+    {
+      "id": "drawer-header",
+      "name": "DrawerHeader",
+      "status": "stable",
+      "summary": "The drawer's pinned header row: a title, and optionally a close button.",
+      "description": "The drawer's pinned header row: a title, and optionally a close button. Sits outside the scrolling body, so it stays put while the form beneath it moves. Reached either by projecting it — `<div uni-drawer-header>` — or implicitly, by giving `uni-drawer` a `headline`, in which case the drawer renders one of these itself.",
+      "category": "components",
+      "version": "9.0.1",
+      "bindings": {
+        "angular": {
+          "importPath": "@uni-design-system/uni-angular",
+          "selectorOrTag": "[uni-drawer-header]",
+          "api": [
+            {
+              "name": "headline",
+              "kind": "input",
+              "type": "string",
+              "required": false,
+              "description": "Title text. Falls back to the drawer's `headline`; projected content wins over both."
+            }
+          ]
+        }
+      },
+      "examples": [],
+      "guidelines": {
+        "whenToUse": "",
+        "dos": [],
+        "donts": [],
+        "accessibility": []
+      },
+      "relatedTokens": []
     },
     {
       "id": "dropdown",
@@ -10588,6 +10765,222 @@
       }
     },
     {
+      "id": "drawer.behavior.scrim",
+      "value": true,
+      "type": "boolean",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "drawer",
+      "themeValues": {
+        "LightTheme": true,
+        "DarkTheme": true
+      }
+    },
+    {
+      "id": "drawer.behavior.background",
+      "value": "solid",
+      "type": "string",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "drawer",
+      "themeValues": {
+        "LightTheme": "solid",
+        "DarkTheme": "solid"
+      }
+    },
+    {
+      "id": "drawerHeader.behavior.height",
+      "value": 56,
+      "type": "number",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "drawerHeader",
+      "themeValues": {
+        "LightTheme": 56,
+        "DarkTheme": 56
+      }
+    },
+    {
+      "id": "drawerHeader.behavior.padding",
+      "value": "md",
+      "type": "string",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "drawerHeader",
+      "themeValues": {
+        "LightTheme": "md",
+        "DarkTheme": "md"
+      }
+    },
+    {
+      "id": "drawerHeader.behavior.textRole",
+      "value": "title-medium",
+      "type": "string",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "drawerHeader",
+      "themeValues": {
+        "LightTheme": "title-medium",
+        "DarkTheme": "title-medium"
+      }
+    },
+    {
+      "id": "drawerHeader.behavior.textAlign",
+      "value": "left",
+      "type": "string",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "drawerHeader",
+      "themeValues": {
+        "LightTheme": "left",
+        "DarkTheme": "left"
+      }
+    },
+    {
+      "id": "drawerHeader.behavior.divider",
+      "value": "light",
+      "type": "string",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "drawerHeader",
+      "themeValues": {
+        "LightTheme": "light",
+        "DarkTheme": "light"
+      }
+    },
+    {
+      "id": "drawerHeader.behavior.closeButtonIcon",
+      "value": "close",
+      "type": "string",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "drawerHeader",
+      "themeValues": {
+        "LightTheme": "close",
+        "DarkTheme": "close"
+      }
+    },
+    {
+      "id": "drawerHeader.behavior.closeButtonSize",
+      "value": "md",
+      "type": "string",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "drawerHeader",
+      "themeValues": {
+        "LightTheme": "md",
+        "DarkTheme": "md"
+      }
+    },
+    {
+      "id": "drawerButtons.behavior.gap",
+      "value": "sm",
+      "type": "string",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "drawerButtons",
+      "themeValues": {
+        "LightTheme": "sm",
+        "DarkTheme": "sm"
+      }
+    },
+    {
+      "id": "drawerButtons.behavior.padding",
+      "value": "md",
+      "type": "string",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "drawerButtons",
+      "themeValues": {
+        "LightTheme": "md",
+        "DarkTheme": "md"
+      }
+    },
+    {
+      "id": "drawerButtons.behavior.justifyContent",
+      "value": "flex-end",
+      "type": "string",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "drawerButtons",
+      "themeValues": {
+        "LightTheme": "flex-end",
+        "DarkTheme": "flex-end"
+      }
+    },
+    {
+      "id": "drawerButtons.behavior.confirmButtonVariant",
+      "value": "primary",
+      "type": "string",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "drawerButtons",
+      "themeValues": {
+        "LightTheme": "primary",
+        "DarkTheme": "primary"
+      }
+    },
+    {
+      "id": "drawerButtons.behavior.cancelButtonVariant",
+      "value": "quaternary",
+      "type": "string",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "drawerButtons",
+      "themeValues": {
+        "LightTheme": "quaternary",
+        "DarkTheme": "quaternary"
+      }
+    },
+    {
+      "id": "drawerButtons.behavior.buttonSize",
+      "value": "md",
+      "type": "string",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "drawerButtons",
+      "themeValues": {
+        "LightTheme": "md",
+        "DarkTheme": "md"
+      }
+    },
+    {
+      "id": "drawerButtons.behavior.divider",
+      "value": "light",
+      "type": "string",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "drawerButtons",
+      "themeValues": {
+        "LightTheme": "light",
+        "DarkTheme": "light"
+      }
+    },
+    {
+      "id": "drawerButtons.behavior.stretch",
+      "value": false,
+      "type": "boolean",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "drawerButtons",
+      "themeValues": {
+        "LightTheme": false,
+        "DarkTheme": false
+      }
+    },
+    {
+      "id": "drawerButtons.behavior.reverseOrder",
+      "value": false,
+      "type": "boolean",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "drawerButtons",
+      "themeValues": {
+        "LightTheme": false,
+        "DarkTheme": false
+      }
+    },
+    {
       "id": "avatar.behavior.borderRadius",
       "value": "max",
       "type": "string",
@@ -11974,42 +12367,6 @@
       "kind": "behavioral",
       "target": "component-prop",
       "appliesTo": "numberRangeInput",
-      "themeValues": {
-        "LightTheme": "xs",
-        "DarkTheme": "xs"
-      }
-    },
-    {
-      "id": "quantityStepper.behavior.color",
-      "value": "primary-surface",
-      "type": "string",
-      "kind": "behavioral",
-      "target": "component-prop",
-      "appliesTo": "quantityStepper",
-      "themeValues": {
-        "LightTheme": "primary-surface",
-        "DarkTheme": "primary-surface"
-      }
-    },
-    {
-      "id": "quantityStepper.behavior.border",
-      "value": "light",
-      "type": "string",
-      "kind": "behavioral",
-      "target": "component-prop",
-      "appliesTo": "quantityStepper",
-      "themeValues": {
-        "LightTheme": "light",
-        "DarkTheme": "light"
-      }
-    },
-    {
-      "id": "quantityStepper.behavior.borderRadius",
-      "value": "xs",
-      "type": "string",
-      "kind": "behavioral",
-      "target": "component-prop",
-      "appliesTo": "quantityStepper",
       "themeValues": {
         "LightTheme": "xs",
         "DarkTheme": "xs"
@@ -14176,7 +14533,29 @@
           "divider": "light",
           "elevation": "menu",
           "padding": "md",
-          "backdrop": "{\"background\":\"rgba(0, 0, 0, 0.4)\"}"
+          "backdrop": "{\"background\":\"rgba(0, 0, 0, 0.4)\"}",
+          "scrim": true,
+          "background": "solid"
+        },
+        "drawerHeader": {
+          "height": 56,
+          "padding": "md",
+          "textRole": "title-medium",
+          "textAlign": "left",
+          "divider": "light",
+          "closeButtonIcon": "close",
+          "closeButtonSize": "md"
+        },
+        "drawerButtons": {
+          "gap": "sm",
+          "padding": "md",
+          "justifyContent": "flex-end",
+          "confirmButtonVariant": "primary",
+          "cancelButtonVariant": "quaternary",
+          "buttonSize": "md",
+          "divider": "light",
+          "stretch": false,
+          "reverseOrder": false
         },
         "avatar": {
           "borderRadius": "max",
@@ -14331,9 +14710,6 @@
           "affixGap": "xs"
         },
         "quantityStepper": {
-          "color": "primary-surface",
-          "border": "light",
-          "borderRadius": "xs",
           "incrementIcon": "plus",
           "decrementIcon": "minus",
           "deleteIcon": "delete",
@@ -14723,7 +15099,29 @@
           "divider": "light",
           "elevation": "menu",
           "padding": "md",
-          "backdrop": "{\"background\":\"rgba(0, 0, 0, 0.4)\"}"
+          "backdrop": "{\"background\":\"rgba(0, 0, 0, 0.4)\"}",
+          "scrim": true,
+          "background": "solid"
+        },
+        "drawerHeader": {
+          "height": 56,
+          "padding": "md",
+          "textRole": "title-medium",
+          "textAlign": "left",
+          "divider": "light",
+          "closeButtonIcon": "close",
+          "closeButtonSize": "md"
+        },
+        "drawerButtons": {
+          "gap": "sm",
+          "padding": "md",
+          "justifyContent": "flex-end",
+          "confirmButtonVariant": "primary",
+          "cancelButtonVariant": "quaternary",
+          "buttonSize": "md",
+          "divider": "light",
+          "stretch": false,
+          "reverseOrder": false
         },
         "avatar": {
           "borderRadius": "max",
@@ -14878,9 +15276,6 @@
           "affixGap": "xs"
         },
         "quantityStepper": {
-          "color": "primary-surface",
-          "border": "light",
-          "borderRadius": "xs",
           "incrementIcon": "plus",
           "decrementIcon": "minus",
           "deleteIcon": "delete",

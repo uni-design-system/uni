@@ -27,6 +27,8 @@ export type ComponentName =
   | 'dialogButtons'
   | 'dialogHeader'
   | 'drawer'
+  | 'drawerButtons'
+  | 'drawerHeader'
   | 'dropdown'
   | 'expand'
   | 'footer'

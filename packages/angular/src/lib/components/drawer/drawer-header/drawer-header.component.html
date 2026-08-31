@@ -1,0 +1,31 @@
+<div
+  row-layout
+  [containerColor]="componentOptions().color"
+  [height]="componentOptions().height"
+  alignItems="center"
+  gap="sm"
+  [padding]="componentOptions().padding ?? 'md'"
+>
+  <div box-layout [grow]="1" [minWidth]="0" [attr.id]="titleId">
+    <span
+      uni-text
+      [typeface]="componentOptions().textRole"
+      [color]="componentOptions().textColor"
+      display="block"
+      [align]="componentOptions().textAlign || 'left'"
+      ><ng-content>{{ title() }}</ng-content></span
+    >
+  </div>
+  @if (showClose()) {
+    <button
+      icon-button
+      [iconName]="componentOptions().closeButtonIcon"
+      [symbolName]="componentOptions().closeButtonSymbol"
+      variant="ghost"
+      (click)="closeDrawer()"
+      [size]="componentOptions().closeButtonSize || 'md'"
+    >
+      Close
+    </button>
+  }
+</div>

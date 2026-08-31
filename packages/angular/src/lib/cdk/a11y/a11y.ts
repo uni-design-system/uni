@@ -30,9 +30,23 @@ export function resolveFocusTarget(element: HTMLElement): HTMLElement {
 /**
  * Visually hides content while keeping it available to screen readers.
  * Use for text alternatives (e.g. badge counts, icon-only affordances).
+ *
+ * `fixed`, not `absolute`, and that is load-bearing. An absolutely positioned
+ * box resolves its containing block to the nearest *positioned* ancestor —
+ * which, since the controls emitting these spans are `position: static`, is
+ * whatever positioned box happens to be above them in the consumer's layout,
+ * often several scroll containers up. The span then skips every intervening
+ * `overflow: auto` and lands in that distant ancestor's scrollable overflow,
+ * turning 1x1 of invisible text into real scrollable distance in a box that
+ * never opted into scrolling. A fixed box's containing block is the viewport,
+ * so it joins no ancestor's scrollable overflow at all.
+ *
+ * Caveat: inside a `transform`ed (or `filter`ed/`contain`ed) ancestor a fixed
+ * box re-anchors to that ancestor. Harmless here — the element is 1x1 and
+ * clipped to nothing, so where it lands never matters, only what it overflows.
  */
 export const visuallyHidden = {
-  position: 'absolute',
+  position: 'fixed',
   width: 1,
   height: 1,
   padding: 0,

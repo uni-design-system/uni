@@ -265,14 +265,53 @@ const buildComponents = (c: Colors): ComponentThemes => ({
   // Navigation drawer: shares the dialog's native-<dialog> machinery in
   // 'over' mode (elevation + scrim backdrop); 'side' mode is an in-flow
   // aside separated by the divider border primitive.
+  //
+  // `padding` is the *body* row's padding, not the panel's. The panel is a
+  // three-row flex column whose header and footer pin while only the body
+  // scrolls, so padding on the panel itself would scroll away with the
+  // content and make a pinned row impossible.
   drawer: {
     options: {
       color: 'surface',
       width: 280,
       divider: 'light',
+      // Overlay mode only: a side drawer is separated by `divider` instead,
+      // so raising it off the page would double the separation.
       elevation: 'menu',
       padding: 'md',
       backdrop: { background: 'rgba(0, 0, 0, 0.4)' },
+      scrim: true,
+      background: 'solid',
+    },
+  },
+  // Pinned header row for a drawer used as an editor panel. Left-aligned
+  // rather than the dialog header's centered title: a panel headline reads as
+  // a section label beside the page, where a dialog's reads as an annoucement.
+  drawerHeader: {
+    options: {
+      color: undefined,
+      height: 56,
+      padding: 'md',
+      textRole: 'title-medium',
+      textAlign: 'left',
+      divider: 'light',
+      closeButtonIcon: 'close',
+      closeButtonSize: 'md',
+    },
+  },
+  // Pinned footer action row. Justified to the end and unstretched — a panel
+  // save bar trails its actions, where a dialog centers them.
+  drawerButtons: {
+    options: {
+      gap: 'sm',
+      padding: 'md',
+      justifyContent: 'flex-end',
+      confirmButtonVariant: 'primary',
+      cancelButtonVariant: 'quaternary',
+      buttonSize: 'md',
+      divider: 'light',
+      stretch: false,
+      reverseOrder: false,
     },
   },
   // Initials/icon avatars color from the role's container tokens; the radius
