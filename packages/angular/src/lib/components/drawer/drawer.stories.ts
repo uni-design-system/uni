@@ -96,7 +96,7 @@ export const DashboardShell: Story = {
 export const EditorPanel: Story = {
   render: () => ({
     props: {
-      open: true,
+      open: false,
       dirty: false,
       quantity: 3,
       attributes: Array.from({ length: 24 }, (_, i) => i + 1),
@@ -215,7 +215,7 @@ export const EditorPanel: Story = {
 export const WithoutScrim: Story = {
   render: () => ({
     props: {
-      open: true,
+      open: false,
       rows: Array.from({ length: 10 }, (_, i) => i + 1),
     },
     template: `
