@@ -1,5 +1,259 @@
 # @uni-design-system/uni-angular
 
+## 10.1.0
+
+### Minor Changes
+
+- [`f28c951`](https://github.com/uni-design-system/uni/commit/f28c95117f2844b58a265b59c2ea8b9715156670) Thanks [@gaenglish](https://github.com/gaenglish)! - `uni-drawer` gains the API an editor panel needs, and a close it can refuse.
+
+  **Closing can now be vetoed.** Escape, the backdrop, the header's close button
+  and the footer's cancel all funnel through one decision that emits
+  `closeRequest` with a `reason` — `'escape' | 'backdrop' | 'close-button'`. Set
+  `disableAutoClose` and the drawer stops acting on its own: it asks, and waits
+  for you to set `open`.
+
+  That split exists because the confirmation it has to accommodate is
+  _asynchronous_. A synchronous veto — a preventable event — cannot express
+  "ask the user, then decide", so every consumer would prevent unconditionally
+  and close manually anyway. Leave `disableAutoClose` off and behaviour is
+  unchanged, so adding a listener alone breaks nothing.
+
+  ```html
+  <uni-drawer [(open)]="open" [disableAutoClose]="form.dirty()" (closeRequest)="confirmDiscard()" />
+  ```
+
+  New inputs: `width` (per-instance override of the theme's width — a nav drawer
+  is 280 and an editor panel 480, and both live in one app), `headline` and
+  `defaultCloseButton` for the header row, and `initialFocus`, a selector resolved
+  inside the panel when it opens.
+
+  **`ariaLabel` no longer defaults to `'Navigation'`.** A drawer with a header is
+  labelled by that header via `aria-labelledby`; without one, `ariaLabel` is used;
+  with neither, the drawer is unnamed. The old default meant every drawer that
+  wasn't a nav drawer announced itself as one, and a wrong accessible name is
+  worse than a missing one — the missing one is at least caught by an audit. If
+  you relied on it, set `ariaLabel="Navigation"` explicitly.
+
+  **`scrim` turns the dimming off** without changing the modality. As a `scrim`
+  input or a `drawer.behavior.scrim` theme option, false leaves `::backdrop`
+  transparent so the page behind stays legible — an editor panel beside a board
+  the user is still reading. Focus is still trapped and the page behind is still
+  inert: it is a visibility choice, not a modality one. `background` joins it,
+  selecting `solid`, `glass` or `gradient` as a token choice rather than per-app
+  CSS.
+
+  **Fixed: a closed overlay drawer rendered in normal flow behind the page.** The
+  panel's `display: flex` outranks the UA stylesheet's
+  `dialog:not([open]) { display: none }`, so the drawer was visible on first
+  paint and reappeared behind the content after every close. An explicit
+  `&:not([open])` rule restores it. The closing animation is unaffected — `open`
+  is only removed once it ends.
+
+- [`f28c951`](https://github.com/uni-design-system/uni/commit/f28c95117f2844b58a265b59c2ea8b9715156670) Thanks [@gaenglish](https://github.com/gaenglish)! - `uni-drawer` is a three-row panel, and is no longer its own scroll container.
+
+  **The `<dialog>` used to be the scroller.** `over` mode set `overflowY: 'auto'`
+  on the panel and put the theme's padding there too, which made a pinned header
+  or footer impossible: padding on a scrolling box scrolls away with its content,
+  and any row you pinned against it could not sit flush to the panel edge. It also
+  set only the one axis — and a single explicit overflow axis computes the other
+  to `auto`, which is exactly how a container becomes an accidental scroller.
+  `side` had it right already, setting both.
+
+  The panel is now a flex column of three rows — an optional
+  `[uni-drawer-header]`, the projected body, an optional `[uni-drawer-buttons]`
+  (alias `[drawer-buttons]`) — and **only the body scrolls**. The panel itself is
+  `overflow: clip` on both axes, explicitly, never the shorthand. The body carries
+  `overscroll-behavior: contain`, so scrolling to its end does not start scrolling
+  the page behind it, and `position: relative`, so a stray absolutely positioned
+  descendant is contained rather than re-homed into an ancestor.
+
+  Those two must travel together: a positioned body _without_ a clipped shell is
+  worse than the status quo, because it pulls phantom overflow into the scroller
+  instead of out of the panel.
+
+  **`drawer.behavior.padding` is now the body's padding, not the panel's.** A
+  drawer with no header or footer looks the same as before. One that gains either
+  gets rows flush to the panel edge, which is the point.
+
+  Two new theme entries, `drawerHeader` and `drawerButtons`, mirror the dialog
+  pair knob for knob but default to a panel's posture rather than a dialog's: the
+  header's title is left-aligned rather than centered, and the footer trails its
+  actions rather than centering them.
+
+  Note one deliberate divergence from `[dialog-buttons]`: the drawer footer's
+  **confirm button does not close the drawer**. A panel's save is usually async
+  and can fail, so closing is left to the consumer via `(confirmed)`.
+
+- [`67e17ea`](https://github.com/uni-design-system/uni/commit/67e17ea927e3ca24b7abecdcccf134d53ac3656b) Thanks [@gaenglish](https://github.com/gaenglish)! - `uni-toggle` honours `size`, and the checked colour has a theme home.
+
+  **`size` did nothing.** `uni-toggle` inherits a bindable `size` input from
+  `BaseComponent`, but its geometry came from a single `toggle.behavior.size`
+  number, so `<uni-toggle size="sm">` compiled, read as deliberate, and rendered
+  identically to every other switch. The theme now carries a `sizes` block and the
+  input selects from it.
+
+  **Geometry is stated per size, not derived from ratios.** Each size token is a
+  `width` / `height` / `padding` triple — `padding` being the knob's inset — and
+  the rest falls out: knob is `height - 2 * padding`, travel is `width - height`,
+  radius is `height / 2`. Real switch designs do not hold a constant proportion
+  across sizes (a consumer's 32x18 and 28x16 pair differs in both track and knob
+  ratio), so a single ratio token could match one size or the other but never
+  both.
+
+  `lg` is `BaseComponent`'s default and reproduces the previous geometry exactly —
+  40x20, knob 16 — so **no existing toggle moves**. A theme still setting the
+  legacy `toggle.behavior.size` number keeps the old derived-ratio behaviour; that
+  option is now deprecated in favour of the `sizes` block.
+
+  **Fixed: the knob would have overhung the track at any other proportion.** The
+  checked transform was hardcoded to translate by one track height, which is only
+  correct while the track is `2x` wide and the knob `0.8x`. It is now derived, so
+  the knob lands the same distance from each edge at every size.
+
+  **New `checkedColor`, as an input and a theme option.** The on-state used to be
+  the instance's `variant`, which meant an app wanting one switch colour repeated
+  an attribute on every call site. `toggle.behavior.checkedColor` sets it once;
+  the input overrides per instance; `variant` remains the fallback when neither is
+  set. The focus ring follows the resolved colour rather than staying on `variant`.
+  An input as well as an option is necessary because `variant` defaults to
+  `'primary'` and so cannot be distinguished from unset — without one, a themed
+  `checkedColor` would have silently made `variant` inert with no way back.
+
+  **Toggle transitions are a motion token.** It hardcoded `0.3s ease` while
+  `uni-radio` already read `theme.motion(options.motion ?? 'control')`, so a theme
+  setting a motion scale moved the radio and not the switch.
+
+### Patch Changes
+
+- [`f28c951`](https://github.com/uni-design-system/uni/commit/f28c95117f2844b58a265b59c2ea8b9715156670) Thanks [@gaenglish](https://github.com/gaenglish)! - Document the drawer as an editor panel, and assert the layout that makes it one.
+
+  Both existing Drawer stories were navigation shells, so the shape that actually
+  stresses the component — a pinned header, a long scrolling form, a pinned save
+  bar — had no worked example. `EditorPanel` is that example, with a
+  `uni-number-input` and a `uni-quantity-stepper` near the bottom of the scroll,
+  where the sr-only overflow bug used to surface.
+
+  It carries a play function that asserts the scroll geometry: the panel's
+  `scrollHeight` equals its `clientHeight`, setting `scrollTop` on it does
+  nothing, the footer has no scrollable content of its own, the body scrolls to
+  its last element and stops, and no descendant has escaped its scroll container
+  to land on the panel. Those assertions live in the story rather than the unit
+  spec on purpose — jsdom has no layout engine, so every one of them would pass
+  vacuously there.
+
+  The MDX gains the three-row layout, the close-request contract, an input table,
+  and theme-option blocks for the two new component entries.
+
+- [`8f85b48`](https://github.com/uni-design-system/uni/commit/8f85b48b06f67e7f44ce29149dd32aae856e2f19) Thanks [@gaenglish](https://github.com/gaenglish)! - New **Experiments → Forms layout pressure** docs page: every form control in an
+  `auto 1fr` grid, with a bar showing what it left for its sibling.
+
+  It exists to make one class of bug visible, because nothing else can see it. A
+  `1fr` track is `minmax(auto, 1fr)`, and that `auto` floor is the control's own
+  min-content size — so a control reporting a larger intrinsic width than it needs
+  quietly steals track width from whatever sits beside it, while still looking
+  correct in isolation. That shipped once: `uni-quantity-stepper`'s value cell is a
+  native `<input>` defaulting to `size="20"`, so it measured ~230px instead of
+  ~92px and collapsed a consumer's grid column.
+
+  Neither the specs nor `build-storybook` catch it — the specs assert computed
+  styles and ARIA, and jsdom does not do layout — so it took a consumer report.
+  The page is deliberately width-constrained, since on a wide canvas nothing
+  competes for the track and the defect cannot appear. The measurements are live
+  and update as the viewport changes.
+
+- [`67e17ea`](https://github.com/uni-design-system/uni/commit/67e17ea927e3ca24b7abecdcccf134d53ac3656b) Thanks [@gaenglish](https://github.com/gaenglish)! - Signal Forms docs said `[field]`; the directive is `[formField]`.
+
+  `[field]` was the selector in the Angular 21.0 Signal Forms preview and was
+  renamed before release. In 21.2 the directive is `FormField`, selector
+  `[formField]`, with its required input aliased to `formField` — `[field]` does
+  not exist at all. Every form control in this library was documented with the
+  name that had been removed, across seven component doc comments and five MDX
+  files, and all of it flowed into the MCP index and the generated API reference.
+  A consuming app found this, not us.
+
+  Nothing about the components changed: they already satisfy `FormValueControl` /
+  `FormCheckboxControl` and always bound correctly.
+
+  **The reason it rotted is that nothing compiled a binding.** No spec or story in
+  the library imported `@angular/forms/signals` — the toggle's "Form Signals" story
+  hand-bound `[checked]` and `[touched]` as plain props, which demonstrates
+  nothing about Signal Forms and would keep passing through any rename. There is
+  now a spec that binds a real `form()` to `uni-toggle` through `[formField]` and
+  asserts the round trip in both directions, plus `touched` and `required`
+  propagation, so the next rename fails CI instead of the docs. The story binds a
+  real form too.
+
+- [`f28c951`](https://github.com/uni-design-system/uni/commit/f28c95117f2844b58a265b59c2ea8b9715156670) Thanks [@gaenglish](https://github.com/gaenglish)! - Visually hidden text no longer inflates a consuming app's scroll containers.
+
+  **Eighteen controls quietly added scrollable distance to whatever box happened
+  to be above them.** `visuallyHidden` was `position: absolute`, and the controls
+  that emit it — `uni-number-input`, `uni-quantity-stepper`, the toggle's hidden
+  `<input>`, and fifteen others — are `position: static`. An absolutely positioned
+  box resolves its containing block to the nearest _positioned_ ancestor, so each
+  1x1 span skipped every `overflow: auto` between it and that ancestor and landed
+  in the distant ancestor's scrollable overflow. A consumer reported a fixed side
+  panel measuring `scrollHeight: 1891` against `clientHeight: 793` — the whole
+  1098px difference came from seven invisible spans that had escaped the panel's
+  body scroller.
+
+  The helper is now `position: fixed`, whose containing block is the viewport, so
+  it joins no ancestor's scrollable overflow at all. The element stays 1x1 and
+  clipped to nothing, so screen reader behaviour is unchanged. Inside a
+  `transform`ed ancestor a fixed box re-anchors to that ancestor, which is
+  harmless here: where the box lands never mattered, only what it overflowed.
+
+  This class of bug is invisible in isolation — it needs a consumer to nest the
+  control inside a scrolling shell before it appears — so it is now covered by a
+  test that renders the emitting controls and asserts what actually reaches the
+  DOM, not just the recipe.
+
+- [`7545ff3`](https://github.com/uni-design-system/uni/commit/7545ff3e6dd85d29157963488f75f9e3681947c7) Thanks [@gaenglish](https://github.com/gaenglish)! - Stepper buttons now leave focus in their field, and `uni-quantity-stepper`
+  follows the theme's field chrome.
+
+  **Clicking `+` or `−` focused nothing.** Taking pointer capture means calling
+  `preventDefault()` on `pointerdown`, which also suppresses the browser's default
+  focus handling — and the buttons carry `tabindex="-1"`, so focus landed on
+  `<body>`. The arrow keys then did nothing, exactly when a user reaching for `+`
+  is most likely to try them. `createPressRepeat` gained a `focus` callback,
+  invoked on press and handed the pressed button; `uni-number-input` and
+  `uni-quantity-stepper` point it at their text field, the way a native spinner
+  does. Where there is no field — a read-only quantity stepper, whose buttons are
+  themselves the tab stops — focus goes to the button instead. **This affected
+  `uni-number-input` as well**, not just the stepper.
+
+  **`uni-quantity-stepper` ignored a theme's field styling.** It carried its own
+  `color` / `border` / `borderRadius` tokens, so a theme that restyles `input` —
+  Wellsourced fills its fields `#F3F2EF` — left the stepper stark white beside
+  them. Those three now default to the shared `input` chrome and are unset in the
+  base theme, so the stepper tracks whatever a theme does to its fields; they
+  remain available as per-component overrides for parting them deliberately. With
+  the focus indicator and the dividers already sourced this way, the container is
+  now consistently the field chrome unless a theme says otherwise.
+
+- [`8f85b48`](https://github.com/uni-design-system/uni/commit/8f85b48b06f67e7f44ce29149dd32aae856e2f19) Thanks [@gaenglish](https://github.com/gaenglish)! - `uni-quantity-stepper` no longer claims ~230px of width it does not need.
+
+  The value cell is a native `<input>`, which defaults to `size="20"`. Its
+  `flex: 1 1 auto` meant `flex-basis` resolved to that intrinsic ~20-character
+  width rather than to `valueWidth`, so the control measured ~230px instead of the
+  ~92px its buttons and a 3ch value actually need. Worse, that inflated width is
+  the control's `auto` size, and a `1fr` grid track is `minmax(auto, 1fr)` — so a
+  stepper stole track width from whatever sat beside it in a grid. Reported by
+  Wellsourced, who worked around it with `uni-quantity-stepper input { width: 0 }`.
+
+  The input is now sized from its content (`size` bound to the rendered value's
+  length), so the intrinsic width tells the truth. `valueWidth` stays the floor via
+  `min-width`, which is what keeps stepping 9 → 10 from reflowing the row, and the
+  cell still grows past it with the digits — measured at 92px for one to three
+  digits, 116px at `12,000`, 140px at `1,234,567`.
+
+  This is deliberately not the `width`-instead-of-`min-width` fix that was also
+  suggested: a fixed cell would have pinned the value at `valueWidth` and clipped
+  longer numbers, losing the growth the option documents.
+
+  **For consumers carrying the workaround:** it is safe to leave in place — the
+  control measures the same 92px either way — but remove it to get the growth
+  back, since `width: 0` forces `flex-basis: 0` and pins the cell at the floor.
+
 ## 10.0.0
 
 ### Major Changes
