@@ -7,7 +7,8 @@
     [
       "@uni-design-system/uni-core",
       "@uni-design-system/uni-react",
-      "@uni-design-system/uni-angular"
+      "@uni-design-system/uni-angular",
+      "@uni-design-system/uni-mcp"
     ]
   ],
   "linked": [],

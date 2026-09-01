@@ -42,16 +42,23 @@ your client's MCP settings.
 
 ### Pin it to your installed Uni version
 
-All Uni packages release under one coordinated version number. The server
-answers from an index stamped with the release it was built from, so for
-answers that exactly match the APIs you have installed, replace `@latest` with
-the version of `@uni-design-system/uni-angular` in your `package.json`:
+All Uni packages release under one coordinated version number, this server
+included. It answers from an index stamped with the release it was built from,
+so for answers that exactly match the APIs you have installed, replace
+`@latest` with the version of `@uni-design-system/uni-angular` in your
+`package.json` — they are the same number:
 
 ```jsonc
-"args": ["-y", "@uni-design-system/uni-mcp@4.3.0"]
+"args": ["-y", "@uni-design-system/uni-mcp@10.2.0"]
 ```
 
 `@latest` is fine when you track current Uni releases.
+
+> **Versions before 10.2.0.** This server used to release on its own `4.x` line
+> while the library was on `10.x`, so pinning it to your installed version was
+> impossible and the index could go stale whenever a release did not happen to
+> bump it. It now moves with the rest of the packages, and every release
+> republishes it — so `uni-mcp@10.2.0` describes `uni-angular@10.2.0`, exactly.
 
 ### Verify and try it
 
