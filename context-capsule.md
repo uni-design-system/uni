@@ -11,7 +11,8 @@ This document serves as the absolute "Source of Truth" for the architecture, bui
 
 - **Package Manager:** `pnpm@11.0.8` (Enforces strict workspace boundaries, requires Node v22.13.0+ due to the `node:sqlite` internal store index).
 - **Monorepo Engine:** `Turborepo 2.9+` (Task orchestration via `pnpm dev` and `pnpm turbo run build`).
-- **Release Strategy:** Coordinated `fixed` versioning via `@changesets/cli`.
+- **Release Strategy:** Coordinated `fixed` versioning via `@changesets/cli`. Versioning is run **locally** (`pnpm version-packages`) and reviewed before it is committed — there is no automated "Version Packages" PR.
+- **CI/CD:** One workflow, `.github/workflows/release.yml`, on push to `main`: install → build/lint/test → both Storybooks → publish → deploy docs, as a single ordered job. Nothing reaches NPM ahead of a green suite. Its filename is pinned by npm's trusted publisher config and must not be renamed. A `pre-push` hook (via `core.hooksPath .githooks`) runs build/lint/test locally.
 - **Security Protocol:** Zero-Secret **OIDC Trusted Publishing** (No `NPM_TOKEN` needed; authenticated via GitHub workflow permissions).
 
 ---

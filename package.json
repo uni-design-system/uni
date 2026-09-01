@@ -4,6 +4,7 @@
   "packageManager": "pnpm@11.0.8",
   "private": true,
   "scripts": {
+    "prepare": "git config core.hooksPath .githooks || true",
     "build": "turbo run build",
     "version-packages": "changeset version && turbo run build-storybook --filter=@uni-design-system/uni-angular && pnpm --filter @uni-design-system/uni-mcp build-index",
     "dev": "turbo run storybook",

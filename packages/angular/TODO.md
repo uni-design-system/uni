@@ -99,7 +99,7 @@
 - [ ] **Interaction tests in stories** (`play` functions) for the Phase 1 keyboard behavior — jsdom can't drive popovers/dialogs; this is where real keyboard coverage belongs.
 - [ ] Storybook test-runner + axe as a CI gate — deferred: needs `@storybook/test-runner` + Playwright wiring against `storybook-static`; do as its own PR.
 - [x] **ESLint** (`eslint.config.js`, flat): angular-eslint recommended + **template a11y rules as errors** (already caught two real gaps: Popover's keyboard-invisible trigger, an unlabelled demo input), legacy-decorator bans via `no-restricted-syntax` as **warnings** (~90; flip to errors as Phase 2 lands), `prefer-on-push` warning. Output renames that would be breaking (`change`, `close`, `onFileDropped`) are suppressed inline with `TODO(v4)` markers.
-- [x] **CI workflow** `.github/workflows/ci.yml`: PRs + main → turbo build, lint, test, Angular storybook build; `test`/`lint` tasks registered in turbo.json.
+- [x] **CI workflow** `.github/workflows/release.yml`: push to main → turbo build, lint, test, both Storybook builds, then publish and deploy docs in one ordered job; `test`/`lint` tasks registered in turbo.json.
 - [x] Repo hygiene: `debug-storybook.log` deleted; `dist/` and `storybook-static/` were already git-ignored.
 
 ---

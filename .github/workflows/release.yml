@@ -1,19 +1,43 @@
-name: Release & Version
+# The only workflow. Everything that happens to `main` happens here, in order,
+# in one job — because the ordering is the point: nothing publishes to npm
+# until build, lint, test and both Storybooks have passed.
+#
+# It replaces three workflows that ran in parallel on every push (ci, release,
+# deploy-docs). Those each did their own `pnpm install`, two of them built both
+# Storybooks, and — critically — the release ran *alongside* the tests rather
+# than after them, so a package could reach npm before anything had verified it.
+#
+# The filename is load-bearing: npm's trusted publisher config pins the exact
+# workflow filename, so renaming this file breaks OIDC publishing for all four
+# packages until every one is updated on npmjs.com. Hence `release.yml` even
+# though the workflow now does far more than release.
+#
+# There is deliberately no `pull_request` trigger. Every pull request this repo
+# has ever had was opened by the changesets bot, and GitHub holds bot-authored
+# PR runs behind a manual approval that nobody gives, so those runs only ever
+# expired unapproved and reported as failures having run zero jobs. Nothing is
+# lost by dropping it; if a human PR ever arrives, add the trigger back.
+name: Main
+
 on:
   push:
     branches: [main]
+  workflow_dispatch:
 
-concurrency: ${{ github.workflow }}-${{ github.ref }}
+concurrency:
+  # Never cancel in flight: this run can publish to npm and push to gh-pages,
+  # and a half-finished release is worse than a queued one.
+  group: ${{ github.workflow }}
+  cancel-in-progress: false
 
 jobs:
-  release:
-    name: Build, Version, and Publish
+  verify-and-release:
+    name: Verify, Release & Deploy
     runs-on: ubuntu-latest
 
     permissions:
-      contents: write # To create the Version PR and Git Tags
-      pull-requests: write # To open the Version PR
-      id-token: write # REQUIRED for Trusted Publishing (OIDC)
+      contents: write # git tags, GitHub Releases, gh-pages push
+      id-token: write # npm OIDC trusted publishing
 
     steps:
       - uses: actions/checkout@v7
@@ -23,20 +47,72 @@ jobs:
           node-version: 22
           cache: 'pnpm'
 
-      - name: Install & Build
-        run: |
-          pnpm install --frozen-lockfile
-          pnpm turbo run build
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
 
-      - name: Create Release PR or Publish to NPM
+      # One invocation so turbo can schedule across the whole task graph rather
+      # than stopping at three barriers; its log prefixes keep attribution clear.
+      - name: Build, lint & test
+        run: pnpm turbo run build lint test
+
+      # Both Storybooks: these bundle uni-core rather than treating it as an
+      # external, so they are the step that resolves its exports against real
+      # consumer source. A core export removed without updating a consumer
+      # fails here — the React build alone would not catch it.
+      - name: Build Storybooks (smoke test)
+        run: pnpm turbo run build-storybook
+
+      # NOTE: this does not decide whether a release happens. What triggers a
+      # publish is a version in package.json that npm does not have yet, and
+      # only `pnpm version-packages` (run locally) produces one. Pushing to main
+      # is always safe: with nothing new to publish, `changeset publish` reports
+      # "No unpublished projects to publish" and exits 0.
+      #
+      # This guard exists for one narrower reason: to stop changesets/action
+      # opening a Version PR. Its dispatch calls `runVersion` whenever any
+      # changeset is present, regardless of the inputs given, which would
+      # force-push a `changeset-release/main` branch we do not want.
+      #
+      # Written as a shell test rather than `hashFiles(...)` on purpose. Its
+      # dangerous failure mode is silent — a stray `.changeset/README.md` (which
+      # `changeset init` creates by default) would make a glob permanently
+      # non-empty and stop every future release with a green checkmark. Being
+      # explicit about which files count is worth four lines.
+      - name: Check for unconsumed changesets
         id: changesets
+        run: |
+          pending=$(find .changeset -maxdepth 1 -name '*.md' ! -name 'README.md' | wc -l | tr -d '[:space:]')
+          echo "pending changesets: $pending"
+          if [ "$pending" -eq 0 ]; then echo "publishable=yes" >> "$GITHUB_OUTPUT"; fi
+
+      # Runs on most pushes and does nothing on nearly all of them: with no
+      # version ahead of the registry this is four unauthenticated `npm info`
+      # calls and an exit 0. A green tick here is not evidence that anything
+      # shipped — check the step's log, or the tags, for that.
+      - name: Publish to npm (no-op unless a version is ahead of the registry)
+        if: steps.changesets.outputs.publishable == 'yes'
         uses: changesets/action@v1
         with:
-          # version-packages also rebuilds the MCP index (needs the bumped
-          # versions + a built storybook), so the refreshed uni-index.json is
-          # committed into the Version PR. Publish then just bundles it —
-          # `mcp build` never regenerates the index.
-          version: pnpm run version-packages
+          # No `version:` — versioning happened locally. The action is still
+          # what publishes, because it also pushes the tags and creates the
+          # GitHub Releases that a bare `changeset publish` would not.
           publish: pnpm exec changeset publish
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      # After publish, deliberately: an npm publish is irreversible, a docs
+      # deploy is idempotent. Do the irreversible thing while the tree is known
+      # good, and leave the repeatable one to be re-run via workflow_dispatch.
+      - name: Deploy React docs
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          branch: gh-pages
+          folder: packages/react/storybook-static
+          target-folder: docs/react
+
+      - name: Deploy Angular docs
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          branch: gh-pages
+          folder: packages/angular/storybook-static
+          target-folder: docs/angular

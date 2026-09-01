@@ -1,0 +1,19 @@
+#!/bin/sh
+# Runs before every `git push`. This is the only gate that can catch a problem
+# *before* it reaches main — GitHub Actions cannot block a direct push, because
+# by the time a workflow starts the commit is already there.
+#
+# Deliberately not the full CI suite: the Storybook builds take minutes and
+# belong on a runner. Build, lint and test are seconds once turbo's cache is
+# warm, and they catch the things worth catching locally.
+#
+# Escape hatch: git push --no-verify
+
+# CI installs dependencies too, which runs `prepare` and sets core.hooksPath in
+# the runner — and the workflow itself pushes (release tags, and the gh-pages
+# docs deploy). Without this, those pushes would re-run the whole suite inside
+# a deploy step, or fail it outright.
+[ -n "$CI" ] && exit 0
+
+echo "pre-push: build, lint, test (skip with --no-verify)"
+pnpm turbo run build lint test

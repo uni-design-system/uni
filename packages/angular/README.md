@@ -10,7 +10,7 @@
 
 <p align="center">
   <a href="https://www.npmjs.com/package/@uni-design-system/uni-angular"><img src="https://img.shields.io/npm/v/%40uni-design-system%2Funi-angular" alt="npm version"></a>
-  <a href="https://github.com/uni-design-system/uni/actions/workflows/ci.yml"><img src="https://github.com/uni-design-system/uni/actions/workflows/ci.yml/badge.svg" alt="CI"></a>
+  <a href="https://github.com/uni-design-system/uni/actions/workflows/release.yml"><img src="https://github.com/uni-design-system/uni/actions/workflows/release.yml/badge.svg" alt="CI"></a>
 </p>
 
 <p align="center">

@@ -76,7 +76,14 @@ The Angular workspace has additional, CI-enforced quality gates:
 
 ## 📦 Verifying Builds Locally
 
-Never push your branch without confirming lint, tests, and the production bundlers pass — CI gates all of them:
+A `pre-push` hook runs `build`, `lint` and `test` for you on every push, so the
+first two commands below are automatic — GitHub Actions cannot block a push, so
+this is the only gate that catches a problem before it reaches `main`. It is
+enabled by `pnpm install` (via `core.hooksPath`), takes seconds once turbo's cache
+is warm, and `git push --no-verify` skips it.
+
+The Storybook builds are deliberately **not** in the hook — they take minutes and
+run on CI. Run them yourself when you have touched stories or core exports:
 
 ```bash
 # Verify type emission and compilation across all three layers
@@ -109,9 +116,47 @@ When your feature or bug fix is complete and tested, you must log your intent fo
 4. **Write the Summary:** Write a brief, user-facing summary of your changes. This text will feed directly into the package's `CHANGELOG.md`.
 5. **Commit & Push:** Commit your code changes _along with_ the newly generated `.changeset/xxxx-xxxx.md` file and push your branch to GitHub.
 
+### Cutting a Release
+
+Versioning happens **locally**, so you review the version bumps and changelog text
+before they exist rather than after:
+
+```bash
+GITHUB_TOKEN=$(gh auth token) pnpm version-packages
+```
+
+The token is not optional. `@changesets/changelog-github` resolves commit and author
+links through the GitHub API and **throws** without `GITHUB_TOKEN` — previously the
+Actions runner supplied it. Any token with `read:user` and `repo:status` works.
+
+That consumes every pending changeset, bumps the `package.json` versions, writes the
+`CHANGELOG.md` entries, and regenerates `packages/mcp/src/data/uni-index.json`
+(which is why it also builds the Angular Storybook — the index reads its examples).
+Read the diff, then commit and push it.
+
 ### What Happens in CI/CD (GitHub Actions)
 
-Our backend pipeline automates the release securely using **Zero-Secret OIDC Trusted Publishing**:
+One workflow, [`main.yml`](.github/workflows/main.yml), handles every push to `main`
+as a single ordered job: install → build → lint → test → both Storybooks → publish →
+deploy docs. Publishing uses **Zero-Secret OIDC Trusted Publishing**.
 
-- **The PR Trigger:** When your branch merges to `main`, GitHub Actions evaluates the changeset file and automatically opens a **"Version Packages" PR**. This PR contains the finalized `package.json` updates and `CHANGELOG.md` text injections.
-- **The Ship Trigger:** Merging that automated "Version Packages" PR launches the final publishing runner. It compiles the assets, cryptographically attests the provenance, uploads the verified code artifacts to the NPM registry, and deploys the new static sandboxes straight to **GitHub Pages**.
+The ordering is the guarantee. Nothing reaches NPM until the whole suite is green,
+because the publish step runs after it in the same job rather than in a workflow of
+its own racing alongside.
+
+### Pushing to `main` does not release
+
+A changeset is not required to push safely, and no ordinary push publishes anything.
+The only thing that triggers a publish is a version in `package.json` that npm does
+not have yet — and only `pnpm version-packages` produces one.
+
+| You push | What the publish step does |
+| --- | --- |
+| Work with a changeset attached | **Skipped** — the guard sees the pending changeset |
+| A fix or refactor with no changeset | Runs, finds nothing unpublished, exits 0 |
+| A `pnpm version-packages` commit | **Publishes**, tags, and creates the GitHub Releases |
+
+So the step being skipped is normal, and the step running green is not evidence that
+anything shipped. The guard on it exists only to stop `changesets/action` opening a
+"Version Packages" PR while changesets are still pending — not to decide whether a
+release happens.
