@@ -1,5 +1,26 @@
 # @uni-design-system/uni-mcp
 
+## 10.2.1
+
+### Patch Changes
+
+- [`704e79b`](https://github.com/uni-design-system/uni/commit/704e79bb896bd32de17f45b4bed8e5b9e5882186) Thanks [@gaenglish](https://github.com/gaenglish)! - The published MCP server carries the index for its own release.
+
+  `uni-mcp@10.2.0` shipped a bundle whose index was stamped `meta.version:
+10.1.0`. The data itself was current, but the one field a consumer reads to
+  check which release the server describes said the previous one — the same drift
+  the version alignment had just been made to end.
+
+  The cause was ordering, not data. `tsup` **inlines** `uni-index.json` into the
+  bundle, so the dist built during the verify step was stamped before
+  `changeset version` ran; publishing then shipped that stale bundle even though
+  the regenerated index was correctly committed to the repo. `version-packages`
+  now rebuilds `uni-mcp` after regenerating the index, so the artifact and its
+  source agree.
+
+  The general rule, for anything added later: a package whose dist embeds
+  release-time data has to be rebuilt _after_ the version bump, not before.
+
 ## 10.2.0
 
 ### Patch Changes

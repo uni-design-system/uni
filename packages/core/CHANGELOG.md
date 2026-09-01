@@ -1,5 +1,7 @@
 # @uni-design-system/uni-core
 
+## 10.2.1
+
 ## 10.2.0
 
 ### Minor Changes
