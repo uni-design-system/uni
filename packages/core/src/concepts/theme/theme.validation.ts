@@ -178,6 +178,24 @@ const checkComponents = (value: unknown, issues: ThemeIssue[]): void => {
         }
       }
     }
+    // `variantOptions` is per-variant *data* the component reads, not CSS it
+    // applies, so its entries get a shape check and deliberately not
+    // `checkStyleExpression` — the keys are role names like `accent`.
+    const variantOptions = entry['variantOptions'];
+    if (variantOptions !== undefined) {
+      if (!isRecord(variantOptions)) {
+        issues.push({ path: `components.${name}.variantOptions`, message: 'must be an object' });
+      } else {
+        for (const [key, roles] of Object.entries(variantOptions)) {
+          if (roles !== undefined && !isRecord(roles)) {
+            issues.push({
+              path: `components.${name}.variantOptions.${key}`,
+              message: 'must be an object',
+            });
+          }
+        }
+      }
+    }
     if (entry['options'] !== undefined && !isRecord(entry['options'])) {
       issues.push({ path: `components.${name}.options`, message: 'must be an object' });
     }

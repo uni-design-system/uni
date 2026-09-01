@@ -194,6 +194,65 @@ radius token there) — every component docs page lists its own under **Theme
 options**. This is what makes re-theming a token swap instead of a stylesheet
 edit.
 
+### Variants are intents
+
+A variant names *what an action means*; the theme decides how that reads. So the
+set is not ours to fix — a design system needs its own vocabulary, and
+`Variant` is an open registry you extend by declaration merging:
+
+```ts
+declare module '@uni-design-system/uni-core' {
+  interface UniVariantRegistry {
+    destructive: true;
+    subtle: true;
+  }
+}
+```
+
+`variant="destructive"` then compiles wherever a variant is accepted, while
+`variant="destructve"` still fails — which an open `string` union could not give
+you. Style it like any other variant, under `components.<name>.variants`.
+
+<div class="tip">
+
+**The registry extends; it cannot replace.** Declaration merging has no way to
+remove a member, so Uni's twelve names stay legal in your app. If you need to
+*enforce* a house set, that is a lint rule rather than a type.
+
+Two names are reserved and always present: **`primary`**, which every component
+inherits as its default variant, and **`disabled`**, which the disabled state
+resolves to.
+
+</div>
+
+A variant your theme never styled cannot be a compile error once the set is
+open, and the miss would otherwise be silent — an absent style simply spreads to
+nothing. So the theme service says so once per component and variant in dev,
+naming what the theme *does* define, exactly as it does for an unknown spacing
+token.
+
+### When the accent is not a single style
+
+`variants` is CSS that gets **applied**. That works when a variant paints one
+element, as it does for a button. The selection controls are different: a
+checkbox's accent lands on the box outline, the checked and indeterminate
+fills, the tick and the focus ring at once. Expressing that as CSS would mean
+the theme naming `.checkbox-check` and `.radio-inner` — promoting private DOM to
+public contract, so renaming an internal element would break every consumer
+theme.
+
+Those components use `variantOptions` instead: per-variant data the component
+**reads**, naming the colour role and letting the component place it.
+
+```ts
+checkbox: {
+  variantOptions: {
+    primary: { accent: 'primary' },
+    warn: { accent: 'warn' },
+  },
+}
+```
+
 ## Roadmap
 
 Custom theme representation and validation (surfacing Theme Builder /

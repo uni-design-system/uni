@@ -1,7 +1,7 @@
 {
   "meta": {
     "version": "10.1.0",
-    "builtAt": "2026-08-31T19:56:38.627Z",
+    "builtAt": "2026-09-01T19:15:56.528Z",
     "frameworks": [
       "angular"
     ],
@@ -1813,6 +1813,13 @@
               "required": false,
               "default": "false",
               "description": "Synced from required() validators by the Signal Forms [formField] directive."
+            },
+            {
+              "name": "checkedColor",
+              "kind": "input",
+              "type": "ColorKey",
+              "required": false,
+              "description": "Accent colour token, overriding the variant's themed accent for one instance. Mirrors `uni-toggle`'s input of the same name — it exists because `variant` defaults to `'primary'`, so the component cannot tell \"set to primary\" from \"not set\"."
             },
             {
               "name": "ariaDescribedBy",
@@ -6738,6 +6745,13 @@
               "required": false,
               "default": "false",
               "description": "Synced from required() validators by the Signal Forms [formField] directive."
+            },
+            {
+              "name": "checkedColor",
+              "kind": "input",
+              "type": "ColorKey",
+              "required": false,
+              "description": "Accent colour token, overriding the variant's themed accent for one instance. Mirrors the input of the same name on `uni-checkbox` and `uni-toggle`."
             },
             {
               "name": "ariaDescribedBy",

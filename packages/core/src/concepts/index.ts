@@ -18,3 +18,4 @@ export * from './size';
 export * from './style';
 export * from './theme';
 export * from './typography';
+export * from './variant';

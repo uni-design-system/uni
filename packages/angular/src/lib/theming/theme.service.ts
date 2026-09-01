@@ -90,8 +90,8 @@ export class ThemeService {
   );
 
   components = computed(() => this.theme().components);
-  component = <T>(componentName: ComponentName): Signal<ComponentTheme<T>> =>
-    computed(() => (this.components()[componentName] as ComponentTheme<T>) || {});
+  component = <T, V = object>(componentName: ComponentName): Signal<ComponentTheme<T, V>> =>
+    computed(() => (this.components()[componentName] as ComponentTheme<T, V>) || {});
   colors = computed(() => this.theme().colors);
   // CSS-ready typefaces are derived from the theme's numeric type scale,
   // never stored twice on the theme.
@@ -269,10 +269,62 @@ export class ThemeService {
     computed(() => {
       const component = this.component(componentName)();
       const { fixed, variants, sizes } = component;
+      this.warnUnthemedVariant(componentName, variant, component);
       const variantStyle = variants && variants[variant];
       const sizeStyle = sizes && sizes[size];
       return { ...fixed, ...variantStyle, ...sizeStyle };
     });
+
+  /**
+   * The active variant's roles from a component's `variantOptions` map — the
+   * per-variant data a component *reads* rather than CSS it applies. See
+   * `ComponentTheme.variantOptions`.
+   */
+  variantRoles = <V>(componentName: ComponentName, variant: Variant): Signal<V | undefined> =>
+    computed(() => {
+      const component = this.component<unknown, V>(componentName)();
+      this.warnUnthemedVariant(componentName, variant, component);
+      return component.variantOptions?.[variant];
+    });
+
+  private readonly warnedVariants = new Set<string>();
+
+  /**
+   * Say something when a component is asked for a variant its theme does not
+   * define, once per component/variant pair.
+   *
+   * `Variant` is an open registry, so a name the theme never styled cannot be a
+   * compile error — and the miss is silent by construction, because an absent
+   * style spreads to nothing and an absent role falls back. That is exactly the
+   * ordinary state of a work in progress: a designer registers `destructive`,
+   * uses it, and has not written its theme block yet. Same reasoning as
+   * {@link resolveSpacing}, whose open scale has the same problem.
+   *
+   * A component that themes no variants at all is not missing anything — most
+   * of the library never varies by intent — so silence there is correct.
+   */
+  private warnUnthemedVariant(
+    componentName: ComponentName,
+    variant: Variant,
+    component: ComponentTheme<unknown, unknown>
+  ): void {
+    const { variants, variantOptions } = component;
+    if (!variants && !variantOptions) return;
+    if (variants?.[variant] !== undefined || variantOptions?.[variant] !== undefined) return;
+
+    const key = `${componentName}/${variant}`;
+    if (!(typeof ngDevMode === 'undefined' || ngDevMode) || this.warnedVariants.has(key)) return;
+    this.warnedVariants.add(key);
+
+    const defined = [
+      ...new Set([...Object.keys(variants ?? {}), ...Object.keys(variantOptions ?? {})]),
+    ];
+    console.warn(
+      `[uni] Unknown variant "${variant}" on "${componentName}": the active theme does not ` +
+        `define it, so the component falls back to its default appearance. Add it to the ` +
+        `theme's \`components.${componentName}\` entry, or use one of: ${defined.join(', ')}.`
+    );
+  }
 
   /**
    * Resolve a spacing token to its CSS value. `'none'` resolves through the
@@ -526,8 +578,8 @@ export class ThemeService {
     return { borderColor: this.colors()[borderColor] };
   }
 
-  getComponentTheme<T>(componentName: ComponentName) {
-    return this.component<T>(componentName);
+  getComponentTheme<T, V = object>(componentName: ComponentName) {
+    return this.component<T, V>(componentName);
   }
 
   // Used to get an "always-defined" options object from a component theme.

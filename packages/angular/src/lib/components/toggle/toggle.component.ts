@@ -1,11 +1,11 @@
 import { ChangeDetectionStrategy, Component, computed, input, model } from '@angular/core';
 import { FormCheckboxControl } from '@angular/forms/signals';
 import { css } from '@emotion/css';
-import type { ColorKey, ColorToken } from '@uni-design-system/uni-core';
+import type { ColorKey } from '@uni-design-system/uni-core';
 import { BaseComponent } from '../base';
 import { COMPONENT_NAME } from '../base/base.component';
 import { UniTextDirective } from '../text/text.directive';
-import type { UniToggleOptions } from './toggle.model';
+import type { UniToggleOptions, UniToggleVariant } from './toggle.model';
 
 /**
  * Everything a switch needs, from the three numbers a theme actually states.
@@ -28,7 +28,7 @@ function geometry(width: number, height: number, inset: number) {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class UniToggleComponent
-  extends BaseComponent<UniToggleOptions>
+  extends BaseComponent<UniToggleOptions, UniToggleVariant>
   implements FormCheckboxControl
 {
   // --- REQUIRED SIGNALS (populated by FormCheckboxControl) ---
@@ -98,9 +98,22 @@ export class UniToggleComponent
     return geometry(width, height, inset);
   });
 
-  /** The resolved checked/accent color: input, then theme option, then variant. */
+  /**
+   * The resolved checked/accent color: the per-instance input, then the
+   * variant's themed accent, then the theme option.
+   *
+   * The last link used to be `this.variant()` — the variant *name* resolved as
+   * a colour token. That only ever worked because every variant happened to
+   * also be a colour; with the registry open, `variant="destructive"` would
+   * have missed and silently rendered primary. `primary` is the last resort
+   * because it is a reserved variant name.
+   */
   private readonly accent = computed(
-    () => this.checkedColor() ?? this.componentOptions().checkedColor ?? this.variant()
+    () =>
+      this.checkedColor() ??
+      this.variantRoles()?.accent ??
+      this.componentOptions().checkedColor ??
+      'primary'
   );
 
   /** Knob slide and track color change, as a motion token — never `all`. */
@@ -130,8 +143,8 @@ export class UniToggleComponent
         width,
         height,
         backgroundColor: this.disabled()
-          ? this.getThemeColor('disabled')
-          : this.getThemeColor(this.componentOptions().trackColor ?? 'surface-variant'),
+          ? this.color('disabled')
+          : this.color(this.componentOptions().trackColor ?? 'surface-variant'),
         borderRadius: radius,
         position: 'relative',
         transition: this.transitions().track,
@@ -140,7 +153,7 @@ export class UniToggleComponent
       '& .toggle-slider': {
         width: knob,
         height: knob,
-        backgroundColor: this.getThemeColor(this.componentOptions().knobColor ?? 'surface'),
+        backgroundColor: this.color(this.componentOptions().knobColor ?? 'surface'),
         borderRadius: '50%',
         position: 'absolute',
         top: inset,
@@ -160,7 +173,7 @@ export class UniToggleComponent
 
   protected readonly toggleInput = computed(() => {
     const { travel } = this.metrics();
-    const accent = this.getThemeColor(this.accent());
+    const accent = this.color(this.accent());
     return css({
       position: 'absolute',
       zIndex: -1,
@@ -190,8 +203,8 @@ export class UniToggleComponent
     });
   });
 
-  getThemeColor(token: ColorToken) {
-    const colors = this.theme.colors();
-    return colors[token] ? colors[token] : colors['primary'];
+  /** A chrome colour by token — no silent fallback; see `uni-radio`. */
+  private color(token: ColorKey) {
+    return this.theme.colors()[token];
   }
 }

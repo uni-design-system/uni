@@ -15,6 +15,15 @@ export interface UniRadioOption {
   disabled?: boolean;
 }
 
+/**
+ * What a variant means for a radio, as theme data the component reads. The
+ * accent lands on the dot, the hover and checked rings, and the focus ring.
+ */
+export interface UniRadioVariant {
+  /** Dot fill, checked/hover ring and focus ring. */
+  accent: ColorKey;
+}
+
 export interface UniRadioOptions {
   /**
    * The size of the radio buttons

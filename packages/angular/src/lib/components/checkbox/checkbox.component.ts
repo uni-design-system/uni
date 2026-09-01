@@ -1,11 +1,11 @@
 import { ChangeDetectionStrategy, Component, computed, input, model } from '@angular/core';
 import { FormCheckboxControl } from '@angular/forms/signals';
 import { css } from '@emotion/css';
-import type { ColorToken } from '@uni-design-system/uni-core';
+import type { ColorKey } from '@uni-design-system/uni-core';
 import { BaseComponent } from '../base';
 import { COMPONENT_NAME } from '../base/base.component';
 import { UniTextDirective } from '../text/text.directive';
-import type { UniCheckboxOptions } from './checkbox.model';
+import type { UniCheckboxOptions, UniCheckboxVariant } from './checkbox.model';
 
 @Component({
   selector: 'uni-checkbox',
@@ -15,7 +15,7 @@ import type { UniCheckboxOptions } from './checkbox.model';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class UniCheckboxComponent
-  extends BaseComponent<UniCheckboxOptions>
+  extends BaseComponent<UniCheckboxOptions, UniCheckboxVariant>
   implements FormCheckboxControl
 {
   // --- REQUIRED SIGNALS (populated by FormCheckboxControl) ---
@@ -27,6 +27,14 @@ export class UniCheckboxComponent
 
   /** Synced from required() validators by the Signal Forms [formField] directive. */
   readonly required = input(false);
+
+  /**
+   * Accent colour token, overriding the variant's themed accent for one
+   * instance. Mirrors `uni-toggle`'s input of the same name — it exists because
+   * `variant` defaults to `'primary'`, so the component cannot tell "set to
+   * primary" from "not set".
+   */
+  readonly checkedColor = input<ColorKey>();
 
   /**
    * Id(s) of external element(s) describing this control — typically your
@@ -82,8 +90,8 @@ export class UniCheckboxComponent
       },
 
       '& .checkbox svg .checkbox-box': {
-        fill: this.getThemeColor(this.componentOptions().boxColor ?? 'surface'),
-        stroke: this.getThemeColor(this.variant()),
+        fill: this.boxColor(),
+        stroke: this.accent().fill,
         strokeWidth: 2,
         rx: this.componentOptions().borderRadius || 2,
         ry: this.componentOptions().borderRadius || 2,
@@ -93,7 +101,7 @@ export class UniCheckboxComponent
       // Check/dash draw on the variant-filled box, so they wear its on-color.
       '& .checkbox svg .checkbox-check': {
         fill: 'none',
-        stroke: this.getOnColor(this.variant()),
+        stroke: this.accent().on,
         strokeWidth: 2,
         strokeLinecap: 'round',
         strokeLinejoin: 'round',
@@ -103,7 +111,7 @@ export class UniCheckboxComponent
       },
 
       '& .checkbox svg .checkbox-dash': {
-        stroke: this.getOnColor(this.variant()),
+        stroke: this.accent().on,
         strokeWidth: 2,
         strokeLinecap: 'round',
         opacity: 0,
@@ -121,11 +129,11 @@ export class UniCheckboxComponent
       opacity: 0,
 
       '&:checked + .checkbox': {
-        borderColor: this.getThemeColor(this.variant()),
+        borderColor: this.accent().fill,
       },
 
       '&:checked + .checkbox svg .checkbox-box': {
-        fill: this.getThemeColor(this.variant()),
+        fill: this.accent().fill,
       },
 
       '&:checked + .checkbox svg .checkbox-check': {
@@ -133,7 +141,7 @@ export class UniCheckboxComponent
       },
 
       '&:indeterminate + .checkbox svg .checkbox-box': {
-        fill: this.getThemeColor(this.variant()),
+        fill: this.accent().fill,
       },
 
       '&:indeterminate + .checkbox svg .checkbox-dash': {
@@ -150,7 +158,7 @@ export class UniCheckboxComponent
       // without it the corners gap away from the box.
       '&:focus + .checkbox': {
         ...this.theme.focusRingStyle(
-          this.getThemeColor(this.variant()),
+          this.accent().fill,
           this.componentOptions().focusRingGap
         ),
         borderRadius: `${(Number(this.componentOptions().borderRadius) || 2) + 2}px`,
@@ -158,14 +166,27 @@ export class UniCheckboxComponent
     })
   );
 
-  getThemeColor(token: ColorToken) {
+  /**
+   * The accent and its paired content colour, from the theme's variant roles.
+   *
+   * Previously the variant *name* was looked up as a colour token, which held
+   * together only because every variant happened to also be a colour. With the
+   * registry open that coincidence ends by design: `variant="destructive"`
+   * would have missed and silently rendered primary. The theme now says which
+   * colour draws the intent, and an unthemed variant warns rather than lying.
+   *
+   * `primary` is the last resort because it is a reserved variant name — the
+   * default every component inherits.
+   */
+  private readonly accent = computed(() => {
     const colors = this.theme.colors();
-    return colors[token] ? colors[token] : colors['primary'];
-  }
+    const roles = this.variantRoles();
+    const accent = this.checkedColor() ?? roles?.accent ?? 'primary';
+    const onAccent = roles?.onAccent ?? (`on-${accent}` as ColorKey);
+    return { fill: colors[accent], on: colors[onAccent] };
+  });
 
-  /** The content color paired with a variant fill (on-primary, on-warn, …). */
-  getOnColor(variant: ColorToken) {
-    const colors = this.theme.colors();
-    return colors[`on-${variant}`] ?? colors['on-primary'];
-  }
+  protected readonly boxColor = computed(
+    () => this.theme.colors()[this.componentOptions().boxColor ?? 'surface']
+  );
 }

@@ -1,11 +1,11 @@
 import { ChangeDetectionStrategy, Component, computed, input, model } from '@angular/core';
 import { FormValueControl } from '@angular/forms/signals';
 import { css } from '@emotion/css';
-import type { ColorToken } from '@uni-design-system/uni-core';
+import type { ColorKey } from '@uni-design-system/uni-core';
 import { BaseComponent } from '../base';
 import { COMPONENT_NAME } from '../base/base.component';
 import { UniTextDirective } from '../text/text.directive';
-import type { UniRadioOption, UniRadioOptions } from './radio.model';
+import type { UniRadioOption, UniRadioOptions, UniRadioVariant } from './radio.model';
 import { uniqueId } from '../../cdk';
 
 @Component({
@@ -16,7 +16,7 @@ import { uniqueId } from '../../cdk';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class UniRadioComponent
-  extends BaseComponent<UniRadioOptions>
+  extends BaseComponent<UniRadioOptions, UniRadioVariant>
   implements FormValueControl<string>
 {
   // --- REQUIRED SIGNALS (populated by FormValueControl) ---
@@ -28,6 +28,13 @@ export class UniRadioComponent
 
   /** Synced from required() validators by the Signal Forms [formField] directive. */
   readonly required = input(false);
+
+  /**
+   * Accent colour token, overriding the variant's themed accent for one
+   * instance. Mirrors the input of the same name on `uni-checkbox` and
+   * `uni-toggle`.
+   */
+  readonly checkedColor = input<ColorKey>();
 
   /**
    * Id(s) of external element(s) describing this control — typically your
@@ -92,12 +99,12 @@ export class UniRadioComponent
         borderRadius: '50%',
         border: `2px solid ${
           this.disabled()
-            ? this.getThemeColor('on-disabled')
-            : this.getThemeColor(this.componentOptions().ringColor ?? 'outline')
+            ? this.color('on-disabled')
+            : this.color(this.componentOptions().ringColor ?? 'outline')
         }`,
         position: 'relative',
         transition: ringTransition,
-        backgroundColor: this.getThemeColor(this.componentOptions().fillColor ?? 'surface'),
+        backgroundColor: this.color(this.componentOptions().fillColor ?? 'surface'),
         flexShrink: 0,
       },
 
@@ -105,7 +112,7 @@ export class UniRadioComponent
         width: innerCircleSize,
         height: innerCircleSize,
         borderRadius: '50%',
-        backgroundColor: this.getThemeColor(this.variant()),
+        backgroundColor: this.accent(),
         position: 'absolute',
         top: innerCircleOffset,
         left: innerCircleOffset,
@@ -116,7 +123,7 @@ export class UniRadioComponent
       '&:hover .radio-button': this.disabled()
         ? {}
         : {
-            borderColor: this.getThemeColor(this.variant()),
+            borderColor: this.accent(),
           },
 
       '&.disabled': {
@@ -124,7 +131,7 @@ export class UniRadioComponent
         opacity: 0.6,
 
         '& .radio-button': {
-          borderColor: this.getThemeColor('on-disabled'),
+          borderColor: this.color('on-disabled'),
         },
       },
     });
@@ -139,7 +146,7 @@ export class UniRadioComponent
       opacity: 0,
 
       '&:checked + .radio-button': {
-        borderColor: this.getThemeColor(this.variant()),
+        borderColor: this.accent(),
       },
 
       '&:checked + .radio-button .radio-inner': {
@@ -148,7 +155,7 @@ export class UniRadioComponent
 
       // The shared, themable focus indicator, keyed off the hidden input.
       '&:focus + .radio-button': {
-        ...this.theme.focusRingStyle(this.getThemeColor(this.variant())),
+        ...this.theme.focusRingStyle(this.accent()),
       },
     })
   );
@@ -158,8 +165,22 @@ export class UniRadioComponent
     this.markAsTouched();
   }
 
-  getThemeColor(token: ColorToken) {
-    const colors = this.theme.colors();
-    return colors[token] ? colors[token] : colors['primary'];
+  /**
+   * The accent colour, from the theme's variant roles rather than by treating
+   * the variant name as a colour token — see `uni-checkbox` for why that had
+   * to stop. `primary` is the last resort: a reserved variant name.
+   */
+  /**
+   * A chrome colour by token. Unlike the `getThemeColor` this replaces, there
+   * is no silent fallback to primary: these are tokens the theme is required
+   * to define, so a miss should be visible rather than disguised.
+   */
+  private color(token: ColorKey) {
+    return this.theme.colors()[token];
   }
+
+  private readonly accent = computed(() => {
+    const accent = this.checkedColor() ?? this.variantRoles()?.accent ?? 'primary';
+    return this.theme.colors()[accent];
+  });
 }

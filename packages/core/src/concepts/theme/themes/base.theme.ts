@@ -219,6 +219,31 @@ const buildBorders = (c: Colors): Borders => ({
  * surface and draws the edge — so every role stays consistent and a theme can
  * still override any single cell.
  */
+/**
+ * Accent roles for the selection controls (checkbox, radio, toggle).
+ *
+ * A variant names the intent; this says which colour token draws it, and the
+ * component decides where it lands — the box fill, the ring, the dot, the
+ * track, the focus ring. Keeping it as a role rather than a `variants`
+ * StyleExpression is what stops interior class names like `.checkbox-check`
+ * becoming public theme contract.
+ *
+ * The same seven names `button` and `iconButton` theme, so the library is
+ * consistent about which intents exist by default.
+ */
+const SELECTION_ACCENTS = {
+  primary: { accent: 'primary' },
+  secondary: { accent: 'secondary' },
+  tertiary: { accent: 'tertiary' },
+  warn: { accent: 'warn' },
+  success: { accent: 'success' },
+  disabled: { accent: 'disabled' },
+  // `ghost` is transparent, so the glyph cannot take a paired on-colour from
+  // it — there is no `on-ghost`. It keeps the primary on-colour instead, which
+  // is what the old variant-name lookup fell back to anyway.
+  ghost: { accent: 'ghost', onAccent: 'on-primary' },
+} as const;
+
 const tagVariant = (
   c: Colors,
   role: 'primary' | 'secondary' | 'tertiary' | 'warn' | 'success'
@@ -358,9 +383,11 @@ const buildComponents = (c: Colors): ComponentThemes => ({
       borderRadius: 2,
       focusRingGap: 2,
     },
+    variantOptions: SELECTION_ACCENTS,
   },
   radio: {
     options: { size: 20, ringColor: 'outline', fillColor: 'surface', motion: 'control' },
+    variantOptions: SELECTION_ACCENTS,
   },
   dialog: {
     options: {
@@ -443,6 +470,11 @@ const buildComponents = (c: Colors): ComponentThemes => ({
       motion: 'control',
     },
     variants: {
+      // The default variant, deliberately empty: a menu item's ordinary
+      // appearance is its `fixed` style, and `warn` below is the only role that
+      // changes it. Present so the unthemed-variant warning stays quiet on the
+      // default path — spreading `{}` contributes nothing.
+      primary: {},
       warn: {
         color: c.warn,
         // Must key the highlight with the shared constant — see its doc.
@@ -987,6 +1019,7 @@ const buildComponents = (c: Colors): ComponentThemes => ({
   // geometry exactly (knob 16, travel 20), so no existing toggle moves.
   toggle: {
     options: { trackColor: 'surface-variant', knobColor: 'surface', motion: 'control' },
+    variantOptions: SELECTION_ACCENTS,
     sizes: {
       sm: { width: 28, height: 16, padding: 3 },
       md: { width: 32, height: 18, padding: 3 },

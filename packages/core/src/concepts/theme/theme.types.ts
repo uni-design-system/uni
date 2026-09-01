@@ -1,20 +1,12 @@
 import type { ContentColorToken } from '../color';
+import type { Variant } from '../variant';
 
 export type themes = 'uni' | 'carbon' | 'material' | 'bootstrap';
 
-export type Variant =
-  | 'ghost'
-  | 'primary'
-  | 'secondary'
-  | 'tertiary'
-  | 'quaternary'
-  | 'warn'
-  | 'success'
-  | 'disabled'
-  | 'light'
-  | 'onLight'
-  | 'dark'
-  | 'onDark';
+// `Variant` moved to `concepts/variant` when it became an open registry. Kept
+// re-exported from here so the import path consumers already use is unchanged.
+export type { Variant } from '../variant';
+export type { UniVariantRegistry } from '../variant';
 
 export type TextColor = ContentColorToken | Variant;
 
