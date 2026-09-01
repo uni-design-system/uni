@@ -1,5 +1,92 @@
 # @uni-design-system/uni-angular
 
+## 10.2.0
+
+### Minor Changes
+
+- [`1cd0140`](https://github.com/uni-design-system/uni/commit/1cd0140d2e6a4c753f48fb46418ba08769979263) Thanks [@gaenglish](https://github.com/gaenglish)! - Checkbox, radio and toggle take their accent from the theme, not from the
+  variant's name.
+
+  **Twelve sites across the three controls resolved a variant name as a colour
+  token.** That held together only because every name in the closed union happened
+  to also be a colour. Under an open registry the coincidence ends by design:
+  `<uni-checkbox variant="destructive">` would look up `colors['destructive']`,
+  miss, and **silently render primary** — a wrong-coloured control with no error,
+  no warning, and nothing to grep for.
+
+  Checkbox was worse than it looked. Alongside five `getThemeColor` calls it had
+  two more through a second resolver that built `on-${variant}`, so an
+  unregistered intent also missed its paired content colour and fell back to
+  `on-primary` — the tick would have stayed light on a dark fill even after the
+  box was fixed.
+
+  The theme now says which colour draws each intent, through a new
+  `variantOptions` map on `ComponentTheme`:
+
+  ```ts
+  checkbox: {
+    variantOptions: {
+      primary: { accent: 'primary' },
+      warn: { accent: 'warn' },
+    },
+  }
+  ```
+
+  `variantOptions` is per-variant data a component **reads**, as against `variants`,
+  which is CSS that gets **applied**. The distinction earns its place here: a
+  checkbox's accent lands on the box outline, the checked and indeterminate fills,
+  the tick and the focus ring at once, and expressing that as CSS would have meant
+  the theme naming `.checkbox-check` and `.radio-inner` — promoting private DOM to
+  public theme contract.
+
+  All three controls gain a `checkedColor` input as the per-instance override,
+  matching the one `uni-toggle` already had; its resolution order is now input →
+  the variant's themed accent → theme option. The base theme defines the same
+  seven intents `button` and `iconButton` do, so the library is consistent about
+  which exist by default, and `getThemeColor` — triplicated byte-for-byte across
+  the three components, with a silent fallback to primary — is gone.
+
+  Rendering is unchanged for anything that does not set `variant`: the default
+  still resolves to the primary accent and its paired on-colour.
+
+- [`1cd0140`](https://github.com/uni-design-system/uni/commit/1cd0140d2e6a4c753f48fb46418ba08769979263) Thanks [@gaenglish](https://github.com/gaenglish)! - `Variant` is an open registry: a design system can define its own intents.
+
+  A variant names _what an action means_, and it is the theme's job to describe
+  how that intent is drawn. So the set of names was never Uni's to fix — an app
+  whose actions are `destructive`, `subtle` and `info` had to translate them onto
+  twelve names chosen elsewhere. `Variant` is now `keyof UniVariantRegistry`,
+  extended by declaration merging:
+
+  ```ts
+  declare module '@uni-design-system/uni-core' {
+    interface UniVariantRegistry {
+      destructive: true;
+    }
+  }
+  ```
+
+  `variant="destructive"` then compiles wherever a variant is accepted, and
+  `variant="destructve"` still does not — which the library's other open-token
+  idiom, `Named | (string & {})`, cannot give you, and which would also have
+  collapsed the theme's `variants` map keys to `string`.
+
+  Only the type was ever closed: theme validation checks the _shape_ of a
+  `variants` block and never its key names, so a custom variant already reached
+  `componentStyle` untouched at runtime.
+
+  **The registry extends; it cannot replace.** Declaration merging has no way to
+  remove a member, so Uni's twelve names stay legal in a consuming app; enforcing
+  a house set is a lint concern rather than a type. Two names are reserved and
+  documented as always present: `primary`, which every component inherits as its
+  default, and `disabled`, which the disabled state resolves to.
+
+  **An unthemed variant now says so.** With a closed union this was nearly
+  impossible; with an open set it is the ordinary state of a work in progress —
+  a variant registered and used before its theme block exists. The theme service
+  warns once per component and variant in dev, naming what the theme does define,
+  mirroring what it already did for an unknown spacing token. Components that
+  theme no variants at all stay silent, since a missing key there is not a gap.
+
 ## 10.1.0
 
 ### Minor Changes
