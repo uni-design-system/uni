@@ -96,6 +96,13 @@ jobs:
       # the CHANGELOGs and regenerates the MCP index — which is why the Storybook
       # build above has to come first, since the index reads its examples.
       #
+      # It also rebuilds `uni-mcp` afterwards, and must. `tsup` *inlines* the
+      # index into the bundle, so the dist produced by the verify step above was
+      # stamped with the previous release. Publishing that ships a server whose
+      # `meta.version` is one version behind the package carrying it — which is
+      # exactly the drift the version alignment was meant to end. Anything whose
+      # dist embeds release-time data has to be rebuilt after the bump.
+      #
       # The bump is committed straight back to `main`. A push made with
       # GITHUB_TOKEN does not start another workflow run, so this cannot loop —
       # and it is also why publishing has to happen in this same run, below.
