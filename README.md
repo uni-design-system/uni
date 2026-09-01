@@ -78,7 +78,6 @@ We use `@changesets/cli` to manage versioning and changelogs under a **coordinat
 1. Make your code changes in a package.
 2. Run `pnpm exec changeset` in the project root.
 3. Select the package(s) you modified, choose a bump type (`patch`, `minor`, `major`), and document your changes.
-4. Commit the generated markdown file and push to `main`.
-5. When you are ready to ship, run `pnpm version-packages`, review the version bumps and changelog it writes, then commit and push.
+4. Commit the generated markdown file and push to `main`. That push is the release.
 
-That last push is what releases: a single workflow builds, lints, tests and compiles both Storybooks, and only then publishes via **OIDC Trusted Publishing** and deploys the docs. Nothing reaches NPM ahead of a green suite.
+A single workflow builds, lints, tests and compiles both Storybooks, and only then versions the packages, publishes via **OIDC Trusted Publishing**, tags, and deploys the docs. Nothing reaches NPM ahead of a green suite, and a push carrying no changeset publishes nothing.

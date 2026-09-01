@@ -118,16 +118,17 @@ When your feature or bug fix is complete and tested, you must log your intent fo
 
 ### Cutting a Release
 
-Versioning happens **locally**, so you review the version bumps and changelog text
-before they exist rather than after:
+Push a changeset to `main`. That is the whole ritual — a changeset on `main` means
+"this is releasable", and the pipeline does the rest: it versions the packages,
+writes the CHANGELOGs, regenerates the MCP index, commits the bump back to `main`,
+publishes over OIDC, tags, and cuts the GitHub Releases.
 
-```bash
-GITHUB_TOKEN=$(gh auth token) pnpm version-packages
-```
+Versioning runs on the runner rather than on your machine because that is where the
+credentials are — `@changesets/changelog-github` needs a `GITHUB_TOKEN` to resolve
+commit links and throws without one, and the runner is handed one automatically.
 
-The token is not optional. `@changesets/changelog-github` resolves commit and author
-links through the GitHub API and **throws** without `GITHUB_TOKEN` — previously the
-Actions runner supplied it. Any token with `read:user` and `repo:status` works.
+To stage work without releasing it, land the code first and add its changeset in a
+later commit; the release happens on the push that carries the changeset.
 
 That consumes every pending changeset, bumps the `package.json` versions, writes the
 `CHANGELOG.md` entries, and regenerates `packages/mcp/src/data/uni-index.json`
@@ -144,19 +145,15 @@ The ordering is the guarantee. Nothing reaches NPM until the whole suite is gree
 because the publish step runs after it in the same job rather than in a workflow of
 its own racing alongside.
 
-### Pushing to `main` does not release
+### What a push does
 
-A changeset is not required to push safely, and no ordinary push publishes anything.
-The only thing that triggers a publish is a version in `package.json` that npm does
-not have yet — and only `pnpm version-packages` produces one.
+The changeset decides. A push carrying one releases; a push without one does not.
 
-| You push | What the publish step does |
+| You push | What happens |
 | --- | --- |
-| Work with a changeset attached | **Skipped** — the guard sees the pending changeset |
-| A fix or refactor with no changeset | Runs, finds nothing unpublished, exits 0 |
-| A `pnpm version-packages` commit | **Publishes**, tags, and creates the GitHub Releases |
+| Work **with** a changeset | Verifies, versions, publishes, tags, releases, deploys docs |
+| A fix or refactor **without** one | Verifies and deploys docs; nothing is published |
 
-So the step being skipped is normal, and the step running green is not evidence that
-anything shipped. The guard on it exists only to stop `changesets/action` opening a
-"Version Packages" PR while changesets are still pending — not to decide whether a
-release happens.
+Every run writes which of the two it did to its summary, so a green tick is never
+ambiguous. The version bump lands on `main` as a "Version Packages" commit made by
+the runner — expect to pull it before your next push.

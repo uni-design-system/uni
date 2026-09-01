@@ -2,6 +2,11 @@
 # in one job — because the ordering is the point: nothing publishes to npm
 # until build, lint, test and both Storybooks have passed.
 #
+# A changeset on `main` means "this is releasable". Push one and this run
+# versions it, commits the bump back, publishes over OIDC, tags, cuts the
+# GitHub Releases and deploys the docs. Push without one and it verifies and
+# deploys docs only. There is no button and no Version PR.
+#
 # It replaces three workflows that ran in parallel on every push (ci, release,
 # deploy-docs). Those each did their own `pnpm install`, two of them built both
 # Storybooks, and — critically — the release ran *alongside* the tests rather
@@ -41,6 +46,13 @@ jobs:
 
     steps:
       - uses: actions/checkout@v7
+        with:
+          # Full history: changesets resolves which commit introduced each
+          # changeset to build the changelog links, and a depth-1 clone cannot
+          # answer that — the entries degrade to bare text.
+          fetch-depth: 0
+          # Explicit because this run pushes the version bump back to `main`.
+          persist-credentials: true
       - uses: pnpm/action-setup@v6
       - uses: actions/setup-node@v7
         with:
@@ -62,40 +74,55 @@ jobs:
       - name: Build Storybooks (smoke test)
         run: pnpm turbo run build-storybook
 
-      # NOTE: this does not decide whether a release happens. What triggers a
-      # publish is a version in package.json that npm does not have yet, and
-      # only `pnpm version-packages` (run locally) produces one. Pushing to main
-      # is always safe: with nothing new to publish, `changeset publish` reports
-      # "No unpublished projects to publish" and exits 0.
-      #
-      # This guard exists for one narrower reason: to stop changesets/action
-      # opening a Version PR. Its dispatch calls `runVersion` whenever any
-      # changeset is present, regardless of the inputs given, which would
-      # force-push a `changeset-release/main` branch we do not want.
-      #
-      # Written as a shell test rather than `hashFiles(...)` on purpose. Its
-      # dangerous failure mode is silent — a stray `.changeset/README.md` (which
-      # `changeset init` creates by default) would make a glob permanently
-      # non-empty and stop every future release with a green checkmark. Being
-      # explicit about which files count is worth four lines.
+      # A changeset on `main` means "this is releasable", so the pipeline
+      # releases it. Written as a shell test rather than `hashFiles(...)`: a
+      # stray `.changeset/README.md` (which `changeset init` creates) would make
+      # a glob permanently non-empty and stall every future release behind a
+      # green checkmark, so being explicit about which files count is worth it.
       - name: Check for unconsumed changesets
         id: changesets
         run: |
           pending=$(find .changeset -maxdepth 1 -name '*.md' ! -name 'README.md' | wc -l | tr -d '[:space:]')
           echo "pending changesets: $pending"
-          if [ "$pending" -eq 0 ]; then echo "publishable=yes" >> "$GITHUB_OUTPUT"; fi
+          echo "pending=$pending" >> "$GITHUB_OUTPUT"
+          if [ "$pending" -gt 0 ]; then echo "release=yes" >> "$GITHUB_OUTPUT"; fi
 
-      # Runs on most pushes and does nothing on nearly all of them: with no
-      # version ahead of the registry this is four unauthenticated `npm info`
-      # calls and an exit 0. A green tick here is not evidence that anything
-      # shipped — check the step's log, or the tags, for that.
-      - name: Publish to npm (no-op unless a version is ahead of the registry)
-        if: steps.changesets.outputs.publishable == 'yes'
+      # Versioning runs here rather than on a maintainer's machine because this
+      # is where the credentials are: `@changesets/changelog-github` needs a
+      # GITHUB_TOKEN to resolve commit links and throws without one, and the
+      # runner is handed one automatically.
+      #
+      # `version-packages` consumes the changesets, bumps the fixed group, writes
+      # the CHANGELOGs and regenerates the MCP index — which is why the Storybook
+      # build above has to come first, since the index reads its examples.
+      #
+      # The bump is committed straight back to `main`. A push made with
+      # GITHUB_TOKEN does not start another workflow run, so this cannot loop —
+      # and it is also why publishing has to happen in this same run, below.
+      - name: Version packages
+        if: steps.changesets.outputs.release == 'yes'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          pnpm run version-packages
+          git add -A
+          git commit -m "Version Packages [skip ci]"
+          git push origin HEAD:main
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      # Always runs, and does nothing on a push that released nothing: with no
+      # version ahead of the registry `changeset publish` reports "No unpublished
+      # projects to publish" and exits 0, before any auth is attempted. A green
+      # tick here is not proof that something shipped — read the step log.
+      #
+      # Still `changesets/action` rather than a bare `changeset publish` because
+      # it also pushes the tags and cuts the GitHub Releases. It can no longer
+      # open a Version PR: the step above always consumes the changesets first,
+      # so by this point there are never any left for it to act on.
+      - name: Publish to npm
         uses: changesets/action@v1
         with:
-          # No `version:` — versioning happened locally. The action is still
-          # what publishes, because it also pushes the tags and creates the
-          # GitHub Releases that a bare `changeset publish` would not.
           publish: pnpm exec changeset publish
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -116,3 +143,12 @@ jobs:
           branch: gh-pages
           folder: packages/angular/storybook-static
           target-folder: docs/angular
+
+      - name: Summarise
+        if: always()
+        run: |
+          if [ "${{ steps.changesets.outputs.release }}" = "yes" ]; then
+            echo "Released: ${{ steps.changesets.outputs.pending }} changeset(s) consumed and published." >> "$GITHUB_STEP_SUMMARY"
+          else
+            echo "No release: no changesets were pending, so nothing was versioned or published." >> "$GITHUB_STEP_SUMMARY"
+          fi

@@ -11,8 +11,8 @@ This document serves as the absolute "Source of Truth" for the architecture, bui
 
 - **Package Manager:** `pnpm@11.0.8` (Enforces strict workspace boundaries, requires Node v22.13.0+ due to the `node:sqlite` internal store index).
 - **Monorepo Engine:** `Turborepo 2.9+` (Task orchestration via `pnpm dev` and `pnpm turbo run build`).
-- **Release Strategy:** Coordinated `fixed` versioning via `@changesets/cli`. Versioning is run **locally** (`pnpm version-packages`) and reviewed before it is committed — there is no automated "Version Packages" PR.
-- **CI/CD:** One workflow, `.github/workflows/release.yml`, on push to `main`: install → build/lint/test → both Storybooks → publish → deploy docs, as a single ordered job. Nothing reaches NPM ahead of a green suite. Its filename is pinned by npm's trusted publisher config and must not be renamed. A `pre-push` hook (via `core.hooksPath .githooks`) runs build/lint/test locally.
+- **Release Strategy:** Coordinated `fixed` versioning via `@changesets/cli`. Versioning runs **in the pipeline**: a changeset pushed to `main` is versioned, published and tagged by the same run that verifies it. There is no "Version Packages" PR and no local release step.
+- **CI/CD:** One workflow, `.github/workflows/release.yml`, on push to `main`: install → build/lint/test → both Storybooks → version → publish → deploy docs, as a single ordered job. Nothing reaches NPM ahead of a green suite. Its filename is pinned by npm's trusted publisher config and must not be renamed. A `pre-push` hook (via `core.hooksPath .githooks`) runs build/lint/test locally.
 - **Security Protocol:** Zero-Secret **OIDC Trusted Publishing** (No `NPM_TOKEN` needed; authenticated via GitHub workflow permissions).
 
 ---
@@ -52,14 +52,17 @@ This document serves as the absolute "Source of Truth" for the architecture, bui
 
 ### 1. The Changeset Lock (`.changeset/config.json`)
 
-Forced into a synchronized release cadence using the `fixed` property. Bumping any single package automatically bumps **all three** packages to the exact same version and writes clean changelogs.
+Forced into a synchronized release cadence using the `fixed` property. Bumping any single package automatically bumps **all four** to the exact same version and writes clean changelogs.
+
+`uni-mcp` is in the group deliberately: its payload is the generated `uni-index.json`, which is regenerated on every release and **inlined into the published bundle**. On its own version line it only republished when someone remembered a changeset, so the server could silently describe the previous release.
 
 ```json
 "fixed": [
   [
     "@uni-design-system/uni-core",
     "@uni-design-system/uni-react",
-    "@uni-design-system/uni-angular"
+    "@uni-design-system/uni-angular",
+    "@uni-design-system/uni-mcp"
   ]
 ]
 ```
