@@ -787,6 +787,22 @@ const buildComponents = (c: Colors): ComponentThemes => ({
       cursor: 'pointer',
       transition: 'all 0.28s ease',
     },
+    // The keyboard-focus ring's colour per intent. It is named here rather than
+    // derived from the fill because the ring is drawn *outside* the button, so
+    // it has to read against the page, not against the variant.
+    //
+    // Each entry below reproduces the colour the ring already had, back when it
+    // was resolved from the variant's name. `ghost` is the exception and the
+    // fix: its token is `transparent`, so its ring was invisible.
+    variantOptions: {
+      primary: { focusColor: 'primary' },
+      secondary: { focusColor: 'secondary' },
+      tertiary: { focusColor: 'tertiary' },
+      warn: { focusColor: 'warn' },
+      success: { focusColor: 'success' },
+      disabled: { focusColor: 'disabled' },
+      ghost: { focusColor: 'primary' },
+    },
     variants: {
       ghost: {
         backgroundColor: 'transparent',

@@ -1,0 +1,45 @@
+---
+'@uni-design-system/uni-core': minor
+'@uni-design-system/uni-angular': minor
+---
+
+`uni-button`: the focus ring is themed, and the theme now outranks the reset.
+
+**Five of the twelve variants had no visible keyboard focus ring.** The ring
+resolved the variant *name* as a colour token — the pattern 10.2.0 removed from
+checkbox, radio and toggle, missed on the one component where it costs an
+accessibility failure rather than a wrong colour:
+
+```ts
+outline: `2px solid ${this.theme.colors()[this.variant()]}`
+```
+
+`ghost` resolves to `transparent`, so its ring was drawn invisibly.
+`light`, `onLight`, `dark` and `onDark` have no colour token at all, so the
+declaration became `2px solid undefined` and the parser dropped it — as would
+any intent a consumer registers. In every case `outline-offset` survived, so
+the element still shifted on focus and the missing ring went unnoticed. This
+was live without the registry involved.
+
+The colour now comes from the variant's theme entry via `variantOptions`, the
+mechanism the selection controls already use, and falls back to the reserved
+`primary` accent rather than to nothing. Each variant keeps the ring colour it
+had; `ghost` gains a visible one. The ring also routes through the shared
+`focusRingStyle`, so a theme defining `focusRing` primitives restyles the button
+alongside every other control.
+
+**A theme could not give a button a border.** `border`, `outline`, `overflow`
+and `transition` were applied *after* the theme's styles, so a variant
+declaring a border was silently erased and `!important` was the only way
+through — which then spread to every state adjusting that border, since the
+shorthand outranks the longhand.
+
+The base theme was caught by its own reset: `secondary` is commented "Hollow"
+and declares `1px solid`, and has been rendering borderless. **It now renders
+its border** — the one visible change here for anyone on the default theme.
+
+Those four properties move ahead of the theme's styles, resolving the
+`TODO: Set priority on theme-defined styles` that sat on this line. Structure
+the component genuinely owns — `position` for the ripple, the symbol slots —
+stays after, and the reset still applies to every variant that does not
+override it.
