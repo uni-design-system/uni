@@ -113,16 +113,17 @@ export class UniIconButtonComponent {
         !this.loading() && {
           padding: 0,
         },
-      this.variant() !== 'ghost' && {
-        '&:hover': {
-          ...this.theme.boxShadow('raised'),
-        },
-      },
-      this.variant() === 'ghost' && {
-        '&:hover': {
-          backgroundColor: 'rgba(0,0,0,0.1)',
-        },
-      },
+      // The hover treatment is the theme's, declared per variant alongside the
+      // colours it belongs with. It used to live here as a pair of branches on
+      // `variant() === 'ghost'`, which was the last place a component decided a
+      // variant's *appearance* from its *name*.
+      //
+      // That partition was binary, so under an open registry every intent a
+      // consumer registered fell into the not-ghost half and got a raised
+      // shadow whether or not it suited — a recessive intent included. And
+      // because the branches were applied after the theme's own styles, no
+      // theme could correct it: both themes in this repo declare a ghost hover
+      // and had it silently overridden.
       !this.loading() && {
         '&:disabled': {
           ...this.config().variants?.disabled,

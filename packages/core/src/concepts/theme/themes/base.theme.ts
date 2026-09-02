@@ -859,13 +859,45 @@ const buildComponents = (c: Colors): ComponentThemes => ({
   },
   iconButton: {
     options: { borderRadius: 'max' },
+    // Hover belongs to the variant, next to the colours it goes with. A filled
+    // icon button lifts; the hollow one washes, because a shadow under a
+    // transparent surface reads as a floating square. This used to be a
+    // `variant === 'ghost'` branch inside the component, which meant no theme
+    // could restyle either treatment and every consumer-registered intent was
+    // classed with the filled ones by default.
     variants: {
-      ghost: { backgroundColor: 'transparent', color: 'currentcolor' },
-      primary: { backgroundColor: c.primary, color: c['on-primary'] },
-      secondary: { backgroundColor: c.secondary, color: c['on-secondary'] },
-      tertiary: { backgroundColor: c.tertiary, color: c['on-tertiary'] },
-      warn: { backgroundColor: c.warn, color: c['on-warn'] },
-      success: { backgroundColor: c.success, color: c['on-success'] },
+      ghost: {
+        backgroundColor: 'transparent',
+        color: 'currentcolor',
+        '&:hover': { backgroundColor: 'rgba(0,0,0,0.1)' },
+      },
+      primary: {
+        backgroundColor: c.primary,
+        color: c['on-primary'],
+        '&:hover': { boxShadow: BaseShadows.raised },
+      },
+      secondary: {
+        backgroundColor: c.secondary,
+        color: c['on-secondary'],
+        '&:hover': { boxShadow: BaseShadows.raised },
+      },
+      tertiary: {
+        backgroundColor: c.tertiary,
+        color: c['on-tertiary'],
+        '&:hover': { boxShadow: BaseShadows.raised },
+      },
+      warn: {
+        backgroundColor: c.warn,
+        color: c['on-warn'],
+        '&:hover': { boxShadow: BaseShadows.raised },
+      },
+      success: {
+        backgroundColor: c.success,
+        color: c['on-success'],
+        '&:hover': { boxShadow: BaseShadows.raised },
+      },
+      // Deliberately no hover: this block is also spread into `&:disabled`, so
+      // a hover here would give a disabled control a lift on pointer-over.
       disabled: {
         backgroundColor: 'transparent !important',
         color: `${c['on-disabled']} !important`,

@@ -43,3 +43,16 @@ Those four properties move ahead of the theme's styles, resolving the
 the component genuinely owns — `position` for the ripple, the symbol slots —
 stays after, and the reset still applies to every variant that does not
 override it.
+
+**`uni-icon-button`'s hover moved to the theme too.** It branched on
+`variant() === 'ghost'` to choose between a raised shadow and a translucent
+wash, after the theme's own styles. Being a binary partition, every intent a
+consumer registered fell into the not-ghost half and was given a lift whether
+or not it suited — a recessive intent included — and no theme could correct it.
+Both themes in this repo declare a ghost hover and had it silently overridden.
+
+Both treatments now live in `iconButton.variants` beside the colours they belong
+with. Rendering is unchanged for the variants the theme styles; a variant it
+does not style no longer receives a hover it never asked for, and the `disabled`
+variant loses one it should never have had, since its block is also spread into
+`&:disabled`.
