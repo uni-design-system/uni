@@ -1,5 +1,7 @@
 # @uni-design-system/uni-mcp
 
+## 10.3.0
+
 ## 10.2.1
 
 ### Patch Changes
