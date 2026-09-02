@@ -859,6 +859,19 @@ const buildComponents = (c: Colors): ComponentThemes => ({
   },
   iconButton: {
     options: { borderRadius: 'max' },
+    // Focus ring colour per intent, as on `button`. The ring is drawn outside
+    // the control, so it reads against the page rather than the fill — and it
+    // is named here rather than derived from the variant, which is what left
+    // the button's ring transparent on `ghost`.
+    variantOptions: {
+      primary: { focusColor: 'primary' },
+      secondary: { focusColor: 'secondary' },
+      tertiary: { focusColor: 'tertiary' },
+      warn: { focusColor: 'warn' },
+      success: { focusColor: 'success' },
+      disabled: { focusColor: 'disabled' },
+      ghost: { focusColor: 'primary' },
+    },
     // Hover belongs to the variant, next to the colours it goes with. A filled
     // icon button lifts; the hollow one washes, because a shadow under a
     // transparent surface reads as a floating square. This used to be a

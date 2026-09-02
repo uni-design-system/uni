@@ -56,3 +56,15 @@ with. Rendering is unchanged for the variants the theme styles; a variant it
 does not style no longer receives a hover it never asked for, and the `disabled`
 variant loses one it should never have had, since its block is also spread into
 `&:disabled`.
+
+**`uni-icon-button` had no focus indicator at all.** Its structural block cleared
+the user-agent outline and put nothing back, in every variant — so the close
+affordance in every dialog and drawer header was unreachable-looking under
+keyboard navigation. This was not reported; it was found while verifying the
+button fix above.
+
+It now draws the shared ring, with its colour read from the same
+`variantOptions.focusColor` the button uses. The indicator is applied last on
+purpose: its appearance is the theme's, through `focusColor` and the `focusRing`
+primitives, but whether one exists is not a style a theme should be able to
+switch off by accident.

@@ -7,7 +7,17 @@ import { UniSymbolComponent } from '../symbol';
 import { UniIconComponent } from '../icon';
 import { ThemeService } from '../../theming/theme.service';
 import { visuallyHidden } from '../../cdk';
-import type { RadiiSize, Size, Variant } from '@uni-design-system/uni-core';
+import type { ColorKey, RadiiSize, Size, Variant } from '@uni-design-system/uni-core';
+
+/**
+ * What a variant means for an icon button, as theme data the component reads.
+ * Mirrors `uni-button`'s: only the focus ring needs naming, because it is drawn
+ * outside the element and so cannot take its colour from the fill.
+ */
+export interface UniIconButtonVariant {
+  /** Keyboard-focus ring colour (WCAG 2.4.7). Falls back to `primary`. */
+  focusColor?: ColorKey;
+}
 
 @Component({
   selector: 'button[uni-icon-button], button[icon-button]',
@@ -34,7 +44,7 @@ import type { RadiiSize, Size, Variant } from '@uni-design-system/uni-core';
 })
 export class UniIconButtonComponent {
   private theme = inject(ThemeService);
-  config = this.theme.component<{ borderRadius?: RadiiSize }>('iconButton');
+  config = this.theme.component<{ borderRadius?: RadiiSize }, UniIconButtonVariant>('iconButton');
 
   /**
    * Accessible name for the button. Alternative to projecting text content
@@ -129,6 +139,31 @@ export class UniIconButtonComponent {
           ...this.config().variants?.disabled,
         },
       },
+
+      // The keyboard-focus indicator (WCAG 2.4.7). The structural block above
+      // clears the user-agent outline and, until now, put nothing back — so an
+      // icon button had no focus indicator at all, in any variant. That is the
+      // close affordance in every dialog and drawer header.
+      //
+      // Applied last on purpose: its *appearance* is the theme's, through
+      // `focusColor` and the `focusRing` primitives `focusRingStyle` reads, but
+      // whether an indicator exists is not a style choice a theme should be
+      // able to switch off by accident.
+      {
+        '&:focus-visible': { ...this.theme.focusRingStyle(this.focusRingColor()) },
+      },
     ]);
+  });
+
+  /**
+   * The focus ring's colour, from the variant's theme entry — never from the
+   * variant *name*, which is what left `uni-button`'s ring transparent on
+   * `ghost` and absent on every unthemed intent. Falls back to the reserved
+   * `primary` accent so a ring always renders.
+   */
+  private readonly focusRingColor = computed(() => {
+    const colors = this.theme.colors();
+    const token = this.config().variantOptions?.[this.variant()]?.focusColor;
+    return (token && colors[token]) || colors['primary'];
   });
 }

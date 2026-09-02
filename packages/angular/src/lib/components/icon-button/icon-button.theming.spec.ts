@@ -74,6 +74,24 @@ describe('icon button hover, from the theme', () => {
     expect(hoverBlock(render('light'))).not.toContain('box-shadow');
   });
 
+  it('draws a focus ring for every variant (WCAG 2.4.7)', () => {
+    // The structural block clears the user-agent outline; for a long time it
+    // put nothing back, so an icon button — the close affordance in every
+    // dialog and drawer header — had no keyboard focus indicator at all.
+    for (const variant of ['ghost', 'primary', 'secondary', 'warn', 'success', 'light']) {
+      const rules = render(variant);
+      expect(rules, variant).toContain(':focus-visible');
+      expect(rules, variant).not.toContain('undefined');
+      expect(rules.match(/:focus-visible\{[^}]*outline:2pxsolid[^;}]+/)?.[0], variant).toBeTruthy();
+    }
+  });
+
+  it('never draws the ring in the variant\'s own transparent token', () => {
+    // `colors.ghost` is `rgba(0,0,0,0)`: resolving the variant *name* as a
+    // colour is what made the button's ring invisible on this variant.
+    expect(render('ghost')).not.toContain('outline:2pxsolidrgba(0,0,0,0)');
+  });
+
   it('leaves the disabled variant without a hover affordance', () => {
     // Its block is also spread into `&:disabled`, so a hover here would lift a
     // control that cannot be pressed.
