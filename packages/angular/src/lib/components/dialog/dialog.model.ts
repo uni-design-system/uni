@@ -1,6 +1,7 @@
 import type {
   Backdrop,
   Border,
+  Motion,
   ContainerColorToken,
   Elevation,
   NullableSize,
@@ -30,6 +31,11 @@ export interface UniDialogOptions {
    * insets all three rows.
    */
   bodyPadding?: NullableSize;
+  /**
+   * Timing for the open and close fade, panel and scrim together. The same
+   * token the drawer points at, so the two surfaces arrive and leave alike.
+   */
+  motion?: Motion;
   /**
    * Minimum gap between the surface and the viewport edge. The dialog is
    * content-sized up to `calc(100dvh - 2 x inset)` and scrolls its body from

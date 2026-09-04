@@ -424,6 +424,9 @@ const buildComponents = (c: Colors): ComponentThemes => ({
       inset: 'lg',
       elevation: 'dialog',
       backdrop: 'scrim',
+      // The same token the drawer's slide reads: a larger free-floating
+      // surface settles. Replaces a hardcoded 350ms fade.
+      motion: 'panel',
     },
   },
   // Footer action row: every layout knob is a token so a theme can move from

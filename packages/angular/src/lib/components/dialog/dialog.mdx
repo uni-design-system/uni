@@ -115,6 +115,13 @@ animation has finished.
 
 <StoryExample of={Stories.Controlled} />
 
+## Timing
+
+The open and close fade — panel and scrim together — reads the theme's `motion`
+token, defaulting to `panel` (250ms). It is the same token the drawer's slide
+uses, so the two surfaces arrive and leave at one speed and a theme retimes
+both at once.
+
 ## The scrim
 
 The wash over the page comes from the theme's shared `backdrops.scrim`

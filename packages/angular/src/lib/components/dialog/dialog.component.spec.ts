@@ -255,6 +255,41 @@ describe('the dialog and the drawer share one scrim', () => {
     return text;
   };
 
+  /** Every `animation:` shorthand emitted for an element's classes. */
+  const animationsFor = (element: HTMLElement): string[] => {
+    const classes = element.className.split(/\s+/).filter(Boolean);
+    const out: string[] = [];
+    for (const sheet of Array.from(document.styleSheets)) {
+      let rules: CSSRuleList;
+      try {
+        rules = sheet.cssRules;
+      } catch {
+        continue;
+      }
+      for (const rule of Array.from(rules)) {
+        const selector = (rule as CSSStyleRule).selectorText ?? '';
+        if (!classes.some((c) => selector.includes(`.${c}`))) continue;
+        const value = (rule as CSSStyleRule).style.getPropertyValue('animation');
+        if (value) out.push(value);
+      }
+    }
+    return out;
+  };
+
+  it('times both from the same motion token, so they arrive alike', () => {
+    const host = fixture.nativeElement as HTMLElement;
+    const dialog = host.querySelector('dialog[uni-dialog]') as HTMLElement;
+    const drawer = host.querySelector('uni-drawer dialog') as HTMLElement;
+
+    // The dialog used to fade over a hardcoded 350ms while the drawer slid in
+    // 250ms — the same surface arriving at two speeds.
+    const durations = [...animationsFor(dialog), ...animationsFor(drawer)].map(
+      (a) => a.match(/(\d+)ms/)?.[1]
+    );
+    expect(durations.length).toBeGreaterThan(0);
+    expect(new Set(durations)).toEqual(new Set(['250']));
+  });
+
   it('paints both from the same `backdrops.scrim` primitive', () => {
     const host = fixture.nativeElement as HTMLElement;
     const dialog = host.querySelector('dialog[uni-dialog]') as HTMLElement;

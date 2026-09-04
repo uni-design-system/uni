@@ -115,6 +115,15 @@ export class UniDialogComponent extends BaseComponent<UniDialogOptions> {
     return this.elem.nativeElement;
   }
 
+  /**
+   * One timing for the whole move, panel and scrim together — the same `panel`
+   * token the drawer's slide reads, so the two surfaces no longer disagree
+   * about how long arriving takes.
+   */
+  private readonly motion = computed(() =>
+    this.theme.motion(this.componentOptions().motion ?? 'panel')
+  );
+
   /** The gap the surface keeps from the viewport edge before its body scrolls. */
   private readonly inset = computed(() =>
     this.theme.getSpacing(this.componentOptions().inset ?? 'lg')
@@ -122,6 +131,7 @@ export class UniDialogComponent extends BaseComponent<UniDialogOptions> {
 
   protected readonly className = computed(() => {
     const inset = this.inset();
+    const motion = this.motion();
     return css([
       {
         boxSizing: 'border-box',
@@ -157,11 +167,11 @@ export class UniDialogComponent extends BaseComponent<UniDialogOptions> {
         },
 
         '&[open], &::backdrop': {
-          animation: `${this.dialogFadeIn} ease-in 350ms`,
+          animation: `${this.dialogFadeIn} ${motion.easing} ${motion.duration}ms`,
         },
 
         '&[closing], &[closing]::backdrop': {
-          animation: `${this.dialogFadeOut} ease-in 350ms`,
+          animation: `${this.dialogFadeOut} ${motion.easing} ${motion.duration}ms`,
         },
       },
     ]);

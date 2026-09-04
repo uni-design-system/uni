@@ -1,13 +1,13 @@
 {
   "meta": {
     "version": "10.3.0",
-    "builtAt": "2026-09-04T17:09:35.544Z",
+    "builtAt": "2026-09-04T17:09:38.041Z",
     "frameworks": [
       "angular"
     ],
     "counts": {
       "components": 84,
-      "tokens": 457,
+      "tokens": 458,
       "themes": 2,
       "examples": 225
     }
@@ -3038,7 +3038,8 @@
         "dialog.behavior.padding",
         "dialog.behavior.inset",
         "dialog.behavior.elevation",
-        "dialog.behavior.backdrop"
+        "dialog.behavior.backdrop",
+        "dialog.behavior.motion"
       ]
     },
     {
@@ -12128,6 +12129,18 @@
       }
     },
     {
+      "id": "dialog.behavior.motion",
+      "value": "panel",
+      "type": "string",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "dialog",
+      "themeValues": {
+        "LightTheme": "panel",
+        "DarkTheme": "panel"
+      }
+    },
+    {
       "id": "dialogButtons.behavior.gap",
       "value": "md",
       "type": "string",
@@ -15420,7 +15433,8 @@
           "padding": "sm",
           "inset": "lg",
           "elevation": "dialog",
-          "backdrop": "scrim"
+          "backdrop": "scrim",
+          "motion": "panel"
         },
         "dialogButtons": {
           "gap": "md",
@@ -15989,7 +16003,8 @@
           "padding": "sm",
           "inset": "lg",
           "elevation": "dialog",
-          "backdrop": "scrim"
+          "backdrop": "scrim",
+          "motion": "panel"
         },
         "dialogButtons": {
           "gap": "md",
