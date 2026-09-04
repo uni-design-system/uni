@@ -1,13 +1,13 @@
 {
   "meta": {
     "version": "10.3.0",
-    "builtAt": "2026-09-04T17:03:00.914Z",
+    "builtAt": "2026-09-04T17:09:33.040Z",
     "frameworks": [
       "angular"
     ],
     "counts": {
       "components": 84,
-      "tokens": 455,
+      "tokens": 456,
       "themes": 2,
       "examples": 225
     }
@@ -3421,7 +3421,8 @@
         "drawer.behavior.padding",
         "drawer.behavior.backdrop",
         "drawer.behavior.scrim",
-        "drawer.behavior.background"
+        "drawer.behavior.background",
+        "drawer.behavior.motion"
       ]
     },
     {
@@ -11576,6 +11577,18 @@
       }
     },
     {
+      "id": "drawer.behavior.motion",
+      "value": "panel",
+      "type": "string",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "drawer",
+      "themeValues": {
+        "LightTheme": "panel",
+        "DarkTheme": "panel"
+      }
+    },
+    {
       "id": "drawerHeader.behavior.height",
       "value": 56,
       "type": "number",
@@ -15334,7 +15347,8 @@
           "padding": "md",
           "backdrop": "{\"background\":\"rgba(0, 0, 0, 0.4)\"}",
           "scrim": true,
-          "background": "solid"
+          "background": "solid",
+          "motion": "panel"
         },
         "drawerHeader": {
           "height": 56,
@@ -15901,7 +15915,8 @@
           "padding": "md",
           "backdrop": "{\"background\":\"rgba(0, 0, 0, 0.4)\"}",
           "scrim": true,
-          "background": "solid"
+          "background": "solid",
+          "motion": "panel"
         },
         "drawerHeader": {
           "height": 56,

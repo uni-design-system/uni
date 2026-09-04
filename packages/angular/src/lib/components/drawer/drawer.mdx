@@ -123,6 +123,16 @@ usually async and can fail, so the drawer leaves the closing to you: handle
 | `scrim` | theme | `false` leaves the page behind undimmed. Still modal. |
 | `disableAutoClose` | `false` | Emit `closeRequest` without acting on it. |
 
+## Timing
+
+One token times everything the panel does — the overlay's slide, its scrim's
+fade, and the side panel's width transition. `motion` defaults to `panel`
+(250ms), the same token the callout, tour and popover panels use, so a theme
+retimes the whole move at once and the scrim can never drift out of step with
+the panel it dims.
+
+<StoryExample of={Stories.Overlay} />
+
 ## Keeping the page visible
 
 `scrim` set to `false` leaves the backdrop transparent, so the page behind the

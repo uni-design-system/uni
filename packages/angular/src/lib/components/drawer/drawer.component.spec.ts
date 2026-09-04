@@ -152,6 +152,46 @@ describe('UniDrawerComponent', () => {
     });
   });
 
+  describe('the scrim moves with the panel', () => {
+    /**
+     * Every `animation:` shorthand in the panel's emitted rule. Anchored on
+     * the preceding `;` or `{` so emotion's `-webkit-animation` prefix
+     * duplicates are not counted twice.
+     */
+    const animations = (panel: HTMLElement): string[] =>
+      Array.from(emittedRuleFor(panel).matchAll(/[;{]animation:([^;}]+)/g)).map((m) => m[1]);
+
+    it('fades the scrim in and out rather than snapping it', () => {
+      const rule = emittedRuleFor(openOverlay());
+      // Before this, `::backdrop` had a background and no animation at all:
+      // the dimming appeared and vanished instantly around a sliding panel.
+      expect(rule).toMatch(/\[open\]::backdrop\{[^}]*animation:/);
+      expect(rule).toMatch(/\[closing\]::backdrop\{[^}]*animation:/);
+    });
+
+    it('gives the scrim the panel duration, so the two cannot drift', () => {
+      // The `panel` motion token: one duration for the slide, the fade and
+      // the side panel's width transition.
+      const durations = animations(openOverlay()).map((a) => a.match(/(\d+)ms/)?.[1]);
+      expect(durations.length).toBe(4);
+      expect(new Set(durations)).toEqual(new Set(['250']));
+    });
+
+    it('leaves the scrim unanimated when there is nothing to dim', () => {
+      fixture.componentRef.setInput('scrim', false);
+      const rule = emittedRuleFor(openOverlay());
+      expect(rule).toMatch(/::backdrop\{background:transparent/);
+      expect(rule).not.toMatch(/::backdrop\{[^}]*animation:/);
+    });
+
+    it('retimes with the theme rather than a hardcoded literal', () => {
+      // `transition` on the side panel reads from the same token.
+      fixture.detectChanges();
+      const side = host().querySelector('aside') as HTMLElement;
+      expect(getComputedStyle(side).transition).toContain('250ms');
+    });
+  });
+
   describe('close requests', () => {
     let requests: UniDrawerCloseRequest[];
 

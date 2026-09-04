@@ -1,5 +1,5 @@
 import { Meta, StoryObj, moduleMetadata } from '@storybook/angular';
-import { expect, waitFor, within } from 'storybook/test';
+import { expect, userEvent, waitFor, within } from 'storybook/test';
 import { UniDrawerComponent } from './drawer.component';
 import { UniDrawerHeaderComponent } from './drawer-header/drawer-header.component';
 import { UniDrawerButtonsComponent } from './drawer-buttons/drawer-buttons.component';
@@ -265,4 +265,36 @@ export const Overlay: Story = {
       </uni-drawer>
     `,
   }),
+  /**
+   * The scrim's timing, which only a real browser can report: jsdom has no
+   * `::backdrop`. The scrim used to have a background and no animation at all,
+   * so it snapped in and out around a panel that took 250ms to slide.
+   */
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    await userEvent.click(canvas.getByRole('button', { name: /open drawer/i }));
+    const panel = await waitFor(() => {
+      const dialog = canvasElement.ownerDocument.querySelector('dialog');
+      if (!dialog?.open) throw new Error('drawer not open');
+      return dialog;
+    });
+
+    // Both halves of the opening move come from the one `panel` motion token.
+    const slideIn = getComputedStyle(panel).animationDuration;
+    const scrimIn = getComputedStyle(panel, '::backdrop');
+    await expect(scrimIn.animationDuration).toBe(slideIn);
+    await expect(slideIn).toBe('0.25s');
+    await expect(scrimIn.animationName).not.toBe('none');
+    const fadeInName = scrimIn.animationName;
+
+    // And on the way out, where the fade was missing entirely.
+    await userEvent.click(within(panel as HTMLElement).getByRole('button', { name: /close/i }));
+    await waitFor(() => {
+      if (!panel.hasAttribute('closing')) throw new Error('not closing yet');
+    });
+    const scrimOut = getComputedStyle(panel, '::backdrop');
+    await expect(scrimOut.animationDuration).toBe(getComputedStyle(panel).animationDuration);
+    // A fade-out, not the fade-in playing again.
+    await expect(scrimOut.animationName).not.toBe(fadeInName);
+  },
 };

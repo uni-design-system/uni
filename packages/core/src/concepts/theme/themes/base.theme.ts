@@ -307,6 +307,10 @@ const buildComponents = (c: Colors): ComponentThemes => ({
       backdrop: { background: 'rgba(0, 0, 0, 0.4)' },
       scrim: true,
       background: 'solid',
+      // A larger free-floating surface settles: the same token the callout,
+      // tour and popover panels use. Drives the slide, the scrim's fade and
+      // the side panel's width transition together.
+      motion: 'panel',
     },
   },
   // Pinned header row for a drawer used as an editor panel. Left-aligned

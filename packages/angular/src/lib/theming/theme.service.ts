@@ -111,7 +111,9 @@ export class ThemeService {
     // (WCAG 2.3.3): collapse all animations/transitions to a single frame.
     injectGlobal`
       @media (prefers-reduced-motion: reduce) {
-        *, *::before, *::after {
+        /* ::backdrop is not a descendant of anything, so the universal
+           selector alone never reaches the scrim a <dialog> fades in. */
+        *, *::before, *::after, *::backdrop {
           animation-duration: 0.01ms !important;
           animation-iteration-count: 1 !important;
           transition-duration: 0.01ms !important;

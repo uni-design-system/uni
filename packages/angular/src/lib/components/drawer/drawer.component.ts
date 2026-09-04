@@ -14,6 +14,7 @@ import {
 } from '@angular/core';
 import { NgTemplateOutlet } from '@angular/common';
 import { css, keyframes } from '@emotion/css';
+import { fadeIn, fadeOut } from '@uni-design-system/uni-core';
 import { BaseComponent, COMPONENT_NAME } from '../base/base.component';
 import { uniqueId } from '../../cdk';
 import { UniDrawerHeaderComponent } from './drawer-header/drawer-header.component';
@@ -230,6 +231,19 @@ export class UniDrawerComponent extends BaseComponent<UniDrawerOptions> {
     keyframes({ from: { transform: 'translateX(0)' }, to: { transform: `translateX(${this.edge()})` } })
   );
 
+  /** The scrim's own fade, so the dimming arrives and leaves with the panel. */
+  private readonly scrimIn = keyframes({ ...fadeIn });
+  private readonly scrimOut = keyframes({ ...fadeOut });
+
+  /**
+   * One timing for everything the panel does. The scrim used to snap in and
+   * out around a panel that took 250ms to slide, because `::backdrop` had a
+   * background and no animation at all.
+   */
+  private readonly motion = computed(() =>
+    this.theme.motion(this.componentOptions().motion ?? 'panel')
+  );
+
   /** Input wins over the theme option; the literal is the last-resort default. */
   private readonly panelWidth = computed(() => this.width() ?? this.componentOptions().width ?? 280);
 
@@ -280,13 +294,14 @@ export class UniDrawerComponent extends BaseComponent<UniDrawerOptions> {
 
   protected readonly sideClass = computed(() => {
     const options = this.componentOptions();
+    const motion = this.motion();
     const width = this.panelWidth();
     const start = this.position() === 'start';
     return css({
       ...this.shell,
       height: '100%',
       flex: 'none',
-      transition: 'width 0.25s ease, visibility 0.25s',
+      transition: `width ${motion.duration}ms ${motion.easing}, visibility ${motion.duration}ms`,
       ...this.surface(),
       ...(start
         ? this.theme.borderRight(options.divider)
@@ -299,6 +314,8 @@ export class UniDrawerComponent extends BaseComponent<UniDrawerOptions> {
 
   protected readonly overClass = computed(() => {
     const options = this.componentOptions();
+    const motion = this.motion();
+    const scrim = this.showScrim();
     const start = this.position() === 'start';
     return css({
       ...this.shell,
@@ -318,9 +335,23 @@ export class UniDrawerComponent extends BaseComponent<UniDrawerOptions> {
       '&:not([open])': { display: 'none' },
       // `scrim: false` keeps the modality — focus trap, inert page — but stops
       // the drawer dimming what it covers.
-      '&::backdrop': this.showScrim() ? { ...options.backdrop } : { background: 'transparent' },
-      '&[open]': { animation: `${this.slideIn()} 250ms ease-out` },
-      '&[closing]': { animation: `${this.slideOut()} 250ms ease-in` },
+      '&::backdrop': scrim ? { ...options.backdrop } : { background: 'transparent' },
+      '&[open]': { animation: `${this.slideIn()} ${motion.duration}ms ${motion.easing}` },
+      '&[closing]': { animation: `${this.slideOut()} ${motion.duration}ms ${motion.easing}` },
+      // Same duration as the slide, so the dimming tracks the panel rather
+      // than snapping. Declared after the `[open]` rules: the two match on
+      // specificity while closing, so source order is what makes the fade-out
+      // win. Nothing to fade when there is no scrim.
+      ...(scrim
+        ? {
+            '&[open]::backdrop': {
+              animation: `${this.scrimIn} ${motion.duration}ms ${motion.easing}`,
+            },
+            '&[closing]::backdrop': {
+              animation: `${this.scrimOut} ${motion.duration}ms ${motion.easing}`,
+            },
+          }
+        : {}),
     });
   });
 

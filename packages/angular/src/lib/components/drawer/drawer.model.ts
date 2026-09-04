@@ -3,6 +3,7 @@ import type {
   Border,
   ContainerColorToken,
   Elevation,
+  Motion,
   OptionalSize,
   StyleExpression,
 } from '@uni-design-system/uni-core';
@@ -70,4 +71,10 @@ export interface UniDrawerOptions {
   scrim?: boolean;
   /** Surface treatment of the panel. */
   background?: DrawerBackground;
+  /**
+   * Timing for everything the panel does: the overlay's slide, its scrim's
+   * fade, and the side panel's width transition. One token for all three, so
+   * the scrim can never drift out of step with the panel it dims.
+   */
+  motion?: Motion;
 }
