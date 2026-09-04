@@ -1,4 +1,5 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
+import { css } from '@emotion/css';
 import { BaseComponent } from '../../base';
 import { COMPONENT_NAME } from '../../base/base.component';
 import { UniIconButtonComponent } from '../../icon-button';
@@ -9,10 +10,11 @@ import type { UniDialogHeaderOptions } from './dialog-header.model';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  selector: '[uni-dialog-header]',
+  selector: '[uni-dialog-header], [dialog-header]',
   imports: [UniBoxDirective, UniIconButtonComponent, UniTextDirective, UniRowDirective],
   templateUrl: './dialog-header.component.html',
   providers: [{ provide: COMPONENT_NAME, useValue: 'dialogHeader' }],
+  host: { '[class]': 'className()' },
 })
 export class UniDialogHeaderComponent extends BaseComponent<UniDialogHeaderOptions> {
   private dialog = inject(UniDialogComponent, {
@@ -32,4 +34,15 @@ export class UniDialogHeaderComponent extends BaseComponent<UniDialogHeaderOptio
   closeDialog() {
     this.dialog?.close();
   }
+
+  /**
+   * A pinned row: it is a flex child of the dialog and must not be sized by
+   * the scrolling body beside it.
+   */
+  protected readonly className = computed(() =>
+    css({
+      flex: 'none',
+      ...this.theme.borderBottom(this.componentOptions().divider),
+    })
+  );
 }

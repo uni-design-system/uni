@@ -1,4 +1,4 @@
-import type { JustifyContent, NullableSize, Size, Variant } from '@uni-design-system/uni-core';
+import type { Border, JustifyContent, NullableSize, Size, Variant } from '@uni-design-system/uni-core';
 
 /**
  * Theme-level options for the dialog footer action row. Inputs on the
@@ -12,6 +12,8 @@ export interface UniDialogButtonsOptions {
   /** Bottom padding, as a spacing token. */
   paddingBottom?: NullableSize;
   justifyContent?: JustifyContent;
+  /** Border drawn above the pinned row, separating it from the scrolling body. */
+  divider?: Border;
   confirmButtonVariant?: Variant;
   cancelButtonVariant?: Variant;
   /** Size passed to both buttons. */

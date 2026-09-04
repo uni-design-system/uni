@@ -9,8 +9,10 @@ import {
   model,
   output,
   signal,
+  TemplateRef,
+  viewChild,
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { NgTemplateOutlet } from '@angular/common';
 import { css, keyframes } from '@emotion/css';
 import { BaseComponent } from '../base';
 import { COMPONENT_NAME } from '../base/base.component';
@@ -19,9 +21,24 @@ import type { UniDialogOptions } from './dialog.model';
 import { fadeIn, fadeOut } from '@uni-design-system/uni-core';
 import { uniqueId } from '../../cdk';
 
+/**
+ * Modal dialog on the native `<dialog>` element, laid out as three rows:
+ * an optional `[dialog-header]`, the projected body, an optional
+ * `[dialog-buttons]`.
+ *
+ * **The surface is never the scroll container.** It is a flex column that is
+ * `overflow: clip` on both axes; the header and buttons pin while only the
+ * body row scrolls. Unlike the drawer, which is deliberately viewport-tall,
+ * the dialog stays content-sized: it has no `height`, and grows until it hits
+ * `calc(100dvh - 2 x inset)` — the point at which the body starts to scroll.
+ *
+ * The theme's `padding` insets all three rows (which is what makes the default
+ * header read as a pill floating inside the surface); `bodyPadding` pads the
+ * scrolling row alone.
+ */
 @Component({
   selector: 'dialog[uni-dialog]',
-  imports: [UniIconButtonComponent, CommonModule],
+  imports: [UniIconButtonComponent, NgTemplateOutlet],
   template: `
     @if (defaultCloseButton()) {
       <button
@@ -35,7 +52,17 @@ import { uniqueId } from '../../cdk';
         Close
       </button>
     }
-    <ng-content></ng-content>
+
+    <!-- One <ng-content> per slot, each parked in a template. Angular claims
+         projected nodes in declaration order, so the catch-all must be declared
+         last — while being rendered between the two pinned rows below. -->
+    <ng-template #header><ng-content select="[uni-dialog-header], [dialog-header]" /></ng-template>
+    <ng-template #footer><ng-content select="[uni-dialog-buttons], [dialog-buttons]" /></ng-template>
+    <ng-template #body><ng-content /></ng-template>
+
+    <ng-container [ngTemplateOutlet]="headerTemplate()" />
+    <div [class]="bodyClass()"><ng-container [ngTemplateOutlet]="bodyTemplate()" /></div>
+    <ng-container [ngTemplateOutlet]="footerTemplate()" />
   `,
   providers: [{ provide: COMPONENT_NAME, useValue: 'dialog' }],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -75,6 +102,10 @@ export class UniDialogComponent extends BaseComponent<UniDialogOptions> {
   /** Emits true once opened and false once the closing animation finishes. */
   showing = output<boolean>();
 
+  protected readonly headerTemplate = viewChild.required<TemplateRef<unknown>>('header');
+  protected readonly bodyTemplate = viewChild.required<TemplateRef<unknown>>('body');
+  protected readonly footerTemplate = viewChild.required<TemplateRef<unknown>>('footer');
+
   constructor() {
     super();
     effect(() => (this.show() ? this.open() : this.close()));
@@ -84,14 +115,40 @@ export class UniDialogComponent extends BaseComponent<UniDialogOptions> {
     return this.elem.nativeElement;
   }
 
-  protected readonly className = computed(() =>
-    css([
+  /** The gap the surface keeps from the viewport edge before its body scrolls. */
+  private readonly inset = computed(() =>
+    this.theme.getSpacing(this.componentOptions().inset ?? 'lg')
+  );
+
+  protected readonly className = computed(() => {
+    const inset = this.inset();
+    return css([
       {
+        boxSizing: 'border-box',
+        display: 'flex',
+        flexDirection: 'column',
+        // Both axes, explicitly, and never the shorthand. Setting one axis
+        // alone computes the other to `auto` — which is precisely how a
+        // surface becomes an accidental scroll container.
+        overflowX: 'clip',
+        overflowY: 'clip',
+        // No `height`: the dialog is content-sized right up to this cap, and
+        // only then does the body row start to scroll.
+        maxHeight: `calc(100dvh - ${inset} * 2)`,
+        maxWidth: `calc(100vw - ${inset} * 2)`,
+
         ...this.theme.radius(this.componentOptions().borderRadius),
         ...this.theme.colorPair(this.componentOptions().color),
         ...this.theme.border(this.componentOptions().border),
         ...this.theme.boxShadow(this.componentOptions().elevation),
         ...this.theme.padding(this.componentOptions().padding || 'none'),
+
+        // The UA stylesheet hides a closed dialog with `display: none`, which
+        // the `display: flex` above would otherwise beat on specificity —
+        // leaving the surface in normal flow behind the page whenever it is
+        // shut. The closing animation still runs: `open` is only removed once
+        // it ends.
+        '&:not([open])': { display: 'none' },
 
         '&::backdrop': {
           ...this.componentOptions().backdrop,
@@ -105,7 +162,27 @@ export class UniDialogComponent extends BaseComponent<UniDialogOptions> {
           animation: `${this.dialogFadeOut} ease-in 350ms`,
         },
       },
-    ])
+    ]);
+  });
+
+  /** The only scrolling row, and the only one `bodyPadding` touches. */
+  protected readonly bodyClass = computed(() =>
+    css({
+      // Not the drawer's `1 1 auto`: the dialog must not stretch to fill a cap
+      // it has not reached, so the body never grows past its content.
+      flex: '0 1 auto',
+      // What lets this row shrink below its content and scroll, rather than
+      // pushing the buttons off the surface.
+      minHeight: 0,
+      // Defence in depth: a positioned body is the containing block for any
+      // stray absolute descendant, so nothing can re-home into an ancestor and
+      // inflate its scrollHeight.
+      position: 'relative',
+      overflowX: 'hidden',
+      overflowY: 'auto',
+      overscrollBehavior: 'contain',
+      ...this.theme.padding(this.componentOptions().bodyPadding),
+    })
   );
 
   protected backdropClick(event: Event) {
@@ -133,10 +210,18 @@ export class UniDialogComponent extends BaseComponent<UniDialogOptions> {
     }
   }
 
+  /**
+   * Doubled selector (`.css-x.css-x`) so these win over the icon button's own
+   * class, which sets `position: relative` and is emitted after this one.
+   * Without it the close never leaves the flow — it used to sit inline at the
+   * top of the surface, and under the flex column it would take a whole row.
+   */
   closeButton = css({
-    position: 'absolute',
-    right: 12,
-    top: 12,
+    '&&': {
+      position: 'absolute',
+      right: 12,
+      top: 12,
+    },
   });
 
   private dialogFadeIn = keyframes({ ...fadeIn });

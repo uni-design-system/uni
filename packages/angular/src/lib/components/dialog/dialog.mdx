@@ -1,6 +1,7 @@
 import { Meta, Title } from '@storybook/addon-docs/blocks';
 import * as Stories from './dialog.stories';
 import { StoryUsage } from '../../../stories/blocks/StoryUsage';
+import { StoryExample } from '../../../stories/blocks/StoryExample';
 import { ThemeOptions } from '../../../stories/blocks/ThemeOptionsBlock';
 
 <Meta of={Stories} name="Dialog" />
@@ -15,11 +16,60 @@ Enhanced modal dialog that extends the native HTML `<dialog>` element with built
 ### Features
 
 - **Native HTML Dialog**: Built on the standard dialog element with full semantic support
+- **Three-row layout**: Pinned header and action row with a scrolling body, on a surface that stays content-sized
 - **Smooth Animations**: Automatic fade transitions for open/close states
 - **Composition Components**: Optional `DialogHeader` and `DialogButtons` for consistent layouts
 - **Programmatic Control**: Open/close methods plus show property binding
 - **Backdrop Handling**: Click-outside-to-close with customizable behavior
 - **Accessibility**: Full keyboard navigation, focus trapping, and screen reader support
+
+## The three rows
+
+The surface is a flex column of three rows, and **only the middle one scrolls**:
+
+- **Header** — `[dialog-header]` (alias `[uni-dialog-header]`): pinned
+- **Body** — everything else you project: scrolls
+- **Footer** — `[dialog-buttons]` (alias `[uni-dialog-buttons]`): pinned
+
+The dialog itself is `overflow: clip` on **both** axes, so it is never a scroll
+container. This is what lets a title and an action row stay put while a long
+form moves between them.
+
+Unlike the drawer, which is deliberately viewport-tall, the dialog is **sized by
+its content**. It declares no height at all and simply grows, up to
+`calc(100dvh - 2 × inset)` — at which point the body starts to scroll. The
+`inset` theme option is that gap from the viewport edge (`lg`, 32px, by
+default).
+
+The three rows must be **direct children** of the `<dialog>`. Wrapping them in a
+sizing div puts the whole group into the body row, where nothing is pinned — put
+the width on the dialog itself instead.
+
+### Padding
+
+Two options, because the two rows want different things:
+
+- **`padding`** — the whole surface. All three rows sit inside it, which is what
+  makes the default header read as a pill floating in the dialog.
+- **`bodyPadding`** — the scrolling row alone.
+
+Padding on the surface is safe here (it is not safe on a box that scrolls)
+precisely because the dialog never scrolls: only its body row does.
+
+<div class="tip">
+
+Setting one overflow axis computes the other to `auto`. If you write your own
+surface, always set both — a single `overflow-x: hidden` is enough to turn a
+container into an accidental scroller.
+
+</div>
+
+Do not measure this with `dialog.scrollHeight === dialog.clientHeight`. Under
+`overflow: clip` Chrome still reports a descendant's layout overflow in the
+surface's `scrollHeight`, reaching through the body's own scroll container, so
+that equality holds only while the body is short enough not to scroll. The
+invariant that actually holds is that the dialog cannot be scrolled: set
+`scrollTop` on it and it stays at `0`.
 
 ## Usage
 
@@ -35,53 +85,35 @@ Enhanced modal dialog that extends the native HTML `<dialog>` element with built
   ]}
 />
 
-### Basic Usage
+### A long form
 
-```html
-<dialog #dialog>
-  <header uni-dialog-header>Dialog Title</header>
-  <div>Dialog content goes here</div>
-  <footer dialog-buttons>
-    <button (click)="dialog.close()">Close</button>
-  </footer>
-</dialog>
+The three rows in action: the title and the actions hold their place while the
+form between them scrolls. Nothing in the markup asks for this — projecting a
+`[dialog-header]` and a `[dialog-buttons]` is enough.
 
-<button (click)="dialog.open()">Open Dialog</button>
-```
+<StoryExample of={Stories.LongContent} />
 
-### Advanced Configurations
+### A short dialog
 
-#### With Custom Close Button
+The same dialog, sized by its content. It only starts scrolling once it reaches
+`inset` from the viewport edge, so a confirmation stays as small as its message.
 
-```html
-<dialog #dialog [defaultCloseButton]="false">
-  <header uni-dialog-header>
-    Custom Header
-    <button
-      variant="ghost"
-      (click)="dialog.close()"
-      style="position: absolute; right: 8px; top: 8px;"
-    >
-      Close
-    </button>
-  </header>
-  <div>Dialog content with custom close button</div>
-</dialog>
-```
+<StoryExample of={Stories.ShrinkToContent} />
 
-#### Binding to Show Property
+### Without a header
 
-```html
-<dialog [show]="isDialogVisible" (showing)="dialogStateChanged($event)">
-  <header uni-dialog-header>Controlled Dialog</header>
-  <div>This dialog is controlled by the isDialogVisible property</div>
-  <footer dialog-buttons>
-    <button (click)="isDialogVisible = false">Close</button>
-  </footer>
-</dialog>
+With no `[dialog-header]` to be labelled by, name the dialog with `ariaLabel`
+and let `defaultCloseButton` render the floating close in the corner.
 
-<button (click)="isDialogVisible = true">Open Dialog</button>
-```
+<StoryExample of={Stories.WithoutHeader} />
+
+### Controlled by `show`
+
+`[(show)]` is two-way, so state outside the template can open and close the
+dialog; `(showing)` reports back, emitting `false` only once the closing
+animation has finished.
+
+<StoryExample of={Stories.Controlled} />
 
 ## Best Practices
 
@@ -93,6 +125,8 @@ Enhanced modal dialog that extends the native HTML `<dialog>` element with built
 <ThemeOptions componentName="dialog" />
 
 <ThemeOptions componentName="dialogHeader" />
+
+<ThemeOptions componentName="dialogButtons" />
 
 ## Accessibility
 

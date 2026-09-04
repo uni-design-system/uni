@@ -13,6 +13,7 @@ import type { UniDialogButtonsOptions } from './dialog-buttons.model';
   templateUrl: './dialog-buttons.component.html',
   providers: [{ provide: COMPONENT_NAME, useValue: 'dialogButtons' }],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  host: { '[class]': 'hostClass()' },
 })
 export class UniDialogButtonsComponent extends BaseComponent<UniDialogButtonsOptions> {
   private dialog = inject(UniDialogComponent, {
@@ -48,6 +49,14 @@ export class UniDialogButtonsComponent extends BaseComponent<UniDialogButtonsOpt
   );
   protected gapValue = computed(() => this.componentOptions().gap ?? 'md');
   protected buttonSize = computed<Size>(() => this.componentOptions().buttonSize ?? 'lg');
+
+  /** A pinned row, sized by its content rather than by the body beside it. */
+  protected readonly hostClass = computed(() =>
+    css({
+      flex: 'none',
+      ...this.theme.borderTop(this.componentOptions().divider),
+    })
+  );
 
   protected readonly className = computed(() =>
     css([

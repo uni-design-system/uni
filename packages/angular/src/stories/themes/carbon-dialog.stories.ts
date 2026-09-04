@@ -40,18 +40,16 @@ export const Transactional: Story = {
   render: () => ({
     template: `
       <button text-button (click)="dialog.open()">Open modal</button>
-      <dialog uni-dialog #dialog>
-        <div box-layout [width]="480">
-          <header uni-dialog-header>Add a custom domain</header>
-          <div box-layout paddingHorizontal="md" paddingBottom="xl" style="padding-right: 20%">
-            <span uni-text typeface="body-2-long" color="on-primary-surface-variant" display="block">
-              Custom domains direct requests for your apps in this space to a URL that you own.
-              A custom domain can be a shared domain, a shared subdomain, or a shared domain
-              and host.
-            </span>
-          </div>
-          <footer dialog-buttons confirmButtonText="Add" cancelButtonText="Cancel"></footer>
+      <dialog uni-dialog #dialog style="width: 480px">
+        <header dialog-header>Add a custom domain</header>
+        <div box-layout paddingHorizontal="md" paddingBottom="xl" style="padding-right: 20%">
+          <span uni-text typeface="body-2-long" color="on-primary-surface-variant" display="block">
+            Custom domains direct requests for your apps in this space to a URL that you own.
+            A custom domain can be a shared domain, a shared subdomain, or a shared domain
+            and host.
+          </span>
         </div>
+        <footer dialog-buttons confirmButtonText="Add" cancelButtonText="Cancel"></footer>
       </dialog>
     `,
   }),
@@ -62,22 +60,20 @@ export const Danger: Story = {
   render: () => ({
     template: `
       <button text-button (click)="dialog.open()">Delete repository</button>
-      <dialog uni-dialog #dialog>
-        <div box-layout [width]="480">
-          <header uni-dialog-header>Delete repository?</header>
-          <div box-layout paddingHorizontal="md" paddingBottom="xl" style="padding-right: 20%">
-            <span uni-text typeface="body-2-long" color="on-primary-surface-variant" display="block">
-              Are you sure you want to delete the uni-carbon repository? This action cannot be
-              undone and all branches, releases, and settings will be permanently removed.
-            </span>
-          </div>
-          <footer
-            dialog-buttons
-            confirmButtonText="Delete"
-            confirmButtonVariant="warn"
-            cancelButtonText="Cancel"
-          ></footer>
+      <dialog uni-dialog #dialog style="width: 480px">
+        <header dialog-header>Delete repository?</header>
+        <div box-layout paddingHorizontal="md" paddingBottom="xl" style="padding-right: 20%">
+          <span uni-text typeface="body-2-long" color="on-primary-surface-variant" display="block">
+            Are you sure you want to delete the uni-carbon repository? This action cannot be
+            undone and all branches, releases, and settings will be permanently removed.
+          </span>
         </div>
+        <footer
+          dialog-buttons
+          confirmButtonText="Delete"
+          confirmButtonVariant="warn"
+          cancelButtonText="Cancel"
+        ></footer>
       </dialog>
     `,
   }),
@@ -89,18 +85,16 @@ export const DarkGray90: Story = {
   render: () => ({
     template: `
       <button text-button (click)="dialog.open()">Open modal</button>
-      <dialog uni-dialog #dialog>
-        <div box-layout [width]="480">
-          <header uni-dialog-header>Add a custom domain</header>
-          <div box-layout paddingHorizontal="md" paddingBottom="xl" style="padding-right: 20%">
-            <span uni-text typeface="body-2-long" color="on-primary-surface-variant" display="block">
-              Custom domains direct requests for your apps in this space to a URL that you own.
-              A custom domain can be a shared domain, a shared subdomain, or a shared domain
-              and host.
-            </span>
-          </div>
-          <footer dialog-buttons confirmButtonText="Add" cancelButtonText="Cancel"></footer>
+      <dialog uni-dialog #dialog style="width: 480px">
+        <header dialog-header>Add a custom domain</header>
+        <div box-layout paddingHorizontal="md" paddingBottom="xl" style="padding-right: 20%">
+          <span uni-text typeface="body-2-long" color="on-primary-surface-variant" display="block">
+            Custom domains direct requests for your apps in this space to a URL that you own.
+            A custom domain can be a shared domain, a shared subdomain, or a shared domain
+            and host.
+          </span>
         </div>
+        <footer dialog-buttons confirmButtonText="Add" cancelButtonText="Cancel"></footer>
       </dialog>
     `,
   }),

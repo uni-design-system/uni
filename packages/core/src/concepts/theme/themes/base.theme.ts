@@ -389,12 +389,22 @@ const buildComponents = (c: Colors): ComponentThemes => ({
     options: { size: 20, ringColor: 'outline', fillColor: 'surface', motion: 'control' },
     variantOptions: SELECTION_ACCENTS,
   },
+  // Three-row surface: the header and buttons pin while only the body scrolls,
+  // and the surface is content-sized until it reaches `inset` from the
+  // viewport edge.
+  //
+  // `padding` insets all three rows — which is what makes the header below
+  // read as a pill floating inside the surface. It is safe here, unlike on the
+  // drawer, because the dialog is `overflow: clip` and never the scroller.
+  // `bodyPadding` pads the scrolling row alone.
   dialog: {
     options: {
       borderRadius: 'lg',
       color: 'primary-surface',
       border: 'quaternary',
       padding: 'sm',
+      bodyPadding: undefined,
+      inset: 'lg',
       elevation: 'dialog',
       backdrop: { background: 'rgba(255, 255, 255, 0.6)', backdropFilter: 'blur(2px)' },
     },
@@ -408,6 +418,9 @@ const buildComponents = (c: Colors): ComponentThemes => ({
       padding: 'md',
       paddingBottom: 'lg',
       justifyContent: 'center',
+      // No divider by default: the pill header and the surface padding already
+      // set the rows apart. A flush-header theme is the one that wants it.
+      divider: undefined,
       confirmButtonVariant: 'primary',
       cancelButtonVariant: 'warn',
       buttonSize: 'lg',
@@ -422,6 +435,7 @@ const buildComponents = (c: Colors): ComponentThemes => ({
       height: 48,
       textRole: 'title-large',
       textAlign: 'center',
+      divider: undefined,
       closeButtonIcon: 'close',
       closeButtonSize: 'md',
     },

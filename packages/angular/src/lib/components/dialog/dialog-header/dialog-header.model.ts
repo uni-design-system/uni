@@ -1,4 +1,5 @@
 import {
+  type Border,
   type ContainerColorToken,
   ContentColorToken,
   type NullableSize,
@@ -17,6 +18,8 @@ export interface UniDialogHeaderOptions {
   textRole: TextRole;
   textColor?: ContentColorToken;
   textAlign?: 'left' | 'center' | 'right';
+  /** Border drawn under the pinned header, separating it from the scrolling body. */
+  divider?: Border;
   closeButtonIcon?: IconName;
   closeButtonSymbol?: string;
   closeButtonSize?: Size;
