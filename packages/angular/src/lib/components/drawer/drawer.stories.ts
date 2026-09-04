@@ -15,7 +15,7 @@ import { UniTextDirective } from '../text';
 type StoryType = UniDrawerComponent;
 
 const meta: Meta<StoryType> = {
-  title: 'Components/Navigation/Drawer',
+  title: 'Components/Surfaces/Drawer',
   component: UniDrawerComponent,
   decorators: [
     moduleMetadata({

@@ -27,11 +27,9 @@ A panel attached to an edge of the page, in one of two modes:
 
 The panel is a flex column of three rows, and **only the middle one scrolls**:
 
-| Row | Content | Sizing |
-| --- | --- | --- |
-| Header | `[uni-drawer-header]`, or the `headline` shorthand | pinned |
-| Body | everything else you project | scrolls |
-| Footer | `[uni-drawer-buttons]` (alias `[drawer-buttons]`) | pinned |
+- **Header** — `[uni-drawer-header]`, or the `headline` shorthand: pinned
+- **Body** — everything else you project: scrolls
+- **Footer** — `[uni-drawer-buttons]` (alias `[drawer-buttons]`): pinned
 
 The panel itself is `overflow: clip` on **both** axes, so it is never a scroll
 container. This is what lets a header and a save bar stay put while a long form
