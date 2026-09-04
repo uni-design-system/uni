@@ -4,6 +4,7 @@ import type { ComponentThemes } from '../component';
 import type { Variant } from './theme.types';
 import type { Size } from '../size';
 import type { Elevation } from '../elevation';
+import type { StyleExpression } from '../style/style.types';
 
 export type Colors = Partial<Record<ColorToken, string>>;
 export type ColorKey = keyof Colors;
@@ -74,6 +75,22 @@ export type MotionName = 'popup' | 'panel' | 'reveal' | 'notification' | 'contro
 export type Motions = Partial<Record<MotionName | string, MotionToken>>;
 export type Motion = keyof Motions;
 
+export type BackdropName = 'scrim';
+/**
+ * Named backdrop primitives: the wash a top-layer surface lays over the page
+ * it covers. A style expression rather than a color, because the paint and its
+ * filter are one design decision — a translucent wash without its blur reads
+ * as a different scrim, not a dimmer one.
+ *
+ * Shared so that every modal surface dims the page the same way. They used to
+ * own a `backdrop` blob each, and drifted: the dialog washed the page white
+ * and blurred it while the drawer dimmed it dark.
+ *
+ * Open like Borders/Shadows: extra named primitives allowed.
+ */
+export type Backdrops = Partial<Record<BackdropName | string, StyleExpression>>;
+export type Backdrop = keyof Backdrops;
+
 export interface UniTheme {
   id: string;
   name: string;
@@ -92,6 +109,8 @@ export interface UniTheme {
   icons: Icons;
   /** Shared timing for overlays and reveals; components point at a name. */
   motion: Motions;
+  /** Shared scrims for modal surfaces; components point at a name. */
+  backdrops: Backdrops;
 
   /** Per-component theming: fixed base + state-aware variants + sizes + options. */
   components: ComponentThemes;

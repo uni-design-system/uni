@@ -33,6 +33,8 @@ import {
   type Shadow,
   type Motion,
   type MotionToken,
+  type Backdrop,
+  type StyleExpression,
 } from '@uni-design-system/uni-core';
 
 import {
@@ -105,6 +107,8 @@ export class ThemeService {
   // `?? {}` for themes registered as JSON that predate the motion scale —
   // the validator does not require it, so they must not crash on read.
   motions = computed(() => this.theme().motion ?? {});
+  /** Same story as `motions`: a JSON theme may predate the backdrops scale. */
+  backdrops = computed(() => this.theme().backdrops ?? {});
 
   constructor() {
     // Honor the user's reduced-motion preference across every component
@@ -468,6 +472,38 @@ export class ThemeService {
       (token ? motions[token] : undefined) ??
       motions['popup'] ?? { duration: 100, easing: 'linear', scale: 0.8 }
     );
+  }
+
+  private readonly warnedBackdrops = new Set<string>();
+
+  /**
+   * Resolves a named backdrop primitive — the wash a modal surface lays over
+   * the page — so every such surface dims it the same way.
+   *
+   * A raw style object passes straight through: that is the shape the dialog's
+   * and drawer's `backdrop` options took before the scale existed, and a
+   * consumer theme that still states one keeps working.
+   */
+  backdrop(token: Backdrop | StyleExpression | undefined): NullableStyleExpression {
+    if (!token) return undefined;
+    if (typeof token !== 'string') return token;
+
+    const backdrops = this.backdrops();
+    const value = backdrops[token];
+    if (value) return value;
+
+    // The scale is open, so a mistyped name cannot be a compile error. Falling
+    // through to `scrim` still dims the page; saying so once keeps the typo
+    // from hiding behind a backdrop that looks almost right.
+    if ((typeof ngDevMode === 'undefined' || ngDevMode) && !this.warnedBackdrops.has(token)) {
+      this.warnedBackdrops.add(token);
+      console.warn(
+        `[uni] Unknown backdrop token "${token}": the active theme does not define it, ` +
+          `so the shared \`scrim\` is used instead. Add it to the theme's \`backdrops\` ` +
+          `map, or use one of: ${Object.keys(backdrops).join(', ')}.`
+      );
+    }
+    return backdrops['scrim'] ?? { background: 'rgba(0, 0, 0, 0.4)' };
   }
 
   radius(size: Radius | undefined): NullableStyleExpression {

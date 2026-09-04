@@ -1,4 +1,5 @@
 import type {
+  Backdrop,
   Border,
   ContainerColorToken,
   Elevation,
@@ -12,7 +13,12 @@ export interface UniDialogOptions {
   borderRadius: Radius;
   color: ContainerColorToken;
   elevation: Elevation;
-  backdrop: StyleExpression;
+  /**
+   * Name of a `backdrops` primitive — the wash laid over the page behind the
+   * dialog. Shared with the drawer, so one token dresses both. A raw style
+   * object is still accepted for themes that stated one before the scale.
+   */
+  backdrop: Backdrop | StyleExpression;
   /**
    * Insets the whole surface: the pinned header, the scrolling body and the
    * pinned buttons all sit inside it. Safe on a surface that never scrolls —

@@ -150,8 +150,10 @@ export class UniDialogComponent extends BaseComponent<UniDialogOptions> {
         // it ends.
         '&:not([open])': { display: 'none' },
 
+        // The shared `backdrops` primitive, so the dialog and the drawer dim
+        // the page identically. A raw style object is still honoured.
         '&::backdrop': {
-          ...this.componentOptions().backdrop,
+          ...this.theme.backdrop(this.componentOptions().backdrop),
         },
 
         '&[open], &::backdrop': {

@@ -1,13 +1,13 @@
 {
   "meta": {
     "version": "10.3.0",
-    "builtAt": "2026-09-04T17:09:33.040Z",
+    "builtAt": "2026-09-04T17:09:35.544Z",
     "frameworks": [
       "angular"
     ],
     "counts": {
       "components": 84,
-      "tokens": 456,
+      "tokens": 457,
       "themes": 2,
       "examples": 225
     }
@@ -10982,6 +10982,17 @@
       }
     },
     {
+      "id": "backdrop.scrim",
+      "value": "{\"background\":\"rgba(255, 255, 255, 0.6)\",\"backdropFilter\":\"blur(2px)\"}",
+      "type": "backdrop",
+      "kind": "style",
+      "target": "emotion-css",
+      "themeValues": {
+        "LightTheme": "{\"background\":\"rgba(255, 255, 255, 0.6)\",\"backdropFilter\":\"blur(2px)\"}",
+        "DarkTheme": "{\"background\":\"rgba(255, 255, 255, 0.6)\",\"backdropFilter\":\"blur(2px)\"}"
+      }
+    },
+    {
       "id": "thickness.thin",
       "value": 1,
       "type": "thickness",
@@ -11542,14 +11553,14 @@
     },
     {
       "id": "drawer.behavior.backdrop",
-      "value": "{\"background\":\"rgba(0, 0, 0, 0.4)\"}",
-      "type": "object",
+      "value": "scrim",
+      "type": "string",
       "kind": "behavioral",
       "target": "component-prop",
       "appliesTo": "drawer",
       "themeValues": {
-        "LightTheme": "{\"background\":\"rgba(0, 0, 0, 0.4)\"}",
-        "DarkTheme": "{\"background\":\"rgba(0, 0, 0, 0.4)\"}"
+        "LightTheme": "scrim",
+        "DarkTheme": "scrim"
       }
     },
     {
@@ -12106,14 +12117,14 @@
     },
     {
       "id": "dialog.behavior.backdrop",
-      "value": "{\"background\":\"rgba(255, 255, 255, 0.6)\",\"backdropFilter\":\"blur(2px)\"}",
-      "type": "object",
+      "value": "scrim",
+      "type": "string",
       "kind": "behavioral",
       "target": "component-prop",
       "appliesTo": "dialog",
       "themeValues": {
-        "LightTheme": "{\"background\":\"rgba(255, 255, 255, 0.6)\",\"backdropFilter\":\"blur(2px)\"}",
-        "DarkTheme": "{\"background\":\"rgba(255, 255, 255, 0.6)\",\"backdropFilter\":\"blur(2px)\"}"
+        "LightTheme": "scrim",
+        "DarkTheme": "scrim"
       }
     },
     {
@@ -15287,6 +15298,7 @@
         "shadow.menu": "rgba(23, 25, 43, 0.2) 0px 3px 3px -2px, rgba(23, 25, 43, 0.14) 0px 3px 4px 0px, rgba(23, 25, 43, 0.12) 0px 1px 8px 0px",
         "shadow.dialog": "rgba(23, 25, 43, 0.2) 0px 3px 5px -1px, rgba(23, 25, 43, 0.14) 0px 6px 10px 0px, rgba(23, 25, 43, 0.12) 0px 1px 18px 0px",
         "shadow.warn": "0 0 5px rgba(204, 40, 39, 0.5), inset 0 0 5px rgba(204, 40, 39, 0.3)",
+        "backdrop.scrim": "{\"background\":\"rgba(255, 255, 255, 0.6)\",\"backdropFilter\":\"blur(2px)\"}",
         "thickness.thin": 1,
         "thickness.standard": 2,
         "thickness.thick": 4,
@@ -15345,7 +15357,7 @@
           "divider": "light",
           "elevation": "menu",
           "padding": "md",
-          "backdrop": "{\"background\":\"rgba(0, 0, 0, 0.4)\"}",
+          "backdrop": "scrim",
           "scrim": true,
           "background": "solid",
           "motion": "panel"
@@ -15408,7 +15420,7 @@
           "padding": "sm",
           "inset": "lg",
           "elevation": "dialog",
-          "backdrop": "{\"background\":\"rgba(255, 255, 255, 0.6)\",\"backdropFilter\":\"blur(2px)\"}"
+          "backdrop": "scrim"
         },
         "dialogButtons": {
           "gap": "md",
@@ -15855,6 +15867,7 @@
         "shadow.menu": "0px 4px 12px rgba(0, 0, 0, 0.45)",
         "shadow.dialog": "0px 8px 28px rgba(0, 0, 0, 0.55)",
         "shadow.warn": "0 0 5px rgba(255, 150, 138, 0.55), inset 0 0 5px rgba(255, 150, 138, 0.35)",
+        "backdrop.scrim": "{\"background\":\"rgba(255, 255, 255, 0.6)\",\"backdropFilter\":\"blur(2px)\"}",
         "thickness.thin": 1,
         "thickness.standard": 2,
         "thickness.thick": 4,
@@ -15913,7 +15926,7 @@
           "divider": "light",
           "elevation": "menu",
           "padding": "md",
-          "backdrop": "{\"background\":\"rgba(0, 0, 0, 0.4)\"}",
+          "backdrop": "scrim",
           "scrim": true,
           "background": "solid",
           "motion": "panel"
@@ -15976,7 +15989,7 @@
           "padding": "sm",
           "inset": "lg",
           "elevation": "dialog",
-          "backdrop": "{\"background\":\"rgba(255, 255, 255, 0.6)\",\"backdropFilter\":\"blur(2px)\"}"
+          "backdrop": "scrim"
         },
         "dialogButtons": {
           "gap": "md",

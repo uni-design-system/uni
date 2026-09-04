@@ -115,6 +115,13 @@ animation has finished.
 
 <StoryExample of={Stories.Controlled} />
 
+## The scrim
+
+The wash over the page comes from the theme's shared `backdrops.scrim`
+primitive, which the drawer points at too — so one theme entry dresses every
+modal surface and they cannot drift apart. Point `backdrop` at another name to
+give the dialog its own, or state a raw style object to override it outright.
+
 ## Best Practices
 
 **Use for:** Important notifications, confirmations, user input forms

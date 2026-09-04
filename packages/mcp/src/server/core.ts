@@ -182,7 +182,7 @@ export function createUniServer(): McpServer {
       title: 'List design tokens',
       description:
         'Inventory of Uni design tokens. Filter by `type` (color, spacing, radius, shadow, ' +
-        'border, thickness, typography, ...), `kind` (style|behavioral), or `theme`.',
+        'border, backdrop, thickness, typography, ...), `kind` (style|behavioral), or `theme`.',
       inputSchema: {
         type: z.string().optional(),
         kind: z.enum(['style', 'behavioral']).optional(),

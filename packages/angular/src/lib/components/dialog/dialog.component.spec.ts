@@ -14,6 +14,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { UniDialogButtonsComponent } from './dialog-buttons/dialog-buttons.component';
 import { UniDialogHeaderComponent } from './dialog-header/dialog-header.component';
 import { UniDialogComponent } from './dialog.component';
+import { UniDrawerComponent } from '../drawer/drawer.component';
 
 describe('UniDialogComponent', () => {
   let fixture: ComponentFixture<UniDialogComponent>;
@@ -197,4 +198,72 @@ it('still projects and pins the legacy [uni-dialog-header] spelling', async () =
   const [header] = Array.from(panel.children) as HTMLElement[];
   expect(header.hasAttribute('uni-dialog-header')).toBe(true);
   expect(getComputedStyle(header).flex).toBe('0 0 auto');
+});
+
+@Component({
+  imports: [UniDialogComponent, UniDrawerComponent],
+  template: `
+    <dialog uni-dialog [show]="true"></dialog>
+    <uni-drawer mode="over" [open]="true" ariaLabel="Panel"></uni-drawer>
+  `,
+})
+class ScrimHost {}
+
+/**
+ * The two modal surfaces used to own a raw `backdrop` blob each and had
+ * drifted: the dialog washed the page white and blurred it, the drawer dimmed
+ * it dark, and a theme that dressed one left the other on the library default.
+ */
+describe('the dialog and the drawer share one scrim', () => {
+  let fixture: ComponentFixture<ScrimHost>;
+
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({ imports: [ScrimHost] }).compileComponents();
+    fixture = TestBed.createComponent(ScrimHost);
+    fixture.detectChanges();
+  });
+
+  /**
+   * The scrim's *paint* as emitted for an element's classes. Animation is
+   * excluded on purpose: the two surfaces fade on their own timings, and it is
+   * the wash that has to agree.
+   */
+  const backdropRuleFor = (element: HTMLElement): string => {
+    const classes = element.className.split(/\s+/).filter(Boolean);
+    let text = '';
+    for (const sheet of Array.from(document.styleSheets)) {
+      let rules: CSSRuleList;
+      try {
+        rules = sheet.cssRules;
+      } catch {
+        continue;
+      }
+      for (const rule of Array.from(rules)) {
+        const selector = (rule as CSSStyleRule).selectorText ?? '';
+        if (
+          selector.endsWith('::backdrop') &&
+          classes.some((c) => selector.includes(`.${c}`))
+        ) {
+          const style = (rule as CSSStyleRule).style;
+          for (const property of ['background', 'backdrop-filter']) {
+            const value = style.getPropertyValue(property);
+            if (value) text += `${property}:${value.replace(/\s+/g, '')};`;
+          }
+        }
+      }
+    }
+    return text;
+  };
+
+  it('paints both from the same `backdrops.scrim` primitive', () => {
+    const host = fixture.nativeElement as HTMLElement;
+    const dialog = host.querySelector('dialog[uni-dialog]') as HTMLElement;
+    const drawer = host.querySelector('uni-drawer dialog') as HTMLElement;
+
+    const scrim = backdropRuleFor(dialog);
+    // The base theme's shared wash, not the drawer's old `rgba(0,0,0,0.4)`.
+    expect(scrim).toContain('rgba(255,255,255,0.6)');
+    expect(scrim).toContain('blur(2px)');
+    expect(backdropRuleFor(drawer)).toBe(scrim);
+  });
 });

@@ -335,7 +335,9 @@ export class UniDrawerComponent extends BaseComponent<UniDrawerOptions> {
       '&:not([open])': { display: 'none' },
       // `scrim: false` keeps the modality — focus trap, inert page — but stops
       // the drawer dimming what it covers.
-      '&::backdrop': scrim ? { ...options.backdrop } : { background: 'transparent' },
+      '&::backdrop': scrim
+        ? { ...this.theme.backdrop(options.backdrop) }
+        : { background: 'transparent' },
       '&[open]': { animation: `${this.slideIn()} ${motion.duration}ms ${motion.easing}` },
       '&[closing]': { animation: `${this.slideOut()} ${motion.duration}ms ${motion.easing}` },
       // Same duration as the slide, so the dimming tracks the panel rather

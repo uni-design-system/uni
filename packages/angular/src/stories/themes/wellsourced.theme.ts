@@ -30,6 +30,7 @@ import {
   type Typography,
   type UniTheme,
   type Motions,
+  type Backdrops,
 } from '@uni-design-system/uni-core';
 
 export interface WellsourcedPalette {
@@ -277,6 +278,16 @@ const motion: Motions = {
   instant: { duration: 0, easing: 'linear' },
 };
 
+/**
+ * The app's scrim: a translucent wash of the page's own ground plus a light
+ * blur. Stated once, so every modal surface — dialog and drawer alike — dims
+ * the page the same way. It used to live on the dialog's options alone, which
+ * left the drawer inheriting the library's unrelated dark dim.
+ */
+const backdrops = (p: WellsourcedPalette): Backdrops => ({
+  scrim: { background: p.backdrop, backdropFilter: 'blur(2px)' },
+});
+
 const spacing: Spacing = {
   none: 0,
   xxs: '2px',
@@ -483,7 +494,8 @@ const components = (p: WellsourcedPalette): ComponentThemes => ({
       border: 'light',
       padding: 'sm',
       elevation: 'dialog',
-      backdrop: { background: p.backdrop, backdropFilter: 'blur(2px)' },
+      // No `backdrop` override: the theme-level `scrim` primitive dresses this
+      // and the drawer together.
     },
   },
   symbol: { options: { weight: 200 } },
@@ -568,6 +580,7 @@ export const WellsourcedLight: UniTheme = withWellsourcedScales(
     borders: borders(lightPalette),
     components: components(lightPalette),
     shadows: shadows(lightPalette),
+    backdrops: backdrops(lightPalette),
     radii,
     thicknesses,
     spacing,
@@ -583,6 +596,7 @@ export const WellsourcedDark: UniTheme = withWellsourcedScales(
     borders: borders(darkPalette),
     components: components(darkPalette),
     shadows: shadows(darkPalette),
+    backdrops: backdrops(darkPalette),
     radii,
     thicknesses,
     spacing,

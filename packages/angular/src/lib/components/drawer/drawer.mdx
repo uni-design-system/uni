@@ -141,6 +141,12 @@ working against a board they still need to read.
 
 <StoryExample of={Stories.WithoutScrim} />
 
+The wash itself is not the drawer's own: `backdrop` points at the theme's
+shared `backdrops.scrim` primitive, the same one `uni-dialog` uses, so one
+theme entry dresses both and they cannot drift apart. `scrim: false` opts out
+of dimming entirely; pointing `backdrop` at another name, or stating a raw
+style object, overrides the shared wash for this component alone.
+
 <div class="tip">
 
 This does **not** make the drawer non-modal. `showModal()` still traps focus and

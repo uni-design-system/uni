@@ -6,6 +6,7 @@ import { BaseIcons } from '../../iconography/icon.records';
 import { HOVER_OR_KEYBOARD_FOCUS } from '../../style/selectors.constants';
 import type { TextRole, TextStyle } from '../../typography';
 import type {
+  Backdrops,
   Borders,
   Colors,
   Icons,
@@ -187,6 +188,16 @@ const BaseMotion: Motions = {
   control: { duration: 300, easing: 'ease' },
 };
 
+/**
+ * The one wash every modal surface lays over the page it covers. Dialog and
+ * drawer both point at `scrim` by name, so a theme redresses them together —
+ * before this they owned a `backdrop` blob each and had drifted apart, the
+ * dialog washing the page white and blurred while the drawer dimmed it dark.
+ */
+const BaseBackdrops: Backdrops = {
+  scrim: { background: 'rgba(255, 255, 255, 0.6)', backdropFilter: 'blur(2px)' },
+};
+
 const BaseRadii: Radii = {
   none: 'none',
   xxs: '4px',
@@ -304,7 +315,9 @@ const buildComponents = (c: Colors): ComponentThemes => ({
       // so raising it off the page would double the separation.
       elevation: 'menu',
       padding: 'md',
-      backdrop: { background: 'rgba(0, 0, 0, 0.4)' },
+      // The shared `scrim` primitive, so the drawer dims the page exactly as
+      // the dialog does. `scrim: false` opts out of dimming entirely.
+      backdrop: 'scrim',
       scrim: true,
       background: 'solid',
       // A larger free-floating surface settles: the same token the callout,
@@ -410,7 +423,7 @@ const buildComponents = (c: Colors): ComponentThemes => ({
       bodyPadding: undefined,
       inset: 'lg',
       elevation: 'dialog',
-      backdrop: { background: 'rgba(255, 255, 255, 0.6)', backdropFilter: 'blur(2px)' },
+      backdrop: 'scrim',
     },
   },
   // Footer action row: every layout knob is a token so a theme can move from
@@ -1174,6 +1187,12 @@ export interface ThemeConfig {
    */
   motion?: Motions;
   /**
+   * Named backdrop primitives, merged over {@link BaseBackdrops}. Restate
+   * `scrim` to redress every modal surface at once; add tokens under any name
+   * and point a component's `backdrop` option at them.
+   */
+  backdrops?: Backdrops;
+  /**
    * Sparse typography overrides, deep-merged over the base type scale:
    * restate only the roles — or the individual {@link TextStyle} fields
    * within a role — that change, and add product-specific roles under any
@@ -1227,6 +1246,7 @@ export const createTheme = ({
   radii = BaseRadii,
   shadows = BaseShadows,
   motion,
+  backdrops,
   typography,
   borders,
   thicknesses,
@@ -1242,6 +1262,7 @@ export const createTheme = ({
   shadows,
   spacing: { ...BaseSpacing, ...spacing },
   motion: { ...BaseMotion, ...motion },
+  backdrops: { ...BaseBackdrops, ...backdrops },
   thicknesses: { ...BaseThicknesses, ...thicknesses },
   icons: { ...BaseIcons, ...icons },
   components: deepMerge(buildComponents(colors), components),

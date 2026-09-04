@@ -1,5 +1,6 @@
 import { InjectionToken, type Signal } from '@angular/core';
 import type {
+  Backdrop,
   Border,
   ContainerColorToken,
   Elevation,
@@ -61,8 +62,12 @@ export interface UniDrawerOptions {
    * unpadded so that header and footer rows can pin flush to its edges.
    */
   padding?: OptionalSize;
-  /** Backdrop styling for the overlay mode. Ignored when `scrim` is false. */
-  backdrop?: StyleExpression;
+  /**
+   * Name of a `backdrops` primitive — the wash laid over the page behind the
+   * overlay. The same token the dialog points at, so one theme entry dresses
+   * both. A raw style object is still accepted. Ignored when `scrim` is false.
+   */
+  backdrop?: Backdrop | StyleExpression;
   /**
    * Whether the overlay mode dims the page behind it. False leaves
    * `::backdrop` transparent — the drawer still traps focus and is still

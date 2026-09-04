@@ -20,6 +20,7 @@ import {
   type Typography,
   type UniTheme,
   type Motions,
+  type Backdrops,
 } from '@uni-design-system/uni-core';
 
 // ==========================================
@@ -278,6 +279,14 @@ const radii = {
 // Sparse component overrides, deep-merged over Uni defaults.
 // The dialog family is the focus: Carbon modal anatomy end to end.
 // ==========================================
+/**
+ * Carbon's `$overlay`, as the one wash every modal surface lays over the page.
+ * No blur: Carbon separates overlays with the scrim, not with a filter.
+ */
+const backdrops = (colors: Colors): Backdrops => ({
+  scrim: { background: colors['overlay'] },
+});
+
 const components = (colors: Colors): ComponentThemes => ({
   dialog: {
     options: {
@@ -286,7 +295,8 @@ const components = (colors: Colors): ComponentThemes => ({
       border: 'none',
       padding: 'none',
       elevation: 'dialog', // resolves to 'none' above
-      backdrop: { background: colors['overlay'] },
+      // No `backdrop` override: the theme-level `scrim` primitive dresses the
+      // dialog and the drawer together.
     },
   },
   dialogHeader: {
@@ -440,6 +450,7 @@ export const CarbonLight: UniTheme = withCarbonTypography(
     borders: borders(lightColors),
     components: components(lightColors),
     shadows: carbonShadows,
+    backdrops: backdrops(lightColors),
     radii,
     motion,
   })
@@ -453,6 +464,7 @@ export const CarbonDark: UniTheme = withCarbonTypography(
     borders: borders(darkColors),
     components: components(darkColors),
     shadows: carbonShadows,
+    backdrops: backdrops(darkColors),
     radii,
     motion,
   })

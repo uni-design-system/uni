@@ -18,6 +18,7 @@ type AnyTheme = {
   spacing: Record<string, unknown>;
   borders: Record<string, unknown>;
   shadows: Record<string, unknown>;
+  backdrops: Record<string, unknown>;
   thicknesses: Record<string, unknown>;
   typography: Record<string, unknown>;
   components: Record<string, { options?: Record<string, unknown> } | undefined>;
@@ -30,6 +31,7 @@ const STYLE_SCALES: Array<{ key: keyof AnyTheme; type: string; ns: string }> = [
   { key: 'spacing', type: 'spacing', ns: 'spacing' },
   { key: 'borders', type: 'border', ns: 'border' },
   { key: 'shadows', type: 'shadow', ns: 'shadow' },
+  { key: 'backdrops', type: 'backdrop', ns: 'backdrop' },
   { key: 'thicknesses', type: 'thickness', ns: 'thickness' },
   { key: 'typography', type: 'typography', ns: 'typography' },
 ];
