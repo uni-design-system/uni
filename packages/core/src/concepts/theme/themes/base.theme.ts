@@ -186,6 +186,12 @@ const BaseMotion: Motions = {
   // Feedback, not choreography: hover fills and check marks answer the
   // pointer, so this is the fastest token that still reads as a transition.
   control: { duration: 300, easing: 'ease' },
+  // A control jumping to a value the user just chose — a slider thumb sent by
+  // a keypress or a track click. Distinct from `control`, which times a state
+  // change in place: this one covers distance, and at `control`'s 300ms a
+  // thumb reads as lagging the input rather than answering it. A drag is never
+  // animated at all, so this only ever plays for keyboard and track presses.
+  snap: { duration: 120, easing: 'ease' },
 };
 
 /**
@@ -1086,7 +1092,7 @@ const buildComponents = (c: Colors): ComponentThemes => ({
       tooltipBorderRadius: 'xs',
       // Click-to-jump and keyboard only; a transition on a dragged thumb
       // reads as lag, so drag is deliberately unanimated.
-      transitionMs: 120,
+      motion: 'snap',
     },
   },
   // Loading placeholders paint with surface tokens so they sit naturally on

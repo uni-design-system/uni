@@ -187,12 +187,24 @@ audits: `packages/angular/TODO.md` (v4 audit) and `uni-theme-generation-plan.md`
       believed absent (radio's option documented its 0.3 as "matching
       menuItem"). `skeleton` deliberately excluded: a shimmer is a loop, not a
       transition, and folding it in would make the scale mean two things.
-- [ ] **Remove the motion deprecations** — next major: `callout.transitionMs`,
-      `expand.transitionSpeed`, `alert.transitionSpeed`,
-      `snackbar.transitionDelay`, `radio.transitionSpeed`,
-      `menuItem.transitionSpeed`, plus the never-read `card.transitionSpeed`
-      and `input-box.transitionSpeed`. Batch with the other pending removals
-      (`typeFace` alias, HSL helpers, `*Symbol` → `*Icon` renames).
+- [x] ~~Remove the motion deprecations~~ — done. All eight went in **9.0.0**
+      (`callout.transitionMs`, `expand.transitionSpeed`,
+      `alert.transitionSpeed`, `snackbar.transitionDelay`,
+      `radio.transitionSpeed`, `menuItem.transitionSpeed`, and the never-read
+      `card.transitionSpeed` / `input-box.transitionSpeed`); this entry
+      outlived them. The straggler was `slider.transitionMs`, which the numeric
+      rewrite introduced *after* the migration and which went in **11.0.0** —
+      the last duration option outside the scale. It maps to a new `snap`
+      token (120ms `ease`, its exact previous timing): `control` times a state
+      change in place, where a thumb covers distance and at 300ms reads as
+      lagging the input. A spec now asserts the slider follows the token.
+      The rest of that batch (`typeFace` alias, HSL helpers, `*Symbol` →
+      `*Icon` renames) is still pending — see below.
+- [ ] **The durations still hardcoded in components**, which never had an
+      option to deprecate: tooltip 350ms, sort-header 350ms, button and
+      icon-button 0.28s, checkbox 0.2s/0.5s/0.2s, data-table 350ms/0.28s/0.3s,
+      alert 0.3s, snackbar 0.3s, tabs 0.15s, combobox 0.15s. A theme cannot
+      retime any of them. This is the other half of ROADMAP P1 §3.
 - [ ] JSDoc coverage on public inputs/outputs — ongoing; feeds `llms.txt` and MCP
       summaries (empty where class JSDoc is missing).
 - [ ] **uni-symbol → uni-icon migration** (rule established 2026-08-21, AGENTS.md

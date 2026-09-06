@@ -1,13 +1,13 @@
 {
   "meta": {
     "version": "10.4.0",
-    "builtAt": "2026-09-06T17:25:45.458Z",
+    "builtAt": "2026-09-06T20:19:40.190Z",
     "frameworks": [
       "angular"
     ],
     "counts": {
       "components": 84,
-      "tokens": 458,
+      "tokens": 464,
       "themes": 2,
       "examples": 229
     }
@@ -7876,7 +7876,7 @@
         "slider.behavior.tooltipTextColor",
         "slider.behavior.tooltipShadow",
         "slider.behavior.tooltipBorderRadius",
-        "slider.behavior.transitionMs"
+        "slider.behavior.motion"
       ]
     },
     {
@@ -11126,6 +11126,72 @@
       "themeValues": {
         "LightTheme": "{\"background\":\"rgba(255, 255, 255, 0.6)\",\"backdropFilter\":\"blur(2px)\"}",
         "DarkTheme": "{\"background\":\"rgba(255, 255, 255, 0.6)\",\"backdropFilter\":\"blur(2px)\"}"
+      }
+    },
+    {
+      "id": "motion.popup",
+      "value": "{\"duration\":100,\"easing\":\"linear\",\"scale\":0.8}",
+      "type": "motion",
+      "kind": "style",
+      "target": "emotion-css",
+      "themeValues": {
+        "LightTheme": "{\"duration\":100,\"easing\":\"linear\",\"scale\":0.8}",
+        "DarkTheme": "{\"duration\":100,\"easing\":\"linear\",\"scale\":0.8}"
+      }
+    },
+    {
+      "id": "motion.panel",
+      "value": "{\"duration\":250,\"easing\":\"ease\"}",
+      "type": "motion",
+      "kind": "style",
+      "target": "emotion-css",
+      "themeValues": {
+        "LightTheme": "{\"duration\":250,\"easing\":\"ease\"}",
+        "DarkTheme": "{\"duration\":250,\"easing\":\"ease\"}"
+      }
+    },
+    {
+      "id": "motion.reveal",
+      "value": "{\"duration\":350,\"easing\":\"ease-in-out\"}",
+      "type": "motion",
+      "kind": "style",
+      "target": "emotion-css",
+      "themeValues": {
+        "LightTheme": "{\"duration\":350,\"easing\":\"ease-in-out\"}",
+        "DarkTheme": "{\"duration\":350,\"easing\":\"ease-in-out\"}"
+      }
+    },
+    {
+      "id": "motion.notification",
+      "value": "{\"duration\":350,\"easing\":\"ease-in-out\"}",
+      "type": "motion",
+      "kind": "style",
+      "target": "emotion-css",
+      "themeValues": {
+        "LightTheme": "{\"duration\":350,\"easing\":\"ease-in-out\"}",
+        "DarkTheme": "{\"duration\":350,\"easing\":\"ease-in-out\"}"
+      }
+    },
+    {
+      "id": "motion.control",
+      "value": "{\"duration\":300,\"easing\":\"ease\"}",
+      "type": "motion",
+      "kind": "style",
+      "target": "emotion-css",
+      "themeValues": {
+        "LightTheme": "{\"duration\":300,\"easing\":\"ease\"}",
+        "DarkTheme": "{\"duration\":300,\"easing\":\"ease\"}"
+      }
+    },
+    {
+      "id": "motion.snap",
+      "value": "{\"duration\":120,\"easing\":\"ease\"}",
+      "type": "motion",
+      "kind": "style",
+      "target": "emotion-css",
+      "themeValues": {
+        "LightTheme": "{\"duration\":120,\"easing\":\"ease\"}",
+        "DarkTheme": "{\"duration\":120,\"easing\":\"ease\"}"
       }
     },
     {
@@ -14856,15 +14922,15 @@
       }
     },
     {
-      "id": "slider.behavior.transitionMs",
-      "value": 120,
-      "type": "number",
+      "id": "slider.behavior.motion",
+      "value": "snap",
+      "type": "string",
       "kind": "behavioral",
       "target": "component-prop",
       "appliesTo": "slider",
       "themeValues": {
-        "LightTheme": 120,
-        "DarkTheme": 120
+        "LightTheme": "snap",
+        "DarkTheme": "snap"
       }
     },
     {
@@ -15447,6 +15513,12 @@
         "shadow.dialog": "rgba(23, 25, 43, 0.2) 0px 3px 5px -1px, rgba(23, 25, 43, 0.14) 0px 6px 10px 0px, rgba(23, 25, 43, 0.12) 0px 1px 18px 0px",
         "shadow.warn": "0 0 5px rgba(204, 40, 39, 0.5), inset 0 0 5px rgba(204, 40, 39, 0.3)",
         "backdrop.scrim": "{\"background\":\"rgba(255, 255, 255, 0.6)\",\"backdropFilter\":\"blur(2px)\"}",
+        "motion.popup": "{\"duration\":100,\"easing\":\"linear\",\"scale\":0.8}",
+        "motion.panel": "{\"duration\":250,\"easing\":\"ease\"}",
+        "motion.reveal": "{\"duration\":350,\"easing\":\"ease-in-out\"}",
+        "motion.notification": "{\"duration\":350,\"easing\":\"ease-in-out\"}",
+        "motion.control": "{\"duration\":300,\"easing\":\"ease\"}",
+        "motion.snap": "{\"duration\":120,\"easing\":\"ease\"}",
         "thickness.thin": 1,
         "thickness.standard": 2,
         "thickness.thick": 4,
@@ -15849,7 +15921,7 @@
           "tooltipTextColor": "on-inverse-surface",
           "tooltipShadow": "menu",
           "tooltipBorderRadius": "xs",
-          "transitionMs": 120
+          "motion": "snap"
         },
         "skeleton": {
           "color": "surface-variant",
@@ -16017,6 +16089,12 @@
         "shadow.dialog": "0px 8px 28px rgba(0, 0, 0, 0.55)",
         "shadow.warn": "0 0 5px rgba(255, 150, 138, 0.55), inset 0 0 5px rgba(255, 150, 138, 0.35)",
         "backdrop.scrim": "{\"background\":\"rgba(255, 255, 255, 0.6)\",\"backdropFilter\":\"blur(2px)\"}",
+        "motion.popup": "{\"duration\":100,\"easing\":\"linear\",\"scale\":0.8}",
+        "motion.panel": "{\"duration\":250,\"easing\":\"ease\"}",
+        "motion.reveal": "{\"duration\":350,\"easing\":\"ease-in-out\"}",
+        "motion.notification": "{\"duration\":350,\"easing\":\"ease-in-out\"}",
+        "motion.control": "{\"duration\":300,\"easing\":\"ease\"}",
+        "motion.snap": "{\"duration\":120,\"easing\":\"ease\"}",
         "thickness.thin": 1,
         "thickness.standard": 2,
         "thickness.thick": 4,
@@ -16419,7 +16497,7 @@
           "tooltipTextColor": "on-inverse-surface",
           "tooltipShadow": "menu",
           "tooltipBorderRadius": "xs",
-          "transitionMs": 120
+          "motion": "snap"
         },
         "skeleton": {
           "color": "surface-variant",

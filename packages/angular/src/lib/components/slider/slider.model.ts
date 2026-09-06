@@ -1,6 +1,7 @@
 import type {
   ColorKey,
   ContainerColorToken,
+  Motion,
   Radius,
   Shadow,
   Typeface,
@@ -55,9 +56,9 @@ export interface UniSliderOptions {
   tooltipShadow?: Shadow;
   tooltipBorderRadius?: Radius;
   /**
-   * Click-to-jump transition in ms. A drag is never animated — a transition on
-   * a dragged thumb reads as lag — so this applies to keyboard and track
-   * presses only.
+   * Timing for the click-to-jump move, as a `motion` token. A drag is never
+   * animated — a transition on a dragged thumb reads as lag — so this applies
+   * to keyboard and track presses only. Defaults to `snap`.
    */
-  transitionMs?: number;
+  motion?: Motion;
 }

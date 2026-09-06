@@ -170,10 +170,16 @@ differ without forking the scale.
 Every animated component reads this scale. The per-component duration options
 they used to carry — `callout.transitionMs`, `expand.transitionSpeed`,
 `alert.transitionSpeed`, `snackbar.transitionDelay`, `radio.transitionSpeed`,
-`menuItem.transitionSpeed` — were removed in 9.0.0. Retime the token instead:
+`menuItem.transitionSpeed` — were removed in 9.0.0, and `slider.transitionMs`
+in 11.0.0, the last one outside the scale. Retime the token instead:
 one edit covers every component pointing at it, which is the point of a scale.
 To retime just one component, give it a token of its own and point that
 component's `motion` option at it.
+
+The scale carries a sixth token for that last migration: `snap`, the 120ms a
+control takes to cover distance to a value the user just chose — a slider thumb
+sent by a keypress or a track click. `control` times a state change in place;
+at its 300ms a thumb reads as lagging the input rather than answering it.
 
 `uni-skeleton` deliberately stays out: its shimmer is a loop rather than a
 transition, so it keeps its own `duration`.

@@ -445,4 +445,54 @@ describe('UniSliderComponent', () => {
       ).not.toBeNull();
     });
   });
+
+  /**
+   * The slider was rewritten after the motion migration and reintroduced its
+   * own `transitionMs`, the last duration option outside the scale. It now
+   * reads `snap`, so a theme retimes it with everything else.
+   */
+  describe('click-to-jump timing', () => {
+    /**
+     * Read from the emitted CSS, not `getComputedStyle`: the transition sits
+     * inside `motionSafe`'s `prefers-reduced-motion: no-preference` block,
+     * which jsdom never matches, so the computed value is always `0s`.
+     */
+    const emittedFor = (element: Element): string => {
+      const classes = element.className.split(/\s+/).filter(Boolean);
+      let text = '';
+      for (const sheet of Array.from(document.styleSheets)) {
+        let rules: CSSRuleList;
+        try {
+          rules = sheet.cssRules;
+        } catch {
+          continue;
+        }
+        const visit = (list: CSSRuleList) => {
+          for (const rule of Array.from(list)) {
+            if ((rule as CSSGroupingRule).cssRules) visit((rule as CSSGroupingRule).cssRules);
+            const selector = (rule as CSSStyleRule).selectorText;
+            if (selector && classes.some((c) => selector.includes(`.${c}`))) {
+              text += (rule as CSSStyleRule).cssText.replace(/\s+/g, '');
+            }
+          }
+        };
+        visit(rules);
+      }
+      return text;
+    };
+
+    const thumb = () => (fixture.nativeElement as HTMLElement).querySelector('[role="slider"]')!;
+
+    it('takes its duration and easing from the `snap` motion token', () => {
+      const css = emittedFor(thumb());
+
+      expect(css).toContain('transition-duration:120ms');
+      expect(css).toContain('transition-timing-function:ease');
+    });
+
+    it('still animates only outside a drag, under the reduced-motion guard', () => {
+      // A transition on a dragged thumb reads as lag, so it is dropped mid-drag.
+      expect(emittedFor(thumb())).toContain('transition-property');
+    });
+  });
 });

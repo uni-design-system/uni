@@ -586,10 +586,18 @@ export class UniSliderComponent
     });
   });
 
+  /**
+   * The click-to-jump timing. `snap` by default: a thumb covering distance to
+   * a value the user just chose, which at `control`'s 300ms would read as lag.
+   */
+  private readonly motion = computed(() =>
+    this.theme.motion(this.componentOptions().motion ?? 'snap')
+  );
+
   protected readonly fillClass = computed(() => {
     const options = this.componentOptions();
     const colors = this.theme.colors();
-    const duration = options.transitionMs ?? 120;
+    const motion = this.motion();
 
     return css({
       position: 'absolute',
@@ -600,8 +608,8 @@ export class UniSliderComponent
         ? {}
         : motionSafe({
             transitionProperty: 'inset-inline-start, inset-inline-end',
-            transitionDuration: `${duration}ms`,
-            transitionTimingFunction: 'ease',
+            transitionDuration: `${motion.duration}ms`,
+            transitionTimingFunction: motion.easing,
           })),
     });
   });
@@ -629,7 +637,7 @@ export class UniSliderComponent
     const colors = this.theme.colors();
     const size = options.thumbSize ?? 16;
     const target = options.minTouchTarget ?? 24;
-    const duration = options.transitionMs ?? 120;
+    const motion = this.motion();
 
     return css({
       position: 'absolute',
@@ -660,8 +668,8 @@ export class UniSliderComponent
         ? {}
         : motionSafe({
             transitionProperty: 'inset-inline-start',
-            transitionDuration: `${duration}ms`,
-            transitionTimingFunction: 'ease',
+            transitionDuration: `${motion.duration}ms`,
+            transitionTimingFunction: motion.easing,
           })),
     });
   });
