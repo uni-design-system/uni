@@ -216,3 +216,48 @@ describe('required-token exports', () => {
     }
   });
 });
+
+/**
+ * A surface that paints a background must also state the ink on it.
+ *
+ * `card` set `backgroundColor` alone. Under a light theme the user-agent's
+ * default black happened to read; under every dark theme the card rendered
+ * black text on a near-black surface — 1.11:1, reported from Storybook's theme
+ * switcher. The pairing is the invariant, so it is asserted over every entry
+ * rather than over the one component that broke it.
+ */
+describe('the shipped themes pair every painted surface with its ink', () => {
+  /** `transparent` and fully transparent rgba paint nothing, so they need no ink. */
+  const paints = (value: unknown): boolean =>
+    typeof value === 'string' && value !== 'transparent' && !/rgba\([^)]*,\s*0\s*\)/.test(value);
+
+  const unpaired = (theme: typeof LightTheme): string[] => {
+    const out: string[] = [];
+    for (const [name, entry] of Object.entries(theme.components ?? {})) {
+      if (!entry) continue;
+      const blocks: Array<[string, Record<string, unknown> | undefined]> = [
+        ['fixed', entry.fixed as Record<string, unknown> | undefined],
+      ];
+      for (const section of ['variants', 'sizes'] as const) {
+        for (const [key, style] of Object.entries(
+          (entry[section] ?? {}) as Record<string, Record<string, unknown>>
+        )) {
+          blocks.push([`${section}.${key}`, style]);
+        }
+      }
+      for (const [where, style] of blocks) {
+        if (style && paints(style['backgroundColor']) && !style['color']) {
+          out.push(`${name}.${where}`);
+        }
+      }
+    }
+    return out;
+  };
+
+  it.each([
+    ['LightTheme', LightTheme],
+    ['DarkTheme', DarkTheme],
+  ])('%s states a color wherever it states a backgroundColor', (_name, theme) => {
+    expect(unpaired(theme)).toEqual([]);
+  });
+});

@@ -982,7 +982,10 @@ const buildComponents = (c: Colors): ComponentThemes => ({
     // cards to one primitive, e.g. a custom 'brush-stroke'), the radii scale
     // (`xs` = the classic 8px), and an optional elevation shadow.
     options: { borderRadius: 'xs' },
-    fixed: { overflow: 'hidden', backgroundColor: c.background },
+    // Both halves of the pair: painting a surface without its on-color left
+    // text to the user-agent default (black), which is invisible on a dark
+    // theme's background — `cardHeader` below pairs every variant the same way.
+    fixed: { overflow: 'hidden', backgroundColor: c.background, color: c['on-background'] },
   },
   cardHeader: {
     fixed: { padding: '12px 24px' },
