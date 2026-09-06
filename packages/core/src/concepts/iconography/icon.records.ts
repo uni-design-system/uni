@@ -28,6 +28,14 @@ export const BaseIcons = {
     "data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 -960 960 960'%3e%3cpath d='m294.92-450 227.85 227.85L480-180 180-480l300-300 42.77 42.15L294.92-510H780v60H294.92Z'/%3e%3c/svg%3e",
   arrowRight:
     "data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 -960 960 960'%3e%3cpath d='M665.08-450H180v-60h485.08L437.23-737.85 480-780l300 300-300 300-42.77-42.15L665.08-450Z'/%3e%3c/svg%3e",
+  arrowUp:
+    "data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 -960 960 960'%3e%3cpath d='M450-180v-485.08L222.15-437.23 180-480l300-300 300 300-42.15 42.77L510-665.08V-180h-60Z'/%3e%3c/svg%3e",
+  arrowDown:
+    "data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 -960 960 960'%3e%3cpath d='M450-780v485.08L222.15-522.77 180-480l300 300 300-300-42.15-42.77L510-294.92V-780h-60Z'/%3e%3c/svg%3e",
+  chevronsLeft:
+    "data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 -960 960 960'%3e%3cpath d='M445-253.85 218.85-480 445-706.15 487.15-664 303.77-480l183.38 184L445-253.85Zm254 0L472.85-480 699-706.15 741.15-664 557.77-480l183.38 184L699-253.85Z'/%3e%3c/svg%3e",
+  chevronsRight:
+    "data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 -960 960 960'%3e%3cpath d='M402.23-480 218.85-664 261-706.15 487.15-480 261-253.85 218.85-296l183.38-184Zm254 0L472.85-664 515-706.15 741.15-480 515-253.85 472.85-296l183.38-184Z'/%3e%3c/svg%3e",
   home: "data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 -960 960 960'%3e%3cpath d='M240-200h133.85v-237.69h212.3V-200H720v-360L480-740.77 240-560v360Zm-60 60v-450l300-225.77L780-590v450H526.15v-237.69h-92.3V-140H180Zm300-330.38Z'/%3e%3c/svg%3e",
   building:
     "data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 -960 960 960'%3e%3cpath d='M130-136.92v-540h160v-160h380v320h160v380H530v-160H430v160H130Zm60-60h100v-100H190v100Zm0-160h100v-100H190v100Zm0-160h100v-100H190v100Zm160 160h100v-100H350v100Zm0-160h100v-100H350v100Zm0-160h100v-100H350v100Zm160 320h100v-100H510v100Zm0-160h100v-100H510v100Zm0-160h100v-100H510v100Zm160 480h100v-100H670v100Zm0-160h100v-100H670v100Z'/%3e%3c/svg%3e",

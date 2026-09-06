@@ -1,3 +1,4 @@
+import type { IconName } from '../icon/icon.record';
 import type { ColorKey, OptionalSize, Radius, Typeface } from '@uni-design-system/uni-core';
 
 /** Theme-level options for `uni-avatar`, resolved by token name. */
@@ -7,7 +8,7 @@ export interface UniAvatarOptions {
   /** Typeface token for the initials. */
   typeface?: Typeface;
   /** Symbol shown when there is no image and no name to take initials from. */
-  fallbackSymbol?: string;
+  fallbackIcon?: IconName;
 }
 
 /** Theme-level options for `uni-avatar-group`. */

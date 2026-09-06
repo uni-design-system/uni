@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, computed, input, signal } from '@angular/core';
 import { css } from '@emotion/css';
 import { BaseComponent, COMPONENT_NAME } from '../base/base.component';
-import { UniSymbolComponent } from '../symbol';
+import { UniIconComponent } from '../icon';
 import type { UniAvatarOptions } from './avatar.model';
 
 /**
@@ -12,7 +12,7 @@ import type { UniAvatarOptions } from './avatar.model';
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'uni-avatar',
-  imports: [UniSymbolComponent],
+  imports: [UniIconComponent],
   providers: [{ provide: COMPONENT_NAME, useValue: 'avatar' }],
   host: {
     '[class]': 'className()',
@@ -28,7 +28,7 @@ import type { UniAvatarOptions } from './avatar.model';
     } @else if (initials()) {
       <span>{{ initials() }}</span>
     } @else {
-      <uni-symbol [name]="componentOptions().fallbackSymbol ?? 'person'" />
+      <uni-icon [name]="componentOptions().fallbackIcon ?? 'profile'" />
     }
   `,
 })

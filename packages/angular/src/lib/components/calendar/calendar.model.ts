@@ -1,3 +1,4 @@
+import type { IconName } from '../icon/icon.record';
 import type { NullableSize, Radius, Typeface, Variant } from '@uni-design-system/uni-core';
 import type { UniDate, UniDateRange } from '../../cdk';
 
@@ -32,8 +33,8 @@ export interface UniCalendarOptions {
   typeface?: Typeface;
   /** Grid gutter. */
   gap?: NullableSize;
-  navPrevSymbol?: string;
-  navNextSymbol?: string;
+  navPrevIcon?: IconName;
+  navNextIcon?: IconName;
   /** Intl weekday column format. */
   weekdayFormat?: 'narrow' | 'short';
   /** Show the adjacent months' days, muted and non-interactive. */

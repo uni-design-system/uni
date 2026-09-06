@@ -413,7 +413,7 @@ const components = (colors: Colors): ComponentThemes => ({
       textColor: 'on-primary-surface-variant',
       hoverColor: 'secondary-container',
       borderRadius: 'none',
-      activeSymbol: 'check',
+      activeIcon: 'check',
       motion: 'productive',
     },
     variants: {

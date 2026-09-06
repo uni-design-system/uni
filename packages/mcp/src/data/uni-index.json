@@ -1,7 +1,7 @@
 {
   "meta": {
     "version": "10.4.0",
-    "builtAt": "2026-09-06T20:35:01.431Z",
+    "builtAt": "2026-09-06T21:08:14.489Z",
     "frameworks": [
       "angular"
     ],
@@ -250,7 +250,7 @@
       "relatedTokens": [
         "avatar.behavior.borderRadius",
         "avatar.behavior.typeface",
-        "avatar.behavior.fallbackSymbol"
+        "avatar.behavior.fallbackIcon"
       ]
     },
     {
@@ -971,7 +971,7 @@
         "breadcrumb.behavior.typeface",
         "breadcrumb.behavior.color",
         "breadcrumb.behavior.currentColor",
-        "breadcrumb.behavior.separatorSymbol",
+        "breadcrumb.behavior.separatorIcon",
         "breadcrumb.behavior.gap"
       ]
     },
@@ -1339,8 +1339,8 @@
         "calendar.behavior.dayBorderRadius",
         "calendar.behavior.typeface",
         "calendar.behavior.gap",
-        "calendar.behavior.navPrevSymbol",
-        "calendar.behavior.navNextSymbol",
+        "calendar.behavior.navPrevIcon",
+        "calendar.behavior.navNextIcon",
         "calendar.behavior.weekdayFormat",
         "calendar.behavior.showOutsideDays",
         "calendar.behavior.todayStyle"
@@ -1549,7 +1549,7 @@
         "callout.behavior.padding",
         "callout.behavior.headerTypeface",
         "callout.behavior.typeface",
-        "callout.behavior.closeSymbol",
+        "callout.behavior.closeIcon",
         "callout.behavior.arrowSize",
         "callout.behavior.offset",
         "callout.behavior.scrimColor",
@@ -6443,7 +6443,7 @@
         "popover.behavior.maxWidth",
         "popover.behavior.offset",
         "popover.behavior.arrowSize",
-        "popover.behavior.closeSymbol",
+        "popover.behavior.closeIcon",
         "popover.behavior.headerTypeface",
         "popover.behavior.tooltipPadding",
         "popover.behavior.tooltipOpenDelay",
@@ -11603,15 +11603,15 @@
       }
     },
     {
-      "id": "breadcrumb.behavior.separatorSymbol",
-      "value": "chevron_right",
+      "id": "breadcrumb.behavior.separatorIcon",
+      "value": "chevronRight",
       "type": "string",
       "kind": "behavioral",
       "target": "component-prop",
       "appliesTo": "breadcrumb",
       "themeValues": {
-        "LightTheme": "chevron_right",
-        "DarkTheme": "chevron_right"
+        "LightTheme": "chevronRight",
+        "DarkTheme": "chevronRight"
       }
     },
     {
@@ -12023,15 +12023,15 @@
       }
     },
     {
-      "id": "avatar.behavior.fallbackSymbol",
-      "value": "person",
+      "id": "avatar.behavior.fallbackIcon",
+      "value": "profile",
       "type": "string",
       "kind": "behavioral",
       "target": "component-prop",
       "appliesTo": "avatar",
       "themeValues": {
-        "LightTheme": "person",
-        "DarkTheme": "person"
+        "LightTheme": "profile",
+        "DarkTheme": "profile"
       }
     },
     {
@@ -12071,7 +12071,7 @@
       }
     },
     {
-      "id": "searchInput.behavior.searchSymbol",
+      "id": "searchInput.behavior.searchIcon",
       "value": "search",
       "type": "string",
       "kind": "behavioral",
@@ -12083,7 +12083,7 @@
       }
     },
     {
-      "id": "searchInput.behavior.clearSymbol",
+      "id": "searchInput.behavior.clearIcon",
       "value": "close",
       "type": "string",
       "kind": "behavioral",
@@ -12743,7 +12743,7 @@
       }
     },
     {
-      "id": "menuItem.behavior.activeSymbol",
+      "id": "menuItem.behavior.activeIcon",
       "value": "check",
       "type": "string",
       "kind": "behavioral",
@@ -12875,7 +12875,7 @@
       }
     },
     {
-      "id": "popover.behavior.closeSymbol",
+      "id": "popover.behavior.closeIcon",
       "value": "close",
       "type": "string",
       "kind": "behavioral",
@@ -13907,27 +13907,27 @@
       }
     },
     {
-      "id": "calendar.behavior.navPrevSymbol",
-      "value": "chevron_left",
+      "id": "calendar.behavior.navPrevIcon",
+      "value": "chevronLeft",
       "type": "string",
       "kind": "behavioral",
       "target": "component-prop",
       "appliesTo": "calendar",
       "themeValues": {
-        "LightTheme": "chevron_left",
-        "DarkTheme": "chevron_left"
+        "LightTheme": "chevronLeft",
+        "DarkTheme": "chevronLeft"
       }
     },
     {
-      "id": "calendar.behavior.navNextSymbol",
-      "value": "chevron_right",
+      "id": "calendar.behavior.navNextIcon",
+      "value": "chevronRight",
       "type": "string",
       "kind": "behavioral",
       "target": "component-prop",
       "appliesTo": "calendar",
       "themeValues": {
-        "LightTheme": "chevron_right",
-        "DarkTheme": "chevron_right"
+        "LightTheme": "chevronRight",
+        "DarkTheme": "chevronRight"
       }
     },
     {
@@ -14075,15 +14075,15 @@
       }
     },
     {
-      "id": "dateInput.behavior.toggleSymbol",
-      "value": "calendar_month",
+      "id": "dateInput.behavior.toggleIcon",
+      "value": "calendar",
       "type": "string",
       "kind": "behavioral",
       "target": "component-prop",
       "appliesTo": "dateInput",
       "themeValues": {
-        "LightTheme": "calendar_month",
-        "DarkTheme": "calendar_month"
+        "LightTheme": "calendar",
+        "DarkTheme": "calendar"
       }
     },
     {
@@ -14123,15 +14123,15 @@
       }
     },
     {
-      "id": "timeInput.behavior.toggleSymbol",
-      "value": "schedule",
+      "id": "timeInput.behavior.toggleIcon",
+      "value": "clock",
       "type": "string",
       "kind": "behavioral",
       "target": "component-prop",
       "appliesTo": "timeInput",
       "themeValues": {
-        "LightTheme": "schedule",
-        "DarkTheme": "schedule"
+        "LightTheme": "clock",
+        "DarkTheme": "clock"
       }
     },
     {
@@ -15371,7 +15371,7 @@
       }
     },
     {
-      "id": "callout.behavior.closeSymbol",
+      "id": "callout.behavior.closeIcon",
       "value": "close",
       "type": "string",
       "kind": "behavioral",
@@ -15649,7 +15649,7 @@
           "typeface": "label",
           "color": "on-background-variant",
           "currentColor": "on-background",
-          "separatorSymbol": "chevron_right",
+          "separatorIcon": "chevronRight",
           "gap": "xs"
         },
         "appBar": {
@@ -15694,7 +15694,7 @@
         "avatar": {
           "borderRadius": "max",
           "typeface": "subtitle-2",
-          "fallbackSymbol": "person"
+          "fallbackIcon": "profile"
         },
         "avatarGroup": {
           "overlap": "sm",
@@ -15702,8 +15702,8 @@
           "ringWidth": 2
         },
         "searchInput": {
-          "searchSymbol": "search",
-          "clearSymbol": "close",
+          "searchIcon": "search",
+          "clearIcon": "close",
           "listColor": "primary-surface",
           "listShadow": "menu",
           "listBorderRadius": "xs",
@@ -15774,7 +15774,7 @@
           "borderRadius": "none",
           "typeface": "label",
           "hoverColor": "primary-container",
-          "activeSymbol": "check",
+          "activeIcon": "check",
           "motion": "control"
         },
         "popover": {
@@ -15787,7 +15787,7 @@
           "maxWidth": "38ch",
           "offset": 7,
           "arrowSize": 8,
-          "closeSymbol": "close",
+          "closeIcon": "close",
           "headerTypeface": "title-small",
           "tooltipPadding": "4px 8px",
           "tooltipOpenDelay": 500,
@@ -15899,8 +15899,8 @@
           "dayBorderRadius": "max",
           "typeface": "label",
           "gap": "xxs",
-          "navPrevSymbol": "chevron_left",
-          "navNextSymbol": "chevron_right",
+          "navPrevIcon": "chevronLeft",
+          "navNextIcon": "chevronRight",
           "weekdayFormat": "short",
           "showOutsideDays": false,
           "todayStyle": "outline"
@@ -15917,13 +15917,13 @@
           "descriptionColor": "on-primary-surface-variant"
         },
         "dateInput": {
-          "toggleSymbol": "calendar_month",
+          "toggleIcon": "calendar",
           "popupShadow": "menu",
           "popupBorderRadius": "xs",
           "popupColor": "primary-surface"
         },
         "timeInput": {
-          "toggleSymbol": "schedule",
+          "toggleIcon": "clock",
           "listColor": "primary-surface",
           "listShadow": "menu",
           "listBorderRadius": "xs",
@@ -16059,7 +16059,7 @@
           "padding": "16px",
           "headerTypeface": "title-small",
           "typeface": "label",
-          "closeSymbol": "close",
+          "closeIcon": "close",
           "arrowSize": 8,
           "offset": 12,
           "scrimColor": "rgba(0, 0, 0, 0.45)",
@@ -16232,7 +16232,7 @@
           "typeface": "label",
           "color": "on-background-variant",
           "currentColor": "on-background",
-          "separatorSymbol": "chevron_right",
+          "separatorIcon": "chevronRight",
           "gap": "xs"
         },
         "appBar": {
@@ -16277,7 +16277,7 @@
         "avatar": {
           "borderRadius": "max",
           "typeface": "subtitle-2",
-          "fallbackSymbol": "person"
+          "fallbackIcon": "profile"
         },
         "avatarGroup": {
           "overlap": "sm",
@@ -16285,8 +16285,8 @@
           "ringWidth": 2
         },
         "searchInput": {
-          "searchSymbol": "search",
-          "clearSymbol": "close",
+          "searchIcon": "search",
+          "clearIcon": "close",
           "listColor": "primary-surface",
           "listShadow": "menu",
           "listBorderRadius": "xs",
@@ -16357,7 +16357,7 @@
           "borderRadius": "none",
           "typeface": "label",
           "hoverColor": "primary-container",
-          "activeSymbol": "check",
+          "activeIcon": "check",
           "motion": "control"
         },
         "popover": {
@@ -16370,7 +16370,7 @@
           "maxWidth": "38ch",
           "offset": 7,
           "arrowSize": 8,
-          "closeSymbol": "close",
+          "closeIcon": "close",
           "headerTypeface": "title-small",
           "tooltipPadding": "4px 8px",
           "tooltipOpenDelay": 500,
@@ -16482,8 +16482,8 @@
           "dayBorderRadius": "max",
           "typeface": "label",
           "gap": "xxs",
-          "navPrevSymbol": "chevron_left",
-          "navNextSymbol": "chevron_right",
+          "navPrevIcon": "chevronLeft",
+          "navNextIcon": "chevronRight",
           "weekdayFormat": "short",
           "showOutsideDays": false,
           "todayStyle": "outline"
@@ -16500,13 +16500,13 @@
           "descriptionColor": "on-primary-surface-variant"
         },
         "dateInput": {
-          "toggleSymbol": "calendar_month",
+          "toggleIcon": "calendar",
           "popupShadow": "menu",
           "popupBorderRadius": "xs",
           "popupColor": "primary-surface"
         },
         "timeInput": {
-          "toggleSymbol": "schedule",
+          "toggleIcon": "clock",
           "listColor": "primary-surface",
           "listShadow": "menu",
           "listBorderRadius": "xs",
@@ -16642,7 +16642,7 @@
           "padding": "16px",
           "headerTypeface": "title-small",
           "typeface": "label",
-          "closeSymbol": "close",
+          "closeIcon": "close",
           "arrowSize": 8,
           "offset": 12,
           "scrimColor": "rgba(0, 0, 0, 0.45)",

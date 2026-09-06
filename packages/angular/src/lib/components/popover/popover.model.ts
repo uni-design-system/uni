@@ -31,7 +31,7 @@ export interface UniPopoverOptions {
   offset: number;
   arrowSize: number;
   /** Icon primitive for the `closable` button. */
-  closeSymbol: IconName;
+  closeIcon: IconName;
   /** Hover open delay in tooltip mode, ms. */
   tooltipOpenDelay: number;
   /** Pointer-leave close delay in tooltip mode, ms. */

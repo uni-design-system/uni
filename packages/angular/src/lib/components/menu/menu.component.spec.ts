@@ -63,13 +63,15 @@ describe('UniMenuComponent', () => {
     after.forEach((el, i) => expect(el).toBe(before[i]));
   });
 
-  it('marks the active item with the theme activeSymbol', () => {
+  it('marks the active item with the theme activeIcon', () => {
     fixture.componentRef.setInput('activeItem', items[1]);
     fixture.detectChanges();
 
     const menuItems = (fixture.nativeElement as HTMLElement).querySelectorAll('[role="menuitem"]');
-    expect(menuItems[1].textContent).toContain('check');
-    expect(menuItems[0].textContent).not.toContain('check');
+    // The tick is a theme icon token now, so it is an element rather than the
+    // ligature text `uni-symbol` used to render.
+    expect(menuItems[1].querySelector('uni-icon')).not.toBeNull();
+    expect(menuItems[0].querySelector('uni-icon')).toBeNull();
   });
 
   describe('dividers, tones, and disabled items', () => {

@@ -527,7 +527,7 @@ const components = (p: WellsourcedPalette): ComponentThemes => ({
       typeface: 'menu',
       textColor: 'on-surface', // --c-dark #1a1a1a
       hoverColor: 'tertiary-surface', // --c-canvas #f3f2ef
-      activeSymbol: 'check',
+      activeIcon: 'check',
       // The old `.rowmenu` had no hover transition at all.
       motion: 'instant',
     },

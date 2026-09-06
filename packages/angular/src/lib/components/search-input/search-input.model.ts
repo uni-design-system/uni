@@ -1,3 +1,4 @@
+import type { IconName } from '../icon/icon.record';
 import type {
   ColorKey,
   ContainerColorToken,
@@ -9,9 +10,9 @@ import type {
 /** Theme-level options for `uni-search-input`, resolved by token name. */
 export interface UniSearchInputOptions {
   /** Leading (decorative) symbol. */
-  searchSymbol?: string;
+  searchIcon?: IconName;
   /** Clear-button symbol. */
-  clearSymbol?: string;
+  clearIcon?: IconName;
   /** Suggestion list surface color token. */
   listColor?: ColorKey;
   /** Active/hover suggestion fill; the on-color pair is derived. Must

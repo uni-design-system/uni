@@ -18,7 +18,7 @@ import {
   promoteListboxPopup,
 } from '../forms/listbox-popup';
 import { UniIconButtonComponent } from '../icon-button/icon-button.component';
-import { UniSymbolComponent } from '../symbol';
+import { UniIconComponent } from '../icon';
 import type { UniSearchInputOptions } from './search-input.model';
 
 /**
@@ -30,7 +30,7 @@ import type { UniSearchInputOptions } from './search-input.model';
  */
 @Component({
   selector: 'uni-search-input',
-  imports: [UniDebounceInputComponent, UniIconButtonComponent, UniSymbolComponent],
+  imports: [UniDebounceInputComponent, UniIconButtonComponent, UniIconComponent],
   templateUrl: './search-input.component.html',
   providers: [{ provide: COMPONENT_NAME, useValue: 'searchInput' }],
   host: { '[class]': 'className()' },

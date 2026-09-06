@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, computed, input, output } from '@angular/core';
 import { css } from '@emotion/css';
 import { BaseComponent, COMPONENT_NAME } from '../base/base.component';
-import { UniSymbolComponent } from '../symbol';
+import { UniIconComponent } from '../icon';
 import type { BreadcrumbItem, UniBreadcrumbOptions } from './breadcrumb.model';
 
 /**
@@ -13,7 +13,7 @@ import type { BreadcrumbItem, UniBreadcrumbOptions } from './breadcrumb.model';
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'uni-breadcrumb',
-  imports: [UniSymbolComponent],
+  imports: [UniIconComponent],
   providers: [{ provide: COMPONENT_NAME, useValue: 'breadcrumb' }],
   template: `
     <nav [attr.aria-label]="ariaLabel()" [class]="className()">
@@ -28,9 +28,9 @@ import type { BreadcrumbItem, UniBreadcrumbOptions } from './breadcrumb.model';
               <button type="button" (click)="itemClicked.emit(item)">{{ item.label }}</button>
             }
             @if (!last) {
-              <uni-symbol
+              <uni-icon
                 aria-hidden="true"
-                [name]="componentOptions().separatorSymbol ?? 'chevron_right'"
+                [name]="componentOptions().separatorIcon ?? 'chevronRight'"
               />
             }
           </li>

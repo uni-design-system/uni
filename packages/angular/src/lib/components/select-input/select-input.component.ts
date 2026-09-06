@@ -3,12 +3,12 @@ import { FormValueControl } from '@angular/forms/signals';
 import { css } from '@emotion/css';
 import type { Options } from '../../cdk';
 import { UniInputBoxComponent } from '../input-box/input-box.component';
-import { UniSymbolComponent } from '../symbol';
+import { UniIconComponent } from '../icon';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'uni-select',
-  imports: [UniInputBoxComponent, UniSymbolComponent],
+  imports: [UniInputBoxComponent, UniIconComponent],
   templateUrl: './select-input.component.html',
 })
 export class UniSelectComponent<T> implements FormValueControl<T | null> {

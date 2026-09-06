@@ -21,6 +21,5 @@ export interface UniDialogHeaderOptions {
   /** Border drawn under the pinned header, separating it from the scrolling body. */
   divider?: Border;
   closeButtonIcon?: IconName;
-  closeButtonSymbol?: string;
   closeButtonSize?: Size;
 }

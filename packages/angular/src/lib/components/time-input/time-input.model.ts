@@ -1,3 +1,4 @@
+import type { IconName } from '../icon/icon.record';
 import type {
   ContainerColorToken,
   Motion,
@@ -20,7 +21,7 @@ export interface UniTimeInputRejection {
  * tagInput/searchInput.
  */
 export interface UniTimeInputOptions {
-  toggleSymbol?: string;
+  toggleIcon?: IconName;
   listColor?: ContainerColorToken;
   listShadow?: Shadow;
   listBorderRadius?: Radius;

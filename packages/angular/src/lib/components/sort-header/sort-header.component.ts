@@ -2,11 +2,11 @@ import { ChangeDetectionStrategy, Component, computed, inject, input } from '@an
 import { css } from '@emotion/css';
 import { type UniDatasource, SortDirection } from '../../cdk';
 import { ThemeService } from '../../theming/theme.service';
-import { UniSymbolComponent } from '../symbol/symbol.component';
+import { UniIconComponent } from '../icon';
 
 @Component({
   selector: 'uni-sort-header',
-  imports: [UniSymbolComponent],
+  imports: [UniIconComponent],
   templateUrl: './sort-header.component.html',
   host: { '[class]': 'className()' },
   changeDetection: ChangeDetectionStrategy.OnPush,

@@ -26,7 +26,7 @@ export interface UniCalloutOptions {
   padding: string;
   headerTypeface: Typeface;
   typeface: Typeface;
-  closeSymbol: IconName;
+  closeIcon: IconName;
   arrowSize: number;
   /** Main-axis gap between the spotlight hole edge and the panel, px. */
   offset: number;

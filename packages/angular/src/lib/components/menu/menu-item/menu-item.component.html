@@ -10,7 +10,7 @@
     <span [class]="LabelClassName">{{ label() }}</span>
   }
 </div>
-@let activeSym = activeSymbol();
+@let activeSym = activeIcon();
 @if (active() && activeSym) {
-  <uni-symbol [name]="activeSym"></uni-symbol>
+  <uni-icon [name]="activeSym"></uni-icon>
 }

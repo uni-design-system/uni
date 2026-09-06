@@ -1,3 +1,4 @@
+import type { IconName } from '../../icon/icon.record';
 import { TemplateRef } from '@angular/core';
 import type {
   Motion,
@@ -51,7 +52,7 @@ export interface UniMenuItemOptions {
   textColor?: ColorKey;
   hoverColor?: ContainerColorToken;
   /** Trailing symbol marking the active item; undefined/'' renders none. */
-  activeSymbol?: string;
+  activeIcon?: IconName;
   /** Named motion primitive for the hover/focus fill. Defaults to `control`;
       omit both this and `transitionSpeed` for no transition at all. */
   motion?: Motion;

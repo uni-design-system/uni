@@ -27,6 +27,5 @@ export interface UniDrawerHeaderOptions {
   /** Rule separating the header from the scrolling body, as a border primitive. */
   divider?: Border;
   closeButtonIcon?: IconName;
-  closeButtonSymbol?: string;
   closeButtonSize?: Size;
 }

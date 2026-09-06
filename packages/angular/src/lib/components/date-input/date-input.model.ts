@@ -1,3 +1,4 @@
+import type { IconName } from '../icon/icon.record';
 import type { ContainerColorToken, Radius, Shadow } from '@uni-design-system/uni-core';
 import type { UniDate } from '../../cdk';
 
@@ -15,7 +16,7 @@ export interface UniDateInputRejection {
  * affordance and panel only.
  */
 export interface UniDateInputOptions {
-  toggleSymbol?: string;
+  toggleIcon?: IconName;
   popupShadow?: Shadow;
   popupBorderRadius?: Radius;
   popupColor?: ContainerColorToken;

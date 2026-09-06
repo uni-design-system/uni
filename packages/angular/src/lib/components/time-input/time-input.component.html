@@ -29,7 +29,7 @@
         type="button"
         size="sm"
         aria-haspopup="listbox"
-        [symbolName]="componentOptions().toggleSymbol ?? 'schedule'"
+        [iconName]="componentOptions().toggleIcon ?? 'clock'"
         [attr.aria-expanded]="list.open()"
         [disable]="disabled()"
         (click)="onToggle()"

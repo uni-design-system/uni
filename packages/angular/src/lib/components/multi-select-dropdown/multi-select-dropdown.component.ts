@@ -7,7 +7,7 @@ import { UniBoxDirective, UniRowDirective, UniStackDirective } from '../layout';
 import { UniButtonComponent } from '../button/button.component';
 import { UniDividerComponent } from '../divider';
 import { UniDropdownComponent } from '../dropdown/dropdown.component';
-import { UniSymbolComponent } from '../symbol';
+import { UniIconComponent } from '../icon';
 import { UniTextDirective } from '../text/text.directive';
 import { BaseComponent, COMPONENT_NAME } from '../base/base.component';
 import { UniCheckboxComponent } from '../checkbox/checkbox.component';
@@ -24,7 +24,7 @@ import { UniMultiSelectDropdownOptions } from './multi-select-dropdown.model';
     UniDividerComponent,
     UniButtonComponent,
     UniTextDirective,
-    UniSymbolComponent,
+    UniIconComponent,
     UniRowDirective,
     UniInputBoxComponent,
   ],

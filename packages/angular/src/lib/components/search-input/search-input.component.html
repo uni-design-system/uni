@@ -13,12 +13,17 @@
     [ariaActivedescendant]="list.activeDescendantId() ?? undefined"
     (valueChange)="handleChange($event)"
   >
-    <uni-symbol pre-input class="uni-search-lead" name="{{ componentOptions().searchSymbol ?? 'search' }}" aria-hidden="true" />
+    <uni-icon
+      pre-input
+      class="uni-search-lead"
+      [name]="componentOptions().searchIcon ?? 'search'"
+      aria-hidden="true"
+    />
     @if (hasQuery()) {
       <button
         post-input
         icon-button
-        [iconName]="componentOptions().clearSymbol ?? 'close'"
+        [iconName]="componentOptions().clearIcon ?? 'close'"
         variant="ghost"
         size="sm"
         (click)="clear()"

@@ -1,3 +1,4 @@
+import type { IconName } from '../icon/icon.record';
 import type { ColorKey, OptionalSize, Typeface } from '@uni-design-system/uni-core';
 
 /** One step in the trail. The last item is treated as the current page. */
@@ -16,7 +17,7 @@ export interface UniBreadcrumbOptions {
   /** Color of the current (last) item. */
   currentColor?: ColorKey;
   /** Material symbol drawn between items. */
-  separatorSymbol?: string;
+  separatorIcon?: IconName;
   /** Space around separators, as a spacing token. */
   gap?: OptionalSize;
 }

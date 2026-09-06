@@ -288,7 +288,7 @@ const buildComponents = (c: Colors): ComponentThemes => ({
       typeface: 'label',
       color: 'on-background-variant',
       currentColor: 'on-background',
-      separatorSymbol: 'chevron_right',
+      separatorIcon: 'chevronRight',
       gap: 'xs',
     },
   },
@@ -365,7 +365,7 @@ const buildComponents = (c: Colors): ComponentThemes => ({
   // Initials/icon avatars color from the role's container tokens; the radius
   // token makes them circles by default and squares under a 'sharp' theme.
   avatar: {
-    options: { borderRadius: 'max', typeface: 'subtitle-2', fallbackSymbol: 'person' },
+    options: { borderRadius: 'max', typeface: 'subtitle-2', fallbackIcon: 'profile' },
     variants: {
       primary: { backgroundColor: c['primary-container'], color: c['on-primary-container'] },
       secondary: { backgroundColor: c['secondary-container'], color: c['on-secondary-container'] },
@@ -388,8 +388,8 @@ const buildComponents = (c: Colors): ComponentThemes => ({
   // uni-input-box; these tokens style the affordances and suggestion list.
   searchInput: {
     options: {
-      searchSymbol: 'search',
-      clearSymbol: 'close',
+      searchIcon: 'search',
+      clearIcon: 'close',
       listColor: 'primary-surface',
       listShadow: 'menu',
       listBorderRadius: 'xs',
@@ -496,7 +496,7 @@ const buildComponents = (c: Colors): ComponentThemes => ({
   },
   // Item anatomy: every density/shape/type knob is a token, and `variants`
   // carry tones — an item declares `variant: 'warn'` and the theme decides
-  // what a destructive action looks like. `activeSymbol` marks the selected
+  // what a destructive action looks like. `activeIcon` marks the selected
   // item; set it to undefined to drop the trailing symbol entirely.
   menuItem: {
     options: {
@@ -507,7 +507,7 @@ const buildComponents = (c: Colors): ComponentThemes => ({
       typeface: 'label',
       textColor: undefined,
       hoverColor: 'primary-container',
-      activeSymbol: 'check',
+      activeIcon: 'check',
       motion: 'control',
     },
     variants: {
@@ -540,7 +540,7 @@ const buildComponents = (c: Colors): ComponentThemes => ({
       maxWidth: '38ch',
       offset: 7,
       arrowSize: 8,
-      closeSymbol: 'close',
+      closeIcon: 'close',
       headerTypeface: 'title-small',
       tooltipPadding: '4px 8px',
       tooltipOpenDelay: 500,
@@ -752,8 +752,8 @@ const buildComponents = (c: Colors): ComponentThemes => ({
       dayBorderRadius: 'max', // 'xxs' gives the square/GitHub-contributions look
       typeface: 'label',
       gap: 'xxs', // grid gutter
-      navPrevSymbol: 'chevron_left',
-      navNextSymbol: 'chevron_right',
+      navPrevIcon: 'chevronLeft',
+      navNextIcon: 'chevronRight',
       weekdayFormat: 'short', // Intl weekday: 'narrow' | 'short'
       showOutsideDays: false,
       todayStyle: 'outline', // 'outline' | 'dot'
@@ -775,7 +775,7 @@ const buildComponents = (c: Colors): ComponentThemes => ({
   combobox: {
     options: {
       // Icon primitives (BaseIcons names), rendered by uni-icon — not
-      // Material Symbol ligatures. Themes re-point or register their own
+      // theme icon tokens. Themes re-point or register their own
       // through createTheme({ icons }).
       toggleIcon: 'chevronDown',
       clearIcon: 'close',
@@ -792,7 +792,7 @@ const buildComponents = (c: Colors): ComponentThemes => ({
   // style the popup-calendar affordance and panel only.
   dateInput: {
     options: {
-      toggleSymbol: 'calendar_month',
+      toggleIcon: 'calendar',
       popupShadow: 'menu',
       popupBorderRadius: 'xs',
       popupColor: 'primary-surface',
@@ -801,7 +801,7 @@ const buildComponents = (c: Colors): ComponentThemes => ({
   // Time field. Same listbox trio as tagInput/searchInput.
   timeInput: {
     options: {
-      toggleSymbol: 'schedule',
+      toggleIcon: 'clock',
       listColor: 'primary-surface',
       listShadow: 'menu',
       listBorderRadius: 'xs',
@@ -1154,7 +1154,7 @@ const buildComponents = (c: Colors): ComponentThemes => ({
       padding: '16px',
       headerTypeface: 'title-small',
       typeface: 'label',
-      closeSymbol: 'close',
+      closeIcon: 'close',
       arrowSize: 8,
       offset: 12,
       scrimColor: 'rgba(0, 0, 0, 0.45)',

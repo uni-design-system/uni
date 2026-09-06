@@ -51,6 +51,13 @@ const GROUPS = [
       chevronRight: 'chevron_right',
       arrowLeft: 'arrow_back',
       arrowRight: 'arrow_forward',
+      // Vertical pair for sort indicators; `arrow_upward`/`downward` rather
+      // than the `arrow_back`/`forward` family so the glyph weight matches.
+      arrowUp: 'arrow_upward',
+      arrowDown: 'arrow_downward',
+      // Double chevrons for first/last paging.
+      chevronsLeft: 'keyboard_double_arrow_left',
+      chevronsRight: 'keyboard_double_arrow_right',
       home: 'home',
       // Pairs with `home` for residential-vs-commercial distinctions.
       building: 'apartment',

@@ -3,7 +3,7 @@
     icon-button
     type="button"
     size="sm"
-    [symbolName]="componentOptions().navPrevSymbol ?? 'chevron_left'"
+    [iconName]="componentOptions().navPrevIcon ?? 'chevronLeft'"
     [disable]="disabled()"
     (click)="onNav(-1)"
   >
@@ -15,7 +15,7 @@
     icon-button
     type="button"
     size="sm"
-    [symbolName]="componentOptions().navNextSymbol ?? 'chevron_right'"
+    [iconName]="componentOptions().navNextIcon ?? 'chevronRight'"
     [disable]="disabled()"
     (click)="onNav(1)"
   >

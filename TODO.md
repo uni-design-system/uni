@@ -115,8 +115,10 @@ audits: `packages/angular/TODO.md` (v4 audit) and `uni-theme-generation-plan.md`
       pairs for check strokes; `disabled` tokens; themed knob shadow).
 - [ ] **`footer`** — declared in `ComponentName` with theme options but unbuilt;
       build it (app-bar sibling) or remove the declaration.
-- [x] ~~Input `typeFace` option casing → `typeface`~~ — renamed 2026-08-20 with a
-      deprecated `typeFace` alias (remove next major).
+- [x] ~~Input `typeFace` option casing → `typeface`~~ — renamed 2026-08-20; the
+      deprecated `typeFace` alias was removed in 9.0.0 (`packages/core/CHANGELOG.md:546`).
+      Nothing named `typeFace` survives — `ThemeService.typeFaces` is a
+      different, current API.
 - [x] ~~`icons: {}` empty in BaseTheme~~ — audited 2026-07-24: `uni-icon` reads it and
       every icon was invisible. `BaseIcons` now lives in core and merges into every
       `createTheme`; emitter + MCP teach icons-in-theme (never inline SVG).
@@ -198,8 +200,9 @@ audits: `packages/angular/TODO.md` (v4 audit) and `uni-theme-generation-plan.md`
       token (120ms `ease`, its exact previous timing): `control` times a state
       change in place, where a thumb covers distance and at 300ms reads as
       lagging the input. A spec now asserts the slider follows the token.
-      The rest of that batch (`typeFace` alias, HSL helpers, `*Symbol` →
-      `*Icon` renames) is still pending — see below.
+      The rest of that batch is now closed too: the `typeFace` alias and the
+      HSL helpers had already gone in 9.0.0 (both entries above were stale),
+      and the `*Symbol` → `*Icon` migration landed for 11.0.0 — see below.
 - [x] ~~The durations still hardcoded in components~~ — done 2026-09-06,
       closing ROADMAP P1 §3. Seventeen sites across twelve components moved to
       the scale; `motion` options added to button, iconButton, checkbox, tabs,
@@ -212,25 +215,29 @@ audits: `packages/angular/TODO.md` (v4 audit) and `uni-theme-generation-plan.md`
       states a duration in a style block.
 - [ ] JSDoc coverage on public inputs/outputs — ongoing; feeds `llms.txt` and MCP
       summaries (empty where class JSDoc is missing).
-- [ ] **uni-symbol → uni-icon migration** (rule established 2026-08-21, AGENTS.md
-      Icons bullet; combobox converted same day). Composite components render
-      glyphs via `uni-icon` theme tokens; `uni-symbol` stays only for app-facing
-      arbitrary-name inputs. Remaining migrations, audited 2026-08-21:
-      - Coverable today (BaseIcons has the glyph): search-input (`search`,
-        `close`), select-input + multi-select-dropdown (`keyboard_arrow_down` →
-        `chevronDown`), data-search (`close`), calendar + date-input
-        (`chevron_left/right` → `chevronLeft/Right`, `calendar_month` →
-        `calendar`), time-input (`schedule` → `clock`), dialog-header (`close`),
-        menu-item `activeSymbol` (`check`), breadcrumb `separatorSymbol`
-        (`chevron_right`), avatar `fallbackSymbol` (`person` → `profile`).
-      - **Missing from BaseIcons** — add to `generate-icons.mjs` first:
-        `arrowUp`/`arrowDown` (sort-header uses `arrow_upward`) and
-        `chevronsLeft`/`chevronsRight` (paginator's `keyboard_double_arrow_*`).
-      - Each migration renames its `*Symbol` theme option to `*Icon`
-        (`IconName`-typed) — breaking per component, so batch for a major.
-      - Known uni-icon gap vs symbols: no variable-font axes (fill/weight/
-        grade) — themes like Wellsourced set `symbol: { weight: 200 }`, which
-        has no icon equivalent short of regenerating the set at that weight.
+- [x] ~~**uni-symbol → uni-icon migration**~~ — done 2026-09-06 for 11.0.0.
+      Every composite now renders its glyphs through `uni-icon` theme tokens;
+      `uni-symbol` remains only for the app-facing arbitrary-ligature inputs
+      (`icon-button`, `button` `symbolLeft`/`symbolRight`, `menu-item`, `tag`,
+      `alert`, `snackbar`) exactly as the AGENTS.md Icons rule reserves it.
+      - **13 theme options renamed** `*Symbol` → `*Icon` and retyped to
+        `IconName`: date-input/time-input `toggleIcon`, calendar
+        `navPrevIcon`/`navNextIcon`, menu-item `activeIcon`, avatar
+        `fallbackIcon`, breadcrumb `separatorIcon`, search-input
+        `searchIcon`/`clearIcon`, callout/popover `closeIcon`. `drawer-header`
+        and `dialog-header` shipped both names — the `closeButtonSymbol` half
+        was deleted, `closeButtonIcon` already existed.
+      - **Four glyphs added to `BaseIcons`** (65 total): `arrowUp`/`arrowDown`
+        for sort-header, `chevronsLeft`/`chevronsRight` for the paginator —
+        the two components the 2026-08-21 audit listed as blocked.
+      - Option-less `<uni-symbol>` renders also converted: sort-header,
+        paginator (4), select-input, multi-select-dropdown, data-search.
+      - The audit list was incomplete by four options — `drawer-header`,
+        `callout`, `popover` and search-input's `clearSymbol` were missing
+        from it.
+      - Wellsourced's `symbol: { options: { weight: 200 } }` still governs its
+        app-facing symbols; migrated composites adopt the icon set's weight
+        (300), accepted by the consumer.
 
 ## Theme generation (PRD stragglers)
 
@@ -337,5 +344,8 @@ audits: `packages/angular/TODO.md` (v4 audit) and `uni-theme-generation-plan.md`
       maturity (maintainer decision 2026-07-23); revisit once Tier 2 lands.
 - [ ] Bundle-analysis CI check for the tree-shaking budget (engine ≈ 0 bytes for
       non-generating apps, PRD §7.1 — verified manually, not enforced).
-- [ ] Remove deprecated HSL helpers (`uniColor`, `randomRangeValue`,
-      `CategorySaturation`, `CategoryLightness`) — next major.
+- [x] ~~Remove deprecated HSL helpers (`uniColor`, `randomRangeValue`,
+      `CategorySaturation`, `CategoryLightness`)~~ — went in 9.0.0 with
+      `color.records.ts` (`packages/core/CHANGELOG.md:554-559`), superseded by
+      the OKLCH engine; `CategoryChroma` replaced `CategorySaturation`. Only a
+      comment at `generation/palette.factory.ts:63` still names the old table.
