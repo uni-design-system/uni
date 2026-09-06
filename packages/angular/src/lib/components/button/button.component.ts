@@ -52,6 +52,11 @@ export class UniButtonComponent extends BaseComponent<UniButtonOptions, UniButto
     paddingBottom: '6%',
   });
 
+  /** Resolved from the component's `motion` option; `control` by default. */
+  private readonly motion = computed(() =>
+    this.theme.motion(this.componentOptions().motion ?? 'control')
+  );
+
   protected readonly className = computed(() =>
     css([
       // Token-driven radius + typeface from component options. Applied before
@@ -71,7 +76,7 @@ export class UniButtonComponent extends BaseComponent<UniButtonOptions, UniButto
         outline: 0,
         border: 0,
         cursor: 'pointer',
-        transition: 'all 0.28s ease',
+        transition: `all ${this.motion().duration}ms ${this.motion().easing}`,
       },
 
       this.style() && {

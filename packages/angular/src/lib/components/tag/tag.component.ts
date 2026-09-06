@@ -109,8 +109,14 @@ export class UniTagComponent extends BaseComponent<UniTagOptions> {
 
   protected readonly hostClass = computed(() => {
     const options = this.componentOptions();
+    const motion = this.theme.motion(options.motion ?? 'control');
 
     return `${css([
+      {
+        transition:
+          `background-color ${motion.duration}ms ${motion.easing},` +
+          ` color ${motion.duration}ms ${motion.easing}`,
+      },
       this.theme.radius(options.borderRadius),
       { ...this.theme.typeface(options.typeface) },
       // Theme `fixed` + variant (incl. its nested `&.tone-*` rules) + size.

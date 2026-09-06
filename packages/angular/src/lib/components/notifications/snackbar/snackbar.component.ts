@@ -111,7 +111,7 @@ export class UniSnackbarComponent
       },
 
       '&[closing]': {
-        animation: `${this.fadeOut} 0.3s forwards`,
+        animation: `${this.fadeOut} ${this.motion().duration}ms forwards`,
       },
     })
   );

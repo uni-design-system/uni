@@ -72,6 +72,14 @@ export class UniCheckboxComponent
     this.markAsTouched();
   }
 
+  /** Resolved from the component's `motion` option; `control` by default. */
+  private readonly motion = computed(() =>
+    this.theme.motion(this.componentOptions().motion ?? 'control')
+  );
+
+  /** The tick is drawn rather than switched, so it trails the box. */
+  private readonly drawMotion = computed(() => this.theme.motion('reveal'));
+
   protected readonly checkboxLabel = computed(() =>
     css({
       userSelect: 'none',
@@ -103,7 +111,7 @@ export class UniCheckboxComponent
         strokeWidth: 2,
         rx: this.componentOptions().borderRadius || 2,
         ry: this.componentOptions().borderRadius || 2,
-        transition: 'all 0.2s ease',
+        transition: `all ${this.motion().duration}ms ${this.motion().easing}`,
       },
 
       // Check/dash draw on the variant-filled box, so they wear its on-color.
@@ -115,7 +123,10 @@ export class UniCheckboxComponent
         strokeLinejoin: 'round',
         strokeDasharray: 18,
         strokeDashoffset: 18,
-        transition: 'all 0.5s ease',
+        // The tick is drawn (stroke-dashoffset), deliberately trailing the
+        // box it lands in, so it reads as a slower `reveal` rather than the
+        // `control` beat of the box itself.
+        transition: `all ${this.drawMotion().duration}ms ${this.drawMotion().easing}`,
       },
 
       '& .checkbox svg .checkbox-dash': {
@@ -123,7 +134,7 @@ export class UniCheckboxComponent
         strokeWidth: 2,
         strokeLinecap: 'round',
         opacity: 0,
-        transition: 'opacity 0.2s ease',
+        transition: `opacity ${this.motion().duration}ms ${this.motion().easing}`,
       },
     })
   );

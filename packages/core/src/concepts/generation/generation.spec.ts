@@ -215,8 +215,11 @@ describe('button token conformance', () => {
   it('drives button corner rounding from options tokens, not per-size pixels', () => {
     const theme = createTheme({ id: 'T', name: 'T', colors: lightColors });
     const options = theme.components.button?.options as { borderRadius: string };
-    expect(options).toEqual({ borderRadius: 'max', typeface: 'button' });
-    expect(theme.components.iconButton?.options).toEqual({ borderRadius: 'max' });
+    expect(options).toEqual({ borderRadius: 'max', typeface: 'button', motion: 'control' });
+    expect(theme.components.iconButton?.options).toEqual({
+      borderRadius: 'max',
+      motion: 'control',
+    });
     for (const size of Object.values(theme.components.button?.sizes ?? {})) {
       expect(size).not.toHaveProperty('borderRadius');
     }

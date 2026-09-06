@@ -80,7 +80,7 @@ export class UniAlertComponent extends BaseComponent<UniAlertOptions> implements
       },
 
       '&[closing]': {
-        animation: `${this.fadeOut} 0.3s forwards`,
+        animation: `${this.fadeOut} ${this.motion().duration}ms forwards`,
       },
     })
   );

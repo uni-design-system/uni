@@ -1,4 +1,4 @@
-import type { ColorKey } from '@uni-design-system/uni-core';
+import type { ColorKey, Motion } from '@uni-design-system/uni-core';
 
 /**
  * What a variant means for a checkbox, as theme data the component reads.
@@ -19,6 +19,8 @@ export interface UniCheckboxVariant {
 }
 
 export interface UniCheckboxOptions {
+  /** Named motion primitive for the box, tick and dash transitions. Defaults to `control`. */
+  motion?: Motion;
   size?: string | number;
   borderRadius?: string | number;
   /** Unchecked box background token. */

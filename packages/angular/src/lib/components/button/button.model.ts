@@ -1,4 +1,4 @@
-import type { ColorKey, RadiiSize, Typeface } from '@uni-design-system/uni-core';
+import type { ColorKey, Motion, RadiiSize, Typeface } from '@uni-design-system/uni-core';
 
 // eslint-disable-next-line @typescript-eslint/no-empty-object-type
 export interface ButtonProps {}
@@ -27,6 +27,8 @@ export interface UniButtonVariant {
 
 /** Theme-level options for `uni-text-button`, resolved by token name. */
 export interface UniButtonOptions {
+  /** Named motion primitive for the hover and press transition. Defaults to `control`. */
+  motion?: Motion;
   /**
    * Corner radius as a radii token. The default theme uses `max` (pill);
    * because this is a token, the theme's radii scale — including generated

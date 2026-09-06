@@ -113,6 +113,11 @@ export class UniTabsComponent extends BaseComponent<UniTabsOptions> {
     this.tabButtons()[next]?.nativeElement.focus();
   }
 
+  /** Resolved from the component's `motion` option; `snap` by default. */
+  private readonly motion = computed(() =>
+    this.theme.motion(this.componentOptions().motion ?? 'snap')
+  );
+
   protected readonly tablistClass = computed(() => {
     const options = this.componentOptions();
     return css({
@@ -143,7 +148,11 @@ export class UniTabsComponent extends BaseComponent<UniTabsOptions> {
       ...this.theme.paddingTop('sm'),
       ...this.theme.paddingBottom('sm'),
       ...this.theme.radius(options.borderRadius),
-      ...motionSafe({ transition: 'color 0.15s ease, border-color 0.15s ease' }),
+      ...motionSafe({
+        transition:
+          `color ${this.motion().duration}ms ${this.motion().easing},` +
+          ` border-color ${this.motion().duration}ms ${this.motion().easing}`,
+      }),
       '&.active': {
         ...this.theme.color(options.activeTextColor),
         ...this.theme.backgroundColor(options.activeColor),

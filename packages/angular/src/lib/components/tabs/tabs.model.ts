@@ -1,11 +1,4 @@
-import type {
-  Border,
-  ColorKey,
-  OptionalSize,
-  Radius,
-  Thickness,
-  Typeface,
-} from '@uni-design-system/uni-core';
+import type { Border, ColorKey, Motion, OptionalSize, Radius, Thickness, Typeface } from '@uni-design-system/uni-core';
 
 /**
  * Theme-level options for `uni-tabs`, resolved by token name. The defaults
@@ -13,6 +6,8 @@ import type {
  * get pills (`borderRadius: 'max'` + `activeColor`) or any custom treatment.
  */
 export interface UniTabsOptions {
+  /** Named motion primitive for a tab's ink and indicator transition. Defaults to `snap`. */
+  motion?: Motion;
   /** Tab label typography. */
   typeface?: Typeface;
   /** Inactive tab label color. */

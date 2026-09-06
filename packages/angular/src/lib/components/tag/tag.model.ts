@@ -1,7 +1,9 @@
-import type { IconName, NullableSize, Radius, Typeface } from '@uni-design-system/uni-core';
+import type { IconName, Motion, NullableSize, Radius, Typeface } from '@uni-design-system/uni-core';
 
 /** Theme options for the `tag` component entry. */
 export interface UniTagOptions {
+  /** Named motion primitive for the fill and ink transition. Defaults to `control`. */
+  motion?: Motion;
   borderRadius?: Radius;
   typeface?: Typeface;
   /** Space between the lead element, label and remove button. */

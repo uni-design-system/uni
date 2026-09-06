@@ -200,11 +200,16 @@ audits: `packages/angular/TODO.md` (v4 audit) and `uni-theme-generation-plan.md`
       lagging the input. A spec now asserts the slider follows the token.
       The rest of that batch (`typeFace` alias, HSL helpers, `*Symbol` →
       `*Icon` renames) is still pending — see below.
-- [ ] **The durations still hardcoded in components**, which never had an
-      option to deprecate: tooltip 350ms, sort-header 350ms, button and
-      icon-button 0.28s, checkbox 0.2s/0.5s/0.2s, data-table 350ms/0.28s/0.3s,
-      alert 0.3s, snackbar 0.3s, tabs 0.15s, combobox 0.15s. A theme cannot
-      retime any of them. This is the other half of ROADMAP P1 §3.
+- [x] ~~The durations still hardcoded in components~~ — done 2026-09-06,
+      closing ROADMAP P1 §3. Seventeen sites across twelve components moved to
+      the scale; `motion` options added to button, iconButton, checkbox, tabs,
+      tooltip, dataTable and tag, with sort-header naming `control` directly
+      (it has no theme entry) and combobox's chevron joining the popup it
+      opens. Two of them were not in components at all: `button.fixed` and
+      `tag.fixed` baked a `transition` into the *theme*, and the button's beat
+      the component that had already been migrated — so the button kept 0.28s
+      no matter what the component read. A spec now fails if any shipped theme
+      states a duration in a style block.
 - [ ] JSDoc coverage on public inputs/outputs — ongoing; feeds `llms.txt` and MCP
       summaries (empty where class JSDoc is missing).
 - [ ] **uni-symbol → uni-icon migration** (rule established 2026-08-21, AGENTS.md

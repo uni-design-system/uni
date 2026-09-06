@@ -401,6 +401,7 @@ const buildComponents = (c: Colors): ComponentThemes => ({
   // component's variant; its on-color pairs are derived in the component).
   checkbox: {
     options: {
+      motion: 'control',
       size: 20,
       boxColor: 'surface',
       borderRadius: 2,
@@ -652,6 +653,7 @@ const buildComponents = (c: Colors): ComponentThemes => ({
   // indicator without touching component code.
   tabs: {
     options: {
+      motion: 'snap',
       typeface: 'title-small',
       textColor: 'on-surface-variant',
       activeTextColor: 'primary',
@@ -691,13 +693,13 @@ const buildComponents = (c: Colors): ComponentThemes => ({
       // they recolour with the chip's tone and a theme can swap the artwork.
       removeIcon: 'close',
       selectedIcon: 'check',
+      motion: 'control',
     },
     fixed: {
       display: 'inline-flex',
       alignItems: 'center',
       maxWidth: '100%',
       border: '1px solid transparent',
-      transition: 'background-color .2s ease, color .2s ease',
     },
     variants: {
       ...tagVariant(c, 'primary'),
@@ -818,14 +820,13 @@ const buildComponents = (c: Colors): ComponentThemes => ({
     // classic pill and the type scale's `button` role carries the label
     // typography, so shape languages, custom radii, and typography edits
     // restyle every button by re-pointing or redefining a token.
-    options: { borderRadius: 'max', typeface: 'button' },
+    options: { borderRadius: 'max', typeface: 'button', motion: 'control' },
     fixed: {
       position: 'relative',
       overflow: 'hidden',
       outline: '0',
       border: '0',
       cursor: 'pointer',
-      transition: 'all 0.28s ease',
     },
     // The keyboard-focus ring's colour per intent. It is named here rather than
     // derived from the fill because the ring is drawn *outside* the button, so
@@ -898,7 +899,7 @@ const buildComponents = (c: Colors): ComponentThemes => ({
     },
   },
   iconButton: {
-    options: { borderRadius: 'max' },
+    options: { borderRadius: 'max', motion: 'control' },
     // Focus ring colour per intent, as on `button`. The ring is drawn outside
     // the control, so it reads against the page rather than the fill — and it
     // is named here rather than derived from the variant, which is what left
@@ -1014,6 +1015,7 @@ const buildComponents = (c: Colors): ComponentThemes => ({
   },
   dataTable: {
     options: {
+      motion: 'control',
       color: 'primary-surface',
       border: 'light',
       borderRadius: 'sm',
@@ -1132,6 +1134,7 @@ const buildComponents = (c: Colors): ComponentThemes => ({
   },
   tooltip: {
     options: {
+      motion: 'notification',
       border: undefined,
       borderRadius: 'xs',
       shadow: 'raised',

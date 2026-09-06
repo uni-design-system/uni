@@ -30,12 +30,14 @@ release cycle was the same shape: a component hardcoded something the theme
 should own, or two components each owned a copy and drifted (button focus ring,
 icon-button hover, dialog/drawer scrim, dialog/drawer motion). Get ahead of it:
 
-3. **Finish the motion-token migration.** 11 component families read
-   `theme.motion()`; 15 sites still hardcode a duration (tooltip 350ms,
-   button/icon-button 0.28s, checkbox 0.2s/0.5s, data-table, alert, snackbar,
-   tabs, combobox, sort-header). A theme cannot retime any of them. Pairs with
-   the deprecated per-component motion options `TODO.md` already schedules for
-   removal (`callout.transitionMs`, `expand.transitionSpeed`, …).
+3. ~~**Finish the motion-token migration.**~~ Done for 11.0.0. Every duration
+   in the library now resolves through the `motion` scale: `slider.transitionMs`
+   (the last option outside it) plus seventeen hardcoded sites across twelve
+   components. Two of those were baked into the *theme* rather than a
+   component — `button.fixed` and `tag.fixed` — and the button's beat the
+   component that had already been migrated, so it kept 0.28s regardless. The
+   scale gained `snap` (120ms) for a control covering distance. Specs now fail
+   if a shipped theme states a duration in a style block.
 4. **Theme coverage reporting.** Nothing tells a theme author what they have
    not dressed. The Wellsourced theme covers 13 of 59 component entries — it
    themes `dialog` but not `dialogHeader`/`dialogButtons`, and no `drawer*` at

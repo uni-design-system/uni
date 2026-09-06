@@ -50,10 +50,19 @@ export class UniDataTableComponent<T> extends BaseComponent<UniDataTableOptions>
   height = input<string>();
   scrollable = signal(false);
 
-  loadingOverlayClass = css({
-    animation: 'fadeIn 350ms ease-in-out',
-    '@keyframes fadeIn': { ...fadeIn },
-  });
+  /** Row hover answers the pointer; the overlay arrives; a detail row reveals. */
+  private readonly motion = computed(() =>
+    this.theme.motion(this.componentOptions().motion ?? 'control')
+  );
+  private readonly overlayMotion = computed(() => this.theme.motion('notification'));
+  private readonly revealMotion = computed(() => this.theme.motion('reveal'));
+
+  protected readonly loadingOverlayClass = computed(() =>
+    css({
+      animation: `fadeIn ${this.overlayMotion().duration}ms ${this.overlayMotion().easing}`,
+      '@keyframes fadeIn': { ...fadeIn },
+    })
+  );
 
   rowSelect = output<T>();
   rowClick = output<T>();
@@ -143,7 +152,7 @@ export class UniDataTableComponent<T> extends BaseComponent<UniDataTableOptions>
       {
         '& td': {
           ...this.theme.backgroundColor('transparent'),
-          transition: 'all 0.28s ease',
+          transition: `all ${this.motion().duration}ms ${this.motion().easing}`,
         },
         ':not(:last-child) td': {
           borderBottom: this.getBorder(this.componentOptions().tdHorizontalBorder),
@@ -172,7 +181,7 @@ export class UniDataTableComponent<T> extends BaseComponent<UniDataTableOptions>
       '& td .detail-content-wrapper': {
         display: 'grid',
         gridTemplateRows: '0fr',
-        transition: 'grid-template-rows 0.3s ease',
+        transition: `grid-template-rows ${this.revealMotion().duration}ms ${this.revealMotion().easing}`,
         overflow: 'hidden',
 
         '& .detail-inner': {

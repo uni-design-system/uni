@@ -1,13 +1,5 @@
 import { TemplateRef } from '@angular/core';
-import type {
-  Border,
-  ColorKey,
-  ContainerColorToken,
-  Elevation,
-  NullableSize,
-  Radius,
-  TextRole,
-} from '@uni-design-system/uni-core';
+import type { Border, ColorKey, ContainerColorToken, Elevation, Motion, NullableSize, Radius, TextRole } from '@uni-design-system/uni-core';
 
 export interface ColumnDefinition<T> {
   columnDef: keyof T;
@@ -19,6 +11,8 @@ export interface ColumnDefinition<T> {
 }
 
 export interface UniDataTableOptions {
+  /** Named motion primitive for the row hover transition. Defaults to `control`. */
+  motion?: Motion;
   border?: Border;
   borderRadius?: Radius;
   color?: ContainerColorToken;

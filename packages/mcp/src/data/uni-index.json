@@ -1,13 +1,13 @@
 {
   "meta": {
     "version": "10.4.0",
-    "builtAt": "2026-09-06T20:19:40.190Z",
+    "builtAt": "2026-09-06T20:35:01.431Z",
     "frameworks": [
       "angular"
     ],
     "counts": {
       "components": 84,
-      "tokens": 464,
+      "tokens": 471,
       "themes": 2,
       "examples": 229
     }
@@ -1083,7 +1083,8 @@
       },
       "relatedTokens": [
         "button.behavior.borderRadius",
-        "button.behavior.typeface"
+        "button.behavior.typeface",
+        "button.behavior.motion"
       ]
     },
     {
@@ -1923,6 +1924,7 @@
         ]
       },
       "relatedTokens": [
+        "checkbox.behavior.motion",
         "checkbox.behavior.size",
         "checkbox.behavior.boxColor",
         "checkbox.behavior.borderRadius",
@@ -8407,6 +8409,7 @@
         ]
       },
       "relatedTokens": [
+        "tabs.behavior.motion",
         "tabs.behavior.typeface",
         "tabs.behavior.textColor",
         "tabs.behavior.activeTextColor",
@@ -8661,7 +8664,8 @@
         "tag.behavior.typeface",
         "tag.behavior.gap",
         "tag.behavior.removeIcon",
-        "tag.behavior.selectedIcon"
+        "tag.behavior.selectedIcon",
+        "tag.behavior.motion"
       ]
     },
     {
@@ -9791,6 +9795,7 @@
         ]
       },
       "relatedTokens": [
+        "tooltip.behavior.motion",
         "tooltip.behavior.borderRadius",
         "tooltip.behavior.shadow",
         "tooltip.behavior.color",
@@ -12150,6 +12155,18 @@
       }
     },
     {
+      "id": "checkbox.behavior.motion",
+      "value": "control",
+      "type": "string",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "checkbox",
+      "themeValues": {
+        "LightTheme": "control",
+        "DarkTheme": "control"
+      }
+    },
+    {
       "id": "checkbox.behavior.size",
       "value": 20,
       "type": "number",
@@ -13470,6 +13487,18 @@
       }
     },
     {
+      "id": "tabs.behavior.motion",
+      "value": "snap",
+      "type": "string",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "tabs",
+      "themeValues": {
+        "LightTheme": "snap",
+        "DarkTheme": "snap"
+      }
+    },
+    {
       "id": "tabs.behavior.typeface",
       "value": "title-small",
       "type": "string",
@@ -13731,6 +13760,18 @@
       "themeValues": {
         "LightTheme": "check",
         "DarkTheme": "check"
+      }
+    },
+    {
+      "id": "tag.behavior.motion",
+      "value": "control",
+      "type": "string",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "tag",
+      "themeValues": {
+        "LightTheme": "control",
+        "DarkTheme": "control"
       }
     },
     {
@@ -14202,6 +14243,18 @@
       }
     },
     {
+      "id": "button.behavior.motion",
+      "value": "control",
+      "type": "string",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "button",
+      "themeValues": {
+        "LightTheme": "control",
+        "DarkTheme": "control"
+      }
+    },
+    {
       "id": "iconButton.behavior.borderRadius",
       "value": "max",
       "type": "string",
@@ -14211,6 +14264,18 @@
       "themeValues": {
         "LightTheme": "max",
         "DarkTheme": "max"
+      }
+    },
+    {
+      "id": "iconButton.behavior.motion",
+      "value": "control",
+      "type": "string",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "iconButton",
+      "themeValues": {
+        "LightTheme": "control",
+        "DarkTheme": "control"
       }
     },
     {
@@ -14271,6 +14336,18 @@
       "themeValues": {
         "LightTheme": "disabled",
         "DarkTheme": "disabled"
+      }
+    },
+    {
+      "id": "dataTable.behavior.motion",
+      "value": "control",
+      "type": "string",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "dataTable",
+      "themeValues": {
+        "LightTheme": "control",
+        "DarkTheme": "control"
       }
     },
     {
@@ -15150,6 +15227,18 @@
       }
     },
     {
+      "id": "tooltip.behavior.motion",
+      "value": "notification",
+      "type": "string",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "tooltip",
+      "themeValues": {
+        "LightTheme": "notification",
+        "DarkTheme": "notification"
+      }
+    },
+    {
       "id": "tooltip.behavior.borderRadius",
       "value": "xs",
       "type": "string",
@@ -15622,6 +15711,7 @@
           "maxSuggestions": 8
         },
         "checkbox": {
+          "motion": "control",
           "size": 20,
           "boxColor": "surface",
           "borderRadius": 2,
@@ -15764,6 +15854,7 @@
           "valueWidth": "3ch"
         },
         "tabs": {
+          "motion": "snap",
           "typeface": "title-small",
           "textColor": "on-surface-variant",
           "activeTextColor": "primary",
@@ -15791,7 +15882,8 @@
           "typeface": "tag",
           "gap": "xs",
           "removeIcon": "close",
-          "selectedIcon": "check"
+          "selectedIcon": "check",
+          "motion": "control"
         },
         "tagInput": {
           "chipGap": "xs",
@@ -15844,10 +15936,12 @@
         },
         "button": {
           "borderRadius": "max",
-          "typeface": "button"
+          "typeface": "button",
+          "motion": "control"
         },
         "iconButton": {
-          "borderRadius": "max"
+          "borderRadius": "max",
+          "motion": "control"
         },
         "card": {
           "borderRadius": "xs"
@@ -15859,6 +15953,7 @@
           "placeholderColor": "disabled"
         },
         "dataTable": {
+          "motion": "control",
           "color": "primary-surface",
           "border": "light",
           "borderRadius": "sm",
@@ -15950,6 +16045,7 @@
           "motion": "control"
         },
         "tooltip": {
+          "motion": "notification",
           "borderRadius": "xs",
           "shadow": "raised",
           "color": "inverse-surface",
@@ -16198,6 +16294,7 @@
           "maxSuggestions": 8
         },
         "checkbox": {
+          "motion": "control",
           "size": 20,
           "boxColor": "surface",
           "borderRadius": 2,
@@ -16340,6 +16437,7 @@
           "valueWidth": "3ch"
         },
         "tabs": {
+          "motion": "snap",
           "typeface": "title-small",
           "textColor": "on-surface-variant",
           "activeTextColor": "primary",
@@ -16367,7 +16465,8 @@
           "typeface": "tag",
           "gap": "xs",
           "removeIcon": "close",
-          "selectedIcon": "check"
+          "selectedIcon": "check",
+          "motion": "control"
         },
         "tagInput": {
           "chipGap": "xs",
@@ -16420,10 +16519,12 @@
         },
         "button": {
           "borderRadius": "max",
-          "typeface": "button"
+          "typeface": "button",
+          "motion": "control"
         },
         "iconButton": {
-          "borderRadius": "max"
+          "borderRadius": "max",
+          "motion": "control"
         },
         "card": {
           "borderRadius": "xs"
@@ -16435,6 +16536,7 @@
           "placeholderColor": "disabled"
         },
         "dataTable": {
+          "motion": "control",
           "color": "primary-surface",
           "border": "light",
           "borderRadius": "sm",
@@ -16526,6 +16628,7 @@
           "motion": "control"
         },
         "tooltip": {
+          "motion": "notification",
           "borderRadius": "xs",
           "shadow": "raised",
           "color": "inverse-surface",

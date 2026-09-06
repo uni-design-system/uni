@@ -196,6 +196,11 @@ export class UniTooltipComponent extends BaseComponent<UniTooltipOptions> {
     }
   }
 
+  /** Resolved from the component's `motion` option; `notification` by default. */
+  private readonly motion = computed(() =>
+    this.theme.motion(this.componentOptions().motion ?? 'notification')
+  );
+
   protected readonly className = computed(() =>
     css(
       {
@@ -226,11 +231,11 @@ export class UniTooltipComponent extends BaseComponent<UniTooltipOptions> {
         ...anchorStyles(this.anchorName, this.placement(), { mainAxis: 6 }),
 
         '&[fade="in"]': {
-          animation: `${this.tooltipFadeIn} ease-in 350ms`,
+          animation: `${this.tooltipFadeIn} ${this.motion().easing} ${this.motion().duration}ms`,
         },
 
         '&[fade="out"]': {
-          animation: `${this.tooltipFadeOut} ease-in 350ms`,
+          animation: `${this.tooltipFadeOut} ${this.motion().easing} ${this.motion().duration}ms`,
         },
       },
     ])

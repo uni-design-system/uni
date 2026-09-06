@@ -1,6 +1,7 @@
-import { ChangeDetectionStrategy, Component, computed, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, input } from '@angular/core';
 import { css } from '@emotion/css';
 import { type UniDatasource, SortDirection } from '../../cdk';
+import { ThemeService } from '../../theming/theme.service';
 import { UniSymbolComponent } from '../symbol/symbol.component';
 
 @Component({
@@ -11,6 +12,15 @@ import { UniSymbolComponent } from '../symbol/symbol.component';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class UniSortHeaderComponent<T> {
+  private readonly theme = inject(ThemeService);
+
+  /**
+   * The arrow answers a click, so it rides `control`. This component has no
+   * theme entry of its own, so it names the token directly rather than
+   * exposing an option that would have nowhere to live.
+   */
+  private readonly motion = computed(() => this.theme.motion('control'));
+
   column = input<keyof T>();
   datasource = input<UniDatasource<T>>();
 
@@ -46,7 +56,7 @@ export class UniSortHeaderComponent<T> {
         height: 24,
         width: 24,
 
-        transition: 'all 350ms ease-in-out',
+        transition: `all ${this.motion().duration}ms ${this.motion().easing}`,
         transform: 'rotate(0)',
       },
 

@@ -410,6 +410,11 @@ export class UniComboboxComponent<T>
 
   // --- Styling ----------------------------------------------------------------
 
+  /** The chevron turns with the popup it opens, so both read one token. */
+  private readonly chevronMotion = computed(() =>
+    this.theme.motion(this.componentOptions().motion ?? 'popup')
+  );
+
   protected readonly className = computed(() =>
     css({ display: 'block', position: 'relative', width: this.width(), ...this.anchor.style })
   );
@@ -445,7 +450,9 @@ export class UniComboboxComponent<T>
       cursor: this.disabled() ? 'not-allowed' : 'pointer',
       ...this.theme.color('on-background-variant'),
       '& uni-icon': {
-        ...motionSafe({ transition: 'transform 0.15s ease' }),
+        ...motionSafe({
+          transition: `transform ${this.chevronMotion().duration}ms ${this.chevronMotion().easing}`,
+        }),
         transform: this.popupOpen() ? 'rotate(180deg)' : 'none',
       },
     })

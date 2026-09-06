@@ -7,7 +7,7 @@ import { UniSymbolComponent } from '../symbol';
 import { UniIconComponent } from '../icon';
 import { ThemeService } from '../../theming/theme.service';
 import { visuallyHidden } from '../../cdk';
-import type { ColorKey, RadiiSize, Size, Variant } from '@uni-design-system/uni-core';
+import type { ColorKey, Motion, RadiiSize, Size, Variant } from '@uni-design-system/uni-core';
 
 /**
  * What a variant means for an icon button, as theme data the component reads.
@@ -44,7 +44,9 @@ export interface UniIconButtonVariant {
 })
 export class UniIconButtonComponent {
   private theme = inject(ThemeService);
-  config = this.theme.component<{ borderRadius?: RadiiSize }, UniIconButtonVariant>('iconButton');
+  config = this.theme.component<{ borderRadius?: RadiiSize; motion?: Motion }, UniIconButtonVariant>(
+    'iconButton'
+  );
 
   /**
    * Accessible name for the button. Alternative to projecting text content
@@ -78,6 +80,11 @@ export class UniIconButtonComponent {
     return typeof fontSize === 'number' || typeof fontSize === 'string' ? fontSize : undefined;
   });
 
+  /** Resolved from the component's `motion` option; `control` by default. */
+  private readonly motion = computed(() =>
+    this.theme.motion(this.config().options?.motion ?? 'control')
+  );
+
   protected readonly className = computed(() => {
     const { sizes, variants } = this.config();
     const sizeConfig = sizes && sizes[this.size()];
@@ -90,7 +97,7 @@ export class UniIconButtonComponent {
         outline: 0,
         border: 0,
         cursor: 'pointer',
-        transition: 'all 0.28s ease',
+        transition: `all ${this.motion().duration}ms ${this.motion().easing}`,
         // Token-driven radius (`max` = circle) with the legacy 999 fallback
         // for hand-authored themes that predate iconButton options.
         ...(this.theme.radius(this.config().options?.borderRadius) ?? { borderRadius: 999 }),

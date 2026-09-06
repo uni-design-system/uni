@@ -261,3 +261,51 @@ describe('the shipped themes pair every painted surface with its ink', () => {
     expect(unpaired(theme)).toEqual([]);
   });
 });
+
+/**
+ * Durations belong to the `motion` scale, not to a component's style blocks.
+ *
+ * `button.fixed` and `tag.fixed` each baked one in, which is why a theme could
+ * retime every animated component except those two — and why the button kept
+ * its old 0.28s even after the component started reading a token: the theme's
+ * `fixed` block won.
+ */
+describe('the shipped themes leave timing to the motion scale', () => {
+  const TIMED = /(transition|animation)[^;:]*:\s*[^;]*?(\d+m?s)/i;
+
+  const baked = (theme: typeof LightTheme): string[] => {
+    const out: string[] = [];
+    const walk = (style: unknown, where: string) => {
+      if (!style || typeof style !== 'object') return;
+      for (const [key, value] of Object.entries(style as Record<string, unknown>)) {
+        if (typeof value === 'string' && /^(transition|animation)/i.test(key) && /\d+m?s/.test(value)) {
+          out.push(`${where}.${key} = ${value}`);
+        } else if (value && typeof value === 'object') {
+          walk(value, `${where}.${key}`);
+        }
+      }
+    };
+    for (const [name, entry] of Object.entries(theme.components ?? {})) {
+      if (!entry) continue;
+      walk(entry.fixed, `${name}.fixed`);
+      for (const section of ['variants', 'sizes'] as const) {
+        for (const [key, style] of Object.entries((entry[section] ?? {}) as Record<string, unknown>)) {
+          walk(style, `${name}.${section}.${key}`);
+        }
+      }
+    }
+    return out;
+  };
+
+  it.each([
+    ['LightTheme', LightTheme],
+    ['DarkTheme', DarkTheme],
+  ])('%s states no duration of its own', (_name, theme) => {
+    expect(baked(theme)).toEqual([]);
+  });
+
+  it('keeps the scale itself as the one place durations live', () => {
+    expect(Object.keys(LightTheme.motion ?? {})).toContain('snap');
+    expect(TIMED.test('transition: all 0.28s ease')).toBe(true);
+  });
+});
