@@ -5,26 +5,104 @@ generative-UI promise (agent-generated, per-user personalized UI) and
 top-tier component-library status (Material / Carbon / PrimeNG / Kendo).
 Ranked by damage; quick wins flagged with ⚡ (high value, low effort).
 
+**Revised 2026-09-06** — figures re-verified against the tree at 10.4.0, items
+delivered since the audit retired, and the list given an explicit priority.
+Where this file and `TODO.md` disagree, the priority below wins.
+
+## Priority
+
+**P0 — blocks consumers today.**
+
+1. **Angular 22.** `@angular/core` is peered at `^21.2.0`, which excludes v22
+   outright, so an app that took v22 (released 2026-06-03) cannot install us
+   without a peer override. The READMEs say "tracks one Angular major (current:
+   Angular 21)", which is internally honest but contradicts promoting the
+   latest Angular. Widen the peer range and cut the major that tracks v22.
+   Signal Forms went stable in v22, which retires the "experimental forms API"
+   caveat everywhere it appears below. v22 also makes OnPush the default; every
+   component here already sets it explicitly, so that costs nothing.
+2. **i18n** (Track 2 §3) and **RTL** (Track 2 §4). Hard blockers for
+   non-English and RTL deployments; neither has a workaround a consumer can
+   apply from outside the library.
+
+**P1 — the recurring defect class.** Every consumer-reported bug of the last
+release cycle was the same shape: a component hardcoded something the theme
+should own, or two components each owned a copy and drifted (button focus ring,
+icon-button hover, dialog/drawer scrim, dialog/drawer motion). Get ahead of it:
+
+3. **Finish the motion-token migration.** 11 component families read
+   `theme.motion()`; 15 sites still hardcode a duration (tooltip 350ms,
+   button/icon-button 0.28s, checkbox 0.2s/0.5s, data-table, alert, snackbar,
+   tabs, combobox, sort-header). A theme cannot retime any of them. Pairs with
+   the deprecated per-component motion options `TODO.md` already schedules for
+   removal (`callout.transitionMs`, `expand.transitionSpeed`, …).
+4. **Theme coverage reporting.** Nothing tells a theme author what they have
+   not dressed. The Wellsourced theme covers 13 of 59 component entries — it
+   themes `dialog` but not `dialogHeader`/`dialogButtons`, and no `drawer*` at
+   all, which is exactly how its drawer inherited a scrim that clashed with its
+   own dialog. Add a `themeCoverage()` helper in core, a Storybook page, and an
+   MCP tool so an agent can answer "what does this theme still need?".
+5. **Fix the registry that lies.** Five names in `ComponentName` cannot be
+   reached: `footer` (declared *and* themed at `base.theme.ts:549`, never
+   built), and `textButton`, `buttonGroup`, `progressBar`, `select` (no theme
+   entry and no `COMPONENT_NAME` provider). Build, wire, or delete each.
+
+**P2 — depends on a decision, not on effort.**
+
+6. **`ControlValueAccessor` bridge.** Downgraded from ⚡: with Signal Forms
+   stable this is no longer about betting on an experimental API, only about
+   consumer code still on `ReactiveFormsModule`. Worth doing if a consumer has
+   legacy reactive-forms screens; skip it if they are migrating to Signal
+   Forms anyway. Decide with the consumer, not on principle.
+7. **React package.** Still the credibility question in Track 2 §1 — fix,
+   de-publish, or mark experimental.
+
+Everything else keeps its Track 1 / Track 2 ordering below.
+
 ## Quick wins
 
-- ⚡ **Fix the MCP index JSDoc extraction bug.** `packages/mcp/src/build/angular-adapter.ts:98`
-  looks for a JSDoc block ending immediately before `export class`, but every
-  component's JSDoc sits above the `@Component({...})` decorator — so **71/71
-  indexed components have empty `summary` and `description`**, and MCP search
-  degrades to substring matching on ids. Highest damage-to-effort ratio in the
-  repo.
+- ⚡ **Finish the MCP index JSDoc extraction fix.** `packages/mcp/src/build/angular-adapter.ts:98`
+  looked for a JSDoc block ending immediately before `export class`, but every
+  component's JSDoc sits above the `@Component({...})` decorator. Partly fixed:
+  **52 of 84** indexed components still have an empty `summary` (was 71/71), so
+  MCP search still degrades to substring matching for those. The remainder are
+  mostly components with no class-level JSDoc to extract — a docs task as much
+  as an adapter one.
 - ⚡ **Surface WCAG results from `applyPalette`.** `BrandPaletteConfig` omits the
   `checks` sink from `GenerateColorsConfig`, so the one agent-facing runtime
   theming API returns no accessibility signal — while hard `brand` pins are
   documented to possibly fail contrast, silently. Return a `ContrastReport`
   (the theme-builder already computes one separately via `generateThemes()`).
-- ⚡ **`ControlValueAccessor` bridge directive.** Form controls implement Signal
-  Forms only (experimental); `formControlName` / `ngModel` don't bind, locking
-  out every existing `ReactiveFormsModule` app. One small bridge unlocks the
-  entire installed Angular base.
-- ⚡ **Reconcile MCP versioning.** `uni-mcp` is 4.5.0 while the fixed group is
-  at 7.1.0, and its README instructs pinning them equal; the tool table lists
-  10 of the 11 registered tools.
+- **`ControlValueAccessor` bridge directive.** Form controls implement Signal
+  Forms only; `formControlName` / `ngModel` don't bind, so an app still on
+  `ReactiveFormsModule` cannot use them. No longer a ⚡: Signal Forms went
+  stable in Angular 22, so this is a migration-path question for existing
+  consumer code rather than a hedge against an experimental API. See Priority
+  §6.
+- ~~**Reconcile MCP versioning.**~~ Done — `uni-mcp` joined the fixed group
+  (all four packages at 10.4.0) and the index is regenerated by
+  `version-packages` on every release.
+
+- ⚡ **Drop `builtAt` from the MCP index.** `packages/mcp/src/build/normalizer.ts:76`
+  stamps `new Date().toISOString()` into a 900KB committed artefact. It is
+  declared in the schema and **read nowhere**, and it guarantees a merge
+  conflict whenever two branches regenerate the index — half of what makes
+  every release merge conflict on that file.
+- ⚡ **`remark-gfm` in the Storybook docs config.** Markdown tables render as
+  raw pipes in every MDX page; `drawer.mdx`'s inputs table is unreadable today.
+  One devDependency plus `mdxPluginOptions`.
+- ⚡ **Show every scale in the token manifest.** `theme-manifest.component.ts`
+  covers colors/spacing/radii/borders/shadows/thicknesses — not `motion`,
+  `icons` or `backdrops`, so a themer cannot review them.
+- **Fold `callout`/`tour` into `backdrops`.** They still carry their own
+  `scrimColor`, with a duplicate hard-coded default in
+  `cdk/position/anchor.ts:210` — the last places a scrim can drift after the
+  dialog/drawer consolidation.
+- **Retire the delivered design docs.** `prototypes/uni-drawer-and-sr-only-rfc.md`
+  and `prototypes/uni-button-flexibility-cr.md` are fully answered but carry no
+  resolved marker, so they still read as open work; the five prototype
+  `SPEC.md` files say "Nothing here ships" for components that have shipped.
+  Their *Open questions* sections are the parts worth keeping.
 
 ## Track 1 — Generative UI
 
@@ -49,7 +127,7 @@ Ranked by damage; quick wins flagged with ⚡ (high value, low effort).
    file to write and compile — codegen by design. Add a tool that returns a
    validated `UniTheme` as JSON for immediate `applyPalette`-style application,
    plus a documented apply API.
-5. **Slot / content-projection metadata.** 0/71 indexed components describe what
+5. **Slot / content-projection metadata.** 0 of 84 indexed components describe what
    they may contain, so agents can configure components but not compose
    layouts. Add slot metadata to the index schema and adapter.
 6. **Structured MCP output.** All 11 tools return markdown; agents re-parse
@@ -69,11 +147,12 @@ Ranked by damage; quick wins flagged with ⚡ (high value, low effort).
 
 ## Track 2 — Top-tier component library
 
-1. **React package credibility.** Published at 7.1.0 with ~8 components (11%
-   parity with Angular's 53), zero tests, no test script (CI silently skips
-   it), TS errors on main, and third-party runtime deps that contradict the
-   zero-deps policy. Fix, de-publish, or mark experimental — the current state
-   undermines trust in the Angular package.
+1. **React package credibility.** Published at 10.4.0, at version parity with
+   Angular, with **10 component directories against Angular's 66** and **one
+   spec file**, plus third-party runtime deps (`framer-motion`, `@dnd-kit/*`,
+   `use-ripple-hook`) that contradict the zero-deps policy. A consumer reading
+   the version assumes parity. Fix, de-publish, or mark experimental — the
+   current state undermines trust in the Angular package.
 2. **Table-stakes components:** date picker / time picker / date-range, virtual
    scroll (caps `data-table`), tree, stepper, form-bound autocomplete, chips
    input, standalone spinner, number/password/OTP inputs, list. (TODO.md
@@ -104,9 +183,12 @@ Ranked by damage; quick wins flagged with ⚡ (high value, low effort).
 11. **Support surface.** No browserslist / machine-readable browser matrix
     (library bets on Baseline-2026 features), no deprecation policy, no git
     tags / GitHub Releases, no per-major migration guides.
-12. **Small dangling APIs.** `footer` declared in `ComponentName` with theme
-    options but never built; `aria-live` regions absent for async state
-    (table load completion, filter counts).
+12. **Small dangling APIs.** Five names in `ComponentName` are unreachable —
+    `footer` (declared *and* themed, never built) plus `textButton`,
+    `buttonGroup`, `progressBar` and `select` (no theme entry, no
+    `COMPONENT_NAME` provider), so a theme cannot dress them. Also `aria-live`
+    regions absent for async state (table load completion, filter counts).
+    See Priority §5.
 
 ## Strengths to defend (don't regress these)
 
