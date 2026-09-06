@@ -1,0 +1,25 @@
+{
+  // The compilation ng-packagr actually uses. Until v22 it fell back to its own
+  // default when none was passed; that default no longer carries the ES2020
+  // lib (Intl.Locale, BigInt, `notation`/`dateStyle` format options), so the
+  // library config is now stated explicitly and passed with `-c`.
+  //
+  // Specs, stories and the schematics sources are excluded: only what ships.
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "target": "ES2022",
+    "lib": ["ES2022", "DOM", "DOM.Iterable"],
+    "types": ["node"],
+    "declaration": true,
+    "declarationMap": true
+  },
+  "include": ["src/**/*.ts"],
+  "exclude": [
+    "src/**/*.spec.ts",
+    "src/**/*.stories.ts",
+    "src/stories/**",
+    "src/test-setup.ts",
+    "prototypes/**",
+    "storybook-static/**"
+  ]
+}

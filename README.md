@@ -31,7 +31,7 @@ uni/
 ├── packages/
 │   ├── core/       # Pure Design Tokens & Theme Logic (Vite)
 │   ├── react/      # React 18/19 Component Library (Vite)
-│   ├── angular/    # Angular 21 Component Library (ng-packagr)
+│   ├── angular/    # Angular 22 Component Library (ng-packagr)
 │   └── mcp/        # MCP server for AI coding assistants (stdio + HTTP)
 ├── public/         # Shared assets (Favicons, Brand Logos)
 └── .storybook/     # Centralized Storybook configuration & themes

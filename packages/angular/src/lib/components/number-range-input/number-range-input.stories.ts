@@ -31,8 +31,8 @@ const meta: Meta<UniNumberRangeInputComponent> = {
     currency: { control: 'text', description: 'ISO 4217 code, e.g. `USD`.' },
     prefix: { control: 'text', description: 'Static adornment on both ends.' },
     suffix: { control: 'text', description: 'Static adornment on both ends.' },
-    min: { control: 'number', description: 'Outer lower fence.' },
-    max: { control: 'number', description: 'Outer upper fence.' },
+    minValue: { control: 'number', description: 'Outer lower fence.' },
+    maxValue: { control: 'number', description: 'Outer upper fence.' },
     step: { control: 'number', description: 'Grid spacing. Default: 1' },
     minGap: {
       control: 'number',
@@ -52,8 +52,8 @@ export const PriceFilter: Story = {
   args: {
     label: 'Price range',
     currency: 'USD',
-    min: 0,
-    max: 5000,
+    minValue: 0,
+    maxValue: 5000,
     step: 10,
     value: { start: 200, end: 1500 },
   },
@@ -61,7 +61,7 @@ export const PriceFilter: Story = {
 
 /** `minGap` keeps the ends apart and fences both steppers at the boundary. */
 export const MinimumGap: Story = {
-  args: { label: 'Temperature tolerance', suffix: '°C', min: -20, max: 40, minGap: 5, value: { start: 5, end: 20 } },
+  args: { label: 'Temperature tolerance', suffix: '°C', minValue: -20, maxValue: 40, minGap: 5, value: { start: 5, end: 20 } },
 };
 
 /** One end alone is a real filter — "50 and up". */
@@ -70,7 +70,7 @@ export const OpenEnded: Story = {
 };
 
 export const CustomEndLabels: Story = {
-  args: { label: 'Delivery window', suffix: ' days', startLabel: 'From', endLabel: 'To', min: 0, value: { start: 2, end: 7 } },
+  args: { label: 'Delivery window', suffix: ' days', startLabel: 'From', endLabel: 'To', minValue: 0, value: { start: 2, end: 7 } },
 };
 
 export const Disabled: Story = {

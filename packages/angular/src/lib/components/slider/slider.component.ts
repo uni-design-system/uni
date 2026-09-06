@@ -67,6 +67,13 @@ export class UniSliderComponent
   readonly value = model<number | UniNumberRange | null>(null);
   readonly disabled = input(false);
   readonly touched = model(false);
+  /**
+   * Angular 22 marks the bound field touched through this output; the
+   * `touched` model above is bound inward by the directive and no longer
+   * propagates back out. Emitted wherever this control already decided
+   * the user was done with it.
+   */
+  readonly touch = output<void>();
   readonly invalid = input(false);
   readonly dirty = input(false);
   readonly required = input(false);
@@ -77,9 +84,11 @@ export class UniSliderComponent
   label = input.required<string>();
   mode = input<'single' | 'range'>('single');
   // `min`/`max` are part of the FormValueControl contract — Signal Forms syncs
-  // them from min()/max() validators — so their type must admit undefined.
-  min = input<number | undefined>(0);
-  max = input<number | undefined>(100);
+  // them from min()/max() validators — so their type must admit undefined, and
+  // from Angular 22 it must admit the control's whole value type. Callers still
+  // pass plain numbers; `resolvedMin`/`resolvedMax` narrow back to one.
+  min = input<number | UniNumberRange | undefined>(0);
+  max = input<number | UniNumberRange | undefined>(100);
   step = input(1);
   /** `PageUp`/`PageDown` and `Shift+Arrow`. Default: a tenth of the range. */
   largeStep = input<number>();
@@ -129,8 +138,16 @@ export class UniSliderComponent
   private keyed = false;
 
   protected readonly isRange = computed(() => this.mode() === 'range');
-  protected readonly resolvedMin = computed(() => this.min() ?? 0);
-  protected readonly resolvedMax = computed(() => this.max() ?? 100);
+  /** The contract admits a range here; a slider's own bounds are always scalar. */
+  private static readonly scalar = (bound: number | UniNumberRange | undefined, fallback: number) =>
+    typeof bound === 'number' ? bound : fallback;
+
+  protected readonly resolvedMin = computed(() =>
+    UniSliderComponent.scalar(this.min(), 0)
+  );
+  protected readonly resolvedMax = computed(() =>
+    UniSliderComponent.scalar(this.max(), 100)
+  );
 
   private derivePair(value: number | UniNumberRange | null): [number, number] {
     const min = this.resolvedMin();
@@ -428,6 +445,7 @@ export class UniSliderComponent
     if (index == null) return;
     this.draggingThumb = null;
     this.touched.set(true);
+    this.touch.emit();
     this.commit();
     this.announceValue(index);
   }
@@ -506,12 +524,14 @@ export class UniSliderComponent
     if (!this.keyed) return;
     this.keyed = false;
     this.touched.set(true);
+    this.touch.emit();
     this.commit();
     this.announceValue(index);
   }
 
   protected onThumbBlur(): void {
     this.touched.set(true);
+    this.touch.emit();
   }
 
   // --- Styling --------------------------------------------------------------

@@ -54,7 +54,7 @@ All design tokens (colors, typography metrics, dimensions) must be declared in t
 Once tokens live in core, implement the matching component natively in both framework workspaces:
 
 - **React Stack:** Built via Vite. Keep `react`, `react-dom`, and `@uni-design-system/uni-core` marked as `external`. Complex helper hooks (e.g., `@dnd-kit`) are safely bundled _inside_ the artifact.
-- **Angular Stack:** Built via `ng-packagr` using modern standalone APIs compliant with Angular 21. Keep things performant and future-proof—**do not** import the deprecated `@angular/animations` library. Use native CSS custom properties mapped directly to our core tokens.
+- **Angular Stack:** Built via `ng-packagr` using modern standalone APIs compliant with Angular 22. Keep things performant and future-proof—**do not** import the deprecated `@angular/animations` library. Use native CSS custom properties mapped directly to our core tokens.
 
 ---
 

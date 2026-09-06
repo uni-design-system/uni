@@ -88,6 +88,13 @@ export class UniCalendarComponent
   readonly value = model<UniCalendarValue>();
   readonly disabled = input(false);
   readonly touched = model(false);
+  /**
+   * Angular 22 marks the bound field touched through this output; the
+   * `touched` model above is bound inward by the directive and no longer
+   * propagates back out. Emitted wherever this control already decided
+   * the user was done with it.
+   */
+  readonly touch = output<void>();
   readonly invalid = input(false);
   readonly dirty = input(false);
   readonly required = input(false);

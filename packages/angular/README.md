@@ -31,7 +31,9 @@ npm install @uni-design-system/uni-angular @uni-design-system/uni-core @emotion/
 ```
 
 `@emotion/css` and `@uni-design-system/uni-core` are peer dependencies of the
-host application.
+host application. **11.x requires Angular 22** (`@angular/common`,
+`@angular/core` and `@angular/forms` are peered at `^22.0.0`); stay on 10.x for
+Angular 21.
 
 ## 🏁 Getting Started
 
@@ -151,5 +153,10 @@ every component. Point your coding agent at it. Regenerate with
 - Follows [semver](https://semver.org) with
   [changesets](https://github.com/changesets/changesets); see
   [CHANGELOG.md](./CHANGELOG.md).
-- Each major of this package tracks one Angular major (current: Angular 21).
-  Previous majors receive fixes for six months after the next major ships.
+- Each major of this package tracks one Angular major: **11.x tracks Angular
+  22**, 10.x tracks Angular 21. Previous majors receive fixes for six months
+  after the next major ships.
+- Angular 22 made Signal Forms stable, which is what these form controls
+  implement (`FormValueControl` / `FormCheckboxControl`). They do not implement
+  `ControlValueAccessor`, so `formControlName` and `ngModel` do not bind — an
+  app on `ReactiveFormsModule` needs its own wrapper.

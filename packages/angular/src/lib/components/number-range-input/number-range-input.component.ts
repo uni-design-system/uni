@@ -73,6 +73,13 @@ export class UniNumberRangeInputComponent
   readonly value = model<UniNumberRange | null>(null);
   readonly disabled = input(false);
   readonly touched = model(false);
+  /**
+   * Angular 22 marks the bound field touched through this output; the
+   * `touched` model above is bound inward by the directive and no longer
+   * propagates back out. Emitted wherever this control already decided
+   * the user was done with it.
+   */
+  readonly touch = output<void>();
   readonly invalid = input(false);
   readonly dirty = input(false);
   readonly required = input(false);
@@ -96,10 +103,14 @@ export class UniNumberRangeInputComponent
   placeholderStart = input<string>();
   placeholderEnd = input<string>();
 
-  // `min`/`max` are part of the FormValueControl contract — Signal Forms syncs
-  // them from min()/max() validators — so their type must admit undefined.
-  min = input<number | undefined>();
-  max = input<number | undefined>();
+  // Angular 22 types the contract's `min`/`max` as the control's own value
+  // type, which here is a whole `UniNumberRange`. These are the scalar bounds
+  // both ends are clamped to, so they keep their own names internally and are
+  // published as `min`/`max`.
+  // eslint-disable-next-line @angular-eslint/no-input-rename -- the alias keeps the public binding name while the class member steps aside from Angular 22's FormValueControl, which reserves it for the value type
+  minValue = input<number | undefined>(undefined, { alias: 'min' });
+  // eslint-disable-next-line @angular-eslint/no-input-rename -- the alias keeps the public binding name while the class member steps aside from Angular 22's FormValueControl, which reserves it for the value type
+  maxValue = input<number | undefined>(undefined, { alias: 'max' });
   step = input(1);
   /** Enforced distance between the two ends. */
   minGap = input<number>();
@@ -139,7 +150,7 @@ export class UniNumberRangeInputComponent
       prefix: this.prefix(),
       suffix: this.suffix(),
       roundingMode: this.roundingMode(),
-      min: this.min(),
+      min: this.minValue(),
     })
   );
 
@@ -167,7 +178,7 @@ export class UniNumberRangeInputComponent
     return raw == null ? null : toDecimal(raw);
   }
 
-  protected valueOf(part: UniNumberRangePart): number | null {
+  protected partValue(part: UniNumberRangePart): number | null {
     const range = this.value();
     return (part === 'start' ? range?.start : range?.end) ?? null;
   }
@@ -214,8 +225,8 @@ export class UniNumberRangeInputComponent
    */
   protected stepFence(part: UniNumberRangePart): { min?: number; max?: number } {
     const gap = toDecimal(this.minGap() ?? 0);
-    const outerMin = this.min();
-    const outerMax = this.max();
+    const outerMin = this.minValue();
+    const outerMax = this.maxValue();
 
     if (part === 'start') {
       const other = this.canonicalOf('end');
@@ -284,8 +295,8 @@ export class UniNumberRangeInputComponent
 
     const settled = clampDecimal(
       settleNumber(result.value, this.format()),
-      this.min(),
-      this.max()
+      this.minValue(),
+      this.maxValue()
     ).value;
 
     if (part === 'start') start = settled;
@@ -343,7 +354,7 @@ export class UniNumberRangeInputComponent
     const current = this.canonicalOf(part);
 
     if (current == null) {
-      const seed = toDecimal(fence.min ?? this.min() ?? 0);
+      const seed = toDecimal(fence.min ?? this.minValue() ?? 0);
       this.reconcile(part, part === 'start' ? seed : this.canonicalOf('start'), part === 'end' ? seed : this.canonicalOf('end'));
       this.announceValue(part);
       return;
@@ -385,6 +396,7 @@ export class UniNumberRangeInputComponent
   protected onBlur(part: UniNumberRangePart): void {
     if (this.focusedPart() === part) this.focusedPart.set(null);
     this.touched.set(true);
+    this.touch.emit();
     this.commitPart(part);
   }
 

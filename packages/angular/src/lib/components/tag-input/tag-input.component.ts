@@ -59,6 +59,13 @@ export class UniTagInputComponent
   readonly value = model<UniTagItem[]>([]);
   readonly disabled = input(false);
   readonly touched = model(false);
+  /**
+   * Angular 22 marks the bound field touched through this output; the
+   * `touched` model above is bound inward by the directive and no longer
+   * propagates back out. Emitted wherever this control already decided
+   * the user was done with it.
+   */
+  readonly touch = output<void>();
   readonly invalid = input(false);
   readonly dirty = input(false);
   readonly required = input(false);
@@ -73,7 +80,13 @@ export class UniTagInputComponent
   separators = input<string[]>([',', ';']);
   commitOnBlur = input(true);
   allowDuplicates = input(false);
-  max = input<number>();
+  /**
+   * Maximum number of tags. Declared as the contract's `maxLength` — for an
+   * array value that is exactly what it means, and Angular 22 types it as a
+   * number — while staying `[max]` in templates.
+   */
+  // eslint-disable-next-line @angular-eslint/no-input-rename -- the alias keeps the public binding name while the class member steps aside from Angular 22's FormValueControl, which reserves it for the value type
+  maxLength = input<number | undefined>(undefined, { alias: 'max' });
   validate = input<(raw: string) => boolean>();
   parse = input<(pasted: string) => string[]>();
 
@@ -180,7 +193,7 @@ export class UniTagInputComponent
       return false;
     }
 
-    const max = this.max();
+    const max = this.maxLength();
     if (max !== undefined && current.length >= max) {
       this.reject(candidate, 'max');
       return false;
@@ -321,6 +334,7 @@ export class UniTagInputComponent
 
   protected onBlur(): void {
     this.touched.set(true);
+    this.touch.emit();
     if (this.commitOnBlur()) this.commitDraft();
   }
 

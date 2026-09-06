@@ -1,13 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  computed,
-  ElementRef,
-  input,
-  model,
-  signal,
-  viewChildren,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, ElementRef, input, model, output, signal, viewChildren } from '@angular/core';
 import { FormValueControl } from '@angular/forms/signals';
 import { css } from '@emotion/css';
 import { createListboxNavigation, Option, visuallyHidden, type Options } from '../../cdk';
@@ -52,6 +43,13 @@ export class UniMultiSelectDropdownComponent<T = unknown>
   readonly value = model<T[]>([]);
   readonly disabled = input(false);
   readonly touched = model(false);
+  /**
+   * Angular 22 marks the bound field touched through this output; the
+   * `touched` model above is bound inward by the directive and no longer
+   * propagates back out. Emitted wherever this control already decided
+   * the user was done with it.
+   */
+  readonly touch = output<void>();
   readonly invalid = input(false);
   readonly dirty = input(false);
 
@@ -198,6 +196,8 @@ export class UniMultiSelectDropdownComponent<T = unknown>
     if (this.disabled()) return;
 
     this.touched.set(true);
+
+    this.touch.emit();
     const allValues = this.options()
       .filter((option) => !option.disabled)
       .map((option) => option.value);
@@ -208,6 +208,8 @@ export class UniMultiSelectDropdownComponent<T = unknown>
     if (this.disabled()) return;
 
     this.touched.set(true);
+
+    this.touch.emit();
     this.value.set([]);
   }
 
@@ -220,6 +222,8 @@ export class UniMultiSelectDropdownComponent<T = unknown>
     if (this.disabled() || option.disabled) return;
 
     this.touched.set(true);
+
+    this.touch.emit();
     const { value } = option;
     this.value.update((current) => {
       if (checked) {

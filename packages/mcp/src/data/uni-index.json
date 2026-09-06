@@ -1,7 +1,7 @@
 {
   "meta": {
     "version": "10.4.0",
-    "builtAt": "2026-09-04T18:00:08.990Z",
+    "builtAt": "2026-09-06T17:25:45.458Z",
     "frameworks": [
       "angular"
     ],
@@ -1155,6 +1155,13 @@
               "description": ""
             },
             {
+              "name": "touch",
+              "kind": "output",
+              "type": "void",
+              "required": false,
+              "description": "Angular 22 marks the bound field touched through this output; the `touched` model above is bound inward by the directive and no longer propagates back out. Emitted wherever this control already decided the user was done with it."
+            },
+            {
               "name": "invalid",
               "kind": "input",
               "type": "boolean",
@@ -1791,6 +1798,13 @@
               "description": ""
             },
             {
+              "name": "touch",
+              "kind": "output",
+              "type": "void",
+              "required": false,
+              "description": "Angular 22 marks the bound field touched through this output; the `touched` model above is bound inward by the directive and no longer propagates back out. Emitted wherever this control already decided the user was done with it."
+            },
+            {
               "name": "invalid",
               "kind": "input",
               "type": "boolean",
@@ -1951,6 +1965,13 @@
               "required": false,
               "default": "false",
               "description": ""
+            },
+            {
+              "name": "touch",
+              "kind": "output",
+              "type": "void",
+              "required": false,
+              "description": "Angular 22 marks the bound field touched through this output; the `touched` model above is bound inward by the directive and no longer propagates back out. Emitted wherever this control already decided the user was done with it."
             },
             {
               "name": "invalid",
@@ -2436,6 +2457,13 @@
               "description": ""
             },
             {
+              "name": "touch",
+              "kind": "output",
+              "type": "void",
+              "required": false,
+              "description": "Angular 22 marks the bound field touched through this output; the `touched` model above is bound inward by the directive and no longer propagates back out. Emitted wherever this control already decided the user was done with it."
+            },
+            {
               "name": "invalid",
               "kind": "input",
               "type": "boolean",
@@ -2658,6 +2686,13 @@
               "required": false,
               "default": "false",
               "description": ""
+            },
+            {
+              "name": "touch",
+              "kind": "output",
+              "type": "void",
+              "required": false,
+              "description": "Angular 22 marks the bound field touched through this output; the `touched` model above is bound inward by the directive and no longer propagates back out. Emitted wherever this control already decided the user was done with it."
             },
             {
               "name": "invalid",
@@ -4366,6 +4401,13 @@
               "description": ""
             },
             {
+              "name": "touch",
+              "kind": "output",
+              "type": "void",
+              "required": false,
+              "description": "Angular 22 marks the bound field touched through this output; the `touched` model above is bound inward by the directive and no longer propagates back out. Emitted wherever this control already decided the user was done with it."
+            },
+            {
               "name": "invalid",
               "kind": "input",
               "type": "boolean",
@@ -4436,19 +4478,19 @@
               "description": ""
             },
             {
-              "name": "min",
+              "name": "minAttr",
               "kind": "input",
               "type": "number | undefined",
               "required": false,
-              "default": "undefined",
+              "default": "undefined, { alias: 'min' }",
               "description": ""
             },
             {
-              "name": "max",
+              "name": "maxAttr",
               "kind": "input",
               "type": "number | undefined",
               "required": false,
-              "default": "undefined",
+              "default": "undefined, { alias: 'max' }",
               "description": ""
             },
             {
@@ -5085,6 +5127,13 @@
               "description": ""
             },
             {
+              "name": "touch",
+              "kind": "output",
+              "type": "void",
+              "required": false,
+              "description": "Angular 22 marks the bound field touched through this output; the `touched` model above is bound inward by the directive and no longer propagates back out. Emitted wherever this control already decided the user was done with it."
+            },
+            {
               "name": "invalid",
               "kind": "input",
               "type": "boolean",
@@ -5426,6 +5475,13 @@
               "required": false,
               "default": "false",
               "description": ""
+            },
+            {
+              "name": "touch",
+              "kind": "output",
+              "type": "void",
+              "required": false,
+              "description": "Angular 22 marks the bound field touched through this output; the `touched` model above is bound inward by the directive and no longer propagates back out. Emitted wherever this control already decided the user was done with it."
             },
             {
               "name": "invalid",
@@ -5847,6 +5903,13 @@
               "description": ""
             },
             {
+              "name": "touch",
+              "kind": "output",
+              "type": "void",
+              "required": false,
+              "description": "Angular 22 marks the bound field touched through this output; the `touched` model above is bound inward by the directive and no longer propagates back out. Emitted wherever this control already decided the user was done with it."
+            },
+            {
               "name": "invalid",
               "kind": "input",
               "type": "boolean",
@@ -5973,17 +6036,19 @@
               "description": ""
             },
             {
-              "name": "min",
+              "name": "minValue",
               "kind": "input",
               "type": "number | undefined",
               "required": false,
+              "default": "undefined, { alias: 'min' }",
               "description": ""
             },
             {
-              "name": "max",
+              "name": "maxValue",
               "kind": "input",
               "type": "number | undefined",
               "required": false,
+              "default": "undefined, { alias: 'max' }",
               "description": ""
             },
             {
@@ -6038,17 +6103,17 @@
         {
           "title": "Primary",
           "framework": "angular",
-          "code": "<!-- Storybook story: Primary -->\n<!-- args:\n{\n    label: 'Price range',\n    currency: 'USD',\n    min: 0,\n    max: 5000,\n    step: 10,\n    value: { start: 200, end: 1500 },\n  }\n-->"
+          "code": "<!-- Storybook story: Primary -->\n<!-- args:\n{\n    label: 'Price range',\n    currency: 'USD',\n    minValue: 0,\n    maxValue: 5000,\n    step: 10,\n    value: { start: 200, end: 1500 },\n  }\n-->"
         },
         {
           "title": "Price Filter",
           "framework": "angular",
-          "code": "<!-- Storybook story: Price Filter -->\n<!-- args:\n{\n    label: 'Price range',\n    currency: 'USD',\n    min: 0,\n    max: 5000,\n    step: 10,\n    value: { start: 200, end: 1500 },\n  }\n-->"
+          "code": "<!-- Storybook story: Price Filter -->\n<!-- args:\n{\n    label: 'Price range',\n    currency: 'USD',\n    minValue: 0,\n    maxValue: 5000,\n    step: 10,\n    value: { start: 200, end: 1500 },\n  }\n-->"
         },
         {
           "title": "Minimum Gap",
           "framework": "angular",
-          "code": "<!-- Storybook story: Minimum Gap -->\n<!-- args:\n{ label: 'Temperature tolerance', suffix: '°C', min: -20, max: 40, minGap: 5, value: { start: 5, end: 20 } }\n-->"
+          "code": "<!-- Storybook story: Minimum Gap -->\n<!-- args:\n{ label: 'Temperature tolerance', suffix: '°C', minValue: -20, maxValue: 40, minGap: 5, value: { start: 5, end: 20 } }\n-->"
         },
         {
           "title": "Open Ended",
@@ -6058,7 +6123,7 @@
         {
           "title": "Custom End Labels",
           "framework": "angular",
-          "code": "<!-- Storybook story: Custom End Labels -->\n<!-- args:\n{ label: 'Delivery window', suffix: ' days', startLabel: 'From', endLabel: 'To', min: 0, value: { start: 2, end: 7 } }\n-->"
+          "code": "<!-- Storybook story: Custom End Labels -->\n<!-- args:\n{ label: 'Delivery window', suffix: ' days', startLabel: 'From', endLabel: 'To', minValue: 0, value: { start: 2, end: 7 } }\n-->"
         },
         {
           "title": "Disabled",
@@ -6550,6 +6615,13 @@
               "description": ""
             },
             {
+              "name": "touch",
+              "kind": "output",
+              "type": "void",
+              "required": false,
+              "description": "Angular 22 marks the bound field touched through this output; the `touched` model above is bound inward by the directive and no longer propagates back out. Emitted wherever this control already decided the user was done with it."
+            },
+            {
               "name": "invalid",
               "kind": "input",
               "type": "boolean",
@@ -6744,6 +6816,13 @@
               "required": false,
               "default": "false",
               "description": ""
+            },
+            {
+              "name": "touch",
+              "kind": "output",
+              "type": "void",
+              "required": false,
+              "description": "Angular 22 marks the bound field touched through this output; the `touched` model above is bound inward by the directive and no longer propagates back out. Emitted wherever this control already decided the user was done with it."
             },
             {
               "name": "invalid",
@@ -7564,6 +7643,13 @@
               "description": ""
             },
             {
+              "name": "touch",
+              "kind": "output",
+              "type": "void",
+              "required": false,
+              "description": "Angular 22 marks the bound field touched through this output; the `touched` model above is bound inward by the directive and no longer propagates back out. Emitted wherever this control already decided the user was done with it."
+            },
+            {
               "name": "invalid",
               "kind": "input",
               "type": "boolean",
@@ -7612,7 +7698,7 @@
             {
               "name": "min",
               "kind": "input",
-              "type": "number | undefined",
+              "type": "number | UniNumberRange | undefined",
               "required": false,
               "default": "0",
               "description": ""
@@ -7620,7 +7706,7 @@
             {
               "name": "max",
               "kind": "input",
-              "type": "number | undefined",
+              "type": "number | UniNumberRange | undefined",
               "required": false,
               "default": "100",
               "description": ""
@@ -8616,6 +8702,13 @@
               "description": ""
             },
             {
+              "name": "touch",
+              "kind": "output",
+              "type": "void",
+              "required": false,
+              "description": "Angular 22 marks the bound field touched through this output; the `touched` model above is bound inward by the directive and no longer propagates back out. Emitted wherever this control already decided the user was done with it."
+            },
+            {
               "name": "invalid",
               "kind": "input",
               "type": "boolean",
@@ -8693,10 +8786,11 @@
               "description": ""
             },
             {
-              "name": "max",
+              "name": "maxLength",
               "kind": "input",
-              "type": "number",
+              "type": "number | undefined",
               "required": false,
+              "default": "undefined, { alias: 'max' }",
               "description": ""
             },
             {
@@ -8809,7 +8903,7 @@
         {
           "title": "With Maximum",
           "framework": "angular",
-          "code": "<!-- Storybook story: With Maximum -->\n<uni-tag-input\nlabel=\"To\"\npreset=\"email\"\nplaceholder=\"Name or address…\"\n[value]=\"value\"\n[suggestions]=\"suggestions\"\n(query)=\"onQuery($event)\"\n/>\n<!-- args:\n{ max: 3, value: [{ value: 'alpha' }, { value: 'beta' }] }\n-->"
+          "code": "<!-- Storybook story: With Maximum -->\n<uni-tag-input\nlabel=\"To\"\npreset=\"email\"\nplaceholder=\"Name or address…\"\n[value]=\"value\"\n[suggestions]=\"suggestions\"\n(query)=\"onQuery($event)\"\n/>\n<!-- args:\n{ maxLength: 3, value: [{ value: 'alpha' }, { value: 'beta' }] }\n-->"
         },
         {
           "title": "Disabled",
@@ -8972,6 +9066,13 @@
               "required": false,
               "default": "false",
               "description": ""
+            },
+            {
+              "name": "touch",
+              "kind": "output",
+              "type": "void",
+              "required": false,
+              "description": "Angular 22 marks the bound field touched through this output; the `touched` model above is bound inward by the directive and no longer propagates back out. Emitted wherever this control already decided the user was done with it."
             },
             {
               "name": "invalid",
@@ -9261,6 +9362,13 @@
               "description": ""
             },
             {
+              "name": "touch",
+              "kind": "output",
+              "type": "void",
+              "required": false,
+              "description": "Angular 22 marks the bound field touched through this output; the `touched` model above is bound inward by the directive and no longer propagates back out. Emitted wherever this control already decided the user was done with it."
+            },
+            {
               "name": "invalid",
               "kind": "input",
               "type": "boolean",
@@ -9468,6 +9576,13 @@
               "required": false,
               "default": "false",
               "description": ""
+            },
+            {
+              "name": "touch",
+              "kind": "output",
+              "type": "void",
+              "required": false,
+              "description": "Angular 22 marks the bound field touched through this output; the `touched` model above is bound inward by the directive and no longer propagates back out. Emitted wherever this control already decided the user was done with it."
             },
             {
               "name": "invalid",

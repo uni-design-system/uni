@@ -36,7 +36,7 @@
               (part === 'start' ? placeholderStart() : placeholderEnd()) ?? null
             "
             [attr.aria-label]="partLabel(part)"
-            [attr.aria-valuenow]="valueOf(part)"
+            [attr.aria-valuenow]="partValue(part)"
             [attr.aria-valuemin]="stepFence(part).min ?? null"
             [attr.aria-valuemax]="stepFence(part).max ?? null"
             [attr.aria-valuetext]="valueTextOf(part)"

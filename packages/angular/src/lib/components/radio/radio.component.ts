@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, computed, input, model } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, input, model, output } from '@angular/core';
 import { FormValueControl } from '@angular/forms/signals';
 import { css } from '@emotion/css';
 import type { ColorKey } from '@uni-design-system/uni-core';
@@ -23,6 +23,13 @@ export class UniRadioComponent
   readonly value = model<string>('');
   readonly disabled = input(false);
   readonly touched = model(false);
+  /**
+   * Angular 22 marks the bound field touched through this output; the
+   * `touched` model above is bound inward by the directive and no longer
+   * propagates back out. Emitted wherever this control already decided
+   * the user was done with it.
+   */
+  readonly touch = output<void>();
   readonly invalid = input(false);
   readonly dirty = input(false);
 
@@ -56,6 +63,7 @@ export class UniRadioComponent
 
   markAsTouched() {
     this.touched.set(true);
+    this.touch.emit();
   }
 
   private readonly metrics = computed(() => {

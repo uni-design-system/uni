@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, computed, input, model } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, input, model, output } from '@angular/core';
 import { FormValueControl } from '@angular/forms/signals';
 import { css } from '@emotion/css';
 import { UniInputBoxComponent } from '../input-box/input-box.component';
@@ -15,6 +15,13 @@ export class UniInputComponent implements FormValueControl<string> {
   readonly value = model<string>('');
   readonly disabled = input(false);
   readonly touched = model(false);
+  /**
+   * Angular 22 marks the bound field touched through this output; the
+   * `touched` model above is bound inward by the directive and no longer
+   * propagates back out. Emitted wherever this control already decided
+   * the user was done with it.
+   */
+  readonly touch = output<void>();
   readonly invalid = input(false);
   readonly dirty = input(false);
 
@@ -44,8 +51,15 @@ export class UniInputComponent implements FormValueControl<string> {
   // can do its part (number steppers, length limits, on-screen keyboards).
   readonly readonly = input(false);
   readonly name = input('');
-  readonly min = input<number | undefined>(undefined);
-  readonly max = input<number | undefined>(undefined);
+  // Angular 22 types the contract's `min`/`max` as the control's own value
+  // type — strings, on a text control. These two are the native numeric
+  // attributes instead, so they keep their own names internally and are
+  // published as `min`/`max`. The rest of the constraints below still match
+  // the contract and are still synced from validators.
+  // eslint-disable-next-line @angular-eslint/no-input-rename -- the alias keeps the public binding name while the class member steps aside from Angular 22's FormValueControl, which reserves it for the value type
+  readonly minAttr = input<number | undefined>(undefined, { alias: 'min' });
+  // eslint-disable-next-line @angular-eslint/no-input-rename -- the alias keeps the public binding name while the class member steps aside from Angular 22's FormValueControl, which reserves it for the value type
+  readonly maxAttr = input<number | undefined>(undefined, { alias: 'max' });
   readonly minLength = input<number | undefined>(undefined);
   readonly maxLength = input<number | undefined>(undefined);
   /**
@@ -84,6 +98,7 @@ export class UniInputComponent implements FormValueControl<string> {
 
   markAsTouched() {
     this.touched.set(true);
+    this.touch.emit();
   }
 
   handleInput(event: Event) {

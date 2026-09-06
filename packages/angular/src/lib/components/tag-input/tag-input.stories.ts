@@ -80,7 +80,7 @@ export const LockedEntry: Story = {
 };
 
 export const WithMaximum: Story = {
-  args: { max: 3, value: [{ value: 'alpha' }, { value: 'beta' }] },
+  args: { maxLength: 3, value: [{ value: 'alpha' }, { value: 'beta' }] },
 };
 
 export const Disabled: Story = {

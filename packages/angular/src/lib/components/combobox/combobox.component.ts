@@ -59,6 +59,13 @@ export class UniComboboxComponent<T>
   readonly value = model<T | null>(null);
   readonly disabled = input(false);
   readonly touched = model(false);
+  /**
+   * Angular 22 marks the bound field touched through this output; the
+   * `touched` model above is bound inward by the directive and no longer
+   * propagates back out. Emitted wherever this control already decided
+   * the user was done with it.
+   */
+  readonly touch = output<void>();
   readonly invalid = input(false);
   readonly dirty = input(false);
   readonly required = input(false);
@@ -360,6 +367,7 @@ export class UniComboboxComponent<T>
     const next = event.relatedTarget as Node | null;
     if (next && this.host.nativeElement.contains(next)) return;
     this.touched.set(true);
+    this.touch.emit();
     if (this.commitOnBlur() && !this.resolveDraft(false)) this.reject();
     else this.draft.set(null);
     this.closeList();
