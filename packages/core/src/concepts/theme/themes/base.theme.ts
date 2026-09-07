@@ -467,6 +467,22 @@ const buildComponents = (c: Colors): ComponentThemes => ({
       closeButtonSize: 'md',
     },
   },
+  // Declared in `ComponentName` since 8.x with nothing behind them, so a theme
+  // could not dress them at all. Entries added in 11.0.0; the values are what
+  // each component previously hardcoded, so nothing moves.
+  select: {
+    options: { toggleIcon: 'chevronDown', toggleColor: 'on-background-variant', toggleSize: 20 },
+  },
+  buttonGroup: { options: { border: 'quaternary', borderRadius: 4 } },
+  progressBar: {
+    options: {
+      trackColor: 'primary-surface',
+      fillColor: 'secondary-surface',
+      completeColor: 'secondary',
+      borderColor: 'on-background-variant',
+      strokeWidth: 1,
+    },
+  },
   dropdown: {
     options: {
       border: 'none',
