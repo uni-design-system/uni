@@ -354,7 +354,16 @@ export class UniDateInputComponent
   });
 
   protected readonly toggleWrapClass = computed(() =>
-    css({ display: 'flex', alignItems: 'center', ...this.theme.paddingRight('xxs') })
+    css({
+      display: 'flex',
+      alignItems: 'center',
+      ...this.theme.paddingRight('xxs'),
+      // The affordance ink every input glyph reads, matching `uni-combobox`'s
+      // toggle. `uni-icon` masks `currentColor`, so colouring the wrapper is
+      // enough; without it the icon fell back to the icon button's default
+      // near-black and stood out against the other controls.
+      ...this.theme.color('on-background-variant'),
+    })
   );
 
   /** Embedded mode: the composer owns the box; keep only the flex row. */

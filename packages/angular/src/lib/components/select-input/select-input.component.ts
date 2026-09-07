@@ -1,9 +1,10 @@
-import { ChangeDetectionStrategy, Component, computed, input, model } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, input, model } from '@angular/core';
 import { FormValueControl } from '@angular/forms/signals';
 import { css } from '@emotion/css';
 import type { Options } from '../../cdk';
 import { UniInputBoxComponent } from '../input-box/input-box.component';
 import { UniIconComponent } from '../icon';
+import { ThemeService } from '../../theming/theme.service';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -12,6 +13,10 @@ import { UniIconComponent } from '../icon';
   templateUrl: './select-input.component.html',
 })
 export class UniSelectComponent<T> implements FormValueControl<T | null> {
+  // This control has no theme entry of its own (see ROADMAP Track 2 §12), so
+  // it reads the service directly rather than through `BaseComponent`.
+  private readonly theme = inject(ThemeService);
+
   // --- REQUIRED SIGNALS (populated by FormValueControl) ---
   readonly value = model<T | null>(null);
   readonly disabled = input(false);
@@ -91,9 +96,13 @@ export class UniSelectComponent<T> implements FormValueControl<T | null> {
     },
   });
 
-  arrowClass = css({
-    position: 'absolute',
-    right: 0,
-    pointerEvents: 'none' /* Crucial for clicking through */,
-  });
+  protected readonly arrowClass = computed(() =>
+    css({
+      position: 'absolute',
+      right: 0,
+      pointerEvents: 'none' /* Crucial for clicking through */,
+      // Same affordance ink as `uni-combobox`'s toggle.
+      ...this.theme.color('on-background-variant'),
+    })
+  );
 }
