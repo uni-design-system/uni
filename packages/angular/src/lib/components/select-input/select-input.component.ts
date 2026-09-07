@@ -5,6 +5,7 @@ import type { Options } from '../../cdk';
 import { UniInputBoxComponent } from '../input-box/input-box.component';
 import { UniIconComponent } from '../icon';
 import { ThemeService } from '../../theming/theme.service';
+import type { UniSelectOptions } from './select-input.model';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -13,9 +14,10 @@ import { ThemeService } from '../../theming/theme.service';
   templateUrl: './select-input.component.html',
 })
 export class UniSelectComponent<T> implements FormValueControl<T | null> {
-  // This control has no theme entry of its own (see ROADMAP Track 2 §12), so
-  // it reads the service directly rather than through `BaseComponent`.
+  // Reads the service directly rather than through `BaseComponent`, which this
+  // control does not extend — same pattern as `uni-icon-button`.
   private readonly theme = inject(ThemeService);
+  protected readonly componentOptions = this.theme.getComponentOptions<UniSelectOptions>('select');
 
   // --- REQUIRED SIGNALS (populated by FormValueControl) ---
   readonly value = model<T | null>(null);
@@ -102,7 +104,7 @@ export class UniSelectComponent<T> implements FormValueControl<T | null> {
       right: 0,
       pointerEvents: 'none' /* Crucial for clicking through */,
       // Same affordance ink as `uni-combobox`'s toggle.
-      ...this.theme.color('on-background-variant'),
+      ...this.theme.color(this.componentOptions().toggleColor ?? 'on-background-variant'),
     })
   );
 }

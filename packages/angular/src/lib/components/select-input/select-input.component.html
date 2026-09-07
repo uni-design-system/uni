@@ -29,5 +29,9 @@
       </option>
     }
   </select>
-  <uni-icon name="chevronDown" size="20" [class]="arrowClass()" />
+  <uni-icon
+    [name]="componentOptions().toggleIcon ?? 'chevronDown'"
+    [size]="componentOptions().toggleSize ?? 20"
+    [class]="arrowClass()"
+  />
 </uni-input-box>

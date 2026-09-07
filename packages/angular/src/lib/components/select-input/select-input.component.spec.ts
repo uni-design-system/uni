@@ -95,6 +95,9 @@ describe('UniSelectComponent', () => {
     const chevron = (fixture.nativeElement as HTMLElement).querySelector('uni-icon')!;
 
     expect(chevron).not.toBeNull();
-    expect(chevron.getAttribute('size')).toBe('20');
+    // `uni-icon` writes its resolved size to inline width/height, so this also
+    // proves the `select.toggleSize` theme option reached it.
+    expect((chevron as HTMLElement).style.width).toBe('20px');
+    expect((chevron as HTMLElement).style.height).toBe('20px');
   });
 });
