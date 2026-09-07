@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, computed, inject, input } from '@angular/core';
 import { css } from '@emotion/css';
 import { ThemeService } from '../../theming';
+import type { UniProgressBarOptions } from './progress-bar.model';
 
 @Component({
   selector: 'uni-progress-bar',
@@ -18,8 +19,22 @@ import { ThemeService } from '../../theming';
 })
 export class UniProgressBarComponent {
   theme = inject(ThemeService);
+  protected readonly componentOptions =
+    this.theme.getComponentOptions<UniProgressBarOptions>('progressBar');
 
   palette = this.theme.colors;
+
+  /** Every paint the bar uses, resolved through the theme entry. */
+  protected readonly paint = computed(() => {
+    const options = this.componentOptions();
+    const palette = this.palette();
+    return {
+      track: palette[options.trackColor ?? 'primary-surface'],
+      fill: palette[options.fillColor ?? 'secondary-surface'],
+      complete: palette[options.completeColor ?? 'secondary'],
+      border: palette[options.borderColor ?? 'on-background-variant'],
+    };
+  });
 
   width = input<number>(560);
   height = input<number>(24);
@@ -28,7 +43,7 @@ export class UniProgressBarComponent {
   /** Accessible name describing what is progressing (e.g. "Upload progress"). */
   ariaLabel = input<string>();
 
-  stroke = 1;
+  protected readonly stroke = computed(() => this.componentOptions().strokeWidth ?? 1);
 
   protected readonly className = computed(() => {
     return css([{ display: 'block' }]);
