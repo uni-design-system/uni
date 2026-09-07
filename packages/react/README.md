@@ -1,3 +1,11 @@
+> [!WARNING]
+> **This package is experimental.** It shares a version number with
+> `@uni-design-system/uni-angular` because the packages release together, **not
+> because they are at parity** — React implements a small subset of the Angular
+> library's components and carries minimal test coverage. Treat the version as
+> a release marker, not a maturity signal. For production use today, prefer
+> `@uni-design-system/uni-angular`.
+
 <p align="center">
   <a href="https://uni-design-system.github.io/uni/" target="_blank">
     <img src="https://github.com/uni-design-system/uni-react/raw/v0.0.17/.github/uni-logo.png" alt="UNI Design System">
