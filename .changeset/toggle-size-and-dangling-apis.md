@@ -13,4 +13,4 @@ Remove the deprecated `toggle.size` theme option and wire up three component nam
 - **`buttonGroup`** — `border` and `borderRadius` for the segmented frame, previously a literal `quaternary` border and 4px corners.
 - **`progressBar`** — `trackColor`, `fillColor`, `completeColor`, `borderColor` and `strokeWidth`, previously read straight off the palette.
 
-`textButton` remains unreachable by design: `text-button` is an attribute selector on `UniButtonComponent`, which registers as `button`, so giving it a second entry would split button theming rather than fix anything. `footer` remains declared and themed but unbuilt.
+The two remaining names are dealt with separately: `textButton` is renamed `inlineButton` and now backs the new `uni-inline-button`, and `footer` is removed from `ComponentName` altogether.

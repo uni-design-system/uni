@@ -113,12 +113,14 @@ audits: `packages/angular/TODO.md` (v4 audit) and `uni-theme-generation-plan.md`
 - [x] ~~Hardcoded colors in checkbox / radio / toggle~~ — tokenized 2026-07-24
       (`boxColor`/`ringColor`/`fillColor`/`trackColor`/`knobColor` options; on-color
       pairs for check strokes; `disabled` tokens; themed knob shadow).
-- [ ] **`footer`** — declared in `ComponentName` with theme options but unbuilt;
-      build it (app-bar sibling) or remove the declaration. The other four
-      dangling names were resolved in 11.0.0: `select`, `buttonGroup` and
-      `progressBar` gained theme entries; `textButton` stays unreachable by
-      decision (it is an attribute selector on `UniButtonComponent`, which
-      registers as `button`).
+- [x] ~~Dangling `ComponentName` entries~~ — all five resolved for 11.0.0.
+      `select`, `buttonGroup` and `progressBar` gained theme entries whose
+      defaults are what each component already hardcoded; `textButton` was
+      renamed `inlineButton` and now backs the new `uni-inline-button`
+      (selector `button[inline-button]`, since `text-button` was already taken
+      by `UniButtonComponent`'s own selector); `footer`
+      was declared *and* themed but never built, and is removed from
+      `ComponentName` and from the base theme.
 - [x] ~~Input `typeFace` option casing → `typeface`~~ — renamed 2026-08-20; the
       deprecated `typeFace` alias was removed in 9.0.0 (`packages/core/CHANGELOG.md:546`).
       Nothing named `typeFace` survives — `ThemeService.typeFaces` is a

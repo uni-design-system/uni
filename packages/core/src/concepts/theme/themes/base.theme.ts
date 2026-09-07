@@ -569,7 +569,6 @@ const buildComponents = (c: Colors): ComponentThemes => ({
   // ~0.15–0.6s at this speed — see `expandDuration`). The toggle's chevron
   // rotation shares the clock.
   expand: { options: { motion: 'reveal' } },
-  footer: { options: { height: 52, color: 'primary', logoHeight: 18.6, logoPadding: 'md' } },
   input: {
     options: {
       typeface: 'input',
@@ -978,6 +977,18 @@ const buildComponents = (c: Colors): ComponentThemes => ({
       md: { height: 26, minHeight: 26, width: 26, minWidth: 26, fontSize: 22 },
       lg: { height: 36, minHeight: 36, width: 36, minWidth: 36, fontSize: 30 },
       xl: { height: 40, minHeight: 40, width: 40, minWidth: 40, fontSize: 34 },
+    },
+  },
+  // `uni-inline-button`: a button inside a run of text. It inherits the
+  // surrounding type, so the only things a theme decides are how link-like it
+  // reads and how far the glyph sits from the label.
+  inlineButton: {
+    options: {
+      linkColor: 'primary',
+      underline: false,
+      underlineOnHover: true,
+      underlineOffset: '0.15em',
+      gap: 'xxs',
     },
   },
   progressGauge: {

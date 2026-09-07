@@ -1,0 +1,105 @@
+import { Meta, Title } from '@storybook/addon-docs/blocks';
+import * as Stories from './inline-button.stories';
+import { StoryUsage } from '../../../stories/blocks/StoryUsage';
+import { StoryExample } from '../../../stories/blocks/StoryExample';
+import { ThemeOptions } from '../../../stories/blocks/ThemeOptionsBlock';
+
+<Meta of={Stories} name="Inline Button" />
+<Title />
+
+`import { UniInlineButtonComponent } from '@uni-design-system/uni-angular';`
+
+## Overview
+
+An action that lives **inside a sentence**.
+
+Every other button in the library owns a box. Even `ghost` is a flex box with a
+hit area, horizontal padding and its own type scale, so dropping one into a
+paragraph takes it out of the run of text and onto a line of its own. This one
+adds no box at all: it inherits the surrounding type — family, size, weight,
+line height, letter spacing and colour — and renders as part of the sentence.
+
+<StoryExample of={Stories.AgainstAGhostButton} />
+
+## A button, not a link
+
+It is always a real `<button>`. It can *look* like a link — `underline` and
+`link` are both here — without claiming to be navigation, so Enter and Space
+activate it and assistive tech announces a button rather than an unfollowable
+link.
+
+Use an `<a>` when the thing actually goes somewhere. Use this when it acts:
+opening a dialog, revealing a section, undoing the last change.
+
+<StoryExample of={Stories.InProse} />
+
+## Underline and colour
+
+Three knobs, and the theme decides the defaults:
+
+- **`underline`** — underlines the label. Absent, the theme's `underline`
+  option decides; a bare attribute (`<button inline-button underline>`) reads
+  as true.
+- **`link`** — paints the label with the theme's `linkColor` (`primary` by
+  default) instead of inheriting the ink of the sentence.
+- **`underlineOnHover`** (theme only) — the hover affordance, on by default, so
+  an inline action is discoverable even when it is not underlined at rest.
+
+An inline button that is neither underlined nor coloured is indistinguishable
+from the text around it until hovered. That is a deliberate option, not the
+default — reach for it only where surrounding context already makes the action
+obvious.
+
+## A glyph alongside
+
+Pass `iconName` for a theme icon token, or `symbolName` for a Material Symbols
+ligature the icon set does not carry, and `iconPosition` to put it before or
+after the label.
+
+The glyph is sized in `em`, never px, so it scales with whatever type it lands
+in — the same markup reads correctly in a caption and in a headline, and never
+changes the line height of the paragraph it sits in.
+
+<StoryExample of={Stories.WithAGlyph} />
+
+## One limit
+
+Browsers blockify every `<button>` to `inline-block` regardless of the
+`display` it asks for, so this control is an **atomic inline box**. A long
+label wraps inside it, but the run itself moves to the next line whole rather
+than splitting where the words around it would.
+
+`display: contents` would fix the wrapping and cost the button its focusability
+entirely, which is not a trade worth making. Keep labels to a few words — which
+is what an inline action wants anyway.
+
+<StoryExample of={Stories.LongLabelsStayWhole} />
+
+## Usage
+
+<StoryUsage of={Stories.InProse} />
+
+## Theme options
+
+<ThemeOptions componentName="inlineButton" />
+
+## Do
+
+- Use it for actions inside running text: opening a dialog, revealing a section, undoing the last change
+- Keep the label to a few words, so it never has to wrap
+- Pair `link` with `underline`, so the action is not marked by colour alone
+- Write a label that says what the action does on its own — it is the accessible name
+
+## Don't
+
+- Reach for it where a link belongs; if the thing goes somewhere, use an `<a>`
+- Set a px size on the glyph — the `em` sizing is what lets one markup read correctly from caption to headline
+- Leave it undecorated *and* turn `underlineOnHover` off, which hides the action entirely
+- Use it as a primary action; a paragraph is not where a form's Submit lives
+
+## Accessibility
+
+- A real `<button>`: native focus, Enter/Space activation and `disabled` semantics, so nothing has to be re-implemented with key handlers
+- The focus ring is the library's shared ring, drawn on the control rather than on the paragraph, and `focusColor` retunes it per theme
+- The glyph is decorative and hidden from assistive tech; the label carries the accessible name
+- Underlining is a visual affordance only — do not rely on colour alone to mark the action

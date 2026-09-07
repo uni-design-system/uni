@@ -44,13 +44,13 @@ icon-button hover, dialog/drawer scrim, dialog/drawer motion). Get ahead of it:
    all, which is exactly how its drawer inherited a scrim that clashed with its
    own dialog. Add a `themeCoverage()` helper in core, a Storybook page, and an
    MCP tool so an agent can answer "what does this theme still need?".
-5. ~~**Fix the registry that lies.**~~ Mostly done for 11.0.0: `select`,
-   `buttonGroup` and `progressBar` now have theme entries whose defaults are
-   what each component previously hardcoded. Two remain by decision —
-   `textButton` (an attribute selector on `UniButtonComponent`, which registers
-   as `button`; a second entry would split button theming) and `footer`
-   (declared *and* themed at `base.theme.ts:549`, still never built — build it
-   as an app-bar sibling or drop the declaration).
+5. ~~**Fix the registry that lies.**~~ Done for 11.0.0. `select`,
+   `buttonGroup` and `progressBar` gained theme entries whose defaults are what
+   each component previously hardcoded; `textButton` was renamed `inlineButton`
+   and now backs the new `uni-inline-button`; `footer`, declared *and* themed
+   but never built, is
+   removed from `ComponentName`. Every name in the registry now reaches a
+   component.
 
 **P2 — depends on a decision, not on effort.**
 
@@ -190,12 +190,9 @@ Everything else keeps its Track 1 / Track 2 ordering below.
 11. **Support surface.** No browserslist / machine-readable browser matrix
     (library bets on Baseline-2026 features), no deprecation policy, no git
     tags / GitHub Releases, no per-major migration guides.
-12. **Small dangling APIs.** Five names in `ComponentName` are unreachable —
-    `footer` (declared *and* themed, never built) plus `textButton`,
-    `buttonGroup`, `progressBar` and `select` (no theme entry, no
-    `COMPONENT_NAME` provider), so a theme cannot dress them. Also `aria-live`
-    regions absent for async state (table load completion, filter counts).
-    See Priority §5.
+12. **`aria-live` regions absent for async state** (table load completion,
+    filter counts). The `ComponentName` half of this entry is closed: all five
+    unreachable names were resolved in 11.0.0 — see Priority §5.
 
 ## Strengths to defend (don't regress these)
 

@@ -1,15 +1,15 @@
 {
   "meta": {
     "version": "10.4.0",
-    "builtAt": "2026-09-07T11:04:15.657Z",
+    "builtAt": "2026-09-07T13:22:36.659Z",
     "frameworks": [
       "angular"
     ],
     "counts": {
-      "components": 84,
-      "tokens": 481,
+      "components": 85,
+      "tokens": 482,
       "themes": 2,
-      "examples": 229
+      "examples": 233
     }
   },
   "components": [
@@ -4361,6 +4361,121 @@
         "accessibility": [
           "Icon-only buttons need a name: project text (rendered visually hidden) or set `ariaLabel`.",
           "The icon/symbol itself is decorative (`aria-hidden`)."
+        ]
+      },
+      "relatedTokens": []
+    },
+    {
+      "id": "inline-button",
+      "name": "InlineButton",
+      "status": "stable",
+      "summary": "A button that lives inside a sentence.",
+      "description": "A button that lives inside a sentence. Every other button in the library owns a box. Even `ghost` is a flex box with a hit area, horizontal padding and a type scale of its own, so dropping one into a sentence takes it out of the run of text entirely. This one inherits that type — family, size, weight, line height and colour — and adds no padding, so a paragraph reads as one continuous run with an action in the middle of it. It is always a real `<button>`: it can *look* like a link (`underline`, `link`) without claiming to be navigation, so Enter and Space activate it and assistive tech announces a button rather than an unfollowable link. A glyph may sit alongside the label without disturbing that: it is sized in `em`, so it scales with the type it lands in rather than pinning a px size into someone else's paragraph. One limit comes from the element itself. Browsers blockify a `<button>` to `inline-block` whatever `display` it asks for, so the control is an atomic inline box: its own label wraps inside it, but the run cannot split across a line break the way the words around it do. `display: contents` would buy that at the cost of the button being focusable at all, which is not a trade worth making — keep labels to a few words, which is what an inline action wants anyway.",
+      "category": "primitives",
+      "version": "10.4.0",
+      "bindings": {
+        "angular": {
+          "importPath": "@uni-design-system/uni-angular",
+          "selectorOrTag": "button[uni-inline-button], button[inline-button]",
+          "api": [
+            {
+              "name": "iconName",
+              "kind": "input",
+              "type": "IconName",
+              "required": false,
+              "description": "Theme icon token rendered beside the label. Prefer this over `symbolName`."
+            },
+            {
+              "name": "symbolName",
+              "kind": "input",
+              "type": "string",
+              "required": false,
+              "description": "Material Symbols ligature, for glyphs the theme's icon set doesn't carry."
+            },
+            {
+              "name": "iconPosition",
+              "kind": "input",
+              "type": "'start' | 'end'",
+              "required": false,
+              "default": "'start'",
+              "description": "Which side of the label the glyph sits on."
+            },
+            {
+              "name": "link",
+              "kind": "input",
+              "type": "unknown",
+              "required": false,
+              "default": "false, { transform: booleanAttribute }",
+              "description": "Paint the label with the theme's link colour instead of inheriting the ink."
+            },
+            {
+              "name": "disable",
+              "kind": "input",
+              "type": "unknown",
+              "required": false,
+              "default": "false, { transform: booleanAttribute }",
+              "description": ""
+            },
+            {
+              "name": "variant",
+              "kind": "input",
+              "type": "Variant",
+              "required": false,
+              "default": "'primary'",
+              "description": "Style archetype from the theme. Inherited from BaseComponent."
+            },
+            {
+              "name": "size",
+              "kind": "input",
+              "type": "Size",
+              "required": false,
+              "default": "'lg'",
+              "description": "Size token from the theme. Inherited from BaseComponent. Only has an effect where the component theme defines a `sizes` block."
+            }
+          ]
+        }
+      },
+      "examples": [
+        {
+          "title": "In Prose",
+          "framework": "angular",
+          "code": "<!-- Storybook story: In Prose -->\n<p uni-text=\"body-1-long\" style=\"max-width: 46ch\">\nYour data is processed under the terms you accepted at sign-up. You can\n<button inline-button [underline]=\"underline\" [link]=\"link\" [disable]=\"disable\"\n  [iconName]=\"iconName\" [symbolName]=\"symbolName\" [iconPosition]=\"iconPosition\">review them</button>\nat any time, or\n<button inline-button [underline]=\"underline\" [link]=\"link\">export everything</button>\nas a single archive.\n</p>\n<!-- args:\n{ underline: true, link: true }\n-->"
+        },
+        {
+          "title": "Against A Ghost Button",
+          "framework": "angular",
+          "code": "<!-- Storybook story: Against A Ghost Button -->\n<div style=\"display: grid; gap: 16px; max-width: 46ch\">\n<p uni-text=\"body-1-long\">\n  Inline button: read the <button inline-button underline>privacy policy</button> before continuing.\n</p>\n<p uni-text=\"body-1-long\">\n  Ghost button: read the <button text-button variant=\"ghost\">privacy policy</button> before continuing.\n</p>\n</div>"
+        },
+        {
+          "title": "With A Glyph",
+          "framework": "angular",
+          "code": "<!-- Storybook story: With A Glyph -->\n<div style=\"display: grid; gap: 16px; max-width: 46ch\">\n<p uni-text=\"body-1-long\">\n  Opens elsewhere:\n  <button inline-button link underline iconName=\"externalLink\" iconPosition=\"end\">the full report</button>.\n</p>\n<p uni-text=\"caption\">\n  Same control at caption size:\n  <button inline-button link underline iconName=\"externalLink\" iconPosition=\"end\">the full report</button>.\n</p>\n<p uni-text=\"headline-small\">\n  And in a headline:\n  <button inline-button link underline iconName=\"externalLink\" iconPosition=\"end\">the full report</button>.\n</p>\n</div>"
+        },
+        {
+          "title": "Long Labels Stay Whole",
+          "framework": "angular",
+          "code": "<!-- Storybook story: Long Labels Stay Whole -->\n<div style=\"display: grid; gap: 16px; max-width: 20ch\">\n<p uni-text=\"body-1-long\">\n  Short label: <button inline-button underline>review terms</button> whenever you like.\n</p>\n<p uni-text=\"body-1-long\">\n  Long label: <button inline-button underline>review the terms of processing</button> whenever you like.\n</p>\n</div>"
+        }
+      ],
+      "guidelines": {
+        "whenToUse": "An action that lives **inside a sentence**.\nEvery other button in the library owns a box. Even `ghost` is a flex box with a\nhit area, horizontal padding and its own type scale, so dropping one into a\nparagraph takes it out of the run of text and onto a line of its own. This one\nadds no box at all: it inherits the surrounding type — family, size, weight,\nline height, letter spacing and colour — and renders as part of the sentence.",
+        "dos": [
+          "Use it for actions inside running text: opening a dialog, revealing a section, undoing the last change",
+          "Keep the label to a few words, so it never has to wrap",
+          "Pair `link` with `underline`, so the action is not marked by colour alone",
+          "Write a label that says what the action does on its own — it is the accessible name"
+        ],
+        "donts": [
+          "Reach for it where a link belongs; if the thing goes somewhere, use an `<a>`",
+          "Set a px size on the glyph — the `em` sizing is what lets one markup read correctly from caption to headline",
+          "Leave it undecorated *and* turn `underlineOnHover` off, which hides the action entirely",
+          "Use it as a primary action; a paragraph is not where a form's Submit lives"
+        ],
+        "accessibility": [
+          "A real `<button>`: native focus, Enter/Space activation and `disabled` semantics, so nothing has to be re-implemented with key handlers",
+          "The focus ring is the library's shared ring, drawn on the control rather than on the paragraph, and `focusColor` retunes it per theme",
+          "The glyph is decorative and hidden from assistive tech; the label carries the accessible name",
+          "Underlining is a visual affordance only — do not rely on colour alone to mark the action"
         ]
       },
       "relatedTokens": []
@@ -13083,54 +13198,6 @@
       }
     },
     {
-      "id": "footer.behavior.height",
-      "value": 52,
-      "type": "number",
-      "kind": "behavioral",
-      "target": "component-prop",
-      "appliesTo": "footer",
-      "themeValues": {
-        "LightTheme": 52,
-        "DarkTheme": 52
-      }
-    },
-    {
-      "id": "footer.behavior.color",
-      "value": "primary",
-      "type": "string",
-      "kind": "behavioral",
-      "target": "component-prop",
-      "appliesTo": "footer",
-      "themeValues": {
-        "LightTheme": "primary",
-        "DarkTheme": "primary"
-      }
-    },
-    {
-      "id": "footer.behavior.logoHeight",
-      "value": 18.6,
-      "type": "number",
-      "kind": "behavioral",
-      "target": "component-prop",
-      "appliesTo": "footer",
-      "themeValues": {
-        "LightTheme": 18.6,
-        "DarkTheme": 18.6
-      }
-    },
-    {
-      "id": "footer.behavior.logoPadding",
-      "value": "md",
-      "type": "string",
-      "kind": "behavioral",
-      "target": "component-prop",
-      "appliesTo": "footer",
-      "themeValues": {
-        "LightTheme": "md",
-        "DarkTheme": "md"
-      }
-    },
-    {
       "id": "input.behavior.typeface",
       "value": "input",
       "type": "string",
@@ -14400,6 +14467,66 @@
       "themeValues": {
         "LightTheme": "control",
         "DarkTheme": "control"
+      }
+    },
+    {
+      "id": "inlineButton.behavior.linkColor",
+      "value": "primary",
+      "type": "string",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "inlineButton",
+      "themeValues": {
+        "LightTheme": "primary",
+        "DarkTheme": "primary"
+      }
+    },
+    {
+      "id": "inlineButton.behavior.underline",
+      "value": false,
+      "type": "boolean",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "inlineButton",
+      "themeValues": {
+        "LightTheme": false,
+        "DarkTheme": false
+      }
+    },
+    {
+      "id": "inlineButton.behavior.underlineOnHover",
+      "value": true,
+      "type": "boolean",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "inlineButton",
+      "themeValues": {
+        "LightTheme": true,
+        "DarkTheme": true
+      }
+    },
+    {
+      "id": "inlineButton.behavior.underlineOffset",
+      "value": "0.15em",
+      "type": "string",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "inlineButton",
+      "themeValues": {
+        "LightTheme": "0.15em",
+        "DarkTheme": "0.15em"
+      }
+    },
+    {
+      "id": "inlineButton.behavior.gap",
+      "value": "xxs",
+      "type": "string",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "inlineButton",
+      "themeValues": {
+        "LightTheme": "xxs",
+        "DarkTheme": "xxs"
       }
     },
     {
@@ -15937,12 +16064,6 @@
         "expand": {
           "motion": "reveal"
         },
-        "footer": {
-          "height": 52,
-          "color": "primary",
-          "logoHeight": 18.6,
-          "logoPadding": "md"
-        },
         "input": {
           "typeface": "input",
           "color": "primary-surface",
@@ -16082,6 +16203,13 @@
         "iconButton": {
           "borderRadius": "max",
           "motion": "control"
+        },
+        "inlineButton": {
+          "linkColor": "primary",
+          "underline": false,
+          "underlineOnHover": true,
+          "underlineOffset": "0.15em",
+          "gap": "xxs"
         },
         "card": {
           "borderRadius": "xs"
@@ -16536,12 +16664,6 @@
         "expand": {
           "motion": "reveal"
         },
-        "footer": {
-          "height": 52,
-          "color": "primary",
-          "logoHeight": 18.6,
-          "logoPadding": "md"
-        },
         "input": {
           "typeface": "input",
           "color": "primary-surface",
@@ -16681,6 +16803,13 @@
         "iconButton": {
           "borderRadius": "max",
           "motion": "control"
+        },
+        "inlineButton": {
+          "linkColor": "primary",
+          "underline": false,
+          "underlineOnHover": true,
+          "underlineOffset": "0.15em",
+          "gap": "xxs"
         },
         "card": {
           "borderRadius": "xs"

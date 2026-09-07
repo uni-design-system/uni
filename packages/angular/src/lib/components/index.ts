@@ -28,6 +28,7 @@ export * from './file-drop-zone';
 export * from './forms';
 export * from './icon';
 export * from './icon-button';
+export * from './inline-button';
 export * from './input';
 export * from './input-box';
 export * from './json-view';
