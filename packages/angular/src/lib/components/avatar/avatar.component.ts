@@ -28,7 +28,7 @@ import type { UniAvatarOptions } from './avatar.model';
     } @else if (initials()) {
       <span>{{ initials() }}</span>
     } @else {
-      <uni-icon [name]="componentOptions().fallbackIcon ?? 'profile'" />
+      <uni-icon size="1.4em" [name]="componentOptions().fallbackIcon ?? 'profile'" />
     }
   `,
 })
@@ -73,7 +73,6 @@ export class UniAvatarComponent extends BaseComponent<UniAvatarOptions> {
         userSelect: 'none',
         lineHeight: 1,
         '& img': { width: '100%', height: '100%', objectFit: 'cover' },
-        '& symbol': { fontSize: '1.4em' },
       },
     ])
   );

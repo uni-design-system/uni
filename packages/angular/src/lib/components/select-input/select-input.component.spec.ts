@@ -84,4 +84,17 @@ describe('UniSelectComponent', () => {
       expect(objSelect().selectedIndex).toBe(1);
     });
   });
+
+  /**
+   * `uni-icon` fills its container unless given an explicit size, where
+   * `uni-symbol` always emitted 24px — so the symbol→icon migration left this
+   * chevron stretching to the width of the select and centring itself. The
+   * size also has to match `uni-combobox`, which is the same control shape.
+   */
+  it('sizes its chevron explicitly, matching uni-combobox', () => {
+    const chevron = (fixture.nativeElement as HTMLElement).querySelector('uni-icon')!;
+
+    expect(chevron).not.toBeNull();
+    expect(chevron.getAttribute('size')).toBe('20');
+  });
 });

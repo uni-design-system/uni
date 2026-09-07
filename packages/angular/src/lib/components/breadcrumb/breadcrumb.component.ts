@@ -29,6 +29,7 @@ import type { BreadcrumbItem, UniBreadcrumbOptions } from './breadcrumb.model';
             }
             @if (!last) {
               <uni-icon
+                size="24"
                 aria-hidden="true"
                 [name]="componentOptions().separatorIcon ?? 'chevronRight'"
               />

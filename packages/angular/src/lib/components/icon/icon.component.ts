@@ -20,6 +20,11 @@ import type { ColorToken, CssLength, IconName } from '@uni-design-system/uni-cor
     // rule in the stylesheet regardless of style injection order.
     '[style.width]': 'sizeValue()',
     '[style.height]': 'sizeValue()',
+    // An explicitly sized icon is not negotiable: as a flex child it would
+    // otherwise shrink below that size and render a squashed, non-square glyph
+    // (a 24px calendar toggle became 10x18 in a tight input row). Left unset
+    // in fill-the-container mode, where shrinking is the point.
+    '[style.flex]': 'sizeValue() ? \'none\' : null',
   },
 })
 export class UniIconComponent {
