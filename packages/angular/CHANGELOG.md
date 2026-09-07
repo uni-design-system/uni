@@ -1,5 +1,105 @@
 # @uni-design-system/uni-angular
 
+## 11.0.0
+
+### Major Changes
+
+- [`8fef84f`](https://github.com/uni-design-system/uni/commit/8fef84f25b92c3aea09ca1185304d54acae7e6b7) Thanks [@gaenglish](https://github.com/gaenglish)! - Require Angular 22. `@angular/common`, `@angular/core` and `@angular/forms` move from `^21.2.0` to `^22.0.0`, so 11.x tracks Angular 22 and 10.x remains the Angular 21 line — one major of this package per Angular major, as documented. The old range excluded v22 outright, so an app that had taken Angular 22 could not install this package without a peer override.
+
+  Two consequences of the framework's own changes:
+
+  **`touch` output on every form control.** Angular 22 marks a bound field touched through a dedicated `touch` output rather than through the `touched` model, which the `Field` directive now binds inward only. All sixteen controls that track touched state (input, textarea, checkbox, radio, toggle, select, combobox, multi-select, tag-input, calendar, date/date-time/time inputs, number/number-range inputs, quantity-stepper, slider) emit it wherever they already considered the user done with the control. Without it, `touched()` never flips and error display gated on it never appears.
+
+  **`min` / `max` typing.** The contract now types `min`/`max` as the control's own value type rather than as numbers. Where that still fits, the input was widened (`uni-slider`). Where it does not — a text control's native numeric attributes (`uni-input`), a range control's scalar bounds (`uni-number-range-input`), a tag limit (`uni-tag-input`) — the class member steps aside and the public binding name is preserved by an alias, so **templates are unchanged**. Only code reaching these through a `ViewChild` instance is affected: `min`/`max` are now `minAttr`/`maxAttr` on `uni-input`, `minValue`/`maxValue` on `uni-number-range-input`, and `max` is `maxLength` on `uni-tag-input`. `uni-number-range-input`'s protected `valueOf()` is renamed `partValue()`, since `valueOf` collides with `Object.valueOf`.
+
+  Angular 22 also makes `OnPush` the default change detection; every component here already set it explicitly.
+
+- [`403043a`](https://github.com/uni-design-system/uni/commit/403043a58fa616d13b28a3f563a17fffee76b963) Thanks [@gaenglish](https://github.com/gaenglish)! - Add `uni-inline-button`, and remove the `footer` component name.
+
+  **`uni-inline-button`** is an action that lives inside a sentence. Every other button in the library owns a box — even `ghost` carries padding and a hit area, so dropping one into a paragraph pushes the words apart and breaks the line's rhythm. This one adds no box: it inherits the surrounding type (family, size, weight, line height, letter spacing and colour) and renders as part of the run of text.
+
+  ```html
+  Your data is processed under the terms you accepted. You can
+  <button inline-button underline link>review them</button> at any time.
+  ```
+
+  It is always a real `<button>`, so it can _look_ like a link without claiming to be navigation: Enter and Space activate it and assistive tech announces a button rather than an unfollowable link. Reach for an `<a>` when the thing actually goes somewhere.
+
+  Inputs: `underline` and `link` (both tri-state against the theme's defaults, and both readable as bare attributes), `iconName` / `symbolName` with `iconPosition`, and `disable`. A glyph is sized in `em` rather than px, so the same markup reads correctly in a caption and in a headline and never changes the line height of the paragraph it sits in.
+
+  It is themed as **`inlineButton`**, with `linkColor`, `underline`, `underlineOnHover`, `underlineOffset`, `gap` and `focusColor`. This replaces the `textButton` name that had sat in `ComponentName` since before there was anything to put behind it — **`ComponentName`'s `'textButton'` is renamed to `'inlineButton'`, and the exported options type `UniTextButtonOptions` to `UniInlineButtonOptions`.** Nothing shipped a `textButton` entry, so a theme only needs the rename if it had reached for the unbacked name.
+
+  One documented limit: browsers blockify every `<button>` to `inline-block` whatever `display` it asks for, so the control is an atomic inline box. A long label wraps inside it, but the run moves to the next line whole rather than splitting where the surrounding words would. `display: contents` would fix that and cost the button its focusability, so labels should stay to a few words.
+
+  **`footer` is removed** from `ComponentName` and from the base theme. It was declared and themed but never built, so a theme could set options that reached nothing. Themes that state a `footer` entry now fail to type-check; delete the entry.
+
+- [`2e4a6a4`](https://github.com/uni-design-system/uni/commit/2e4a6a4de0fbecad710298e680a504a337cdc02e) Thanks [@gaenglish](https://github.com/gaenglish)! - Put every remaining hardcoded animation duration on the `motion` scale. Seventeen sites across twelve components carried their own literal, so a theme could retime some of the library and not the rest.
+
+  New `motion` options, each defaulting to the token named: `button`, `iconButton`, `checkbox`, `tabs`, `tooltip`, `dataTable`, `tag`. `uni-sort-header` names `control` directly — it has no theme entry to hang an option on. `combobox`'s chevron now turns with the popup it opens, reading that component's existing `motion` option.
+
+  Timings move where the literal and the token disagreed:
+
+  |                                           | before            | after             | token          |
+  | ----------------------------------------- | ----------------- | ----------------- | -------------- |
+  | button, icon-button, data-table row hover | 280ms ease        | 300ms ease        | `control`      |
+  | checkbox box and dash                     | 200ms ease        | 300ms ease        | `control`      |
+  | checkbox tick (drawn, trails the box)     | 500ms ease        | 350ms ease-in-out | `reveal`       |
+  | tabs ink and indicator                    | 150ms ease        | 120ms ease        | `snap`         |
+  | combobox chevron                          | 150ms ease        | 100ms linear      | `popup`        |
+  | tag fill and ink                          | 200ms ease        | 300ms ease        | `control`      |
+  | sort-header arrow                         | 350ms ease-in-out | 300ms ease        | `control`      |
+  | alert, snackbar dismiss                   | 300ms             | 350ms             | `notification` |
+  | data-table detail expand                  | 300ms ease        | 350ms ease-in-out | `reveal`       |
+  | tooltip fade, data-table loading overlay  | 350ms             | unchanged         | `notification` |
+
+  Two of these lived in the theme rather than in a component: `button.fixed` and `tag.fixed` each baked a `transition`, and the button's won over the component that had already been migrated — so the button kept its old timing regardless. Both are gone; the components own their transitions and follow the token at runtime. A spec now fails if any shipped theme states a duration in a style block.
+
+  `uni-skeleton` still stays out: its shimmer is a loop, not a transition.
+
+- [`2dc4fb5`](https://github.com/uni-design-system/uni/commit/2dc4fb538a1eeb1f232bf6b89ad88a623be9db72) Thanks [@gaenglish](https://github.com/gaenglish)! - Move `uni-slider`'s click-to-jump timing onto the `motion` scale. The `slider.transitionMs` theme option is removed; use `slider.motion` — a token name — instead.
+
+  It was the last duration option outside the scale. The other eight went in 9.0.0, but the slider was rewritten for the numeric family afterwards and reintroduced its own, so a theme could retime every animated component except this one.
+
+  The scale gains a sixth token for it, `snap` (120ms `ease`), which is the slider's exact previous timing — nothing moves faster or slower than before. It is a separate token rather than a reuse of `control` because the two describe different motion: `control` times a state change in place (a hover fill, a check mark) and runs 300ms, where a slider thumb covers distance to a value the user just chose and at 300ms reads as lagging the input rather than answering it. A drag is still never animated.
+
+  Themes setting `slider.transitionMs` should set `motion.snap` instead, which also retimes anything else pointed at that token.
+
+- [`44feb5d`](https://github.com/uni-design-system/uni/commit/44feb5d47814e152155f7d0541d186eb6b2f7a81) Thanks [@gaenglish](https://github.com/gaenglish)! - Composite components now render their glyphs through `uni-icon` theme tokens instead of `uni-symbol` ligatures, completing the rule set in `AGENTS.md`. Thirteen theme options are renamed and retyped from `string` to `IconName`:
+
+  | Component              | before                            | after                                 |
+  | ---------------------- | --------------------------------- | ------------------------------------- |
+  | date-input, time-input | `toggleSymbol`                    | `toggleIcon` (`calendar`, `clock`)    |
+  | calendar               | `navPrevSymbol` / `navNextSymbol` | `navPrevIcon` / `navNextIcon`         |
+  | menu-item              | `activeSymbol`                    | `activeIcon`                          |
+  | avatar                 | `fallbackSymbol`                  | `fallbackIcon` (`person` → `profile`) |
+  | breadcrumb             | `separatorSymbol`                 | `separatorIcon`                       |
+  | search-input           | `searchSymbol` / `clearSymbol`    | `searchIcon` / `clearIcon`            |
+  | callout, popover       | `closeSymbol`                     | `closeIcon`                           |
+
+  `drawer-header` and `dialog-header` shipped both `closeButtonIcon` and `closeButtonSymbol`; the `*Symbol` half is removed, and since `symbolName` outranked `iconName` inside the icon button, those two headers were still rendering the ligature path until now.
+
+  Four glyphs join `BaseIcons` (65 total): `arrowUp`/`arrowDown` and `chevronsLeft`/`chevronsRight`, which is what unblocked `uni-sort-header` and `uni-paginator`. `select-input`, `multi-select-dropdown` and `data-search` also stopped hardcoding ligatures.
+
+  **Migrating:** rename the option in your theme and swap the Material ligature for an icon token — `activeSymbol: 'check'` becomes `activeIcon: 'check'`, `toggleSymbol: 'calendar_month'` becomes `toggleIcon: 'calendar'`. Any glyph you need that `BaseIcons` lacks can be registered through `createTheme({ icons })`.
+
+  `uni-symbol` is unchanged and still the right tool for app-facing inputs that take arbitrary ligature names — `symbolName` on icon-button, tag, alert, snackbar and menu-item, and `symbolLeft`/`symbolRight` on button. One consequence worth knowing: `uni-icon` has no variable-font axes, so a theme setting `symbol: { options: { weight } }` no longer affects these composites' glyphs — they take the icon set's weight (300). The Wellsourced theme, which sets weight 200, has accepted this.
+
+- [`0b1c528`](https://github.com/uni-design-system/uni/commit/0b1c52851188011717b9388298a4b3b3f734e9e5) Thanks [@gaenglish](https://github.com/gaenglish)! - Remove the deprecated `toggle.size` theme option and wire up three component names that were declared but unreachable.
+
+  `toggle.size` was the last `@deprecated` API in the library — the pre-`sizes` geometry (width 2x, knob 0.8x) that outranked the size block for every instance regardless of a toggle's own `size` input. No shipped theme set it. Use the `toggle.sizes` block, which gives each size token its own `width` / `height` / `padding`.
+
+  `select`, `buttonGroup` and `progressBar` were listed in `ComponentName` with no theme entry and no `COMPONENT_NAME` provider behind them, so a theme could not dress them however it tried. Each now has an entry whose defaults are exactly what the component previously hardcoded, so nothing moves:
+  - **`select`** — `toggleIcon`, `toggleColor`, `toggleSize` for the dropdown affordance, matching `uni-combobox`'s (`chevronDown`, `on-background-variant`, 20).
+  - **`buttonGroup`** — `border` and `borderRadius` for the segmented frame, previously a literal `quaternary` border and 4px corners.
+  - **`progressBar`** — `trackColor`, `fillColor`, `completeColor`, `borderColor` and `strokeWidth`, previously read straight off the palette.
+
+  The two remaining names are dealt with separately: `textButton` is renamed `inlineButton` and now backs the new `uni-inline-button`, and `footer` is removed from `ComponentName` altogether.
+
+### Patch Changes
+
+- Updated dependencies [[`8fef84f`](https://github.com/uni-design-system/uni/commit/8fef84f25b92c3aea09ca1185304d54acae7e6b7), [`85a1ec5`](https://github.com/uni-design-system/uni/commit/85a1ec569446f7a353410e8338ef70d473dc72ae), [`403043a`](https://github.com/uni-design-system/uni/commit/403043a58fa616d13b28a3f563a17fffee76b963), [`2e4a6a4`](https://github.com/uni-design-system/uni/commit/2e4a6a4de0fbecad710298e680a504a337cdc02e), [`2dc4fb5`](https://github.com/uni-design-system/uni/commit/2dc4fb538a1eeb1f232bf6b89ad88a623be9db72), [`44feb5d`](https://github.com/uni-design-system/uni/commit/44feb5d47814e152155f7d0541d186eb6b2f7a81), [`0b1c528`](https://github.com/uni-design-system/uni/commit/0b1c52851188011717b9388298a4b3b3f734e9e5)]:
+  - @uni-design-system/uni-core@11.0.0
+
 ## 10.4.0
 
 ### Minor Changes
