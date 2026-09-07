@@ -4,21 +4,32 @@
     "moduleResolution": "bundler",
     "module": "ESNext",
     "esModuleInterop": true,
-    "types": ["node", "vite/client"],
+    "types": [
+      "node",
+      "vite/client"
+    ],
     "jsx": "react-jsx",
     "allowSyntheticDefaultImports": true,
     "resolveJsonModule": true,
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true
   },
-  "exclude": ["../src/test.ts", "../src/**/*.spec.ts"],
+  "exclude": [
+    "../src/**/*.spec.ts",
+    "../src/test.ts",
+    "../src/test-setup.ts",
+    "../src/testing/**",
+    "../src/public-api.ts",
+    "../src/stories/blocks/ExperimentalBadge.tsx",
+    "../src/stories/blocks/ThemeDataBlock.tsx"
+  ],
   "include": [
-    "../src/**/*.ts",
-    "../src/**/*.tsx",
     "../src/**/*.stories.ts",
     "./preview.ts",
-    "./main.ts",
-    "./vite.config.ts"
+    "../src/stories/blocks/*.tsx",
+    "../src/stories/addons/*.ts"
   ],
-  "files": ["./typings.d.ts"]
+  "files": [
+    "./typings.d.ts"
+  ]
 }
