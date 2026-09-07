@@ -1,13 +1,13 @@
 {
   "meta": {
     "version": "10.4.0",
-    "builtAt": "2026-09-06T21:08:14.489Z",
+    "builtAt": "2026-09-07T11:04:15.657Z",
     "frameworks": [
       "angular"
     ],
     "counts": {
       "components": 84,
-      "tokens": 471,
+      "tokens": 481,
       "themes": 2,
       "examples": 229
     }
@@ -7469,7 +7469,11 @@
           "Disabled options are rendered and announced, not hidden — removing them would"
         ]
       },
-      "relatedTokens": []
+      "relatedTokens": [
+        "select.behavior.toggleIcon",
+        "select.behavior.toggleColor",
+        "select.behavior.toggleSize"
+      ]
     },
     {
       "id": "skeleton",
@@ -12551,6 +12555,126 @@
       }
     },
     {
+      "id": "select.behavior.toggleIcon",
+      "value": "chevronDown",
+      "type": "string",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "select",
+      "themeValues": {
+        "LightTheme": "chevronDown",
+        "DarkTheme": "chevronDown"
+      }
+    },
+    {
+      "id": "select.behavior.toggleColor",
+      "value": "on-background-variant",
+      "type": "string",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "select",
+      "themeValues": {
+        "LightTheme": "on-background-variant",
+        "DarkTheme": "on-background-variant"
+      }
+    },
+    {
+      "id": "select.behavior.toggleSize",
+      "value": 20,
+      "type": "number",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "select",
+      "themeValues": {
+        "LightTheme": 20,
+        "DarkTheme": 20
+      }
+    },
+    {
+      "id": "buttonGroup.behavior.border",
+      "value": "quaternary",
+      "type": "string",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "buttonGroup",
+      "themeValues": {
+        "LightTheme": "quaternary",
+        "DarkTheme": "quaternary"
+      }
+    },
+    {
+      "id": "buttonGroup.behavior.borderRadius",
+      "value": 4,
+      "type": "number",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "buttonGroup",
+      "themeValues": {
+        "LightTheme": 4,
+        "DarkTheme": 4
+      }
+    },
+    {
+      "id": "progressBar.behavior.trackColor",
+      "value": "primary-surface",
+      "type": "string",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "progressBar",
+      "themeValues": {
+        "LightTheme": "primary-surface",
+        "DarkTheme": "primary-surface"
+      }
+    },
+    {
+      "id": "progressBar.behavior.fillColor",
+      "value": "secondary-surface",
+      "type": "string",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "progressBar",
+      "themeValues": {
+        "LightTheme": "secondary-surface",
+        "DarkTheme": "secondary-surface"
+      }
+    },
+    {
+      "id": "progressBar.behavior.completeColor",
+      "value": "secondary",
+      "type": "string",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "progressBar",
+      "themeValues": {
+        "LightTheme": "secondary",
+        "DarkTheme": "secondary"
+      }
+    },
+    {
+      "id": "progressBar.behavior.borderColor",
+      "value": "on-background-variant",
+      "type": "string",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "progressBar",
+      "themeValues": {
+        "LightTheme": "on-background-variant",
+        "DarkTheme": "on-background-variant"
+      }
+    },
+    {
+      "id": "progressBar.behavior.strokeWidth",
+      "value": 1,
+      "type": "number",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "progressBar",
+      "themeValues": {
+        "LightTheme": 1,
+        "DarkTheme": 1
+      }
+    },
+    {
       "id": "dropdown.behavior.border",
       "value": "none",
       "type": "string",
@@ -15753,6 +15877,22 @@
           "closeButtonIcon": "close",
           "closeButtonSize": "md"
         },
+        "select": {
+          "toggleIcon": "chevronDown",
+          "toggleColor": "on-background-variant",
+          "toggleSize": 20
+        },
+        "buttonGroup": {
+          "border": "quaternary",
+          "borderRadius": 4
+        },
+        "progressBar": {
+          "trackColor": "primary-surface",
+          "fillColor": "secondary-surface",
+          "completeColor": "secondary",
+          "borderColor": "on-background-variant",
+          "strokeWidth": 1
+        },
         "dropdown": {
           "border": "none",
           "borderRadius": "xxs",
@@ -16335,6 +16475,22 @@
           "textAlign": "center",
           "closeButtonIcon": "close",
           "closeButtonSize": "md"
+        },
+        "select": {
+          "toggleIcon": "chevronDown",
+          "toggleColor": "on-background-variant",
+          "toggleSize": 20
+        },
+        "buttonGroup": {
+          "border": "quaternary",
+          "borderRadius": 4
+        },
+        "progressBar": {
+          "trackColor": "primary-surface",
+          "fillColor": "secondary-surface",
+          "completeColor": "secondary",
+          "borderColor": "on-background-variant",
+          "strokeWidth": 1
         },
         "dropdown": {
           "border": "none",

@@ -44,10 +44,13 @@ icon-button hover, dialog/drawer scrim, dialog/drawer motion). Get ahead of it:
    all, which is exactly how its drawer inherited a scrim that clashed with its
    own dialog. Add a `themeCoverage()` helper in core, a Storybook page, and an
    MCP tool so an agent can answer "what does this theme still need?".
-5. **Fix the registry that lies.** Five names in `ComponentName` cannot be
-   reached: `footer` (declared *and* themed at `base.theme.ts:549`, never
-   built), and `textButton`, `buttonGroup`, `progressBar`, `select` (no theme
-   entry and no `COMPONENT_NAME` provider). Build, wire, or delete each.
+5. ~~**Fix the registry that lies.**~~ Mostly done for 11.0.0: `select`,
+   `buttonGroup` and `progressBar` now have theme entries whose defaults are
+   what each component previously hardcoded. Two remain by decision —
+   `textButton` (an attribute selector on `UniButtonComponent`, which registers
+   as `button`; a second entry would split button theming) and `footer`
+   (declared *and* themed at `base.theme.ts:549`, still never built — build it
+   as an app-bar sibling or drop the declaration).
 
 **P2 — depends on a decision, not on effort.**
 
@@ -56,8 +59,10 @@ icon-button hover, dialog/drawer scrim, dialog/drawer motion). Get ahead of it:
    consumer code still on `ReactiveFormsModule`. Worth doing if a consumer has
    legacy reactive-forms screens; skip it if they are migrating to Signal
    Forms anyway. Decide with the consumer, not on principle.
-7. **React package.** Still the credibility question in Track 2 §1 — fix,
-   de-publish, or mark experimental.
+7. ~~**React package.**~~ Marked experimental for 11.0.0 (package description
+   + README banner), which was the cheapest of the three options and does not
+   break anyone's install. The parity gap in Track 2 §1 is unchanged — this
+   stops the version number implying otherwise.
 
 Everything else keeps its Track 1 / Track 2 ordering below.
 

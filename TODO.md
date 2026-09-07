@@ -114,7 +114,11 @@ audits: `packages/angular/TODO.md` (v4 audit) and `uni-theme-generation-plan.md`
       (`boxColor`/`ringColor`/`fillColor`/`trackColor`/`knobColor` options; on-color
       pairs for check strokes; `disabled` tokens; themed knob shadow).
 - [ ] **`footer`** — declared in `ComponentName` with theme options but unbuilt;
-      build it (app-bar sibling) or remove the declaration.
+      build it (app-bar sibling) or remove the declaration. The other four
+      dangling names were resolved in 11.0.0: `select`, `buttonGroup` and
+      `progressBar` gained theme entries; `textButton` stays unreachable by
+      decision (it is an attribute selector on `UniButtonComponent`, which
+      registers as `button`).
 - [x] ~~Input `typeFace` option casing → `typeface`~~ — renamed 2026-08-20; the
       deprecated `typeFace` alias was removed in 9.0.0 (`packages/core/CHANGELOG.md:546`).
       Nothing named `typeFace` survives — `ThemeService.typeFaces` is a
