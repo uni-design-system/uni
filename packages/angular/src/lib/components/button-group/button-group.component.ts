@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
 import { css } from '@emotion/css';
+import type { UniButtonGroupOptions } from './button-group.model';
 import { ThemeService } from '../../theming';
 
 @Component({
@@ -11,19 +12,23 @@ import { ThemeService } from '../../theming';
 })
 export class UniButtonGroupComponent {
   private themeService = inject(ThemeService);
+  protected readonly componentOptions =
+    this.themeService.getComponentOptions<UniButtonGroupOptions>('buttonGroup');
 
   protected readonly className = computed(() => {
+    const options = this.componentOptions();
+    const radius = options.borderRadius ?? 4;
     return css({
       display: 'inline-flex',
 
       '& button': {
-        ...this.themeService.border('quaternary'),
+        ...this.themeService.border(options.border ?? 'quaternary'),
         marginRight: -1,
       },
 
       '& button:first-child': {
-        borderTopLeftRadius: 4,
-        borderBottomLeftRadius: 4,
+        borderTopLeftRadius: radius,
+        borderBottomLeftRadius: radius,
         borderTopRightRadius: 0,
         borderBottomRightRadius: 0,
       },
@@ -38,8 +43,8 @@ export class UniButtonGroupComponent {
       '& button:last-child': {
         borderTopLeftRadius: 0,
         borderBottomLeftRadius: 0,
-        borderTopRightRadius: 4,
-        borderBottomRightRadius: 4,
+        borderTopRightRadius: radius,
+        borderBottomRightRadius: radius,
         marginRight: 0,
       },
     });
