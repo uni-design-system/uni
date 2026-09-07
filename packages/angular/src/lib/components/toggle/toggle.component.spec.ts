@@ -91,25 +91,26 @@ describe('UniToggleComponent geometry', () => {
     expect(emittedRuleFor(hidden())).toContain('translateX(20px)');
   });
 
-  it('honours the legacy single-number token over the sizes block', () => {
-    // A theme still setting `toggle.behavior.size` opted into the old
-    // derived-ratio geometry (width 2x, knob 0.8x) before `sizes` existed, so
-    // it wins and applies whatever the `size` input says.
+  it('ignores the removed single-number token, keeping the sizes block', () => {
+    // `toggle.behavior.size` was the pre-`sizes` geometry (width 2x, knob
+    // 0.8x) and outranked the size block for every instance. It went in
+    // 11.0.0; a theme still carrying it must now be ignored rather than
+    // silently resizing every toggle.
     TestBed.inject(ThemeService).registerTheme(
       createTheme({
         id: 'LegacyToggleSize',
         name: 'Legacy Toggle Size',
         colors: LightTheme.colors,
-        components: { toggle: { options: { size: 18 } } },
+        components: { toggle: { options: { size: 18 } as never } },
       }),
       { select: true }
     );
     render('sm');
 
+    // The `sm` size block, not the 36x18 the legacy token used to force.
     const rule = emittedRuleFor(track().parentElement!);
-    expect(rule).toContain('width:36px');
-    expect(rule).toContain('height:18px');
-    expect(emittedRuleFor(hidden())).toContain('translateX(18px)');
+    expect(rule).not.toContain('width:36px');
+    expect(rule).not.toContain('height:18px');
   });
 });
 

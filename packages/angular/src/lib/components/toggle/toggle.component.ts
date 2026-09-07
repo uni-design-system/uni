@@ -90,15 +90,6 @@ export class UniToggleComponent
    * treats its size block the same way.
    */
   private readonly metrics = computed(() => {
-    // The legacy single-number token wins when a theme still sets it: that
-    // theme opted into the old derived-ratio geometry before `sizes` existed,
-    // and it applies to every instance regardless of the `size` input.
-    const legacy = this.componentOptions().size;
-    if (legacy != null) {
-      const height = Number(legacy);
-      return geometry(height * 2, height, (height - height * 0.8) / 2);
-    }
-
     const size = this.style();
     const height = Number(size['height'] ?? 20);
     const width = Number(size['width'] ?? height * 2);

@@ -10,15 +10,6 @@ export interface UniToggleVariant {
 }
 
 export interface UniToggleOptions {
-  /**
-   * @deprecated Track height in px, from before the toggle had a `sizes` block.
-   * Still honoured — and still wins when set, since a theme carrying it opted
-   * into the old derived-ratio geometry (width = 2x, knob = 0.8x) — but it
-   * applies to every instance regardless of the `size` input. Prefer the
-   * theme's `toggle.sizes` block, which gives each size token its own
-   * `width` / `height` / `padding`.
-   */
-  size?: number;
   /** Off-state track color token. */
   trackColor?: ColorKey;
   /** Knob color token. */
