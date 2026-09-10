@@ -1,13 +1,13 @@
 {
   "meta": {
     "version": "10.4.0",
-    "builtAt": "2026-09-07T13:22:36.659Z",
+    "builtAt": "2026-09-10T16:10:17.082Z",
     "frameworks": [
       "angular"
     ],
     "counts": {
-      "components": 85,
-      "tokens": 482,
+      "components": 86,
+      "tokens": 485,
       "themes": 2,
       "examples": 233
     }
@@ -8545,7 +8545,7 @@
       "name": "Tag",
       "status": "stable",
       "summary": "Compact chip for categories, states, filters and tokens.",
-      "description": "Compact chip for categories, states, filters and tokens. Two orthogonal style axes: `variant` picks the colour role and `tone` picks the archetype (soft / solid / outline). Both live in the theme's `tag` entry, so a theme restyles every chip in the app without touching markup. Structurally a chip is **body + trailing action as siblings**, never nested buttons: an interactive chip whose body is a `<button>` cannot contain the remove `<button>` (invalid HTML, and the inner control becomes unreachable for keyboard users). Both stay independently operable.",
+      "description": "Compact chip for categories, states, filters and tokens. Two orthogonal style axes: `variant` picks the colour role and `tone` picks the archetype (soft / solid / outline). Both live in the theme's `tag` entry, so a theme restyles every chip in the app without touching markup. Two state classes ride alongside the tone class for the same reason: `tag-selected` and `tag-interactive` let the theme paint selection and hover beside the colours they belong to, instead of an app swapping `tone` by hand on every chip. Structurally a chip is **body + trailing action as siblings**, never nested buttons: an interactive chip whose body is a `<button>` cannot contain the remove `<button>` (invalid HTML, and the inner control becomes unreachable for keyboard users). Both stay independently operable.",
       "category": "data",
       "version": "10.4.0",
       "bindings": {
@@ -8579,7 +8579,7 @@
             {
               "name": "value",
               "kind": "input",
-              "type": "string | number",
+              "type": "T",
               "required": false,
               "description": ""
             },
@@ -8679,19 +8679,19 @@
               "type": "number",
               "required": false,
               "default": "0",
-              "description": "Tab position of the chip's controls. A composite that owns its own roving focus — `uni-tag-input`, where the whole field is one tab stop — passes `-1` so Tab does not walk through every chip to reach the next control."
+              "description": "Tab position of the chip's controls. A composite that owns its own roving focus — `uni-tag-input` or `uni-tag-group`, where the whole thing is one tab stop — passes `-1` so Tab does not walk through every chip to reach the next control."
             },
             {
               "name": "removed",
               "kind": "output",
-              "type": "UniTagValue",
+              "type": "T | undefined",
               "required": false,
               "description": ""
             },
             {
               "name": "activated",
               "kind": "output",
-              "type": "UniTagValue",
+              "type": "T | undefined",
               "required": false,
               "description": ""
             },
@@ -8735,7 +8735,7 @@
         {
           "title": "Selected",
           "framework": "angular",
-          "code": "<!-- Storybook story: Selected -->\n<div box-layout gap=\"sm\">\n@for (tone of ['soft', 'solid', 'outline']; track tone) {\n  <div row-layout gap=\"sm\" alignItems=\"center\" style=\"margin-bottom:8px\">\n    @for (variant of ['primary', 'secondary', 'tertiary', 'warn', 'success', 'ghost']; track variant) {\n      <uni-tag [variant]=\"variant\" [tone]=\"tone\" [label]=\"variant\" />\n    }\n  </div>\n}\n</div>\n<!-- args:\n{ interactive: true, selected: true, tone: 'solid' }\n-->"
+          "code": "<!-- Storybook story: Selected -->\n<div box-layout gap=\"sm\">\n@for (tone of ['soft', 'solid', 'outline']; track tone) {\n  <div row-layout gap=\"sm\" alignItems=\"center\" style=\"margin-bottom:8px\">\n    @for (variant of ['primary', 'secondary', 'tertiary', 'warn', 'success', 'ghost']; track variant) {\n      <uni-tag [variant]=\"variant\" [tone]=\"tone\" [label]=\"variant\" />\n    }\n  </div>\n}\n</div>\n<!-- args:\n{ interactive: true, selected: true }\n-->"
         },
         {
           "title": "Lead Elements",
@@ -8774,6 +8774,7 @@
           "A static tag is **text, not a widget**: no role, no tab stop. Screen readers",
           "`removable` adds one real `<button>` named `Remove {label}`, overridable with",
           "`interactive` makes the body a `<button type=\"button\">`; `selected` maps to",
+          "`controlTabIndex` lets a composite that owns its own roving focus —",
           "Icons, avatars, initials and dots are `aria-hidden` — the chip's text is its",
           "`invalid` sets `aria-invalid` and adds a non-colour cue."
         ]
@@ -8784,8 +8785,133 @@
         "tag.behavior.gap",
         "tag.behavior.removeIcon",
         "tag.behavior.selectedIcon",
-        "tag.behavior.motion"
+        "tag.behavior.motion",
+        "tag.behavior.endInset"
       ]
+    },
+    {
+      "id": "tag-group",
+      "name": "TagGroup",
+      "status": "stable",
+      "summary": "A row of chips the user picks from: filters, facets, a set of labels.",
+      "description": "A row of chips the user picks from: filters, facets, a set of labels. The group **renders its own chips** from `items` rather than projecting them. That is what lets it own the things an app was otherwise wiring per chip — which one is selected, which one holds the tab stop — since a parent cannot write a projected child's inputs. `uni-tag` is unchanged by this component; `controlTabIndex` was already its hook for a composite that manages focus. Keyboard model is the toolbar pattern: one tab stop for the whole group, and the arrow keys move within it. Twelve filter chips should cost one Tab to pass, not twelve.",
+      "category": "data",
+      "version": "10.4.0",
+      "bindings": {
+        "angular": {
+          "importPath": "@uni-design-system/uni-angular",
+          "selectorOrTag": "uni-tag-group",
+          "api": [
+            {
+              "name": "items",
+              "kind": "input",
+              "type": "readonly UniTagGroupItem<T>[]",
+              "required": false,
+              "default": "[]",
+              "description": ""
+            },
+            {
+              "name": "layout",
+              "kind": "input",
+              "type": "'wrap' | 'justify'",
+              "required": false,
+              "default": "'wrap'",
+              "description": "`wrap` lets chips keep their natural widths. `justify` stretches each filled row flush to both edges, leaving the last row ragged; chips put the extra width around their labels, so tucked leads and remove controls stay tucked."
+            },
+            {
+              "name": "multiple",
+              "kind": "input",
+              "type": "boolean",
+              "required": false,
+              "default": "false",
+              "description": "Allow more than one chip at a time. Single select replaces instead."
+            },
+            {
+              "name": "value",
+              "kind": "model",
+              "type": "T[]",
+              "required": false,
+              "default": "[]",
+              "description": "The selected values — one array in both modes, as `uni-tag-input` keeps one array for its items. Single select simply never holds more than one, which spares callers a `T[] | T | null` union at every call site."
+            },
+            {
+              "name": "activated",
+              "kind": "output",
+              "type": "T | undefined",
+              "required": false,
+              "description": "The chip the user just activated, selected or deselected."
+            },
+            {
+              "name": "removed",
+              "kind": "output",
+              "type": "T | undefined",
+              "required": false,
+              "description": ""
+            },
+            {
+              "name": "chipTone",
+              "kind": "input",
+              "type": "TagTone | undefined",
+              "required": false,
+              "default": "undefined",
+              "description": ""
+            },
+            {
+              "name": "chipSize",
+              "kind": "input",
+              "type": "Size | undefined",
+              "required": false,
+              "default": "undefined",
+              "description": ""
+            },
+            {
+              "name": "chipVariant",
+              "kind": "input",
+              "type": "Variant | undefined",
+              "required": false,
+              "default": "undefined",
+              "description": ""
+            },
+            {
+              "name": "variant",
+              "kind": "input",
+              "type": "Variant",
+              "required": false,
+              "default": "'primary'",
+              "description": "Style archetype from the theme. Inherited from BaseComponent."
+            },
+            {
+              "name": "size",
+              "kind": "input",
+              "type": "Size",
+              "required": false,
+              "default": "'lg'",
+              "description": "Size token from the theme. Inherited from BaseComponent. Only has an effect where the component theme defines a `sizes` block."
+            }
+          ]
+        }
+      },
+      "examples": [],
+      "guidelines": {
+        "whenToUse": "A row of chips the user picks from: filters, facets, a set of labels. The group\nowns the two things an app was otherwise wiring on every chip — **which one is\nselected** and **which one holds the tab stop**.",
+        "dos": [
+          "Give the group `multiple` when the filters combine, and leave it off when they",
+          "Reach for `layout=\"justify\"` when the row is long enough to wrap — a single",
+          "Put per-chip differences on the item (`variant`, `tone`, `iconName`)."
+        ],
+        "donts": [
+          "Don't bind `[selected]` on chips inside a group — that is the thing the group",
+          "Don't use it for an open set the user types into; that is `uni-tag-input`.",
+          "Don't reach for it as a generic chip row. With no selection to own it is just"
+        ],
+        "accessibility": [
+          "`role=\"toolbar\"` with `aria-orientation=\"horizontal\"`: one tab stop for the",
+          "Arrow keys move within the group. Both axes work, because the row wraps —",
+          "The tab stop follows the last chip the user picked, so tabbing back into the",
+          "Each chip announces its own state through `aria-pressed`, since each one is an"
+        ]
+      },
+      "relatedTokens": []
     },
     {
       "id": "tag-input",
@@ -11617,13 +11743,13 @@
     },
     {
       "id": "typography.tag",
-      "value": "{\"fontFamily\":\"Red Hat Display\",\"fontSize\":15,\"lineHeight\":20,\"fontWeight\":600}",
+      "value": "{\"fontFamily\":\"Red Hat Display\",\"fontSize\":15,\"lineHeight\":20,\"fontWeight\":500}",
       "type": "typography",
       "kind": "style",
       "target": "emotion-css",
       "themeValues": {
-        "LightTheme": "{\"fontFamily\":\"Red Hat Display\",\"fontSize\":15,\"lineHeight\":20,\"fontWeight\":600}",
-        "DarkTheme": "{\"fontFamily\":\"Red Hat Display\",\"fontSize\":15,\"lineHeight\":20,\"fontWeight\":600}"
+        "LightTheme": "{\"fontFamily\":\"Red Hat Display\",\"fontSize\":15,\"lineHeight\":20,\"fontWeight\":500}",
+        "DarkTheme": "{\"fontFamily\":\"Red Hat Display\",\"fontSize\":15,\"lineHeight\":20,\"fontWeight\":500}"
       }
     },
     {
@@ -13966,6 +14092,42 @@
       }
     },
     {
+      "id": "tag.behavior.endInset",
+      "value": "auto",
+      "type": "string",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "tag",
+      "themeValues": {
+        "LightTheme": "auto",
+        "DarkTheme": "auto"
+      }
+    },
+    {
+      "id": "tagGroup.behavior.gap",
+      "value": "xs",
+      "type": "string",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "tagGroup",
+      "themeValues": {
+        "LightTheme": "xs",
+        "DarkTheme": "xs"
+      }
+    },
+    {
+      "id": "tagGroup.behavior.rowGap",
+      "value": "xs",
+      "type": "string",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "tagGroup",
+      "themeValues": {
+        "LightTheme": "xs",
+        "DarkTheme": "xs"
+      }
+    },
+    {
       "id": "tagInput.behavior.chipGap",
       "value": "xs",
       "type": "string",
@@ -15886,7 +16048,7 @@
         "typography.note": "{\"fontFamily\":\"Roboto\",\"fontSize\":14,\"lineHeight\":22,\"fontStyle\":\"italic\"}",
         "typography.badge": "{\"fontFamily\":\"Red Hat Display\",\"fontSize\":16,\"lineHeight\":24}",
         "typography.stat": "{\"fontFamily\":\"Red Hat Display\",\"fontSize\":32,\"lineHeight\":38,\"fontWeight\":600,\"letterSpacing\":-0.32}",
-        "typography.tag": "{\"fontFamily\":\"Red Hat Display\",\"fontSize\":15,\"lineHeight\":20,\"fontWeight\":600}",
+        "typography.tag": "{\"fontFamily\":\"Red Hat Display\",\"fontSize\":15,\"lineHeight\":20,\"fontWeight\":500}",
         "typography.input": "{\"fontFamily\":\"Red Hat Display\",\"fontSize\":14,\"lineHeight\":24}"
       },
       "componentOptions": {
@@ -16144,7 +16306,12 @@
           "gap": "xs",
           "removeIcon": "close",
           "selectedIcon": "check",
-          "motion": "control"
+          "motion": "control",
+          "endInset": "auto"
+        },
+        "tagGroup": {
+          "gap": "xs",
+          "rowGap": "xs"
         },
         "tagInput": {
           "chipGap": "xs",
@@ -16486,7 +16653,7 @@
         "typography.note": "{\"fontFamily\":\"Roboto\",\"fontSize\":14,\"lineHeight\":22,\"fontStyle\":\"italic\"}",
         "typography.badge": "{\"fontFamily\":\"Red Hat Display\",\"fontSize\":16,\"lineHeight\":24}",
         "typography.stat": "{\"fontFamily\":\"Red Hat Display\",\"fontSize\":32,\"lineHeight\":38,\"fontWeight\":600,\"letterSpacing\":-0.32}",
-        "typography.tag": "{\"fontFamily\":\"Red Hat Display\",\"fontSize\":15,\"lineHeight\":20,\"fontWeight\":600}",
+        "typography.tag": "{\"fontFamily\":\"Red Hat Display\",\"fontSize\":15,\"lineHeight\":20,\"fontWeight\":500}",
         "typography.input": "{\"fontFamily\":\"Red Hat Display\",\"fontSize\":14,\"lineHeight\":24}"
       },
       "componentOptions": {
@@ -16744,7 +16911,12 @@
           "gap": "xs",
           "removeIcon": "close",
           "selectedIcon": "check",
-          "motion": "control"
+          "motion": "control",
+          "endInset": "auto"
+        },
+        "tagGroup": {
+          "gap": "xs",
+          "rowGap": "xs"
         },
         "tagInput": {
           "chipGap": "xs",
