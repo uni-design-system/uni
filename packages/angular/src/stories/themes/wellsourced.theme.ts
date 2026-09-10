@@ -366,7 +366,10 @@ const typography: Typography = {
   paragraph: sans(16, 24),
   caption: sans(10, 12, { letterSpacing: 0.4 }),
   input: sans(14, 24),
-  tag: sans(15, 20, { fontWeight: 600 }),
+  // 500, not the 600 this was ported at: the app's chips read louder than the
+  // 12px ones they replaced, and weight was the difference, not size. The base
+  // theme's `tag` role moved with it.
+  tag: sans(15, 20, { fontWeight: 500 }),
   tab: sans(11, 11, { letterSpacing: 1.26 }),
   // The old `.rowmenu button` type: 12.5px/500 working sans.
   menu: sans(12.5, 16, { fontWeight: 500 }),
