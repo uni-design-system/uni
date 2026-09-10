@@ -1,5 +1,7 @@
 # @uni-design-system/uni-react
 
+## 11.1.0
+
 ## 11.0.0
 
 ### Major Changes

@@ -1,6 +1,6 @@
 {
   "name": "@uni-design-system/uni-react",
-  "version": "11.0.0",
+  "version": "11.1.0",
   "description": "EXPERIMENTAL — the React implementation of the Uni Design System. Version-matched to @uni-design-system/uni-angular but not at parity: a small subset of components, minimal tests. Not recommended for production.",
   "license": "MIT",
   "repository": {
