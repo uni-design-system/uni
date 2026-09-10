@@ -9,6 +9,8 @@
  * carries the class the theme's nested `&.tone-*` rules key on.
  */
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { emittedRuleFor } from '../../../testing/emitted-css';
+import { ThemeService } from '../../theming';
 import { UniTagComponent } from './tag.component';
 
 describe('UniTagComponent', () => {
@@ -266,6 +268,173 @@ describe('UniTagComponent', () => {
     it('renders a status dot without announcing it', () => {
       setInputs({ label: 'Live', dot: true });
       expect(accessibleName(host)).toBe('Live');
+    });
+  });
+
+  /**
+   * State classes, not colours: what the theme paints lives in its `tag`
+   * variants, and the component's job is to put the hook on the host for the
+   * nested `&.tag-selected` / `&.tag-interactive:hover` rules to key on — the
+   * same contract `tone-*` already is.
+   */
+  describe('state classes the theme keys its rules on', () => {
+    it('marks an interactive chip, so hover can be themed', () => {
+      setInputs({ label: 'Design' });
+      expect(host.className).not.toContain('tag-interactive');
+
+      setInputs({ interactive: true });
+      expect(host.className).toContain('tag-interactive');
+    });
+
+    it('marks a selected chip, so selection paints without an app binding', () => {
+      setInputs({ label: 'Design', interactive: true, selected: false });
+      expect(host.className).not.toContain('tag-selected');
+
+      setInputs({ selected: true });
+      expect(host.className).toContain('tag-selected');
+    });
+
+    it('animates the edge and the wash, not just the fill', () => {
+      setInputs({ label: 'Design' });
+      const rule = emittedRuleFor(host);
+
+      // The outline tone changes only `border-color`, which used to snap while
+      // the fill faded; `filter` carries the theme's hover and selected washes.
+      expect(rule).toContain('border-color');
+      expect(rule).toContain('filter');
+      // Scoped, never `all`: `all` would animate the reserved slot and, inside
+      // a justified group, the chip's width.
+      expect(rule).not.toContain('transition:all');
+    });
+  });
+
+  /**
+   * Geometry. The numbers themselves come from the theme's `tag` sizes, so what
+   * is asserted is the arithmetic between them: that the ends tuck and that
+   * whatever sits on one side of the label is matched on the other.
+   */
+  describe('tucked ends and a centred label', () => {
+    /**
+     * The host's own rule, with the nested ones dropped. The projected-lead
+     * balance is a `:has()` rule carrying the same properties, so a match
+     * against the whole emitted text would read as a plain chip having padding
+     * it does not have.
+     */
+    const baseRule = (element: Element): string =>
+      emittedRuleFor(element)
+        .split('}')
+        .filter((chunk) => /^\.css-[\w-]+\{/.test(chunk))
+        .join('}');
+
+    const padding = (): { start: number; end: number } => {
+      const rule = baseRule(host);
+      const start = /padding-inline-start:(\d+)px/.exec(rule);
+      const end = /padding-inline-end:(\d+)px/.exec(rule);
+      return { start: Number(start?.[1] ?? NaN), end: Number(end?.[1] ?? NaN) };
+    };
+
+    it('leaves a plain label on the size token\u2019s own gutter', () => {
+      setInputs({ label: 'Design' });
+
+      // Nothing to balance, so the chip states no longhand at all.
+      const { start, end } = padding();
+      expect(start).toBeNaN();
+      expect(end).toBeNaN();
+    });
+
+    it('tucks a lead into the rounded end and balances the far side', () => {
+      setInputs({ label: 'Starred', iconName: 'star' });
+      const { start, end } = padding();
+
+      // The lead box is inset 3px vertically (height - 6), so the same inset
+      // horizontally sits it concentric with the cap.
+      expect(start).toBe(3);
+      // Balanced: inset + lead + gap on the label's left, the same on its right.
+      expect(end).toBeGreaterThan(start);
+    });
+
+    it('tucks both ends when the chip also removes', () => {
+      setInputs({ label: 'Starred', iconName: 'star', removable: true });
+      const { start, end } = padding();
+
+      // A lead one side and the remove control the other is symmetric already.
+      expect(start).toBe(3);
+      expect(end).toBe(3);
+    });
+
+    it('gives a status dot its own inset, not a lead box\u2019s', () => {
+      setInputs({ label: 'Live', dot: true });
+      const { start, end } = padding();
+
+      // A 6px dot pushed 3px into the curve reads as a smudge on the edge, so
+      // it sits concentric with the cap like everything else: (24 - 6) / 2.
+      expect(start).toBe(9);
+      // And the balance follows the dot's width, not the lead box's.
+      expect(end).toBe(start + 6 + 4);
+    });
+
+    it('tucks a remove-only chip without padding the far side to match', () => {
+      setInputs({ label: 'Design', removable: true });
+      const { start, end } = padding();
+
+      // The glyph tucks into the trailing curve...
+      expect(end).toBe(3);
+      // ...but a remove control is an affordance, not content, so the label
+      // keeps the size token's gutter rather than sitting behind a stretch of
+      // empty chip. Only a lead is balanced against.
+      expect(start).toBe(10);
+    });
+
+    it('keeps the gutter when the end is too square to tuck into', () => {
+      // The theme's documented escape to rectangular labels. A glyph jammed
+      // against a corner is worse than one in a gutter.
+      const theme = TestBed.inject(ThemeService);
+      const active = theme.theme();
+      theme.setTheme({
+        ...active,
+        components: {
+          ...active.components,
+          tag: {
+            ...active.components['tag'],
+            options: { ...active.components['tag']?.options, borderRadius: 'none' },
+          },
+        },
+      });
+      setInputs({ label: 'Starred', iconName: 'star' });
+
+      expect(padding().start).toBeGreaterThan(3);
+    });
+  });
+
+  describe('as a toggle chip', () => {
+    const leadSlot = () => host.querySelector('span[aria-hidden="true"]');
+
+    it('holds the check\u2019s place while unselected, so the row never reflows', () => {
+      setInputs({ label: 'Design', interactive: true, selected: false });
+      const unselected = emittedRuleFor(host);
+
+      expect(leadSlot()).not.toBeNull();
+      expect(leadIconName()).toBeUndefined();
+
+      setInputs({ selected: true });
+
+      // Same footprint, one glyph more: picking a chip must not resize it.
+      expect(leadIconName()).toBe('check');
+      const reserved = /padding-inline-start:\d+px/.exec(unselected)?.[0];
+      expect(reserved).toBe('padding-inline-start:3px');
+      expect(emittedRuleFor(host)).toContain(reserved!);
+    });
+
+    it('reserves nothing when another lead already holds the place', () => {
+      // The check replaces an avatar at identical width, so there is no slot to
+      // hold open and no dead space to pay for.
+      setInputs({ label: 'Alice Chen', avatarName: 'Alice Chen', selected: false });
+      expect(host.textContent).toContain('AC');
+    });
+
+    it('reserves nothing on a chip that is not a toggle', () => {
+      setInputs({ label: 'Design', interactive: true });
+      expect(leadSlot()).toBeNull();
     });
   });
 });

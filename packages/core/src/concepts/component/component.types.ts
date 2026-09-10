@@ -52,6 +52,7 @@ export type ComponentName =
   | 'stat'
   | 'symbol'
   | 'tag'
+  | 'tagGroup'
   | 'tagInput'
   | 'progressBar'
   | 'progressGauge'

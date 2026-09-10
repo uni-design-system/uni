@@ -128,7 +128,7 @@ const BaseTypography: Typography = {
     fontWeight: 600,
     letterSpacing: -0.32,
   },
-  tag: { fontFamily: 'Red Hat Display', fontSize: 15, lineHeight: 20, fontWeight: 600 },
+  tag: { fontFamily: 'Red Hat Display', fontSize: 15, lineHeight: 20, fontWeight: 500 },
   input: { fontFamily: 'Red Hat Display', fontSize: 14, lineHeight: 24 },
 } as Record<TextRole, TextStyle> & Record<string, TextStyle>;
 
@@ -268,11 +268,35 @@ const tagVariant = (
   [role]: {
     backgroundColor: c[`${role}-container`],
     color: c[`on-${role}-container`],
-    '&.tone-solid': { backgroundColor: c[role], color: c[`on-${role}`] },
+    // Selection lands on the role's solid pair whatever the resting tone, so a
+    // mixed row reads the same way everywhere. The chip adds `.tag-selected`
+    // itself, exactly as it adds `.tone-*` — which is why an app no longer has
+    // to swap `tone` by hand on every toggle chip.
+    '&.tag-selected': { backgroundColor: c[role], color: c[`on-${role}`] },
+    // Hover belongs to the variant, next to the colours it goes with. One
+    // brightness wash covers all three tones: it darkens fill, ink and edge
+    // together, which is what a chip's hover used to do by darkening the border.
+    '&.tag-interactive:hover': { filter: 'brightness(0.95)' },
+    '&.tone-solid': {
+      backgroundColor: c[role],
+      color: c[`on-${role}`],
+      // Already the solid pair, so selection deepens instead of refilling. The
+      // hover pair has to be stated too: one `filter` replaces another, and
+      // without it hovering a selected solid chip would make it *lighter*.
+      '&.tag-selected': { filter: 'brightness(0.9)' },
+      '&.tag-selected.tag-interactive:hover': { filter: 'brightness(0.85)' },
+    },
     '&.tone-outline': {
       backgroundColor: 'transparent',
       color: c[role],
       borderColor: c[`on-${role}-container-border`] ?? c[role],
+      // An outline chip fills when selected; its edge joins the fill rather
+      // than drawing a second line around it.
+      '&.tag-selected': {
+        backgroundColor: c[role],
+        color: c[`on-${role}`],
+        borderColor: c[role],
+      },
     },
   },
 });
@@ -709,6 +733,13 @@ const buildComponents = (c: Colors): ComponentThemes => ({
       removeIcon: 'close',
       selectedIcon: 'check',
       motion: 'control',
+      // How far a lead element or the remove control tucks into the rounded
+      // end. `auto` derives it from the chip: the lead box is already inset 3px
+      // vertically, so the same inset horizontally makes it concentric with the
+      // cap — the glyph flows into the curve instead of starting where the
+      // radius ends. A square-ended chip (`borderRadius: 'xs'`) has no curve to
+      // flow into and keeps the size token's gutter.
+      endInset: 'auto',
     },
     fixed: {
       display: 'inline-flex',
@@ -725,8 +756,28 @@ const buildComponents = (c: Colors): ComponentThemes => ({
       ghost: {
         backgroundColor: 'transparent',
         color: c['on-background'],
-        '&.tone-solid': { backgroundColor: c['surface-variant'], color: c['on-surface-variant'] },
-        '&.tone-outline': { backgroundColor: 'transparent', borderColor: c.outline },
+        // `ghost` has no role colour to fill with, so selection lands on the
+        // neutral surface pair — the same place its own solid tone sits.
+        '&.tag-selected': {
+          backgroundColor: c['surface-variant'],
+          color: c['on-surface-variant'],
+        },
+        '&.tag-interactive:hover': { filter: 'brightness(0.95)' },
+        '&.tone-solid': {
+          backgroundColor: c['surface-variant'],
+          color: c['on-surface-variant'],
+          '&.tag-selected': { filter: 'brightness(0.9)' },
+          '&.tag-selected.tag-interactive:hover': { filter: 'brightness(0.85)' },
+        },
+        '&.tone-outline': {
+          backgroundColor: 'transparent',
+          borderColor: c.outline,
+          '&.tag-selected': {
+            backgroundColor: c['surface-variant'],
+            color: c['on-surface-variant'],
+            borderColor: c.outline,
+          },
+        },
       },
       disabled: {
         backgroundColor: c['disabled-container'],
@@ -736,11 +787,23 @@ const buildComponents = (c: Colors): ComponentThemes => ({
       },
     },
     // Geometry only — family and weight come from the `typeface` option.
+    //
+    // `paddingInline` rather than a `padding` shorthand: the chip reads this
+    // number back to balance the label against a tucked lead or remove control,
+    // and the height is fixed, so there was never a vertical padding to state.
     sizes: {
-      sm: { height: 20, fontSize: 12, padding: '0 8px' },
-      md: { height: 24, fontSize: 13, padding: '0 10px' },
-      lg: { height: 32, fontSize: 15, padding: '0 12px' },
+      sm: { height: 20, fontSize: 12, paddingInline: 8 },
+      md: { height: 24, fontSize: 13, paddingInline: 10 },
+      lg: { height: 32, fontSize: 15, paddingInline: 12 },
     },
+  },
+  // Chip row. Layout only — every colour decision stays on the chips, so a
+  // group restyles with `tag` rather than beside it. `justify` stretches filled
+  // rows flush and leaves the last one ragged, which is why the gaps are two
+  // tokens: the row gap reads differently once the chips themselves grow.
+  tagGroup: {
+    options: { gap: 'xs', rowGap: 'xs' },
+    fixed: { display: 'flex', flexWrap: 'wrap', alignItems: 'center' },
   },
   // Chip field. Field chrome (colour, border, radius, focus outline) is NOT
   // duplicated here — it comes from `input` via uni-input-box, so a tag input

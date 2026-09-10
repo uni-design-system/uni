@@ -5,7 +5,7 @@
 Themed Angular component library. Signals-only API: every input below is a
 signal input — read as `component.name()`, bind as `[name]="..."`. Two-way
 model inputs support `[(name)]`. Form controls implement Signal Forms
-`FormValueControl`/`FormCheckboxControl` and bind with `[field]`.
+`FormValueControl`/`FormCheckboxControl` and bind with `[formField]`.
 
 Import everything from `@uni-design-system/uni-angular`.
 Canonical selectors are the `uni-`-prefixed form; the short/PascalCase
@@ -180,6 +180,7 @@ Inheritance (inputs listed once, available on all subclasses):
   - `touched: boolean` = false
   - `month: string` — Shown month, `'YYYY-MM'` — two-way, so an app can drive "jump to June".
 - outputs:
+  - `touch: void` — Angular 22 marks the bound field touched through this output; the `touched` model above is bound inward by the directive and no longer propagates back out. Emitted wherever this control already decided the user was done with it.
   - `selected: UniDate` — Each committed day, including both ends of a range.
 
 ## UniCalloutComponent
@@ -229,13 +230,16 @@ Inheritance (inputs listed once, available on all subclasses):
   - `disabled: boolean` = false
   - `invalid: boolean` = false
   - `dirty: boolean` = false
-  - `required: boolean` = false — Synced from required() validators by the Signal Forms [field] directive.
+  - `required: boolean` = false — Synced from required() validators by the Signal Forms [formField] directive.
+  - `checkedColor: ColorKey` — Accent colour token, overriding the variant's themed accent for one instance. Mirrors `uni-toggle`'s input of the same name — it exists because `variant` defaults to `'primary'`, so the component cannot tell "set to primary" from "not set".
   - `ariaDescribedBy: string` — Id(s) of external element(s) describing this control — typically your app-rendered error message — exposed as aria-describedby.
   - `label: string`
 - two-way models:
   - `checked: boolean` = false
   - `touched: boolean` = false
   - `indeterminate: boolean` = false — Mixed state for "select all"-style parent checkboxes. Cleared automatically on the next user interaction, matching native behavior.
+- outputs:
+  - `touch: void` — Angular 22 marks the bound field touched through this output; the `touched` model above is bound inward by the directive and no longer propagates back out. Emitted wherever this control already decided the user was done with it.
 
 ## UniComboboxComponent
 - selector: `uni-combobox, Combobox`
@@ -258,6 +262,7 @@ Inheritance (inputs listed once, available on all subclasses):
   - `value: T | null` = null
   - `touched: boolean` = false
 - outputs:
+  - `touch: void` — Angular 22 marks the bound field touched through this output; the `touched` model above is bound inward by the directive and no longer propagates back out. Emitted wherever this control already decided the user was done with it.
   - `query: string` — Debounced draft text, for async option lists.
   - `selected: Option<T>` — An option committed.
   - `cleared: void`
@@ -304,6 +309,7 @@ Inheritance (inputs listed once, available on all subclasses):
   - `value: UniDate | undefined`
   - `touched: boolean` = false
 - outputs:
+  - `touch: void` — Angular 22 marks the bound field touched through this output; the `touched` model above is bound inward by the directive and no longer propagates back out. Emitted wherever this control already decided the user was done with it.
   - `opened: void` — Popup shown.
   - `closed: void` — Popup hidden.
   - `rejected: UniDateInputRejection` — A typed commit was refused; the raw text stays in the field.
@@ -328,6 +334,8 @@ Inheritance (inputs listed once, available on all subclasses):
 - two-way models:
   - `value: UniDateTime | undefined`
   - `touched: boolean` = false
+- outputs:
+  - `touch: void` — Angular 22 marks the bound field touched through this output; the `touched` model above is bound inward by the directive and no longer propagates back out. Emitted wherever this control already decided the user was done with it.
 
 ## UniDebounceInputComponent
 - selector: `uni-debounce-input`
@@ -374,7 +382,7 @@ Inheritance (inputs listed once, available on all subclasses):
   - `showing: boolean` — Emits true once opened and false once the closing animation finishes.
 
 ## UniDialogHeaderComponent
-- selector: `[uni-dialog-header]`
+- selector: `[uni-dialog-header], [dialog-header]`
 
 ## UniDividerComponent
 - selector: `uni-divider`
@@ -382,14 +390,40 @@ Inheritance (inputs listed once, available on all subclasses):
   - `orientation: Orientation` = 'horizontal'
   - `border: Border` = 'primary'
 
+## UniDrawerButtonsComponent
+- selector: `[uni-drawer-buttons], [drawer-buttons]`
+- inputs:
+  - `confirmButtonText: string`
+  - `confirmButtonVariant: Variant`
+  - `cancelButtonText: string`
+  - `cancelButtonVariant: Variant`
+  - `disableConfirm: boolean`
+  - `padding: NullableSize`
+  - `justifyContent: JustifyContent`
+- outputs:
+  - `confirmed: unknown`
+
 ## UniDrawerComponent
 - selector: `uni-drawer`
 - inputs:
   - `mode: DrawerMode` = 'side'
   - `position: DrawerPosition` = 'start'
-  - `ariaLabel: string` = 'Navigation' — Accessible name for the overlay mode's dialog.
+  - `ariaLabel: string` — Accessible name for the overlay mode. Only consulted when the drawer has no header to be labelled by. There is deliberately no default. A drawer used as an editor panel that inherited the literal "Navigation" would announce itself as something it is not, and a wrong accessible name is worse than a missing one — the missing one is at least caught by any audit.
+  - `headline: string` — Title for the drawer's header row. Shorthand for projecting a `[uni-drawer-header]`; project one instead when the header needs more than a title (a record counter, prev/next navigation).
+  - `defaultCloseButton: boolean` = true — Whether the header row renders a close button.
+  - `width: number` — Panel width in px, overriding the theme's `drawer.behavior.width`.
+  - `scrim: boolean` — Whether the overlay dims the page behind it, overriding the theme's `drawer.behavior.scrim`. False leaves the backdrop transparent so the page stays legible while the panel is open — an editor panel beside a board the user is still reading. This does not make the drawer non-modal: focus is still trapped and the page behind is still inert. It is a visibility choice, not a modality one.
+  - `initialFocus: string` — CSS selector for the element to focus when the overlay opens. The native default is the first focusable element, which in an editor panel is usually the close button rather than the first field.
+  - `disableAutoClose: boolean` = false — When true the drawer never closes itself; it only emits `closeRequest` and waits for the consumer to set `open`. Off by default, so a drawer that ignores `closeRequest` behaves exactly as it always has.
 - two-way models:
   - `open: boolean` = false — Two-way bindable open state: [(open)].
+- outputs:
+  - `closeRequest: UniDrawerCloseRequest` — The drawer is *asking* to close — Escape, the backdrop, or a close/cancel button. Pair with `disableAutoClose` to hold the panel open while an async confirmation runs.
+
+## UniDrawerHeaderComponent
+- selector: `[uni-drawer-header]`
+- inputs:
+  - `headline: string` — Title text. Falls back to the drawer's `headline`; projected content wins over both.
 
 ## UniDropdownComponent
 - selector: `uni-dropdown`
@@ -485,6 +519,15 @@ Inheritance (inputs listed once, available on all subclasses):
   - `name: IconName` (required)
   - `size: CssLength` — Explicit square size. Bare numbers are px; strings pass through, so any CSS length works (`'1.25rem'`, `'1em'`, `'clamp(…)'`). Leave it unset to keep the default behaviour — the icon fills its container, which is what lets a themed control size its own glyph through padding. Set it at call sites that would otherwise need a width/height rule just to size one icon.
 
+## UniInlineButtonComponent
+- selector: `button[uni-inline-button], button[inline-button]`
+- inputs:
+  - `iconName: IconName` — Theme icon token rendered beside the label. Prefer this over `symbolName`.
+  - `symbolName: string` — Material Symbols ligature, for glyphs the theme's icon set doesn't carry.
+  - `iconPosition: 'start' | 'end'` = 'start' — Which side of the label the glyph sits on.
+  - `link: unknown` = false, { transform: booleanAttribute } — Paint the label with the theme's link colour instead of inheriting the ink.
+  - `disable: unknown` = false, { transform: booleanAttribute }
+
 ## UniInputBoxComponent
 - selector: `uni-input-box`
 - inputs:
@@ -503,15 +546,15 @@ Inheritance (inputs listed once, available on all subclasses):
   - `disabled: boolean` = false
   - `invalid: boolean` = false
   - `dirty: boolean` = false
-  - `required: boolean` = false — Synced from required() validators by the Signal Forms [field] directive.
+  - `required: boolean` = false — Synced from required() validators by the Signal Forms [formField] directive.
   - `ariaDescribedBy: string` — Id(s) of external element(s) describing this control — typically your app-rendered error message — exposed as aria-describedby.
   - `label: string` (required)
   - `placeholder: string` = ''
   - `type: UniInputType` = 'text' — Native input type. Text-like types only — `date`/`time` have dedicated components, and non-text types break the input chrome and the string value.
   - `readonly: boolean` = false
   - `name: string` = ''
-  - `min: number | undefined` = undefined
-  - `max: number | undefined` = undefined
+  - `minAttr: number | undefined` = undefined, { alias: 'min' }
+  - `maxAttr: number | undefined` = undefined, { alias: 'max' }
   - `minLength: number | undefined` = undefined
   - `maxLength: number | undefined` = undefined
   - `pattern: readonly RegExp[]` = [] — Patterns the value must match — all of them, per Signal Forms. The native `pattern` attribute can only express one, so it is reflected only when there is exactly one; Signal Forms validates the rest either way.
@@ -526,6 +569,8 @@ Inheritance (inputs listed once, available on all subclasses):
 - two-way models:
   - `value: string` = ''
   - `touched: boolean` = false
+- outputs:
+  - `touch: void` — Angular 22 marks the bound field touched through this output; the `touched` model above is bound inward by the directive and no longer propagates back out. Emitted wherever this control already decided the user was done with it.
 
 ## UniJsonViewComponent
 - selector: `uni-json-view`
@@ -573,7 +618,7 @@ Inheritance (inputs listed once, available on all subclasses):
   - `disabled: boolean` = false
   - `invalid: boolean` = false
   - `dirty: boolean` = false
-  - `required: boolean` = false — Synced from required() validators by the Signal Forms [field] directive.
+  - `required: boolean` = false — Synced from required() validators by the Signal Forms [formField] directive.
   - `ariaDescribedBy: string` — Id(s) of external element(s) describing this control — typically your app-rendered error message — exposed as aria-describedby.
   - `options: Options<T>` (required)
   - `placeholder: string` = ''
@@ -582,6 +627,8 @@ Inheritance (inputs listed once, available on all subclasses):
 - two-way models:
   - `value: T[]` = []
   - `touched: boolean` = false
+- outputs:
+  - `touch: void` — Angular 22 marks the bound field touched through this output; the `touched` model above is bound inward by the directive and no longer propagates back out. Emitted wherever this control already decided the user was done with it.
 
 ## UniNotificationBadgeComponent
 - selector: `uni-notification-badge`
@@ -638,6 +685,7 @@ Inheritance (inputs listed once, available on all subclasses):
   - `touched: boolean` = false
   - `valueAsString: string | null` = null — Exact binding, as a canonical decimal string. Bind this instead of `value` where a cent in the fifth decimal place matters; both stay in sync, so it is a one-word change from the ordinary case.
 - outputs:
+  - `touch: void` — Angular 22 marks the bound field touched through this output; the `touched` model above is bound inward by the directive and no longer propagates back out. Emitted wherever this control already decided the user was done with it.
   - `stepped: UniNumberStepped`
   - `rejected: UniNumberRejection` — A commit was refused; the raw text stays in the field.
 
@@ -662,14 +710,15 @@ Inheritance (inputs listed once, available on all subclasses):
   - `roundingMode: UniRoundingMode` = 'half-up'
   - `placeholderStart: string`
   - `placeholderEnd: string`
-  - `min: number | undefined`
-  - `max: number | undefined`
+  - `minValue: number | undefined` = undefined, { alias: 'min' }
+  - `maxValue: number | undefined` = undefined, { alias: 'max' }
   - `step: number` = 1
   - `minGap: number` — Enforced distance between the two ends.
 - two-way models:
   - `value: UniNumberRange | null` = null
   - `touched: boolean` = false
 - outputs:
+  - `touch: void` — Angular 22 marks the bound field touched through this output; the `touched` model above is bound inward by the directive and no longer propagates back out. Emitted wherever this control already decided the user was done with it.
   - `swapped: UniNumberRange` — The ends were entered backwards and have been exchanged.
   - `rejected: UniNumberRangeRejection` — A typed commit on one end could not be read; its text stays in place.
 
@@ -734,6 +783,7 @@ Inheritance (inputs listed once, available on all subclasses):
   - `value: number | null` = null
   - `touched: boolean` = false
 - outputs:
+  - `touch: void` — Angular 22 marks the bound field touched through this output; the `touched` model above is bound inward by the directive and no longer propagates back out. Emitted wherever this control already decided the user was done with it.
   - `removed: void` — The remove affordance was activated — the row should come out. Named `removed`, not the spec's `emptied`: that word is a native `HTMLMediaElement` event, which `@angular-eslint/no-output-native` bans for good reason, and `removed` is already what `uni-tag` calls this same request.
 
 ## UniRadioComponent
@@ -742,7 +792,8 @@ Inheritance (inputs listed once, available on all subclasses):
   - `disabled: boolean` = false
   - `invalid: boolean` = false
   - `dirty: boolean` = false
-  - `required: boolean` = false — Synced from required() validators by the Signal Forms [field] directive.
+  - `required: boolean` = false — Synced from required() validators by the Signal Forms [formField] directive.
+  - `checkedColor: ColorKey` — Accent colour token, overriding the variant's themed accent for one instance. Mirrors the input of the same name on `uni-checkbox` and `uni-toggle`.
   - `ariaDescribedBy: string` — Id(s) of external element(s) describing this control — typically your app-rendered error message — exposed as aria-describedby.
   - `options: UniRadioOption[]` = []
   - `label: string`
@@ -750,6 +801,8 @@ Inheritance (inputs listed once, available on all subclasses):
 - two-way models:
   - `value: string` = ''
   - `touched: boolean` = false
+- outputs:
+  - `touch: void` — Angular 22 marks the bound field touched through this output; the `touched` model above is bound inward by the directive and no longer propagates back out. Emitted wherever this control already decided the user was done with it.
 
 ## UniRowDirective
 - selector: `[uni-row-layout], [row-layout]`
@@ -798,7 +851,7 @@ Inheritance (inputs listed once, available on all subclasses):
   - `disabled: boolean` = false
   - `invalid: boolean` = false
   - `dirty: boolean` = false
-  - `required: boolean` = false — Synced from required() validators by the Signal Forms [field] directive.
+  - `required: boolean` = false — Synced from required() validators by the Signal Forms [formField] directive.
   - `ariaDescribedBy: string` — Id(s) of external element(s) describing this control — typically your app-rendered error message — exposed as aria-describedby.
   - `options: Options<T>` = []
   - `placeholder: string`
@@ -832,8 +885,8 @@ Inheritance (inputs listed once, available on all subclasses):
   - `ariaDescribedBy: string`
   - `label: string` (required) — Accessible name, e.g. "Opacity". Names the group in range mode.
   - `mode: 'single' | 'range'` = 'single'
-  - `min: number | undefined` = 0
-  - `max: number | undefined` = 100
+  - `min: number | UniNumberRange | undefined` = 0
+  - `max: number | UniNumberRange | undefined` = 100
   - `step: number` = 1
   - `largeStep: number` — `PageUp`/`PageDown` and `Shift+Arrow`. Default: a tenth of the range.
   - `origin: number` — Fill anchor. Defaults to `min`; set `0` for a slider that spans ±.
@@ -846,6 +899,7 @@ Inheritance (inputs listed once, available on all subclasses):
   - `value: number | UniNumberRange | null` = null — Shape follows `mode`: a number when `single`, a `UniNumberRange` when `range`.
   - `touched: boolean` = false
 - outputs:
+  - `touch: void` — Angular 22 marks the bound field touched through this output; the `touched` model above is bound inward by the directive and no longer propagates back out. Emitted wherever this control already decided the user was done with it.
   - `sliding: number | UniNumberRange` — Continuous, during a drag or a held key. Bind this for a live preview.
   - `changed: number | UniNumberRange` — Committed — on pointer release and key-up. **A form should bind this**: piping a 60 Hz stream into a model is how sliders get blamed for jank.
 
@@ -912,7 +966,7 @@ Inheritance (inputs listed once, available on all subclasses):
   - `size: Size` = 'md'
   - `tone: TagTone` = 'soft'
   - `label: string`
-  - `value: string | number`
+  - `value: T`
   - `maxWidth: string | number` — Truncation budget, e.g. `'14ch'`. A number is treated as px.
   - `avatarSrc: string`
   - `avatarName: string` — Initials fallback when `avatarSrc` is absent or fails to load.
@@ -925,10 +979,25 @@ Inheritance (inputs listed once, available on all subclasses):
   - `invalid: boolean` = false
   - `disabled: boolean` = false
   - `removeLabel: string` — Accessible-name override for the remove button.
-  - `controlTabIndex: number` = 0 — Tab position of the chip's controls. A composite that owns its own roving focus — `uni-tag-input`, where the whole field is one tab stop — passes `-1` so Tab does not walk through every chip to reach the next control.
+  - `controlTabIndex: number` = 0 — Tab position of the chip's controls. A composite that owns its own roving focus — `uni-tag-input` or `uni-tag-group`, where the whole thing is one tab stop — passes `-1` so Tab does not walk through every chip to reach the next control.
 - outputs:
-  - `removed: UniTagValue`
-  - `activated: UniTagValue`
+  - `removed: T | undefined`
+  - `activated: T | undefined`
+
+## UniTagGroupComponent
+- selector: `uni-tag-group`
+- inputs:
+  - `items: readonly UniTagGroupItem<T>[]` = []
+  - `layout: 'wrap' | 'justify'` = 'wrap' — `wrap` lets chips keep their natural widths. `justify` stretches each filled row flush to both edges, leaving the last row ragged; chips put the extra width around their labels, so tucked leads and remove controls stay tucked.
+  - `multiple: boolean` = false — Allow more than one chip at a time. Single select replaces instead.
+  - `chipTone: TagTone | undefined` = undefined
+  - `chipSize: Size | undefined` = undefined
+  - `chipVariant: Variant | undefined` = undefined
+- two-way models:
+  - `value: T[]` = [] — The selected values — one array in both modes, as `uni-tag-input` keeps one array for its items. Single select simply never holds more than one, which spares callers a `T[] | T | null` union at every call site.
+- outputs:
+  - `activated: T | undefined` — The chip the user just activated, selected or deselected.
+  - `removed: T | undefined`
 
 ## UniTagInputComponent
 - selector: `uni-tag-input`
@@ -944,7 +1013,7 @@ Inheritance (inputs listed once, available on all subclasses):
   - `separators: string[]` = [',', ';']
   - `commitOnBlur: boolean` = true
   - `allowDuplicates: boolean` = false
-  - `max: number`
+  - `maxLength: number | undefined` = undefined, { alias: 'max' }
   - `tagVariant: Variant` = 'primary'
   - `tagTone: TagTone` = 'soft'
   - `tagSize: Size`
@@ -954,6 +1023,7 @@ Inheritance (inputs listed once, available on all subclasses):
   - `value: UniTagItem[]` = []
   - `touched: boolean` = false
 - outputs:
+  - `touch: void` — Angular 22 marks the bound field touched through this output; the `touched` model above is bound inward by the directive and no longer propagates back out. Emitted wherever this control already decided the user was done with it.
   - `query: string` — Debounced text the app should filter `suggestions` from.
   - `added: UniTagItem`
   - `removed: UniTagItem`
@@ -965,7 +1035,7 @@ Inheritance (inputs listed once, available on all subclasses):
   - `disabled: boolean` = false
   - `invalid: boolean` = false
   - `dirty: boolean` = false
-  - `required: boolean` = false — Synced from required() validators by the Signal Forms [field] directive.
+  - `required: boolean` = false — Synced from required() validators by the Signal Forms [formField] directive.
   - `ariaDescribedBy: string` — Id(s) of external element(s) describing this control — typically your app-rendered error message — exposed as aria-describedby.
   - `label: string` (required)
   - `placeholder: string` = ''
@@ -982,6 +1052,8 @@ Inheritance (inputs listed once, available on all subclasses):
 - two-way models:
   - `value: string` = ''
   - `touched: boolean` = false
+- outputs:
+  - `touch: void` — Angular 22 marks the bound field touched through this output; the `touched` model above is bound inward by the directive and no longer propagates back out. Emitted wherever this control already decided the user was done with it.
 
 ## UniTextDirective
 - selector: `[uni-text]`
@@ -1027,6 +1099,7 @@ Inheritance (inputs listed once, available on all subclasses):
   - `value: UniTime | undefined`
   - `touched: boolean` = false
 - outputs:
+  - `touch: void` — Angular 22 marks the bound field touched through this output; the `touched` model above is bound inward by the directive and no longer propagates back out. Emitted wherever this control already decided the user was done with it.
   - `rejected: UniTimeInputRejection` — A typed commit was refused; the raw text stays in the field.
 
 ## UniToggleComponent
@@ -1035,12 +1108,15 @@ Inheritance (inputs listed once, available on all subclasses):
   - `disabled: boolean` = false
   - `invalid: boolean` = false
   - `dirty: boolean` = false
-  - `required: boolean` = false — Synced from required() validators by the Signal Forms [field] directive.
+  - `required: boolean` = false — Synced from required() validators by the Signal Forms [formField] directive.
   - `ariaDescribedBy: string` — Id(s) of external element(s) describing this control — typically your app-rendered error message — exposed as aria-describedby.
   - `label: string`
+  - `checkedColor: ColorKey` — Checked-state track color token, overriding the theme's `toggle.behavior.checkedColor`. This exists alongside the theme option because `variant` — where this color used to live exclusively — defaults to `'primary'`, so the component cannot tell "set to primary" from "not set". Without an input, a theme-level `checkedColor` would silently make per-instance `variant` inert.
 - two-way models:
   - `checked: boolean` = false
   - `touched: boolean` = false
+- outputs:
+  - `touch: void` — Angular 22 marks the bound field touched through this output; the `touched` model above is bound inward by the directive and no longer propagates back out. Emitted wherever this control already decided the user was done with it.
 
 ## UniTooltipComponent
 - selector: `uni-tooltip`

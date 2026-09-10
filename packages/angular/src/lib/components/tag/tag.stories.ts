@@ -69,8 +69,45 @@ export const Interactive: Story = {
   args: { interactive: true, removable: true, selected: false },
 };
 
+/**
+ * Selection paints itself: the theme's `&.tag-selected` rules promote the chip
+ * to its role's solid pair, so an app binds `selected` and nothing else. Before,
+ * `selected` set only `aria-pressed`, and every chip in app markup carried a
+ * `[tone]="on() ? 'solid' : 'soft'"` of its own.
+ */
 export const Selected: Story = {
-  args: { interactive: true, selected: true, tone: 'solid' },
+  args: { interactive: true, selected: true },
+};
+
+/**
+ * A toggle row. Click through it: the chips hold the check's place while
+ * unselected, so picking one never reflows the row — and each label stays
+ * centred between its tucked ends.
+ */
+export const Toggles: Story = {
+  render: () => ({
+    template: `
+      <div row-layout gap="sm" alignItems="center" style="flex-wrap:wrap">
+        @for (facet of ['Design', 'Engineering', 'Legal', 'Finance']; track facet) {
+          <uni-tag
+            [interactive]="true"
+            [label]="facet"
+            [selected]="picked.includes(facet)"
+            (activated)="toggle(facet)"
+          />
+        }
+      </div>
+    `,
+    props: {
+      picked: ['Engineering'],
+      toggle(facet: string) {
+        const self = this as unknown as { picked: string[] };
+        self.picked = self.picked.includes(facet)
+          ? self.picked.filter((value) => value !== facet)
+          : [...self.picked, facet];
+      },
+    },
+  }),
 };
 
 /** Lead slot: avatar, initials fallback, symbol, or status dot. */

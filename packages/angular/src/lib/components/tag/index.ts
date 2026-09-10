@@ -5,4 +5,5 @@
  */
 
 export { UniTagComponent } from './tag.component';
+export { UniTagGroupComponent } from './tag-group.component';
 export * from './tag.model';

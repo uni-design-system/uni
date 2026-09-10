@@ -2,8 +2,11 @@
 <ng-template #body>
   <ng-content select="[tag-lead]"></ng-content>
 
-  @if (selected() && componentOptions().selectedIcon; as selectedIcon) {
-    <uni-icon [name]="selectedIcon" [size]="leadSize()" />
+  @if (selected() && selectedIcon(); as icon) {
+    <uni-icon [name]="icon" [size]="leadSize()" />
+  } @else if (reservesSlot()) {
+    <!-- The check's place, held open so picking a chip never reflows the row. -->
+    <span [class]="slotClass()" aria-hidden="true"></span>
   } @else if (avatarSrc(); as src) {
     <span [class]="leadClass()" aria-hidden="true">
       <img [src]="src" alt="" />

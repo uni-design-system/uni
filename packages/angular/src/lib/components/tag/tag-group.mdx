@@ -1,0 +1,98 @@
+import { Meta, Title, Story } from '@storybook/addon-docs/blocks';
+import * as Stories from './tag-group.stories';
+import { StoryUsage } from '../../../stories/blocks/StoryUsage';
+import { ThemeOptions } from '../../../stories/blocks/ThemeOptionsBlock';
+import { DocsTable } from '../../../stories/blocks/DocsTable';
+
+<Meta of={Stories} name="Tag Group" />
+<Title />
+
+`import { UniTagGroupComponent } from '@uni-design-system/uni-angular';`
+
+## Overview
+
+A row of chips the user picks from: filters, facets, a set of labels. The group
+owns the two things an app was otherwise wiring on every chip — **which one is
+selected** and **which one holds the tab stop**.
+
+<Story of={Stories.Wrap} />
+
+## Usage
+
+<StoryUsage of={Stories.Wrap} />
+
+### It renders its own chips
+
+The group takes `items` rather than projected `<uni-tag>` elements, because a
+parent cannot write a projected child's inputs. That is what lets `selected` and
+`controlTabIndex` be the group's business instead of the app's. Per-chip
+presentation lives on the item, so a single facet can still break rank.
+
+<Story of={Stories.MixedChips} />
+
+### Justified rows
+
+`layout="justify"` stretches each **filled** row flush to both edges and leaves
+the last row at its natural widths, the way justified text leaves its last line
+alone. A group that fits on one line is all last line, so it does not stretch —
+a three-chip filter row has no business spanning the page.
+
+The slack lands around each label, not behind it, so tucked leads and remove
+controls stay tucked as the pills grow.
+
+<Story of={Stories.Justify} />
+
+### One at a time
+
+`multiple` is off by default: picking a chip replaces the selection. `value` is
+an array in both modes — single select simply never holds more than one, which
+spares callers a `T[] | T | null` union at every call site.
+
+<Story of={Stories.SingleSelect} />
+
+## Theme options
+
+<ThemeOptions componentName="tagGroup" />
+
+The group is layout only. Every colour decision stays on the chips, in the
+theme's `tag` entry, so a group restyles **with** its chips rather than beside
+them — including what selection and hover paint.
+
+## Accessibility
+
+- `role="toolbar"` with `aria-orientation="horizontal"`: one tab stop for the
+  whole group. Twelve filter chips should cost one Tab to pass, not twelve.
+- Arrow keys move within the group. Both axes work, because the row wraps —
+  `ArrowDown` from the first line is as natural a "next chip" as `ArrowRight`.
+- The tab stop follows the last chip the user picked, so tabbing back into the
+  group lands where they left off.
+- Each chip announces its own state through `aria-pressed`, since each one is an
+  independent toggle rather than an option in a list.
+
+<DocsTable
+  head={['Key', 'Does']}
+  codeColumns={[0]}
+  rows={[
+    ['Tab', 'Enters the group, then leaves it'],
+    ['ArrowRight / ArrowDown', 'Next chip'],
+    ['ArrowLeft / ArrowUp', 'Previous chip'],
+    ['Home / End', 'First / last chip'],
+    ['Space / Enter', 'Toggles the focused chip'],
+  ]}
+/>
+
+## Do
+
+- Give the group `multiple` when the filters combine, and leave it off when they
+  are alternatives.
+- Reach for `layout="justify"` when the row is long enough to wrap — a single
+  wrapped row looks ragged, three justified rows read as a block.
+- Put per-chip differences on the item (`variant`, `tone`, `iconName`).
+
+## Don't
+
+- Don't bind `[selected]` on chips inside a group — that is the thing the group
+  is for.
+- Don't use it for an open set the user types into; that is `uni-tag-input`.
+- Don't reach for it as a generic chip row. With no selection to own it is just
+  a flex container, and `wrap-layout` is cheaper.

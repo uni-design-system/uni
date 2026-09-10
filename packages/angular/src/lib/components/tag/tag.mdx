@@ -42,12 +42,45 @@ would leave the inner control unreachable for keyboard users.
 
 <Story of={Stories.Interactive} />
 
+A chip also **paints its own selection**. Binding `selected` adds a
+`tag-selected` class, and the theme's `tag` variants promote the chip to their
+role's solid pair from there — so there is no `[tone]="on() ? 'solid' : 'soft'"`
+to write on every chip in a row. `interactive` adds `tag-interactive` the same
+way, which is what the theme's hover wash keys on.
+
+<Story of={Stories.Toggles} />
+
+Selection also **holds the check's place**. A chip with `selected` bound and
+nothing else in its lead reserves the glyph's footprint while unselected, so
+picking one never resizes it and the row never reflows under the pointer. A chip
+that already has a lead needs no slot — the check replaces the avatar or icon at
+identical width.
+
+For a whole row of these, reach for [`uni-tag-group`](?path=/docs/components-data-display-tag-group--tag-group),
+which owns the selection model and the keyboard navigation.
+
 ### Lead elements
 
 Convenience inputs cover the common cases — `avatarSrc`, `avatarName` (initials
 fallback), `iconName`, `dot`. Anything richer goes in the `[tag-lead]` slot.
 Lead elements size themselves from the chip height, and all of them are
 `aria-hidden`, so the chip's text stays its accessible name.
+
+A lead **tucks into the rounded end** rather than starting where the radius ends,
+and the remove control does the same at the other end: a lead box is already
+inset 3px vertically, so the same inset horizontally sits it concentric with the
+cap. A status dot, being smaller, sits further in — every end element is
+concentric with the curve it sits in.
+
+A lead is also **balanced against**, so the **label stays centred**: the far side
+grows to match whatever the lead holds, and because the tuck costs less than the
+old gutter did, that balance is largely paid for rather than added. The remove
+control is not balanced against on its own — it reads as an affordance rather
+than as content, so a chip with nothing but a remove button keeps its gutter at
+the start and simply tucks the glyph.
+
+A chip whose ends are too square to flow into (`borderRadius: 'xs'`, the
+rectangular-label switch) keeps the size token's gutter at both ends instead.
 
 Prefer **`iconName`** — theme icon primitives mask `currentColor`, so they
 recolour with the chip's tone, a theme can swap the artwork, and they add no
@@ -72,6 +105,22 @@ Colours live in the theme's `tag` **variants**, with tones as nested
 `&.tone-*` selectors, so one entry covers both axes. Sizes carry geometry only —
 family and weight come from the `typeface` option.
 
+State lives there too, next to the colours it belongs to: `&.tag-selected` is
+what a selected chip paints, and `&.tag-interactive:hover` is the hover wash.
+Both are as much public theme contract as `&.tone-*` is — a theme restyling
+selection or hover writes them per variant, and a consumer-registered variant
+supplies its own.
+
+<DocsTable
+  head={['Theme hook', 'When the chip wears it']}
+  codeColumns={[0]}
+  rows={[
+    ['&.tone-soft / -solid / -outline', 'Always — whichever tone the chip is set to'],
+    ['&.tag-selected', 'Selected'],
+    ['&.tag-interactive:hover', 'Interactive, under the pointer'],
+  ]}
+/>
+
 ## Accessibility
 
 - A static tag is **text, not a widget**: no role, no tab stop. Screen readers
@@ -79,7 +128,10 @@ family and weight come from the `typeface` option.
 - `removable` adds one real `<button>` named `Remove {label}`, overridable with
   `removeLabel`.
 - `interactive` makes the body a `<button type="button">`; `selected` maps to
-  `aria-pressed`.
+  `aria-pressed`, and the chip paints the state rather than leaving colour to
+  carry it alone.
+- `controlTabIndex` lets a composite that owns its own roving focus —
+  `uni-tag-group`, `uni-tag-input` — keep the whole set to one tab stop.
 - Icons, avatars, initials and dots are `aria-hidden` — the chip's text is its
   accessible name.
 - `invalid` sets `aria-invalid` and adds a non-colour cue.
