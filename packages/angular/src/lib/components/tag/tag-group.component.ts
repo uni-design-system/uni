@@ -1,8 +1,11 @@
 import {
+  afterNextRender,
   ChangeDetectionStrategy,
   Component,
   computed,
+  DestroyRef,
   ElementRef,
+  inject,
   input,
   model,
   output,
@@ -64,25 +67,50 @@ import type { UniTagGroupItem, UniTagGroupOptions, UniTagValue } from './tag.mod
         (removed)="removed.emit(item.value)"
       />
     }
-    @if (layout() === 'justify') {
+    @if (layout() === 'justify' && wrapped()) {
       <!-- Justification filler. It can only ever land on the last line, where
            it swallows the slack — so filled rows stretch flush and the last one
-           keeps its natural widths, the way justified text behaves. A group
-           that fits on one line is *all* last line, so it does not stretch. -->
-      <i aria-hidden="true" [class]="fillerClass"></i>
+           keeps its natural widths, the way justified text behaves.
+
+           It is only in the DOM once the group has actually wrapped. A single
+           row is technically all last line, and leaving it ragged there means
+           justification visibly does nothing until the row overflows — so the
+           rule is measured rather than assumed. -->
+      <i aria-hidden="true" [class]="fillerClass()"></i>
     }
   `,
 })
 export class UniTagGroupComponent<
   T extends UniTagValue = UniTagValue,
 > extends BaseComponent<UniTagGroupOptions> {
+  constructor() {
+    super();
+    const destroyRef = inject(DestroyRef);
+    const host = inject(ElementRef<HTMLElement>);
+
+    afterNextRender(() => {
+      // The host is a wrapping flex row, so its height is the row count: any
+      // change of rows — a resize, chips added or removed, a label that grew —
+      // resizes the host and re-runs this.
+      const observer = new ResizeObserver(() => this.measureRows());
+      observer.observe(host.nativeElement);
+      destroyRef.onDestroy(() => observer.disconnect());
+
+      this.measureRows();
+    });
+  }
+
   items = input<readonly UniTagGroupItem<T>[]>([]);
 
   /**
-   * `wrap` lets chips keep their natural widths. `justify` stretches each
-   * filled row flush to both edges, leaving the last row ragged; chips put the
-   * extra width around their labels, so tucked leads and remove controls stay
-   * tucked.
+   * `wrap` lets chips keep their natural widths. `justify` stretches each row
+   * flush to both edges; once the group wraps, the last row is left ragged, the
+   * way justified text leaves its last line alone. Chips put the extra width
+   * around their labels, so tucked leads and remove controls stay tucked.
+   *
+   * Whether a group has wrapped is measured, not configured: the same group is
+   * one row on a desktop and three on a phone, so a flag would be wrong at one
+   * of those widths.
    */
   layout = input<'wrap' | 'justify'>('wrap');
 
@@ -129,7 +157,20 @@ export class UniTagGroupComponent<
   // back the component instance, which has no DOM node to focus.
   private readonly chipRefs = viewChildren('chip', { read: ElementRef });
 
-  protected readonly fillerClass = css({ flex: '10000 0 0' });
+  /** Set once the chips occupy more than one row. */
+  protected readonly wrapped = signal(false);
+
+  protected readonly fillerClass = computed(() => {
+    const gap = this.theme.getSpacing(this.componentOptions().gap ?? 'xs');
+    return css({
+      flex: '10000 0 0',
+      // Zero basis makes the filler weightless when flex breaks lines — but the
+      // gap in front of it is not weightless, and on a row that happens to be
+      // exactly full it is enough to push the filler onto a line of its own.
+      // Pulling that gap back keeps the filler's whole footprint at zero.
+      marginInlineStart: gap ? `calc(-1 * ${typeof gap === 'number' ? `${gap}px` : gap})` : 0,
+    });
+  });
 
   protected readonly hostClass = computed(() => {
     const options = this.componentOptions();
@@ -190,6 +231,21 @@ export class UniTagGroupComponent<
         this.focusChip(last);
         break;
     }
+  }
+
+  /**
+   * Row count from the chips' offsets, so `justify` can tell a single row from
+   * a wrapped one.
+   *
+   * Safe to run at any time and in any order: flex breaks lines from each
+   * item's basis *before* it grows anything, so neither the filler (zero basis,
+   * zero margin) nor the growth this decision enables can change which row a
+   * chip lands on. The measurement cannot chase its own tail.
+   */
+  private measureRows(): void {
+    const tops = this.chipRefs().map((chip) => (chip.nativeElement as HTMLElement).offsetTop);
+    const wrapped = new Set(tops).size > 1;
+    if (wrapped !== this.wrapped()) this.wrapped.set(wrapped);
   }
 
   private focusChip(index: number): void {

@@ -44,10 +44,11 @@ export const Wrap: Story = {
 };
 
 /**
- * Filled rows stretch flush to both edges; the last row keeps its natural
- * widths, the way justified text leaves its last line alone. Narrow the preview
- * to watch the rows re-justify — and note the leads and remove controls stay
- * tucked into the rounded ends as the pills grow.
+ * Rows stretch flush to both edges; once the group wraps, the last row keeps its
+ * natural widths, the way justified text leaves its last line alone. Widen the
+ * preview until the chips fit on one row and that row stretches too — the rule
+ * is measured, so it is right at every width. Note the leads and remove controls
+ * stay tucked into the rounded ends as the pills grow.
  */
 export const Justify: Story = {
   args: { layout: 'justify', value: ['design', 'security'] },

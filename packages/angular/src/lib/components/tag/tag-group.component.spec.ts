@@ -11,6 +11,14 @@ describe('UniTagGroupComponent', () => {
   let fixture: ComponentFixture<UniTagGroupComponent<string>>;
   let host: HTMLElement;
 
+  /**
+   * jsdom lays nothing out, so every `offsetTop` is 0 and the group always
+   * reads as a single row. These let a test say "the chips wrapped" and then
+   * fire the observation the browser would have fired.
+   */
+  const observations: Array<() => void> = [];
+  const RealResizeObserver = globalThis.ResizeObserver;
+
   const ITEMS: UniTagGroupItem<string>[] = [
     { label: 'Design', value: 'design' },
     { label: 'Engineering', value: 'engineering' },
@@ -35,11 +43,35 @@ describe('UniTagGroupComponent', () => {
     fixture.detectChanges();
   };
 
+  /** Place each chip on the given row, then re-run the group's measurement. */
+  const layOutRows = (rows: number[]) => {
+    chips().forEach((chip, i) =>
+      Object.defineProperty(chip, 'offsetTop', { value: rows[i] * 24, configurable: true })
+    );
+    observations.forEach((observation) => observation());
+    fixture.detectChanges();
+  };
+
   beforeEach(async () => {
+    observations.length = 0;
+    globalThis.ResizeObserver = class {
+      constructor(callback: () => void) {
+        observations.push(callback);
+      }
+      observe() {}
+      unobserve() {}
+      disconnect() {}
+    } as unknown as typeof ResizeObserver;
+
     await TestBed.configureTestingModule({ imports: [UniTagGroupComponent] }).compileComponents();
     fixture = TestBed.createComponent<UniTagGroupComponent<string>>(UniTagGroupComponent);
     host = fixture.nativeElement;
     setInputs({ items: ITEMS });
+    await fixture.whenStable();
+  });
+
+  afterEach(() => {
+    globalThis.ResizeObserver = RealResizeObserver;
   });
 
   it('renders one interactive chip per item', () => {
@@ -175,14 +207,29 @@ describe('UniTagGroupComponent', () => {
       expect(host.getAttribute('aria-orientation')).toBe('horizontal');
     });
 
-    it('adds the justification filler only when justifying', () => {
+    it('adds the justification filler only once the chips have wrapped', () => {
       expect(filler()).toBeNull();
 
       setInputs({ layout: 'justify' });
+      layOutRows([0, 0, 0]);
 
-      // It can only land on the last line, where it swallows the slack — so
+      // One row is technically all last line. Leaving it ragged there would
+      // mean justification visibly did nothing until the row overflowed.
+      expect(filler()).toBeNull();
+
+      layOutRows([0, 0, 1]);
+
+      // Wrapped: the filler lands on the last line and swallows its slack, so
       // filled rows stretch flush and the last one stays ragged.
       expect(filler()).not.toBeNull();
+
+      layOutRows([0, 0, 0]);
+      expect(filler()).toBeNull();
+    });
+
+    it('never adds the filler while wrapping without justifying', () => {
+      layOutRows([0, 0, 1]);
+      expect(filler()).toBeNull();
     });
 
     it('lets an item override the group-wide chip presentation', () => {

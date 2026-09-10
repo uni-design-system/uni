@@ -988,7 +988,7 @@ Inheritance (inputs listed once, available on all subclasses):
 - selector: `uni-tag-group`
 - inputs:
   - `items: readonly UniTagGroupItem<T>[]` = []
-  - `layout: 'wrap' | 'justify'` = 'wrap' — `wrap` lets chips keep their natural widths. `justify` stretches each filled row flush to both edges, leaving the last row ragged; chips put the extra width around their labels, so tucked leads and remove controls stay tucked.
+  - `layout: 'wrap' | 'justify'` = 'wrap' — `wrap` lets chips keep their natural widths. `justify` stretches each row flush to both edges; once the group wraps, the last row is left ragged, the way justified text leaves its last line alone. Chips put the extra width around their labels, so tucked leads and remove controls stay tucked. Whether a group has wrapped is measured, not configured: the same group is one row on a desktop and three on a phone, so a flag would be wrong at one of those widths.
   - `multiple: boolean` = false — Allow more than one chip at a time. Single select replaces instead.
   - `chipTone: TagTone | undefined` = undefined
   - `chipSize: Size | undefined` = undefined
