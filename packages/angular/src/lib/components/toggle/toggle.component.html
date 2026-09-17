@@ -14,6 +14,19 @@
     <div class="toggle-slider"></div>
   </div>
   @if (label()) {
-    <span uni-text="label">{{ label() }}</span>
+    @if (labelHidden()) {
+      <span [class]="srOnlyClass">{{ label() }}</span>
+    } @else {
+      <span
+        uni-text
+        [typeface]="componentOptions().textRole ?? 'label'"
+        [color]="componentOptions().textColor"
+        >{{ label() }}</span
+      >
+    }
   }
+  <!-- Projected content sits inside the control's own <label>, which is the
+  only way a whole row can be the hit target: HTML forbids nesting a <label>,
+  so a consumer cannot wrap one around a uni-toggle. -->
+  <ng-content />
 </label>

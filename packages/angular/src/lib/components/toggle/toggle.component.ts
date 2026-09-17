@@ -1,7 +1,16 @@
-import { ChangeDetectionStrategy, Component, computed, input, model, output } from '@angular/core';
+import {
+  booleanAttribute,
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  input,
+  model,
+  output,
+} from '@angular/core';
 import { FormCheckboxControl } from '@angular/forms/signals';
 import { css } from '@emotion/css';
 import type { ColorKey } from '@uni-design-system/uni-core';
+import { visuallyHidden } from '../../cdk';
 import { BaseComponent } from '../base';
 import { COMPONENT_NAME } from '../base/base.component';
 import { UniTextDirective } from '../text/text.directive';
@@ -25,6 +34,7 @@ function geometry(width: number, height: number, inset: number) {
   imports: [UniTextDirective],
   templateUrl: './toggle.component.html',
   providers: [{ provide: COMPONENT_NAME, useValue: 'toggle' }],
+  host: { '[class]': 'hostClass()' },
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class UniToggleComponent
@@ -58,6 +68,20 @@ export class UniToggleComponent
   readonly label = input<string>();
 
   /**
+   * Keep `label` as the accessible name, but do not draw it — for a switch in
+   * a row or a table cell whose meaning is already on screen beside it. The
+   * string stays in the DOM, so a test querying by label text and a screen
+   * reader see the same words.
+   */
+  readonly labelHidden = input(false, { transform: booleanAttribute });
+
+  /**
+   * Stretch the control and its label across the container, making the whole
+   * width the hit target. Pair it with projected content for a clickable row.
+   */
+  readonly fullWidth = input(false, { transform: booleanAttribute });
+
+  /**
    * Checked-state track color token, overriding the theme's
    * `toggle.behavior.checkedColor`.
    *
@@ -80,6 +104,26 @@ export class UniToggleComponent
     this.checked.set((event.target as HTMLInputElement).checked);
     this.markAsTouched();
   }
+
+  /** A visually hidden `label`, still announced and still queryable by text. */
+  protected readonly srOnlyClass = css(visuallyHidden);
+
+  /**
+   * The host is inline-flex so `<uni-toggle>` measures the control it
+   * contains. Without a display it is inline, and the flex `<label>` inside
+   * makes it generate block boxes — so the element filled its container.
+   */
+  protected readonly hostClass = computed(() =>
+    css({
+      display: 'inline-flex',
+      width: this.fullWidth() ? '100%' : undefined,
+    })
+  );
+
+  /** Space between the track and its label, as a spacing token. */
+  private readonly gap = computed(() =>
+    this.theme.getSpacing(this.componentOptions().gap ?? 'sm')
+  );
 
   /**
    * Track and knob geometry for the active `size`, read out of the theme's
@@ -135,12 +179,14 @@ export class UniToggleComponent
       marginBottom: 0,
       display: 'flex',
       alignItems: 'center',
-      gap: 8,
+      gap: this.gap(),
       opacity: this.disabled() ? 0.6 : 1,
+      width: this.fullWidth() ? '100%' : undefined,
 
       '& .toggle-switch': {
         width,
         height,
+        flexShrink: 0,
         backgroundColor: this.disabled()
           ? this.color('disabled')
           : this.color(this.componentOptions().trackColor ?? 'surface-variant'),

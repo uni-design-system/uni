@@ -20,7 +20,30 @@ direct `[(checked)]` model.
 
 Track and knob colors resolve from the `toggle` theme options; geometry comes
 from its `sizes` block, and the checked state wears `checkedColor` — falling back
-to the active `variant`.
+to the active `variant`. The label's typeface and the gap beside it are theme
+options too (`textRole`, `textColor`, `gap`).
+
+`checked` is a `model`. Bind it two-way, or hold the value in your own signal: if
+your app declines a change the user made, a one-way `[checked]` expression has not
+changed, so Angular writes nothing and the switch keeps the state the user left it
+in.
+
+## Naming without printing the name
+
+A switch whose meaning is already on screen beside it — a settings row, a table
+cell — needs a name for assistive tech that must not be drawn twice. `labelHidden`
+keeps the string in the DOM and takes it out of flow.
+
+<StoryExample of={Stories.HiddenLabel} />
+
+## The row as the hit target
+
+HTML forbids nesting a `<label>`, so a consumer cannot wrap one around a switch.
+Project the row's content into the toggle instead: it lands inside the control's
+own `<label>`, so the whole row is clickable and keyboard-operable with no click
+handler and one tab stop.
+
+<StoryExample of={Stories.RowAsHitTarget} />
 
 ## Usage
 
@@ -89,13 +112,17 @@ function is not an injection context and will fail with NG0203.
 ## Accessibility
 
 - Semantic `<input type="checkbox">` with `role="switch"`, properly associated with its label.
+- `labelHidden` hides the label visually while keeping it as the accessible name.
+- Projected content sits inside that same `<label>`, so it names and activates the control.
 - Space toggles; focus indicators are provided for keyboard navigation.
 - Screen readers announce the label and on/off state.
 
 ## Do
 
 - Use for instant on/off effects (settings, feature switches)
+- Project the row's content when the whole settings row should be the hit target
 
 ## Don't
 
 - Use in submitted forms where nothing happens until save — that is a checkbox
+- Bind `[checked]` one way and expect a declined change to snap back

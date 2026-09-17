@@ -3,6 +3,7 @@ import { FormField, form, required } from '@angular/forms/signals';
 import { argsToTemplate, Meta, moduleMetadata, StoryObj } from '@storybook/angular';
 import { UniToggleComponent as ToggleComponent } from './toggle.component';
 import { UniBoxDirective, UniRowDirective, UniStackDirective } from '../layout';
+import { UniTextDirective } from '../text/text.directive';
 
 /**
  * Host for the Signal Forms story. `form()` calls `inject()`, so it has to be
@@ -37,7 +38,7 @@ const meta: Meta<StoryType> = {
   component: ToggleComponent,
   decorators: [
     moduleMetadata({
-      imports: [UniStackDirective, UniRowDirective, UniBoxDirective, ],
+      imports: [UniStackDirective, UniRowDirective, UniBoxDirective, UniTextDirective],
     }),
   ],
   render: (args) => ({
@@ -66,6 +67,18 @@ const meta: Meta<StoryType> = {
     },
     label: {
       control: 'text',
+      description:
+        "The toggle's accessible name, drawn beside the track in the theme's `toggle.textRole` typeface.",
+    },
+    labelHidden: {
+      control: 'boolean',
+      description:
+        'Keep `label` as the accessible name without drawing it — for a switch in a row or a table cell whose meaning is already on screen. Default: false',
+    },
+    fullWidth: {
+      control: 'boolean',
+      description:
+        'Stretch the control and its label across the container, so the whole width is the hit target. Default: false',
     },
     size: {
       control: 'select',
@@ -203,5 +216,44 @@ export const FormSignals: Story = {
     //   <uni-toggle label="Enable feature" [formField]="settings.enabled" />
     // built from `form(model, path => required(path.enabled))` in the host.
     template: `<toggle-form-demo />`,
+  }),
+};
+
+/**
+ * A switch whose name is carried by the row around it. `labelHidden` keeps the
+ * string in the DOM for assistive tech without drawing it twice.
+ */
+export const HiddenLabel: Story = {
+  render: () => ({
+    template: `
+      <div stack-layout gap="md">
+        <div row-layout gap="sm" alignItems="center">
+          <span uni-text="body-2-long">Weekly digest</span>
+          <uni-toggle label="Weekly digest" labelHidden checked></uni-toggle>
+        </div>
+        <div row-layout gap="sm" alignItems="center">
+          <span uni-text="body-2-long">Product announcements</span>
+          <uni-toggle label="Product announcements" labelHidden></uni-toggle>
+        </div>
+      </div>
+    `,
+  }),
+};
+
+/** Projected content sits inside the switch's own label, so the row toggles it. */
+export const RowAsHitTarget: Story = {
+  render: () => ({
+    template: `
+      <div stack-layout gap="xs">
+        <uni-toggle fullWidth label="Two-factor authentication" labelHidden>
+          <span uni-text="body-2-long">Two-factor authentication</span>
+          <span uni-text="caption">Required for admin accounts</span>
+        </uni-toggle>
+        <uni-toggle fullWidth label="Session alerts" labelHidden>
+          <span uni-text="body-2-long">Session alerts</span>
+          <span uni-text="caption">Email me on a new sign-in</span>
+        </uni-toggle>
+      </div>
+    `,
   }),
 };
