@@ -1,15 +1,15 @@
 {
   "meta": {
-    "version": "11.1.0",
-    "builtAt": "2026-09-10T16:48:25.514Z",
+    "version": "11.2.0",
+    "builtAt": "2026-09-17T10:43:40.795Z",
     "frameworks": [
       "angular"
     ],
     "counts": {
-      "components": 86,
-      "tokens": 485,
+      "components": 87,
+      "tokens": 490,
       "themes": 2,
-      "examples": 238
+      "examples": 245
     }
   },
   "components": [
@@ -20,7 +20,7 @@
       "summary": "",
       "description": "",
       "category": "feedback",
-      "version": "11.1.0",
+      "version": "11.2.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -110,7 +110,7 @@
       "summary": "Horizontal application bar: project leading controls (menu button, logo) with the `leading` attribute, actions with `trailing` (pushed to the far edge), and either pass `title` or project custom center content.",
       "description": "Horizontal application bar: project leading controls (menu button, logo) with the `leading` attribute, actions with `trailing` (pushed to the far edge), and either pass `title` or project custom center content. Surface, divider, height, typography and spacing all resolve from `appBar` tokens. Place it inside your page's `<header>` landmark.",
       "category": "components",
-      "version": "11.1.0",
+      "version": "11.2.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -175,7 +175,7 @@
       "summary": "Identity avatar with a graceful fallback chain: image → initials from `name` → themed symbol.",
       "description": "Identity avatar with a graceful fallback chain: image → initials from `name` → themed symbol. Coloring, radius, typeface and sizes all resolve from `avatar` theme tokens; `variant` picks the container palette.",
       "category": "components",
-      "version": "11.1.0",
+      "version": "11.2.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -260,7 +260,7 @@
       "summary": "Overlapping stack of avatars.",
       "description": "Overlapping stack of avatars. `max` collapses the overflow into a themed “+N” chip (itself a `uni-avatar`). Overlap and separator ring resolve from `avatarGroup` theme tokens.",
       "category": "components",
-      "version": "11.1.0",
+      "version": "11.2.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -309,7 +309,7 @@
       "summary": "",
       "description": "",
       "category": "primitives",
-      "version": "11.1.0",
+      "version": "11.2.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -390,7 +390,7 @@
       "summary": "",
       "description": "",
       "category": "feedback",
-      "version": "11.1.0",
+      "version": "11.2.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -467,7 +467,7 @@
       "summary": "",
       "description": "",
       "category": "directives",
-      "version": "11.1.0",
+      "version": "11.2.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -491,7 +491,7 @@
       "summary": "The base layout primitive, applied as an attribute to any element so semantics stay yours: `<main box-layout [grow]=\"1\" padding=\"md\">`.",
       "description": "The base layout primitive, applied as an attribute to any element so semantics stay yours: `<main box-layout [grow]=\"1\" padding=\"md\">`. It is a directive, so it composes freely — with another layout attribute (`<div stack-layout uni-text=\"body-1-long\">`) and with a component's own host element (`<uni-card box-layout padding=\"lg\">`); Angular merges the host `class` bindings rather than letting one win. Sizing convention (height/width/min/max/inset): a **number is px and needs a binding** — `[height]=\"420\"`; a **plain attribute is a CSS length string** — `height=\"420px\"`. Spacing/radius/color inputs take theme tokens.",
       "category": "layout",
-      "version": "11.1.0",
+      "version": "11.2.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -817,15 +817,17 @@
             {
               "name": "fullWidth",
               "kind": "input",
-              "type": "boolean",
+              "type": "unknown",
               "required": false,
+              "default": "false, { transform: booleanAttribute }",
               "description": ""
             },
             {
               "name": "fullHeight",
               "kind": "input",
-              "type": "boolean",
+              "type": "unknown",
               "required": false,
+              "default": "false, { transform: booleanAttribute }",
               "description": ""
             },
             {
@@ -897,7 +899,7 @@
       "summary": "WAI-ARIA breadcrumb: a `nav` landmark wrapping an ordered list; the last item is the current page (`aria-current=\"page\"`), separators are decorative.",
       "description": "WAI-ARIA breadcrumb: a `nav` landmark wrapping an ordered list; the last item is the current page (`aria-current=\"page\"`), separators are decorative. Items with `href` render as real links; without one they render as link-styled buttons emitting `itemClicked` — wire that to your router.",
       "category": "components",
-      "version": "11.1.0",
+      "version": "11.2.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -982,7 +984,7 @@
       "summary": "",
       "description": "",
       "category": "primitives",
-      "version": "11.1.0",
+      "version": "11.2.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -991,25 +993,25 @@
             {
               "name": "disable",
               "kind": "input",
-              "type": "boolean | undefined",
+              "type": "unknown",
               "required": false,
-              "default": "false",
+              "default": "false, { transform: booleanAttribute }",
               "description": ""
             },
             {
               "name": "loading",
               "kind": "input",
-              "type": "boolean | undefined",
+              "type": "unknown",
               "required": false,
-              "default": "false",
+              "default": "false, { transform: booleanAttribute }",
               "description": ""
             },
             {
               "name": "fullWidth",
               "kind": "input",
-              "type": "boolean",
+              "type": "unknown",
               "required": false,
-              "default": "false",
+              "default": "false, { transform: booleanAttribute }",
               "description": ""
             },
             {
@@ -1094,7 +1096,7 @@
       "summary": "",
       "description": "",
       "category": "primitives",
-      "version": "11.1.0",
+      "version": "11.2.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -1126,7 +1128,7 @@
       "summary": "Inline month calendar: single-date or start–end range selection, day markers (availability dots), min/max fences and disabled dates.",
       "description": "Inline month calendar: single-date or start–end range selection, day markers (availability dots), min/max fences and disabled dates. One tab stop with a roving-tabindex `role=\"grid\"`; every day is a real button named with its full date. Values are plain ISO strings (`'YYYY-MM-DD'`), never `Date` objects, so bindings are timezone-free and serializable. Selection and today colours come from the theme's `primary` role pair; geometry and glyphs come from the `calendar` theme entry.",
       "category": "forms",
-      "version": "11.1.0",
+      "version": "11.2.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -1353,7 +1355,7 @@
       "summary": "Anchored coach-mark panel that dims the page and cuts a spotlight hole around its target.",
       "description": "Anchored coach-mark panel that dims the page and cuts a spotlight hole around its target. Both the scrim and the panel are `popover=\"manual\"` elements shown in order, so they stack deterministically in the top layer above every app z-index, and every scrim piece is CSS-anchor-positioned to the target — the hole tracks scroll/resize/layout with zero listeners. The panel is a non-modal `role=\"dialog\"` (deliberately no `aria-modal`): focus moves into it on open, Tab runs a \"duet loop\" over the panel's focusables plus the spotlit target while it stays interactive, and on close focus returns to the pre-open element — unless the user moved into the target, where it stays. Storage-free by rule: `key` and the `dismissed` output are the \"don't show again\" hooks; persistence is the app's business (e.g. cdk local-storage).",
       "category": "components",
-      "version": "11.1.0",
+      "version": "11.2.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -1566,7 +1568,7 @@
       "summary": "",
       "description": "",
       "category": "layout",
-      "version": "11.1.0",
+      "version": "11.2.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -1615,7 +1617,7 @@
       "summary": "",
       "description": "",
       "category": "layout",
-      "version": "11.1.0",
+      "version": "11.2.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -1656,7 +1658,7 @@
       "summary": "",
       "description": "",
       "category": "layout",
-      "version": "11.1.0",
+      "version": "11.2.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -1713,7 +1715,7 @@
       "summary": "",
       "description": "",
       "category": "layout",
-      "version": "11.1.0",
+      "version": "11.2.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -1768,7 +1770,7 @@
       "summary": "",
       "description": "",
       "category": "forms",
-      "version": "11.1.0",
+      "version": "11.2.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -1851,6 +1853,22 @@
               "description": ""
             },
             {
+              "name": "labelHidden",
+              "kind": "input",
+              "type": "unknown",
+              "required": false,
+              "default": "false, { transform: booleanAttribute }",
+              "description": "Keep `label` as the accessible name, but do not draw it. For the shape where the thing being selected is already on screen beside the box — a table's select column, a row in a list — the name is needed by assistive tech and must not be printed. The string stays in the DOM, so a test querying by label text and a screen reader see the same words."
+            },
+            {
+              "name": "fullWidth",
+              "kind": "input",
+              "type": "unknown",
+              "required": false,
+              "default": "false, { transform: booleanAttribute }",
+              "description": "Stretch the control and its label across the container, making the whole width the hit target. Pair it with projected content for a clickable row."
+            },
+            {
               "name": "indeterminate",
               "kind": "model",
               "type": "boolean",
@@ -1907,28 +1925,50 @@
           "title": "Form Signals",
           "framework": "angular",
           "code": "<!-- Storybook story: Form Signals -->\n<div>\n<uni-checkbox\n  label=\"Subscribe to newsletter\"\n  variant=\"primary\"\n  [checked]=\"isChecked\"\n  [disabled]=\"isDisabled\"\n  [invalid]=\"isInvalid\"\n  [touched]=\"isTouched\">\n</uni-checkbox>\n<div box-layout paddingTop=\"md\">\n  <p>Checked: {{ isChecked }}</p>\n  <p>Touched: {{ isTouched }}</p>\n  <p>Invalid: {{ isInvalid }}</p>\n  <p>Disabled: {{ isDisabled }}</p>\n</div>\n<div row-layout gap=\"sm\" paddingTop=\"sm\">\n<button\n  (click)=\"isTouched = true\">\n  Mark as Touched\n</button>\n<button\n  (click)=\"isDisabled = !isDisabled\">\n  Toggle Disabled\n</button>\n<button\n  (click)=\"isInvalid = !isInvalid\">\n  Toggle Invalid\n</button>\n</div>\n</div>"
+        },
+        {
+          "title": "Hidden Label",
+          "framework": "angular",
+          "code": "<!-- Storybook story: Hidden Label -->\n<div stack-layout gap=\"md\">\n<div row-layout gap=\"sm\" alignItems=\"center\">\n  <uni-checkbox label=\"Select every line from Northwind\" labelHidden></uni-checkbox>\n  <span uni-text=\"body-1-short\">Northwind Traders</span>\n</div>\n<div row-layout gap=\"sm\" alignItems=\"center\">\n  <uni-checkbox label=\"Select every line from Contoso\" labelHidden></uni-checkbox>\n  <span uni-text=\"body-1-short\">Contoso Ltd</span>\n</div>\n</div>"
+        },
+        {
+          "title": "Row As Hit Target",
+          "framework": "angular",
+          "code": "<!-- Storybook story: Row As Hit Target -->\n<div stack-layout gap=\"xs\">\n<uni-checkbox fullWidth>\n  <span uni-text=\"body-2-long\">Sofa, three seat</span>\n  <span uni-text=\"caption\">In stock</span>\n</uni-checkbox>\n<uni-checkbox fullWidth>\n  <span uni-text=\"body-2-long\">Armchair, walnut</span>\n  <span uni-text=\"caption\">Backordered</span>\n</uni-checkbox>\n</div>"
+        },
+        {
+          "title": "Sizes",
+          "framework": "angular",
+          "code": "<!-- Storybook story: Sizes -->\n<div stack-layout gap=\"md\">\n<uni-checkbox size=\"sm\" label=\"Small\" checked></uni-checkbox>\n<uni-checkbox size=\"md\" label=\"Medium\" checked></uni-checkbox>\n<uni-checkbox size=\"lg\" label=\"Large\" checked></uni-checkbox>\n</div>"
         }
       ],
       "guidelines": {
-        "whenToUse": "Binary choice control for forms: check to opt in, submit to apply. It implements\n`FormCheckboxControl` for the Signal Forms `[formField]` directive (or bind\n`[(checked)]` directly), exposes `aria-invalid` once touched, and supports an\n`indeterminate` model for \"select all\" parents — cleared automatically on the next\nuser interaction, matching native behavior.\nThe box color, check stroke (the variant's paired on-color), and size resolve from\nthe `checkbox` theme options.",
+        "whenToUse": "Binary choice control for forms: check to opt in, submit to apply. It implements\n`FormCheckboxControl` for the Signal Forms `[formField]` directive (or bind\n`[(checked)]` directly), exposes `aria-invalid` once touched, and supports an\n`indeterminate` model for \"select all\" parents — cleared automatically on the next\nuser interaction, matching native behavior.\nThe box color, check stroke (the variant's paired on-color), the label's typeface\nand the gap beside it all resolve from the `checkbox` theme options; box geometry\ncomes from the theme's `sizes` block, so `size=\"sm\"` gives a dense table its own\ncontrol without a second component.\n`checked` is a `model`. Bind it two-way, or hold the value in your own signal: if\nyour app declines a change the user made — a server refusal, an optimistic update\nthat rolls back to the same value — a one-way `[checked]` expression has not\nchanged, so Angular writes nothing and the box keeps the state the user left it\nin. The same applies to `indeterminate`, which a user interaction clears.",
         "dos": [
-          "Use for choices that apply when the form is submitted"
+          "Use for choices that apply when the form is submitted",
+          "Reach for `labelHidden` rather than clipping the label with app CSS",
+          "Project the row's content when the whole row should be the hit target"
         ],
         "donts": [
-          "Use for instant on/off effects — that is a toggle"
+          "Use for instant on/off effects — that is a toggle",
+          "Wrap a checkbox in your own `<label>` — nesting is illegal; project instead",
+          "Bind `[checked]` one way and expect a declined change to snap back"
         ],
         "accessibility": [
           "Semantic `<input type=\"checkbox\">` + `<label>`; Space toggles.",
+          "`labelHidden` hides the label visually while keeping it as the accessible name.",
+          "Projected content sits inside that same `<label>`, so it names and activates the control.",
           "`aria-invalid` reflects the error state once the field was touched or is dirty.",
           "The indeterminate visual state is carried by the native `indeterminate` property, announced as \"mixed\"."
         ]
       },
       "relatedTokens": [
         "checkbox.behavior.motion",
-        "checkbox.behavior.size",
         "checkbox.behavior.boxColor",
         "checkbox.behavior.borderRadius",
-        "checkbox.behavior.focusRingGap"
+        "checkbox.behavior.focusRingGap",
+        "checkbox.behavior.textRole",
+        "checkbox.behavior.gap"
       ]
     },
     {
@@ -1938,7 +1978,7 @@
       "summary": "Form-bound, closed-set, single-select autocomplete: `FormValueControl<T | null>` over object `Options<T>`, type-to-filter, commit-on-select.",
       "description": "Form-bound, closed-set, single-select autocomplete: `FormValueControl<T | null>` over object `Options<T>`, type-to-filter, commit-on-select. Typing produces a draft — a filter, never a value; the value changes only when an option commits, `clear()` runs, or the model is written from outside. Select semantics, not search: a real label, a chevron, no magnifier, nothing submits. For short lists with no need to type, prefer `uni-select` — the value contract is identical, so swapping is a template-only change.",
       "category": "forms",
-      "version": "11.1.0",
+      "version": "11.2.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -2191,7 +2231,7 @@
       "summary": "",
       "description": "",
       "category": "feedback",
-      "version": "11.1.0",
+      "version": "11.2.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -2238,7 +2278,7 @@
       "summary": "",
       "description": "",
       "category": "forms",
-      "version": "11.1.0",
+      "version": "11.2.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -2312,7 +2352,7 @@
       "summary": "",
       "description": "",
       "category": "data",
-      "version": "11.1.0",
+      "version": "11.2.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -2429,7 +2469,7 @@
       "summary": "Date field with free-typed parsing and a popup calendar.",
       "description": "Date field with free-typed parsing and a popup calendar. Type `aug 20`, `8/20/2026` or `2026-08-20`, or pick from the grid — the form gets the same canonical `'YYYY-MM-DD'` string either way. Parsing is `Intl`-driven (locale digit order and month names, never hardcoded); unreadable text stays in the field, flagged, with a `rejected` event. The popup is a native popover hosting the same `uni-calendar` an app could render inline.",
       "category": "forms",
-      "version": "11.1.0",
+      "version": "11.2.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -2660,7 +2700,7 @@
       "summary": "One field for a date and a time: a thin composer seating a uni-date-input and a uni-time-input in one input-box chrome under one label, yielding one combined `'YYYY-MM-DDTHH:mm'` value.",
       "description": "One field for a date and a time: a thin composer seating a uni-date-input and a uni-time-input in one input-box chrome under one label, yielding one combined `'YYYY-MM-DDTHH:mm'` value. The value emits only when both parts are set — a time without a day is not an answer — and clearing the date clears it. With `slotsFor`, the time part stays disabled until a day is chosen and offers exactly that day's slots: the scheduling flow in one attribute. Two honest tab stops (it is two questions); apps needing a different arrangement compose the primitives directly.",
       "category": "forms",
-      "version": "11.1.0",
+      "version": "11.2.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -2853,7 +2893,7 @@
       "summary": "Text input that emits `change` only after the user pauses typing.",
       "description": "Text input that emits `change` only after the user pauses typing. Wears the shared input chrome (themed color, border, typeface, focus ring) via `uni-input-box`; project adornments with the `pre-input` / `post-input` slots, matching `uni-input`'s convention. The ARIA passthrough inputs let a wrapping composite (e.g. SearchInput's combobox) annotate the real input element.",
       "category": "forms",
-      "version": "11.1.0",
+      "version": "11.2.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -2990,7 +3030,7 @@
       "summary": "Modal dialog on the native `<dialog>` element, laid out as three rows: an optional `[dialog-header]`, the projected body, an optional `[dialog-buttons]`.",
       "description": "Modal dialog on the native `<dialog>` element, laid out as three rows: an optional `[dialog-header]`, the projected body, an optional `[dialog-buttons]`. **The surface is never the scroll container.** It is a flex column that is `overflow: clip` on both axes; the header and buttons pin while only the body row scrolls. Unlike the drawer, which is deliberately viewport-tall, the dialog stays content-sized: it has no `height`, and grows until it hits `calc(100dvh - 2 x inset)` — the point at which the body starts to scroll. The theme's `padding` insets all three rows (which is what makes the default header read as a pill floating inside the surface); `bodyPadding` pads the scrolling row alone.",
       "category": "feedback",
-      "version": "11.1.0",
+      "version": "11.2.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -3106,7 +3146,7 @@
       "summary": "",
       "description": "",
       "category": "feedback",
-      "version": "11.1.0",
+      "version": "11.2.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -3210,7 +3250,7 @@
       "summary": "",
       "description": "",
       "category": "feedback",
-      "version": "11.1.0",
+      "version": "11.2.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -3251,7 +3291,7 @@
       "summary": "",
       "description": "",
       "category": "layout",
-      "version": "11.1.0",
+      "version": "11.2.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -3298,7 +3338,7 @@
       "summary": "",
       "description": "",
       "category": "directives",
-      "version": "11.1.0",
+      "version": "11.2.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -3330,7 +3370,7 @@
       "summary": "Drawer with two modes sharing one three-row layout: - `side` — an in-flow `<aside>` that pushes content (dashboard sidenav); opening/closing animates its width, and the divider border primitive separates it from the page.",
       "description": "Drawer with two modes sharing one three-row layout: - `side` — an in-flow `<aside>` that pushes content (dashboard sidenav); opening/closing animates its width, and the divider border primitive separates it from the page. - `over` — a native `<dialog>` in the top layer: focus trap, Escape and scrim backdrop come from the platform (same machinery as `uni-dialog`), sliding in from its edge. **The panel is never the scroll container.** It is a flex column of three rows — an optional `[uni-drawer-header]`, the projected body, an optional `[uni-drawer-buttons]` — and only the body scrolls. The panel itself is `overflow: clip` on both axes. That is what lets a header and a save bar pin while a long form scrolls between them, and it is why the theme's `padding` option lands on the body row rather than the panel: padding on a scrolling box scrolls away with its content. Surface, width, divider, elevation, padding, backdrop, scrim and background all resolve from `drawer` theme tokens.",
       "category": "components",
-      "version": "11.1.0",
+      "version": "11.2.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -3490,7 +3530,7 @@
       "summary": "The drawer's pinned footer action row — the save bar of an editor panel.",
       "description": "The drawer's pinned footer action row — the save bar of an editor panel. Sits outside the scrolling body, so the actions stay reachable however long the form is. Mirrors `[dialog-buttons]`; the difference is posture, which lives in the `drawerButtons` theme options rather than here.",
       "category": "primitives",
-      "version": "11.1.0",
+      "version": "11.2.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -3587,7 +3627,7 @@
       "summary": "The drawer's pinned header row: a title, and optionally a close button.",
       "description": "The drawer's pinned header row: a title, and optionally a close button. Sits outside the scrolling body, so it stays put while the form beneath it moves. Reached either by projecting it — `<div uni-drawer-header>` — or implicitly, by giving `uni-drawer` a `headline`, in which case the drawer renders one of these itself.",
       "category": "components",
-      "version": "11.1.0",
+      "version": "11.2.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -3635,7 +3675,7 @@
       "summary": "",
       "description": "",
       "category": "components",
-      "version": "11.1.0",
+      "version": "11.2.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -3769,7 +3809,7 @@
       "summary": "",
       "description": "",
       "category": "layout",
-      "version": "11.1.0",
+      "version": "11.2.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -3846,7 +3886,7 @@
       "summary": "",
       "description": "",
       "category": "layout",
-      "version": "11.1.0",
+      "version": "11.2.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -3907,7 +3947,7 @@
       "summary": "Trigger for a {@link UniExpandComponent} region.",
       "description": "Trigger for a {@link UniExpandComponent} region. Two shapes, chosen by whether `label` is set: - **Icon only** (default) — the bare chevron, sized for a Card Header. - **Labelled** — chevron plus a label and optional muted sublabel, as a single full-width button. Most real disclosures need a name for the section, and building that row by hand is the thing this saves; it also makes the label the button's accessible name rather than adjacent text.",
       "category": "layout",
-      "version": "11.1.0",
+      "version": "11.2.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -3983,7 +4023,7 @@
       "summary": "",
       "description": "",
       "category": "forms",
-      "version": "11.1.0",
+      "version": "11.2.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -4113,7 +4153,7 @@
       "summary": "",
       "description": "",
       "category": "layout",
-      "version": "11.1.0",
+      "version": "11.2.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -4187,7 +4227,7 @@
       "summary": "",
       "description": "",
       "category": "layout",
-      "version": "11.1.0",
+      "version": "11.2.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -4219,7 +4259,7 @@
       "summary": "",
       "description": "",
       "category": "primitives",
-      "version": "11.1.0",
+      "version": "11.2.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -4279,7 +4319,7 @@
       "summary": "",
       "description": "",
       "category": "primitives",
-      "version": "11.1.0",
+      "version": "11.2.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -4372,7 +4412,7 @@
       "summary": "A button that lives inside a sentence.",
       "description": "A button that lives inside a sentence. Every other button in the library owns a box. Even `ghost` is a flex box with a hit area, horizontal padding and a type scale of its own, so dropping one into a sentence takes it out of the run of text entirely. This one inherits that type — family, size, weight, line height and colour — and adds no padding, so a paragraph reads as one continuous run with an action in the middle of it. It is always a real `<button>`: it can *look* like a link (`underline`, `link`) without claiming to be navigation, so Enter and Space activate it and assistive tech announces a button rather than an unfollowable link. A glyph may sit alongside the label without disturbing that: it is sized in `em`, so it scales with the type it lands in rather than pinning a px size into someone else's paragraph. One limit comes from the element itself. Browsers blockify a `<button>` to `inline-block` whatever `display` it asks for, so the control is an atomic inline box: its own label wraps inside it, but the run cannot split across a line break the way the words around it do. `display: contents` would buy that at the cost of the button being focusable at all, which is not a trade worth making — keep labels to a few words, which is what an inline action wants anyway.",
       "category": "primitives",
-      "version": "11.1.0",
+      "version": "11.2.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -4487,7 +4527,7 @@
       "summary": "",
       "description": "",
       "category": "forms",
-      "version": "11.1.0",
+      "version": "11.2.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -4680,9 +4720,9 @@
             {
               "name": "fullWidth",
               "kind": "input",
-              "type": "boolean",
+              "type": "unknown",
               "required": false,
-              "default": "false",
+              "default": "false, { transform: booleanAttribute }",
               "description": ""
             },
             {
@@ -4772,7 +4812,7 @@
       "summary": "",
       "description": "",
       "category": "forms",
-      "version": "11.1.0",
+      "version": "11.2.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -4821,9 +4861,9 @@
             {
               "name": "fullWidth",
               "kind": "input",
-              "type": "boolean",
+              "type": "unknown",
               "required": false,
-              "default": "false",
+              "default": "false, { transform: booleanAttribute }",
               "description": ""
             },
             {
@@ -4893,7 +4933,7 @@
       "summary": "",
       "description": "",
       "category": "components",
-      "version": "11.1.0",
+      "version": "11.2.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -4963,7 +5003,7 @@
       "summary": "",
       "description": "",
       "category": "layout",
-      "version": "11.1.0",
+      "version": "11.2.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -5037,7 +5077,7 @@
       "summary": "",
       "description": "",
       "category": "layout",
-      "version": "11.1.0",
+      "version": "11.2.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -5119,7 +5159,7 @@
       "summary": "",
       "description": "",
       "category": "forms",
-      "version": "11.1.0",
+      "version": "11.2.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -5213,7 +5253,7 @@
       "summary": "",
       "description": "",
       "category": "forms",
-      "version": "11.1.0",
+      "version": "11.2.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -5392,7 +5432,7 @@
       "summary": "",
       "description": "",
       "category": "feedback",
-      "version": "11.1.0",
+      "version": "11.2.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -5539,7 +5579,7 @@
       "summary": "",
       "description": "",
       "category": "feedback",
-      "version": "11.1.0",
+      "version": "11.2.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -5563,7 +5603,7 @@
       "summary": "Numeric field with locale-aware parsing, `Intl` formatting on commit, prefix/suffix adornments and steppers that hold to repeat.",
       "description": "Numeric field with locale-aware parsing, `Intl` formatting on commit, prefix/suffix adornments and steppers that hold to repeat. Not `<input type=\"number\">`, and the first reason is a data-loss bug: per the HTML value sanitization algorithm, a number input whose text is not a valid floating-point number reports `value === ''`. Type `12,50` as most of Europe does, or paste `1,234.56` from a spreadsheet, and the app reads an empty field. This is `type=\"text\"` with `role=\"spinbutton\"`, which is the only way to keep the user's malformed text on screen and tell them about it. Chrome comes from `uni-input-box`, so error, disabled and focus states match every other field. All arithmetic runs on the cdk's exact decimal helpers.",
       "category": "forms",
-      "version": "11.1.0",
+      "version": "11.2.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -5989,7 +6029,7 @@
       "summary": "Two linked numeric fields in one chrome, with one `{ start, end }` value — price filters, thresholds, tolerances.",
       "description": "Two linked numeric fields in one chrome, with one `{ start, end }` value — price filters, thresholds, tolerances. `start`/`end` deliberately match `UniDateRange`, so the library has one range vocabulary, and they avoid colliding with the `min`/`max` **inputs**, which mean the fence rather than the value. It owns its commit path rather than nesting two `uni-number-input`s, because the two behaviours the spec asks for need *different* bounds: a stepper must be fenced at the other end, while a typed commit must reach the parent un-clamped so a backwards range can be swapped instead of destroyed. A child field applies one bound pair to both. The arithmetic, parsing and formatting are still the cdk's, shared with every other numeric control.",
       "category": "forms",
-      "version": "11.1.0",
+      "version": "11.2.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -6280,7 +6320,7 @@
       "summary": "",
       "description": "",
       "category": "data",
-      "version": "11.1.0",
+      "version": "11.2.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -6381,7 +6421,7 @@
       "summary": "Anchored, top-layer panel on the native `popover` element — the browser owns positioning (CSS anchor positioning), stacking, and, in rich mode, light dismissal.",
       "description": "Anchored, top-layer panel on the native `popover` element — the browser owns positioning (CSS anchor positioning), stacking, and, in rich mode, light dismissal. Two modes share one implementation: - `rich` (default): a click-toggled disclosure. The projected `[trigger]` carries `aria-expanded`/`aria-controls`; with no trigger content the app drives `open` and no element claims controller ARIA. Focus stays on the trigger (APG disclosure) unless the panel marks an `[autofocus]` field, and returns to the trigger on close. - `tooltip`: hover/focus-triggered, `role=\"tooltip\"` + `aria-describedby`, WCAG 1.4.13 dismissable/hoverable/persistent. Content must not contain focusable elements. Anchoring and control are separate: `anchor` re-anchors the panel to any element (or id) while the trigger keeps the disclosure semantics.",
       "category": "layout",
-      "version": "11.1.0",
+      "version": "11.2.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -6573,7 +6613,7 @@
       "summary": "",
       "description": "",
       "category": "feedback",
-      "version": "11.1.0",
+      "version": "11.2.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -6637,7 +6677,7 @@
       "summary": "",
       "description": "",
       "category": "feedback",
-      "version": "11.1.0",
+      "version": "11.2.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -6701,7 +6741,7 @@
       "summary": "`− 3 +` for cart lines, table cells and seat counts: the numeric core with no field chrome, no label and no room for either.",
       "description": "`− 3 +` for cart lines, table cells and seat counts: the numeric core with no field chrome, no label and no room for either. A separate component rather than a `chrome=\"bare\"` flag on `uni-number-input`, because this control is defined by what it does *not* have — presets, affixes, expressions, four stepper layouts — and eight inputs are easier to write correctly than forty with a list of which ones to leave alone. The arithmetic, parsing and hold-to-repeat are the cdk's, shared with the field, so `1,200` and the keyboard map behave identically in both. The middle stays a real input by default: typing `12` beats tapping `+` eleven times. `editable=false` is for read-mostly tables.",
       "category": "forms",
-      "version": "11.1.0",
+      "version": "11.2.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -6904,7 +6944,7 @@
       "summary": "",
       "description": "",
       "category": "forms",
-      "version": "11.1.0",
+      "version": "11.2.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -6995,6 +7035,22 @@
               "description": ""
             },
             {
+              "name": "labelHidden",
+              "kind": "input",
+              "type": "unknown",
+              "required": false,
+              "default": "false, { transform: booleanAttribute }",
+              "description": "Keep `label` as the group's accessible name, but do not draw it. The heading still carries the id `aria-labelledby` points at, so the group keeps its name; only the option rows are visible."
+            },
+            {
+              "name": "fullWidth",
+              "kind": "input",
+              "type": "unknown",
+              "required": false,
+              "default": "false, { transform: booleanAttribute }",
+              "description": "Stretch each option row across the container, so the whole width is the hit target."
+            },
+            {
               "name": "name",
               "kind": "input",
               "type": "string",
@@ -7056,28 +7112,67 @@
           "title": "Form Signals",
           "framework": "angular",
           "code": "<!-- Storybook story: Form Signals -->\n<div>\n<uni-radio\n  label=\"Select your choice\"\n  variant=\"primary\"\n  [options]=\"options\"\n  [value]=\"currentValue\"\n  [disabled]=\"isDisabled\"\n  [invalid]=\"isInvalid\"\n  [touched]=\"isTouched\"\n  name=\"signals-demo\">\n</uni-radio>\n<div box-layout paddingTop=\"md\">\n  <p>Value: {{ currentValue }}</p>\n  <p>Touched: {{ isTouched }}</p>\n  <p>Invalid: {{ isInvalid }}</p>\n  <p>Disabled: {{ isDisabled }}</p>\n</div>\n<div row-layout gap=\"sm\" paddingTop=\"sm\">\n<button\n  (click)=\"isTouched = true\">\n  Mark as Touched\n</button>\n<button\n  (click)=\"isDisabled = !isDisabled\">\n  Toggle Disabled\n</button>\n<button\n  (click)=\"isInvalid = !isInvalid\">\n  Toggle Invalid\n</button>\n</div>\n</div>"
+        },
+        {
+          "title": "Option Template",
+          "framework": "angular",
+          "code": "<!-- Storybook story: Option Template -->\n<uni-radio [options]=\"plans\" value=\"pro\" label=\"Plan\" fullWidth>\n<ng-template uniRadioOption let-option>\n  <span stack-layout gap=\"xxs\">\n    <span uni-text=\"body-2-long\">{{ option.label }}</span>\n    <span uni-text=\"caption\">{{ descriptions[option.value] }}</span>\n  </span>\n</ng-template>\n</uni-radio>"
+        },
+        {
+          "title": "Sizes",
+          "framework": "angular",
+          "code": "<!-- Storybook story: Sizes -->\n<div stack-layout gap=\"lg\">\n<uni-radio size=\"sm\" label=\"Small\" [options]=\"options\" value=\"sm\"></uni-radio>\n<uni-radio size=\"md\" label=\"Medium\" [options]=\"options\" value=\"sm\"></uni-radio>\n<uni-radio size=\"lg\" label=\"Large\" [options]=\"options\" value=\"sm\"></uni-radio>\n</div>"
         }
       ],
       "guidelines": {
-        "whenToUse": "Single choice among a small set of visible options. The component renders the whole\ngroup from an `options` array (`{ label, value, disabled? }`), implements\n`FormValueControl<string>` for Signal Forms, and defaults each group to a unique\n`name` so multiple groups on a page never collide.\nRing, fill, and size resolve from the `radio` theme options; the selected dot wears\nthe active `variant` color.",
+        "whenToUse": "Single choice among a small set of visible options. The component renders the whole\ngroup from an `options` array (`{ label, value, disabled? }`), implements\n`FormValueControl<string>` for Signal Forms, and defaults each group to a unique\n`name` so multiple groups on a page never collide.\nRing and fill resolve from the `radio` theme options and the selected dot wears the\nactive `variant` color; circle geometry comes from the theme's `sizes` block. The\ngroup heading and the option labels have separate type roles (`groupTextRole` and\n`textRole`), so a group can have a hierarchy rather than two levels at one size.\n`value` is a `model`. Bind it two-way, or hold it in your own signal: a change your\napp declines does not snap back on its own, because a one-way `[value]` expression\nhas not changed and Angular writes nothing.",
         "dos": [
-          "Use for 2–5 mutually exclusive options that should all be visible"
+          "Use for 2–5 mutually exclusive options that should all be visible",
+          "Give the heading and the options different type roles, so the group reads as one"
         ],
         "donts": [
-          "Use for long option lists — that is a select"
+          "Use for long option lists — that is a select",
+          "Bind `[value]` one way and expect a declined change to snap back"
         ],
         "accessibility": [
           "`role=\"radiogroup\"` labelled by the group label via `aria-labelledby`.",
+          "`labelHidden` hides that heading visually while it still names the group.",
           "Native radio inputs: arrow keys move selection within the group, Tab moves out.",
           "`aria-invalid` reflects the error state once the group was touched or is dirty."
         ]
       },
       "relatedTokens": [
-        "radio.behavior.size",
         "radio.behavior.ringColor",
         "radio.behavior.fillColor",
-        "radio.behavior.motion"
+        "radio.behavior.motion",
+        "radio.behavior.textRole",
+        "radio.behavior.groupTextRole",
+        "radio.behavior.gap"
       ]
+    },
+    {
+      "id": "radio-option",
+      "name": "RadioOption",
+      "status": "stable",
+      "summary": "Content for each of a radio group's options, in place of the plain label string.",
+      "description": "Content for each of a radio group's options, in place of the plain label string. A group renders N labels from an `options` array, so it cannot take `<ng-content />` the way `uni-checkbox` and `uni-toggle` do — there is no single slot to project into. A template is the shape that survives the repetition: it is instantiated once per option and handed that option, so a row can carry a description, a price or a badge and still be part of the `<label>` that drives the input. ```html <uni-radio [options]=\"plans\"> <ng-template uniRadioOption let-option> <span uni-text=\"body-2-long\">{{ option.label }}</span> </ng-template> </uni-radio> ```",
+      "category": "forms",
+      "version": "11.2.0",
+      "bindings": {
+        "angular": {
+          "importPath": "@uni-design-system/uni-angular",
+          "selectorOrTag": "ng-template[uniRadioOption]",
+          "api": []
+        }
+      },
+      "examples": [],
+      "guidelines": {
+        "whenToUse": "",
+        "dos": [],
+        "donts": [],
+        "accessibility": []
+      },
+      "relatedTokens": []
     },
     {
       "id": "ripple",
@@ -7086,7 +7181,7 @@
       "summary": "",
       "description": "",
       "category": "directives",
-      "version": "11.1.0",
+      "version": "11.2.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -7110,7 +7205,7 @@
       "summary": "",
       "description": "",
       "category": "layout",
-      "version": "11.1.0",
+      "version": "11.2.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -7165,7 +7260,7 @@
       "summary": "Native scroll area with theme-driven scrollbar styling.",
       "description": "Native scroll area with theme-driven scrollbar styling. Scrollbars are styled entirely through Emotion-generated CSS: `::-webkit-scrollbar` rules cover Chromium/Safari, with a `scrollbar-width`/`scrollbar-color` fallback for Firefox.",
       "category": "layout",
-      "version": "11.1.0",
+      "version": "11.2.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -7312,7 +7407,7 @@
       "summary": "Generic search field: shared input chrome with a leading magnifier, a clear button while there's a query, Enter to submit, and optional type-ahead — pass `suggestions` (refresh them from `change`) and the field becomes an ARIA combobox with a keyboard-navigable listbox.",
       "description": "Generic search field: shared input chrome with a leading magnifier, a clear button while there's a query, Enter to submit, and optional type-ahead — pass `suggestions` (refresh them from `change`) and the field becomes an ARIA combobox with a keyboard-navigable listbox. Escape closes the list first, then clears the query.",
       "category": "forms",
-      "version": "11.1.0",
+      "version": "11.2.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -7427,7 +7522,7 @@
       "summary": "",
       "description": "",
       "category": "forms",
-      "version": "11.1.0",
+      "version": "11.2.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -7514,9 +7609,9 @@
             {
               "name": "fullWidth",
               "kind": "input",
-              "type": "boolean",
+              "type": "unknown",
               "required": false,
-              "default": "false",
+              "default": "false, { transform: booleanAttribute }",
               "description": ""
             },
             {
@@ -7597,7 +7692,7 @@
       "summary": "Loading placeholder painted with surface tokens.",
       "description": "Loading placeholder painted with surface tokens. `text` renders one or more lines (the last line shortened, as real text would be), `rect` and `circle` render fixed shapes. The shimmer only animates when the user allows motion; it degrades to static blocks under `prefers-reduced-motion`. Color and radius are theme options with per-instance overrides, because one app routinely needs several: skeletons on a card and on the page background want different tints, and a pill placeholder wants a different corner than the text bars beside it.",
       "category": "components",
-      "version": "11.1.0",
+      "version": "11.2.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -7733,7 +7828,7 @@
       "summary": "Bounded numeric input by pointer, for values where the *position* is the information: volume, opacity, weightings, price filters.",
       "description": "Bounded numeric input by pointer, for values where the *position* is the information: volume, opacity, weightings, price filters. Custom thumbs rather than `<input type=\"range\">`, which the previous version used: one native range input cannot carry two thumbs, marks or a tooltip, and a second component for the range case would mean two keyboard maps to keep in step. The step model and the keyboard map are the cdk's, shared with the numeric fields, so nothing new is learned moving between them. All arithmetic on values runs through the cdk's exact decimal helpers — stepping `0.1` never yields `0.30000000000000004`. Only pointer *positions* use floats, and they are snapped to the grid before becoming a value.",
       "category": "forms",
-      "version": "11.1.0",
+      "version": "11.2.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -8007,7 +8102,7 @@
       "summary": "",
       "description": "",
       "category": "feedback",
-      "version": "11.1.0",
+      "version": "11.2.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -8119,7 +8214,7 @@
       "summary": "",
       "description": "",
       "category": "data",
-      "version": "11.1.0",
+      "version": "11.2.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -8164,7 +8259,7 @@
       "summary": "",
       "description": "",
       "category": "layout",
-      "version": "11.1.0",
+      "version": "11.2.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -8219,7 +8314,7 @@
       "summary": "KPI stat tile: muted label, large value (numbers auto-compact: 48234 → \"48.2K\"), an optional delta whose ink is decided by *direction × whether up is good* (never direction alone — churn going down is good news), and an optional decorative sparkline.",
       "description": "KPI stat tile: muted label, large value (numbers auto-compact: 48234 → \"48.2K\"), an optional delta whose ink is decided by *direction × whether up is good* (never direction alone — churn going down is good news), and an optional decorative sparkline. Frame, typography and inks are all `stat` theme tokens.",
       "category": "components",
-      "version": "11.1.0",
+      "version": "11.2.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -8337,7 +8432,7 @@
       "summary": "",
       "description": "",
       "category": "primitives",
-      "version": "11.1.0",
+      "version": "11.2.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -8426,7 +8521,7 @@
       "summary": "One tab inside `uni-tabs`: a label for the tablist plus projected panel content.",
       "description": "One tab inside `uni-tabs`: a label for the tablist plus projected panel content. Content is captured in a template and only instantiated while the tab is selected, so inactive panels cost nothing.",
       "category": "components",
-      "version": "11.1.0",
+      "version": "11.2.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -8466,7 +8561,7 @@
       "summary": "WAI-ARIA tabs: roving tabindex, automatic activation (arrow keys move focus and select), Home/End, disabled tabs skipped.",
       "description": "WAI-ARIA tabs: roving tabindex, automatic activation (arrow keys move focus and select), Home/End, disabled tabs skipped. Only the selected panel is instantiated. All styling resolves from `tabs` theme option tokens.",
       "category": "components",
-      "version": "11.1.0",
+      "version": "11.2.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -8547,7 +8642,7 @@
       "summary": "Compact chip for categories, states, filters and tokens.",
       "description": "Compact chip for categories, states, filters and tokens. Two orthogonal style axes: `variant` picks the colour role and `tone` picks the archetype (soft / solid / outline). Both live in the theme's `tag` entry, so a theme restyles every chip in the app without touching markup. Two state classes ride alongside the tone class for the same reason: `tag-selected` and `tag-interactive` let the theme paint selection and hover beside the colours they belong to, instead of an app swapping `tone` by hand on every chip. Structurally a chip is **body + trailing action as siblings**, never nested buttons: an interactive chip whose body is a `<button>` cannot contain the remove `<button>` (invalid HTML, and the inner control becomes unreachable for keyboard users). Both stay independently operable.",
       "category": "data",
-      "version": "11.1.0",
+      "version": "11.2.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -8801,7 +8896,7 @@
       "summary": "A row of chips the user picks from: filters, facets, a set of labels.",
       "description": "A row of chips the user picks from: filters, facets, a set of labels. The group **renders its own chips** from `items` rather than projecting them. That is what lets it own the things an app was otherwise wiring per chip — which one is selected, which one holds the tab stop — since a parent cannot write a projected child's inputs. `uni-tag` is unchanged by this component; `controlTabIndex` was already its hook for a composite that manages focus. Keyboard model is the toolbar pattern: one tab stop for the whole group, and the arrow keys move within it. Twelve filter chips should cost one Tab to pass, not twelve.",
       "category": "data",
-      "version": "11.1.0",
+      "version": "11.2.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -8821,7 +8916,7 @@
               "type": "'wrap' | 'justify'",
               "required": false,
               "default": "'wrap'",
-              "description": "`wrap` lets chips keep their natural widths. `justify` stretches each filled row flush to both edges, leaving the last row ragged; chips put the extra width around their labels, so tucked leads and remove controls stay tucked."
+              "description": "`wrap` lets chips keep their natural widths. `justify` stretches each row flush to both edges; once the group wraps, the last row is left ragged, the way justified text leaves its last line alone. Chips put the extra width around their labels, so tucked leads and remove controls stay tucked. Whether a group has wrapped is measured, not configured: the same group is one row on a desktop and three on a phone, so a flag would be wrong at one of those widths."
             },
             {
               "name": "multiple",
@@ -8922,7 +9017,7 @@
         "whenToUse": "A row of chips the user picks from: filters, facets, a set of labels. The group\nowns the two things an app was otherwise wiring on every chip — **which one is\nselected** and **which one holds the tab stop**.",
         "dos": [
           "Give the group `multiple` when the filters combine, and leave it off when they",
-          "Reach for `layout=\"justify\"` when the row is long enough to wrap — a single",
+          "Reach for `layout=\"justify\"` when the chips should read as a block rather than",
           "Put per-chip differences on the item (`variant`, `tone`, `iconName`)."
         ],
         "donts": [
@@ -8946,7 +9041,7 @@
       "summary": "",
       "description": "",
       "category": "forms",
-      "version": "11.1.0",
+      "version": "11.2.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -9210,7 +9305,7 @@
       "summary": "The typography primitive, applied as an attribute to any element so semantics stay yours.",
       "description": "The typography primitive, applied as an attribute to any element so semantics stay yours. The attribute value is the typeface: `<h1 uni-text=\"display-small\">`, `<span uni-text=\"caption\">`, dynamic via `[uni-text]=\"role()\"`. With no value, the typeface is inferred from the host element (h1 → headline-large, p → body-1-long, …), falling back to `title-small`; the `typeface` input remains as an explicit override. It is a directive, so it stacks with anything else on the element — a layout attribute (`<div stack-layout uni-text=\"title-small\">`) or a component's own host — rather than colliding with it.",
       "category": "primitives",
-      "version": "11.1.0",
+      "version": "11.2.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -9312,7 +9407,7 @@
       "summary": "",
       "description": "",
       "category": "forms",
-      "version": "11.1.0",
+      "version": "11.2.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -9460,9 +9555,9 @@
             {
               "name": "fullWidth",
               "kind": "input",
-              "type": "boolean",
+              "type": "unknown",
               "required": false,
-              "default": "false",
+              "default": "false, { transform: booleanAttribute }",
               "description": ""
             },
             {
@@ -9519,7 +9614,7 @@
       "summary": "",
       "description": "",
       "category": "primitives",
-      "version": "11.1.0",
+      "version": "11.2.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -9549,7 +9644,7 @@
       "summary": "Drop-in switcher for the themes registered via `UNI_THEMES`: a select over `ThemeService.themeOptions` that applies the choice through `selectTheme` (so it persists across reloads like any other theme selection).",
       "description": "Drop-in switcher for the themes registered via `UNI_THEMES`: a select over `ThemeService.themeOptions` that applies the choice through `selectTheme` (so it persists across reloads like any other theme selection).",
       "category": "components",
-      "version": "11.1.0",
+      "version": "11.2.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -9607,7 +9702,7 @@
       "summary": "Time field: a combobox over time options — the same listbox contract as uni-search-input and uni-tag-input.",
       "description": "Time field: a combobox over time options — the same listbox contract as uni-search-input and uni-tag-input. Type `3p`, `930` or `15:00`, or pick `3:00 PM` from the list; the form always gets 24-hour `'HH:mm'` (`hour12` affects display only). The list is assistive, not exhaustive: any parseable time commits, unless `slots` pins the choices (a slot picker) — then a typed time must match one. Unreadable or unavailable text stays in the field, flagged, with a `rejected` event.",
       "category": "forms",
-      "version": "11.1.0",
+      "version": "11.2.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -9822,7 +9917,7 @@
       "summary": "",
       "description": "",
       "category": "forms",
-      "version": "11.1.0",
+      "version": "11.2.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -9898,6 +9993,22 @@
               "description": ""
             },
             {
+              "name": "labelHidden",
+              "kind": "input",
+              "type": "unknown",
+              "required": false,
+              "default": "false, { transform: booleanAttribute }",
+              "description": "Keep `label` as the accessible name, but do not draw it — for a switch in a row or a table cell whose meaning is already on screen beside it. The string stays in the DOM, so a test querying by label text and a screen reader see the same words."
+            },
+            {
+              "name": "fullWidth",
+              "kind": "input",
+              "type": "unknown",
+              "required": false,
+              "default": "false, { transform: booleanAttribute }",
+              "description": "Stretch the control and its label across the container, making the whole width the hit target. Pair it with projected content for a clickable row."
+            },
+            {
               "name": "checkedColor",
               "kind": "input",
               "type": "ColorKey",
@@ -9963,18 +10074,32 @@
           "title": "Form Signals",
           "framework": "angular",
           "code": "<!-- Storybook story: Form Signals -->\n<toggle-form-demo />"
+        },
+        {
+          "title": "Hidden Label",
+          "framework": "angular",
+          "code": "<!-- Storybook story: Hidden Label -->\n<div stack-layout gap=\"md\">\n<div row-layout gap=\"sm\" alignItems=\"center\">\n  <span uni-text=\"body-2-long\">Weekly digest</span>\n  <uni-toggle label=\"Weekly digest\" labelHidden checked></uni-toggle>\n</div>\n<div row-layout gap=\"sm\" alignItems=\"center\">\n  <span uni-text=\"body-2-long\">Product announcements</span>\n  <uni-toggle label=\"Product announcements\" labelHidden></uni-toggle>\n</div>\n</div>"
+        },
+        {
+          "title": "Row As Hit Target",
+          "framework": "angular",
+          "code": "<!-- Storybook story: Row As Hit Target -->\n<div stack-layout gap=\"xs\">\n<uni-toggle fullWidth label=\"Two-factor authentication\" labelHidden>\n  <span uni-text=\"body-2-long\">Two-factor authentication</span>\n  <span uni-text=\"caption\">Required for admin accounts</span>\n</uni-toggle>\n<uni-toggle fullWidth label=\"Session alerts\" labelHidden>\n  <span uni-text=\"body-2-long\">Session alerts</span>\n  <span uni-text=\"caption\">Email me on a new sign-in</span>\n</uni-toggle>\n</div>"
         }
       ],
       "guidelines": {
-        "whenToUse": "A switch-style control for turning an option on or off with immediate effect —\nprefer it over a checkbox when the change applies instantly (settings, feature\nswitches) rather than as part of a submitted form. It implements\n`FormCheckboxControl`, so it binds with the Signal Forms `[formField]` directive or a\ndirect `[(checked)]` model.\nTrack and knob colors resolve from the `toggle` theme options; geometry comes\nfrom its `sizes` block, and the checked state wears `checkedColor` — falling back\nto the active `variant`.",
+        "whenToUse": "A switch-style control for turning an option on or off with immediate effect —\nprefer it over a checkbox when the change applies instantly (settings, feature\nswitches) rather than as part of a submitted form. It implements\n`FormCheckboxControl`, so it binds with the Signal Forms `[formField]` directive or a\ndirect `[(checked)]` model.\nTrack and knob colors resolve from the `toggle` theme options; geometry comes\nfrom its `sizes` block, and the checked state wears `checkedColor` — falling back\nto the active `variant`. The label's typeface and the gap beside it are theme\noptions too (`textRole`, `textColor`, `gap`).\n`checked` is a `model`. Bind it two-way, or hold the value in your own signal: if\nyour app declines a change the user made, a one-way `[checked]` expression has not\nchanged, so Angular writes nothing and the switch keeps the state the user left it\nin.",
         "dos": [
-          "Use for instant on/off effects (settings, feature switches)"
+          "Use for instant on/off effects (settings, feature switches)",
+          "Project the row's content when the whole settings row should be the hit target"
         ],
         "donts": [
-          "Use in submitted forms where nothing happens until save — that is a checkbox"
+          "Use in submitted forms where nothing happens until save — that is a checkbox",
+          "Bind `[checked]` one way and expect a declined change to snap back"
         ],
         "accessibility": [
           "Semantic `<input type=\"checkbox\">` with `role=\"switch\"`, properly associated with its label.",
+          "`labelHidden` hides the label visually while keeping it as the accessible name.",
+          "Projected content sits inside that same `<label>`, so it names and activates the control.",
           "Space toggles; focus indicators are provided for keyboard navigation.",
           "Screen readers announce the label and on/off state."
         ]
@@ -9982,7 +10107,9 @@
       "relatedTokens": [
         "toggle.behavior.trackColor",
         "toggle.behavior.knobColor",
-        "toggle.behavior.motion"
+        "toggle.behavior.motion",
+        "toggle.behavior.textRole",
+        "toggle.behavior.gap"
       ]
     },
     {
@@ -9992,7 +10119,7 @@
       "summary": "",
       "description": "",
       "category": "feedback",
-      "version": "11.1.0",
+      "version": "11.2.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -10080,7 +10207,7 @@
       "summary": "A thin sequencer over one `uni-callout`: steps spotlight their targets, a footer walks Next/Back with dots-or-fraction progress, and `advanceOn` gates a step behind an interaction with its target (auto-advancing for clicks, unlocking Next otherwise — announced through one `role=\"status\"` region).",
       "description": "A thin sequencer over one `uni-callout`: steps spotlight their targets, a footer walks Next/Back with dots-or-fraction progress, and `advanceOn` gates a step behind an interaction with its target (auto-advancing for clicks, unlocking Next otherwise — announced through one `role=\"status\"` region). Escape or the close button skips the tour and reports the step. `active` is a two-way model, so a tour is deep-linkable and inspectable; steps whose declared target cannot be resolved are skipped (with a dev warning) in the direction of travel rather than erroring.",
       "category": "components",
-      "version": "11.1.0",
+      "version": "11.2.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -10207,7 +10334,7 @@
       "summary": "",
       "description": "",
       "category": "layout",
-      "version": "11.1.0",
+      "version": "11.2.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -12438,18 +12565,6 @@
       }
     },
     {
-      "id": "checkbox.behavior.size",
-      "value": 20,
-      "type": "number",
-      "kind": "behavioral",
-      "target": "component-prop",
-      "appliesTo": "checkbox",
-      "themeValues": {
-        "LightTheme": 20,
-        "DarkTheme": 20
-      }
-    },
-    {
       "id": "checkbox.behavior.boxColor",
       "value": "surface",
       "type": "string",
@@ -12486,15 +12601,27 @@
       }
     },
     {
-      "id": "radio.behavior.size",
-      "value": 20,
-      "type": "number",
+      "id": "checkbox.behavior.textRole",
+      "value": "label",
+      "type": "string",
       "kind": "behavioral",
       "target": "component-prop",
-      "appliesTo": "radio",
+      "appliesTo": "checkbox",
       "themeValues": {
-        "LightTheme": 20,
-        "DarkTheme": 20
+        "LightTheme": "label",
+        "DarkTheme": "label"
+      }
+    },
+    {
+      "id": "checkbox.behavior.gap",
+      "value": "sm",
+      "type": "string",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "checkbox",
+      "themeValues": {
+        "LightTheme": "sm",
+        "DarkTheme": "sm"
       }
     },
     {
@@ -12531,6 +12658,42 @@
       "themeValues": {
         "LightTheme": "control",
         "DarkTheme": "control"
+      }
+    },
+    {
+      "id": "radio.behavior.textRole",
+      "value": "label",
+      "type": "string",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "radio",
+      "themeValues": {
+        "LightTheme": "label",
+        "DarkTheme": "label"
+      }
+    },
+    {
+      "id": "radio.behavior.groupTextRole",
+      "value": "label",
+      "type": "string",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "radio",
+      "themeValues": {
+        "LightTheme": "label",
+        "DarkTheme": "label"
+      }
+    },
+    {
+      "id": "radio.behavior.gap",
+      "value": "sm",
+      "type": "string",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "radio",
+      "themeValues": {
+        "LightTheme": "sm",
+        "DarkTheme": "sm"
       }
     },
     {
@@ -15666,6 +15829,30 @@
       }
     },
     {
+      "id": "toggle.behavior.textRole",
+      "value": "label",
+      "type": "string",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "toggle",
+      "themeValues": {
+        "LightTheme": "label",
+        "DarkTheme": "label"
+      }
+    },
+    {
+      "id": "toggle.behavior.gap",
+      "value": "sm",
+      "type": "string",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "toggle",
+      "themeValues": {
+        "LightTheme": "sm",
+        "DarkTheme": "sm"
+      }
+    },
+    {
       "id": "tooltip.behavior.motion",
       "value": "notification",
       "type": "string",
@@ -16151,16 +16338,19 @@
         },
         "checkbox": {
           "motion": "control",
-          "size": 20,
           "boxColor": "surface",
           "borderRadius": 2,
-          "focusRingGap": 2
+          "focusRingGap": 2,
+          "textRole": "label",
+          "gap": "sm"
         },
         "radio": {
-          "size": 20,
           "ringColor": "outline",
           "fillColor": "surface",
-          "motion": "control"
+          "motion": "control",
+          "textRole": "label",
+          "groupTextRole": "label",
+          "gap": "sm"
         },
         "dialog": {
           "borderRadius": "lg",
@@ -16503,7 +16693,9 @@
         "toggle": {
           "trackColor": "surface-variant",
           "knobColor": "surface",
-          "motion": "control"
+          "motion": "control",
+          "textRole": "label",
+          "gap": "sm"
         },
         "tooltip": {
           "motion": "notification",
@@ -16756,16 +16948,19 @@
         },
         "checkbox": {
           "motion": "control",
-          "size": 20,
           "boxColor": "surface",
           "borderRadius": 2,
-          "focusRingGap": 2
+          "focusRingGap": 2,
+          "textRole": "label",
+          "gap": "sm"
         },
         "radio": {
-          "size": 20,
           "ringColor": "outline",
           "fillColor": "surface",
-          "motion": "control"
+          "motion": "control",
+          "textRole": "label",
+          "groupTextRole": "label",
+          "gap": "sm"
         },
         "dialog": {
           "borderRadius": "lg",
@@ -17108,7 +17303,9 @@
         "toggle": {
           "trackColor": "surface-variant",
           "knobColor": "surface",
-          "motion": "control"
+          "motion": "control",
+          "textRole": "label",
+          "gap": "sm"
         },
         "tooltip": {
           "motion": "notification",
@@ -17146,6 +17343,24 @@
     {
       "package": "@uni-design-system/uni-angular",
       "releases": [
+        {
+          "version": "11.2.0",
+          "entries": [
+            {
+              "bump": "minor",
+              "title": "The label on `uni-checkbox`, `uni-toggle` and `uni-radio` becomes a theme decision, can be named without being drawn, and can be replaced by content of your own.",
+              "body": "All three rendered their label as `<span uni-text=\"label\">` — a literal. `label` is the _caption above a field_ in most type scales, so a theme that makes it an uppercase eyebrow, as several do, rendered every checkbox sentence as a 9px badge beside a 20px box, with nothing in the theme able to reach it. `uni-radio` was worse: the group heading and each option shared that one role, so a group had no hierarchy at all. New **`textRole`** and **`textColor`** options fix it, and radio gets a second pair, **`groupTextRole`** / **`groupTextColor`**, for the heading. Both default to `label`, so no existing theme moves.\n\n**`labelHidden`** keeps `label` as the accessible name without drawing it — the select column, the row whose meaning is already on screen beside it. The string stays in the DOM, so a test querying by label text and a screen reader see the same words, and it renders through the shared `visuallyHidden` recipe, which is `position: fixed`: out of flow, so it claims none of the label row's `gap` and the control measures exactly its box. On radio it hides the group heading, which still carries the id `aria-labelledby` points at.\n\n**`<ng-content />` now sits inside the control's own `<label>`.** HTML forbids nesting a `<label>`, so the natural markup for \"the whole row toggles this\" is illegal the moment the row contains a checkbox — leaving apps to write a `div` with a click handler, a `stopPropagation` so the row does not toggle twice, and the name passed twice. Project the row's content instead and it is one control, natively associated, whole-row clickable and keyboard-operable, with one tab stop. A radio group renders N labels from data and so has no single slot: it takes an **`<ng-template uniRadioOption let-option>`** instead, instantiated once per option, inside that option's `<label>`. **`fullWidth`** on all three stretches the hit area to its container.\n\n**`gap`** is a spacing token now rather than a literal `8`, and radio's group column gets **`groupGap`** (unset stays at the 12px it has always drawn — not a step on the base scale, so resolving it as a token would warn on every miss).\n\n**Checkbox and radio get a `sizes` block**, the mechanism `toggle.sizes` moved to in 11.1.0: a dense table wants a 16px box where the same app's forms want 20px, and one number per theme cannot say so. `lg` is `BaseComponent`'s default and reproduces today's 20px exactly. `options.size` is now `@deprecated` and still **outranks** the block — themes are deep-merged over the base, so a theme written before this release would otherwise inherit our numbers and lose its own. Delete that key to opt in; it goes in 12.0.\n\nTwo rules change for everyone, both fixing something that was already wrong:\n- **The hosts get `display: inline-flex`.** They had no display at all, so the flex `<label>` inside made `<uni-checkbox>` and `<uni-toggle>` generate block boxes and fill their container — which is why a hidden-label checkbox could not be sized by measuring it, and why an app wanting one had to add `display: inline-flex` itself. A checkbox that was relying on that stretch now shrink-wraps; `fullWidth` is the way back.\n- **The box and the track get `flex-shrink: 0`**, which `uni-radio`'s circle already had. Without it a long label in a narrow column squashed the box into a rectangle. Projected content makes that far likelier, so it ships alongside.\n\n`labelHidden` and `fullWidth` take `booleanAttribute`, as `uni-inline-button` and `uni-expand-area` already do, so `<uni-checkbox labelHidden>` reads as true rather than binding the falsy empty string.\n\n**Every other valueless boolean attribute gets the same transform**, because they all had the same defect: `<button text-button fullWidth>` was silently inert, and so were the bare forms on `uni-input`, `uni-input-box`, `uni-select`, `uni-textarea` and `box-layout` — the last of which also covers `fullHeight`. `uni-button`'s **`disable`** and **`loading`** are in too: `<button text-button disable>` rendered an enabled button, which is the one in this set that could actually let a user do something they should not have been able to. Both now read `boolean` rather than `boolean | undefined`; `disable() || loading() || null` still removes the attribute entirely when neither is set, rather than rendering `disabled=\"false\"`, which the DOM reads as true. Property bindings (`[fullWidth]=\"true\"`) always worked and are unaffected; `box-layout`'s two inputs now read `boolean` rather than `boolean | undefined`, which narrows a read type without changing a rendered rule.\n\nThe four field components forward `fullWidth` into `box-layout`, whose transform coerced the empty string at the end of the chain — so their bare attribute _appeared_ to work while each component's own `fullWidth()` held `''`. That is why the guard for this asserts the input's value rather than the emitted CSS: a CSS-only assertion passes with the transform removed from any of the four.\n\n`pnpm docs:api` learned to read those transforms: `llms.txt` was printing `labelHidden: unknown = false, { transform: booleanAttribute }`, and the same leak had been mangling the existing `link`, `disable`, `initCollapsed` and every aliased input. They now report the type they accept and the default alone.",
+              "commit": "8f3b52e"
+            },
+            {
+              "bump": "patch",
+              "title": "Fix `uni-tag-group`'s `layout=\"justify\"` doing nothing until the chips wrap.",
+              "body": "Justification was implemented with a filler child that lands on the last row and swallows its slack, which is what leaves that row ragged. But a group that fits on one row is _all_ last row, so `justify` had no visible effect at all until the chips overflowed — the common case for a filter row read as the feature being broken.\n\nWhether the group has wrapped is now **measured** rather than assumed: a single row stretches flush, and the last row is left alone only once there is more than one. A `ResizeObserver` on the host drives it, so it stays right as the viewport changes — which a flag could not be, since the same group is one row on a desktop and three on a phone.\n\nThe measurement cannot chase its own tail: flex breaks lines from each item's basis _before_ it grows anything, so neither the filler nor the growth this decision enables can move a chip to another row. The filler also now pulls back the gap in front of it, so its whole footprint is zero — on a row that happened to be exactly full, that gap alone was enough to push it onto a line of its own.",
+              "commit": "1d602c3"
+            }
+          ],
+          "dependencyBumps": []
+        },
         {
           "version": "11.1.0",
           "entries": [
@@ -17991,6 +18206,18 @@
       "package": "@uni-design-system/uni-core",
       "releases": [
         {
+          "version": "11.2.0",
+          "entries": [
+            {
+              "bump": "minor",
+              "title": "The label on `uni-checkbox`, `uni-toggle` and `uni-radio` becomes a theme decision, can be named without being drawn, and can be replaced by content of your own.",
+              "body": "All three rendered their label as `<span uni-text=\"label\">` — a literal. `label` is the _caption above a field_ in most type scales, so a theme that makes it an uppercase eyebrow, as several do, rendered every checkbox sentence as a 9px badge beside a 20px box, with nothing in the theme able to reach it. `uni-radio` was worse: the group heading and each option shared that one role, so a group had no hierarchy at all. New **`textRole`** and **`textColor`** options fix it, and radio gets a second pair, **`groupTextRole`** / **`groupTextColor`**, for the heading. Both default to `label`, so no existing theme moves.\n\n**`labelHidden`** keeps `label` as the accessible name without drawing it — the select column, the row whose meaning is already on screen beside it. The string stays in the DOM, so a test querying by label text and a screen reader see the same words, and it renders through the shared `visuallyHidden` recipe, which is `position: fixed`: out of flow, so it claims none of the label row's `gap` and the control measures exactly its box. On radio it hides the group heading, which still carries the id `aria-labelledby` points at.\n\n**`<ng-content />` now sits inside the control's own `<label>`.** HTML forbids nesting a `<label>`, so the natural markup for \"the whole row toggles this\" is illegal the moment the row contains a checkbox — leaving apps to write a `div` with a click handler, a `stopPropagation` so the row does not toggle twice, and the name passed twice. Project the row's content instead and it is one control, natively associated, whole-row clickable and keyboard-operable, with one tab stop. A radio group renders N labels from data and so has no single slot: it takes an **`<ng-template uniRadioOption let-option>`** instead, instantiated once per option, inside that option's `<label>`. **`fullWidth`** on all three stretches the hit area to its container.\n\n**`gap`** is a spacing token now rather than a literal `8`, and radio's group column gets **`groupGap`** (unset stays at the 12px it has always drawn — not a step on the base scale, so resolving it as a token would warn on every miss).\n\n**Checkbox and radio get a `sizes` block**, the mechanism `toggle.sizes` moved to in 11.1.0: a dense table wants a 16px box where the same app's forms want 20px, and one number per theme cannot say so. `lg` is `BaseComponent`'s default and reproduces today's 20px exactly. `options.size` is now `@deprecated` and still **outranks** the block — themes are deep-merged over the base, so a theme written before this release would otherwise inherit our numbers and lose its own. Delete that key to opt in; it goes in 12.0.\n\nTwo rules change for everyone, both fixing something that was already wrong:\n- **The hosts get `display: inline-flex`.** They had no display at all, so the flex `<label>` inside made `<uni-checkbox>` and `<uni-toggle>` generate block boxes and fill their container — which is why a hidden-label checkbox could not be sized by measuring it, and why an app wanting one had to add `display: inline-flex` itself. A checkbox that was relying on that stretch now shrink-wraps; `fullWidth` is the way back.\n- **The box and the track get `flex-shrink: 0`**, which `uni-radio`'s circle already had. Without it a long label in a narrow column squashed the box into a rectangle. Projected content makes that far likelier, so it ships alongside.\n\n`labelHidden` and `fullWidth` take `booleanAttribute`, as `uni-inline-button` and `uni-expand-area` already do, so `<uni-checkbox labelHidden>` reads as true rather than binding the falsy empty string.\n\n**Every other valueless boolean attribute gets the same transform**, because they all had the same defect: `<button text-button fullWidth>` was silently inert, and so were the bare forms on `uni-input`, `uni-input-box`, `uni-select`, `uni-textarea` and `box-layout` — the last of which also covers `fullHeight`. `uni-button`'s **`disable`** and **`loading`** are in too: `<button text-button disable>` rendered an enabled button, which is the one in this set that could actually let a user do something they should not have been able to. Both now read `boolean` rather than `boolean | undefined`; `disable() || loading() || null` still removes the attribute entirely when neither is set, rather than rendering `disabled=\"false\"`, which the DOM reads as true. Property bindings (`[fullWidth]=\"true\"`) always worked and are unaffected; `box-layout`'s two inputs now read `boolean` rather than `boolean | undefined`, which narrows a read type without changing a rendered rule.\n\nThe four field components forward `fullWidth` into `box-layout`, whose transform coerced the empty string at the end of the chain — so their bare attribute _appeared_ to work while each component's own `fullWidth()` held `''`. That is why the guard for this asserts the input's value rather than the emitted CSS: a CSS-only assertion passes with the transform removed from any of the four.\n\n`pnpm docs:api` learned to read those transforms: `llms.txt` was printing `labelHidden: unknown = false, { transform: booleanAttribute }`, and the same leak had been mangling the existing `link`, `disable`, `initCollapsed` and every aliased input. They now report the type they accept and the default alone.",
+              "commit": "8f3b52e"
+            }
+          ],
+          "dependencyBumps": []
+        },
+        {
           "version": "11.1.0",
           "entries": [
             {
@@ -18611,6 +18838,11 @@
       "package": "@uni-design-system/uni-react",
       "releases": [
         {
+          "version": "11.2.0",
+          "entries": [],
+          "dependencyBumps": []
+        },
+        {
           "version": "11.1.0",
           "entries": [],
           "dependencyBumps": []
@@ -18886,6 +19118,11 @@
     {
       "package": "@uni-design-system/uni-mcp",
       "releases": [
+        {
+          "version": "11.2.0",
+          "entries": [],
+          "dependencyBumps": []
+        },
         {
           "version": "11.1.0",
           "entries": [],
