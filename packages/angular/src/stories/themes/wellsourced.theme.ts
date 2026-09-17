@@ -441,12 +441,26 @@ const components = (p: WellsourcedPalette): ComponentThemes => ({
       focusColor: 'primary-surface',
     },
   },
+  // The selection controls' label is body copy in this scale, not the `label`
+  // role — which here is the 9px uppercase eyebrow used above a field. The app
+  // was correcting that with a global rule against uni-checkbox's inner span;
+  // `textRole` is where it belongs. `body-2-long` is 14/18, the exact metrics
+  // that rule forced.
   checkbox: {
     options: {
       size: 20,
       boxColor: 'surface',
       borderRadius: 2,
       focusRingGap: 0,
+      textRole: 'body-2-long',
+    },
+  },
+  toggle: { options: { textRole: 'body-2-long' } },
+  radio: {
+    options: {
+      textRole: 'body-2-long',
+      // The group heading keeps the eyebrow: it *is* the caption above a field.
+      groupTextRole: 'label',
     },
   },
   // Listbox popups: the default active fill is `primary-container`, which this
