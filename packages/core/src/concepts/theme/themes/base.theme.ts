@@ -423,18 +423,44 @@ const buildComponents = (c: Colors): ComponentThemes => ({
   },
   // Selection controls: chrome colors are tokens (accent fill/ring follows the
   // component's variant; its on-color pairs are derived in the component).
+  //
+  // Box and circle geometry is enumerated per size token rather than stated
+  // once, for the reason `toggle.sizes` is: the same app's dense table and its
+  // forms want different controls, and one number cannot say so. `lg` is
+  // BaseComponent's default size and reproduces the pre-`sizes` 20px exactly,
+  // so no existing control moves. A theme that still sets the deprecated
+  // `options.size` outranks this block — deep-merged themes written before
+  // 11.2 would otherwise inherit these numbers and lose their own.
   checkbox: {
     options: {
       motion: 'control',
-      size: 20,
       boxColor: 'surface',
       borderRadius: 2,
       focusRingGap: 2,
+      textRole: 'label',
+      gap: 'sm',
+    },
+    sizes: {
+      sm: { height: 16 },
+      md: { height: 18 },
+      lg: { height: 20 },
     },
     variantOptions: SELECTION_ACCENTS,
   },
   radio: {
-    options: { size: 20, ringColor: 'outline', fillColor: 'surface', motion: 'control' },
+    options: {
+      ringColor: 'outline',
+      fillColor: 'surface',
+      motion: 'control',
+      textRole: 'label',
+      groupTextRole: 'label',
+      gap: 'sm',
+    },
+    sizes: {
+      sm: { height: 16 },
+      md: { height: 18 },
+      lg: { height: 20 },
+    },
     variantOptions: SELECTION_ACCENTS,
   },
   // Three-row surface: the header and buttons pin while only the body scrolls,
@@ -1214,7 +1240,13 @@ const buildComponents = (c: Colors): ComponentThemes => ({
   // `lg` is BaseComponent's default size and reproduces the pre-`sizes`
   // geometry exactly (knob 16, travel 20), so no existing toggle moves.
   toggle: {
-    options: { trackColor: 'surface-variant', knobColor: 'surface', motion: 'control' },
+    options: {
+      trackColor: 'surface-variant',
+      knobColor: 'surface',
+      motion: 'control',
+      textRole: 'label',
+      gap: 'sm',
+    },
     variantOptions: SELECTION_ACCENTS,
     sizes: {
       sm: { width: 28, height: 16, padding: 3 },
