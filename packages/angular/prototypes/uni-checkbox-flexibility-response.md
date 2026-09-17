@@ -173,12 +173,22 @@ Without it a valueless attribute binds the **empty string**, which is falsy — 
 attribute compiles, reads as set, and does nothing. We caught this on our own
 first story, having written the bare-attribute form you used in §3.
 
-Worth knowing, since you will write the same markup there: **`fullWidth` on
-`uni-button`, `uni-input`, `uni-input-box`, `uni-select-input` and `uni-textarea`
-does not have the transform.** `<uni-button fullWidth>` is silently inert today;
-`[fullWidth]="true"` works. It is not fixed here — it is five other components,
-and we would rather change them together and deliberately than as a side effect
-of a checkbox patch. Say the word and we will bring it forward.
+The same defect was on **every other `fullWidth` in the library**, and since you
+will write that markup too, it is fixed in the same release rather than left for
+you to trip over: `uni-button`, `uni-input`, `uni-input-box`, `uni-select`,
+`uni-textarea`, and `box-layout` — which also covers `fullHeight`. So
+`<button text-button fullWidth>`, inert until now, works. `[fullWidth]="true"`
+always did and is unchanged.
+
+One thing that made this worse than it looked, and is worth knowing if you ever
+chase a bare attribute that half-works: the four field components forward
+`fullWidth` down into `box-layout`, and a `booleanAttribute` transform coerces
+the empty string to `true`. So once `box-layout` had the transform, the bare
+attribute on `uni-input` *rendered* correctly while `uni-input`'s own
+`fullWidth()` still held `''`. Our first guard asserted the emitted CSS and
+passed with the transform removed from four of the six declarations — it was
+testing the end of the chain. It now asserts each input's value, and all ten
+declarations fail it individually when reverted.
 
 ---
 
