@@ -234,6 +234,8 @@ Inheritance (inputs listed once, available on all subclasses):
   - `checkedColor: ColorKey` — Accent colour token, overriding the variant's themed accent for one instance. Mirrors `uni-toggle`'s input of the same name — it exists because `variant` defaults to `'primary'`, so the component cannot tell "set to primary" from "not set".
   - `ariaDescribedBy: string` — Id(s) of external element(s) describing this control — typically your app-rendered error message — exposed as aria-describedby.
   - `label: string`
+  - `labelHidden: boolean` = false — Keep `label` as the accessible name, but do not draw it. For the shape where the thing being selected is already on screen beside the box — a table's select column, a row in a list — the name is needed by assistive tech and must not be printed. The string stays in the DOM, so a test querying by label text and a screen reader see the same words.
+  - `fullWidth: boolean` = false — Stretch the control and its label across the container, making the whole width the hit target. Pair it with projected content for a clickable row.
 - two-way models:
   - `checked: boolean` = false
   - `touched: boolean` = false
@@ -446,7 +448,7 @@ Inheritance (inputs listed once, available on all subclasses):
 - selector: `uni-expand-area`
 - inputs:
   - `title: string` (required)
-  - `initCollapsed: unknown` = false, { transform: booleanAttribute }
+  - `initCollapsed: boolean` = false
   - `padding: NullableSize` = 'md'
 - outputs:
   - `collapsed: boolean`
@@ -525,8 +527,8 @@ Inheritance (inputs listed once, available on all subclasses):
   - `iconName: IconName` — Theme icon token rendered beside the label. Prefer this over `symbolName`.
   - `symbolName: string` — Material Symbols ligature, for glyphs the theme's icon set doesn't carry.
   - `iconPosition: 'start' | 'end'` = 'start' — Which side of the label the glyph sits on.
-  - `link: unknown` = false, { transform: booleanAttribute } — Paint the label with the theme's link colour instead of inheriting the ink.
-  - `disable: unknown` = false, { transform: booleanAttribute }
+  - `link: boolean` = false — Paint the label with the theme's link colour instead of inheriting the ink.
+  - `disable: boolean` = false
 
 ## UniInputBoxComponent
 - selector: `uni-input-box`
@@ -553,8 +555,8 @@ Inheritance (inputs listed once, available on all subclasses):
   - `type: UniInputType` = 'text' — Native input type. Text-like types only — `date`/`time` have dedicated components, and non-text types break the input chrome and the string value.
   - `readonly: boolean` = false
   - `name: string` = ''
-  - `minAttr: number | undefined` = undefined, { alias: 'min' }
-  - `maxAttr: number | undefined` = undefined, { alias: 'max' }
+  - `minAttr: number | undefined` = undefined
+  - `maxAttr: number | undefined` = undefined
   - `minLength: number | undefined` = undefined
   - `maxLength: number | undefined` = undefined
   - `pattern: readonly RegExp[]` = [] — Patterns the value must match — all of them, per Signal Forms. The native `pattern` attribute can only express one, so it is reflected only when there is exactly one; Signal Forms validates the rest either way.
@@ -710,8 +712,8 @@ Inheritance (inputs listed once, available on all subclasses):
   - `roundingMode: UniRoundingMode` = 'half-up'
   - `placeholderStart: string`
   - `placeholderEnd: string`
-  - `minValue: number | undefined` = undefined, { alias: 'min' }
-  - `maxValue: number | undefined` = undefined, { alias: 'max' }
+  - `minValue: number | undefined` = undefined
+  - `maxValue: number | undefined` = undefined
   - `step: number` = 1
   - `minGap: number` — Enforced distance between the two ends.
 - two-way models:
@@ -797,12 +799,17 @@ Inheritance (inputs listed once, available on all subclasses):
   - `ariaDescribedBy: string` — Id(s) of external element(s) describing this control — typically your app-rendered error message — exposed as aria-describedby.
   - `options: UniRadioOption[]` = []
   - `label: string`
+  - `labelHidden: boolean` = false — Keep `label` as the group's accessible name, but do not draw it. The heading still carries the id `aria-labelledby` points at, so the group keeps its name; only the option rows are visible.
+  - `fullWidth: boolean` = false — Stretch each option row across the container, so the whole width is the hit target.
   - `name: string` = uniqueId('uni-radio-group')
 - two-way models:
   - `value: string` = ''
   - `touched: boolean` = false
 - outputs:
   - `touch: void` — Angular 22 marks the bound field touched through this output; the `touched` model above is bound inward by the directive and no longer propagates back out. Emitted wherever this control already decided the user was done with it.
+
+## UniRadioOptionDirective
+- selector: `ng-template[uniRadioOption]`
 
 ## UniRowDirective
 - selector: `[uni-row-layout], [row-layout]`
@@ -1013,7 +1020,7 @@ Inheritance (inputs listed once, available on all subclasses):
   - `separators: string[]` = [',', ';']
   - `commitOnBlur: boolean` = true
   - `allowDuplicates: boolean` = false
-  - `maxLength: number | undefined` = undefined, { alias: 'max' }
+  - `maxLength: number | undefined` = undefined
   - `tagVariant: Variant` = 'primary'
   - `tagTone: TagTone` = 'soft'
   - `tagSize: Size`
@@ -1058,7 +1065,7 @@ Inheritance (inputs listed once, available on all subclasses):
 ## UniTextDirective
 - selector: `[uni-text]`
 - inputs:
-  - `uniText: Typeface | ''` = '', { alias: 'uni-text' } — Typeface via the selector attribute: `uni-text="headline-large"`.
+  - `uniText: Typeface | ''` = '' — Typeface via the selector attribute: `uni-text="headline-large"`.
   - `typeface: Typeface | undefined` = undefined — Explicit typeface; the attribute value wins when both are set.
   - `color: ColorKey` — The ink, mapping straight to the CSS `color` property.
   - `display: OptionalDisplay`
@@ -1111,6 +1118,8 @@ Inheritance (inputs listed once, available on all subclasses):
   - `required: boolean` = false — Synced from required() validators by the Signal Forms [formField] directive.
   - `ariaDescribedBy: string` — Id(s) of external element(s) describing this control — typically your app-rendered error message — exposed as aria-describedby.
   - `label: string`
+  - `labelHidden: boolean` = false — Keep `label` as the accessible name, but do not draw it — for a switch in a row or a table cell whose meaning is already on screen beside it. The string stays in the DOM, so a test querying by label text and a screen reader see the same words.
+  - `fullWidth: boolean` = false — Stretch the control and its label across the container, making the whole width the hit target. Pair it with projected content for a clickable row.
   - `checkedColor: ColorKey` — Checked-state track color token, overriding the theme's `toggle.behavior.checkedColor`. This exists alongside the theme option because `variant` — where this color used to live exclusively — defaults to `'primary'`, so the component cannot tell "set to primary" from "not set". Without an input, a theme-level `checkedColor` would silently make per-instance `variant` inert.
 - two-way models:
   - `checked: boolean` = false
