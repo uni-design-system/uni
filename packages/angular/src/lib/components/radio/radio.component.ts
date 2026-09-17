@@ -1,16 +1,27 @@
-import { ChangeDetectionStrategy, Component, computed, input, model, output } from '@angular/core';
+import { NgTemplateOutlet } from '@angular/common';
+import {
+  booleanAttribute,
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  contentChild,
+  input,
+  model,
+  output,
+} from '@angular/core';
 import { FormValueControl } from '@angular/forms/signals';
 import { css } from '@emotion/css';
-import type { ColorKey } from '@uni-design-system/uni-core';
+import type { ColorKey, StyleExpression } from '@uni-design-system/uni-core';
 import { BaseComponent } from '../base';
 import { COMPONENT_NAME } from '../base/base.component';
 import { UniTextDirective } from '../text/text.directive';
 import type { UniRadioOption, UniRadioOptions, UniRadioVariant } from './radio.model';
-import { uniqueId } from '../../cdk';
+import { UniRadioOptionDirective } from './radio-option.directive';
+import { uniqueId, visuallyHidden } from '../../cdk';
 
 @Component({
   selector: 'uni-radio',
-  imports: [UniTextDirective],
+  imports: [UniTextDirective, NgTemplateOutlet],
   templateUrl: './radio.component.html',
   providers: [{ provide: COMPONENT_NAME, useValue: 'radio' }],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -52,8 +63,26 @@ export class UniRadioComponent
   // --- CONFIGURATION ---
   readonly options = input<UniRadioOption[]>([]);
   readonly label = input<string>();
+
+  /**
+   * Keep `label` as the group's accessible name, but do not draw it. The
+   * heading still carries the id `aria-labelledby` points at, so the group
+   * keeps its name; only the option rows are visible.
+   */
+  readonly labelHidden = input(false, { transform: booleanAttribute });
+
+  /** Stretch each option row across the container, so the whole width is the hit target. */
+  readonly fullWidth = input(false, { transform: booleanAttribute });
+
   // Unique default so multiple radio groups on a page never share a name
   readonly name = input<string>(uniqueId('uni-radio-group'));
+
+  /**
+   * Per-option content, in place of the plain label string. Instantiated once
+   * per option with that option as its context — see
+   * {@link UniRadioOptionDirective}.
+   */
+  protected readonly optionTemplate = contentChild(UniRadioOptionDirective);
 
   /** Links the group label to the radiogroup container. */
   protected readonly groupLabelId = uniqueId('uni-radio-label');
@@ -66,8 +95,25 @@ export class UniRadioComponent
     this.touch.emit();
   }
 
+  /** A visually hidden group heading, still announced and still queryable by text. */
+  protected readonly srOnlyClass = css(visuallyHidden);
+
+  /**
+   * Circle geometry for the active `size`, read out of the theme's `sizes`
+   * block as data — the same treatment `uni-toggle` and `uni-calendar` give
+   * theirs, and read from `componentTheme().sizes` rather than through
+   * `style()` so a theme's `fixed` or `variants` block cannot leak a stray
+   * `height` into geometry this component owns.
+   */
+  private readonly sizeStyle = computed(
+    () => (this.componentTheme().sizes?.[this.size()] ?? {}) as StyleExpression
+  );
+
   private readonly metrics = computed(() => {
-    const radioSize = (this.componentOptions().size as number) || 20;
+    // The deprecated global `options.size` still outranks the size block:
+    // themes are deep-merged over the base, so one written before 11.2 would
+    // otherwise inherit our block and have its own number silently overruled.
+    const radioSize = this.componentOptions().size || Number(this.sizeStyle()['height'] ?? 20);
     const innerCircleSize = radioSize * 0.6;
     return {
       outerCircleSize: radioSize,
@@ -76,11 +122,23 @@ export class UniRadioComponent
     };
   });
 
-  protected readonly radioGroupClass = css({
-    display: 'flex',
-    flexDirection: 'column',
-    gap: 12,
+  /**
+   * Space between the option rows, and between the heading and the first one.
+   * Unset stays at the 12px this has always drawn, which is not a step on the
+   * base spacing scale — resolving it as a token would dev-warn on every miss.
+   */
+  private readonly groupGap = computed(() => {
+    const groupGap = this.componentOptions().groupGap;
+    return groupGap ? this.theme.getSpacing(groupGap) : 12;
   });
+
+  protected readonly radioGroupClass = computed(() =>
+    css({
+      display: 'flex',
+      flexDirection: 'column',
+      gap: this.groupGap(),
+    })
+  );
 
   protected readonly radioOptionClass = computed(() => {
     const { outerCircleSize, innerCircleSize, innerCircleOffset } = this.metrics();
@@ -98,8 +156,9 @@ export class UniRadioComponent
       cursor: this.disabled() ? 'not-allowed' : 'pointer',
       display: 'flex',
       alignItems: 'center',
-      gap: 8,
+      gap: this.theme.getSpacing(options.gap ?? 'sm'),
       opacity: this.disabled() ? 0.6 : 1,
+      width: this.fullWidth() ? '100%' : undefined,
 
       '& .radio-button': {
         width: outerCircleSize,

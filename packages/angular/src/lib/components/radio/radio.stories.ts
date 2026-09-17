@@ -1,6 +1,8 @@
 import { argsToTemplate, Meta, moduleMetadata, StoryObj } from '@storybook/angular';
 import { UniRadioComponent as RadioComponent } from './radio.component';
 import { UniBoxDirective, UniRowDirective, UniStackDirective } from '../layout';
+import { UniTextDirective } from '../text/text.directive';
+import { UniRadioOptionDirective } from './radio-option.directive';
 
 type StoryType = RadioComponent;
 
@@ -9,7 +11,13 @@ const meta: Meta<StoryType> = {
   component: RadioComponent,
   decorators: [
     moduleMetadata({
-      imports: [UniStackDirective, UniRowDirective, UniBoxDirective, ],
+      imports: [
+        UniStackDirective,
+        UniRowDirective,
+        UniBoxDirective,
+        UniTextDirective,
+        UniRadioOptionDirective,
+      ],
     }),
   ],
   render: (args) => ({
@@ -38,6 +46,23 @@ const meta: Meta<StoryType> = {
     },
     label: {
       control: 'text',
+      description:
+        "The group's heading and accessible name, drawn in the theme's `radio.groupTextRole` typeface — separate from the options' `radio.textRole`.",
+    },
+    labelHidden: {
+      control: 'boolean',
+      description:
+        'Keep `label` as the group name without drawing the heading. Default: false',
+    },
+    fullWidth: {
+      control: 'boolean',
+      description:
+        'Stretch each option row across the container, so the whole width is the hit target. Default: false',
+    },
+    size: {
+      control: 'select',
+      options: ['sm', 'md', 'lg'],
+      description: "Circle geometry from the theme's `radio` sizes block. Default: 'lg'",
     },
     disabled: {
       control: 'boolean',
@@ -204,5 +229,56 @@ export const FormSignals: Story = {
       isDisabled: false,
       options: defaultOptions,
     },
+  }),
+};
+
+/**
+ * Per-option content, in place of the plain label string. A group renders N
+ * labels from data, so it has no single slot to project into — the template is
+ * instantiated once per option and handed that option.
+ */
+export const OptionTemplate: Story = {
+  render: () => ({
+    props: {
+      plans: [
+        { label: 'Basic', value: 'basic' },
+        { label: 'Pro', value: 'pro' },
+        { label: 'Enterprise', value: 'enterprise' },
+      ],
+      descriptions: {
+        basic: 'One project, community support',
+        pro: 'Ten projects, email support',
+        enterprise: 'Unlimited projects, a named engineer',
+      } as Record<string, string>,
+    },
+    template: `
+      <uni-radio [options]="plans" value="pro" label="Plan" fullWidth>
+        <ng-template uniRadioOption let-option>
+          <span stack-layout gap="xxs">
+            <span uni-text="body-2-long">{{ option.label }}</span>
+            <span uni-text="caption">{{ descriptions[option.value] }}</span>
+          </span>
+        </ng-template>
+      </uni-radio>
+    `,
+  }),
+};
+
+/** The heading and the options are two levels of one hierarchy, themed apart. */
+export const Sizes: Story = {
+  render: () => ({
+    props: {
+      options: [
+        { label: 'Small', value: 'sm' },
+        { label: 'Medium', value: 'md' },
+      ],
+    },
+    template: `
+      <div stack-layout gap="lg">
+        <uni-radio size="sm" label="Small" [options]="options" value="sm"></uni-radio>
+        <uni-radio size="md" label="Medium" [options]="options" value="sm"></uni-radio>
+        <uni-radio size="lg" label="Large" [options]="options" value="sm"></uni-radio>
+      </div>
+    `,
   }),
 };

@@ -17,12 +17,31 @@ group from an `options` array (`{ label, value, disabled? }`), implements
 `FormValueControl<string>` for Signal Forms, and defaults each group to a unique
 `name` so multiple groups on a page never collide.
 
-Ring, fill, and size resolve from the `radio` theme options; the selected dot wears
-the active `variant` color.
+Ring and fill resolve from the `radio` theme options and the selected dot wears the
+active `variant` color; circle geometry comes from the theme's `sizes` block. The
+group heading and the option labels have separate type roles (`groupTextRole` and
+`textRole`), so a group can have a hierarchy rather than two levels at one size.
+
+`value` is a `model`. Bind it two-way, or hold it in your own signal: a change your
+app declines does not snap back on its own, because a one-way `[value]` expression
+has not changed and Angular writes nothing.
 
 ## Usage
 
 <StoryUsage of={Stories.Default} />
+
+## Option content
+
+A group renders N labels from its `options` array, so it has no single slot to
+project into. Supply an `<ng-template uniRadioOption let-option>` instead — it is
+instantiated once per option, handed that option, and lands inside its own `<label>`,
+so the whole row selects.
+
+<StoryExample of={Stories.OptionTemplate} />
+
+## Sizes
+
+<StoryExample of={Stories.Sizes} />
 
 ## Individually disabled options
 
@@ -39,13 +58,16 @@ the active `variant` color.
 ## Accessibility
 
 - `role="radiogroup"` labelled by the group label via `aria-labelledby`.
+- `labelHidden` hides that heading visually while it still names the group.
 - Native radio inputs: arrow keys move selection within the group, Tab moves out.
 - `aria-invalid` reflects the error state once the group was touched or is dirty.
 
 ## Do
 
 - Use for 2–5 mutually exclusive options that should all be visible
+- Give the heading and the options different type roles, so the group reads as one
 
 ## Don't
 
 - Use for long option lists — that is a select
+- Bind `[value]` one way and expect a declined change to snap back
