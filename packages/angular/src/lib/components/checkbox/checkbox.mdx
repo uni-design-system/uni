@@ -18,8 +18,16 @@ Binary choice control for forms: check to opt in, submit to apply. It implements
 `indeterminate` model for "select all" parents — cleared automatically on the next
 user interaction, matching native behavior.
 
-The box color, check stroke (the variant's paired on-color), and size resolve from
-the `checkbox` theme options.
+The box color, check stroke (the variant's paired on-color), the label's typeface
+and the gap beside it all resolve from the `checkbox` theme options; box geometry
+comes from the theme's `sizes` block, so `size="sm"` gives a dense table its own
+control without a second component.
+
+`checked` is a `model`. Bind it two-way, or hold the value in your own signal: if
+your app declines a change the user made — a server refusal, an optimistic update
+that rolls back to the same value — a one-way `[checked]` expression has not
+changed, so Angular writes nothing and the box keeps the state the user left it
+in. The same applies to `indeterminate`, which a user interaction clears.
 
 ## Usage
 
@@ -28,6 +36,29 @@ the `checkbox` theme options.
 ## Variants
 
 <StoryExample of={Stories.Variants} />
+
+## Naming without printing the name
+
+A checkbox in a select column, or beside a row that already says what it selects,
+needs a name for assistive tech that must not be drawn. `labelHidden` keeps the
+string in the DOM — so a test querying by label text and a screen reader see the
+same words — and takes it out of flow, so the control measures exactly its box.
+
+<StoryExample of={Stories.HiddenLabel} />
+
+## The row as the hit target
+
+HTML forbids a `<label>` inside a `<label>`, so the natural markup for "the whole
+row toggles this" becomes illegal the moment the row contains a checkbox. Project
+the row's content into the checkbox instead: it lands inside the control's own
+`<label>`, which makes the whole row clickable and keyboard-operable with no click
+handler, no `stopPropagation`, and one tab stop.
+
+<StoryExample of={Stories.RowAsHitTarget} />
+
+## Sizes
+
+<StoryExample of={Stories.Sizes} />
 
 ## Signal Forms
 
@@ -40,13 +71,19 @@ the `checkbox` theme options.
 ## Accessibility
 
 - Semantic `<input type="checkbox">` + `<label>`; Space toggles.
+- `labelHidden` hides the label visually while keeping it as the accessible name.
+- Projected content sits inside that same `<label>`, so it names and activates the control.
 - `aria-invalid` reflects the error state once the field was touched or is dirty.
 - The indeterminate visual state is carried by the native `indeterminate` property, announced as "mixed".
 
 ## Do
 
 - Use for choices that apply when the form is submitted
+- Reach for `labelHidden` rather than clipping the label with app CSS
+- Project the row's content when the whole row should be the hit target
 
 ## Don't
 
 - Use for instant on/off effects — that is a toggle
+- Wrap a checkbox in your own `<label>` — nesting is illegal; project instead
+- Bind `[checked]` one way and expect a declined change to snap back

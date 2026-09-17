@@ -1,7 +1,16 @@
-import { ChangeDetectionStrategy, Component, computed, input, model, output } from '@angular/core';
+import {
+  booleanAttribute,
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  input,
+  model,
+  output,
+} from '@angular/core';
 import { FormCheckboxControl } from '@angular/forms/signals';
 import { css } from '@emotion/css';
-import type { ColorKey } from '@uni-design-system/uni-core';
+import type { ColorKey, StyleExpression } from '@uni-design-system/uni-core';
+import { visuallyHidden } from '../../cdk';
 import { BaseComponent } from '../base';
 import { COMPONENT_NAME } from '../base/base.component';
 import { UniTextDirective } from '../text/text.directive';
@@ -12,6 +21,7 @@ import type { UniCheckboxOptions, UniCheckboxVariant } from './checkbox.model';
   imports: [UniTextDirective],
   templateUrl: './checkbox.component.html',
   providers: [{ provide: COMPONENT_NAME, useValue: 'checkbox' }],
+  host: { '[class]': 'hostClass()' },
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class UniCheckboxComponent
@@ -53,6 +63,22 @@ export class UniCheckboxComponent
   readonly label = input<string>();
 
   /**
+   * Keep `label` as the accessible name, but do not draw it.
+   *
+   * For the shape where the thing being selected is already on screen beside
+   * the box — a table's select column, a row in a list — the name is needed by
+   * assistive tech and must not be printed. The string stays in the DOM, so a
+   * test querying by label text and a screen reader see the same words.
+   */
+  readonly labelHidden = input(false, { transform: booleanAttribute });
+
+  /**
+   * Stretch the control and its label across the container, making the whole
+   * width the hit target. Pair it with projected content for a clickable row.
+   */
+  readonly fullWidth = input(false, { transform: booleanAttribute });
+
+  /**
    * Mixed state for "select all"-style parent checkboxes. Cleared
    * automatically on the next user interaction, matching native behavior.
    */
@@ -80,6 +106,51 @@ export class UniCheckboxComponent
   /** The tick is drawn rather than switched, so it trails the box. */
   private readonly drawMotion = computed(() => this.theme.motion('reveal'));
 
+  /** A visually hidden `label`, still announced and still queryable by text. */
+  protected readonly srOnlyClass = css(visuallyHidden);
+
+  /**
+   * The host is inline-flex so `<uni-checkbox>` measures the control it
+   * contains. Without a display it is inline, and the flex `<label>` inside
+   * makes it generate block boxes — so the element filled its container and a
+   * checkbox in a narrow grid track could not be sized by measuring it.
+   */
+  protected readonly hostClass = computed(() =>
+    css({
+      display: 'inline-flex',
+      width: this.fullWidth() ? '100%' : undefined,
+    })
+  );
+
+  /**
+   * Box geometry for the active `size`, read out of the theme's `sizes` block
+   * as data — the same treatment `uni-toggle` and `uni-calendar` give theirs.
+   *
+   * Read from `componentTheme().sizes` rather than through `style()` so a
+   * theme's `fixed` or `variants` block cannot leak a stray `height` into the
+   * box, which is geometry this component owns.
+   */
+  private readonly sizeStyle = computed(
+    () => (this.componentTheme().sizes?.[this.size()] ?? {}) as StyleExpression
+  );
+
+  /**
+   * The deprecated global `options.size` still outranks the size block.
+   *
+   * Themes are deep-merged over the base, so a theme written before 11.2 —
+   * which states one number and knows nothing of `sizes` — would otherwise
+   * inherit our block and have its own size silently overruled. Deleting that
+   * key is how a theme opts into per-size geometry.
+   */
+  private readonly boxSize = computed(
+    () => this.componentOptions().size ?? Number(this.sizeStyle()['height'] ?? 20)
+  );
+
+  /** Space between the box and its label, as a spacing token. */
+  private readonly gap = computed(() =>
+    this.theme.getSpacing(this.componentOptions().gap ?? 'sm')
+  );
+
   protected readonly checkboxLabel = computed(() =>
     css({
       userSelect: 'none',
@@ -87,8 +158,9 @@ export class UniCheckboxComponent
       marginBottom: 0,
       display: 'flex',
       alignItems: 'center',
-      gap: 8,
+      gap: this.gap(),
       opacity: this.disabled() ? 0.6 : 1,
+      width: this.fullWidth() ? '100%' : undefined,
 
       '&:hover .checkbox svg path': this.disabled()
         ? {}
@@ -97,8 +169,9 @@ export class UniCheckboxComponent
           },
 
       '& .checkbox': {
-        height: this.componentOptions().size,
-        width: this.componentOptions().size,
+        height: this.boxSize(),
+        width: this.boxSize(),
+        flexShrink: 0,
       },
 
       '& .checkbox svg': {
