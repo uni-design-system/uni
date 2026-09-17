@@ -92,6 +92,18 @@ All controls implement `FormValueControl`/`FormCheckboxControl` and set
 - **Toggle** — announced as a switch (`role="switch"`).
 - **Radio** — `role="radiogroup"` labelled by its `label`; group `name` is
   unique per instance by default. Arrow keys move within the group natively.
+- **Checkbox / Toggle / Radio — naming without drawing.** `labelHidden` renders
+  `label` visually hidden rather than dropping it, so the name stays in the DOM:
+  a screen reader announces, and a test queries by, the same string. Prefer it
+  to clipping the label with app CSS. On Radio it hides the group heading only;
+  the heading still carries the id `aria-labelledby` points at.
+- **Checkbox / Toggle — projected content.** `<ng-content />` is projected
+  *inside* the control's own `<label>`, which is what makes a whole row a hit
+  target: HTML forbids nesting a `<label>`, so a consumer cannot wrap one
+  around the control. The projected content names and activates the input, the
+  input stays the only tab stop, and no click handler is needed. Radio takes an
+  `<ng-template uniRadioOption>` instead, one instance per option, inside that
+  option's `<label>`.
 - **SelectInput** — native `<select>`; provide `ariaLabel` (a placeholder is
   not a label).
 - All controls expose `required` (synced from `required()` validators by the
