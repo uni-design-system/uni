@@ -63,7 +63,17 @@ function parseFile(path) {
     const line = src.slice(lineStart, m.index + m[0].length);
     if (/^\s{2}(protected|private)/.test(line)) continue;
     let resolvedType = (type || '').trim();
-    const def = kind.includes('required') ? undefined : defaultVal?.trim() || undefined;
+    let def = kind.includes('required') ? undefined : defaultVal?.trim() || undefined;
+    // `input(false, { transform: booleanAttribute })` — the options object is
+    // not part of the default, and a `booleanAttribute` transform is what makes
+    // a valueless attribute (`<uni-checkbox labelHidden>`) read as true. Report
+    // the accepted type, not the raw argument list.
+    const options = def?.match(/,\s*\{([\s\S]*)\}$/);
+    if (options) {
+      def = def.slice(0, options.index).trim();
+      if (/transform:\s*booleanAttribute/.test(options[1])) resolvedType ||= 'boolean';
+      else if (/transform:\s*numberAttribute/.test(options[1])) resolvedType ||= 'number';
+    }
     if (!resolvedType) {
       // No explicit generic: infer from the default value literal
       if (def === 'true' || def === 'false') resolvedType = 'boolean';
