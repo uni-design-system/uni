@@ -1,4 +1,10 @@
-import { ChangeDetectionStrategy, Component, computed, input } from '@angular/core';
+import {
+  booleanAttribute,
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  input,
+} from '@angular/core';
 import { css } from '@emotion/css';
 
 import { BaseComponent, COMPONENT_NAME } from '../base/base.component';
@@ -38,7 +44,7 @@ import { RippleDirective } from '../../directives/ripple';
 export class UniButtonComponent extends BaseComponent<UniButtonOptions, UniButtonVariant> {
   readonly disable = input<boolean | undefined>(false);
   readonly loading = input<boolean | undefined>(false);
-  readonly fullWidth = input<boolean>(false);
+  readonly fullWidth = input(false, { transform: booleanAttribute });
 
   readonly symbolLeft = input<string>();
   readonly symbolRight = input<string>();

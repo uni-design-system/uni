@@ -1,4 +1,12 @@
-import { ChangeDetectionStrategy, Component, computed, inject, input, model } from '@angular/core';
+import {
+  booleanAttribute,
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  inject,
+  input,
+  model,
+} from '@angular/core';
 import { FormValueControl } from '@angular/forms/signals';
 import { css } from '@emotion/css';
 import type { Options } from '../../cdk';
@@ -41,7 +49,7 @@ export class UniSelectComponent<T> implements FormValueControl<T | null> {
 
   // --- SIZING (forwarded to uni-input-box) ---
   readonly width = input<string | number | undefined>(undefined);
-  readonly fullWidth = input<boolean>(false);
+  readonly fullWidth = input(false, { transform: booleanAttribute });
   readonly grow = input<number | undefined>(undefined);
 
   /**

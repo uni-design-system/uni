@@ -1,4 +1,10 @@
-import { ChangeDetectionStrategy, Component, computed, input } from '@angular/core';
+import {
+  booleanAttribute,
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  input,
+} from '@angular/core';
 import { css } from '@emotion/css';
 import { removeInputPlatformStyling } from '@uni-design-system/uni-core';
 import { BaseComponent } from '../base';
@@ -27,7 +33,7 @@ export class UniInputBoxComponent extends BaseComponent<UniInputBoxOptions> {
   // set on `<uni-input-box>` itself would be dropped; these reach the real
   // field element instead, which is what a call site actually wants.
   width = input<string | number | undefined>(undefined);
-  fullWidth = input<boolean>(false);
+  fullWidth = input(false, { transform: booleanAttribute });
   grow = input<number | undefined>(undefined);
 
   /**

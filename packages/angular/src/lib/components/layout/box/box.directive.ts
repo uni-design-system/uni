@@ -1,4 +1,4 @@
-import { Directive, computed, inject, input } from '@angular/core';
+import { booleanAttribute, Directive, computed, inject, input } from '@angular/core';
 import { css } from '@emotion/css';
 
 import type {
@@ -112,8 +112,8 @@ export class UniBoxDirective {
   overflow = input<OptionalOverflow>();
   shadow = input<Shadow>();
   gap = input<OptionalSize>();
-  fullWidth = input<boolean>();
-  fullHeight = input<boolean>();
+  fullWidth = input(false, { transform: booleanAttribute });
+  fullHeight = input(false, { transform: booleanAttribute });
   flexDirection = input<OptionalFlexDirection>();
   textAlign = input<OptionalTextAlign>();
   wrapItems = input<OptionalWrap>(undefined);

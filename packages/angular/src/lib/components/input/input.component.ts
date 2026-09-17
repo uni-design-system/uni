@@ -1,4 +1,12 @@
-import { ChangeDetectionStrategy, Component, computed, input, model, output } from '@angular/core';
+import {
+  booleanAttribute,
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  input,
+  model,
+  output,
+} from '@angular/core';
 import { FormValueControl } from '@angular/forms/signals';
 import { css } from '@emotion/css';
 import { UniInputBoxComponent } from '../input-box/input-box.component';
@@ -90,7 +98,7 @@ export class UniInputComponent implements FormValueControl<string> {
 
   // --- SIZING (forwarded to uni-input-box) ---
   width = input<string | number | undefined>(undefined);
-  fullWidth = input<boolean>(false);
+  fullWidth = input(false, { transform: booleanAttribute });
   grow = input<number | undefined>(undefined);
 
   // Only show errors if the user has actually interacted with the field

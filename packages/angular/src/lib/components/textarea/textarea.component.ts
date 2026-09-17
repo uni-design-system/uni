@@ -1,4 +1,13 @@
-import { ChangeDetectionStrategy, Component, computed, inject, input, model, output } from '@angular/core';
+import {
+  booleanAttribute,
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  inject,
+  input,
+  model,
+  output,
+} from '@angular/core';
 import { FormValueControl } from '@angular/forms/signals';
 import { css } from '@emotion/css';
 import { ThemeService } from '../../theming';
@@ -55,7 +64,7 @@ export class UniTextareaComponent implements FormValueControl<string> {
 
   // --- SIZING (forwarded to uni-input-box) ---
   width = input<string | number | undefined>(undefined);
-  fullWidth = input<boolean>(false);
+  fullWidth = input(false, { transform: booleanAttribute });
   grow = input<number | undefined>(undefined);
 
   private options = this.theme.getComponentOptions<UniTextareaOptions>('textarea');
