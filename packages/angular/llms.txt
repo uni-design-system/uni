@@ -132,8 +132,8 @@ Inheritance (inputs listed once, available on all subclasses):
   - `overflow: OptionalOverflow`
   - `shadow: Shadow`
   - `gap: OptionalSize`
-  - `fullWidth: boolean`
-  - `fullHeight: boolean`
+  - `fullWidth: boolean` = false
+  - `fullHeight: boolean` = false
   - `flexDirection: OptionalFlexDirection`
   - `textAlign: OptionalTextAlign`
   - `wrapItems: OptionalWrap` = undefined
