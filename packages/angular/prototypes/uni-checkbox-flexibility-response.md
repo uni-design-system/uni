@@ -173,12 +173,15 @@ Without it a valueless attribute binds the **empty string**, which is falsy — 
 attribute compiles, reads as set, and does nothing. We caught this on our own
 first story, having written the bare-attribute form you used in §3.
 
-The same defect was on **every other `fullWidth` in the library**, and since you
-will write that markup too, it is fixed in the same release rather than left for
-you to trip over: `uni-button`, `uni-input`, `uni-input-box`, `uni-select`,
-`uni-textarea`, and `box-layout` — which also covers `fullHeight`. So
-`<button text-button fullWidth>`, inert until now, works. `[fullWidth]="true"`
-always did and is unchanged.
+The same defect was on **every other valueless boolean attribute in the
+library**, and since you will write that markup too, it is fixed in the same
+release rather than left for you to trip over: `fullWidth` on `uni-button`,
+`uni-input`, `uni-input-box`, `uni-select`, `uni-textarea` and `box-layout`
+(which also covers `fullHeight`), plus **`disable` and `loading` on
+`uni-button`**. So `<button text-button fullWidth>` works, and so does
+`<button text-button disable>` — which until now rendered an enabled button,
+and is the one in this set worth auditing your own templates for.
+`[disable]="expr"` always worked and is unchanged.
 
 One thing that made this worse than it looked, and is worth knowing if you ever
 chase a bare attribute that half-works: the four field components forward

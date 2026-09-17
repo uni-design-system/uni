@@ -42,8 +42,8 @@ import { RippleDirective } from '../../directives/ripple';
   hostDirectives: [{ directive: RippleDirective }],
 })
 export class UniButtonComponent extends BaseComponent<UniButtonOptions, UniButtonVariant> {
-  readonly disable = input<boolean | undefined>(false);
-  readonly loading = input<boolean | undefined>(false);
+  readonly disable = input(false, { transform: booleanAttribute });
+  readonly loading = input(false, { transform: booleanAttribute });
   readonly fullWidth = input(false, { transform: booleanAttribute });
 
   readonly symbolLeft = input<string>();

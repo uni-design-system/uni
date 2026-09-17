@@ -150,8 +150,8 @@ Inheritance (inputs listed once, available on all subclasses):
 ## UniButtonComponent
 - selector: `button[uni-text-button], button[text-button]`
 - inputs:
-  - `disable: boolean | undefined` = false
-  - `loading: boolean | undefined` = false
+  - `disable: boolean` = false
+  - `loading: boolean` = false
   - `fullWidth: boolean` = false
   - `symbolLeft: string`
   - `symbolRight: string`

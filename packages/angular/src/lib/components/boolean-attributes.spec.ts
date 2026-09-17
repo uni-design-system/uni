@@ -1,5 +1,5 @@
 /**
- * `fullWidth` as a valueless attribute, across every component that offers it.
+ * Valueless boolean attributes, across every component that offers one.
  *
  * A signal input with no transform binds a valueless attribute as the **empty
  * string**, which is falsy — so `<button text-button fullWidth>` compiles,
@@ -147,4 +147,54 @@ describe('fullWidth as a bare attribute', () => {
       );
     });
   }
+});
+
+/**
+ * `uni-button`'s own pair. They are asserted through the host attributes rather
+ * than the emitted CSS, because that is where they land: `disabled` is what
+ * actually stops the click, and it is produced by
+ * `disable() || loading() || null`.
+ */
+describe('uni-button disable and loading as bare attributes', () => {
+  const render = async (template: string) => {
+    const Host = Component({
+      selector: 'uni-test-host',
+      imports: [UniButtonComponent],
+      template,
+    })(class TestHost {});
+    TestBed.resetTestingModule();
+    await TestBed.configureTestingModule({ imports: [Host] }).compileComponents();
+    const fixture = TestBed.createComponent(Host);
+    fixture.detectChanges();
+    const button = (fixture.nativeElement as HTMLElement).querySelector('button')!;
+    const instance = fixture.debugElement
+      .query((node) => (node.nativeElement as HTMLElement | null)?.matches?.('button') === true)
+      .injector.get(UniButtonComponent);
+    return { button, instance };
+  };
+
+  it('reads a bare `disable` as true, and disables the button', async () => {
+    const { button, instance } = await render(`<button text-button disable>Save</button>`);
+    expect(instance.disable()).toBe(true);
+    expect(button.hasAttribute('disabled')).toBe(true);
+  });
+
+  it('reads a bare `loading` as true, and marks the button busy', async () => {
+    const { button, instance } = await render(`<button text-button loading>Save</button>`);
+    expect(instance.loading()).toBe(true);
+    // Loading disables as well — a request is already in flight.
+    expect(button.hasAttribute('disabled')).toBe(true);
+    expect(button.getAttribute('aria-busy')).toBe('true');
+    expect(button.querySelector('uni-icon')).not.toBeNull();
+  });
+
+  it('leaves an unset button alone', async () => {
+    const { button, instance } = await render(`<button text-button>Save</button>`);
+    expect(instance.disable()).toBe(false);
+    expect(instance.loading()).toBe(false);
+    // `disable() || loading() || null` — null removes the attribute entirely,
+    // rather than rendering `disabled="false"`, which the DOM reads as true.
+    expect(button.hasAttribute('disabled')).toBe(false);
+    expect(button.hasAttribute('aria-busy')).toBe(false);
+  });
 });
