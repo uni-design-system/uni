@@ -213,11 +213,28 @@ describe('UniDrawerComponent', () => {
     });
 
     it('closes when the backdrop (the dialog element itself) is clicked', () => {
-      openOverlay().dispatchEvent(new Event('click', { bubbles: true }));
+      const panel = openOverlay();
+      panel.dispatchEvent(new Event('pointerdown', { bubbles: true }));
+      panel.dispatchEvent(new Event('click', { bubbles: true }));
       fixture.detectChanges();
 
       expect(requests).toEqual([{ reason: 'backdrop' }]);
       expect(fixture.componentInstance.open()).toBe(false);
+    });
+
+    it('stays open when a selection is dragged from the panel onto the backdrop', () => {
+      const panel = openOverlay();
+      const field = document.createElement('input');
+      panel.appendChild(field);
+
+      // A real drag's click targets the common ancestor of press and release —
+      // the dialog — which is what the old target-only check mistook for the scrim.
+      field.dispatchEvent(new Event('pointerdown', { bubbles: true }));
+      panel.dispatchEvent(new Event('click', { bubbles: true }));
+      fixture.detectChanges();
+
+      expect(requests).toEqual([]);
+      expect(fixture.componentInstance.open()).toBe(true);
     });
 
     it('asks but does not act while disableAutoClose is set', () => {
@@ -225,6 +242,7 @@ describe('UniDrawerComponent', () => {
       const panel = openOverlay();
 
       panel.dispatchEvent(new Event('cancel', { cancelable: true }));
+      panel.dispatchEvent(new Event('pointerdown', { bubbles: true }));
       panel.dispatchEvent(new Event('click', { bubbles: true }));
       fixture.detectChanges();
 

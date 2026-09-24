@@ -19,7 +19,7 @@ import { COMPONENT_NAME } from '../base/base.component';
 import { UniIconButtonComponent } from '../icon-button';
 import type { UniDialogOptions } from './dialog.model';
 import { fadeIn, fadeOut } from '@uni-design-system/uni-core';
-import { uniqueId } from '../../cdk';
+import { BackdropDismiss, uniqueId } from '../../cdk';
 
 /**
  * Modal dialog on the native `<dialog>` element, laid out as three rows:
@@ -70,6 +70,7 @@ import { uniqueId } from '../../cdk';
     '[attr.aria-labelledby]': 'hasTitle() ? titleId : null',
     '[attr.aria-label]': 'ariaLabel() ?? null',
     '[class]': 'className()',
+    '(pointerdown)': 'backdrop.press($event)',
     '(click)': 'backdropClick($event)',
     '(cancel)': 'escapeCancel($event)',
     '(animationend)': 'closingAnimation($event)',
@@ -197,8 +198,11 @@ export class UniDialogComponent extends BaseComponent<UniDialogOptions> {
     })
   );
 
+  /** Tells a click on the scrim from a drag that merely ended there. */
+  protected readonly backdrop = new BackdropDismiss();
+
   protected backdropClick(event: Event) {
-    if ((event.target as HTMLElement).nodeName === 'DIALOG') {
+    if (this.backdrop.isBackdropClick(event)) {
       this.close();
     }
   }

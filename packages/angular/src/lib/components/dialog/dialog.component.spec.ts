@@ -70,6 +70,47 @@ describe('UniDialogComponent', () => {
 })
 class DialogHost {}
 
+@Component({
+  imports: [UniDialogComponent],
+  template: `<dialog uni-dialog [show]="true" ariaLabel="Edit"><input id="field" value="text" /></dialog>`,
+})
+class BackdropHost {}
+
+/**
+ * jsdom has no `::backdrop`, and a synthetic click skips the common-ancestor
+ * rule, so each gesture is the pair of events a real drag produces. The
+ * Storybook play function is where a real drag is exercised.
+ */
+describe('UniDialogComponent backdrop clicks', () => {
+  let fixture: ComponentFixture<BackdropHost>;
+  let dialog: HTMLDialogElement;
+
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({ imports: [BackdropHost] }).compileComponents();
+    fixture = TestBed.createComponent(BackdropHost);
+    fixture.detectChanges();
+    dialog = fixture.nativeElement.querySelector('dialog');
+  });
+
+  it('closes on a press and release on the backdrop', () => {
+    dialog.dispatchEvent(new Event('pointerdown', { bubbles: true }));
+    dialog.dispatchEvent(new Event('click', { bubbles: true }));
+
+    expect(dialog.hasAttribute('closing')).toBe(true);
+  });
+
+  it('stays open when a selection is dragged from a field onto the backdrop', () => {
+    const field = dialog.querySelector('#field')!;
+
+    // A real drag's click targets the common ancestor of press and release —
+    // the dialog — which is what the old target-only check mistook for the scrim.
+    field.dispatchEvent(new Event('pointerdown', { bubbles: true }));
+    dialog.dispatchEvent(new Event('click', { bubbles: true }));
+
+    expect(dialog.hasAttribute('closing')).toBe(false);
+  });
+});
+
 describe('UniDialogComponent rows', () => {
   let fixture: ComponentFixture<DialogHost>;
 

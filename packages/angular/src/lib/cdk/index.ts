@@ -8,6 +8,7 @@ export * from './number/press-repeat';
 export * from './listbox/listbox-navigation';
 export * from './position/anchor';
 export * from './overlay/overlay';
+export * from './overlay/backdrop-dismiss';
 export * from './datasource';
 export * from './local-storage/local-storage.service';
 export * from './notification';

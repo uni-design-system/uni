@@ -16,7 +16,7 @@ import { NgTemplateOutlet } from '@angular/common';
 import { css, keyframes } from '@emotion/css';
 import { fadeIn, fadeOut } from '@uni-design-system/uni-core';
 import { BaseComponent, COMPONENT_NAME } from '../base/base.component';
-import { uniqueId } from '../../cdk';
+import { BackdropDismiss, uniqueId } from '../../cdk';
 import { UniDrawerHeaderComponent } from './drawer-header/drawer-header.component';
 import {
   DRAWER_PANEL,
@@ -78,7 +78,8 @@ import {
         <ng-container [ngTemplateOutlet]="footerTemplate()" />
       </aside>
     } @else {
-      <!-- Click handles the ::backdrop only (target check); keyboard closing
+      <!-- Click handles the ::backdrop only (press-origin + target check, see
+           BackdropDismiss); keyboard closing
            is the native dialog cancel event, and focus is trapped by
            showModal — the element needs no tabindex of its own. -->
       <!-- eslint-disable-next-line @angular-eslint/template/click-events-have-key-events, @angular-eslint/template/interactive-supports-focus -->
@@ -87,6 +88,7 @@ import {
         [class]="overClass()"
         [attr.aria-labelledby]="labelledBy()"
         [attr.aria-label]="labelledBy() ? null : ariaLabel()"
+        (pointerdown)="backdrop.press($event)"
         (click)="onBackdropClick($event)"
         (cancel)="onCancel($event)"
         (animationend)="onAnimationEnd($event)"
@@ -203,8 +205,11 @@ export class UniDrawerComponent extends BaseComponent<UniDrawerOptions> {
     if (!this.disableAutoClose()) this.open.set(false);
   }
 
+  /** Tells a click on the scrim from a drag that merely ended there. */
+  protected readonly backdrop = new BackdropDismiss();
+
   protected onBackdropClick(event: Event): void {
-    if ((event.target as HTMLElement).nodeName === 'DIALOG') this.requestClose('backdrop');
+    if (this.backdrop.isBackdropClick(event)) this.requestClose('backdrop');
   }
 
   /** Route Escape through the animated close, keeping `open` in sync. */
