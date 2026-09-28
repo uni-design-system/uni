@@ -1,7 +1,7 @@
 {
   "meta": {
     "version": "11.3.0",
-    "builtAt": "2026-09-28T18:24:27.814Z",
+    "builtAt": "2026-09-28T18:28:45.102Z",
     "frameworks": [
       "angular"
     ],
@@ -9376,10 +9376,10 @@
             {
               "name": "ellipsis",
               "kind": "input",
-              "type": "boolean",
+              "type": "unknown",
               "required": false,
-              "default": "false",
-              "description": ""
+              "default": "false, { transform: booleanAttribute }",
+              "description": "Truncates overflow with an ellipsis. A bare `ellipsis` attribute is `true`; absent is `false`."
             }
           ]
         }

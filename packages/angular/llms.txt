@@ -1073,7 +1073,7 @@ Inheritance (inputs listed once, available on all subclasses):
   - `align: OptionalTextAlign` — @deprecated Use `textAlign`. `align` collides with HTML's obsolete `align` attribute, so IDEs flag it and a static value is left in the DOM. Removed in the next major.
   - `nowrap: boolean` = false — Keeps the text on one line. A bare `nowrap` attribute is `true`; absent is `false`.
   - `maxWidth: number`
-  - `ellipsis: boolean` = false
+  - `ellipsis: boolean` = false — Truncates overflow with an ellipsis. A bare `ellipsis` attribute is `true`; absent is `false`.
 
 ## UniThemeBuilderComponent
 - selector: `uni-theme-builder`

@@ -236,3 +236,40 @@ describe('uni-text nowrap as a bare attribute', () => {
     expect(instance.nowrap()).toBe(false);
   });
 });
+
+/** `uni-text`'s `ellipsis`: present truncates overflow, absent lets it show. */
+describe('uni-text ellipsis as a bare attribute', () => {
+  const render = async (template: string) => {
+    const Host = Component({
+      selector: 'uni-test-host',
+      imports: [UniTextDirective],
+      template,
+    })(class TestHost {});
+    TestBed.resetTestingModule();
+    await TestBed.configureTestingModule({ imports: [Host] }).compileComponents();
+    const fixture = TestBed.createComponent(Host);
+    fixture.detectChanges();
+    const span = (fixture.nativeElement as HTMLElement).querySelector('span')!;
+    const instance = fixture.debugElement
+      .query((node) => (node.nativeElement as HTMLElement | null)?.matches?.('span') === true)
+      .injector.get(UniTextDirective);
+    return { span, instance };
+  };
+
+  it('reads a bare `ellipsis` as true, and truncates overflow', async () => {
+    const { span, instance } = await render(`<span uni-text ellipsis>Label</span>`);
+    expect(instance.ellipsis()).toBe(true);
+    expect(emittedRuleFor(span)).toContain('text-overflow:ellipsis');
+  });
+
+  it('reads an absent `ellipsis` as false, and leaves overflow alone', async () => {
+    const { span, instance } = await render(`<span uni-text>Label</span>`);
+    expect(instance.ellipsis()).toBe(false);
+    expect(emittedRuleFor(span)).not.toContain('text-overflow:ellipsis');
+  });
+
+  it('reads `ellipsis="false"` as false', async () => {
+    const { instance } = await render(`<span uni-text ellipsis="false">Label</span>`);
+    expect(instance.ellipsis()).toBe(false);
+  });
+});

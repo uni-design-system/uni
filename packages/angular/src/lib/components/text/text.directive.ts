@@ -65,7 +65,8 @@ export class UniTextDirective {
   /** Keeps the text on one line. A bare `nowrap` attribute is `true`; absent is `false`. */
   nowrap = input(false, { transform: booleanAttribute });
   maxWidth = input<number>();
-  ellipsis = input<boolean>(false);
+  /** Truncates overflow with an ellipsis. A bare `ellipsis` attribute is `true`; absent is `false`. */
+  ellipsis = input(false, { transform: booleanAttribute });
 
   private readonly resolvedAlign = computed(() => this.textAlign() ?? this.align());
 
