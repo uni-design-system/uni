@@ -338,7 +338,15 @@ describe('UniSliderComponent', () => {
   });
 
   describe('focus ring', () => {
-    const ringed = (): boolean => stylesFor(thumb().className).includes(':focus-visible');
+    /** The thumb's :focus-visible declarations, whitespace stripped. */
+    const focusRule = (): string =>
+      stylesFor(thumb().className)
+        .replace(/\s+/g, '')
+        .match(/:focus-visible\{([^}]*)\}/)?.[1] ?? '';
+    // Present and not blanked. An absent rule is not "no ring": the browser's
+    // own outline then shows, which is the bug this block once shipped.
+    const ringed = (): boolean => focusRule() !== '' && !focusRule().includes('outline:none');
+    const blanked = (): boolean => focusRule().includes('outline:none');
 
     beforeEach(() => {
       fixture.componentInstance.value.set(0);
@@ -354,9 +362,9 @@ describe('UniSliderComponent', () => {
       // pointerdown focuses the thumb from script, which Chrome matches as
       // :focus-visible — so the rule itself has to stand down.
       pointer('pointerdown', 40, thumb());
-      expect(ringed()).toBe(false);
+      expect(blanked()).toBe(true);
       pointer('pointerup', 40);
-      expect(ringed()).toBe(false);
+      expect(blanked()).toBe(true);
     });
 
     it('brings the ring back once a key moves the grabbed thumb', () => {

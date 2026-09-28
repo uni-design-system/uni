@@ -141,7 +141,9 @@ export class UniSliderComponent
    * scripted (pointerdown focuses the thumb before the browser's own mouse
    * focus runs), so Chrome counts it as programmatic and matches
    * `:focus-visible`, drawing the keyboard ring on every grab. The ring is
-   * withheld until a key is pressed, as native controls do.
+   * withheld until a key is pressed, as native controls do — by a rule that
+   * draws nothing, not by dropping the rule: the ring is also what replaces
+   * the browser's own outline, and without it Chrome paints its default.
    */
   protected readonly pointerFocused = signal(false);
 
@@ -681,7 +683,9 @@ export class UniSliderComponent
         boxSizing: 'border-box',
         ...this.theme.boxShadow(options.thumbShadow),
       },
-      ...(this.pointerFocused() ? {} : this.theme.focusRing()),
+      ...(this.pointerFocused()
+        ? { '&:focus-visible': { outline: 'none', boxShadow: 'none' } }
+        : this.theme.focusRing()),
       ...(this.dragging()
         ? {}
         : motionSafe({
