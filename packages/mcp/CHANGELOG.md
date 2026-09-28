@@ -1,5 +1,7 @@
 # @uni-design-system/uni-mcp
 
+## 11.4.1
+
 ## 11.4.0
 
 ## 11.3.0
