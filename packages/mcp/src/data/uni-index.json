@@ -1,7 +1,7 @@
 {
   "meta": {
     "version": "11.3.0",
-    "builtAt": "2026-09-28T17:48:48.887Z",
+    "builtAt": "2026-09-28T18:10:50.374Z",
     "frameworks": [
       "angular"
     ],
@@ -9345,11 +9345,18 @@
               "description": ""
             },
             {
+              "name": "textAlign",
+              "kind": "input",
+              "type": "OptionalTextAlign",
+              "required": false,
+              "description": "Maps to the CSS `text-align` property: `<p uni-text textAlign=\"center\">`."
+            },
+            {
               "name": "align",
               "kind": "input",
               "type": "OptionalTextAlign",
               "required": false,
-              "description": ""
+              "description": "@deprecated Use `textAlign`. `align` collides with HTML's obsolete `align` attribute, so IDEs flag it and a static value is left in the DOM. Removed in the next major."
             },
             {
               "name": "nowrap",
@@ -9389,7 +9396,7 @@
         }
       ],
       "guidelines": {
-        "whenToUse": "The typography primitive, applied as an **attribute on any element** so your HTML\nsemantics stay intact. The attribute value is the typeface —\n`<h1 uni-text=\"display-small\">` — and `[uni-text]=\"role()\"` binds it dynamically.\nWith no value, the typeface is inferred from the host element (`h1` →\n`headline-large`, `p` → `body-1-long`, `small` → `caption`, `blockquote` → `quote`,\nfalling back to `title-small`), so plain semantic markup is correctly set with zero\nconfiguration. `color` takes any theme color token; `align`, `nowrap`, `maxWidth`,\nand `ellipsis` handle common text layout.\nIt is a directive, so it stacks with anything else on the element — a layout\nattribute or a component's own host — rather than colliding with it:\n```html\n```\nText owns `color`, because it maps straight to the CSS property. The layout\ndirectives name their container pair `containerColor`, so the two never compete\nfor one binding — set both on the same element and each reaches its own\ndirective:\n```html\n  Heading\n```\n`containerColor` sets a background **and** its paired on-color, so both\ndirectives write `color` to the element. An explicit `uni-text` `color` always\nwins that — it is emitted at higher specificity rather than left to stylesheet\norder. Set no `color` and the container's on-color shows through, which is the\npoint of a pair.",
+        "whenToUse": "The typography primitive, applied as an **attribute on any element** so your HTML\nsemantics stay intact. The attribute value is the typeface —\n`<h1 uni-text=\"display-small\">` — and `[uni-text]=\"role()\"` binds it dynamically.\nWith no value, the typeface is inferred from the host element (`h1` →\n`headline-large`, `p` → `body-1-long`, `small` → `caption`, `blockquote` → `quote`,\nfalling back to `title-small`), so plain semantic markup is correctly set with zero\nconfiguration. `color` takes any theme color token; `textAlign`, `nowrap`, `maxWidth`,\nand `ellipsis` handle common text layout.\nIt is a directive, so it stacks with anything else on the element — a layout\nattribute or a component's own host — rather than colliding with it:\n```html\n```\nText owns `color`, because it maps straight to the CSS property. The layout\ndirectives name their container pair `containerColor`, so the two never compete\nfor one binding — set both on the same element and each reaches its own\ndirective:\n```html\n  Heading\n```\n`containerColor` sets a background **and** its paired on-color, so both\ndirectives write `color` to the element. An explicit `uni-text` `color` always\nwins that — it is emitted at higher specificity rather than left to stylesheet\norder. Set no `color` and the container's on-color shows through, which is the\npoint of a pair.",
         "dos": [
           "Reach for semantic elements first and let the element-aware defaults set the type"
         ],

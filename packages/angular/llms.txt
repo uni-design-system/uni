@@ -1069,7 +1069,8 @@ Inheritance (inputs listed once, available on all subclasses):
   - `typeface: Typeface | undefined` = undefined — Explicit typeface; the attribute value wins when both are set.
   - `color: ColorKey` — The ink, mapping straight to the CSS `color` property.
   - `display: OptionalDisplay`
-  - `align: OptionalTextAlign`
+  - `textAlign: OptionalTextAlign` — Maps to the CSS `text-align` property: `<p uni-text textAlign="center">`.
+  - `align: OptionalTextAlign` — @deprecated Use `textAlign`. `align` collides with HTML's obsolete `align` attribute, so IDEs flag it and a static value is left in the DOM. Removed in the next major.
   - `nowrap: boolean`
   - `maxWidth: number`
   - `ellipsis: boolean` = false

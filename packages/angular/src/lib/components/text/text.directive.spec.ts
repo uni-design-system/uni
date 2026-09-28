@@ -11,6 +11,9 @@ import { UniTextDirective } from './text.directive';
     <span uni-text="caption" id="short">Shorthand</span>
     <h2 uni-text="display-small" id="override">Promoted</h2>
     <span uni-text typeface="quote" id="input">Via input</span>
+    <p uni-text textAlign="center" id="aligned">Centered</p>
+    <p uni-text align="end" id="legacy">Deprecated align</p>
+    <p uni-text textAlign="start" align="end" id="both">Both</p>
   `,
 })
 class Host {}
@@ -18,8 +21,10 @@ class Host {}
 describe('UniTextDirective', () => {
   let fixture: ComponentFixture<Host>;
 
-  const fontSize = (id: string): string =>
-    getComputedStyle((fixture.nativeElement as HTMLElement).querySelector(`#${id}`)!).fontSize;
+  const byId = (id: string): HTMLElement =>
+    (fixture.nativeElement as HTMLElement).querySelector(`#${id}`)!;
+  const fontSize = (id: string): string => getComputedStyle(byId(id)).fontSize;
+  const textAlign = (id: string): string => getComputedStyle(byId(id)).textAlign;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({ imports: [Host] }).compileComponents();
@@ -43,5 +48,17 @@ describe('UniTextDirective', () => {
 
   it('keeps the explicit typeface input working', () => {
     expect(fontSize('input')).toBe('16px'); // quote
+  });
+
+  it('aligns text from the `textAlign` input', () => {
+    expect(textAlign('aligned')).toBe('center');
+  });
+
+  it('keeps the deprecated `align` input working', () => {
+    expect(textAlign('legacy')).toBe('end');
+  });
+
+  it('prefers `textAlign` when both are set', () => {
+    expect(textAlign('both')).toBe('start');
   });
 });

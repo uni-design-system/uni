@@ -54,10 +54,19 @@ export class UniTextDirective {
   /** The ink, mapping straight to the CSS `color` property. */
   color = input<ColorKey>();
   display = input<OptionalDisplay>();
+  /** Maps to the CSS `text-align` property: `<p uni-text textAlign="center">`. */
+  textAlign = input<OptionalTextAlign>();
+  /**
+   * @deprecated Use `textAlign`. `align` collides with HTML's obsolete `align`
+   * attribute, so IDEs flag it and a static value is left in the DOM. Removed
+   * in the next major.
+   */
   align = input<OptionalTextAlign>();
   nowrap = input<boolean>();
   maxWidth = input<number>();
   ellipsis = input<boolean>(false);
+
+  private readonly resolvedAlign = computed(() => this.textAlign() ?? this.align());
 
   protected readonly resolvedTypeface = computed<Typeface>(
     () => this.uniText() || this.typeface() || TagTypefaces[this.tag] || 'title-small'
@@ -77,8 +86,8 @@ export class UniTextDirective {
       // on `scroll-area`. With no explicit color, nothing is emitted here and
       // the container's on-color correctly shows through.
       this.color() && { '&&': { ...this.theme.color(this.color()) } },
-      this.align() && {
-        textAlign: this.align(),
+      this.resolvedAlign() && {
+        textAlign: this.resolvedAlign(),
       },
       this.nowrap() && {
         whiteSpace: 'nowrap',

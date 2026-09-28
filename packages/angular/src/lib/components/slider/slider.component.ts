@@ -136,6 +136,14 @@ export class UniSliderComponent
   private draggingThumb: ThumbIndex | null = null;
   /** Set by keydown, consumed by keyup, so one commit follows a key run. */
   private keyed = false;
+  /**
+   * True while the thumb holds focus a pointer press gave it. That focus is
+   * scripted (pointerdown focuses the thumb before the browser's own mouse
+   * focus runs), so Chrome counts it as programmatic and matches
+   * `:focus-visible`, drawing the keyboard ring on every grab. The ring is
+   * withheld until a key is pressed, as native controls do.
+   */
+  protected readonly pointerFocused = signal(false);
 
   protected readonly isRange = computed(() => this.mode() === 'range');
   /** The contract admits a range here; a slider's own bounds are always scalar. */
@@ -417,6 +425,7 @@ export class UniSliderComponent
       : this.nearestThumb(raw);
 
     this.draggingThumb = index;
+    this.pointerFocused.set(true);
     this.thumbRefs()[index]?.nativeElement.focus();
 
     // Pressing the track jumps the nearest thumb there — no "grab the thumb
@@ -476,6 +485,7 @@ export class UniSliderComponent
 
   protected onThumbKeydown(event: KeyboardEvent, index: ThumbIndex): void {
     if (this.disabled()) return;
+    this.pointerFocused.set(false);
 
     const current = this.thumbs()[index];
     const large = event.shiftKey;
@@ -530,6 +540,7 @@ export class UniSliderComponent
   }
 
   protected onThumbBlur(): void {
+    this.pointerFocused.set(false);
     this.touched.set(true);
     this.touch.emit();
   }
@@ -670,7 +681,7 @@ export class UniSliderComponent
         boxSizing: 'border-box',
         ...this.theme.boxShadow(options.thumbShadow),
       },
-      ...this.theme.focusRing(),
+      ...(this.pointerFocused() ? {} : this.theme.focusRing()),
       ...(this.dragging()
         ? {}
         : motionSafe({

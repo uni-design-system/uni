@@ -24,7 +24,7 @@ import type { Variant } from '@uni-design-system/uni-core';
       @for (result of permissionTestResults(); track result.name) {
         <div row-layout gap="sm" alignItems="center">
           <div box-layout [width]="220" justifyContent="right" alignItems="center" display="flex">
-            <span uni-text display="block" align="right">{{ result.name }}:</span>
+            <span uni-text display="block" textAlign="right">{{ result.name }}:</span>
           </div>
           <div uni-badge [color]="result.colorToken" [width]="140">{{ result.state }}</div>
         </div>

@@ -10,6 +10,13 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { UniSliderComponent } from './slider.component';
 import type { UniNumberRange } from '../../cdk';
 
+/** Joined text of every emotion style tag that mentions the given class. */
+const stylesFor = (className: string) =>
+  Array.from(document.querySelectorAll('style'))
+    .map((style) => style.textContent ?? '')
+    .filter((text) => text.includes(`.${className}`))
+    .join('');
+
 describe('UniSliderComponent', () => {
   let fixture: ComponentFixture<UniSliderComponent>;
 
@@ -327,6 +334,44 @@ describe('UniSliderComponent', () => {
       pointer('pointerdown', 150);
       pointer('pointerup', 150);
       expect(fixture.componentInstance.value()).toBe(0);
+    });
+  });
+
+  describe('focus ring', () => {
+    const ringed = (): boolean => stylesFor(thumb().className).includes(':focus-visible');
+
+    beforeEach(() => {
+      fixture.componentInstance.value.set(0);
+      fixture.detectChanges();
+      layOutTrack();
+    });
+
+    it('rings the thumb for keyboard focus', () => {
+      expect(ringed()).toBe(true);
+    });
+
+    it('draws no ring on a pointer grab', () => {
+      // pointerdown focuses the thumb from script, which Chrome matches as
+      // :focus-visible — so the rule itself has to stand down.
+      pointer('pointerdown', 40, thumb());
+      expect(ringed()).toBe(false);
+      pointer('pointerup', 40);
+      expect(ringed()).toBe(false);
+    });
+
+    it('brings the ring back once a key moves the grabbed thumb', () => {
+      pointer('pointerdown', 40, thumb());
+      pointer('pointerup', 40);
+      press(thumb(), 'ArrowUp');
+      expect(ringed()).toBe(true);
+    });
+
+    it('forgets the pointer on blur, so a later Tab rings', () => {
+      pointer('pointerdown', 40, thumb());
+      pointer('pointerup', 40);
+      thumb().dispatchEvent(new FocusEvent('blur'));
+      fixture.detectChanges();
+      expect(ringed()).toBe(true);
     });
   });
 
