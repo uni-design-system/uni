@@ -13,7 +13,7 @@ import {
 } from '@angular/core';
 import { FormValueControl } from '@angular/forms/signals';
 import { css } from '@emotion/css';
-import type { Variant } from '@uni-design-system/uni-core';
+import type { ColorKey, Variant } from '@uni-design-system/uni-core';
 
 import {
   createAnnouncer,
@@ -638,6 +638,10 @@ export class UniSliderComponent
     const size = options.thumbSize ?? 16;
     const target = options.minTouchTarget ?? 24;
     const motion = this.motion();
+    // `'fill'` resolves to the variant, so a ringed thumb recolors with it —
+    // and greys out with it when disabled.
+    const resolve = (token: ColorKey | 'fill') =>
+      token !== 'fill' ? colors[token] : this.disabled() ? colors['on-disabled'] : this.fillColor();
 
     return css({
       position: 'absolute',
@@ -659,9 +663,12 @@ export class UniSliderComponent
         width: size,
         height: size,
         borderRadius: this.theme.radii()[options.thumbBorderRadius ?? 'max'],
-        backgroundColor: this.disabled() ? colors['on-disabled'] : this.fillColor(),
-        border: `2px solid ${colors['background']}`,
+        backgroundColor: resolve(options.thumbColor ?? 'fill'),
+        border: `${options.thumbBorderWidth ?? 2}px solid ${resolve(
+          options.thumbBorderColor ?? 'background'
+        )}`,
         boxSizing: 'border-box',
+        ...this.theme.boxShadow(options.thumbShadow),
       },
       ...this.theme.focusRing(),
       ...(this.dragging()

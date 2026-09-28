@@ -12,6 +12,11 @@
  * red danger ink, hairline separators, and a 28px quaternary kebab. Named
  * primitives (`rowmenu` shadow, `menu` border, `menu`/`menuItem` radii, the
  * `menu` type role) carry the exact old values.
+ *
+ * The `slider` options port the app's hand-rolled rate slider
+ * (`components/rate-slider`): a 10% charcoal groove, and a white thumb ringed
+ * in the variant's ochre (call sites pass `variant="secondary"`) with a soft
+ * lift. Its big numeric readout stays app markup beside the slider.
  */
 import {
   BaseTheme,
@@ -56,6 +61,8 @@ export interface WellsourcedPalette {
   border2: string;
   /** Scrim/backdrop wash behind dialogs. */
   backdrop: string;
+  /** The rate slider's unfilled groove — lands on the `outline` hairline token. */
+  track: string;
 }
 
 const lightPalette: WellsourcedPalette = {
@@ -78,6 +85,7 @@ const lightPalette: WellsourcedPalette = {
   border: 'rgba(26, 26, 26, 0.08)',
   border2: 'rgba(26, 26, 26, 0.14)',
   backdrop: 'rgba(255, 255, 255, 0.6)',
+  track: 'rgba(26, 26, 26, 0.1)',
 };
 
 const darkPalette: WellsourcedPalette = {
@@ -100,6 +108,7 @@ const darkPalette: WellsourcedPalette = {
   border: 'rgba(249, 249, 248, 0.1)',
   border2: 'rgba(249, 249, 248, 0.16)',
   backdrop: 'rgba(0, 0, 0, 0.6)',
+  track: 'rgba(249, 249, 248, 0.1)',
 };
 
 const colors = (p: WellsourcedPalette, overrides: Colors = {}): Colors => ({
@@ -188,6 +197,8 @@ const colors = (p: WellsourcedPalette, overrides: Colors = {}): Colors => ({
   'on-background-variant': p.onLightVariant,
 
   scrim: p.backdrop,
+  // The app's hairline: slider grooves, plus the dividers and rings that read it.
+  outline: p.track,
   ghost: 'transparent',
   transparent: 'transparent',
 
@@ -264,6 +275,8 @@ const shadows = (p: WellsourcedPalette): Shadows => ({
   // The focus ring: a 3px spread of the ochre at 10%. Pairs with the
   // `focusRing` border primitive above (see its note).
   focusRing: `0 0 0 3px color-mix(in srgb, ${p.secondary} 10%, transparent)`,
+  // The rate slider's thumb lift.
+  sliderThumb: '0 1px 4px rgba(0, 0, 0, 0.18)',
 });
 
 /**
@@ -516,6 +529,21 @@ const components = (p: WellsourcedPalette): ComponentThemes => ({
     },
   },
   symbol: { options: { weight: 200 } },
+  // The app's rate slider: 4px pill groove in the 10% hairline, and a 16px
+  // surface-white thumb ringed 2px in the variant (ochre at the app's
+  // `variant="secondary"` call sites) with a soft lift. Rather than the
+  // default solid variant dot ringed in the page background.
+  slider: {
+    options: {
+      trackHeight: 4,
+      trackColor: 'outline',
+      thumbSize: 16,
+      thumbColor: 'surface',
+      thumbBorderColor: 'fill',
+      thumbBorderWidth: 2,
+      thumbShadow: 'sliderThumb',
+    },
+  },
 
   // ---- The old `.rowmenu` look, expressed entirely as tokens ----
   // Panel: 184px min at 10px radius, --c-border-2 outline, deep drop shadow,

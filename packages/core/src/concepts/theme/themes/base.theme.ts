@@ -1185,11 +1185,12 @@ const buildComponents = (c: Colors): ComponentThemes => ({
       gap: 'xxs',
     },
   },
-  // Bounded numeric input. Fill and thumb colour are deliberately NOT options
-  // — they are the `variant` role pair, the rule every other component
-  // follows, so `variant="warn"` recolours a slider with no theme edit. The
-  // track is a groove rather than an accent, so it stays a token. Geometry
-  // knobs are plain px.
+  // Bounded numeric input. Fill color is deliberately NOT an option — it is
+  // the `variant` role, the rule every other component follows, so
+  // `variant="warn"` recolors a slider with no theme edit. The thumb follows
+  // it by default (`'fill'`), ringed in the page background; a theme can
+  // invert that (a surface dot ringed in `'fill'`). The track is a groove
+  // rather than an accent, so it stays a token. Geometry knobs are plain px.
   slider: {
     options: {
       trackHeight: 4,
@@ -1197,6 +1198,9 @@ const buildComponents = (c: Colors): ComponentThemes => ({
       borderRadius: 'max',
       thumbSize: 16,
       thumbBorderRadius: 'max',
+      thumbColor: 'fill',
+      thumbBorderColor: 'background',
+      thumbBorderWidth: 2,
       // WCAG 2.2 SC 2.5.8 floor. The visual dot stays `thumbSize`; the
       // transparent hit area around it grows to this.
       minTouchTarget: 24,

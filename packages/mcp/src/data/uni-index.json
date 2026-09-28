@@ -1,13 +1,13 @@
 {
   "meta": {
     "version": "11.2.1",
-    "builtAt": "2026-09-24T20:36:29.142Z",
+    "builtAt": "2026-09-28T10:57:00.596Z",
     "frameworks": [
       "angular"
     ],
     "counts": {
       "components": 87,
-      "tokens": 490,
+      "tokens": 493,
       "themes": 2,
       "examples": 245
     }
@@ -8056,7 +8056,7 @@
         }
       ],
       "guidelines": {
-        "whenToUse": "Reach for a slider when the *position* is the information — volume, opacity,\nweightings, price filters — and for a number field when the exact figure is. A\nslider is a poor way to enter 47, and a text field is a poor way to feel where\n47 sits between 0 and 100. Bind `changed` in a form; `sliding` streams every\nframe of a drag and is there for live previews.\nOne thumb by default, two when `mode=\"range\"`, with a `{ start, end }` value\nthat reuses the range vocabulary from `uni-calendar`. Stepping is exact decimal\narithmetic from the cdk, shared with the numeric input family, so a `0.1` step\nnever lands on `0.30000000000000004`. Fill and thumb colour come from the\n`variant` role pair; the track, geometry, marks and tooltip resolve from the\ntheme's `slider` options.",
+        "whenToUse": "Reach for a slider when the *position* is the information — volume, opacity,\nweightings, price filters — and for a number field when the exact figure is. A\nslider is a poor way to enter 47, and a text field is a poor way to feel where\n47 sits between 0 and 100. Bind `changed` in a form; `sliding` streams every\nframe of a drag and is there for live previews.\nOne thumb by default, two when `mode=\"range\"`, with a `{ start, end }` value\nthat reuses the range vocabulary from `uni-calendar`. Stepping is exact decimal\narithmetic from the cdk, shared with the numeric input family, so a `0.1` step\nnever lands on `0.30000000000000004`. Fill and thumb color come from the\n`variant` role pair; the track, geometry, marks and tooltip resolve from the\ntheme's `slider` options.",
         "dos": [
           "Use `changed` for form binding and `sliding` only for live previews.",
           "Pair a slider with a number field when users need both a ballpark and an exact value.",
@@ -8083,6 +8083,9 @@
         "slider.behavior.borderRadius",
         "slider.behavior.thumbSize",
         "slider.behavior.thumbBorderRadius",
+        "slider.behavior.thumbColor",
+        "slider.behavior.thumbBorderColor",
+        "slider.behavior.thumbBorderWidth",
         "slider.behavior.minTouchTarget",
         "slider.behavior.markSize",
         "slider.behavior.markColor",
@@ -15493,6 +15496,42 @@
       }
     },
     {
+      "id": "slider.behavior.thumbColor",
+      "value": "fill",
+      "type": "string",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "slider",
+      "themeValues": {
+        "LightTheme": "fill",
+        "DarkTheme": "fill"
+      }
+    },
+    {
+      "id": "slider.behavior.thumbBorderColor",
+      "value": "background",
+      "type": "string",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "slider",
+      "themeValues": {
+        "LightTheme": "background",
+        "DarkTheme": "background"
+      }
+    },
+    {
+      "id": "slider.behavior.thumbBorderWidth",
+      "value": 2,
+      "type": "number",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "slider",
+      "themeValues": {
+        "LightTheme": 2,
+        "DarkTheme": 2
+      }
+    },
+    {
       "id": "slider.behavior.minTouchTarget",
       "value": 24,
       "type": "number",
@@ -16658,6 +16697,9 @@
           "borderRadius": "max",
           "thumbSize": 16,
           "thumbBorderRadius": "max",
+          "thumbColor": "fill",
+          "thumbBorderColor": "background",
+          "thumbBorderWidth": 2,
           "minTouchTarget": 24,
           "markSize": 3,
           "markColor": "on-primary-container",
@@ -17268,6 +17310,9 @@
           "borderRadius": "max",
           "thumbSize": 16,
           "thumbBorderRadius": "max",
+          "thumbColor": "fill",
+          "thumbBorderColor": "background",
+          "thumbBorderWidth": 2,
           "minTouchTarget": 24,
           "markSize": 3,
           "markColor": "on-primary-container",

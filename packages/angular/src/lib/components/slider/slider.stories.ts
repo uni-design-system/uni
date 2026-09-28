@@ -59,7 +59,7 @@ const meta: Meta<StoryType> = {
     variant: {
       control: 'select',
       options: ['primary', 'secondary', 'tertiary', 'warn', 'success'],
-      description: 'Role pair driving the fill and thumb colour. Default: `primary`',
+      description: 'Role pair driving the fill and thumb color. Default: `primary`',
     },
     disabled: { control: 'boolean', description: 'Whether the slider is disabled.' },
   },
