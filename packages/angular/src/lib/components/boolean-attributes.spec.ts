@@ -31,6 +31,7 @@ import { UniSelectComponent } from './select-input/select-input.component';
 import { UniTextareaComponent } from './textarea/textarea.component';
 import { UniToggleComponent } from './toggle/toggle.component';
 import { UniBoxDirective } from './layout/box/box.directive';
+import { UniTextDirective } from './text/text.directive';
 import { emittedRuleFor } from '../../testing/emitted-css';
 
 interface Case {
@@ -196,5 +197,42 @@ describe('uni-button disable and loading as bare attributes', () => {
     // rather than rendering `disabled="false"`, which the DOM reads as true.
     expect(button.hasAttribute('disabled')).toBe(false);
     expect(button.hasAttribute('aria-busy')).toBe(false);
+  });
+});
+
+/** `uni-text`'s `nowrap`: present means one line, absent means the text wraps. */
+describe('uni-text nowrap as a bare attribute', () => {
+  const render = async (template: string) => {
+    const Host = Component({
+      selector: 'uni-test-host',
+      imports: [UniTextDirective],
+      template,
+    })(class TestHost {});
+    TestBed.resetTestingModule();
+    await TestBed.configureTestingModule({ imports: [Host] }).compileComponents();
+    const fixture = TestBed.createComponent(Host);
+    fixture.detectChanges();
+    const span = (fixture.nativeElement as HTMLElement).querySelector('span')!;
+    const instance = fixture.debugElement
+      .query((node) => (node.nativeElement as HTMLElement | null)?.matches?.('span') === true)
+      .injector.get(UniTextDirective);
+    return { span, instance };
+  };
+
+  it('reads a bare `nowrap` as true, and keeps the text on one line', async () => {
+    const { span, instance } = await render(`<span uni-text nowrap>Label</span>`);
+    expect(instance.nowrap()).toBe(true);
+    expect(emittedRuleFor(span)).toContain('white-space:nowrap');
+  });
+
+  it('reads an absent `nowrap` as false, and lets the text wrap', async () => {
+    const { span, instance } = await render(`<span uni-text>Label</span>`);
+    expect(instance.nowrap()).toBe(false);
+    expect(emittedRuleFor(span)).not.toContain('white-space:nowrap');
+  });
+
+  it('reads `nowrap="false"` as false', async () => {
+    const { instance } = await render(`<span uni-text nowrap="false">Label</span>`);
+    expect(instance.nowrap()).toBe(false);
   });
 });

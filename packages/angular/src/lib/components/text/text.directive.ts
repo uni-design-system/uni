@@ -1,4 +1,4 @@
-import { Directive, computed, ElementRef, inject, input } from '@angular/core';
+import { booleanAttribute, Directive, computed, ElementRef, inject, input } from '@angular/core';
 import { css } from '@emotion/css';
 
 import type {
@@ -62,7 +62,8 @@ export class UniTextDirective {
    * in the next major.
    */
   align = input<OptionalTextAlign>();
-  nowrap = input<boolean>();
+  /** Keeps the text on one line. A bare `nowrap` attribute is `true`; absent is `false`. */
+  nowrap = input(false, { transform: booleanAttribute });
   maxWidth = input<number>();
   ellipsis = input<boolean>(false);
 

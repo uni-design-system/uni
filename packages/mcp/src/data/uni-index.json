@@ -1,7 +1,7 @@
 {
   "meta": {
     "version": "11.3.0",
-    "builtAt": "2026-09-28T18:10:50.374Z",
+    "builtAt": "2026-09-28T18:24:27.814Z",
     "frameworks": [
       "angular"
     ],
@@ -9361,9 +9361,10 @@
             {
               "name": "nowrap",
               "kind": "input",
-              "type": "boolean",
+              "type": "unknown",
               "required": false,
-              "description": ""
+              "default": "false, { transform: booleanAttribute }",
+              "description": "Keeps the text on one line. A bare `nowrap` attribute is `true`; absent is `false`."
             },
             {
               "name": "maxWidth",
