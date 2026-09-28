@@ -1,5 +1,7 @@
 # @uni-design-system/uni-core
 
+## 11.4.0
+
 ## 11.3.0
 
 ### Minor Changes
