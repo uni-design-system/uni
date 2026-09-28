@@ -1,5 +1,25 @@
 # @uni-design-system/uni-angular
 
+## 11.4.0
+
+### Minor Changes
+
+- [`dba5cbe`](https://github.com/uni-design-system/uni/commit/dba5cbeb917f299db4034dff1b0e2d215cde32e8) Thanks [@gaenglish](https://github.com/gaenglish)! - `uni-text` gains a `textAlign` input; `align` is deprecated and will be removed in the next major.
+
+  `align` shares its name with HTML's obsolete `align` attribute, so `<p uni-text align="center">` drew an "Obsolete attribute" warning in IDEs, and a static value was also left on the rendered element as a real attribute. `textAlign` matches the CSS property it sets and the `textAlign` option dialog and drawer headers already use. `align` keeps working until then; when both are set, `textAlign` wins.
+
+  Migrate with a find-and-replace: `align="…"` → `textAlign="…"` and `[align]` → `[textAlign]` on `uni-text` elements.
+
+### Patch Changes
+
+- [`3dc35ba`](https://github.com/uni-design-system/uni/commit/3dc35ba2ec5cbf1809a6ff43841cc836d493badd) Thanks [@gaenglish](https://github.com/gaenglish)! - `uni-slider` no longer draws the keyboard focus ring when the thumb is grabbed with a pointer.
+
+  `pointerdown` focuses the thumb from script, before the browser's own mouse focus runs, so Chrome counted the focus as programmatic and matched `:focus-visible` — every grab drew the ring meant for keyboard users. The thumb now remembers that its focus came from a pointer and withholds the ring until a key is pressed or the thumb blurs, as native controls do. Tabbing to the thumb, and arrowing a thumb you just grabbed, still ring as before.
+
+- [`3dc35ba`](https://github.com/uni-design-system/uni/commit/3dc35ba2ec5cbf1809a6ff43841cc836d493badd) Thanks [@gaenglish](https://github.com/gaenglish)! - `uni-text`'s `nowrap` and `ellipsis` now work as bare attributes: `<span uni-text nowrap>` keeps the text on one line, `<span uni-text ellipsis>` truncates overflow, and leaving either off turns it off.
+
+  Without a transform, a valueless attribute binds as the empty string, which is falsy, so either attribute on its own compiled and silently did nothing. Both now use `booleanAttribute`, like `fullWidth`, `disable` and `loading`, and are typed `boolean` (default `false`). `[nowrap]="true"`, `[ellipsis]="true"` and the `="false"` forms behave as before.
+
 ## 11.3.0
 
 ### Minor Changes
