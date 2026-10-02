@@ -21,7 +21,10 @@ const config: StorybookConfig = {
     options: {},
   },
   staticDirs: ['../../../public'],
-  managerHead: (head) => `${head}<link rel="icon" href="/favicon.ico" />`,
+  // Relative, not `/favicon.ico`: the published Storybook lives under a
+  // sub-path on GitHub Pages, where a root-absolute URL points at the domain
+  // root and 404s.
+  managerHead: (head) => `${head}<link rel="icon" href="./favicon.ico" />`,
 };
 
 export default config;
