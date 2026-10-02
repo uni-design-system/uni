@@ -1,7 +1,7 @@
 {
   "meta": {
-    "version": "11.4.1",
-    "builtAt": "2026-10-02T22:18:29.504Z",
+    "version": "11.5.0",
+    "builtAt": "2026-10-02T22:31:37.604Z",
     "frameworks": [
       "angular"
     ],
@@ -21,7 +21,7 @@
       "summary": "",
       "description": "",
       "category": "feedback",
-      "version": "11.4.1",
+      "version": "11.5.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -111,7 +111,7 @@
       "summary": "Horizontal application bar: project leading controls (menu button, logo) with the `leading` attribute, actions with `trailing` (pushed to the far edge), and either pass `title` or project custom center content.",
       "description": "Horizontal application bar: project leading controls (menu button, logo) with the `leading` attribute, actions with `trailing` (pushed to the far edge), and either pass `title` or project custom center content. Surface, divider, height, typography and spacing all resolve from `appBar` tokens. Place it inside your page's `<header>` landmark.",
       "category": "components",
-      "version": "11.4.1",
+      "version": "11.5.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -176,7 +176,7 @@
       "summary": "Identity avatar with a graceful fallback chain: image → initials from `name` → themed symbol.",
       "description": "Identity avatar with a graceful fallback chain: image → initials from `name` → themed symbol. Coloring, radius, typeface and sizes all resolve from `avatar` theme tokens; `variant` picks the container palette.",
       "category": "components",
-      "version": "11.4.1",
+      "version": "11.5.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -261,7 +261,7 @@
       "summary": "Overlapping stack of avatars.",
       "description": "Overlapping stack of avatars. `max` collapses the overflow into a themed “+N” chip (itself a `uni-avatar`). Overlap and separator ring resolve from `avatarGroup` theme tokens.",
       "category": "components",
-      "version": "11.4.1",
+      "version": "11.5.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -310,7 +310,7 @@
       "summary": "",
       "description": "",
       "category": "primitives",
-      "version": "11.4.1",
+      "version": "11.5.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -391,7 +391,7 @@
       "summary": "",
       "description": "",
       "category": "feedback",
-      "version": "11.4.1",
+      "version": "11.5.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -468,7 +468,7 @@
       "summary": "",
       "description": "",
       "category": "directives",
-      "version": "11.4.1",
+      "version": "11.5.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -492,7 +492,7 @@
       "summary": "The base layout primitive, applied as an attribute to any element so semantics stay yours: `<main box-layout [grow]=\"1\" padding=\"md\">`.",
       "description": "The base layout primitive, applied as an attribute to any element so semantics stay yours: `<main box-layout [grow]=\"1\" padding=\"md\">`. It is a directive, so it composes freely — with another layout attribute (`<div stack-layout uni-text=\"body-1-long\">`) and with a component's own host element (`<uni-card box-layout padding=\"lg\">`); Angular merges the host `class` bindings rather than letting one win. Sizing convention (height/width/min/max/inset): a **number is px and needs a binding** — `[height]=\"420\"`; a **plain attribute is a CSS length string** — `height=\"420px\"`. Spacing/radius/color inputs take theme tokens.",
       "category": "layout",
-      "version": "11.4.1",
+      "version": "11.5.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -900,7 +900,7 @@
       "summary": "WAI-ARIA breadcrumb: a `nav` landmark wrapping an ordered list; the last item is the current page (`aria-current=\"page\"`), separators are decorative.",
       "description": "WAI-ARIA breadcrumb: a `nav` landmark wrapping an ordered list; the last item is the current page (`aria-current=\"page\"`), separators are decorative. Items with `href` render as real links; without one they render as link-styled buttons emitting `itemClicked` — wire that to your router.",
       "category": "components",
-      "version": "11.4.1",
+      "version": "11.5.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -985,7 +985,7 @@
       "summary": "",
       "description": "",
       "category": "primitives",
-      "version": "11.4.1",
+      "version": "11.5.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -1097,7 +1097,7 @@
       "summary": "",
       "description": "",
       "category": "primitives",
-      "version": "11.4.1",
+      "version": "11.5.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -1129,7 +1129,7 @@
       "summary": "Inline month calendar: single-date or start–end range selection, day markers (availability dots), min/max fences and disabled dates.",
       "description": "Inline month calendar: single-date or start–end range selection, day markers (availability dots), min/max fences and disabled dates. One tab stop with a roving-tabindex `role=\"grid\"`; every day is a real button named with its full date. Values are plain ISO strings (`'YYYY-MM-DD'`), never `Date` objects, so bindings are timezone-free and serializable. Selection and today colours come from the theme's `primary` role pair; geometry and glyphs come from the `calendar` theme entry.",
       "category": "forms",
-      "version": "11.4.1",
+      "version": "11.5.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -1356,7 +1356,7 @@
       "summary": "Anchored coach-mark panel that dims the page and cuts a spotlight hole around its target.",
       "description": "Anchored coach-mark panel that dims the page and cuts a spotlight hole around its target. Both the scrim and the panel are `popover=\"manual\"` elements shown in order, so they stack deterministically in the top layer above every app z-index, and every scrim piece is CSS-anchor-positioned to the target — the hole tracks scroll/resize/layout with zero listeners. The panel is a non-modal `role=\"dialog\"` (deliberately no `aria-modal`): focus moves into it on open, Tab runs a \"duet loop\" over the panel's focusables plus the spotlit target while it stays interactive, and on close focus returns to the pre-open element — unless the user moved into the target, where it stays. Storage-free by rule: `key` and the `dismissed` output are the \"don't show again\" hooks; persistence is the app's business (e.g. cdk local-storage).",
       "category": "components",
-      "version": "11.4.1",
+      "version": "11.5.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -1569,7 +1569,7 @@
       "summary": "",
       "description": "",
       "category": "layout",
-      "version": "11.4.1",
+      "version": "11.5.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -1618,7 +1618,7 @@
       "summary": "",
       "description": "",
       "category": "layout",
-      "version": "11.4.1",
+      "version": "11.5.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -1659,7 +1659,7 @@
       "summary": "",
       "description": "",
       "category": "layout",
-      "version": "11.4.1",
+      "version": "11.5.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -1716,7 +1716,7 @@
       "summary": "",
       "description": "",
       "category": "layout",
-      "version": "11.4.1",
+      "version": "11.5.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -1771,7 +1771,7 @@
       "summary": "",
       "description": "",
       "category": "forms",
-      "version": "11.4.1",
+      "version": "11.5.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -1979,7 +1979,7 @@
       "summary": "Form-bound, closed-set, single-select autocomplete: `FormValueControl<T | null>` over object `Options<T>`, type-to-filter, commit-on-select.",
       "description": "Form-bound, closed-set, single-select autocomplete: `FormValueControl<T | null>` over object `Options<T>`, type-to-filter, commit-on-select. Typing produces a draft — a filter, never a value; the value changes only when an option commits, `clear()` runs, or the model is written from outside. Select semantics, not search: a real label, a chevron, no magnifier, nothing submits. For short lists with no need to type, prefer `uni-select` — the value contract is identical, so swapping is a template-only change.",
       "category": "forms",
-      "version": "11.4.1",
+      "version": "11.5.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -2232,7 +2232,7 @@
       "summary": "",
       "description": "",
       "category": "feedback",
-      "version": "11.4.1",
+      "version": "11.5.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -2279,7 +2279,7 @@
       "summary": "",
       "description": "",
       "category": "forms",
-      "version": "11.4.1",
+      "version": "11.5.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -2353,7 +2353,7 @@
       "summary": "",
       "description": "",
       "category": "data",
-      "version": "11.4.1",
+      "version": "11.5.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -2470,7 +2470,7 @@
       "summary": "Date field with free-typed parsing and a popup calendar.",
       "description": "Date field with free-typed parsing and a popup calendar. Type `aug 20`, `8/20/2026` or `2026-08-20`, or pick from the grid — the form gets the same canonical `'YYYY-MM-DD'` string either way. Parsing is `Intl`-driven (locale digit order and month names, never hardcoded); unreadable text stays in the field, flagged, with a `rejected` event. The popup is a native popover hosting the same `uni-calendar` an app could render inline.",
       "category": "forms",
-      "version": "11.4.1",
+      "version": "11.5.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -2701,7 +2701,7 @@
       "summary": "One field for a date and a time: a thin composer seating a uni-date-input and a uni-time-input in one input-box chrome under one label, yielding one combined `'YYYY-MM-DDTHH:mm'` value.",
       "description": "One field for a date and a time: a thin composer seating a uni-date-input and a uni-time-input in one input-box chrome under one label, yielding one combined `'YYYY-MM-DDTHH:mm'` value. The value emits only when both parts are set — a time without a day is not an answer — and clearing the date clears it. With `slotsFor`, the time part stays disabled until a day is chosen and offers exactly that day's slots: the scheduling flow in one attribute. Two honest tab stops (it is two questions); apps needing a different arrangement compose the primitives directly.",
       "category": "forms",
-      "version": "11.4.1",
+      "version": "11.5.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -2894,7 +2894,7 @@
       "summary": "Text input that emits `change` only after the user pauses typing.",
       "description": "Text input that emits `change` only after the user pauses typing. Wears the shared input chrome (themed color, border, typeface, focus ring) via `uni-input-box`; project adornments with the `pre-input` / `post-input` slots, matching `uni-input`'s convention. The ARIA passthrough inputs let a wrapping composite (e.g. SearchInput's combobox) annotate the real input element.",
       "category": "forms",
-      "version": "11.4.1",
+      "version": "11.5.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -3031,7 +3031,7 @@
       "summary": "Modal dialog on the native `<dialog>` element, laid out as three rows: an optional `[dialog-header]`, the projected body, an optional `[dialog-buttons]`.",
       "description": "Modal dialog on the native `<dialog>` element, laid out as three rows: an optional `[dialog-header]`, the projected body, an optional `[dialog-buttons]`. **The surface is never the scroll container.** It is a flex column that is `overflow: clip` on both axes; the header and buttons pin while only the body row scrolls. Unlike the drawer, which is deliberately viewport-tall, the dialog stays content-sized: it has no `height`, and grows until it hits `calc(100dvh - 2 x inset)` — the point at which the body starts to scroll. The theme's `padding` insets all three rows (which is what makes the default header read as a pill floating inside the surface); `bodyPadding` pads the scrolling row alone.",
       "category": "feedback",
-      "version": "11.4.1",
+      "version": "11.5.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -3147,7 +3147,7 @@
       "summary": "",
       "description": "",
       "category": "feedback",
-      "version": "11.4.1",
+      "version": "11.5.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -3251,7 +3251,7 @@
       "summary": "",
       "description": "",
       "category": "feedback",
-      "version": "11.4.1",
+      "version": "11.5.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -3292,7 +3292,7 @@
       "summary": "",
       "description": "",
       "category": "layout",
-      "version": "11.4.1",
+      "version": "11.5.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -3339,7 +3339,7 @@
       "summary": "",
       "description": "",
       "category": "directives",
-      "version": "11.4.1",
+      "version": "11.5.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -3371,7 +3371,7 @@
       "summary": "Drawer with two modes sharing one three-row layout: - `side` — an in-flow `<aside>` that pushes content (dashboard sidenav); opening/closing animates its width, and the divider border primitive separates it from the page.",
       "description": "Drawer with two modes sharing one three-row layout: - `side` — an in-flow `<aside>` that pushes content (dashboard sidenav); opening/closing animates its width, and the divider border primitive separates it from the page. - `over` — a native `<dialog>` in the top layer: focus trap, Escape and scrim backdrop come from the platform (same machinery as `uni-dialog`), sliding in from its edge. **The panel is never the scroll container.** It is a flex column of three rows — an optional `[uni-drawer-header]`, the projected body, an optional `[uni-drawer-buttons]` — and only the body scrolls. The panel itself is `overflow: clip` on both axes. That is what lets a header and a save bar pin while a long form scrolls between them, and it is why the theme's `padding` option lands on the body row rather than the panel: padding on a scrolling box scrolls away with its content. Surface, width, divider, elevation, padding, backdrop, scrim and background all resolve from `drawer` theme tokens.",
       "category": "components",
-      "version": "11.4.1",
+      "version": "11.5.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -3531,7 +3531,7 @@
       "summary": "The drawer's pinned footer action row — the save bar of an editor panel.",
       "description": "The drawer's pinned footer action row — the save bar of an editor panel. Sits outside the scrolling body, so the actions stay reachable however long the form is. Mirrors `[dialog-buttons]`; the difference is posture, which lives in the `drawerButtons` theme options rather than here.",
       "category": "primitives",
-      "version": "11.4.1",
+      "version": "11.5.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -3628,7 +3628,7 @@
       "summary": "The drawer's pinned header row: a title, and optionally a close button.",
       "description": "The drawer's pinned header row: a title, and optionally a close button. Sits outside the scrolling body, so it stays put while the form beneath it moves. Reached either by projecting it — `<div uni-drawer-header>` — or implicitly, by giving `uni-drawer` a `headline`, in which case the drawer renders one of these itself.",
       "category": "components",
-      "version": "11.4.1",
+      "version": "11.5.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -3676,7 +3676,7 @@
       "summary": "",
       "description": "",
       "category": "components",
-      "version": "11.4.1",
+      "version": "11.5.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -3810,7 +3810,7 @@
       "summary": "",
       "description": "",
       "category": "layout",
-      "version": "11.4.1",
+      "version": "11.5.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -3887,7 +3887,7 @@
       "summary": "",
       "description": "",
       "category": "layout",
-      "version": "11.4.1",
+      "version": "11.5.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -3948,7 +3948,7 @@
       "summary": "Trigger for a {@link UniExpandComponent} region.",
       "description": "Trigger for a {@link UniExpandComponent} region. Two shapes, chosen by whether `label` is set: - **Icon only** (default) — the bare chevron, sized for a Card Header. - **Labelled** — chevron plus a label and optional muted sublabel, as a single full-width button. Most real disclosures need a name for the section, and building that row by hand is the thing this saves; it also makes the label the button's accessible name rather than adjacent text.",
       "category": "layout",
-      "version": "11.4.1",
+      "version": "11.5.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -4024,7 +4024,7 @@
       "summary": "",
       "description": "",
       "category": "forms",
-      "version": "11.4.1",
+      "version": "11.5.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -4154,7 +4154,7 @@
       "summary": "",
       "description": "",
       "category": "layout",
-      "version": "11.4.1",
+      "version": "11.5.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -4228,7 +4228,7 @@
       "summary": "",
       "description": "",
       "category": "layout",
-      "version": "11.4.1",
+      "version": "11.5.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -4260,7 +4260,7 @@
       "summary": "",
       "description": "",
       "category": "primitives",
-      "version": "11.4.1",
+      "version": "11.5.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -4320,7 +4320,7 @@
       "summary": "",
       "description": "",
       "category": "primitives",
-      "version": "11.4.1",
+      "version": "11.5.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -4413,7 +4413,7 @@
       "summary": "A button that lives inside a sentence.",
       "description": "A button that lives inside a sentence. Every other button in the library owns a box. Even `ghost` is a flex box with a hit area, horizontal padding and a type scale of its own, so dropping one into a sentence takes it out of the run of text entirely. This one inherits that type — family, size, weight, line height and colour — and adds no padding, so a paragraph reads as one continuous run with an action in the middle of it. It is always a real `<button>`: it can *look* like a link (`underline`, `link`) without claiming to be navigation, so Enter and Space activate it and assistive tech announces a button rather than an unfollowable link. A glyph may sit alongside the label without disturbing that: it is sized in `em`, so it scales with the type it lands in rather than pinning a px size into someone else's paragraph. One limit comes from the element itself. Browsers blockify a `<button>` to `inline-block` whatever `display` it asks for, so the control is an atomic inline box: its own label wraps inside it, but the run cannot split across a line break the way the words around it do. `display: contents` would buy that at the cost of the button being focusable at all, which is not a trade worth making — keep labels to a few words, which is what an inline action wants anyway.",
       "category": "primitives",
-      "version": "11.4.1",
+      "version": "11.5.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -4528,7 +4528,7 @@
       "summary": "",
       "description": "",
       "category": "forms",
-      "version": "11.4.1",
+      "version": "11.5.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -4813,7 +4813,7 @@
       "summary": "",
       "description": "",
       "category": "forms",
-      "version": "11.4.1",
+      "version": "11.5.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -4934,7 +4934,7 @@
       "summary": "",
       "description": "",
       "category": "components",
-      "version": "11.4.1",
+      "version": "11.5.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -5004,7 +5004,7 @@
       "summary": "",
       "description": "",
       "category": "layout",
-      "version": "11.4.1",
+      "version": "11.5.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -5078,7 +5078,7 @@
       "summary": "",
       "description": "",
       "category": "layout",
-      "version": "11.4.1",
+      "version": "11.5.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -5160,7 +5160,7 @@
       "summary": "",
       "description": "",
       "category": "forms",
-      "version": "11.4.1",
+      "version": "11.5.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -5254,7 +5254,7 @@
       "summary": "",
       "description": "",
       "category": "forms",
-      "version": "11.4.1",
+      "version": "11.5.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -5433,7 +5433,7 @@
       "summary": "",
       "description": "",
       "category": "feedback",
-      "version": "11.4.1",
+      "version": "11.5.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -5580,7 +5580,7 @@
       "summary": "",
       "description": "",
       "category": "feedback",
-      "version": "11.4.1",
+      "version": "11.5.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -5604,7 +5604,7 @@
       "summary": "Numeric field with locale-aware parsing, `Intl` formatting on commit, prefix/suffix adornments and steppers that hold to repeat.",
       "description": "Numeric field with locale-aware parsing, `Intl` formatting on commit, prefix/suffix adornments and steppers that hold to repeat. Not `<input type=\"number\">`, and the first reason is a data-loss bug: per the HTML value sanitization algorithm, a number input whose text is not a valid floating-point number reports `value === ''`. Type `12,50` as most of Europe does, or paste `1,234.56` from a spreadsheet, and the app reads an empty field. This is `type=\"text\"` with `role=\"spinbutton\"`, which is the only way to keep the user's malformed text on screen and tell them about it. Chrome comes from `uni-input-box`, so error, disabled and focus states match every other field. All arithmetic runs on the cdk's exact decimal helpers.",
       "category": "forms",
-      "version": "11.4.1",
+      "version": "11.5.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -6030,7 +6030,7 @@
       "summary": "Two linked numeric fields in one chrome, with one `{ start, end }` value — price filters, thresholds, tolerances.",
       "description": "Two linked numeric fields in one chrome, with one `{ start, end }` value — price filters, thresholds, tolerances. `start`/`end` deliberately match `UniDateRange`, so the library has one range vocabulary, and they avoid colliding with the `min`/`max` **inputs**, which mean the fence rather than the value. It owns its commit path rather than nesting two `uni-number-input`s, because the two behaviours the spec asks for need *different* bounds: a stepper must be fenced at the other end, while a typed commit must reach the parent un-clamped so a backwards range can be swapped instead of destroyed. A child field applies one bound pair to both. The arithmetic, parsing and formatting are still the cdk's, shared with every other numeric control.",
       "category": "forms",
-      "version": "11.4.1",
+      "version": "11.5.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -6321,7 +6321,7 @@
       "summary": "",
       "description": "",
       "category": "data",
-      "version": "11.4.1",
+      "version": "11.5.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -6422,7 +6422,7 @@
       "summary": "Anchored, top-layer panel on the native `popover` element — the browser owns positioning (CSS anchor positioning), stacking, and, in rich mode, light dismissal.",
       "description": "Anchored, top-layer panel on the native `popover` element — the browser owns positioning (CSS anchor positioning), stacking, and, in rich mode, light dismissal. Two modes share one implementation: - `rich` (default): a click-toggled disclosure. The projected `[trigger]` carries `aria-expanded`/`aria-controls`; with no trigger content the app drives `open` and no element claims controller ARIA. Focus stays on the trigger (APG disclosure) unless the panel marks an `[autofocus]` field, and returns to the trigger on close. - `tooltip`: hover/focus-triggered, `role=\"tooltip\"` + `aria-describedby`, WCAG 1.4.13 dismissable/hoverable/persistent. Content must not contain focusable elements. Anchoring and control are separate: `anchor` re-anchors the panel to any element (or id) while the trigger keeps the disclosure semantics.",
       "category": "layout",
-      "version": "11.4.1",
+      "version": "11.5.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -6614,7 +6614,7 @@
       "summary": "",
       "description": "",
       "category": "feedback",
-      "version": "11.4.1",
+      "version": "11.5.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -6678,7 +6678,7 @@
       "summary": "",
       "description": "",
       "category": "feedback",
-      "version": "11.4.1",
+      "version": "11.5.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -6742,7 +6742,7 @@
       "summary": "`− 3 +` for cart lines, table cells and seat counts: the numeric core with no field chrome, no label and no room for either.",
       "description": "`− 3 +` for cart lines, table cells and seat counts: the numeric core with no field chrome, no label and no room for either. A separate component rather than a `chrome=\"bare\"` flag on `uni-number-input`, because this control is defined by what it does *not* have — presets, affixes, expressions, four stepper layouts — and eight inputs are easier to write correctly than forty with a list of which ones to leave alone. The arithmetic, parsing and hold-to-repeat are the cdk's, shared with the field, so `1,200` and the keyboard map behave identically in both. The middle stays a real input by default: typing `12` beats tapping `+` eleven times. `editable=false` is for read-mostly tables.",
       "category": "forms",
-      "version": "11.4.1",
+      "version": "11.5.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -6945,7 +6945,7 @@
       "summary": "",
       "description": "",
       "category": "forms",
-      "version": "11.4.1",
+      "version": "11.5.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -7158,7 +7158,7 @@
       "summary": "Content for each of a radio group's options, in place of the plain label string.",
       "description": "Content for each of a radio group's options, in place of the plain label string. A group renders N labels from an `options` array, so it cannot take `<ng-content />` the way `uni-checkbox` and `uni-toggle` do — there is no single slot to project into. A template is the shape that survives the repetition: it is instantiated once per option and handed that option, so a row can carry a description, a price or a badge and still be part of the `<label>` that drives the input. ```html <uni-radio [options]=\"plans\"> <ng-template uniRadioOption let-option> <span uni-text=\"body-2-long\">{{ option.label }}</span> </ng-template> </uni-radio> ```",
       "category": "forms",
-      "version": "11.4.1",
+      "version": "11.5.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -7182,7 +7182,7 @@
       "summary": "",
       "description": "",
       "category": "directives",
-      "version": "11.4.1",
+      "version": "11.5.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -7206,7 +7206,7 @@
       "summary": "",
       "description": "",
       "category": "layout",
-      "version": "11.4.1",
+      "version": "11.5.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -7261,7 +7261,7 @@
       "summary": "Native scroll area with theme-driven scrollbar styling.",
       "description": "Native scroll area with theme-driven scrollbar styling. Scrollbars are styled entirely through Emotion-generated CSS: `::-webkit-scrollbar` rules cover Chromium/Safari, with a `scrollbar-width`/`scrollbar-color` fallback for Firefox.",
       "category": "layout",
-      "version": "11.4.1",
+      "version": "11.5.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -7408,7 +7408,7 @@
       "summary": "Generic search field: shared input chrome with a leading magnifier, a clear button while there's a query, Enter to submit, and optional type-ahead — pass `suggestions` (refresh them from `change`) and the field becomes an ARIA combobox with a keyboard-navigable listbox.",
       "description": "Generic search field: shared input chrome with a leading magnifier, a clear button while there's a query, Enter to submit, and optional type-ahead — pass `suggestions` (refresh them from `change`) and the field becomes an ARIA combobox with a keyboard-navigable listbox. Escape closes the list first, then clears the query.",
       "category": "forms",
-      "version": "11.4.1",
+      "version": "11.5.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -7523,7 +7523,7 @@
       "summary": "",
       "description": "",
       "category": "forms",
-      "version": "11.4.1",
+      "version": "11.5.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -7693,7 +7693,7 @@
       "summary": "Loading placeholder painted with surface tokens.",
       "description": "Loading placeholder painted with surface tokens. `text` renders one or more lines (the last line shortened, as real text would be), `rect` and `circle` render fixed shapes. The shimmer only animates when the user allows motion; it degrades to static blocks under `prefers-reduced-motion`. Color and radius are theme options with per-instance overrides, because one app routinely needs several: skeletons on a card and on the page background want different tints, and a pill placeholder wants a different corner than the text bars beside it.",
       "category": "components",
-      "version": "11.4.1",
+      "version": "11.5.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -7829,7 +7829,7 @@
       "summary": "Bounded numeric input by pointer, for values where the *position* is the information: volume, opacity, weightings, price filters.",
       "description": "Bounded numeric input by pointer, for values where the *position* is the information: volume, opacity, weightings, price filters. Custom thumbs rather than `<input type=\"range\">`, which the previous version used: one native range input cannot carry two thumbs, marks or a tooltip, and a second component for the range case would mean two keyboard maps to keep in step. The step model and the keyboard map are the cdk's, shared with the numeric fields, so nothing new is learned moving between them. All arithmetic on values runs through the cdk's exact decimal helpers — stepping `0.1` never yields `0.30000000000000004`. Only pointer *positions* use floats, and they are snapped to the grid before becoming a value.",
       "category": "forms",
-      "version": "11.4.1",
+      "version": "11.5.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -8106,7 +8106,7 @@
       "summary": "",
       "description": "",
       "category": "feedback",
-      "version": "11.4.1",
+      "version": "11.5.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -8218,7 +8218,7 @@
       "summary": "",
       "description": "",
       "category": "data",
-      "version": "11.4.1",
+      "version": "11.5.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -8263,7 +8263,7 @@
       "summary": "",
       "description": "",
       "category": "layout",
-      "version": "11.4.1",
+      "version": "11.5.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -8318,7 +8318,7 @@
       "summary": "KPI stat tile: muted label, large value (numbers auto-compact: 48234 → \"48.2K\"), an optional delta whose ink is decided by *direction × whether up is good* (never direction alone — churn going down is good news), and an optional decorative sparkline.",
       "description": "KPI stat tile: muted label, large value (numbers auto-compact: 48234 → \"48.2K\"), an optional delta whose ink is decided by *direction × whether up is good* (never direction alone — churn going down is good news), and an optional decorative sparkline. Frame, typography and inks are all `stat` theme tokens.",
       "category": "components",
-      "version": "11.4.1",
+      "version": "11.5.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -8436,7 +8436,7 @@
       "summary": "",
       "description": "",
       "category": "primitives",
-      "version": "11.4.1",
+      "version": "11.5.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -8525,7 +8525,7 @@
       "summary": "One tab inside `uni-tabs`: a label for the tablist plus projected panel content.",
       "description": "One tab inside `uni-tabs`: a label for the tablist plus projected panel content. Content is captured in a template and only instantiated while the tab is selected, so inactive panels cost nothing.",
       "category": "components",
-      "version": "11.4.1",
+      "version": "11.5.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -8565,7 +8565,7 @@
       "summary": "WAI-ARIA tabs: roving tabindex, automatic activation (arrow keys move focus and select), Home/End, disabled tabs skipped.",
       "description": "WAI-ARIA tabs: roving tabindex, automatic activation (arrow keys move focus and select), Home/End, disabled tabs skipped. Only the selected panel is instantiated. All styling resolves from `tabs` theme option tokens. A tab switch is softened by the `panelMotion` option: the incoming content fades in while the panel animates from the outgoing content's height to its own. The new content is live from the first frame — nothing waits on the animation.",
       "category": "components",
-      "version": "11.4.1",
+      "version": "11.5.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -8653,7 +8653,7 @@
       "summary": "Compact chip for categories, states, filters and tokens.",
       "description": "Compact chip for categories, states, filters and tokens. Two orthogonal style axes: `variant` picks the colour role and `tone` picks the archetype (soft / solid / outline). Both live in the theme's `tag` entry, so a theme restyles every chip in the app without touching markup. Two state classes ride alongside the tone class for the same reason: `tag-selected` and `tag-interactive` let the theme paint selection and hover beside the colours they belong to, instead of an app swapping `tone` by hand on every chip. Structurally a chip is **body + trailing action as siblings**, never nested buttons: an interactive chip whose body is a `<button>` cannot contain the remove `<button>` (invalid HTML, and the inner control becomes unreachable for keyboard users). Both stay independently operable.",
       "category": "data",
-      "version": "11.4.1",
+      "version": "11.5.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -8907,7 +8907,7 @@
       "summary": "A row of chips the user picks from: filters, facets, a set of labels.",
       "description": "A row of chips the user picks from: filters, facets, a set of labels. The group **renders its own chips** from `items` rather than projecting them. That is what lets it own the things an app was otherwise wiring per chip — which one is selected, which one holds the tab stop — since a parent cannot write a projected child's inputs. `uni-tag` is unchanged by this component; `controlTabIndex` was already its hook for a composite that manages focus. Keyboard model is the toolbar pattern: one tab stop for the whole group, and the arrow keys move within it. Twelve filter chips should cost one Tab to pass, not twelve.",
       "category": "data",
-      "version": "11.4.1",
+      "version": "11.5.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -9052,7 +9052,7 @@
       "summary": "",
       "description": "",
       "category": "forms",
-      "version": "11.4.1",
+      "version": "11.5.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -9316,7 +9316,7 @@
       "summary": "The typography primitive, applied as an attribute to any element so semantics stay yours.",
       "description": "The typography primitive, applied as an attribute to any element so semantics stay yours. The attribute value is the typeface: `<h1 uni-text=\"display-small\">`, `<span uni-text=\"caption\">`, dynamic via `[uni-text]=\"role()\"`. With no value, the typeface is inferred from the host element (h1 → headline-large, p → body-1-long, …), falling back to `title-small`; the `typeface` input remains as an explicit override. It is a directive, so it stacks with anything else on the element — a layout attribute (`<div stack-layout uni-text=\"title-small\">`) or a component's own host — rather than colliding with it.",
       "category": "primitives",
-      "version": "11.4.1",
+      "version": "11.5.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -9426,7 +9426,7 @@
       "summary": "",
       "description": "",
       "category": "forms",
-      "version": "11.4.1",
+      "version": "11.5.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -9633,7 +9633,7 @@
       "summary": "",
       "description": "",
       "category": "primitives",
-      "version": "11.4.1",
+      "version": "11.5.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -9663,7 +9663,7 @@
       "summary": "Drop-in switcher for the themes registered via `UNI_THEMES`: a select over `ThemeService.themeOptions` that applies the choice through `selectTheme` (so it persists across reloads like any other theme selection).",
       "description": "Drop-in switcher for the themes registered via `UNI_THEMES`: a select over `ThemeService.themeOptions` that applies the choice through `selectTheme` (so it persists across reloads like any other theme selection).",
       "category": "components",
-      "version": "11.4.1",
+      "version": "11.5.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -9721,7 +9721,7 @@
       "summary": "Time field: a combobox over time options — the same listbox contract as uni-search-input and uni-tag-input.",
       "description": "Time field: a combobox over time options — the same listbox contract as uni-search-input and uni-tag-input. Type `3p`, `930` or `15:00`, or pick `3:00 PM` from the list; the form always gets 24-hour `'HH:mm'` (`hour12` affects display only). The list is assistive, not exhaustive: any parseable time commits, unless `slots` pins the choices (a slot picker) — then a typed time must match one. Unreadable or unavailable text stays in the field, flagged, with a `rejected` event.",
       "category": "forms",
-      "version": "11.4.1",
+      "version": "11.5.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -9936,7 +9936,7 @@
       "summary": "",
       "description": "",
       "category": "forms",
-      "version": "11.4.1",
+      "version": "11.5.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -10138,7 +10138,7 @@
       "summary": "",
       "description": "",
       "category": "feedback",
-      "version": "11.4.1",
+      "version": "11.5.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -10226,7 +10226,7 @@
       "summary": "A thin sequencer over one `uni-callout`: steps spotlight their targets, a footer walks Next/Back with dots-or-fraction progress, and `advanceOn` gates a step behind an interaction with its target (auto-advancing for clicks, unlocking Next otherwise — announced through one `role=\"status\"` region).",
       "description": "A thin sequencer over one `uni-callout`: steps spotlight their targets, a footer walks Next/Back with dots-or-fraction progress, and `advanceOn` gates a step behind an interaction with its target (auto-advancing for clicks, unlocking Next otherwise — announced through one `role=\"status\"` region). Escape or the close button skips the tour and reports the step. `active` is a two-way model, so a tour is deep-linkable and inspectable; steps whose declared target cannot be resolved are skipped (with a dev warning) in the direction of travel rather than erroring.",
       "category": "components",
-      "version": "11.4.1",
+      "version": "11.5.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -10353,7 +10353,7 @@
       "summary": "",
       "description": "",
       "category": "layout",
-      "version": "11.4.1",
+      "version": "11.5.0",
       "bindings": {
         "angular": {
           "importPath": "@uni-design-system/uni-angular",
@@ -17419,6 +17419,30 @@
       "package": "@uni-design-system/uni-angular",
       "releases": [
         {
+          "version": "11.5.0",
+          "entries": [
+            {
+              "bump": "minor",
+              "title": "New CDK utility: `copyToClipboard`, for text and rich content.",
+              "body": "`copyToClipboard(content)` wraps the Async Clipboard API and never rejects. It resolves `'copied' | 'denied' | 'unsupported' | 'failed'`, so a caller can tell the user why a copy did not work. Pass a string for text, or a map of MIME type to data (`{ 'text/plain': …, 'text/html': … }`, `{ 'image/png': blob }`) for rich content; a value may be a promise, for content that has to be fetched or rendered first.\n\nThe write starts synchronously inside the user gesture. The `clipboard-write` permission is consulted only after a refusal, to tell `denied` apart from `failed`: only Chromium answers that query, and waiting on it before the write can cost the gesture in other browsers.\n\n`PermissionService`, the `Permission` and `PermissionState` types, and a new plain function `queryPermission` are now exported; the docs already described the service as importable, but it was missing from the public API.",
+              "commit": "a5e4bd0"
+            },
+            {
+              "bump": "minor",
+              "title": "`uni-tabs` softens a tab switch: the incoming panel fades in while the panel animates between the two contents' heights.",
+              "body": "Switching between panels of different heights used to cut, and everything below the tabs jumped with it. The panel now travels from the outgoing content's height to the incoming one while the new content fades in. The new content is rendered and interactive from the first frame, so the animation never delays the switch, and a second switch mid-animation picks up from the height the first had reached.\n\nThe timing is a new `tabs` theme option, `panelMotion`, naming a motion primitive. The base theme sets it to `panel`, so **this is on by default**; set `panelMotion: undefined` in a theme to keep the instant switch. Under `prefers-reduced-motion` the switch is always instant.",
+              "commit": "ec2cc45"
+            },
+            {
+              "bump": "patch",
+              "title": "`uni-tabs` no longer pads its panel.",
+              "body": "The panel carried a hardcoded `md` top padding, which assumed every consumer wanted that gap between the tablist and their content. Full-bleed content (a table, a divider, a tinted surface) could not sit flush against the tablist without a negative margin. The panel now adds no padding; content that relied on the gap should set its own spacing.",
+              "commit": "9a51a28"
+            }
+          ],
+          "dependencyBumps": []
+        },
+        {
           "version": "11.4.1",
           "entries": [
             {
@@ -18341,6 +18365,18 @@
       "package": "@uni-design-system/uni-core",
       "releases": [
         {
+          "version": "11.5.0",
+          "entries": [
+            {
+              "bump": "minor",
+              "title": "`uni-tabs` softens a tab switch: the incoming panel fades in while the panel animates between the two contents' heights.",
+              "body": "Switching between panels of different heights used to cut, and everything below the tabs jumped with it. The panel now travels from the outgoing content's height to the incoming one while the new content fades in. The new content is rendered and interactive from the first frame, so the animation never delays the switch, and a second switch mid-animation picks up from the height the first had reached.\n\nThe timing is a new `tabs` theme option, `panelMotion`, naming a motion primitive. The base theme sets it to `panel`, so **this is on by default**; set `panelMotion: undefined` in a theme to keep the instant switch. Under `prefers-reduced-motion` the switch is always instant.",
+              "commit": "ec2cc45"
+            }
+          ],
+          "dependencyBumps": []
+        },
+        {
           "version": "11.4.1",
           "entries": [],
           "dependencyBumps": []
@@ -19000,6 +19036,11 @@
       "package": "@uni-design-system/uni-react",
       "releases": [
         {
+          "version": "11.5.0",
+          "entries": [],
+          "dependencyBumps": []
+        },
+        {
           "version": "11.4.1",
           "entries": [],
           "dependencyBumps": []
@@ -19301,6 +19342,18 @@
       "package": "@uni-design-system/uni-mcp",
       "releases": [
         {
+          "version": "11.5.0",
+          "entries": [
+            {
+              "bump": "minor",
+              "title": "The MCP now covers the CDK — the non-visual half of `uni-angular`.",
+              "body": "Until now the index held components only, so `copyToClipboard`, `PermissionService`, the decimal helpers, the datasources and every other CDK export were invisible to an assistant: nothing in them has a selector. A new `cdk-adapter` walks the CDK barrel (`cdk/index.ts`) and indexes every exported function, injectable service, class, interface, type and const with its signature and JSDoc — read from the TypeScript AST, so arrow-function consts, generics and multi-line parameter lists come through as written. Each CDK module's docs page ships alongside as markdown.\n- **`list-utilities`** — the inventory, grouped by module; filter by `module` or `kind`.\n- **`get-utility`** — one export by id (`copy-to-clipboard`) or name (`copyToClipboard`): import line, signature, members, the other symbols in its module, and the module's docs page with usage examples.\n- **`search`** gains a `utility` kind, and **`uni://utilities/{id}`** serves the same card as a resource.\n\nThe server's instructions point assistants at these before they hand-roll a browser API call.",
+              "commit": "42aee9e"
+            }
+          ],
+          "dependencyBumps": []
+        },
+        {
           "version": "11.4.1",
           "entries": [],
           "dependencyBumps": []
@@ -19552,7 +19605,7 @@
       "summary": "Returns a document-unique id for wiring ARIA relationships (aria-controls, aria-describedby, aria-labelledby, ...).",
       "description": "Returns a document-unique id for wiring ARIA relationships (aria-controls, aria-describedby, aria-labelledby, ...).",
       "members": [],
-      "version": "11.4.1"
+      "version": "11.5.0"
     },
     {
       "id": "focusable-selector",
@@ -19564,7 +19617,7 @@
       "summary": "Selector matching natively focusable elements.",
       "description": "Selector matching natively focusable elements. Used to locate the interactive element inside a projected trigger so ARIA attributes land on the element that actually receives focus.",
       "members": [],
-      "version": "11.4.1"
+      "version": "11.5.0"
     },
     {
       "id": "resolve-focus-target",
@@ -19576,7 +19629,7 @@
       "summary": "Resolves the element that should carry ARIA state for a trigger: the element itself when focusable, otherwise its first focusable descendant.",
       "description": "Resolves the element that should carry ARIA state for a trigger: the element itself when focusable, otherwise its first focusable descendant.",
       "members": [],
-      "version": "11.4.1"
+      "version": "11.5.0"
     },
     {
       "id": "visually-hidden",
@@ -19588,7 +19641,7 @@
       "summary": "Visually hides content while keeping it available to screen readers.",
       "description": "Visually hides content while keeping it available to screen readers. Use for text alternatives (e.g. badge counts, icon-only affordances). `fixed`, not `absolute`, and that is load-bearing. An absolutely positioned box resolves its containing block to the nearest *positioned* ancestor — which, since the controls emitting these spans are `position: static`, is whatever positioned box happens to be above them in the consumer's layout, often several scroll containers up. The span then skips every intervening `overflow: auto` and lands in that distant ancestor's scrollable overflow, turning 1x1 of invisible text into real scrollable distance in a box that never opted into scrolling. A fixed box's containing block is the viewport, so it joins no ancestor's scrollable overflow at all. Caveat: inside a `transform`ed (or `filter`ed/`contain`ed) ancestor a fixed box re-anchors to that ancestor. Harmless here — the element is 1x1 and clipped to nothing, so where it lands never matters, only what it overflows.",
       "members": [],
-      "version": "11.4.1"
+      "version": "11.5.0"
     },
     {
       "id": "motion-safe",
@@ -19600,7 +19653,7 @@
       "summary": "Wraps animation/transition styles so they only apply when the user has not requested reduced motion (WCAG 2.3.3).",
       "description": "Wraps animation/transition styles so they only apply when the user has not requested reduced motion (WCAG 2.3.3).",
       "members": [],
-      "version": "11.4.1"
+      "version": "11.5.0"
     },
     {
       "id": "announcer",
@@ -19625,7 +19678,7 @@
           "description": "Announce `text`, even when it repeats what was just announced."
         }
       ],
-      "version": "11.4.1"
+      "version": "11.5.0"
     },
     {
       "id": "create-announcer",
@@ -19637,7 +19690,7 @@
       "summary": "A polite live region's text, for the running commentary a form control owes a screen reader: commits, clears, refused entries, result counts — changes a sighted user sees but that are otherwise silent.",
       "description": "A polite live region's text, for the running commentary a form control owes a screen reader: commits, clears, refused entries, result counts — changes a sighted user sees but that are otherwise silent. Extracted because five controls (`uni-combobox`, `uni-tag-input`, `uni-time-input`, `uni-date-input`, `uni-calendar`) carried byte-identical copies, including the repeat trick below — the kind of subtlety that is quietly dropped when the sixth control hand-rolls its own. Announcing the same text twice must still be heard: assistive tech reads a live region when its content *changes*, so setting an identical string is a no-op and the second \"No match.\" would be silent. A trailing space breaks the equality without changing a word of what is read. Successive repeats alternate between the padded and unpadded form, so nothing accumulates. Deliberately holds no DOM and no styling: the region belongs to the component's own template, where its placement and visually-hidden class are already the component's business.",
       "members": [],
-      "version": "11.4.1"
+      "version": "11.5.0"
     },
     {
       "id": "uni-date",
@@ -19649,7 +19702,7 @@
       "summary": "A calendar date, `'YYYY-MM-DD'`.",
       "description": "A calendar date, `'YYYY-MM-DD'`.",
       "members": [],
-      "version": "11.4.1"
+      "version": "11.5.0"
     },
     {
       "id": "uni-time",
@@ -19661,7 +19714,7 @@
       "summary": "A wall-clock time, `'HH:mm'` (24-hour).",
       "description": "A wall-clock time, `'HH:mm'` (24-hour). Display format is separate.",
       "members": [],
-      "version": "11.4.1"
+      "version": "11.5.0"
     },
     {
       "id": "uni-date-time",
@@ -19673,7 +19726,7 @@
       "summary": "A combined date and time, `'YYYY-MM-DDTHH:mm'`.",
       "description": "A combined date and time, `'YYYY-MM-DDTHH:mm'`.",
       "members": [],
-      "version": "11.4.1"
+      "version": "11.5.0"
     },
     {
       "id": "uni-date-range",
@@ -19698,7 +19751,7 @@
           "description": ""
         }
       ],
-      "version": "11.4.1"
+      "version": "11.5.0"
     },
     {
       "id": "iso-date",
@@ -19710,7 +19763,7 @@
       "summary": "`(2026, 8, 5)` → `'2026-08-05'`.",
       "description": "`(2026, 8, 5)` → `'2026-08-05'`. Does not validate — see `isValidDate`.",
       "members": [],
-      "version": "11.4.1"
+      "version": "11.5.0"
     },
     {
       "id": "is-valid-date",
@@ -19722,7 +19775,7 @@
       "summary": "The ISO date when the parts form a real calendar day, else `null`.",
       "description": "The ISO date when the parts form a real calendar day, else `null`.",
       "members": [],
-      "version": "11.4.1"
+      "version": "11.5.0"
     },
     {
       "id": "days-in-month",
@@ -19734,7 +19787,7 @@
       "summary": "Days in a month, leap-year aware.",
       "description": "Days in a month, leap-year aware.",
       "members": [],
-      "version": "11.4.1"
+      "version": "11.5.0"
     },
     {
       "id": "add-days",
@@ -19746,7 +19799,7 @@
       "summary": "",
       "description": "",
       "members": [],
-      "version": "11.4.1"
+      "version": "11.5.0"
     },
     {
       "id": "add-months",
@@ -19758,7 +19811,7 @@
       "summary": "Same day ± n months, clamping the day to the target month's length.",
       "description": "Same day ± n months, clamping the day to the target month's length.",
       "members": [],
-      "version": "11.4.1"
+      "version": "11.5.0"
     },
     {
       "id": "day-of-week",
@@ -19770,7 +19823,7 @@
       "summary": "Day of week, 0 = Sunday … 6 = Saturday.",
       "description": "Day of week, 0 = Sunday … 6 = Saturday.",
       "members": [],
-      "version": "11.4.1"
+      "version": "11.5.0"
     },
     {
       "id": "month-of",
@@ -19782,7 +19835,7 @@
       "summary": "`'2026-08-20'` → `'2026-08'`.",
       "description": "`'2026-08-20'` → `'2026-08'`.",
       "members": [],
-      "version": "11.4.1"
+      "version": "11.5.0"
     },
     {
       "id": "today-iso",
@@ -19794,7 +19847,7 @@
       "summary": "Today as a local-wall-clock ISO date (the one place local time matters).",
       "description": "Today as a local-wall-clock ISO date (the one place local time matters).",
       "members": [],
-      "version": "11.4.1"
+      "version": "11.5.0"
     },
     {
       "id": "inclusive-day-count",
@@ -19806,7 +19859,7 @@
       "summary": "Inclusive day count of a range: `('-20', '-24')` → 5.",
       "description": "Inclusive day count of a range: `('-20', '-24')` → 5.",
       "members": [],
-      "version": "11.4.1"
+      "version": "11.5.0"
     },
     {
       "id": "uni-month-grid-cell",
@@ -19831,7 +19884,7 @@
           "description": "True for leading/trailing cells that belong to the adjacent months."
         }
       ],
-      "version": "11.4.1"
+      "version": "11.5.0"
     },
     {
       "id": "build-month-grid",
@@ -19843,7 +19896,7 @@
       "summary": "The week matrix a calendar renders: full weeks covering `'YYYY-MM'`, starting on `weekStart` (0 = Sunday).",
       "description": "The week matrix a calendar renders: full weeks covering `'YYYY-MM'`, starting on `weekStart` (0 = Sunday). Outside cells are always present so showing or hiding them is a pure render decision.",
       "members": [],
-      "version": "11.4.1"
+      "version": "11.5.0"
     },
     {
       "id": "format-date",
@@ -19855,7 +19908,7 @@
       "summary": "",
       "description": "",
       "members": [],
-      "version": "11.4.1"
+      "version": "11.5.0"
     },
     {
       "id": "format-month-heading",
@@ -19867,7 +19920,7 @@
       "summary": "`'2026-08'` → `'August 2026'` in the locale.",
       "description": "`'2026-08'` → `'August 2026'` in the locale.",
       "members": [],
-      "version": "11.4.1"
+      "version": "11.5.0"
     },
     {
       "id": "uni-weekday-name",
@@ -19892,7 +19945,7 @@
           "description": "Full weekday name, for the columnheader's `abbr`."
         }
       ],
-      "version": "11.4.1"
+      "version": "11.5.0"
     },
     {
       "id": "weekday-names",
@@ -19904,7 +19957,7 @@
       "summary": "Weekday header labels starting at `weekStart` (0 = Sunday).",
       "description": "Weekday header labels starting at `weekStart` (0 = Sunday).",
       "members": [],
-      "version": "11.4.1"
+      "version": "11.5.0"
     },
     {
       "id": "format-time",
@@ -19916,7 +19969,7 @@
       "summary": "`'15:00'` → `'3:00 PM'` (or `'15:00'` when `hour12` is false).",
       "description": "`'15:00'` → `'3:00 PM'` (or `'15:00'` when `hour12` is false).",
       "members": [],
-      "version": "11.4.1"
+      "version": "11.5.0"
     },
     {
       "id": "locale-week-start",
@@ -19928,7 +19981,7 @@
       "summary": "The locale's first day of week, 0 = Sunday … 6 = Saturday.",
       "description": "The locale's first day of week, 0 = Sunday … 6 = Saturday. Falls back to Sunday where `Intl.Locale` week info is unavailable.",
       "members": [],
-      "version": "11.4.1"
+      "version": "11.5.0"
     },
     {
       "id": "locale-default-hour12",
@@ -19940,7 +19993,7 @@
       "summary": "Whether the locale's default clock is 12-hour.",
       "description": "Whether the locale's default clock is 12-hour.",
       "members": [],
-      "version": "11.4.1"
+      "version": "11.5.0"
     },
     {
       "id": "locale-field-order",
@@ -19952,7 +20005,7 @@
       "summary": "The locale's numeric-date field order, e.g.",
       "description": "The locale's numeric-date field order, e.g. en-US → month, day, year.",
       "members": [],
-      "version": "11.4.1"
+      "version": "11.5.0"
     },
     {
       "id": "locale-month-names",
@@ -19964,7 +20017,7 @@
       "summary": "Long + short month names → month number, lowercased, dots stripped.",
       "description": "Long + short month names → month number, lowercased, dots stripped.",
       "members": [],
-      "version": "11.4.1"
+      "version": "11.5.0"
     },
     {
       "id": "locale-date-placeholder",
@@ -19976,7 +20029,7 @@
       "summary": "The locale's digit pattern as a placeholder, e.g.",
       "description": "The locale's digit pattern as a placeholder, e.g. `'MM/DD/YYYY'`.",
       "members": [],
-      "version": "11.4.1"
+      "version": "11.5.0"
     },
     {
       "id": "parse-date-text",
@@ -19988,7 +20041,7 @@
       "summary": "Free-typed date text → ISO date, or `null` when unreadable.",
       "description": "Free-typed date text → ISO date, or `null` when unreadable. Accepts, in order: ISO (`2026-08-20`), a month name from the locale's own long/short lists (`aug 20`, `20 aug 2026`, `August 20th`), and locale-numeric text (`8/20/2026`, `20.8.2026`, `08-20`) with the digit order taken from `Intl.DateTimeFormat(locale).formatToParts()`. A missing year resolves to the next occurrence; two-digit years are refused rather than guessed.",
       "members": [],
-      "version": "11.4.1"
+      "version": "11.5.0"
     },
     {
       "id": "parse-time-text",
@@ -20000,7 +20053,7 @@
       "summary": "Free-typed time text → `'HH:mm'`, or `null`.",
       "description": "Free-typed time text → `'HH:mm'`, or `null`. Accepts `9`, `930`, `9:30`, `9.30`, `9 30`, `3p`, `3pm`, `3 PM`, `15:00`. Bare hours 1–7 with no meridiem lean PM when `hour12` — typing `3` into an appointment field means 15:00, not 03:00.",
       "members": [],
-      "version": "11.4.1"
+      "version": "11.5.0"
     },
     {
       "id": "time-slots",
@@ -20012,7 +20065,7 @@
       "summary": "Every `minuteStep` time between `min` and `max` (inclusive bounds).",
       "description": "Every `minuteStep` time between `min` and `max` (inclusive bounds).",
       "members": [],
-      "version": "11.4.1"
+      "version": "11.5.0"
     },
     {
       "id": "split-date-time",
@@ -20024,7 +20077,7 @@
       "summary": "",
       "description": "",
       "members": [],
-      "version": "11.4.1"
+      "version": "11.5.0"
     },
     {
       "id": "join-date-time",
@@ -20036,7 +20089,7 @@
       "summary": "One combined value only when both parts are present.",
       "description": "One combined value only when both parts are present.",
       "members": [],
-      "version": "11.4.1"
+      "version": "11.5.0"
     },
     {
       "id": "uni-number-range",
@@ -20061,7 +20114,7 @@
           "description": ""
         }
       ],
-      "version": "11.4.1"
+      "version": "11.5.0"
     },
     {
       "id": "uni-rounding-mode",
@@ -20073,7 +20126,7 @@
       "summary": "How a tie is resolved when rounding to a fraction-digit count.",
       "description": "How a tie is resolved when rounding to a fraction-digit count. `half-up` is the invoice default (ties away from zero: `1.15` → `1.2`); `half-even` is banker's rounding, which removes the upward bias across a column of figures (`1.25` → `1.2`, `1.35` → `1.4`).",
       "members": [],
-      "version": "11.4.1"
+      "version": "11.5.0"
     },
     {
       "id": "uni-number-preset",
@@ -20085,7 +20138,7 @@
       "summary": "Format archetype.",
       "description": "Format archetype. Supplies decimals, grouping, affix and `inputmode`.",
       "members": [],
-      "version": "11.4.1"
+      "version": "11.5.0"
     },
     {
       "id": "uni-number-grouping",
@@ -20097,7 +20150,7 @@
       "summary": "Thousands-separator policy, mapped onto `Intl`'s `useGrouping`.",
       "description": "Thousands-separator policy, mapped onto `Intl`'s `useGrouping`. `min2` — the default — groups only from five integer digits, so a year renders `2026` rather than `2,026` while a price still renders `10,000`.",
       "members": [],
-      "version": "11.4.1"
+      "version": "11.5.0"
     },
     {
       "id": "uni-number-reject-reason",
@@ -20109,7 +20162,7 @@
       "summary": "Why a typed commit was refused.",
       "description": "Why a typed commit was refused. The raw text stays in the field.",
       "members": [],
-      "version": "11.4.1"
+      "version": "11.5.0"
     },
     {
       "id": "uni-number-step-config",
@@ -20152,7 +20205,7 @@
           "description": "Cycle past a fence instead of stopping at it — for genuinely cyclic fields only (23 → 0 hours, 359 → 0 degrees). Needs both `min` and `max`."
         }
       ],
-      "version": "11.4.1"
+      "version": "11.5.0"
     },
     {
       "id": "uni-number-clamp",
@@ -20177,7 +20230,7 @@
           "description": "Which fence was hit, or `null` when the value was already in range."
         }
       ],
-      "version": "11.4.1"
+      "version": "11.5.0"
     },
     {
       "id": "uni-locale-number-parts",
@@ -20220,7 +20273,7 @@
           "description": "Fraction digits `Intl` uses for the currency — JPY 0, USD 2."
         }
       ],
-      "version": "11.4.1"
+      "version": "11.5.0"
     },
     {
       "id": "uni-number-format-config",
@@ -20305,7 +20358,7 @@
           "description": "Spoken long form of an abbreviated suffix, for `aria-valuetext`."
         }
       ],
-      "version": "11.4.1"
+      "version": "11.5.0"
     },
     {
       "id": "uni-resolved-number-format",
@@ -20396,7 +20449,7 @@
           "description": ""
         }
       ],
-      "version": "11.4.1"
+      "version": "11.5.0"
     },
     {
       "id": "uni-number-parse-result",
@@ -20408,7 +20461,7 @@
       "summary": "The outcome of reading a user's text.",
       "description": "The outcome of reading a user's text. Refused text is never swallowed: the caller keeps it in the field and flags it, so nobody loses their work to a silently emptied box.",
       "members": [],
-      "version": "11.4.1"
+      "version": "11.5.0"
     },
     {
       "id": "is-canonical-decimal",
@@ -20420,7 +20473,7 @@
       "summary": "True when `text` is already a canonical decimal (leading/trailing space allowed).",
       "description": "True when `text` is already a canonical decimal (leading/trailing space allowed).",
       "members": [],
-      "version": "11.4.1"
+      "version": "11.5.0"
     },
     {
       "id": "decimal-scale",
@@ -20432,7 +20485,7 @@
       "summary": "Fraction-digit count.",
       "description": "Fraction-digit count. `'1.250'` → 3, `'12'` → 0, `'5.'` → 0.",
       "members": [],
-      "version": "11.4.1"
+      "version": "11.5.0"
     },
     {
       "id": "to-scaled",
@@ -20444,7 +20497,7 @@
       "summary": "Canonical decimal → integer scaled by `10^scale`.",
       "description": "Canonical decimal → integer scaled by `10^scale`. Fraction digits beyond `scale` are truncated, so callers that must not lose them pass a `scale` at least `decimalScale(value)`.",
       "members": [],
-      "version": "11.4.1"
+      "version": "11.5.0"
     },
     {
       "id": "from-scaled",
@@ -20456,7 +20509,7 @@
       "summary": "Scaled integer → canonical decimal, with trailing fraction zeros trimmed.",
       "description": "Scaled integer → canonical decimal, with trailing fraction zeros trimmed.",
       "members": [],
-      "version": "11.4.1"
+      "version": "11.5.0"
     },
     {
       "id": "normalize-decimal",
@@ -20468,7 +20521,7 @@
       "summary": "Strip a leading `+`, leading zeros and trailing fraction zeros: `'+01.50'` → `'1.5'`.",
       "description": "Strip a leading `+`, leading zeros and trailing fraction zeros: `'+01.50'` → `'1.5'`. Requires a canonical decimal; guard with `isCanonicalDecimal`.",
       "members": [],
-      "version": "11.4.1"
+      "version": "11.5.0"
     },
     {
       "id": "to-decimal",
@@ -20480,7 +20533,7 @@
       "summary": "Any numeric input → canonical decimal, expanding the exponential notation `String(number)` produces outside 1e-7…1e21.",
       "description": "Any numeric input → canonical decimal, expanding the exponential notation `String(number)` produces outside 1e-7…1e21. A `step` of `1e-7` would otherwise reach the arithmetic as the literal text `'1e-7'`. Throws on text that is not numeric at all — every caller here passes either a `number` input or text already cleared by the parser.",
       "members": [],
-      "version": "11.4.1"
+      "version": "11.5.0"
     },
     {
       "id": "compare-decimal",
@@ -20492,7 +20545,7 @@
       "summary": "`-1` when `a < b`, `1` when `a > b`, `0` when equal.",
       "description": "`-1` when `a < b`, `1` when `a > b`, `0` when equal. `'1.50'` equals `'1.5'`.",
       "members": [],
-      "version": "11.4.1"
+      "version": "11.5.0"
     },
     {
       "id": "round-decimal",
@@ -20504,7 +20557,7 @@
       "summary": "Round to `fractionDigits`, breaking ties per `mode`.",
       "description": "Round to `fractionDigits`, breaking ties per `mode`. Exact where `Number.prototype.toFixed` is not — see the file header.",
       "members": [],
-      "version": "11.4.1"
+      "version": "11.5.0"
     },
     {
       "id": "shift-decimal",
@@ -20516,7 +20569,7 @@
       "summary": "Multiply by `10^places`, exactly.",
       "description": "Multiply by `10^places`, exactly. Used for the percent preset's fraction ⇄ display shift (`0.15` ⇄ `15`) and for deriving a default large step of `step × 10` without touching a float.",
       "members": [],
-      "version": "11.4.1"
+      "version": "11.5.0"
     },
     {
       "id": "clamp-decimal",
@@ -20528,7 +20581,7 @@
       "summary": "Hold a value inside its fences, reporting which one it hit so the caller can announce it.",
       "description": "Hold a value inside its fences, reporting which one it hit so the caller can announce it. Clamping belongs on commit, never per keystroke: a `min=10` field that clamps live can never be typed into, because the `1` becomes `10` before the `5` arrives.",
       "members": [],
-      "version": "11.4.1"
+      "version": "11.5.0"
     },
     {
       "id": "step-decimal",
@@ -20540,7 +20593,7 @@
       "summary": "One step from `current`, in `direction` (`1` up, `-1` down).",
       "description": "One step from `current`, in `direction` (`1` up, `-1` down). Steps land on the grid `origin + n · step`, where `origin` is `min` by default. A value that is *off* the grid snaps to the nearest grid point **in the direction of travel** rather than jumping past it: with `min=5, step=10` the grid is 5, 15, 25, and stepping up from 7 gives 15, not 17. Fences stop the value; they never wrap unless `wrap` is set and both bounds are defined. Returns `current` unchanged when `step` is zero.",
       "members": [],
-      "version": "11.4.1"
+      "version": "11.5.0"
     },
     {
       "id": "locale-number-parts",
@@ -20552,7 +20605,7 @@
       "summary": "Locale separators plus, when a currency is given, its symbol, side and fraction digits.",
       "description": "Locale separators plus, when a currency is given, its symbol, side and fraction digits. Memoized: constructing an `Intl.NumberFormat` is expensive and a field re-resolves this on every keystroke.",
       "members": [],
-      "version": "11.4.1"
+      "version": "11.5.0"
     },
     {
       "id": "to-ascii-digits",
@@ -20564,7 +20617,7 @@
       "summary": "Map localized digits and Arabic separators to ASCII, so `١٢٣٤٫٥` parses in `ar` and `१२३४.५` in `hi`.",
       "description": "Map localized digits and Arabic separators to ASCII, so `١٢٣٤٫٥` parses in `ar` and `१२३४.५` in `hi`.",
       "members": [],
-      "version": "11.4.1"
+      "version": "11.5.0"
     },
     {
       "id": "evaluate-expression",
@@ -20576,7 +20629,7 @@
       "summary": "Evaluate `+ − × ÷ ( )` over decimal literals — shunting-yard, roughly thirty lines, and **never `eval`**.",
       "description": "Evaluate `+ − × ÷ ( )` over decimal literals — shunting-yard, roughly thirty lines, and **never `eval`**. Returns a canonical decimal, or `null` when the text is not a well-formed expression. Floats are acceptable here in a way they are not elsewhere: this is a convenience path for spreadsheet muscle memory (`12*3`, `100/4+5`), and the result is settled to ten decimals before re-entering exact arithmetic. Division is the only operation that can produce a non-terminating decimal, and no exact representation would help there either.",
       "members": [],
-      "version": "11.4.1"
+      "version": "11.5.0"
     },
     {
       "id": "resolve-number-format",
@@ -20588,7 +20641,7 @@
       "summary": "Fill in every preset, locale and currency default.",
       "description": "Fill in every preset, locale and currency default.",
       "members": [],
-      "version": "11.4.1"
+      "version": "11.5.0"
     },
     {
       "id": "parse-number",
@@ -20600,7 +20653,7 @@
       "summary": "Read a user's text into a canonical decimal in **model units**.",
       "description": "Read a user's text into a canonical decimal in **model units**. Accepted, in order: canonical/ASCII (always, whatever the locale — it is what agents and APIs write), locale-grouped, affixed, localized digits, compact (`1.5k`), accounting negatives (`(1,234.56)` → `-1234.56`), and expressions when `allowExpressions` is set.",
       "members": [],
-      "version": "11.4.1"
+      "version": "11.5.0"
     },
     {
       "id": "format-number",
@@ -20612,7 +20665,7 @@
       "summary": "Canonical decimal (model units) → the display number, without affixes.",
       "description": "Canonical decimal (model units) → the display number, without affixes. `min2` grouping — the default — starts at five integer digits, so a year renders `2026` rather than `2,026` while a price still renders `10,000`.",
       "members": [],
-      "version": "11.4.1"
+      "version": "11.5.0"
     },
     {
       "id": "raw-number-text",
@@ -20624,7 +20677,7 @@
       "summary": "The plain text the field shows while focused: the display number with no grouping and no affixes, so the caret never has to walk over a separator that appears and vanishes mid-word.",
       "description": "The plain text the field shows while focused: the display number with no grouping and no affixes, so the caret never has to walk over a separator that appears and vanishes mid-word.",
       "members": [],
-      "version": "11.4.1"
+      "version": "11.5.0"
     },
     {
       "id": "settle-number",
@@ -20636,7 +20689,7 @@
       "summary": "Round a committed value to the field's precision, in model units.",
       "description": "Round a committed value to the field's precision, in model units.",
       "members": [],
-      "version": "11.4.1"
+      "version": "11.5.0"
     },
     {
       "id": "speak-number",
@@ -20648,7 +20701,7 @@
       "summary": "The `aria-valuetext` string: the formatted number with its affixes spoken.",
       "description": "The `aria-valuetext` string: the formatted number with its affixes spoken. `aria-valuenow` alone announces \"1234.56\", which is the one thing about a money field that is not the point. An empty field says \"Empty\" per APG.",
       "members": [],
-      "version": "11.4.1"
+      "version": "11.5.0"
     },
     {
       "id": "to-number",
@@ -20660,7 +20713,7 @@
       "summary": "Model-units canonical decimal → the bound `number`.",
       "description": "Model-units canonical decimal → the bound `number`.",
       "members": [],
-      "version": "11.4.1"
+      "version": "11.5.0"
     },
     {
       "id": "loses-precision",
@@ -20672,7 +20725,7 @@
       "summary": "True when a value cannot survive the trip through `number` — the reason the components also expose an exact `valueAsString` model, and the trigger for the dev-mode warning.",
       "description": "True when a value cannot survive the trip through `number` — the reason the components also expose an exact `valueAsString` model, and the trigger for the dev-mode warning. Silent precision loss is the whole point of that second model, so it is worth saying out loud once. A `number` can only be checked for magnitude, since it has already lost whatever it was going to lose. A canonical string can be checked properly: `'9007199254740993'` comes back as `'9007199254740992'`.",
       "members": [],
-      "version": "11.4.1"
+      "version": "11.5.0"
     },
     {
       "id": "press-repeat-timing",
@@ -20709,7 +20762,7 @@
           "description": ""
         }
       ],
-      "version": "11.4.1"
+      "version": "11.5.0"
     },
     {
       "id": "press-repeat-config",
@@ -20758,7 +20811,7 @@
           "description": ""
         }
       ],
-      "version": "11.4.1"
+      "version": "11.5.0"
     },
     {
       "id": "press-repeat",
@@ -20795,7 +20848,7 @@
           "description": "End a hold without firing `onRelease` — for `Escape` and `pointercancel`."
         }
       ],
-      "version": "11.4.1"
+      "version": "11.5.0"
     },
     {
       "id": "create-press-repeat",
@@ -20807,7 +20860,7 @@
       "summary": "",
       "description": "",
       "members": [],
-      "version": "11.4.1"
+      "version": "11.5.0"
     },
     {
       "id": "listbox-navigation-config",
@@ -20850,7 +20903,7 @@
           "description": "Let Home/End jump to the ends of the list. Default false. In an editable combobox those keys belong to the caret — APG reserves them for text editing, and a control that steals them makes the text un-navigable while its list is open. Opt in only where focus is *not* in a text field (uni-multi-select-dropdown, whose focus rides the option checkboxes). Nothing is lost by leaving it off: opening with ArrowUp already lands on the last option, ArrowDown on the first, and navigation wraps at both ends."
         }
       ],
-      "version": "11.4.1"
+      "version": "11.5.0"
     },
     {
       "id": "listbox-navigation",
@@ -20923,7 +20976,7 @@
           "description": "Close when focus leaves the control entirely (not on internal moves)."
         }
       ],
-      "version": "11.4.1"
+      "version": "11.5.0"
     },
     {
       "id": "create-listbox-navigation",
@@ -20935,7 +20988,7 @@
       "summary": "Factory mirroring the signal-API style used elsewhere in the CDK.",
       "description": "Factory mirroring the signal-API style used elsewhere in the CDK.",
       "members": [],
-      "version": "11.4.1"
+      "version": "11.5.0"
     },
     {
       "id": "placement",
@@ -20947,7 +21000,7 @@
       "summary": "Native CSS Anchor Positioning helpers (Baseline 2026).",
       "description": "Native CSS Anchor Positioning helpers (Baseline 2026). These replace the former",
       "members": [],
-      "version": "11.4.1"
+      "version": "11.5.0"
     },
     {
       "id": "anchor-offset",
@@ -20972,7 +21025,7 @@
           "description": "Shift along the cross axis, from the aligned edge."
         }
       ],
-      "version": "11.4.1"
+      "version": "11.5.0"
     },
     {
       "id": "new-anchor-name",
@@ -20984,7 +21037,7 @@
       "summary": "Returns a document-unique dashed-ident usable as a CSS `anchor-name`.",
       "description": "Returns a document-unique dashed-ident usable as a CSS `anchor-name`.",
       "members": [],
-      "version": "11.4.1"
+      "version": "11.5.0"
     },
     {
       "id": "anchor-styles",
@@ -20996,7 +21049,7 @@
       "summary": "Emotion style object anchoring a panel to `anchor` at `placement`.",
       "description": "Emotion style object anchoring a panel to `anchor` at `placement`. Spread into the panel's `css()` styles. The trigger element must carry `anchor-name: <anchor>` (see `newAnchorName`).",
       "members": [],
-      "version": "11.4.1"
+      "version": "11.5.0"
     },
     {
       "id": "anchor-arrow-styles",
@@ -21008,7 +21061,7 @@
       "summary": "Absolute positioning for a rotated-square arrow sitting on the panel edge that faces the anchor.",
       "description": "Absolute positioning for a rotated-square arrow sitting on the panel edge that faces the anchor. Static per placement: if the browser flips the panel via position-try, the arrow stays on the configured side (cosmetic-only degradation, matching the flip-support caveat above). `overlap` (default 0 — cut exactly on the panel edge) extends the kept half into the panel; see  for when that is ever wanted.",
       "members": [],
-      "version": "11.4.1"
+      "version": "11.5.0"
     },
     {
       "id": "spotlight-options",
@@ -21039,7 +21092,7 @@
           "description": "Scrim paint; scheme-invariant by convention, like `::backdrop`."
         }
       ],
-      "version": "11.4.1"
+      "version": "11.5.0"
     },
     {
       "id": "spotlight-styles",
@@ -21070,7 +21123,7 @@
           "description": "Hole-sized click-blocker, shown when the target must not be interactive."
         }
       ],
-      "version": "11.4.1"
+      "version": "11.5.0"
     },
     {
       "id": "anchor-rect",
@@ -21119,7 +21172,7 @@
           "description": ""
         }
       ],
-      "version": "11.4.1"
+      "version": "11.5.0"
     },
     {
       "id": "transform-origin-for",
@@ -21131,7 +21184,7 @@
       "summary": "Transform origin for a panel's open/close scale animation, derived from where the panel **actually** rendered relative to its anchor — not from the requested placement.",
       "description": "Transform origin for a panel's open/close scale animation, derived from where the panel **actually** rendered relative to its anchor — not from the requested placement. `position-try-fallbacks` lets the browser flip a panel at viewport edges, and a statically mapped origin then animates from the wrong corner (a `bottom-end` picker flipped above its field would still scale from `top right`). Measure after the popover is shown and apply the result as an inline style. Returns keyword pairs like `'top right'` / `'bottom center'`, or `null` when the panel has no box yet (e.g. `display: none`, or jsdom).",
       "members": [],
-      "version": "11.4.1"
+      "version": "11.5.0"
     },
     {
       "id": "transform-origins",
@@ -21143,7 +21196,7 @@
       "summary": "Placement → `transform-origin`, so scale animations grow from the anchor.",
       "description": "Placement → `transform-origin`, so scale animations grow from the anchor.",
       "members": [],
-      "version": "11.4.1"
+      "version": "11.5.0"
     },
     {
       "id": "set-anchor-name",
@@ -21155,7 +21208,7 @@
       "summary": "Write a CSS `anchor-name` onto an element (detached anchors and targets).",
       "description": "Write a CSS `anchor-name` onto an element (detached anchors and targets).",
       "members": [],
-      "version": "11.4.1"
+      "version": "11.5.0"
     },
     {
       "id": "clear-anchor-name",
@@ -21167,7 +21220,7 @@
       "summary": "",
       "description": "",
       "members": [],
-      "version": "11.4.1"
+      "version": "11.5.0"
     },
     {
       "id": "resolve-element",
@@ -21179,7 +21232,7 @@
       "summary": "Resolve an element-or-id reference.",
       "description": "Resolve an element-or-id reference. Id strings are looked up at call time — never cache the result across opens, the element may have been re-rendered. `''` and null-ish mean \"unset\" (falsy guard: an empty string is the only typeable empty for a string-typed input).",
       "members": [],
-      "version": "11.4.1"
+      "version": "11.5.0"
     },
     {
       "id": "is-toggle-open",
@@ -21191,7 +21244,7 @@
       "summary": "True when a native `toggle` event reports the overlay opening.",
       "description": "True when a native `toggle` event reports the overlay opening.",
       "members": [],
-      "version": "11.4.1"
+      "version": "11.5.0"
     },
     {
       "id": "discrete-overlay-transition",
@@ -21203,7 +21256,7 @@
       "summary": "The discrete-transition block that animates an element into and out of the top layer: `transition-behavior: allow-discrete` over the `hidden` keys plus `display`/`overlay`, the shown state under `:popover-open`, and `@starting-style` so entry transitions run from the hidden state.",
       "description": "The discrete-transition block that animates an element into and out of the top layer: `transition-behavior: allow-discrete` over the `hidden` keys plus `display`/`overlay`, the shown state under `:popover-open`, and `@starting-style` so entry transitions run from the hidden state. `display` and `overlay` must ride along or the element cannot animate into and out of the top layer at all — it would simply appear and vanish. `timingFunction` is omitted from the output when not given, leaving the CSS initial value (`ease`), so callers that never asked for one are unaffected.",
       "members": [],
-      "version": "11.4.1"
+      "version": "11.5.0"
     },
     {
       "id": "restore-overlay-focus",
@@ -21215,7 +21268,7 @@
       "summary": "Returns focus to `target` when an overlay closes while focus was inside its panel (or was dropped on `<body>` by the top layer closing), so keyboard users are never stranded (WCAG 2.4.3).",
       "description": "Returns focus to `target` when an overlay closes while focus was inside its panel (or was dropped on `<body>` by the top layer closing), so keyboard users are never stranded (WCAG 2.4.3). Focus resting anywhere else is left alone.",
       "members": [],
-      "version": "11.4.1"
+      "version": "11.5.0"
     },
     {
       "id": "focusable-elements",
@@ -21227,7 +21280,7 @@
       "summary": "The focusable elements inside `root`, in DOM order.",
       "description": "The focusable elements inside `root`, in DOM order. Filters disabled controls, and hidden ones where the environment can tell: jsdom reports `offsetParent` as null for every element, so the visibility filter applies only when the document actually lays out (some element has an offsetParent).",
       "members": [],
-      "version": "11.4.1"
+      "version": "11.5.0"
     },
     {
       "id": "backdrop-dismiss",
@@ -21252,7 +21305,7 @@
           "description": "True only when both the press and the click landed on the dialog itself."
         }
       ],
-      "version": "11.4.1"
+      "version": "11.5.0"
     },
     {
       "id": "sort-direction",
@@ -21264,7 +21317,7 @@
       "summary": "",
       "description": "",
       "members": [],
-      "version": "11.4.1"
+      "version": "11.5.0"
     },
     {
       "id": "sort",
@@ -21289,7 +21342,7 @@
           "description": ""
         }
       ],
-      "version": "11.4.1"
+      "version": "11.5.0"
     },
     {
       "id": "uni-base-datasource",
@@ -21458,7 +21511,7 @@
           "description": ""
         }
       ],
-      "version": "11.4.1"
+      "version": "11.5.0"
     },
     {
       "id": "page-request",
@@ -21501,7 +21554,7 @@
           "description": ""
         }
       ],
-      "version": "11.4.1"
+      "version": "11.5.0"
     },
     {
       "id": "page-response",
@@ -21538,7 +21591,7 @@
           "description": ""
         }
       ],
-      "version": "11.4.1"
+      "version": "11.5.0"
     },
     {
       "id": "data-loader",
@@ -21550,7 +21603,7 @@
       "summary": "",
       "description": "",
       "members": [],
-      "version": "11.4.1"
+      "version": "11.5.0"
     },
     {
       "id": "uni-server-side-datasource",
@@ -21689,7 +21742,7 @@
           "description": ""
         }
       ],
-      "version": "11.4.1"
+      "version": "11.5.0"
     },
     {
       "id": "uni-datasource",
@@ -21701,7 +21754,7 @@
       "summary": "",
       "description": "",
       "members": [],
-      "version": "11.4.1"
+      "version": "11.5.0"
     },
     {
       "id": "uni-record-datasource",
@@ -21810,7 +21863,7 @@
           "description": ""
         }
       ],
-      "version": "11.4.1"
+      "version": "11.5.0"
     },
     {
       "id": "local-storage-service",
@@ -21865,7 +21918,7 @@
           "description": ""
         }
       ],
-      "version": "11.4.1"
+      "version": "11.5.0"
     },
     {
       "id": "alert",
@@ -21920,7 +21973,7 @@
           "description": ""
         }
       ],
-      "version": "11.4.1"
+      "version": "11.5.0"
     },
     {
       "id": "snackbar",
@@ -21975,7 +22028,7 @@
           "description": ""
         }
       ],
-      "version": "11.4.1"
+      "version": "11.5.0"
     },
     {
       "id": "confirmation",
@@ -22024,7 +22077,7 @@
           "description": ""
         }
       ],
-      "version": "11.4.1"
+      "version": "11.5.0"
     },
     {
       "id": "notification-service",
@@ -22091,7 +22144,7 @@
           "description": ""
         }
       ],
-      "version": "11.4.1"
+      "version": "11.5.0"
     },
     {
       "id": "option",
@@ -22128,7 +22181,7 @@
           "description": "Visible and announced, but not committable; listbox navigation skips it."
         }
       ],
-      "version": "11.4.1"
+      "version": "11.5.0"
     },
     {
       "id": "options",
@@ -22140,7 +22193,7 @@
       "summary": "",
       "description": "",
       "members": [],
-      "version": "11.4.1"
+      "version": "11.5.0"
     },
     {
       "id": "use-timer",
@@ -22152,7 +22205,7 @@
       "summary": "",
       "description": "",
       "members": [],
-      "version": "11.4.1"
+      "version": "11.5.0"
     },
     {
       "id": "acceptable-file",
@@ -22164,7 +22217,7 @@
       "summary": "",
       "description": "",
       "members": [],
-      "version": "11.4.1"
+      "version": "11.5.0"
     },
     {
       "id": "get-file-extension",
@@ -22176,7 +22229,7 @@
       "summary": "",
       "description": "",
       "members": [],
-      "version": "11.4.1"
+      "version": "11.5.0"
     },
     {
       "id": "query-permission",
@@ -22188,7 +22241,7 @@
       "summary": "The current state of a browser permission.",
       "description": "The current state of a browser permission. Resolves `unsupported` — never rejects — where the Permissions API is missing or does not know the name, which is the norm rather than the exception: Firefox and Safari reject `clipboard-write`, for one. Treat `unsupported` as \"can't tell\", not \"no\".",
       "members": [],
-      "version": "11.4.1"
+      "version": "11.5.0"
     },
     {
       "id": "permission-service",
@@ -22213,7 +22266,7 @@
           "description": ""
         }
       ],
-      "version": "11.4.1"
+      "version": "11.5.0"
     },
     {
       "id": "permission",
@@ -22225,7 +22278,7 @@
       "summary": "",
       "description": "",
       "members": [],
-      "version": "11.4.1"
+      "version": "11.5.0"
     },
     {
       "id": "permission-state",
@@ -22237,7 +22290,7 @@
       "summary": "",
       "description": "",
       "members": [],
-      "version": "11.4.1"
+      "version": "11.5.0"
     },
     {
       "id": "clipboard-copy-result",
@@ -22249,7 +22302,7 @@
       "summary": "How a copy ended: - `copied` — the content is on the clipboard.",
       "description": "How a copy ended: - `copied` — the content is on the clipboard. - `denied` — the user or a policy has blocked clipboard access for this site; only a change in the browser's site settings will fix it. - `unsupported` — no Clipboard API here (an insecure context, a server render, an old browser) or the browser cannot write one of the types. - `failed` — the browser refused this attempt for another reason, most often a call made outside a user gesture or from an unfocused document.",
       "members": [],
-      "version": "11.4.1"
+      "version": "11.5.0"
     },
     {
       "id": "clipboard-data",
@@ -22261,7 +22314,7 @@
       "summary": "One clipboard representation; a promise lets the data arrive after the gesture.",
       "description": "One clipboard representation; a promise lets the data arrive after the gesture.",
       "members": [],
-      "version": "11.4.1"
+      "version": "11.5.0"
     },
     {
       "id": "clipboard-content",
@@ -22273,7 +22326,7 @@
       "summary": "What to copy: a plain string, or one item in several representations keyed by MIME type — `{ 'text/plain': …, 'text/html': … }`, `{ 'image/png': blob }`.",
       "description": "What to copy: a plain string, or one item in several representations keyed by MIME type — `{ 'text/plain': …, 'text/html': … }`, `{ 'image/png': blob }`.",
       "members": [],
-      "version": "11.4.1"
+      "version": "11.5.0"
     },
     {
       "id": "copy-to-clipboard",
@@ -22285,7 +22338,7 @@
       "summary": "Copies text or rich content with the Async Clipboard API.",
       "description": "Copies text or rich content with the Async Clipboard API. Never rejects: the result says what happened, so a caller can tell the user why. Call it directly from the click or key handler. The write starts synchronously, before anything is awaited, because browsers only honor it inside the user gesture — which is also why the `clipboard-write` permission is consulted after a refusal, to explain it, rather than before the attempt. For content that has to be fetched or rendered first, pass a promise as the value instead of awaiting it yourself.",
       "members": [],
-      "version": "11.4.1"
+      "version": "11.5.0"
     }
   ],
   "utilityDocs": [

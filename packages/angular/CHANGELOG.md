@@ -1,5 +1,29 @@
 # @uni-design-system/uni-angular
 
+## 11.5.0
+
+### Minor Changes
+
+- [`a5e4bd0`](https://github.com/uni-design-system/uni/commit/a5e4bd0065900bc39faaf6d0b8242b24834c49a8) Thanks [@gaenglish](https://github.com/gaenglish)! - New CDK utility: `copyToClipboard`, for text and rich content.
+
+  `copyToClipboard(content)` wraps the Async Clipboard API and never rejects. It resolves `'copied' | 'denied' | 'unsupported' | 'failed'`, so a caller can tell the user why a copy did not work. Pass a string for text, or a map of MIME type to data (`{ 'text/plain': …, 'text/html': … }`, `{ 'image/png': blob }`) for rich content; a value may be a promise, for content that has to be fetched or rendered first.
+
+  The write starts synchronously inside the user gesture. The `clipboard-write` permission is consulted only after a refusal, to tell `denied` apart from `failed`: only Chromium answers that query, and waiting on it before the write can cost the gesture in other browsers.
+
+  `PermissionService`, the `Permission` and `PermissionState` types, and a new plain function `queryPermission` are now exported; the docs already described the service as importable, but it was missing from the public API.
+
+- [`ec2cc45`](https://github.com/uni-design-system/uni/commit/ec2cc45f9689f2302e5e2f3ded730a970b6c389b) Thanks [@gaenglish](https://github.com/gaenglish)! - `uni-tabs` softens a tab switch: the incoming panel fades in while the panel animates between the two contents' heights.
+
+  Switching between panels of different heights used to cut, and everything below the tabs jumped with it. The panel now travels from the outgoing content's height to the incoming one while the new content fades in. The new content is rendered and interactive from the first frame, so the animation never delays the switch, and a second switch mid-animation picks up from the height the first had reached.
+
+  The timing is a new `tabs` theme option, `panelMotion`, naming a motion primitive. The base theme sets it to `panel`, so **this is on by default**; set `panelMotion: undefined` in a theme to keep the instant switch. Under `prefers-reduced-motion` the switch is always instant.
+
+### Patch Changes
+
+- [`9a51a28`](https://github.com/uni-design-system/uni/commit/9a51a284cc4d602f6cff36b14db67ff6c0c39460) Thanks [@gaenglish](https://github.com/gaenglish)! - `uni-tabs` no longer pads its panel.
+
+  The panel carried a hardcoded `md` top padding, which assumed every consumer wanted that gap between the tablist and their content. Full-bleed content (a table, a divider, a tinted surface) could not sit flush against the tablist without a negative margin. The panel now adds no padding; content that relied on the gap should set its own spacing.
+
 ## 11.4.1
 
 ### Patch Changes

@@ -1,5 +1,7 @@
 # @uni-design-system/uni-react
 
+## 11.5.0
+
 ## 11.4.1
 
 ## 11.4.0
