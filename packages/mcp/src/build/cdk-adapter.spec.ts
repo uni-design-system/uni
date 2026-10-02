@@ -186,12 +186,14 @@ await copyToClipboard({
 - [Clipboard API](https://developer.mozilla.org/en-US/docs/Web/API/Clipboard_API)
 `;
 
-  it('keeps headings, prose, bullets and code; drops imports and JSX blocks', () => {
+  it('keeps headings, prose, bullets and code; drops imports and JSX, leaving a pointer for a story', () => {
     const { title, markdown } = mdxToMarkdown(MDX);
     expect(title).toBe('Clipboard');
     expect(markdown).toBe(`# Clipboard
 
 Copies text. Call it from the gesture.
+
+_Live demo on the Storybook page._
 
 ## Copying rich content
 

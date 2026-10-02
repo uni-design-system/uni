@@ -270,9 +270,12 @@ export function parseUtilities(
 
 /**
  * A CDK module's MDX page as plain markdown: Storybook imports, `<Meta>` and
- * story blocks go; headings, prose and fenced code stay. Code fences are kept
- * verbatim, including lines that start with `<` — those are examples.
+ * doc blocks go; headings, prose and fenced code stay. Code fences are kept
+ * verbatim, including lines that start with `<` — those are examples. A
+ * `<Story>` leaves a pointer behind, so prose that introduces a live demo
+ * ("…with its current state on this device:") still lands somewhere.
  */
+const STORY_PLACEHOLDER = '_Live demo on the Storybook page._';
 export function mdxToMarkdown(source: string): { title: string; markdown: string } {
   const lines: string[] = [];
   let title = '';
@@ -299,6 +302,7 @@ export function mdxToMarkdown(source: string): { title: string; markdown: string
     }
     if (trimmed.startsWith('import ') || trimmed.startsWith('export ')) continue;
     if (trimmed.startsWith('<')) {
+      if (/^<Story\b/.test(trimmed)) lines.push(STORY_PLACEHOLDER);
       // A multi-line JSX block runs until its tags balance.
       inJsx =
         (trimmed.match(/<[A-Za-z]/g) ?? []).length -
