@@ -137,8 +137,9 @@ a hunt through components.
 
 Tokens are named for what moves, not how fast — a small panel attached to a
 control snaps, a larger free-floating surface settles, content growing in
-place eases at both ends, a transient message arrives under its own steam, and
-a control answering a pointer should feel immediate:
+place eases at both ends, a transient message arrives under its own steam, a
+control answering a pointer should feel immediate, and a control jumping to a
+value the user just chose should get there faster still:
 
 <DocsTable
   head={['Token', 'Default', 'Used by']}
@@ -149,10 +150,19 @@ a control answering a pointer should feel immediate:
       '100ms linear, ×0.8',
       'dropdown, menu, multi-select, combobox, search-input, tag-input, time-input',
     ],
-    ['panel', '250ms ease', 'popover, callout'],
-    ['reveal', '350ms ease-in-out', 'expand, expand-toggle'],
-    ['notification', '350ms ease-in-out', 'alert, snackbar'],
-    ['control', '300ms ease', 'radio, menu-item'],
+    ['panel', '250ms ease', 'popover, callout, dialog, drawer, tabs (panel switch)'],
+    [
+      'reveal',
+      '350ms ease-in-out',
+      'expand, expand-toggle, checkbox (check mark), data-table (row reveal)',
+    ],
+    ['notification', '350ms ease-in-out', 'alert, snackbar, tooltip, data-table (loading overlay)'],
+    [
+      'control',
+      '300ms ease',
+      'button, icon-button, checkbox, radio, toggle, tag, menu-item, data-table, sort-header',
+    ],
+    ['snap', '120ms ease', 'slider, tabs (tab ink and indicator)'],
   ]}
 />
 

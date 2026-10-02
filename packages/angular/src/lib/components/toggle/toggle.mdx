@@ -4,6 +4,7 @@ import * as Stories from './toggle.stories';
 import { StoryUsage } from '../../../stories/blocks/StoryUsage';
 import { StoryExample } from '../../../stories/blocks/StoryExample';
 import { ThemeOptions } from '../../../stories/blocks/ThemeOptionsBlock';
+import { DocsTable } from '../../../stories/blocks/DocsTable';
 
 <Meta of={Stories} name="Toggle" />
 <Title />
@@ -54,11 +55,21 @@ handler and one tab stop.
 The `size` input selects a triple from the theme's `toggle` sizes block —
 `width`, `height`, and `padding`, the knob's inset. Everything else derives:
 
-| | derived as | at `lg` |
-| --- | --- | --- |
-| knob diameter | `height - 2 * padding` | 16 |
-| knob travel | `width - height` | 20 |
-| track radius | `height / 2` | 10 |
+<DocsTable
+  head={[
+    '',
+    'derived as',
+    <>
+      at <code>lg</code>
+    </>,
+  ]}
+  codeColumns={[1]}
+  rows={[
+    ['knob diameter', 'height - 2 * padding', '16'],
+    ['knob travel', 'width - height', '20'],
+    ['track radius', 'height / 2', '10'],
+  ]}
+/>
 
 Stating width and height per size rather than as one number plus a ratio is
 deliberate: real switch designs do not hold a constant proportion across sizes,
