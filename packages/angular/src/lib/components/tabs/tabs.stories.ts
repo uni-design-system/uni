@@ -43,6 +43,36 @@ export const Default: Story = {
   }),
 };
 
+/** Panels of different heights: the switch animates between them. */
+export const UnevenPanels: Story = {
+  render: () => ({
+    template: `
+      <uni-tabs>
+        <uni-tab label="Summary">
+          <span uni-text="body-1-long" style="display: block; padding-top: 16px">
+            A single line.
+          </span>
+        </uni-tab>
+        <uni-tab label="Details">
+          <div style="padding-top: 16px">
+            @for (line of [1, 2, 3, 4, 5, 6]; track line) {
+              <p uni-text="body-1-long">Detail line {{ line }} of a much taller panel.</p>
+            }
+          </div>
+        </uni-tab>
+        <uni-tab label="Notes">
+          <div style="padding-top: 16px">
+            @for (line of [1, 2, 3]; track line) {
+              <p uni-text="body-1-long">Note {{ line }}.</p>
+            }
+          </div>
+        </uni-tab>
+      </uni-tabs>
+      <p uni-text="body-1-long">Content below the tabs moves with the panel.</p>
+    `,
+  }),
+};
+
 export const WithDisabledTab: Story = {
   render: () => ({
     template: `

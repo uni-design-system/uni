@@ -719,6 +719,7 @@ const buildComponents = (c: Colors): ComponentThemes => ({
   tabs: {
     options: {
       motion: 'snap',
+      panelMotion: 'panel',
       typeface: 'title-small',
       textColor: 'on-surface-variant',
       activeTextColor: 'primary',

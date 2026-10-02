@@ -8,6 +8,12 @@ import type { Border, ColorKey, Motion, OptionalSize, Radius, Thickness, Typefac
 export interface UniTabsOptions {
   /** Named motion primitive for a tab's ink and indicator transition. Defaults to `snap`. */
   motion?: Motion;
+  /**
+   * Named motion primitive for a tab switch: the incoming panel fades in while
+   * the panel animates between the two contents' heights. Leave it undefined to
+   * switch instantly.
+   */
+  panelMotion?: Motion;
   /** Tab label typography. */
   typeface?: Typeface;
   /** Inactive tab label color. */

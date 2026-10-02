@@ -1,10 +1,14 @@
 import {
+  afterRenderEffect,
   ChangeDetectionStrategy,
   Component,
   computed,
   contentChildren,
+  effect,
   ElementRef,
   model,
+  untracked,
+  viewChild,
   viewChildren,
 } from '@angular/core';
 import { NgTemplateOutlet } from '@angular/common';
@@ -18,6 +22,11 @@ import type { UniTabsOptions } from './tabs.model';
  * WAI-ARIA tabs: roving tabindex, automatic activation (arrow keys move focus
  * and select), Home/End, disabled tabs skipped. Only the selected panel is
  * instantiated. All styling resolves from `tabs` theme option tokens.
+ *
+ * A tab switch is softened by the `panelMotion` option: the incoming content
+ * fades in while the panel animates from the outgoing content's height to its
+ * own. The new content is live from the first frame — nothing waits on the
+ * animation.
  */
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -49,6 +58,7 @@ import type { UniTabsOptions } from './tabs.model';
     </div>
     @if (activeTab(); as tab) {
       <div
+        #panel
         role="tabpanel"
         [id]="tab.panelId"
         [attr.aria-labelledby]="tab.id"
@@ -66,6 +76,7 @@ export class UniTabsComponent extends BaseComponent<UniTabsOptions> {
 
   protected readonly tabs = contentChildren(UniTabComponent);
   private readonly tabButtons = viewChildren<ElementRef<HTMLButtonElement>>('tabButton');
+  private readonly panel = viewChild<ElementRef<HTMLElement>>('panel');
 
   /** The selection, snapped to the nearest enabled tab. */
   protected readonly activeIndex = computed(() => {
@@ -112,6 +123,64 @@ export class UniTabsComponent extends BaseComponent<UniTabsOptions> {
     this.select(next);
     this.tabButtons()[next]?.nativeElement.focus();
   }
+
+  /** The outgoing content's height, captured just before a switch renders. */
+  private outgoingHeight: number | undefined;
+  private panelAnimation: Animation | undefined;
+
+  constructor() {
+    super();
+    // A component effect flushes before its template is refreshed, so the
+    // panel still holds the outgoing content here. Mid-animation this reads
+    // the animated height, which is what lets a rapid second switch pick up
+    // from where the first one had got to instead of jumping.
+    effect(() => {
+      this.activeTab();
+      this.outgoingHeight = untracked(this.panel)?.nativeElement.getBoundingClientRect().height;
+    });
+    afterRenderEffect(() => {
+      this.activeTab();
+      untracked(() => this.animatePanel());
+    });
+  }
+
+  /**
+   * Fades the incoming content in while the panel travels from the outgoing
+   * height to its own. Web Animations rather than a CSS transition: `auto` to
+   * `auto` has nothing to interpolate, and an animation leaves no inline
+   * height behind, so the panel is back to sizing itself the moment it ends.
+   */
+  private animatePanel(): void {
+    const from = this.outgoingHeight;
+    const panel = this.panel()?.nativeElement;
+    if (!panel) return;
+    try {
+      // Cancel first: the measurement below must see the natural height.
+      this.panelAnimation?.cancel();
+      this.panelAnimation = undefined;
+      const motion = this.panelMotion();
+      // No outgoing height means first render — nothing to soften.
+      if (from === undefined || !motion?.duration) return;
+      // The global reduced-motion rule only reaches CSS; WAAPI must ask.
+      if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+      const to = panel.getBoundingClientRect().height;
+      this.panelAnimation = panel.animate?.(
+        [
+          { height: `${from}px`, opacity: 0, overflow: 'clip' },
+          { height: `${to}px`, opacity: 1, overflow: 'clip' },
+        ],
+        { duration: motion.duration, easing: motion.easing }
+      );
+    } catch {
+      // animation is decoration; environments without WAAPI just skip it
+    }
+  }
+
+  /** Resolved from `panelMotion`; unset switches panels instantly. */
+  private readonly panelMotion = computed(() => {
+    const token = this.componentOptions().panelMotion;
+    return token ? this.theme.motion(token) : undefined;
+  });
 
   /** Resolved from the component's `motion` option; `snap` by default. */
   private readonly motion = computed(() =>

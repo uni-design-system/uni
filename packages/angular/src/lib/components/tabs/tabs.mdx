@@ -28,6 +28,20 @@ an `activeColor` gets segmented pills without any component changes.
 
 <StoryUsage of={Stories.Default} />
 
+## Switching panels
+
+A switch is softened rather than cut: the incoming content fades in while the panel
+animates from the outgoing content's height to its own, so whatever sits below the tabs
+glides instead of jumping. The new content is rendered and interactive from the first
+frame; the animation never delays it.
+
+<StoryExample of={Stories.UnevenPanels} />
+
+The timing comes from the `panelMotion` theme option, a named motion primitive (`panel`
+by default). Point it at a faster or slower primitive to retune it, or set it to
+`undefined` to switch instantly. Under `prefers-reduced-motion` the switch is always
+instant.
+
 ## Disabled tabs
 
 Disabled tabs stay visible but can't be selected — pointer and keyboard both skip them.
@@ -46,6 +60,7 @@ Disabled tabs stay visible but can't be selected — pointer and keyboard both s
   Home and End jump to the first and last enabled tab.
 - Roving tabindex: only the selected tab sits in the tab order; the panel itself is
   focusable so keyboard users can scroll its content.
+- The panel animation is skipped under `prefers-reduced-motion`.
 
 ## Do
 

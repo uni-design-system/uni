@@ -93,6 +93,63 @@ describe('UniTabsComponent', () => {
     }
   });
 
+  describe('panel motion', () => {
+    const heights: Record<string, number> = { first: 40, second: 200, fourth: 90 };
+    let animate: ReturnType<typeof vi.fn>;
+    let cancel: ReturnType<typeof vi.fn>;
+    let reducedMotion: boolean;
+
+    const select = (index: number) => {
+      tabs()[index].click();
+      fixture.detectChanges();
+      TestBed.tick();
+    };
+
+    beforeEach(() => {
+      reducedMotion = false;
+      cancel = vi.fn();
+      animate = vi.fn(() => ({ cancel }));
+      vi.stubGlobal('matchMedia', () => ({ matches: reducedMotion }));
+      const element = panel()!;
+      // jsdom has no layout: derive a height from whichever content is in.
+      element.getBoundingClientRect = () =>
+        ({ height: heights[element.textContent!.trim().split(' ')[0]] }) as DOMRect;
+      element.animate = animate as unknown as HTMLElement['animate'];
+    });
+
+    afterEach(() => vi.unstubAllGlobals());
+
+    it('does not animate the first render', () => {
+      expect(animate).not.toHaveBeenCalled();
+    });
+
+    it('animates from the outgoing height to the incoming one, fading in', () => {
+      select(1);
+      expect(animate).toHaveBeenCalledTimes(1);
+      const [keyframes, timing] = animate.mock.calls[0];
+      expect(keyframes).toEqual([
+        { height: '40px', opacity: 0, overflow: 'clip' },
+        { height: '200px', opacity: 1, overflow: 'clip' },
+      ]);
+      expect(timing.duration).toBeGreaterThan(0);
+    });
+
+    it('cancels an in-flight animation when the selection moves again', () => {
+      select(1);
+      select(3);
+      expect(cancel).toHaveBeenCalledTimes(1);
+      expect(animate).toHaveBeenCalledTimes(2);
+      expect(animate.mock.calls[1][0][1].height).toBe('90px');
+    });
+
+    it('switches instantly under reduced motion', () => {
+      reducedMotion = true;
+      select(1);
+      expect(animate).not.toHaveBeenCalled();
+      expect(panel()?.textContent).toContain('second panel');
+    });
+  });
+
   it('ignores clicks on disabled tabs', () => {
     tabs()[2].click();
     fixture.detectChanges();
