@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
 import { css } from '@emotion/css';
 import { ThemeService } from '../../lib/theming';
+import { copyToClipboard } from '../../lib/cdk/clipboard/clipboard';
 import { UniIconComponent } from '../../lib/components/icon';
 import { UniTextDirective } from '../../lib/components/text';
 
@@ -15,8 +16,8 @@ import { UniTextDirective } from '../../lib/components/text';
   imports: [UniIconComponent, UniTextDirective],
   template: `
     <p uni-text="body-2-short" color="on-surface-variant">
-      {{ names().length }} icons registered in {{ theme.selectedThemeName() }}. Click a tile to
-      copy its token name.
+      {{ names().length }} icons registered in {{ theme.selectedThemeName() }}. Click a tile to copy
+      its token name.
     </p>
     <div [class]="gridClass()">
       @for (name of names(); track name) {
@@ -56,7 +57,7 @@ export class SbIconManifestComponent {
   protected readonly copied = signal<string | null>(null);
 
   protected copy(name: string): void {
-    navigator.clipboard?.writeText(name);
+    void copyToClipboard(name);
     this.copied.set(name);
     setTimeout(() => this.copied.update((c) => (c === name ? null : c)), 1200);
   }

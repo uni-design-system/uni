@@ -1,0 +1,80 @@
+import { Meta, Story } from '@storybook/addon-docs/blocks';
+import * as Stories from './clipboard.stories';
+import { DocsTable } from '../../../stories/blocks/DocsTable';
+
+<Meta of={Stories} name="Clipboard" />
+
+# Clipboard
+
+`copyToClipboard` copies text or rich content with the Async Clipboard API. It never
+rejects: it resolves with what happened, so you can tell the user why a copy did not work
+instead of wrapping every call in a `try`/`catch`.
+
+`import { copyToClipboard } from '@uni-design-system/uni-angular';`
+
+<Story of={Stories.Primary} />
+
+## Copying text
+
+```typescript
+protected async copyLink(): Promise<void> {
+  const result = await copyToClipboard(this.url());
+  if (result === 'copied') this.copied.set(true);
+}
+```
+
+## Copying rich content
+
+Pass one item as a map of MIME type to data. Applications that understand HTML paste the
+rich version; everything else falls back to the plain text.
+
+```typescript
+await copyToClipboard({
+  'text/plain': 'Quarterly report',
+  'text/html': '<a href="https://example.com/report">Quarterly report</a>',
+});
+```
+
+A value can be a string, a `Blob`, or a promise of either. Use a promise for content that
+has to be fetched or rendered first, rather than awaiting it before the call:
+
+```typescript
+await copyToClipboard({ 'image/png': this.chart.toBlob() });
+```
+
+## Results
+
+<DocsTable
+  head={['Result', 'Meaning']}
+  codeColumns={[0]}
+  rows={[
+    ['copied', 'The content is on the clipboard.'],
+    [
+      'denied',
+      "Clipboard access is blocked for this site. Only a change in the browser's site settings fixes it.",
+    ],
+    [
+      'unsupported',
+      'No Clipboard API (an insecure context, a server render, an old browser), or a type the browser cannot write.',
+    ],
+    [
+      'failed',
+      'The browser refused this attempt, most often because the call was outside a user gesture.',
+    ],
+  ]}
+/>
+
+## Call it from the user gesture
+
+Browsers only honor a clipboard write made inside a click or key handler. The write starts
+synchronously when you call `copyToClipboard`, so call it directly from the handler; do not
+`await` other work first.
+
+This is also why the `clipboard-write` permission is not checked up front. Only Chromium
+can answer that query, and waiting on it can cost the gesture elsewhere. The permission is
+consulted after a refusal, to tell `denied` apart from `failed`.
+
+## Resources
+
+- [Clipboard API](https://developer.mozilla.org/en-US/docs/Web/API/Clipboard_API)
+- [ClipboardItem](https://developer.mozilla.org/en-US/docs/Web/API/ClipboardItem)

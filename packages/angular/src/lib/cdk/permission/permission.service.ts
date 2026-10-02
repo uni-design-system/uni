@@ -1,19 +1,13 @@
 import { Injectable } from '@angular/core';
-import { Permission } from './permission.types';
+import { queryPermission } from './permission';
+import type { Permission, PermissionState } from './permission.types';
 
 @Injectable({
   providedIn: 'root',
 })
 export class PermissionService {
-  async getPermissionState(permission: Permission) {
-    try {
-      const { state } = await navigator.permissions.query({
-        name: permission as PermissionName,
-      });
-      return state;
-    } catch {
-      return 'unsupported';
-    }
+  getPermissionState(permission: Permission): Promise<PermissionState> {
+    return queryPermission(permission);
   }
 
   async isAllowed(permission: Permission) {

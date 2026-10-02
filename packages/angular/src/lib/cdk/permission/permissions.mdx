@@ -6,8 +6,8 @@ import * as Stories from './permissions.stories';
 # Permissions API
 
 The Permissions API service is used to check if a specific feature or API is available for interaction within your code.
-For instance, the clipboard service calls `isAllowed('clipboard-write')` before attempting to copy to the clipboard.
-This check prevents an error from occurring if the permission on a specific method (e.g. `navigator.clipboard.write(data)`) is denied.
+For instance, `copyToClipboard` checks `clipboard-write` after a refused copy to tell a blocked permission apart from any other failure.
+Many permissions cannot be queried in every browser (Firefox and Safari do not answer `clipboard-write`), and those report `unsupported`: treat that as "can't tell" rather than "no".
 If the permission is in a `prompt` state, the API is available and the user will be prompted to approve the first execution of the associated method.
 If a permission is not allowed or unsupported, this condition can be used to hide any associated functionality in your UI.
 

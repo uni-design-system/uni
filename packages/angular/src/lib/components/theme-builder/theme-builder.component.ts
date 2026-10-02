@@ -17,6 +17,7 @@ import {
 
 import { ThemeService, type BrandPaletteConfig } from '../../theming';
 import { UniButtonComponent } from '../button';
+import { copyToClipboard } from '../../cdk/clipboard/clipboard';
 
 const SCHEMES: ColorScheme[] = [
   'monochromatic',
@@ -52,23 +53,48 @@ interface Preset {
 const PRESETS: Preset[] = [
   {
     label: 'Indigo',
-    config: { seed: '#4F46E5', scheme: 'analogous', category: 'jewel', targets: { primary: '#4F46E5' } },
+    config: {
+      seed: '#4F46E5',
+      scheme: 'analogous',
+      category: 'jewel',
+      targets: { primary: '#4F46E5' },
+    },
   },
   {
     label: 'Ocean',
-    config: { seed: '#0066B2', scheme: 'complimentary', category: 'jewel', targets: { primary: '#0066B2' } },
+    config: {
+      seed: '#0066B2',
+      scheme: 'complimentary',
+      category: 'jewel',
+      targets: { primary: '#0066B2' },
+    },
   },
   {
     label: 'Emerald',
-    config: { seed: '#047857', scheme: 'analogous', category: 'jewel', targets: { primary: '#047857' } },
+    config: {
+      seed: '#047857',
+      scheme: 'analogous',
+      category: 'jewel',
+      targets: { primary: '#047857' },
+    },
   },
   {
     label: 'Sunset',
-    config: { seed: '#DC2626', scheme: 'splitComplimentary', category: 'jewel', targets: { primary: '#DC2626' } },
+    config: {
+      seed: '#DC2626',
+      scheme: 'splitComplimentary',
+      category: 'jewel',
+      targets: { primary: '#DC2626' },
+    },
   },
   {
     label: 'Berry',
-    config: { seed: '#C2185B', scheme: 'triadic', category: 'jewel', targets: { primary: '#C2185B' } },
+    config: {
+      seed: '#C2185B',
+      scheme: 'triadic',
+      category: 'jewel',
+      targets: { primary: '#C2185B' },
+    },
   },
   {
     label: 'Heritage',
@@ -90,7 +116,12 @@ const PRESETS: Preset[] = [
   },
   {
     label: 'Pastel',
-    config: { seed: '#A78BFA', scheme: 'analogous', category: 'pastel', targets: { primary: '#A78BFA' } },
+    config: {
+      seed: '#A78BFA',
+      scheme: 'analogous',
+      category: 'pastel',
+      targets: { primary: '#A78BFA' },
+    },
   },
   {
     label: 'Graphite',
@@ -126,7 +157,9 @@ const PRESETS: Preset[] = [
           <button type="button" class="tb-preset" (click)="applyPreset(p.config)">
             <span
               class="tb-dot"
-              [style.background]="p.config.targets?.primary ?? p.config.brand?.primary ?? p.config.seed"
+              [style.background]="
+                p.config.targets?.primary ?? p.config.brand?.primary ?? p.config.seed
+              "
             ></span>
             {{ p.label }}
           </button>
@@ -137,7 +170,12 @@ const PRESETS: Preset[] = [
         <span>Seed color</span>
         <div class="tb-row">
           <input type="color" [value]="seed()" (input)="setSeed($any($event.target).value)" />
-          <input type="text" [value]="seed()" (input)="setSeed($any($event.target).value)" spellcheck="false" />
+          <input
+            type="text"
+            [value]="seed()"
+            (input)="setSeed($any($event.target).value)"
+            spellcheck="false"
+          />
         </div>
       </label>
 
@@ -170,36 +208,72 @@ const PRESETS: Preset[] = [
 
       <label class="tb-field">
         <span>Accent saturation floor · {{ floor() }}</span>
-        <input type="range" min="0" max="45" [value]="floor()" (input)="setFloor($any($event.target).value)" />
+        <input
+          type="range"
+          min="0"
+          max="45"
+          [value]="floor()"
+          (input)="setFloor($any($event.target).value)"
+        />
       </label>
 
       <div class="tb-field">
         <span>Storybook mode</span>
         <div class="tb-toggle">
-          <button type="button" [class.on]="mode() === 'light'" (click)="setMode('light')">Light</button>
-          <button type="button" [class.on]="mode() === 'dark'" (click)="setMode('dark')">Dark</button>
+          <button type="button" [class.on]="mode() === 'light'" (click)="setMode('light')">
+            Light
+          </button>
+          <button type="button" [class.on]="mode() === 'dark'" (click)="setMode('dark')">
+            Dark
+          </button>
         </div>
       </div>
 
       <label class="tb-field tb-pin" [class.dim]="!pinPrimary()">
         <span>
-          <input type="checkbox" [checked]="pinPrimary()" (change)="setPinPrimary($any($event.target).checked)" />
+          <input
+            type="checkbox"
+            [checked]="pinPrimary()"
+            (change)="setPinPrimary($any($event.target).checked)"
+          />
           Pin primary <em>{{ pinPrimary() ? 'exact' : 'off' }}</em>
         </span>
         <div class="tb-row">
-          <input type="color" [value]="primaryHex()" (input)="setPrimaryHex($any($event.target).value)" />
-          <input type="text" [value]="primaryHex()" (input)="setPrimaryHex($any($event.target).value)" spellcheck="false" />
+          <input
+            type="color"
+            [value]="primaryHex()"
+            (input)="setPrimaryHex($any($event.target).value)"
+          />
+          <input
+            type="text"
+            [value]="primaryHex()"
+            (input)="setPrimaryHex($any($event.target).value)"
+            spellcheck="false"
+          />
         </div>
       </label>
 
       <label class="tb-field tb-pin" [class.dim]="!pinSecondary()">
         <span>
-          <input type="checkbox" [checked]="pinSecondary()" (change)="setPinSecondary($any($event.target).checked)" />
+          <input
+            type="checkbox"
+            [checked]="pinSecondary()"
+            (change)="setPinSecondary($any($event.target).checked)"
+          />
           Pin secondary <em>{{ pinSecondary() ? 'exact' : 'off' }}</em>
         </span>
         <div class="tb-row">
-          <input type="color" [value]="secondaryHex()" (input)="setSecondaryHex($any($event.target).value)" />
-          <input type="text" [value]="secondaryHex()" (input)="setSecondaryHex($any($event.target).value)" spellcheck="false" />
+          <input
+            type="color"
+            [value]="secondaryHex()"
+            (input)="setSecondaryHex($any($event.target).value)"
+          />
+          <input
+            type="text"
+            [value]="secondaryHex()"
+            (input)="setSecondaryHex($any($event.target).value)"
+            spellcheck="false"
+          />
         </div>
       </label>
 
@@ -228,18 +302,36 @@ const PRESETS: Preset[] = [
       <p class="tb-group">Light & dark — generated together, side by side</p>
       <div class="tb-modes">
         @for (m of modePanels(); track m.label) {
-          <div class="tb-panel" [style.background]="m.colors['background']" [style.borderColor]="m.colors['outline']">
-            <span class="tb-panel-tag" [style.color]="m.colors['on-background-variant']">{{ m.label }}</span>
+          <div
+            class="tb-panel"
+            [style.background]="m.colors['background']"
+            [style.borderColor]="m.colors['outline']"
+          >
+            <span class="tb-panel-tag" [style.color]="m.colors['on-background-variant']">{{
+              m.label
+            }}</span>
             <div class="tb-mode-swatches">
               @for (s of swatches; track s.label) {
-                <div class="tb-swatch" [style.background]="m.colors[s.token]" [style.color]="m.colors[s.on]">
+                <div
+                  class="tb-swatch"
+                  [style.background]="m.colors[s.token]"
+                  [style.color]="m.colors[s.on]"
+                >
                   <span>{{ s.label }}</span>
                   <code>{{ m.colors[s.token] }}</code>
                 </div>
               }
             </div>
-            <div class="tb-mini-card" [style.background]="m.colors['surface']" [style.borderColor]="m.colors['outline']">
-              <div class="tb-mini-head" [style.background]="m.colors['primary']" [style.color]="m.colors['on-primary']">
+            <div
+              class="tb-mini-card"
+              [style.background]="m.colors['surface']"
+              [style.borderColor]="m.colors['outline']"
+            >
+              <div
+                class="tb-mini-head"
+                [style.background]="m.colors['primary']"
+                [style.color]="m.colors['on-primary']"
+              >
                 Card header
               </div>
               <div class="tb-mini-body" [style.color]="m.colors['on-surface']">
@@ -266,8 +358,7 @@ const PRESETS: Preset[] = [
       </div>
 
       <p class="tb-group">
-        Contrast report — {{ report().checks.length }} pairs ·
-        worst {{ report().worst }}:1 ·
+        Contrast report — {{ report().checks.length }} pairs · worst {{ report().worst }}:1 ·
         @if (report().failing.length === 0) {
           <span class="tb-pass">all AA</span>
         } @else {
@@ -281,14 +372,25 @@ const PRESETS: Preset[] = [
         <div class="tb-matrix">
           <table>
             <thead>
-              <tr><th>mode</th><th>foreground</th><th>on</th><th>ratio</th><th>needs</th><th>level</th></tr>
+              <tr>
+                <th>mode</th>
+                <th>foreground</th>
+                <th>on</th>
+                <th>ratio</th>
+                <th>needs</th>
+                <th>level</th>
+              </tr>
             </thead>
             <tbody>
               @for (c of visibleChecks(); track $index) {
                 <tr [class.bad]="!c.pass">
                   <td>{{ c.mode }}</td>
-                  <td><code>{{ c.foreground }}</code></td>
-                  <td><code>{{ c.background }}</code></td>
+                  <td>
+                    <code>{{ c.foreground }}</code>
+                  </td>
+                  <td>
+                    <code>{{ c.background }}</code>
+                  </td>
                   <td>{{ c.ratio }}</td>
                   <td>{{ c.required }}</td>
                   <td>{{ c.level }}</td>
@@ -305,7 +407,9 @@ const PRESETS: Preset[] = [
         </p>
       }
 
-      <p class="tb-hint">Tip: browse to any component story in the sidebar — it's wearing your brand now.</p>
+      <p class="tb-hint">
+        Tip: browse to any component story in the sidebar — it's wearing your brand now.
+      </p>
     </section>
   `,
 })
@@ -432,7 +536,8 @@ export class UniThemeBuilderComponent {
   }
 
   private copyToClipboard(kind: 'file' | 'ngadd' | 'dtcg', text: string): void {
-    void navigator.clipboard?.writeText(text).then(() => {
+    void copyToClipboard(text).then((result) => {
+      if (result !== 'copied') return;
       this.copied.set(kind);
       setTimeout(() => this.copied.set(null), 1600);
     });
@@ -718,7 +823,13 @@ export class UniThemeBuilderComponent {
       '& .tb-mini-card': { borderRadius: 10, overflow: 'hidden', border: '1px solid' },
       '& .tb-mini-head': { padding: '8px 14px', fontWeight: 600, fontSize: 13 },
       '& .tb-mini-body': { padding: '10px 14px', fontSize: 12.5, lineHeight: 1.5 },
-      '& .tb-buttons': { display: 'flex', flexWrap: 'wrap', gap: 12, alignItems: 'center', marginBottom: 14 },
+      '& .tb-buttons': {
+        display: 'flex',
+        flexWrap: 'wrap',
+        gap: 12,
+        alignItems: 'center',
+        marginBottom: 14,
+      },
       '& .tb-pass': { color: this.c('success'), fontWeight: 700 },
       '& .tb-fail': { color: this.c('error'), fontWeight: 700 },
       '& .tb-link': {
@@ -752,7 +863,10 @@ export class UniThemeBuilderComponent {
         },
         '& td': { padding: '6px 10px', borderTop: `1px solid ${this.c('outline')}` },
         '& td code': { fontFamily: 'monospace', fontSize: 11.5 },
-        '& tr.bad td': { background: this.c('error-container'), color: this.c('on-error-container') },
+        '& tr.bad td': {
+          background: this.c('error-container'),
+          color: this.c('on-error-container'),
+        },
       },
       '& .tb-hint': { fontSize: 12.5, opacity: 0.6, marginTop: 8 },
     })

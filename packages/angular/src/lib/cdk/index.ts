@@ -15,3 +15,7 @@ export * from './notification';
 export * from './option/option.model';
 export * from './timer/timer';
 export * from './file/file.helper';
+export * from './permission/permission';
+export * from './permission/permission.service';
+export * from './permission/permission.types';
+export * from './clipboard/clipboard';
