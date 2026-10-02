@@ -86,6 +86,13 @@ describe('UniTabsComponent', () => {
     expect(panel()?.textContent).toContain('first panel');
   });
 
+  it('leaves panel spacing to the consumer', () => {
+    const style = getComputedStyle(panel()!);
+    for (const side of ['paddingTop', 'paddingRight', 'paddingBottom', 'paddingLeft'] as const) {
+      expect(parseFloat(style[side]) || 0).toBe(0);
+    }
+  });
+
   it('ignores clicks on disabled tabs', () => {
     tabs()[2].click();
     fixture.detectChanges();

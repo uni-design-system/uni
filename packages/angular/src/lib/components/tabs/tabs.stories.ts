@@ -27,16 +27,16 @@ export const Default: Story = {
     template: `
       <uni-tabs [selectedIndex]="selectedIndex ?? 0">
         <uni-tab label="Overview">
-          <span uni-text="body-1-long">
+          <span uni-text="body-1-long" style="display: block; padding-top: 16px">
             Arrow keys move between tabs (disabled tabs are skipped), Home and End jump
             to the extremes, and only the selected panel is rendered.
           </span>
         </uni-tab>
         <uni-tab label="Activity">
-          <span uni-text="body-1-long">Recent activity would render here.</span>
+          <span uni-text="body-1-long" style="display: block; padding-top: 16px">Recent activity would render here.</span>
         </uni-tab>
         <uni-tab label="Settings">
-          <span uni-text="body-1-long">Settings content, instantiated on selection.</span>
+          <span uni-text="body-1-long" style="display: block; padding-top: 16px">Settings content, instantiated on selection.</span>
         </uni-tab>
       </uni-tabs>
     `,
@@ -47,11 +47,11 @@ export const WithDisabledTab: Story = {
   render: () => ({
     template: `
       <uni-tabs>
-        <uni-tab label="Open"><span uni-text="body-1-long">Open items.</span></uni-tab>
+        <uni-tab label="Open"><span uni-text="body-1-long" style="display: block; padding-top: 16px">Open items.</span></uni-tab>
         <uni-tab label="Archived" [disabled]="true">
-          <span uni-text="body-1-long">Unreachable while disabled.</span>
+          <span uni-text="body-1-long" style="display: block; padding-top: 16px">Unreachable while disabled.</span>
         </uni-tab>
-        <uni-tab label="All"><span uni-text="body-1-long">Everything.</span></uni-tab>
+        <uni-tab label="All"><span uni-text="body-1-long" style="display: block; padding-top: 16px">Everything.</span></uni-tab>
       </uni-tabs>
     `,
   }),

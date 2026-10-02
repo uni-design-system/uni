@@ -171,7 +171,6 @@ export class UniTabsComponent extends BaseComponent<UniTabsOptions> {
 
   protected readonly panelClass = computed(() =>
     css({
-      ...this.theme.paddingTop('md'),
       '&:focus-visible': {
         outline: `2px solid ${this.theme.colors()[this.componentOptions().indicatorColor ?? 'primary']}`,
         outlineOffset: 2,
