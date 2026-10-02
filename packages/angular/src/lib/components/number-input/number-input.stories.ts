@@ -4,7 +4,7 @@ import { UniNumberInputComponent } from './number-input.component';
 type StoryType = UniNumberInputComponent;
 
 const meta: Meta<StoryType> = {
-  title: 'Components/Forms/NumberInput',
+  title: 'Components/Forms/Number Input',
   component: UniNumberInputComponent,
   render: (args) => {
     const { ...props } = args;

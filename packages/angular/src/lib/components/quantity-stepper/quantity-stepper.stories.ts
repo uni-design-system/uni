@@ -2,7 +2,7 @@ import { Meta, StoryObj } from '@storybook/angular';
 import { UniQuantityStepperComponent } from './quantity-stepper.component';
 
 const meta: Meta<UniQuantityStepperComponent> = {
-  title: 'Components/Forms/QuantityStepper',
+  title: 'Components/Forms/Quantity Stepper',
   component: UniQuantityStepperComponent,
   args: { label: 'Quantity, Blue T-shirt (M)', value: 3, min: 1 },
   parameters: {

@@ -2,7 +2,7 @@ import { Meta, StoryObj } from '@storybook/angular';
 import { UniNumberRangeInputComponent } from './number-range-input.component';
 
 const meta: Meta<UniNumberRangeInputComponent> = {
-  title: 'Components/Forms/NumberRangeInput',
+  title: 'Components/Forms/Number Range Input',
   component: UniNumberRangeInputComponent,
   args: { label: 'Price range', value: { start: 50, end: 500 } },
   parameters: {
