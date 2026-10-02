@@ -1,15 +1,16 @@
 {
   "meta": {
     "version": "11.4.1",
-    "builtAt": "2026-09-28T19:07:15.638Z",
+    "builtAt": "2026-10-02T22:04:09.812Z",
     "frameworks": [
       "angular"
     ],
     "counts": {
       "components": 87,
-      "tokens": 493,
+      "tokens": 494,
       "themes": 2,
-      "examples": 245
+      "examples": 246,
+      "utilities": 122
     }
   },
   "components": [
@@ -8562,7 +8563,7 @@
       "name": "Tabs",
       "status": "stable",
       "summary": "WAI-ARIA tabs: roving tabindex, automatic activation (arrow keys move focus and select), Home/End, disabled tabs skipped.",
-      "description": "WAI-ARIA tabs: roving tabindex, automatic activation (arrow keys move focus and select), Home/End, disabled tabs skipped. Only the selected panel is instantiated. All styling resolves from `tabs` theme option tokens.",
+      "description": "WAI-ARIA tabs: roving tabindex, automatic activation (arrow keys move focus and select), Home/End, disabled tabs skipped. Only the selected panel is instantiated. All styling resolves from `tabs` theme option tokens. A tab switch is softened by the `panelMotion` option: the incoming content fades in while the panel animates from the outgoing content's height to its own. The new content is live from the first frame — nothing waits on the animation.",
       "category": "components",
       "version": "11.4.1",
       "bindings": {
@@ -8601,16 +8602,21 @@
         {
           "title": "Default",
           "framework": "angular",
-          "code": "<!-- Storybook story: Default -->\n<uni-tabs [selectedIndex]=\"selectedIndex ?? 0\">\n<uni-tab label=\"Overview\">\n  <span uni-text=\"body-1-long\">\n    Arrow keys move between tabs (disabled tabs are skipped), Home and End jump\n    to the extremes, and only the selected panel is rendered.\n  </span>\n</uni-tab>\n<uni-tab label=\"Activity\">\n  <span uni-text=\"body-1-long\">Recent activity would render here.</span>\n</uni-tab>\n<uni-tab label=\"Settings\">\n  <span uni-text=\"body-1-long\">Settings content, instantiated on selection.</span>\n</uni-tab>\n</uni-tabs>"
+          "code": "<!-- Storybook story: Default -->\n<uni-tabs [selectedIndex]=\"selectedIndex ?? 0\">\n<uni-tab label=\"Overview\">\n  <span uni-text=\"body-1-long\" style=\"display: block; padding-top: 16px\">\n    Arrow keys move between tabs (disabled tabs are skipped), Home and End jump\n    to the extremes, and only the selected panel is rendered.\n  </span>\n</uni-tab>\n<uni-tab label=\"Activity\">\n  <span uni-text=\"body-1-long\" style=\"display: block; padding-top: 16px\">Recent activity would render here.</span>\n</uni-tab>\n<uni-tab label=\"Settings\">\n  <span uni-text=\"body-1-long\" style=\"display: block; padding-top: 16px\">Settings content, instantiated on selection.</span>\n</uni-tab>\n</uni-tabs>"
+        },
+        {
+          "title": "Uneven Panels",
+          "framework": "angular",
+          "code": "<!-- Storybook story: Uneven Panels -->\n<uni-tabs>\n<uni-tab label=\"Summary\">\n  <span uni-text=\"body-1-long\" style=\"display: block; padding-top: 16px\">\n    A single line.\n  </span>\n</uni-tab>\n<uni-tab label=\"Details\">\n  <div style=\"padding-top: 16px\">\n    @for (line of [1, 2, 3, 4, 5, 6]; track line) {\n      <p uni-text=\"body-1-long\">Detail line {{ line }} of a much taller panel.</p>\n    }\n  </div>\n</uni-tab>\n<uni-tab label=\"Notes\">\n  <div style=\"padding-top: 16px\">\n    @for (line of [1, 2, 3]; track line) {\n      <p uni-text=\"body-1-long\">Note {{ line }}.</p>\n    }\n  </div>\n</uni-tab>\n</uni-tabs>\n<p uni-text=\"body-1-long\">Content below the tabs moves with the panel.</p>"
         },
         {
           "title": "With Disabled Tab",
           "framework": "angular",
-          "code": "<!-- Storybook story: With Disabled Tab -->\n<uni-tabs>\n<uni-tab label=\"Open\"><span uni-text=\"body-1-long\">Open items.</span></uni-tab>\n<uni-tab label=\"Archived\" [disabled]=\"true\">\n  <span uni-text=\"body-1-long\">Unreachable while disabled.</span>\n</uni-tab>\n<uni-tab label=\"All\"><span uni-text=\"body-1-long\">Everything.</span></uni-tab>\n</uni-tabs>"
+          "code": "<!-- Storybook story: With Disabled Tab -->\n<uni-tabs>\n<uni-tab label=\"Open\"><span uni-text=\"body-1-long\" style=\"display: block; padding-top: 16px\">Open items.</span></uni-tab>\n<uni-tab label=\"Archived\" [disabled]=\"true\">\n  <span uni-text=\"body-1-long\" style=\"display: block; padding-top: 16px\">Unreachable while disabled.</span>\n</uni-tab>\n<uni-tab label=\"All\"><span uni-text=\"body-1-long\" style=\"display: block; padding-top: 16px\">Everything.</span></uni-tab>\n</uni-tabs>"
         }
       ],
       "guidelines": {
-        "whenToUse": "Tabs organize peer views behind a single switcher. Each `uni-tab` supplies a label and\nits panel content; only the selected panel is instantiated, so heavy tab content costs\nnothing until visited.\nThe default tokens render underline tabs; a theme that sets `borderRadius: 'max'` and\nan `activeColor` gets segmented pills without any component changes.",
+        "whenToUse": "Tabs organize peer views behind a single switcher. Each `uni-tab` supplies a label and\nits panel content; only the selected panel is instantiated, so heavy tab content costs\nnothing until visited.\nThe panel adds no padding of its own: content sits flush against the tablist, and\nthe spacing around it is yours to set on whatever you project.\nThe default tokens render underline tabs; a theme that sets `borderRadius: 'max'` and\nan `activeColor` gets segmented pills without any component changes.",
         "dos": [
           "Use for peer views of the same subject (details, activity, settings)",
           "Keep labels to one or two words"
@@ -8622,11 +8628,13 @@
         "accessibility": [
           "Full WAI-ARIA tabs pattern: `tablist`/`tab`/`tabpanel` roles with wired",
           "Arrow keys move between tabs with selection following focus, wrapping at the ends;",
-          "Roving tabindex: only the selected tab sits in the tab order; the panel itself is"
+          "Roving tabindex: only the selected tab sits in the tab order; the panel itself is",
+          "The panel animation is skipped under `prefers-reduced-motion`."
         ]
       },
       "relatedTokens": [
         "tabs.behavior.motion",
+        "tabs.behavior.panelMotion",
         "tabs.behavior.typeface",
         "tabs.behavior.textColor",
         "tabs.behavior.activeTextColor",
@@ -14016,6 +14024,18 @@
       }
     },
     {
+      "id": "tabs.behavior.panelMotion",
+      "value": "panel",
+      "type": "string",
+      "kind": "behavioral",
+      "target": "component-prop",
+      "appliesTo": "tabs",
+      "themeValues": {
+        "LightTheme": "panel",
+        "DarkTheme": "panel"
+      }
+    },
+    {
       "id": "tabs.behavior.typeface",
       "value": "title-small",
       "type": "string",
@@ -16541,6 +16561,7 @@
         },
         "tabs": {
           "motion": "snap",
+          "panelMotion": "panel",
           "typeface": "title-small",
           "textColor": "on-surface-variant",
           "activeTextColor": "primary",
@@ -17154,6 +17175,7 @@
         },
         "tabs": {
           "motion": "snap",
+          "panelMotion": "panel",
           "typeface": "title-small",
           "textColor": "on-surface-variant",
           "activeTextColor": "primary",
@@ -19517,6 +19539,2785 @@
           "dependencyBumps": []
         }
       ]
+    }
+  ],
+  "utilities": [
+    {
+      "id": "unique-id",
+      "name": "uniqueId",
+      "kind": "function",
+      "module": "a11y",
+      "importPath": "@uni-design-system/uni-angular",
+      "signature": "function uniqueId(prefix = 'uni'): string",
+      "summary": "Returns a document-unique id for wiring ARIA relationships (aria-controls, aria-describedby, aria-labelledby, ...).",
+      "description": "Returns a document-unique id for wiring ARIA relationships (aria-controls, aria-describedby, aria-labelledby, ...).",
+      "members": [],
+      "version": "11.4.1"
+    },
+    {
+      "id": "focusable-selector",
+      "name": "FOCUSABLE_SELECTOR",
+      "kind": "const",
+      "module": "a11y",
+      "importPath": "@uni-design-system/uni-angular",
+      "signature": "const FOCUSABLE_SELECTOR = 'button, [href], input, select, textarea, [tabindex]:not([tabindex=\"-1\"])'",
+      "summary": "Selector matching natively focusable elements.",
+      "description": "Selector matching natively focusable elements. Used to locate the interactive element inside a projected trigger so ARIA attributes land on the element that actually receives focus.",
+      "members": [],
+      "version": "11.4.1"
+    },
+    {
+      "id": "resolve-focus-target",
+      "name": "resolveFocusTarget",
+      "kind": "function",
+      "module": "a11y",
+      "importPath": "@uni-design-system/uni-angular",
+      "signature": "function resolveFocusTarget(element: HTMLElement): HTMLElement",
+      "summary": "Resolves the element that should carry ARIA state for a trigger: the element itself when focusable, otherwise its first focusable descendant.",
+      "description": "Resolves the element that should carry ARIA state for a trigger: the element itself when focusable, otherwise its first focusable descendant.",
+      "members": [],
+      "version": "11.4.1"
+    },
+    {
+      "id": "visually-hidden",
+      "name": "visuallyHidden",
+      "kind": "const",
+      "module": "a11y",
+      "importPath": "@uni-design-system/uni-angular",
+      "signature": "const visuallyHidden = { position: 'fixed', width: 1, height: 1, padding: 0, margin: -1, overflow: 'hid…",
+      "summary": "Visually hides content while keeping it available to screen readers.",
+      "description": "Visually hides content while keeping it available to screen readers. Use for text alternatives (e.g. badge counts, icon-only affordances). `fixed`, not `absolute`, and that is load-bearing. An absolutely positioned box resolves its containing block to the nearest *positioned* ancestor — which, since the controls emitting these spans are `position: static`, is whatever positioned box happens to be above them in the consumer's layout, often several scroll containers up. The span then skips every intervening `overflow: auto` and lands in that distant ancestor's scrollable overflow, turning 1x1 of invisible text into real scrollable distance in a box that never opted into scrolling. A fixed box's containing block is the viewport, so it joins no ancestor's scrollable overflow at all. Caveat: inside a `transform`ed (or `filter`ed/`contain`ed) ancestor a fixed box re-anchors to that ancestor. Harmless here — the element is 1x1 and clipped to nothing, so where it lands never matters, only what it overflows.",
+      "members": [],
+      "version": "11.4.1"
+    },
+    {
+      "id": "motion-safe",
+      "name": "motionSafe",
+      "kind": "function",
+      "module": "a11y",
+      "importPath": "@uni-design-system/uni-angular",
+      "signature": "function motionSafe<T extends object>(styles: T)",
+      "summary": "Wraps animation/transition styles so they only apply when the user has not requested reduced motion (WCAG 2.3.3).",
+      "description": "Wraps animation/transition styles so they only apply when the user has not requested reduced motion (WCAG 2.3.3).",
+      "members": [],
+      "version": "11.4.1"
+    },
+    {
+      "id": "announcer",
+      "name": "Announcer",
+      "kind": "interface",
+      "module": "a11y",
+      "importPath": "@uni-design-system/uni-angular",
+      "signature": "interface Announcer",
+      "summary": "",
+      "description": "",
+      "members": [
+        {
+          "name": "message",
+          "kind": "property",
+          "signature": "readonly message: Signal<string>",
+          "description": "Current live-region text. Bind it to a visually hidden element that is already in the DOM when the component renders — a region added at the moment it gains text is not reliably announced: ```html <span role=\"status\" aria-live=\"polite\" [class]=\"srOnly\"> {{ announcer.message() }} </span> ```"
+        },
+        {
+          "name": "announce",
+          "kind": "method",
+          "signature": "announce(text: string): void",
+          "description": "Announce `text`, even when it repeats what was just announced."
+        }
+      ],
+      "version": "11.4.1"
+    },
+    {
+      "id": "create-announcer",
+      "name": "createAnnouncer",
+      "kind": "function",
+      "module": "a11y",
+      "importPath": "@uni-design-system/uni-angular",
+      "signature": "function createAnnouncer(): Announcer",
+      "summary": "A polite live region's text, for the running commentary a form control owes a screen reader: commits, clears, refused entries, result counts — changes a sighted user sees but that are otherwise silent.",
+      "description": "A polite live region's text, for the running commentary a form control owes a screen reader: commits, clears, refused entries, result counts — changes a sighted user sees but that are otherwise silent. Extracted because five controls (`uni-combobox`, `uni-tag-input`, `uni-time-input`, `uni-date-input`, `uni-calendar`) carried byte-identical copies, including the repeat trick below — the kind of subtlety that is quietly dropped when the sixth control hand-rolls its own. Announcing the same text twice must still be heard: assistive tech reads a live region when its content *changes*, so setting an identical string is a no-op and the second \"No match.\" would be silent. A trailing space breaks the equality without changing a word of what is read. Successive repeats alternate between the padded and unpadded form, so nothing accumulates. Deliberately holds no DOM and no styling: the region belongs to the component's own template, where its placement and visually-hidden class are already the component's business.",
+      "members": [],
+      "version": "11.4.1"
+    },
+    {
+      "id": "uni-date",
+      "name": "UniDate",
+      "kind": "type",
+      "module": "datetime",
+      "importPath": "@uni-design-system/uni-angular",
+      "signature": "type UniDate = string",
+      "summary": "A calendar date, `'YYYY-MM-DD'`.",
+      "description": "A calendar date, `'YYYY-MM-DD'`.",
+      "members": [],
+      "version": "11.4.1"
+    },
+    {
+      "id": "uni-time",
+      "name": "UniTime",
+      "kind": "type",
+      "module": "datetime",
+      "importPath": "@uni-design-system/uni-angular",
+      "signature": "type UniTime = string",
+      "summary": "A wall-clock time, `'HH:mm'` (24-hour).",
+      "description": "A wall-clock time, `'HH:mm'` (24-hour). Display format is separate.",
+      "members": [],
+      "version": "11.4.1"
+    },
+    {
+      "id": "uni-date-time",
+      "name": "UniDateTime",
+      "kind": "type",
+      "module": "datetime",
+      "importPath": "@uni-design-system/uni-angular",
+      "signature": "type UniDateTime = string",
+      "summary": "A combined date and time, `'YYYY-MM-DDTHH:mm'`.",
+      "description": "A combined date and time, `'YYYY-MM-DDTHH:mm'`.",
+      "members": [],
+      "version": "11.4.1"
+    },
+    {
+      "id": "uni-date-range",
+      "name": "UniDateRange",
+      "kind": "interface",
+      "module": "datetime",
+      "importPath": "@uni-design-system/uni-angular",
+      "signature": "interface UniDateRange",
+      "summary": "A start–end date range.",
+      "description": "A start–end date range. Both ends are inclusive.",
+      "members": [
+        {
+          "name": "start",
+          "kind": "property",
+          "signature": "start?: UniDate",
+          "description": ""
+        },
+        {
+          "name": "end",
+          "kind": "property",
+          "signature": "end?: UniDate",
+          "description": ""
+        }
+      ],
+      "version": "11.4.1"
+    },
+    {
+      "id": "iso-date",
+      "name": "isoDate",
+      "kind": "function",
+      "module": "datetime",
+      "importPath": "@uni-design-system/uni-angular",
+      "signature": "function isoDate(year: number, month: number, day: number): UniDate",
+      "summary": "`(2026, 8, 5)` → `'2026-08-05'`.",
+      "description": "`(2026, 8, 5)` → `'2026-08-05'`. Does not validate — see `isValidDate`.",
+      "members": [],
+      "version": "11.4.1"
+    },
+    {
+      "id": "is-valid-date",
+      "name": "isValidDate",
+      "kind": "function",
+      "module": "datetime",
+      "importPath": "@uni-design-system/uni-angular",
+      "signature": "function isValidDate(year: number, month: number, day: number): UniDate | null",
+      "summary": "The ISO date when the parts form a real calendar day, else `null`.",
+      "description": "The ISO date when the parts form a real calendar day, else `null`.",
+      "members": [],
+      "version": "11.4.1"
+    },
+    {
+      "id": "days-in-month",
+      "name": "daysInMonth",
+      "kind": "function",
+      "module": "datetime",
+      "importPath": "@uni-design-system/uni-angular",
+      "signature": "function daysInMonth(year: number, month: number): number",
+      "summary": "Days in a month, leap-year aware.",
+      "description": "Days in a month, leap-year aware.",
+      "members": [],
+      "version": "11.4.1"
+    },
+    {
+      "id": "add-days",
+      "name": "addDays",
+      "kind": "function",
+      "module": "datetime",
+      "importPath": "@uni-design-system/uni-angular",
+      "signature": "function addDays(date: UniDate, days: number): UniDate",
+      "summary": "",
+      "description": "",
+      "members": [],
+      "version": "11.4.1"
+    },
+    {
+      "id": "add-months",
+      "name": "addMonths",
+      "kind": "function",
+      "module": "datetime",
+      "importPath": "@uni-design-system/uni-angular",
+      "signature": "function addMonths(date: UniDate, months: number): UniDate",
+      "summary": "Same day ± n months, clamping the day to the target month's length.",
+      "description": "Same day ± n months, clamping the day to the target month's length.",
+      "members": [],
+      "version": "11.4.1"
+    },
+    {
+      "id": "day-of-week",
+      "name": "dayOfWeek",
+      "kind": "function",
+      "module": "datetime",
+      "importPath": "@uni-design-system/uni-angular",
+      "signature": "function dayOfWeek(date: UniDate): number",
+      "summary": "Day of week, 0 = Sunday … 6 = Saturday.",
+      "description": "Day of week, 0 = Sunday … 6 = Saturday.",
+      "members": [],
+      "version": "11.4.1"
+    },
+    {
+      "id": "month-of",
+      "name": "monthOf",
+      "kind": "function",
+      "module": "datetime",
+      "importPath": "@uni-design-system/uni-angular",
+      "signature": "function monthOf(date: UniDate): string",
+      "summary": "`'2026-08-20'` → `'2026-08'`.",
+      "description": "`'2026-08-20'` → `'2026-08'`.",
+      "members": [],
+      "version": "11.4.1"
+    },
+    {
+      "id": "today-iso",
+      "name": "todayIso",
+      "kind": "function",
+      "module": "datetime",
+      "importPath": "@uni-design-system/uni-angular",
+      "signature": "function todayIso(): UniDate",
+      "summary": "Today as a local-wall-clock ISO date (the one place local time matters).",
+      "description": "Today as a local-wall-clock ISO date (the one place local time matters).",
+      "members": [],
+      "version": "11.4.1"
+    },
+    {
+      "id": "inclusive-day-count",
+      "name": "inclusiveDayCount",
+      "kind": "function",
+      "module": "datetime",
+      "importPath": "@uni-design-system/uni-angular",
+      "signature": "function inclusiveDayCount(start: UniDate, end: UniDate): number",
+      "summary": "Inclusive day count of a range: `('-20', '-24')` → 5.",
+      "description": "Inclusive day count of a range: `('-20', '-24')` → 5.",
+      "members": [],
+      "version": "11.4.1"
+    },
+    {
+      "id": "uni-month-grid-cell",
+      "name": "UniMonthGridCell",
+      "kind": "interface",
+      "module": "datetime",
+      "importPath": "@uni-design-system/uni-angular",
+      "signature": "interface UniMonthGridCell",
+      "summary": "",
+      "description": "",
+      "members": [
+        {
+          "name": "date",
+          "kind": "property",
+          "signature": "date: UniDate",
+          "description": ""
+        },
+        {
+          "name": "outside",
+          "kind": "property",
+          "signature": "outside: boolean",
+          "description": "True for leading/trailing cells that belong to the adjacent months."
+        }
+      ],
+      "version": "11.4.1"
+    },
+    {
+      "id": "build-month-grid",
+      "name": "buildMonthGrid",
+      "kind": "function",
+      "module": "datetime",
+      "importPath": "@uni-design-system/uni-angular",
+      "signature": "function buildMonthGrid(month: string, weekStart: number): UniMonthGridCell[][]",
+      "summary": "The week matrix a calendar renders: full weeks covering `'YYYY-MM'`, starting on `weekStart` (0 = Sunday).",
+      "description": "The week matrix a calendar renders: full weeks covering `'YYYY-MM'`, starting on `weekStart` (0 = Sunday). Outside cells are always present so showing or hiding them is a pure render decision.",
+      "members": [],
+      "version": "11.4.1"
+    },
+    {
+      "id": "format-date",
+      "name": "formatDate",
+      "kind": "function",
+      "module": "datetime",
+      "importPath": "@uni-design-system/uni-angular",
+      "signature": "function formatDate(date: UniDate, locale: string, options: Intl.DateTimeFormatOptions = { dateStyle: 'medium' }): string",
+      "summary": "",
+      "description": "",
+      "members": [],
+      "version": "11.4.1"
+    },
+    {
+      "id": "format-month-heading",
+      "name": "formatMonthHeading",
+      "kind": "function",
+      "module": "datetime",
+      "importPath": "@uni-design-system/uni-angular",
+      "signature": "function formatMonthHeading(month: string, locale: string): string",
+      "summary": "`'2026-08'` → `'August 2026'` in the locale.",
+      "description": "`'2026-08'` → `'August 2026'` in the locale.",
+      "members": [],
+      "version": "11.4.1"
+    },
+    {
+      "id": "uni-weekday-name",
+      "name": "UniWeekdayName",
+      "kind": "interface",
+      "module": "datetime",
+      "importPath": "@uni-design-system/uni-angular",
+      "signature": "interface UniWeekdayName",
+      "summary": "",
+      "description": "",
+      "members": [
+        {
+          "name": "label",
+          "kind": "property",
+          "signature": "label: string",
+          "description": "Column label in the requested format ('narrow' | 'short')."
+        },
+        {
+          "name": "full",
+          "kind": "property",
+          "signature": "full: string",
+          "description": "Full weekday name, for the columnheader's `abbr`."
+        }
+      ],
+      "version": "11.4.1"
+    },
+    {
+      "id": "weekday-names",
+      "name": "weekdayNames",
+      "kind": "const",
+      "module": "datetime",
+      "importPath": "@uni-design-system/uni-angular",
+      "signature": "const weekdayNames = memoize(…)",
+      "summary": "Weekday header labels starting at `weekStart` (0 = Sunday).",
+      "description": "Weekday header labels starting at `weekStart` (0 = Sunday).",
+      "members": [],
+      "version": "11.4.1"
+    },
+    {
+      "id": "format-time",
+      "name": "formatTime",
+      "kind": "function",
+      "module": "datetime",
+      "importPath": "@uni-design-system/uni-angular",
+      "signature": "function formatTime(time: UniTime, locale: string, hour12: boolean): string",
+      "summary": "`'15:00'` → `'3:00 PM'` (or `'15:00'` when `hour12` is false).",
+      "description": "`'15:00'` → `'3:00 PM'` (or `'15:00'` when `hour12` is false).",
+      "members": [],
+      "version": "11.4.1"
+    },
+    {
+      "id": "locale-week-start",
+      "name": "localeWeekStart",
+      "kind": "const",
+      "module": "datetime",
+      "importPath": "@uni-design-system/uni-angular",
+      "signature": "const localeWeekStart = memoize(…)",
+      "summary": "The locale's first day of week, 0 = Sunday … 6 = Saturday.",
+      "description": "The locale's first day of week, 0 = Sunday … 6 = Saturday. Falls back to Sunday where `Intl.Locale` week info is unavailable.",
+      "members": [],
+      "version": "11.4.1"
+    },
+    {
+      "id": "locale-default-hour12",
+      "name": "localeDefaultHour12",
+      "kind": "const",
+      "module": "datetime",
+      "importPath": "@uni-design-system/uni-angular",
+      "signature": "const localeDefaultHour12 = memoize(…)",
+      "summary": "Whether the locale's default clock is 12-hour.",
+      "description": "Whether the locale's default clock is 12-hour.",
+      "members": [],
+      "version": "11.4.1"
+    },
+    {
+      "id": "locale-field-order",
+      "name": "localeFieldOrder",
+      "kind": "const",
+      "module": "datetime",
+      "importPath": "@uni-design-system/uni-angular",
+      "signature": "const localeFieldOrder = memoize(…)",
+      "summary": "The locale's numeric-date field order, e.g.",
+      "description": "The locale's numeric-date field order, e.g. en-US → month, day, year.",
+      "members": [],
+      "version": "11.4.1"
+    },
+    {
+      "id": "locale-month-names",
+      "name": "localeMonthNames",
+      "kind": "const",
+      "module": "datetime",
+      "importPath": "@uni-design-system/uni-angular",
+      "signature": "const localeMonthNames = memoize(…)",
+      "summary": "Long + short month names → month number, lowercased, dots stripped.",
+      "description": "Long + short month names → month number, lowercased, dots stripped.",
+      "members": [],
+      "version": "11.4.1"
+    },
+    {
+      "id": "locale-date-placeholder",
+      "name": "localeDatePlaceholder",
+      "kind": "const",
+      "module": "datetime",
+      "importPath": "@uni-design-system/uni-angular",
+      "signature": "const localeDatePlaceholder = memoize(…)",
+      "summary": "The locale's digit pattern as a placeholder, e.g.",
+      "description": "The locale's digit pattern as a placeholder, e.g. `'MM/DD/YYYY'`.",
+      "members": [],
+      "version": "11.4.1"
+    },
+    {
+      "id": "parse-date-text",
+      "name": "parseDateText",
+      "kind": "function",
+      "module": "datetime",
+      "importPath": "@uni-design-system/uni-angular",
+      "signature": "function parseDateText(raw: string, locale: string, options: { today?: UniDate } = {}): UniDate | null",
+      "summary": "Free-typed date text → ISO date, or `null` when unreadable.",
+      "description": "Free-typed date text → ISO date, or `null` when unreadable. Accepts, in order: ISO (`2026-08-20`), a month name from the locale's own long/short lists (`aug 20`, `20 aug 2026`, `August 20th`), and locale-numeric text (`8/20/2026`, `20.8.2026`, `08-20`) with the digit order taken from `Intl.DateTimeFormat(locale).formatToParts()`. A missing year resolves to the next occurrence; two-digit years are refused rather than guessed.",
+      "members": [],
+      "version": "11.4.1"
+    },
+    {
+      "id": "parse-time-text",
+      "name": "parseTimeText",
+      "kind": "function",
+      "module": "datetime",
+      "importPath": "@uni-design-system/uni-angular",
+      "signature": "function parseTimeText(raw: string, hour12: boolean): UniTime | null",
+      "summary": "Free-typed time text → `'HH:mm'`, or `null`.",
+      "description": "Free-typed time text → `'HH:mm'`, or `null`. Accepts `9`, `930`, `9:30`, `9.30`, `9 30`, `3p`, `3pm`, `3 PM`, `15:00`. Bare hours 1–7 with no meridiem lean PM when `hour12` — typing `3` into an appointment field means 15:00, not 03:00.",
+      "members": [],
+      "version": "11.4.1"
+    },
+    {
+      "id": "time-slots",
+      "name": "timeSlots",
+      "kind": "function",
+      "module": "datetime",
+      "importPath": "@uni-design-system/uni-angular",
+      "signature": "function timeSlots(minuteStep: number, min?: UniTime, max?: UniTime): UniTime[]",
+      "summary": "Every `minuteStep` time between `min` and `max` (inclusive bounds).",
+      "description": "Every `minuteStep` time between `min` and `max` (inclusive bounds).",
+      "members": [],
+      "version": "11.4.1"
+    },
+    {
+      "id": "split-date-time",
+      "name": "splitDateTime",
+      "kind": "function",
+      "module": "datetime",
+      "importPath": "@uni-design-system/uni-angular",
+      "signature": "function splitDateTime(value?: UniDateTime): { date?: UniDate; time?: UniTime }",
+      "summary": "",
+      "description": "",
+      "members": [],
+      "version": "11.4.1"
+    },
+    {
+      "id": "join-date-time",
+      "name": "joinDateTime",
+      "kind": "function",
+      "module": "datetime",
+      "importPath": "@uni-design-system/uni-angular",
+      "signature": "function joinDateTime(date?: UniDate, time?: UniTime): UniDateTime | undefined",
+      "summary": "One combined value only when both parts are present.",
+      "description": "One combined value only when both parts are present.",
+      "members": [],
+      "version": "11.4.1"
+    },
+    {
+      "id": "uni-number-range",
+      "name": "UniNumberRange",
+      "kind": "interface",
+      "module": "number",
+      "importPath": "@uni-design-system/uni-angular",
+      "signature": "interface UniNumberRange",
+      "summary": "A start–end numeric range.",
+      "description": "A start–end numeric range. Either end alone is a valid value.",
+      "members": [
+        {
+          "name": "start",
+          "kind": "property",
+          "signature": "start?: number",
+          "description": ""
+        },
+        {
+          "name": "end",
+          "kind": "property",
+          "signature": "end?: number",
+          "description": ""
+        }
+      ],
+      "version": "11.4.1"
+    },
+    {
+      "id": "uni-rounding-mode",
+      "name": "UniRoundingMode",
+      "kind": "type",
+      "module": "number",
+      "importPath": "@uni-design-system/uni-angular",
+      "signature": "type UniRoundingMode = 'half-up' | 'half-even' | 'ceil' | 'floor' | 'trunc'",
+      "summary": "How a tie is resolved when rounding to a fraction-digit count.",
+      "description": "How a tie is resolved when rounding to a fraction-digit count. `half-up` is the invoice default (ties away from zero: `1.15` → `1.2`); `half-even` is banker's rounding, which removes the upward bias across a column of figures (`1.25` → `1.2`, `1.35` → `1.4`).",
+      "members": [],
+      "version": "11.4.1"
+    },
+    {
+      "id": "uni-number-preset",
+      "name": "UniNumberPreset",
+      "kind": "type",
+      "module": "number",
+      "importPath": "@uni-design-system/uni-angular",
+      "signature": "type UniNumberPreset = 'decimal' | 'integer' | 'currency' | 'percent'",
+      "summary": "Format archetype.",
+      "description": "Format archetype. Supplies decimals, grouping, affix and `inputmode`.",
+      "members": [],
+      "version": "11.4.1"
+    },
+    {
+      "id": "uni-number-grouping",
+      "name": "UniNumberGrouping",
+      "kind": "type",
+      "module": "number",
+      "importPath": "@uni-design-system/uni-angular",
+      "signature": "type UniNumberGrouping = 'auto' | 'always' | 'min2' | false",
+      "summary": "Thousands-separator policy, mapped onto `Intl`'s `useGrouping`.",
+      "description": "Thousands-separator policy, mapped onto `Intl`'s `useGrouping`. `min2` — the default — groups only from five integer digits, so a year renders `2026` rather than `2,026` while a price still renders `10,000`.",
+      "members": [],
+      "version": "11.4.1"
+    },
+    {
+      "id": "uni-number-reject-reason",
+      "name": "UniNumberRejectReason",
+      "kind": "type",
+      "module": "number",
+      "importPath": "@uni-design-system/uni-angular",
+      "signature": "type UniNumberRejectReason = 'unparseable' | 'min' | 'max' | 'step' | 'precision' | 'not-integer'",
+      "summary": "Why a typed commit was refused.",
+      "description": "Why a typed commit was refused. The raw text stays in the field.",
+      "members": [],
+      "version": "11.4.1"
+    },
+    {
+      "id": "uni-number-step-config",
+      "name": "UniNumberStepConfig",
+      "kind": "interface",
+      "module": "number",
+      "importPath": "@uni-design-system/uni-angular",
+      "signature": "interface UniNumberStepConfig",
+      "summary": "Fences and snap grid for `stepDecimal`.",
+      "description": "Fences and snap grid for `stepDecimal`.",
+      "members": [
+        {
+          "name": "step",
+          "kind": "property",
+          "signature": "step?: number | string",
+          "description": "Grid spacing. Steps land on `origin + n · step`. Default `1`."
+        },
+        {
+          "name": "min",
+          "kind": "property",
+          "signature": "min?: number | string",
+          "description": ""
+        },
+        {
+          "name": "max",
+          "kind": "property",
+          "signature": "max?: number | string",
+          "description": ""
+        },
+        {
+          "name": "stepOrigin",
+          "kind": "property",
+          "signature": "stepOrigin?: 'min' | 'zero'",
+          "description": "Snap-grid anchor. `'min'` matches the platform's `<input type=\"number\">` (a field with `min=5, step=10` steps 5 → 15 → 25); `'zero'` anchors the grid at 0 regardless of the fence."
+        },
+        {
+          "name": "wrap",
+          "kind": "property",
+          "signature": "wrap?: boolean",
+          "description": "Cycle past a fence instead of stopping at it — for genuinely cyclic fields only (23 → 0 hours, 359 → 0 degrees). Needs both `min` and `max`."
+        }
+      ],
+      "version": "11.4.1"
+    },
+    {
+      "id": "uni-number-clamp",
+      "name": "UniNumberClamp",
+      "kind": "interface",
+      "module": "number",
+      "importPath": "@uni-design-system/uni-angular",
+      "signature": "interface UniNumberClamp",
+      "summary": "The outcome of clamping a value to its fences.",
+      "description": "The outcome of clamping a value to its fences.",
+      "members": [
+        {
+          "name": "value",
+          "kind": "property",
+          "signature": "value: string",
+          "description": "The clamped canonical decimal."
+        },
+        {
+          "name": "hit",
+          "kind": "property",
+          "signature": "hit: 'min' | 'max' | null",
+          "description": "Which fence was hit, or `null` when the value was already in range."
+        }
+      ],
+      "version": "11.4.1"
+    },
+    {
+      "id": "uni-locale-number-parts",
+      "name": "UniLocaleNumberParts",
+      "kind": "interface",
+      "module": "number",
+      "importPath": "@uni-design-system/uni-angular",
+      "signature": "interface UniLocaleNumberParts",
+      "summary": "Separators, currency placement and fraction digits read out of `Intl` for a locale.",
+      "description": "Separators, currency placement and fraction digits read out of `Intl` for a locale. Nothing here is hardcoded per language — `1.234,56` is German input, not malformed input, and only the locale knows that.",
+      "members": [
+        {
+          "name": "group",
+          "kind": "property",
+          "signature": "group: string",
+          "description": "Thousands separator: `','` (en), `'.'` (de), a narrow no-break space (fr)."
+        },
+        {
+          "name": "decimal",
+          "kind": "property",
+          "signature": "decimal: string",
+          "description": "Decimal separator: `'.'` (en), `','` (de)."
+        },
+        {
+          "name": "currencySymbol",
+          "kind": "property",
+          "signature": "currencySymbol: string",
+          "description": "Currency symbol, when a currency was given: `'$'`, `'€'`, `'¥'`."
+        },
+        {
+          "name": "currencyLeading",
+          "kind": "property",
+          "signature": "currencyLeading: boolean",
+          "description": "True when the locale writes the symbol before the number."
+        },
+        {
+          "name": "currencyDecimals",
+          "kind": "property",
+          "signature": "currencyDecimals: number",
+          "description": "Fraction digits `Intl` uses for the currency — JPY 0, USD 2."
+        }
+      ],
+      "version": "11.4.1"
+    },
+    {
+      "id": "uni-number-format-config",
+      "name": "UniNumberFormatConfig",
+      "kind": "interface",
+      "module": "number",
+      "importPath": "@uni-design-system/uni-angular",
+      "signature": "interface UniNumberFormatConfig",
+      "summary": "What a component knows about its own formatting, before resolution.",
+      "description": "What a component knows about its own formatting, before resolution. Mirrors the component inputs so a control can forward its signals almost verbatim.",
+      "members": [
+        {
+          "name": "preset",
+          "kind": "property",
+          "signature": "preset?: UniNumberPreset",
+          "description": ""
+        },
+        {
+          "name": "currency",
+          "kind": "property",
+          "signature": "currency?: string",
+          "description": "ISO 4217 code, e.g. `'USD'`. Implies the `currency` preset."
+        },
+        {
+          "name": "locale",
+          "kind": "property",
+          "signature": "locale?: string",
+          "description": "BCP 47 tag. Defaults to `'en-US'`; components pass the document's."
+        },
+        {
+          "name": "decimals",
+          "kind": "property",
+          "signature": "decimals?: number | [min: number, max: number]",
+          "description": "Fixed fraction digits, or `[min, max]`. Overrides the preset."
+        },
+        {
+          "name": "grouping",
+          "kind": "property",
+          "signature": "grouping?: UniNumberGrouping",
+          "description": ""
+        },
+        {
+          "name": "prefix",
+          "kind": "property",
+          "signature": "prefix?: string",
+          "description": "Static adornment, rendered outside the editable text."
+        },
+        {
+          "name": "suffix",
+          "kind": "property",
+          "signature": "suffix?: string",
+          "description": ""
+        },
+        {
+          "name": "roundingMode",
+          "kind": "property",
+          "signature": "roundingMode?: UniRoundingMode",
+          "description": ""
+        },
+        {
+          "name": "valueIsFraction",
+          "kind": "property",
+          "signature": "valueIsFraction?: boolean",
+          "description": "The model is a fraction: `0.15` displays as `15`. Without it, a percent field displays `15` for `15` and never divides behind the user's back."
+        },
+        {
+          "name": "numberFormat",
+          "kind": "property",
+          "signature": "numberFormat?: Intl.NumberFormatOptions",
+          "description": "Escape hatch, merged over the preset. Only `notation` is read today."
+        },
+        {
+          "name": "min",
+          "kind": "property",
+          "signature": "min?: number",
+          "description": "Read only to decide `inputmode` — a field that can go negative needs `-`."
+        },
+        {
+          "name": "unitAnnouncement",
+          "kind": "property",
+          "signature": "unitAnnouncement?: string",
+          "description": "Spoken long form of an abbreviated suffix, for `aria-valuetext`."
+        }
+      ],
+      "version": "11.4.1"
+    },
+    {
+      "id": "uni-resolved-number-format",
+      "name": "UniResolvedNumberFormat",
+      "kind": "interface",
+      "module": "number",
+      "importPath": "@uni-design-system/uni-angular",
+      "signature": "interface UniResolvedNumberFormat",
+      "summary": "A format config with every preset and locale default filled in.",
+      "description": "A format config with every preset and locale default filled in.",
+      "members": [
+        {
+          "name": "locale",
+          "kind": "property",
+          "signature": "locale: string",
+          "description": ""
+        },
+        {
+          "name": "parts",
+          "kind": "property",
+          "signature": "parts: UniLocaleNumberParts",
+          "description": ""
+        },
+        {
+          "name": "prefix",
+          "kind": "property",
+          "signature": "prefix: string",
+          "description": ""
+        },
+        {
+          "name": "suffix",
+          "kind": "property",
+          "signature": "suffix: string",
+          "description": ""
+        },
+        {
+          "name": "minimumFractionDigits",
+          "kind": "property",
+          "signature": "minimumFractionDigits: number",
+          "description": ""
+        },
+        {
+          "name": "maximumFractionDigits",
+          "kind": "property",
+          "signature": "maximumFractionDigits: number",
+          "description": ""
+        },
+        {
+          "name": "grouping",
+          "kind": "property",
+          "signature": "grouping: UniNumberGrouping",
+          "description": ""
+        },
+        {
+          "name": "compact",
+          "kind": "property",
+          "signature": "compact: boolean",
+          "description": "`1.5k` in, `1.5K` out."
+        },
+        {
+          "name": "isInteger",
+          "kind": "property",
+          "signature": "isInteger: boolean",
+          "description": "Fraction entry is refused outright rather than rounded away."
+        },
+        {
+          "name": "shift",
+          "kind": "property",
+          "signature": "shift: number",
+          "description": "Display value is the model value × `10^shift`."
+        },
+        {
+          "name": "roundingMode",
+          "kind": "property",
+          "signature": "roundingMode: UniRoundingMode",
+          "description": ""
+        },
+        {
+          "name": "inputMode",
+          "kind": "property",
+          "signature": "inputMode: 'decimal' | 'numeric'",
+          "description": "`numeric` only when negatives and decimals are both impossible."
+        },
+        {
+          "name": "unitAnnouncement",
+          "kind": "property",
+          "signature": "unitAnnouncement?: string",
+          "description": ""
+        }
+      ],
+      "version": "11.4.1"
+    },
+    {
+      "id": "uni-number-parse-result",
+      "name": "UniNumberParseResult",
+      "kind": "type",
+      "module": "number",
+      "importPath": "@uni-design-system/uni-angular",
+      "signature": "type UniNumberParseResult = { status: 'empty' } | { status: 'ok'; value: string; viaExpression: boolean } | { status: 'error'; reason: UniNumberRejectReason }",
+      "summary": "The outcome of reading a user's text.",
+      "description": "The outcome of reading a user's text. Refused text is never swallowed: the caller keeps it in the field and flags it, so nobody loses their work to a silently emptied box.",
+      "members": [],
+      "version": "11.4.1"
+    },
+    {
+      "id": "is-canonical-decimal",
+      "name": "isCanonicalDecimal",
+      "kind": "function",
+      "module": "number",
+      "importPath": "@uni-design-system/uni-angular",
+      "signature": "function isCanonicalDecimal(text: string): boolean",
+      "summary": "True when `text` is already a canonical decimal (leading/trailing space allowed).",
+      "description": "True when `text` is already a canonical decimal (leading/trailing space allowed).",
+      "members": [],
+      "version": "11.4.1"
+    },
+    {
+      "id": "decimal-scale",
+      "name": "decimalScale",
+      "kind": "function",
+      "module": "number",
+      "importPath": "@uni-design-system/uni-angular",
+      "signature": "function decimalScale(value: string): number",
+      "summary": "Fraction-digit count.",
+      "description": "Fraction-digit count. `'1.250'` → 3, `'12'` → 0, `'5.'` → 0.",
+      "members": [],
+      "version": "11.4.1"
+    },
+    {
+      "id": "to-scaled",
+      "name": "toScaled",
+      "kind": "function",
+      "module": "number",
+      "importPath": "@uni-design-system/uni-angular",
+      "signature": "function toScaled(value: string, scale: number): bigint",
+      "summary": "Canonical decimal → integer scaled by `10^scale`.",
+      "description": "Canonical decimal → integer scaled by `10^scale`. Fraction digits beyond `scale` are truncated, so callers that must not lose them pass a `scale` at least `decimalScale(value)`.",
+      "members": [],
+      "version": "11.4.1"
+    },
+    {
+      "id": "from-scaled",
+      "name": "fromScaled",
+      "kind": "function",
+      "module": "number",
+      "importPath": "@uni-design-system/uni-angular",
+      "signature": "function fromScaled(scaled: bigint, scale: number): string",
+      "summary": "Scaled integer → canonical decimal, with trailing fraction zeros trimmed.",
+      "description": "Scaled integer → canonical decimal, with trailing fraction zeros trimmed.",
+      "members": [],
+      "version": "11.4.1"
+    },
+    {
+      "id": "normalize-decimal",
+      "name": "normalizeDecimal",
+      "kind": "function",
+      "module": "number",
+      "importPath": "@uni-design-system/uni-angular",
+      "signature": "function normalizeDecimal(value: string): string",
+      "summary": "Strip a leading `+`, leading zeros and trailing fraction zeros: `'+01.50'` → `'1.5'`.",
+      "description": "Strip a leading `+`, leading zeros and trailing fraction zeros: `'+01.50'` → `'1.5'`. Requires a canonical decimal; guard with `isCanonicalDecimal`.",
+      "members": [],
+      "version": "11.4.1"
+    },
+    {
+      "id": "to-decimal",
+      "name": "toDecimal",
+      "kind": "function",
+      "module": "number",
+      "importPath": "@uni-design-system/uni-angular",
+      "signature": "function toDecimal(value: number | string): string",
+      "summary": "Any numeric input → canonical decimal, expanding the exponential notation `String(number)` produces outside 1e-7…1e21.",
+      "description": "Any numeric input → canonical decimal, expanding the exponential notation `String(number)` produces outside 1e-7…1e21. A `step` of `1e-7` would otherwise reach the arithmetic as the literal text `'1e-7'`. Throws on text that is not numeric at all — every caller here passes either a `number` input or text already cleared by the parser.",
+      "members": [],
+      "version": "11.4.1"
+    },
+    {
+      "id": "compare-decimal",
+      "name": "compareDecimal",
+      "kind": "function",
+      "module": "number",
+      "importPath": "@uni-design-system/uni-angular",
+      "signature": "function compareDecimal(a: string, b: string): -1 | 0 | 1",
+      "summary": "`-1` when `a < b`, `1` when `a > b`, `0` when equal.",
+      "description": "`-1` when `a < b`, `1` when `a > b`, `0` when equal. `'1.50'` equals `'1.5'`.",
+      "members": [],
+      "version": "11.4.1"
+    },
+    {
+      "id": "round-decimal",
+      "name": "roundDecimal",
+      "kind": "function",
+      "module": "number",
+      "importPath": "@uni-design-system/uni-angular",
+      "signature": "function roundDecimal(value: string, fractionDigits: number, mode: UniRoundingMode = 'half-up'): string",
+      "summary": "Round to `fractionDigits`, breaking ties per `mode`.",
+      "description": "Round to `fractionDigits`, breaking ties per `mode`. Exact where `Number.prototype.toFixed` is not — see the file header.",
+      "members": [],
+      "version": "11.4.1"
+    },
+    {
+      "id": "shift-decimal",
+      "name": "shiftDecimal",
+      "kind": "function",
+      "module": "number",
+      "importPath": "@uni-design-system/uni-angular",
+      "signature": "function shiftDecimal(value: string, places: number): string",
+      "summary": "Multiply by `10^places`, exactly.",
+      "description": "Multiply by `10^places`, exactly. Used for the percent preset's fraction ⇄ display shift (`0.15` ⇄ `15`) and for deriving a default large step of `step × 10` without touching a float.",
+      "members": [],
+      "version": "11.4.1"
+    },
+    {
+      "id": "clamp-decimal",
+      "name": "clampDecimal",
+      "kind": "function",
+      "module": "number",
+      "importPath": "@uni-design-system/uni-angular",
+      "signature": "function clampDecimal(value: string, min?: number | string, max?: number | string): UniNumberClamp",
+      "summary": "Hold a value inside its fences, reporting which one it hit so the caller can announce it.",
+      "description": "Hold a value inside its fences, reporting which one it hit so the caller can announce it. Clamping belongs on commit, never per keystroke: a `min=10` field that clamps live can never be typed into, because the `1` becomes `10` before the `5` arrives.",
+      "members": [],
+      "version": "11.4.1"
+    },
+    {
+      "id": "step-decimal",
+      "name": "stepDecimal",
+      "kind": "function",
+      "module": "number",
+      "importPath": "@uni-design-system/uni-angular",
+      "signature": "function stepDecimal(current: string, direction: 1 | -1, config: UniNumberStepConfig = {}): string",
+      "summary": "One step from `current`, in `direction` (`1` up, `-1` down).",
+      "description": "One step from `current`, in `direction` (`1` up, `-1` down). Steps land on the grid `origin + n · step`, where `origin` is `min` by default. A value that is *off* the grid snaps to the nearest grid point **in the direction of travel** rather than jumping past it: with `min=5, step=10` the grid is 5, 15, 25, and stepping up from 7 gives 15, not 17. Fences stop the value; they never wrap unless `wrap` is set and both bounds are defined. Returns `current` unchanged when `step` is zero.",
+      "members": [],
+      "version": "11.4.1"
+    },
+    {
+      "id": "locale-number-parts",
+      "name": "localeNumberParts",
+      "kind": "const",
+      "module": "number",
+      "importPath": "@uni-design-system/uni-angular",
+      "signature": "const localeNumberParts = memoize(…)",
+      "summary": "Locale separators plus, when a currency is given, its symbol, side and fraction digits.",
+      "description": "Locale separators plus, when a currency is given, its symbol, side and fraction digits. Memoized: constructing an `Intl.NumberFormat` is expensive and a field re-resolves this on every keystroke.",
+      "members": [],
+      "version": "11.4.1"
+    },
+    {
+      "id": "to-ascii-digits",
+      "name": "toAsciiDigits",
+      "kind": "function",
+      "module": "number",
+      "importPath": "@uni-design-system/uni-angular",
+      "signature": "function toAsciiDigits(text: string): string",
+      "summary": "Map localized digits and Arabic separators to ASCII, so `١٢٣٤٫٥` parses in `ar` and `१२३४.५` in `hi`.",
+      "description": "Map localized digits and Arabic separators to ASCII, so `١٢٣٤٫٥` parses in `ar` and `१२३४.५` in `hi`.",
+      "members": [],
+      "version": "11.4.1"
+    },
+    {
+      "id": "evaluate-expression",
+      "name": "evaluateExpression",
+      "kind": "function",
+      "module": "number",
+      "importPath": "@uni-design-system/uni-angular",
+      "signature": "function evaluateExpression(text: string): string | null",
+      "summary": "Evaluate `+ − × ÷ ( )` over decimal literals — shunting-yard, roughly thirty lines, and **never `eval`**.",
+      "description": "Evaluate `+ − × ÷ ( )` over decimal literals — shunting-yard, roughly thirty lines, and **never `eval`**. Returns a canonical decimal, or `null` when the text is not a well-formed expression. Floats are acceptable here in a way they are not elsewhere: this is a convenience path for spreadsheet muscle memory (`12*3`, `100/4+5`), and the result is settled to ten decimals before re-entering exact arithmetic. Division is the only operation that can produce a non-terminating decimal, and no exact representation would help there either.",
+      "members": [],
+      "version": "11.4.1"
+    },
+    {
+      "id": "resolve-number-format",
+      "name": "resolveNumberFormat",
+      "kind": "function",
+      "module": "number",
+      "importPath": "@uni-design-system/uni-angular",
+      "signature": "function resolveNumberFormat(config: UniNumberFormatConfig = {}): UniResolvedNumberFormat",
+      "summary": "Fill in every preset, locale and currency default.",
+      "description": "Fill in every preset, locale and currency default.",
+      "members": [],
+      "version": "11.4.1"
+    },
+    {
+      "id": "parse-number",
+      "name": "parseNumber",
+      "kind": "function",
+      "module": "number",
+      "importPath": "@uni-design-system/uni-angular",
+      "signature": "function parseNumber(raw: string, format: UniResolvedNumberFormat, options: { allowExpressions?: boolean; currency?: string } = {}): UniNumberParseResult",
+      "summary": "Read a user's text into a canonical decimal in **model units**.",
+      "description": "Read a user's text into a canonical decimal in **model units**. Accepted, in order: canonical/ASCII (always, whatever the locale — it is what agents and APIs write), locale-grouped, affixed, localized digits, compact (`1.5k`), accounting negatives (`(1,234.56)` → `-1234.56`), and expressions when `allowExpressions` is set.",
+      "members": [],
+      "version": "11.4.1"
+    },
+    {
+      "id": "format-number",
+      "name": "formatNumber",
+      "kind": "function",
+      "module": "number",
+      "importPath": "@uni-design-system/uni-angular",
+      "signature": "function formatNumber(canonical: string, format: UniResolvedNumberFormat): string",
+      "summary": "Canonical decimal (model units) → the display number, without affixes.",
+      "description": "Canonical decimal (model units) → the display number, without affixes. `min2` grouping — the default — starts at five integer digits, so a year renders `2026` rather than `2,026` while a price still renders `10,000`.",
+      "members": [],
+      "version": "11.4.1"
+    },
+    {
+      "id": "raw-number-text",
+      "name": "rawNumberText",
+      "kind": "function",
+      "module": "number",
+      "importPath": "@uni-design-system/uni-angular",
+      "signature": "function rawNumberText(canonical: string, format: UniResolvedNumberFormat): string",
+      "summary": "The plain text the field shows while focused: the display number with no grouping and no affixes, so the caret never has to walk over a separator that appears and vanishes mid-word.",
+      "description": "The plain text the field shows while focused: the display number with no grouping and no affixes, so the caret never has to walk over a separator that appears and vanishes mid-word.",
+      "members": [],
+      "version": "11.4.1"
+    },
+    {
+      "id": "settle-number",
+      "name": "settleNumber",
+      "kind": "function",
+      "module": "number",
+      "importPath": "@uni-design-system/uni-angular",
+      "signature": "function settleNumber(canonical: string, format: UniResolvedNumberFormat): string",
+      "summary": "Round a committed value to the field's precision, in model units.",
+      "description": "Round a committed value to the field's precision, in model units.",
+      "members": [],
+      "version": "11.4.1"
+    },
+    {
+      "id": "speak-number",
+      "name": "speakNumber",
+      "kind": "function",
+      "module": "number",
+      "importPath": "@uni-design-system/uni-angular",
+      "signature": "function speakNumber(canonical: string | null, format: UniResolvedNumberFormat, emptyText = 'Empty'): string",
+      "summary": "The `aria-valuetext` string: the formatted number with its affixes spoken.",
+      "description": "The `aria-valuetext` string: the formatted number with its affixes spoken. `aria-valuenow` alone announces \"1234.56\", which is the one thing about a money field that is not the point. An empty field says \"Empty\" per APG.",
+      "members": [],
+      "version": "11.4.1"
+    },
+    {
+      "id": "to-number",
+      "name": "toNumber",
+      "kind": "function",
+      "module": "number",
+      "importPath": "@uni-design-system/uni-angular",
+      "signature": "function toNumber(canonical: string): number",
+      "summary": "Model-units canonical decimal → the bound `number`.",
+      "description": "Model-units canonical decimal → the bound `number`.",
+      "members": [],
+      "version": "11.4.1"
+    },
+    {
+      "id": "loses-precision",
+      "name": "losesPrecision",
+      "kind": "function",
+      "module": "number",
+      "importPath": "@uni-design-system/uni-angular",
+      "signature": "function losesPrecision(value: number | string): boolean",
+      "summary": "True when a value cannot survive the trip through `number` — the reason the components also expose an exact `valueAsString` model, and the trigger for the dev-mode warning.",
+      "description": "True when a value cannot survive the trip through `number` — the reason the components also expose an exact `valueAsString` model, and the trigger for the dev-mode warning. Silent precision loss is the whole point of that second model, so it is worth saying out loud once. A `number` can only be checked for magnitude, since it has already lost whatever it was going to lose. A canonical string can be checked properly: `'9007199254740993'` comes back as `'9007199254740992'`.",
+      "members": [],
+      "version": "11.4.1"
+    },
+    {
+      "id": "press-repeat-timing",
+      "name": "PressRepeatTiming",
+      "kind": "interface",
+      "module": "number",
+      "importPath": "@uni-design-system/uni-angular",
+      "signature": "interface PressRepeatTiming",
+      "summary": "Repeat timings, normally sourced from a component's theme options.",
+      "description": "Repeat timings, normally sourced from a component's theme options.",
+      "members": [
+        {
+          "name": "delayMs",
+          "kind": "property",
+          "signature": "delayMs?: number",
+          "description": ""
+        },
+        {
+          "name": "intervalMs",
+          "kind": "property",
+          "signature": "intervalMs?: number",
+          "description": ""
+        },
+        {
+          "name": "fastIntervalMs",
+          "kind": "property",
+          "signature": "fastIntervalMs?: number",
+          "description": ""
+        },
+        {
+          "name": "rampMs",
+          "kind": "property",
+          "signature": "rampMs?: number",
+          "description": ""
+        }
+      ],
+      "version": "11.4.1"
+    },
+    {
+      "id": "press-repeat-config",
+      "name": "PressRepeatConfig",
+      "kind": "interface",
+      "module": "number",
+      "importPath": "@uni-design-system/uni-angular",
+      "signature": "interface PressRepeatConfig",
+      "summary": "",
+      "description": "",
+      "members": [
+        {
+          "name": "onStep",
+          "kind": "property",
+          "signature": "onStep: (repeat: boolean) => void",
+          "description": "Perform one step. `repeat` is `false` for the initial press and `true` for every automatic repeat, so a caller can stay silent during the run."
+        },
+        {
+          "name": "onRelease",
+          "kind": "property",
+          "signature": "onRelease?: (repeated: boolean) => void",
+          "description": "The hold ended. `repeated` says whether it ever auto-repeated, which is the cue to announce the final value: a screen reader narrating two hundred intermediate values is a denial of service, so announcing belongs here and not in `onStep`."
+        },
+        {
+          "name": "disabled",
+          "kind": "property",
+          "signature": "disabled?: () => boolean",
+          "description": "Consulted on press; a disabled button must not start a run."
+        },
+        {
+          "name": "focus",
+          "kind": "property",
+          "signature": "focus?: (button: HTMLElement | null) => void",
+          "description": "Put focus where it belongs for this control — normally its text field, the way a native spinner does. Called on press, because taking pointer capture means preventing the default, which would otherwise leave focus nowhere. Receives the pressed button, as a fallback for controls with no field to focus."
+        },
+        {
+          "name": "repeat",
+          "kind": "property",
+          "signature": "repeat?: () => boolean",
+          "description": "When this returns `false`, a press steps exactly once and the repeat timer is never armed — `onRelease` still fires, with `repeated: false`. Lets a caller turn hold-to-repeat off without a second set of event bindings."
+        },
+        {
+          "name": "timing",
+          "kind": "property",
+          "signature": "timing?: () => PressRepeatTiming",
+          "description": ""
+        }
+      ],
+      "version": "11.4.1"
+    },
+    {
+      "id": "press-repeat",
+      "name": "PressRepeat",
+      "kind": "interface",
+      "module": "number",
+      "importPath": "@uni-design-system/uni-angular",
+      "signature": "interface PressRepeat",
+      "summary": "",
+      "description": "",
+      "members": [
+        {
+          "name": "holding",
+          "kind": "property",
+          "signature": "readonly holding: Signal<boolean>",
+          "description": "True while a press is in flight — bind it to the button's pressed state."
+        },
+        {
+          "name": "press",
+          "kind": "method",
+          "signature": "press(event?: PointerEvent): void",
+          "description": "Begin a hold and step once immediately. Given a pointer event, it also takes pointer capture, so sliding off the button mid-hold neither strands the repeat nor drops the release."
+        },
+        {
+          "name": "release",
+          "kind": "method",
+          "signature": "release(): void",
+          "description": "End a hold normally, firing `onRelease`."
+        },
+        {
+          "name": "cancel",
+          "kind": "method",
+          "signature": "cancel(): void",
+          "description": "End a hold without firing `onRelease` — for `Escape` and `pointercancel`."
+        }
+      ],
+      "version": "11.4.1"
+    },
+    {
+      "id": "create-press-repeat",
+      "name": "createPressRepeat",
+      "kind": "function",
+      "module": "number",
+      "importPath": "@uni-design-system/uni-angular",
+      "signature": "function createPressRepeat(config: PressRepeatConfig): PressRepeat",
+      "summary": "",
+      "description": "",
+      "members": [],
+      "version": "11.4.1"
+    },
+    {
+      "id": "listbox-navigation-config",
+      "name": "ListboxNavigationConfig",
+      "kind": "interface",
+      "module": "listbox",
+      "importPath": "@uni-design-system/uni-angular",
+      "signature": "interface ListboxNavigationConfig",
+      "summary": "",
+      "description": "",
+      "members": [
+        {
+          "name": "count",
+          "kind": "property",
+          "signature": "count: () => number",
+          "description": "How many options are currently navigable. Read reactively."
+        },
+        {
+          "name": "idPrefix",
+          "kind": "property",
+          "signature": "idPrefix?: string",
+          "description": "Id prefix for the listbox and its options."
+        },
+        {
+          "name": "wrap",
+          "kind": "property",
+          "signature": "wrap?: boolean",
+          "description": "Wrap past the ends. Default true."
+        },
+        {
+          "name": "disabled",
+          "kind": "property",
+          "signature": "disabled?: (index: number) => boolean",
+          "description": "Non-navigable options. Arrows step over them; Home/End land on the nearest enabled option; an all-disabled list never activates."
+        },
+        {
+          "name": "homeEndNavigates",
+          "kind": "property",
+          "signature": "homeEndNavigates?: boolean",
+          "description": "Let Home/End jump to the ends of the list. Default false. In an editable combobox those keys belong to the caret — APG reserves them for text editing, and a control that steals them makes the text un-navigable while its list is open. Opt in only where focus is *not* in a text field (uni-multi-select-dropdown, whose focus rides the option checkboxes). Nothing is lost by leaving it off: opening with ArrowUp already lands on the last option, ArrowDown on the first, and navigation wraps at both ends."
+        }
+      ],
+      "version": "11.4.1"
+    },
+    {
+      "id": "listbox-navigation",
+      "name": "ListboxNavigation",
+      "kind": "class",
+      "module": "listbox",
+      "importPath": "@uni-design-system/uni-angular",
+      "signature": "class ListboxNavigation",
+      "summary": "The keyboard and ARIA bookkeeping shared by every combobox-style popup: open state, the active option index, and the `aria-activedescendant` id wiring.",
+      "description": "The keyboard and ARIA bookkeeping shared by every combobox-style popup: open state, the active option index, and the `aria-activedescendant` id wiring. Deliberately owns no markup and no filtering — each control renders its own options and decides what a suggestion *is*. Extracted because three controls need the identical contract (`uni-search-input`, `uni-tag-input`, and the multi-select upgrade), and the parts that silently drift between hand-rolled copies all live here: the wrap-around arithmetic and keeping the active id in sync with the option list. Home/End are opt-in (`homeEndNavigates`) because a text field's caret has the better claim on them. `Enter` and `Escape` are deliberately *not* handled: what they mean depends on the control (submit a search, commit a typed token, clear the field), and `activeIndex()` is all a caller needs to decide.",
+      "members": [
+        {
+          "name": "listboxId",
+          "kind": "property",
+          "signature": "readonly listboxId: string",
+          "description": "Id for the `role=\"listbox\"` element; wire as `aria-controls`."
+        },
+        {
+          "name": "open",
+          "kind": "property",
+          "signature": "readonly open: Signal<boolean>",
+          "description": "Whether the popup is showing. Also false when there is nothing to show."
+        },
+        {
+          "name": "activeIndex",
+          "kind": "property",
+          "signature": "readonly activeIndex: Signal<number>",
+          "description": "Index of the highlighted option, or -1 when none is active."
+        },
+        {
+          "name": "activeDescendantId",
+          "kind": "property",
+          "signature": "readonly activeDescendantId: Signal<string | null>",
+          "description": "Value for `aria-activedescendant`, or null when nothing is active."
+        },
+        {
+          "name": "optionId",
+          "kind": "method",
+          "signature": "optionId(index: number): string",
+          "description": "Stable per-option id, for `role=\"option\"` elements."
+        },
+        {
+          "name": "show",
+          "kind": "method",
+          "signature": "show(): void",
+          "description": ""
+        },
+        {
+          "name": "hide",
+          "kind": "method",
+          "signature": "hide(): void",
+          "description": "Close and drop the active option, so reopening starts clean."
+        },
+        {
+          "name": "setActive",
+          "kind": "method",
+          "signature": "setActive(index: number): void",
+          "description": ""
+        },
+        {
+          "name": "navigate",
+          "kind": "method",
+          "signature": "navigate(event: KeyboardEvent): boolean",
+          "description": "Handle ArrowDown / ArrowUp — and Home / End where `homeEndNavigates` is on. Opens the popup if needed. Returns true when the key was consumed, so a caller can fall through to its own handling for everything else."
+        },
+        {
+          "name": "closeOnFocusOut",
+          "kind": "method",
+          "signature": "closeOnFocusOut(event: FocusEvent): void",
+          "description": "Close when focus leaves the control entirely (not on internal moves)."
+        }
+      ],
+      "version": "11.4.1"
+    },
+    {
+      "id": "create-listbox-navigation",
+      "name": "createListboxNavigation",
+      "kind": "function",
+      "module": "listbox",
+      "importPath": "@uni-design-system/uni-angular",
+      "signature": "function createListboxNavigation(config: ListboxNavigationConfig): ListboxNavigation",
+      "summary": "Factory mirroring the signal-API style used elsewhere in the CDK.",
+      "description": "Factory mirroring the signal-API style used elsewhere in the CDK.",
+      "members": [],
+      "version": "11.4.1"
+    },
+    {
+      "id": "placement",
+      "name": "Placement",
+      "kind": "type",
+      "module": "position",
+      "importPath": "@uni-design-system/uni-angular",
+      "signature": "type Placement = 'top' | 'right' | 'bottom' | 'left' | 'top-start' | 'right-start' | 'bottom-start' | 'left-start' | 'top-end' | 'right-end' | 'bottom-end' | 'left-end'",
+      "summary": "Native CSS Anchor Positioning helpers (Baseline 2026).",
+      "description": "Native CSS Anchor Positioning helpers (Baseline 2026). These replace the former",
+      "members": [],
+      "version": "11.4.1"
+    },
+    {
+      "id": "anchor-offset",
+      "name": "AnchorOffset",
+      "kind": "interface",
+      "module": "position",
+      "importPath": "@uni-design-system/uni-angular",
+      "signature": "interface AnchorOffset",
+      "summary": "Distances between the anchor and the positioned panel, in px.",
+      "description": "Distances between the anchor and the positioned panel, in px.",
+      "members": [
+        {
+          "name": "mainAxis",
+          "kind": "property",
+          "signature": "mainAxis?: number",
+          "description": "Gap along the placement axis (anchor → panel)."
+        },
+        {
+          "name": "alignmentAxis",
+          "kind": "property",
+          "signature": "alignmentAxis?: number",
+          "description": "Shift along the cross axis, from the aligned edge."
+        }
+      ],
+      "version": "11.4.1"
+    },
+    {
+      "id": "new-anchor-name",
+      "name": "newAnchorName",
+      "kind": "function",
+      "module": "position",
+      "importPath": "@uni-design-system/uni-angular",
+      "signature": "function newAnchorName(): string",
+      "summary": "Returns a document-unique dashed-ident usable as a CSS `anchor-name`.",
+      "description": "Returns a document-unique dashed-ident usable as a CSS `anchor-name`.",
+      "members": [],
+      "version": "11.4.1"
+    },
+    {
+      "id": "anchor-styles",
+      "name": "anchorStyles",
+      "kind": "function",
+      "module": "position",
+      "importPath": "@uni-design-system/uni-angular",
+      "signature": "function anchorStyles(anchor: string, placement: Placement, offset: AnchorOffset = {}): Record<string, string | number>",
+      "summary": "Emotion style object anchoring a panel to `anchor` at `placement`.",
+      "description": "Emotion style object anchoring a panel to `anchor` at `placement`. Spread into the panel's `css()` styles. The trigger element must carry `anchor-name: <anchor>` (see `newAnchorName`).",
+      "members": [],
+      "version": "11.4.1"
+    },
+    {
+      "id": "anchor-arrow-styles",
+      "name": "anchorArrowStyles",
+      "kind": "function",
+      "module": "position",
+      "importPath": "@uni-design-system/uni-angular",
+      "signature": "function anchorArrowStyles(placement: Placement, size = 8, overlap = 0): Record<string, string | number>",
+      "summary": "Absolute positioning for a rotated-square arrow sitting on the panel edge that faces the anchor.",
+      "description": "Absolute positioning for a rotated-square arrow sitting on the panel edge that faces the anchor. Static per placement: if the browser flips the panel via position-try, the arrow stays on the configured side (cosmetic-only degradation, matching the flip-support caveat above). `overlap` (default 0 — cut exactly on the panel edge) extends the kept half into the panel; see  for when that is ever wanted.",
+      "members": [],
+      "version": "11.4.1"
+    },
+    {
+      "id": "spotlight-options",
+      "name": "SpotlightOptions",
+      "kind": "interface",
+      "module": "position",
+      "importPath": "@uni-design-system/uni-angular",
+      "signature": "interface SpotlightOptions",
+      "summary": "",
+      "description": "",
+      "members": [
+        {
+          "name": "pad",
+          "kind": "property",
+          "signature": "pad?: number",
+          "description": "Gap between the target's box and the hole edge, px."
+        },
+        {
+          "name": "ringWidth",
+          "kind": "property",
+          "signature": "ringWidth?: number",
+          "description": "Ring border width, px — border-color and radius come from the caller."
+        },
+        {
+          "name": "scrimColor",
+          "kind": "property",
+          "signature": "scrimColor?: string",
+          "description": "Scrim paint; scheme-invariant by convention, like `::backdrop`."
+        }
+      ],
+      "version": "11.4.1"
+    },
+    {
+      "id": "spotlight-styles",
+      "name": "SpotlightStyles",
+      "kind": "interface",
+      "module": "position",
+      "importPath": "@uni-design-system/uni-angular",
+      "signature": "interface SpotlightStyles",
+      "summary": "",
+      "description": "",
+      "members": [
+        {
+          "name": "window",
+          "kind": "property",
+          "signature": "window: Record<string, string | number>",
+          "description": "Paints the scrim + ring. `pointer-events: none` — purely visual."
+        },
+        {
+          "name": "strips",
+          "kind": "property",
+          "signature": "strips: Record<'top' | 'bottom' | 'left' | 'right', Record<string, string | number>>",
+          "description": "Click-blockers surrounding the hole; the hole itself is genuinely empty."
+        },
+        {
+          "name": "cover",
+          "kind": "property",
+          "signature": "cover: Record<string, string | number>",
+          "description": "Hole-sized click-blocker, shown when the target must not be interactive."
+        }
+      ],
+      "version": "11.4.1"
+    },
+    {
+      "id": "anchor-rect",
+      "name": "AnchorRect",
+      "kind": "interface",
+      "module": "position",
+      "importPath": "@uni-design-system/uni-angular",
+      "signature": "interface AnchorRect",
+      "summary": "The rect fields the origin computation reads — satisfied by DOMRect.",
+      "description": "The rect fields the origin computation reads — satisfied by DOMRect.",
+      "members": [
+        {
+          "name": "top",
+          "kind": "property",
+          "signature": "top: number",
+          "description": ""
+        },
+        {
+          "name": "right",
+          "kind": "property",
+          "signature": "right: number",
+          "description": ""
+        },
+        {
+          "name": "bottom",
+          "kind": "property",
+          "signature": "bottom: number",
+          "description": ""
+        },
+        {
+          "name": "left",
+          "kind": "property",
+          "signature": "left: number",
+          "description": ""
+        },
+        {
+          "name": "width",
+          "kind": "property",
+          "signature": "width: number",
+          "description": ""
+        },
+        {
+          "name": "height",
+          "kind": "property",
+          "signature": "height: number",
+          "description": ""
+        }
+      ],
+      "version": "11.4.1"
+    },
+    {
+      "id": "transform-origin-for",
+      "name": "transformOriginFor",
+      "kind": "function",
+      "module": "position",
+      "importPath": "@uni-design-system/uni-angular",
+      "signature": "function transformOriginFor(panel: AnchorRect, trigger: AnchorRect): string | null",
+      "summary": "Transform origin for a panel's open/close scale animation, derived from where the panel **actually** rendered relative to its anchor — not from the requested placement.",
+      "description": "Transform origin for a panel's open/close scale animation, derived from where the panel **actually** rendered relative to its anchor — not from the requested placement. `position-try-fallbacks` lets the browser flip a panel at viewport edges, and a statically mapped origin then animates from the wrong corner (a `bottom-end` picker flipped above its field would still scale from `top right`). Measure after the popover is shown and apply the result as an inline style. Returns keyword pairs like `'top right'` / `'bottom center'`, or `null` when the panel has no box yet (e.g. `display: none`, or jsdom).",
+      "members": [],
+      "version": "11.4.1"
+    },
+    {
+      "id": "transform-origins",
+      "name": "TRANSFORM_ORIGINS",
+      "kind": "const",
+      "module": "overlay",
+      "importPath": "@uni-design-system/uni-angular",
+      "signature": "const TRANSFORM_ORIGINS: Record<Placement, string>",
+      "summary": "Placement → `transform-origin`, so scale animations grow from the anchor.",
+      "description": "Placement → `transform-origin`, so scale animations grow from the anchor.",
+      "members": [],
+      "version": "11.4.1"
+    },
+    {
+      "id": "set-anchor-name",
+      "name": "setAnchorName",
+      "kind": "function",
+      "module": "overlay",
+      "importPath": "@uni-design-system/uni-angular",
+      "signature": "function setAnchorName(el: HTMLElement, name: string): void",
+      "summary": "Write a CSS `anchor-name` onto an element (detached anchors and targets).",
+      "description": "Write a CSS `anchor-name` onto an element (detached anchors and targets).",
+      "members": [],
+      "version": "11.4.1"
+    },
+    {
+      "id": "clear-anchor-name",
+      "name": "clearAnchorName",
+      "kind": "function",
+      "module": "overlay",
+      "importPath": "@uni-design-system/uni-angular",
+      "signature": "function clearAnchorName(el: HTMLElement): void",
+      "summary": "",
+      "description": "",
+      "members": [],
+      "version": "11.4.1"
+    },
+    {
+      "id": "resolve-element",
+      "name": "resolveElement",
+      "kind": "function",
+      "module": "overlay",
+      "importPath": "@uni-design-system/uni-angular",
+      "signature": "function resolveElement(ref: HTMLElement | string | null | undefined): HTMLElement | null",
+      "summary": "Resolve an element-or-id reference.",
+      "description": "Resolve an element-or-id reference. Id strings are looked up at call time — never cache the result across opens, the element may have been re-rendered. `''` and null-ish mean \"unset\" (falsy guard: an empty string is the only typeable empty for a string-typed input).",
+      "members": [],
+      "version": "11.4.1"
+    },
+    {
+      "id": "is-toggle-open",
+      "name": "isToggleOpen",
+      "kind": "function",
+      "module": "overlay",
+      "importPath": "@uni-design-system/uni-angular",
+      "signature": "function isToggleOpen(event: Event): boolean",
+      "summary": "True when a native `toggle` event reports the overlay opening.",
+      "description": "True when a native `toggle` event reports the overlay opening.",
+      "members": [],
+      "version": "11.4.1"
+    },
+    {
+      "id": "discrete-overlay-transition",
+      "name": "discreteOverlayTransition",
+      "kind": "function",
+      "module": "overlay",
+      "importPath": "@uni-design-system/uni-angular",
+      "signature": "function discreteOverlayTransition(durationMs: number, hidden: Record<string, string | number>, shown: Record<string, string | number>, timingFunction?: string): Record<string, unknown>",
+      "summary": "The discrete-transition block that animates an element into and out of the top layer: `transition-behavior: allow-discrete` over the `hidden` keys plus `display`/`overlay`, the shown state under `:popover-open`, and `@starting-style` so entry transitions run from the hidden state.",
+      "description": "The discrete-transition block that animates an element into and out of the top layer: `transition-behavior: allow-discrete` over the `hidden` keys plus `display`/`overlay`, the shown state under `:popover-open`, and `@starting-style` so entry transitions run from the hidden state. `display` and `overlay` must ride along or the element cannot animate into and out of the top layer at all — it would simply appear and vanish. `timingFunction` is omitted from the output when not given, leaving the CSS initial value (`ease`), so callers that never asked for one are unaffected.",
+      "members": [],
+      "version": "11.4.1"
+    },
+    {
+      "id": "restore-overlay-focus",
+      "name": "restoreOverlayFocus",
+      "kind": "function",
+      "module": "overlay",
+      "importPath": "@uni-design-system/uni-angular",
+      "signature": "function restoreOverlayFocus(panel: HTMLElement, target: HTMLElement | null): void",
+      "summary": "Returns focus to `target` when an overlay closes while focus was inside its panel (or was dropped on `<body>` by the top layer closing), so keyboard users are never stranded (WCAG 2.4.3).",
+      "description": "Returns focus to `target` when an overlay closes while focus was inside its panel (or was dropped on `<body>` by the top layer closing), so keyboard users are never stranded (WCAG 2.4.3). Focus resting anywhere else is left alone.",
+      "members": [],
+      "version": "11.4.1"
+    },
+    {
+      "id": "focusable-elements",
+      "name": "focusableElements",
+      "kind": "function",
+      "module": "overlay",
+      "importPath": "@uni-design-system/uni-angular",
+      "signature": "function focusableElements(root: HTMLElement): HTMLElement[]",
+      "summary": "The focusable elements inside `root`, in DOM order.",
+      "description": "The focusable elements inside `root`, in DOM order. Filters disabled controls, and hidden ones where the environment can tell: jsdom reports `offsetParent` as null for every element, so the visibility filter applies only when the document actually lays out (some element has an offsetParent).",
+      "members": [],
+      "version": "11.4.1"
+    },
+    {
+      "id": "backdrop-dismiss",
+      "name": "BackdropDismiss",
+      "kind": "class",
+      "module": "overlay",
+      "importPath": "@uni-design-system/uni-angular",
+      "signature": "class BackdropDismiss",
+      "summary": "Decides whether a click on a modal `<dialog>` was a click on its `::backdrop` — shared by `dialog[uni-dialog]` and `uni-drawer` (`over`), so the rule cannot drift between the two again.",
+      "description": "Decides whether a click on a modal `<dialog>` was a click on its `::backdrop` — shared by `dialog[uni-dialog]` and `uni-drawer` (`over`), so the rule cannot drift between the two again. The click's target alone cannot tell. A `click` is dispatched to the nearest common ancestor of the press and the release, and the `::backdrop` belongs to the `<dialog>`: a text selection that starts in a field and is released over the scrim therefore produces a click whose target *is* the `<dialog>`, and used to close the surface — taking the user's unsaved input with it. Only where the press began separates the two, so a backdrop click is one that was both pressed and clicked on the dialog itself. Both checks compare against `currentTarget` rather than `nodeName`, so a nested `<dialog>` in projected content never counts as this one's backdrop. ```ts readonly backdrop = new BackdropDismiss(); // (pointerdown)=\"backdrop.press($event)\" // (click)=\"backdrop.isBackdropClick($event) && close()\" ```",
+      "members": [
+        {
+          "name": "press",
+          "kind": "method",
+          "signature": "press(event: Event): void",
+          "description": "Record where the press began. `pointerdown` covers mouse, touch and pen."
+        },
+        {
+          "name": "isBackdropClick",
+          "kind": "method",
+          "signature": "isBackdropClick(event: Event): boolean",
+          "description": "True only when both the press and the click landed on the dialog itself."
+        }
+      ],
+      "version": "11.4.1"
+    },
+    {
+      "id": "sort-direction",
+      "name": "SortDirection",
+      "kind": "type",
+      "module": "datasource",
+      "importPath": "@uni-design-system/uni-angular",
+      "signature": "type SortDirection = 'asc' | 'desc' | 'indet'",
+      "summary": "",
+      "description": "",
+      "members": [],
+      "version": "11.4.1"
+    },
+    {
+      "id": "sort",
+      "name": "Sort",
+      "kind": "interface",
+      "module": "datasource",
+      "importPath": "@uni-design-system/uni-angular",
+      "signature": "interface Sort<T>",
+      "summary": "",
+      "description": "",
+      "members": [
+        {
+          "name": "column",
+          "kind": "property",
+          "signature": "column?: keyof T",
+          "description": ""
+        },
+        {
+          "name": "direction",
+          "kind": "property",
+          "signature": "direction: SortDirection",
+          "description": ""
+        }
+      ],
+      "version": "11.4.1"
+    },
+    {
+      "id": "uni-base-datasource",
+      "name": "UniBaseDatasource",
+      "kind": "class",
+      "module": "datasource",
+      "importPath": "@uni-design-system/uni-angular",
+      "signature": "class UniBaseDatasource<T>",
+      "summary": "",
+      "description": "",
+      "members": [
+        {
+          "name": "records",
+          "kind": "property",
+          "signature": "abstract records: Signal<T[]>",
+          "description": ""
+        },
+        {
+          "name": "recordCount",
+          "kind": "property",
+          "signature": "abstract recordCount: Signal<number>",
+          "description": ""
+        },
+        {
+          "name": "selections",
+          "kind": "property",
+          "signature": "selections = signal<T[]>([])",
+          "description": ""
+        },
+        {
+          "name": "sort",
+          "kind": "property",
+          "signature": "sort: WritableSignal<Sort<T>>",
+          "description": ""
+        },
+        {
+          "name": "sortColumn",
+          "kind": "property",
+          "signature": "sortColumn = computed(() => this.sort().column)",
+          "description": ""
+        },
+        {
+          "name": "sortDirection",
+          "kind": "property",
+          "signature": "sortDirection = computed(() => this.sort().direction)",
+          "description": ""
+        },
+        {
+          "name": "pageIndex",
+          "kind": "property",
+          "signature": "abstract pageIndex: Signal<number>",
+          "description": ""
+        },
+        {
+          "name": "pageSize",
+          "kind": "property",
+          "signature": "abstract pageSize: Signal<number>",
+          "description": ""
+        },
+        {
+          "name": "pageCount",
+          "kind": "property",
+          "signature": "abstract pageCount: Signal<number>",
+          "description": ""
+        },
+        {
+          "name": "pages",
+          "kind": "property",
+          "signature": "pages = computed(…)",
+          "description": ""
+        },
+        {
+          "name": "startIndex",
+          "kind": "property",
+          "signature": "startIndex = computed(…)",
+          "description": ""
+        },
+        {
+          "name": "endIndex",
+          "kind": "property",
+          "signature": "endIndex = computed(…)",
+          "description": ""
+        },
+        {
+          "name": "disablePrevious",
+          "kind": "property",
+          "signature": "disablePrevious = computed(…)",
+          "description": ""
+        },
+        {
+          "name": "disableNext",
+          "kind": "property",
+          "signature": "disableNext = computed(…)",
+          "description": ""
+        },
+        {
+          "name": "truncatedPages",
+          "kind": "property",
+          "signature": "truncatedPages = computed(…)",
+          "description": ""
+        },
+        {
+          "name": "isSelected",
+          "kind": "method",
+          "signature": "isSelected(row: T): boolean",
+          "description": ""
+        },
+        {
+          "name": "toggleSelection",
+          "kind": "method",
+          "signature": "toggleSelection(row: T)",
+          "description": ""
+        },
+        {
+          "name": "clearSelections",
+          "kind": "method",
+          "signature": "clearSelections()",
+          "description": ""
+        },
+        {
+          "name": "selectAll",
+          "kind": "method",
+          "signature": "selectAll()",
+          "description": ""
+        },
+        {
+          "name": "sortRecords",
+          "kind": "method",
+          "signature": "abstract sortRecords(sort: Sort<T>): void",
+          "description": ""
+        },
+        {
+          "name": "firstPage",
+          "kind": "method",
+          "signature": "abstract firstPage(): void",
+          "description": ""
+        },
+        {
+          "name": "nextPage",
+          "kind": "method",
+          "signature": "abstract nextPage(): void",
+          "description": ""
+        },
+        {
+          "name": "previousPage",
+          "kind": "method",
+          "signature": "abstract previousPage(): void",
+          "description": ""
+        },
+        {
+          "name": "lastPage",
+          "kind": "method",
+          "signature": "abstract lastPage(): void",
+          "description": ""
+        },
+        {
+          "name": "jumpToPage",
+          "kind": "method",
+          "signature": "abstract jumpToPage(page: number): void",
+          "description": ""
+        },
+        {
+          "name": "setPageSize",
+          "kind": "method",
+          "signature": "abstract setPageSize(size: number): void",
+          "description": ""
+        }
+      ],
+      "version": "11.4.1"
+    },
+    {
+      "id": "page-request",
+      "name": "PageRequest",
+      "kind": "interface",
+      "module": "datasource",
+      "importPath": "@uni-design-system/uni-angular",
+      "signature": "interface PageRequest",
+      "summary": "",
+      "description": "",
+      "members": [
+        {
+          "name": "pageNumber",
+          "kind": "property",
+          "signature": "pageNumber: number",
+          "description": ""
+        },
+        {
+          "name": "pageSize",
+          "kind": "property",
+          "signature": "pageSize: number",
+          "description": ""
+        },
+        {
+          "name": "sortColumn",
+          "kind": "property",
+          "signature": "sortColumn?: string",
+          "description": ""
+        },
+        {
+          "name": "sortDirection",
+          "kind": "property",
+          "signature": "sortDirection?: SortDirection",
+          "description": ""
+        },
+        {
+          "name": "filter",
+          "kind": "property",
+          "signature": "filter?: Record<string, any>",
+          "description": ""
+        }
+      ],
+      "version": "11.4.1"
+    },
+    {
+      "id": "page-response",
+      "name": "PageResponse",
+      "kind": "interface",
+      "module": "datasource",
+      "importPath": "@uni-design-system/uni-angular",
+      "signature": "interface PageResponse<T>",
+      "summary": "",
+      "description": "",
+      "members": [
+        {
+          "name": "data",
+          "kind": "property",
+          "signature": "data: T[]",
+          "description": ""
+        },
+        {
+          "name": "totalRecords",
+          "kind": "property",
+          "signature": "totalRecords: number",
+          "description": ""
+        },
+        {
+          "name": "pageNumber",
+          "kind": "property",
+          "signature": "pageNumber: number",
+          "description": ""
+        },
+        {
+          "name": "pageSize",
+          "kind": "property",
+          "signature": "pageSize: number",
+          "description": ""
+        }
+      ],
+      "version": "11.4.1"
+    },
+    {
+      "id": "data-loader",
+      "name": "DataLoader",
+      "kind": "type",
+      "module": "datasource",
+      "importPath": "@uni-design-system/uni-angular",
+      "signature": "type DataLoader<T> = (request: PageRequest) => Promise<PageResponse<T>>",
+      "summary": "",
+      "description": "",
+      "members": [],
+      "version": "11.4.1"
+    },
+    {
+      "id": "uni-server-side-datasource",
+      "name": "UniServerSideDatasource",
+      "kind": "class",
+      "module": "datasource",
+      "importPath": "@uni-design-system/uni-angular",
+      "signature": "class UniServerSideDatasource<T> extends UniBaseDatasource<T>",
+      "summary": "",
+      "description": "",
+      "members": [
+        {
+          "name": "sortColumn",
+          "kind": "property",
+          "signature": "sortColumn = computed(() => this._sortColumn())",
+          "description": ""
+        },
+        {
+          "name": "sortDirection",
+          "kind": "property",
+          "signature": "sortDirection = computed(() => this._sortDirection())",
+          "description": ""
+        },
+        {
+          "name": "pageIndex",
+          "kind": "property",
+          "signature": "pageIndex = computed(() => this._pageNumber() - 1)",
+          "description": ""
+        },
+        {
+          "name": "pageSize",
+          "kind": "property",
+          "signature": "pageSize = computed(() => this._pageSize())",
+          "description": ""
+        },
+        {
+          "name": "pageCount",
+          "kind": "property",
+          "signature": "pageCount = computed(…)",
+          "description": ""
+        },
+        {
+          "name": "records",
+          "kind": "property",
+          "signature": "records = this._records.asReadonly()",
+          "description": ""
+        },
+        {
+          "name": "recordCount",
+          "kind": "property",
+          "signature": "recordCount = computed(() => this.totalRecords())",
+          "description": ""
+        },
+        {
+          "name": "isLoading",
+          "kind": "property",
+          "signature": "isLoading = computed(() => this.dataResource.isLoading())",
+          "description": ""
+        },
+        {
+          "name": "error",
+          "kind": "property",
+          "signature": "error = computed(() => this.dataResource.error())",
+          "description": ""
+        },
+        {
+          "name": "hasError",
+          "kind": "property",
+          "signature": "hasError = computed(…)",
+          "description": ""
+        },
+        {
+          "name": "sortRecords",
+          "kind": "method",
+          "signature": "sortRecords(sort: Sort<T>)",
+          "description": ""
+        },
+        {
+          "name": "firstPage",
+          "kind": "method",
+          "signature": "firstPage()",
+          "description": ""
+        },
+        {
+          "name": "nextPage",
+          "kind": "method",
+          "signature": "nextPage()",
+          "description": ""
+        },
+        {
+          "name": "previousPage",
+          "kind": "method",
+          "signature": "previousPage()",
+          "description": ""
+        },
+        {
+          "name": "lastPage",
+          "kind": "method",
+          "signature": "lastPage()",
+          "description": ""
+        },
+        {
+          "name": "jumpToPage",
+          "kind": "method",
+          "signature": "jumpToPage(page: number)",
+          "description": ""
+        },
+        {
+          "name": "setPageSize",
+          "kind": "method",
+          "signature": "setPageSize(size: number)",
+          "description": ""
+        },
+        {
+          "name": "setFilter",
+          "kind": "method",
+          "signature": "setFilter(filterValues: Record<string, any>)",
+          "description": ""
+        },
+        {
+          "name": "clearFilter",
+          "kind": "method",
+          "signature": "clearFilter()",
+          "description": ""
+        },
+        {
+          "name": "refresh",
+          "kind": "method",
+          "signature": "refresh()",
+          "description": ""
+        },
+        {
+          "name": "getPageRequest",
+          "kind": "method",
+          "signature": "getPageRequest(): PageRequest",
+          "description": ""
+        }
+      ],
+      "version": "11.4.1"
+    },
+    {
+      "id": "uni-datasource",
+      "name": "UniDatasource",
+      "kind": "type",
+      "module": "datasource",
+      "importPath": "@uni-design-system/uni-angular",
+      "signature": "type UniDatasource<T> = UniBaseDatasource<T>",
+      "summary": "",
+      "description": "",
+      "members": [],
+      "version": "11.4.1"
+    },
+    {
+      "id": "uni-record-datasource",
+      "name": "UniRecordDatasource",
+      "kind": "class",
+      "module": "datasource",
+      "importPath": "@uni-design-system/uni-angular",
+      "signature": "class UniRecordDatasource<T> extends UniBaseDatasource<T>",
+      "summary": "",
+      "description": "",
+      "members": [
+        {
+          "name": "initialRecords",
+          "kind": "property",
+          "signature": "initialRecords = signal<T[]>([])",
+          "description": ""
+        },
+        {
+          "name": "recordCount",
+          "kind": "property",
+          "signature": "recordCount = computed((): number => this.initialRecords().filter(this.filter()).length)",
+          "description": ""
+        },
+        {
+          "name": "filter",
+          "kind": "property",
+          "signature": "filter = signal<(value: T) => boolean>((value) => true)",
+          "description": ""
+        },
+        {
+          "name": "pageIndex",
+          "kind": "property",
+          "signature": "pageIndex = signal<number>(0)",
+          "description": ""
+        },
+        {
+          "name": "pageSize",
+          "kind": "property",
+          "signature": "pageSize = computed(() => this._pageSize())",
+          "description": ""
+        },
+        {
+          "name": "pageCount",
+          "kind": "property",
+          "signature": "pageCount = computed(…)",
+          "description": ""
+        },
+        {
+          "name": "records",
+          "kind": "property",
+          "signature": "records = computed(…)",
+          "description": ""
+        },
+        {
+          "name": "sortRecords",
+          "kind": "method",
+          "signature": "sortRecords(sort: Sort<T>)",
+          "description": ""
+        },
+        {
+          "name": "firstPage",
+          "kind": "method",
+          "signature": "firstPage()",
+          "description": ""
+        },
+        {
+          "name": "nextPage",
+          "kind": "method",
+          "signature": "nextPage()",
+          "description": ""
+        },
+        {
+          "name": "previousPage",
+          "kind": "method",
+          "signature": "previousPage()",
+          "description": ""
+        },
+        {
+          "name": "lastPage",
+          "kind": "method",
+          "signature": "lastPage()",
+          "description": ""
+        },
+        {
+          "name": "jumpToPage",
+          "kind": "method",
+          "signature": "jumpToPage(page: number)",
+          "description": ""
+        },
+        {
+          "name": "setPageSize",
+          "kind": "method",
+          "signature": "setPageSize(size: number)",
+          "description": ""
+        },
+        {
+          "name": "setFilter",
+          "kind": "method",
+          "signature": "setFilter(filter: (value: T) => boolean)",
+          "description": ""
+        },
+        {
+          "name": "clearFilter",
+          "kind": "method",
+          "signature": "clearFilter()",
+          "description": ""
+        }
+      ],
+      "version": "11.4.1"
+    },
+    {
+      "id": "local-storage-service",
+      "name": "LocalStorageService",
+      "kind": "service",
+      "module": "local-storage",
+      "importPath": "@uni-design-system/uni-angular",
+      "signature": "class LocalStorageService",
+      "summary": "",
+      "description": "",
+      "members": [
+        {
+          "name": "setItem",
+          "kind": "method",
+          "signature": "setItem<T>(key: string, value: T): boolean",
+          "description": ""
+        },
+        {
+          "name": "getItem",
+          "kind": "method",
+          "signature": "getItem<T>(key: string): T | null",
+          "description": ""
+        },
+        {
+          "name": "removeItem",
+          "kind": "method",
+          "signature": "removeItem(key: string): boolean",
+          "description": ""
+        },
+        {
+          "name": "clear",
+          "kind": "method",
+          "signature": "clear(): boolean",
+          "description": ""
+        },
+        {
+          "name": "hasKey",
+          "kind": "method",
+          "signature": "hasKey(key: string): boolean",
+          "description": ""
+        },
+        {
+          "name": "getAllKeys",
+          "kind": "method",
+          "signature": "getAllKeys(): string[]",
+          "description": ""
+        },
+        {
+          "name": "getSize",
+          "kind": "method",
+          "signature": "getSize(): number",
+          "description": ""
+        }
+      ],
+      "version": "11.4.1"
+    },
+    {
+      "id": "alert",
+      "name": "Alert",
+      "kind": "interface",
+      "module": "notification",
+      "importPath": "@uni-design-system/uni-angular",
+      "signature": "interface Alert",
+      "summary": "",
+      "description": "",
+      "members": [
+        {
+          "name": "message",
+          "kind": "property",
+          "signature": "message: string",
+          "description": ""
+        },
+        {
+          "name": "iconName",
+          "kind": "property",
+          "signature": "iconName?: IconName",
+          "description": ""
+        },
+        {
+          "name": "symbolName",
+          "kind": "property",
+          "signature": "symbolName?: string",
+          "description": ""
+        },
+        {
+          "name": "variant",
+          "kind": "property",
+          "signature": "variant?: Variant",
+          "description": ""
+        },
+        {
+          "name": "action",
+          "kind": "property",
+          "signature": "action?: () => void",
+          "description": ""
+        },
+        {
+          "name": "actionLabel",
+          "kind": "property",
+          "signature": "actionLabel?: string",
+          "description": ""
+        },
+        {
+          "name": "topPosition",
+          "kind": "property",
+          "signature": "topPosition?: number",
+          "description": ""
+        }
+      ],
+      "version": "11.4.1"
+    },
+    {
+      "id": "snackbar",
+      "name": "Snackbar",
+      "kind": "interface",
+      "module": "notification",
+      "importPath": "@uni-design-system/uni-angular",
+      "signature": "interface Snackbar",
+      "summary": "",
+      "description": "",
+      "members": [
+        {
+          "name": "message",
+          "kind": "property",
+          "signature": "message: string",
+          "description": ""
+        },
+        {
+          "name": "action",
+          "kind": "property",
+          "signature": "action?: () => void",
+          "description": ""
+        },
+        {
+          "name": "actionLabel",
+          "kind": "property",
+          "signature": "actionLabel?: string",
+          "description": ""
+        },
+        {
+          "name": "iconName",
+          "kind": "property",
+          "signature": "iconName?: IconName",
+          "description": ""
+        },
+        {
+          "name": "symbolName",
+          "kind": "property",
+          "signature": "symbolName?: string",
+          "description": ""
+        },
+        {
+          "name": "variant",
+          "kind": "property",
+          "signature": "variant?: Variant",
+          "description": ""
+        },
+        {
+          "name": "timeout",
+          "kind": "property",
+          "signature": "timeout?: number | string | 'disabled'",
+          "description": ""
+        }
+      ],
+      "version": "11.4.1"
+    },
+    {
+      "id": "confirmation",
+      "name": "Confirmation",
+      "kind": "interface",
+      "module": "notification",
+      "importPath": "@uni-design-system/uni-angular",
+      "signature": "interface Confirmation",
+      "summary": "",
+      "description": "",
+      "members": [
+        {
+          "name": "title",
+          "kind": "property",
+          "signature": "title: string",
+          "description": ""
+        },
+        {
+          "name": "message",
+          "kind": "property",
+          "signature": "message: string",
+          "description": ""
+        },
+        {
+          "name": "action",
+          "kind": "property",
+          "signature": "action: () => void",
+          "description": ""
+        },
+        {
+          "name": "actionLabel",
+          "kind": "property",
+          "signature": "actionLabel?: string",
+          "description": ""
+        },
+        {
+          "name": "dismissLabel",
+          "kind": "property",
+          "signature": "dismissLabel?: string",
+          "description": ""
+        },
+        {
+          "name": "color",
+          "kind": "property",
+          "signature": "color?: ContainerColorToken",
+          "description": ""
+        }
+      ],
+      "version": "11.4.1"
+    },
+    {
+      "id": "notification-service",
+      "name": "NotificationService",
+      "kind": "service",
+      "module": "notification",
+      "importPath": "@uni-design-system/uni-angular",
+      "signature": "class NotificationService",
+      "summary": "",
+      "description": "",
+      "members": [
+        {
+          "name": "alert",
+          "kind": "property",
+          "signature": "alert = signal<Alert | undefined>(undefined)",
+          "description": ""
+        },
+        {
+          "name": "showAlert",
+          "kind": "method",
+          "signature": "showAlert(alert: Alert)",
+          "description": ""
+        },
+        {
+          "name": "hideAlert",
+          "kind": "method",
+          "signature": "hideAlert()",
+          "description": ""
+        },
+        {
+          "name": "snackbar",
+          "kind": "property",
+          "signature": "snackbar = signal<Snackbar | undefined>(undefined)",
+          "description": ""
+        },
+        {
+          "name": "showSnackbar",
+          "kind": "method",
+          "signature": "showSnackbar(snackbar: Snackbar)",
+          "description": ""
+        },
+        {
+          "name": "hideSnackbar",
+          "kind": "method",
+          "signature": "hideSnackbar()",
+          "description": ""
+        },
+        {
+          "name": "confirmation",
+          "kind": "property",
+          "signature": "confirmation = signal<Confirmation | undefined>(undefined)",
+          "description": ""
+        },
+        {
+          "name": "showConfirmation",
+          "kind": "method",
+          "signature": "showConfirmation(confirmation: Confirmation)",
+          "description": ""
+        },
+        {
+          "name": "hideConfirmation",
+          "kind": "method",
+          "signature": "hideConfirmation()",
+          "description": ""
+        }
+      ],
+      "version": "11.4.1"
+    },
+    {
+      "id": "option",
+      "name": "Option",
+      "kind": "interface",
+      "module": "option",
+      "importPath": "@uni-design-system/uni-angular",
+      "signature": "interface Option<T = unknown>",
+      "summary": "",
+      "description": "",
+      "members": [
+        {
+          "name": "label",
+          "kind": "property",
+          "signature": "label: string",
+          "description": ""
+        },
+        {
+          "name": "value",
+          "kind": "property",
+          "signature": "value: T",
+          "description": ""
+        },
+        {
+          "name": "description",
+          "kind": "property",
+          "signature": "description?: string",
+          "description": "Secondary line, e.g. an email under a name. Read as part of the option's name."
+        },
+        {
+          "name": "disabled",
+          "kind": "property",
+          "signature": "disabled?: boolean",
+          "description": "Visible and announced, but not committable; listbox navigation skips it."
+        }
+      ],
+      "version": "11.4.1"
+    },
+    {
+      "id": "options",
+      "name": "Options",
+      "kind": "type",
+      "module": "option",
+      "importPath": "@uni-design-system/uni-angular",
+      "signature": "type Options<T = unknown> = Option<T>[]",
+      "summary": "",
+      "description": "",
+      "members": [],
+      "version": "11.4.1"
+    },
+    {
+      "id": "use-timer",
+      "name": "useTimer",
+      "kind": "function",
+      "module": "timer",
+      "importPath": "@uni-design-system/uni-angular",
+      "signature": "function useTimer()",
+      "summary": "",
+      "description": "",
+      "members": [],
+      "version": "11.4.1"
+    },
+    {
+      "id": "acceptable-file",
+      "name": "acceptableFile",
+      "kind": "function",
+      "module": "file",
+      "importPath": "@uni-design-system/uni-angular",
+      "signature": "function acceptableFile(file: File, acceptedFileExtensions: string[] | undefined): boolean",
+      "summary": "",
+      "description": "",
+      "members": [],
+      "version": "11.4.1"
+    },
+    {
+      "id": "get-file-extension",
+      "name": "getFileExtension",
+      "kind": "function",
+      "module": "file",
+      "importPath": "@uni-design-system/uni-angular",
+      "signature": "function getFileExtension(file: File): string",
+      "summary": "",
+      "description": "",
+      "members": [],
+      "version": "11.4.1"
+    },
+    {
+      "id": "query-permission",
+      "name": "queryPermission",
+      "kind": "function",
+      "module": "permission",
+      "importPath": "@uni-design-system/uni-angular",
+      "signature": "async function queryPermission(permission: Permission): Promise<PermissionState>",
+      "summary": "The current state of a browser permission.",
+      "description": "The current state of a browser permission. Resolves `unsupported` — never rejects — where the Permissions API is missing or does not know the name, which is the norm rather than the exception: Firefox and Safari reject `clipboard-write`, for one. Treat `unsupported` as \"can't tell\", not \"no\".",
+      "members": [],
+      "version": "11.4.1"
+    },
+    {
+      "id": "permission-service",
+      "name": "PermissionService",
+      "kind": "service",
+      "module": "permission",
+      "importPath": "@uni-design-system/uni-angular",
+      "signature": "class PermissionService",
+      "summary": "",
+      "description": "",
+      "members": [
+        {
+          "name": "getPermissionState",
+          "kind": "method",
+          "signature": "getPermissionState(permission: Permission): Promise<PermissionState>",
+          "description": ""
+        },
+        {
+          "name": "isAllowed",
+          "kind": "method",
+          "signature": "async isAllowed(permission: Permission)",
+          "description": ""
+        }
+      ],
+      "version": "11.4.1"
+    },
+    {
+      "id": "permission",
+      "name": "Permission",
+      "kind": "type",
+      "module": "permission",
+      "importPath": "@uni-design-system/uni-angular",
+      "signature": "type Permission = 'accelerometer' | 'ambient-light-sensor' | 'background-fetch' | 'background-sync' | 'bluetooth' | 'camera' | 'clipboard-read' | 'clipboard-write' | 'compute-pressure' | 'device-info' | 'display-capture' | 'geolocation' | 'gyroscope' | 'local-fonts' | 'magnetometer' | 'microphone' | 'midi' | 'nfc' | 'notifications' | 'payment-handler' | 'persistent-storage' | 'push' | 'screen-wake-lock' | 'speaker' | 'storage-access' | 'top-level-storage-access' | 'window-management'",
+      "summary": "",
+      "description": "",
+      "members": [],
+      "version": "11.4.1"
+    },
+    {
+      "id": "permission-state",
+      "name": "PermissionState",
+      "kind": "type",
+      "module": "permission",
+      "importPath": "@uni-design-system/uni-angular",
+      "signature": "type PermissionState = 'granted' | 'prompt' | 'denied' | 'unsupported'",
+      "summary": "",
+      "description": "",
+      "members": [],
+      "version": "11.4.1"
+    },
+    {
+      "id": "clipboard-copy-result",
+      "name": "ClipboardCopyResult",
+      "kind": "type",
+      "module": "clipboard",
+      "importPath": "@uni-design-system/uni-angular",
+      "signature": "type ClipboardCopyResult = 'copied' | 'denied' | 'unsupported' | 'failed'",
+      "summary": "How a copy ended: - `copied` — the content is on the clipboard.",
+      "description": "How a copy ended: - `copied` — the content is on the clipboard. - `denied` — the user or a policy has blocked clipboard access for this site; only a change in the browser's site settings will fix it. - `unsupported` — no Clipboard API here (an insecure context, a server render, an old browser) or the browser cannot write one of the types. - `failed` — the browser refused this attempt for another reason, most often a call made outside a user gesture or from an unfocused document.",
+      "members": [],
+      "version": "11.4.1"
+    },
+    {
+      "id": "clipboard-data",
+      "name": "ClipboardData",
+      "kind": "type",
+      "module": "clipboard",
+      "importPath": "@uni-design-system/uni-angular",
+      "signature": "type ClipboardData = string | Blob | PromiseLike<string | Blob>",
+      "summary": "One clipboard representation; a promise lets the data arrive after the gesture.",
+      "description": "One clipboard representation; a promise lets the data arrive after the gesture.",
+      "members": [],
+      "version": "11.4.1"
+    },
+    {
+      "id": "clipboard-content",
+      "name": "ClipboardContent",
+      "kind": "type",
+      "module": "clipboard",
+      "importPath": "@uni-design-system/uni-angular",
+      "signature": "type ClipboardContent = string | Record<string, ClipboardData>",
+      "summary": "What to copy: a plain string, or one item in several representations keyed by MIME type — `{ 'text/plain': …, 'text/html': … }`, `{ 'image/png': blob }`.",
+      "description": "What to copy: a plain string, or one item in several representations keyed by MIME type — `{ 'text/plain': …, 'text/html': … }`, `{ 'image/png': blob }`.",
+      "members": [],
+      "version": "11.4.1"
+    },
+    {
+      "id": "copy-to-clipboard",
+      "name": "copyToClipboard",
+      "kind": "function",
+      "module": "clipboard",
+      "importPath": "@uni-design-system/uni-angular",
+      "signature": "async function copyToClipboard(content: ClipboardContent): Promise<ClipboardCopyResult>",
+      "summary": "Copies text or rich content with the Async Clipboard API.",
+      "description": "Copies text or rich content with the Async Clipboard API. Never rejects: the result says what happened, so a caller can tell the user why. Call it directly from the click or key handler. The write starts synchronously, before anything is awaited, because browsers only honor it inside the user gesture — which is also why the `clipboard-write` permission is consulted after a refusal, to explain it, rather than before the attempt. For content that has to be fetched or rendered first, pass a promise as the value instead of awaiting it yourself.",
+      "members": [],
+      "version": "11.4.1"
+    }
+  ],
+  "utilityDocs": [
+    {
+      "module": "datasource",
+      "title": "Datasource",
+      "markdown": "# Datasource\n\nThe Datasource system provides a flexible and reactive way to manage data collections in Angular applications. It supports both client-side and server-side data operations with a unified API.\n\n## Architecture\n\nThe datasource system consists of three main classes:\n\n- **`UniBaseDatasource<T>`**: Abstract base class defining the common interface\n- **`UniRecordDatasource<T>`**: Client-side datasource for in-memory data operations\n- **`UniServerSideDatasource<T>`**: Server-side datasource using Angular's resource signal\n\n## Features\n\n- **Reactive State Management**: Built with Angular signals for efficient reactivity\n- **Unified API**: Both client-side and server-side datasources implement the same interface\n- **Sorting**: Sort data by any column in ascending or descending order\n- **Filtering**: Apply filters with appropriate handling for client vs server-side\n- **Pagination**: Navigate through data with built-in pagination controls\n- **Selection**: Track and manage selected items\n- **Loading States**: Server-side datasource provides loading and error states\n\n## Client-Side Datasource\n\nFor in-memory data operations, use `UniRecordDatasource`:\n\n```typescript\nimport { UniRecordDatasource } from '@uni-design-system/uni-angular';\n\ninterface User {\n  id: number;\n  name: string;\n  email: string;\n  age: number;\n}\n\n@Component({...})\nclass ClientSideComponent {\n  // Static data for client-side operations\n  users: User[] = [\n    { id: 1, name: 'John Doe', email: 'john@example.com', age: 30 },\n    { id: 2, name: 'Jane Smith', email: 'jane@example.com', age: 25 },\n    // more users...\n  ];\n\n  datasource = new UniRecordDatasource<User>(this.users);\n\n  constructor() {\n    // Set page size for pagination\n    this.datasource.setPageSize(10);\n\n    // Apply a filter function (client-side filtering)\n    this.datasource.setFilter(user => user.age > 18);\n\n    // Sort by a column\n    this.datasource.sortRecords({\n      column: 'name',\n      direction: 'asc'\n    });\n  }\n\n  // Handle row selection\n  onRowClick(user: User) {\n    this.datasource.toggleSelection(user);\n  }\n\n  // Navigate to next page\n  nextPage() {\n    this.datasource.nextPage();\n  }\n}\n```\n\n## Server-Side Datasource\n\nFor server-side operations with automatic loading states, use `UniServerSideDatasource`:\n\n```typescript\nimport { UniServerSideDatasource, PageRequest, PageResponse } from '@uni-design-system/uni-angular';\n\n@Component({...})\nclass ServerSideComponent {\n  datasource = new UniServerSideDatasource<User>(\n    // Data loader function\n    async (request: PageRequest): Promise<PageResponse<User>> => {\n      const response = await this.userService.getUsers({\n        page: request.pageNumber,\n        size: request.pageSize,\n        sort: request.sortColumn,\n        order: request.sortDirection,\n        filter: request.filter\n      });\n\n      return {\n        data: response.users,\n        totalRecords: response.total,\n        pageNumber: request.pageNumber,\n        pageSize: request.pageSize\n      };\n    },\n    10 // initial page size\n  );\n\n  constructor() {\n    // Apply server-side filter (sends filter object to server)\n    this.datasource.setFilter({ department: 'Engineering', active: true });\n\n    // Sort by a column (triggers server request)\n    this.datasource.sortRecords({\n      column: 'name',\n      direction: 'asc'\n    });\n  }\n\n  // Access loading and error states\n  get isLoading() {\n    return this.datasource.isLoading();\n  }\n\n  get hasError() {\n    return this.datasource.hasError();\n  }\n\n  // Refresh data from server\n  refreshData() {\n    this.datasource.refresh();\n  }\n}\n```\n\n## API Reference\n\n### Common Properties (Both Datasources)\n\n- `records`: Signal containing the current page's filtered and sorted records\n- `recordCount`: Signal with the count of filtered records\n- `selections`: Signal containing currently selected items\n- `sort`: Signal containing the current sort configuration\n- `sortColumn`: Computed signal with the current sort column\n- `sortDirection`: Computed signal with the current sort direction\n- `pageIndex`: Signal with the current page index (zero-based)\n- `pageSize`: Signal with the number of items per page\n- `pageCount`: Signal with the total number of pages\n- `pages`: Signal with array of page numbers for pagination UI\n- `truncatedPages`: Signal with truncated page numbers (includes ellipsis)\n- `disablePrevious`: Signal indicating if previous button should be disabled\n- `disableNext`: Signal indicating if next button should be disabled\n\n### Common Methods (Both Datasources)\n\n- `isSelected(row)`: Checks if a row is selected\n- `toggleSelection(row)`: Toggles selection state of a row\n- `clearSelections()`: Clears all selections\n- `selectAll()`: Selects all records on current page\n- `sortRecords(sort)`: Sets the sort configuration\n- `firstPage()`, `nextPage()`, `previousPage()`, `lastPage()`: Navigation methods\n- `jumpToPage(page)`: Jumps to a specific page\n- `setPageSize(size)`: Sets the page size and resets to first page\n\n### Record Datasource Specific\n\n**Properties:**\n\n- `initialRecords`: Signal containing the original unfiltered data\n- `filter`: Signal containing the current filter function\n\n**Methods:**\n\n- `setFilter(predicate: (item: T) => boolean)`: Sets a filter function for client-side filtering\n- `clearFilter()`: Clears the current filter (shows all records)\n\n### Server-Side Datasource Specific\n\n**Properties:**\n\n- `isLoading`: Signal indicating if data is currently being loaded\n- `error`: Signal containing any loading errors\n- `hasError`: Signal indicating if there's an error state\n\n**Methods:**\n\n- `setFilter(filterObj: Record<string, any>)`: Sets filter parameters sent to server\n- `clearFilter()`: Clears all filter parameters\n- `refresh()`: Manually triggers a data reload from server\n- `getPageRequest()`: Returns the current page request parameters\n\n### Types\n\n```typescript\ninterface PageRequest {\n  pageNumber: number;\n  pageSize: number;\n  sortColumn?: string;\n  sortDirection?: SortDirection;\n  filter?: Record<string, any>;\n}\n\ninterface PageResponse<T> {\n  data: T[];\n  totalRecords: number;\n  pageNumber: number;\n  pageSize: number;\n}\n\ntype DataLoader<T> = (request: PageRequest) => Promise<PageResponse<T>>;\n\ntype SortDirection = 'asc' | 'desc' | 'indet';\n\ninterface Sort<T> {\n  column?: keyof T;\n  direction: SortDirection;\n}\n```\n\n## Examples"
+    },
+    {
+      "module": "local-storage",
+      "title": "LocalStorage",
+      "markdown": "# LocalStorage\n\nThe LocalStorage Service provides a safe, type-safe wrapper around the browser's localStorage API with enhanced error handling and utility methods. It includes availability checking to ensure localStorage is accessible in the current environment and provides methods for storage operations.\n\n## Key Features\n\n- **Availability Checking**: Automatically detects if localStorage is available before operations\n- **Type Safety**: Generic methods support typed data storage and retrieval\n- **Error Handling**: Try-catch blocks with console logging for debugging\n- **JSON Support**: Automatic JSON serialization/deserialization for objects\n- **Utility Methods**: Additional methods for key management, storage size calculation, and existence checking\n\n## Example Implementation\n\n```typescript\nimport { LocalStorageService } from '@uni-design-system/uni-angular';\n\n@Component({...})\nclass MyComponent {\n\n  constructor(private localStorage: LocalStorageService) {}\n\n  // Store different data types\n  saveUserPreferences() {\n    const preferences = { theme: 'dark', language: 'en' };\n    const success = this.localStorage.setItem('user-prefs', preferences);\n    console.log('Save successful:', success);\n  }\n\n  // Retrieve with type safety\n  getUserPreferences() {\n    const prefs = this.localStorage.getItem<{theme: string, language: string}>('user-prefs');\n    return prefs || { theme: 'light', language: 'en' }; // fallback if null\n  }\n\n  // Check if data exists\n  hasUserData() {\n    return this.localStorage.hasKey('user-prefs');\n  }\n\n  // Clean up storage\n  clearUserData() {\n    this.localStorage.removeItem('user-prefs');\n  }\n}\n```\n\n## API Methods\n\n### Core Operations\n\n- `setItem<T>(key: string, value: T): boolean` - Store any data type with JSON serialization\n- `getItem<T>(key: string): T | null` - Retrieve data with automatic type casting\n- `removeItem(key: string): boolean` - Remove a specific item\n- `clear(): boolean` - Clear all localStorage data\n\n### Utility Methods\n\n- `hasKey(key: string): boolean` - Check if a key exists in storage\n- `getAllKeys(): string[]` - Get array of all storage keys\n- `getSize(): number` - Calculate total storage size in characters\n\nAll methods return boolean success indicators for operations and handle localStorage unavailability gracefully.\n\n## Examples"
+    },
+    {
+      "module": "notification",
+      "title": "Notifications",
+      "markdown": "# Notifications\n\nThe Notification service is designed to be used alongside a single instance of\nthe `<uni-notifications>` component, which renders whatever the service emits.\nPlace one near the root of your layout, then call the service's methods from\nanywhere to present the notifications below.\n\n## Example Implementations\n\n### Alert\n\n_Note: The [alert component](?path=/docs/components-feedback-alert--alert) can be implemented independently._\n\n```\nimport { NotificationService, Alert } from '@uni-design-system/uni-angular';\n\n@Component({...})\nclass MyComponent {\n  constructor(notifications: NotificationService) {}\n\n  const alert: Alert = {\n\n  }\n\n  showAlert = () => this.notifications.showAlert(alert);\n\n}\n```\n\n### Snackbar\n\n```\nimport { NotificationService, Snackbar } from '@uni-design-system/uni-angular';\n\n@Component({...})\nclass MyComponent {\n  constructor(notifications: NotificationService) {}\n\n  const snackbar: Snackbar = {\n    message: 'The record has been deleted.',\n    action?: () => undoDelete();\n    actionLabel: 'Undo';\n    symbolName: 'delete';\n    variant: 'warn';\n  }\n\n  showDeleteSnackbar = () => this.notifications.showSnackbar(snackbar);\n\n}\n```\n\n### Confirmation\n\n```\nimport { NotificationService, Confirmation } from '@uni-design-system/uni-angular';\n\n@Component({...})\nclass MyComponent {\n  constructor(notifications: NotificationService) {}\n\n  const confirmation: Confirmation = {\n      title: 'Delete Record',\n      message: 'Are you sure you want to delete this record?',\n      action: () => deleteRecord(),\n      actionLabel: 'Yes',\n      dismissLabel: 'No',\n      color: 'warn'\n  }\n\n  confirmDelete = () => this.notifications.showConfirmation(confirmation);\n\n}\n```"
+    },
+    {
+      "module": "timer",
+      "title": "Timer",
+      "markdown": "# Timer\n\nThe Timer utility provides a reusable, reactive timer service with start, pause, resume, and stop functionality. It's built using Angular signals for reactive state management and automatically handles cleanup through Angular's DestroyRef to prevent memory leaks.\n\n## Key Features\n\n- **Reactive State**: Uses Angular signals for real-time timer updates\n- **Full Control**: Start, pause, resume, and stop operations\n- **Automatic Cleanup**: Automatically clears intervals on component destruction\n- **Completion Callbacks**: Execute custom functions when timer completes\n- **Multiple Time Units**: Access both milliseconds and seconds remaining\n- **Status Tracking**: Monitor active and paused states\n\n## Example Implementation\n\n```typescript\nimport { Component } from '@angular/core';\nimport { useTimer } from '@uni-design-system/uni-angular';\n\n@Component({\n  selector: 'app-countdown',\n  template: `\n    <div>\n      <h3>Countdown: {{ timer.secondsRemaining() }}s</h3>\n      <p>Status: {{ timer.isActive() ? 'Running' : 'Stopped' }}</p>\n      <p>Paused: {{ timer.isPaused() ? 'Yes' : 'No' }}</p>\n\n      <button (click)=\"startTimer()\">Start 30s Timer</button>\n      <button (click)=\"pauseTimer()\">Pause</button>\n      <button (click)=\"resumeTimer()\">Resume</button>\n      <button (click)=\"stopTimer()\">Stop</button>\n    </div>\n  `,\n  standalone: true,\n})\nexport class CountdownComponent {\n  timer = useTimer();\n\n  startTimer() {\n    this.timer.start(30000, () => {\n      console.log('Timer completed!');\n      // Handle completion logic here\n    });\n  }\n\n  pauseTimer() {\n    this.timer.pause();\n  }\n\n  resumeTimer() {\n    this.timer.resume();\n  }\n\n  stopTimer() {\n    this.timer.stop();\n  }\n}\n```\n\n## Auto-close Feature Example\n\nPerfect for notifications, modals, or temporary UI elements:\n\n```typescript\n@Component({\n  selector: 'app-auto-close-notification',\n  template: `\n    <div *ngIf=\"isVisible\" class=\"notification\">\n      <p>This notification will close in {{ timer.secondsRemaining() }}s</p>\n      <button (click)=\"dismissNow()\">Dismiss Now</button>\n    </div>\n  `,\n  standalone: true,\n})\nexport class AutoCloseNotificationComponent {\n  timer = useTimer();\n  isVisible = true;\n\n  ngOnInit() {\n    // Auto-close after 5 seconds\n    this.timer.start(5000, () => {\n      this.isVisible = false;\n    });\n  }\n\n  dismissNow() {\n    this.timer.stop();\n    this.isVisible = false;\n  }\n}\n```\n\n## Session Timeout Example\n\nUseful for authentication timeouts or activity tracking:\n\n```typescript\n@Component({...})\nexport class SessionManagerComponent {\n  sessionTimer = useTimer();\n  warningTimer = useTimer();\n\n  private readonly SESSION_DURATION = 30 * 60 * 1000; // 30 minutes\n  private readonly WARNING_DURATION = 5 * 60 * 1000;  // 5 minutes\n\n  startSession() {\n    // Start main session timer\n    this.sessionTimer.start(this.SESSION_DURATION, () => {\n      this.handleSessionExpired();\n    });\n\n    // Start warning timer (triggers 5 min before session expires)\n    this.warningTimer.start(this.SESSION_DURATION - this.WARNING_DURATION, () => {\n      this.showSessionWarning();\n    });\n  }\n\n  extendSession() {\n    // User activity detected - restart timers\n    this.sessionTimer.stop();\n    this.warningTimer.stop();\n    this.startSession();\n  }\n\n  private showSessionWarning() {\n    console.log(`Session expires in ${this.sessionTimer.secondsRemaining()}s`);\n  }\n\n  private handleSessionExpired() {\n    // Log out user or redirect to login\n    this.logoutUser();\n  }\n}\n```\n\n## API Reference\n\n### Core Methods\n\n- `start(durationMs: number, onComplete?: () => void): void` - Start timer with duration in milliseconds and optional completion callback\n- `pause(): void` - Pause the active timer (no-op if not active or already paused)\n- `resume(): void` - Resume paused timer (no-op if not paused)\n- `stop(): void` - Stop timer and reset remaining time to 0\n\n### Reactive Properties\n\n- `msRemaining: Signal<number>` - Milliseconds remaining (updates every 100ms)\n- `secondsRemaining: Signal<number>` - Seconds remaining (rounded up)\n- `isPaused: Signal<boolean>` - Whether timer is currently paused\n- `isActive: Signal<boolean>` - Whether timer has time remaining (computed from msRemaining > 0)\n\n### Behavior Notes\n\n- Timer updates every 100ms for smooth UI updates\n- `pause()` and `resume()` are safe to call - they check state before executing\n- `start()` automatically stops any existing timer before starting new one\n- Completion callback is optional and executes when timer reaches 0\n- Component destruction automatically cleans up active timers\n\n## Interactive Example"
+    },
+    {
+      "module": "permission",
+      "title": "Permissions API",
+      "markdown": "# Permissions API\n\nThe Permissions API service is used to check if a specific feature or API is available for interaction within your code.\nFor instance, `copyToClipboard` checks `clipboard-write` after a refused copy to tell a blocked permission apart from any other failure.\nMany permissions cannot be queried in every browser (Firefox and Safari do not answer `clipboard-write`), and those report `unsupported`: treat that as \"can't tell\" rather than \"no\".\nIf the permission is in a `prompt` state, the API is available and the user will be prompted to approve the first execution of the associated method.\nIf a permission is not allowed or unsupported, this condition can be used to hide any associated functionality in your UI.\n\n## Example Implementation\n\n```\nimport { PermissionService } from '@uni-design-system/uni-angular';\n\n@Component({...})\nclass MyComponent {\n\n  allowWriteToClipboard = false;\n\n  constructor(private permissionService: PermissionService) {\n    permissionService\n      .isAllowed('clipboard-write')\n      .then((allowed) => (this.allowWriteToClipboard = allowed));\n  }\n\n}\n\n```\n\n## Permission Manifest\n\nBelow are a list of permissions (by name) and their current states for this device.\n\n## Resources\n\n- [Permissions API](https://developer.mozilla.org/en-US/docs/Web/API/Permissions_API)"
+    },
+    {
+      "module": "clipboard",
+      "title": "Clipboard",
+      "markdown": "# Clipboard\n\n`copyToClipboard` copies text or rich content with the Async Clipboard API. It never\nrejects: it resolves with what happened, so you can tell the user why a copy did not work\ninstead of wrapping every call in a `try`/`catch`.\n\n`import { copyToClipboard } from '@uni-design-system/uni-angular';`\n\n## Copying text\n\n```typescript\nprotected async copyLink(): Promise<void> {\n  const result = await copyToClipboard(this.url());\n  if (result === 'copied') this.copied.set(true);\n}\n```\n\n## Copying rich content\n\nPass one item as a map of MIME type to data. Applications that understand HTML paste the\nrich version; everything else falls back to the plain text.\n\n```typescript\nawait copyToClipboard({\n  'text/plain': 'Quarterly report',\n  'text/html': '<a href=\"https://example.com/report\">Quarterly report</a>',\n});\n```\n\nA value can be a string, a `Blob`, or a promise of either. Use a promise for content that\nhas to be fetched or rendered first, rather than awaiting it before the call:\n\n```typescript\nawait copyToClipboard({ 'image/png': this.chart.toBlob() });\n```\n\n## Results\n\n## Call it from the user gesture\n\nBrowsers only honor a clipboard write made inside a click or key handler. The write starts\nsynchronously when you call `copyToClipboard`, so call it directly from the handler; do not\n`await` other work first.\n\nThis is also why the `clipboard-write` permission is not checked up front. Only Chromium\ncan answer that query, and waiting on it can cost the gesture elsewhere. The permission is\nconsulted after a refusal, to tell `denied` apart from `failed`.\n\n## Resources\n\n- [Clipboard API](https://developer.mozilla.org/en-US/docs/Web/API/Clipboard_API)\n- [ClipboardItem](https://developer.mozilla.org/en-US/docs/Web/API/ClipboardItem)"
     }
   ]
 }

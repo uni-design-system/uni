@@ -28,9 +28,9 @@ whole team gets the server. Equivalent `.mcp.json`:
   "mcpServers": {
     "uni": {
       "command": "npx",
-      "args": ["-y", "@uni-design-system/uni-mcp@latest"]
-    }
-  }
+      "args": ["-y", "@uni-design-system/uni-mcp@latest"],
+    },
+  },
 }
 ```
 
@@ -64,11 +64,11 @@ so for answers that exactly match the APIs you have installed, replace
 
 In Claude Code, `/mcp` should list **uni** as connected. Then ask things like:
 
-- *"What Uni components are available for collecting user input?"*
-- *"Show me the props and a working example for `uni-button`."*
-- *"Which Uni theme tokens should style a card's background and border?"*
-- *"When should I use a drawer vs a dialog? Any accessibility requirements?"*
-- *"Generate a Uni theme from our brand color `#0052FF` and wire it up."*
+- _"What Uni components are available for collecting user input?"_
+- _"Show me the props and a working example for `uni-button`."_
+- _"Which Uni theme tokens should style a card's background and border?"_
+- _"When should I use a drawer vs a dialog? Any accessibility requirements?"_
+- _"Generate a Uni theme from our brand color `#0052FF` and wire it up."_
 
 That last one uses the `generate-uni-theme` tool: it returns a complete
 WCAG-AA light + dark `uni-theme.ts` file (plus the `UNI_THEMES` provider
@@ -78,23 +78,25 @@ tokens, never by hardcoding hex values in components.
 
 ## Tools
 
-| Tool | Returns |
-|---|---|
-| `list-components` | inventory (id, name, summary, category, frameworks) |
-| `get-component` | full API card for one component (framework-scoped) |
-| `get-component-examples` | working snippets + Storybook links |
-| `list-tokens` | tokens filtered by type / kind / theme |
-| `get-token` | resolved value, style/behavioral kind, per-theme values |
-| `get-guidelines` | when-to-use, do/don't, accessibility |
-| `list-themes` | theme templates |
-| `get-theme-template` | **style overrides** (→ Emotion CSS) and **component options** (→ props), kept distinct |
-| `generate-uni-theme` | complete WCAG-AA light+dark `uni-theme.ts` from brand hex color(s), with vibe/scheme/shape options, provider registration snippet, and contrast report |
-| `generate-runtime-theme` | the same generated theme as validated JSON for `registerTheme()` — applies immediately, no file, no rebuild |
-| `get-runtime-theme` | a theme that ships with Uni (`LightTheme`, `DarkTheme`) as a registerable `UniTheme` |
-| `export-dtcg-tokens` | a built-in theme's color/radius/spacing scales as W3C DTCG JSON (Style Dictionary compatible) |
-| `create-icon-tokens` | convert raw SVG into `currentColor`-masked theme icon tokens |
-| `get-changelog` | release notes per package/version — how a coding agent answers "what changed since the version I have installed" |
-| `search` | keyword search across components, tokens, themes, guidelines |
+| Tool                     | Returns                                                                                                                                                |
+| ------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `list-components`        | inventory (id, name, summary, category, frameworks)                                                                                                    |
+| `get-component`          | full API card for one component (framework-scoped)                                                                                                     |
+| `get-component-examples` | working snippets + Storybook links                                                                                                                     |
+| `list-utilities`         | the CDK inventory — functions, services, classes and types grouped by module (clipboard, permission, timer, datasource, number, …)                     |
+| `get-utility`            | one CDK export: import line, signature, members, siblings in its module, and the module's docs page with usage                                         |
+| `list-tokens`            | tokens filtered by type / kind / theme                                                                                                                 |
+| `get-token`              | resolved value, style/behavioral kind, per-theme values                                                                                                |
+| `get-guidelines`         | when-to-use, do/don't, accessibility                                                                                                                   |
+| `list-themes`            | theme templates                                                                                                                                        |
+| `get-theme-template`     | **style overrides** (→ Emotion CSS) and **component options** (→ props), kept distinct                                                                 |
+| `generate-uni-theme`     | complete WCAG-AA light+dark `uni-theme.ts` from brand hex color(s), with vibe/scheme/shape options, provider registration snippet, and contrast report |
+| `generate-runtime-theme` | the same generated theme as validated JSON for `registerTheme()` — applies immediately, no file, no rebuild                                            |
+| `get-runtime-theme`      | a theme that ships with Uni (`LightTheme`, `DarkTheme`) as a registerable `UniTheme`                                                                   |
+| `export-dtcg-tokens`     | a built-in theme's color/radius/spacing scales as W3C DTCG JSON (Style Dictionary compatible)                                                          |
+| `create-icon-tokens`     | convert raw SVG into `currentColor`-masked theme icon tokens                                                                                           |
+| `get-changelog`          | release notes per package/version — how a coding agent answers "what changed since the version I have installed"                                       |
+| `search`                 | keyword search across components, CDK utilities, tokens, themes, guidelines                                                                            |
 
 ### Which theme tool?
 
@@ -149,20 +151,20 @@ Client config (when deployed):
   "mcpServers": {
     "uni": {
       "url": "https://<host>/mcp",
-      "headers": { "Authorization": "Bearer <UNI_MCP_TOKEN>" }
-    }
-  }
+      "headers": { "Authorization": "Bearer <UNI_MCP_TOKEN>" },
+    },
+  },
 }
 ```
 
 Environment:
 
-| Var | Purpose | Default |
-|---|---|---|
-| `PORT` | bind port (Render sets this) | `8080` |
-| `HOST` | bind address | `0.0.0.0` |
-| `UNI_MCP_TOKEN` | if set, require `Authorization: Bearer <token>` | _(none)_ |
-| `UNI_ALLOWED_HOSTS` | comma list enabling DNS-rebinding protection | _(none)_ |
+| Var                 | Purpose                                         | Default   |
+| ------------------- | ----------------------------------------------- | --------- |
+| `PORT`              | bind port (Render sets this)                    | `8080`    |
+| `HOST`              | bind address                                    | `0.0.0.0` |
+| `UNI_MCP_TOKEN`     | if set, require `Authorization: Bearer <token>` | _(none)_  |
+| `UNI_ALLOWED_HOSTS` | comma list enabling DNS-rebinding protection    | _(none)_  |
 
 Deploy with the repo-root [`render.yaml`](../../render.yaml) blueprint.
 
@@ -171,12 +173,13 @@ Deploy with the repo-root [`render.yaml`](../../render.yaml) blueprint.
 The server answers from a **built index** (`src/data/uni-index.json`) that is
 normalized from the monorepo's own sources at build time, then read at runtime:
 
-| Source | Adapter | Feeds |
-|---|---|---|
-| `packages/angular` component sources (signals API) | `angular-adapter` | per-framework component API |
-| `@uni-design-system/uni-core` themes/tokens | `token-adapter` | tokens (style + behavioral) & theme templates |
-| component `.mdx` docs pages (`## Overview` / `## Do` / `## Don't` / `## Accessibility`) | `mdx-adapter` | authored guidelines |
-| `packages/angular/storybook-static/index.json` + story sources | `storybook-adapter` | copy-pasteable examples |
+| Source                                                                                  | Adapter             | Feeds                                                 |
+| --------------------------------------------------------------------------------------- | ------------------- | ----------------------------------------------------- |
+| `packages/angular` component sources (signals API)                                      | `angular-adapter`   | per-framework component API                           |
+| `@uni-design-system/uni-core` themes/tokens                                             | `token-adapter`     | tokens (style + behavioral) & theme templates         |
+| component `.mdx` docs pages (`## Overview` / `## Do` / `## Don't` / `## Accessibility`) | `mdx-adapter`       | authored guidelines                                   |
+| `packages/angular` CDK barrel (`cdk/index.ts`) + each CDK module's `.mdx` page          | `cdk-adapter`       | utility signatures (from the TypeScript AST) and docs |
+| `packages/angular/storybook-static/index.json` + story sources                          | `storybook-adapter` | copy-pasteable examples                               |
 
 The model is **framework-aware by construction**: each component carries a
 `bindings` map (`angular` today; `react` fills in as `uni-react` reaches parity)

@@ -11,6 +11,7 @@ import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { UniThemes } from '@uni-design-system/uni-core';
 import { ingestAngular } from './angular-adapter.js';
+import { ingestCdk } from './cdk-adapter.js';
 import { ingestChangelogs } from './changelog-adapter.js';
 import { ingestMdx } from './mdx-adapter.js';
 import { ingestStorybook } from './storybook-adapter.js';
@@ -54,16 +55,19 @@ function main() {
     // built storybook is missing entirely — an index without examples once
     // shipped silently (4.1.1). Refuse to write one.
     throw new Error(
-      `No storybook examples found — run \`turbo run build-storybook --filter=@uni-design-system/uni-angular\` first (looked in ${join(angularRoot, 'storybook-static')}).`,
+      `No storybook examples found — run \`turbo run build-storybook --filter=@uni-design-system/uni-angular\` first (looked in ${join(angularRoot, 'storybook-static')}).`
     );
   }
 
   // --- Authored guidelines from each component's co-located MDX docs page
   const guidelines = ingestMdx({ srcRoot: join(angularRoot, 'src/lib'), pathToId });
 
+  // --- CDK utilities: the non-visual exports, with their docs pages
+  const cdk = ingestCdk({ srcRoot: join(angularRoot, 'src/lib') });
+
   // --- Release notes from each published package's changesets changelog
   const changelogs = ingestChangelogs(
-    ['angular', 'core', 'react', 'mcp'].map((p) => join(repoRoot, 'packages', p, 'CHANGELOG.md')),
+    ['angular', 'core', 'react', 'mcp'].map((p) => join(repoRoot, 'packages', p, 'CHANGELOG.md'))
   );
 
   const index = normalize({
@@ -75,6 +79,8 @@ function main() {
     themes,
     guidelines,
     changelogs,
+    utilities: cdk.utilities,
+    utilityDocs: cdk.docs,
   });
 
   if (!existsSync(dirname(outFile))) mkdirSync(dirname(outFile), { recursive: true });
@@ -82,7 +88,7 @@ function main() {
   console.log(`✓ Wrote ${outFile}`);
   console.log(
     `  ${index.meta.counts.components} components · ${index.meta.counts.tokens} tokens · ` +
-      `${index.meta.counts.themes} themes · ${index.meta.counts.examples} examples`,
+      `${index.meta.counts.themes} themes · ${index.meta.counts.examples} examples`
   );
 }
 

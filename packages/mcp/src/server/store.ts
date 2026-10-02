@@ -12,6 +12,8 @@ import type {
   ThemeTemplateModel,
   TokenModel,
   UniIndex,
+  UtilityDocModel,
+  UtilityModel,
 } from '../schema.js';
 
 const index = indexData as unknown as UniIndex;
@@ -75,7 +77,12 @@ export function getChangelog(pkg = 'uni-angular'): PackageChangelogModel | undef
 
 /** Numeric compare over dotted segments; non-numeric segments count as 0. */
 export function compareVersions(a: string, b: string): number {
-  const nums = (v: string) => v.trim().replace(/^v/, '').split('.').map((s) => parseInt(s, 10) || 0);
+  const nums = (v: string) =>
+    v
+      .trim()
+      .replace(/^v/, '')
+      .split('.')
+      .map((s) => parseInt(s, 10) || 0);
   const [pa, pb] = [nums(a), nums(b)];
   for (let i = 0; i < Math.max(pa.length, pb.length); i++) {
     const d = (pa[i] ?? 0) - (pb[i] ?? 0);
@@ -99,7 +106,34 @@ export function selectReleases(cl: PackageChangelogModel, scope: ChangelogScope)
   return cl.releases;
 }
 
-export type SearchKind = 'component' | 'token' | 'theme' | 'guideline';
+// ---------------------------------------------------------------------------
+// CDK utilities
+// ---------------------------------------------------------------------------
+
+export type UtilityFilter = { module?: string; kind?: UtilityModel['kind'] };
+
+export function listUtilities(filter: UtilityFilter = {}): UtilityModel[] {
+  return (index.utilities ?? []).filter((u) => {
+    if (filter.module && u.module !== filter.module) return false;
+    if (filter.kind && u.kind !== filter.kind) return false;
+    return true;
+  });
+}
+
+/** Resolve by id (`copy-to-clipboard`) or by the exported name (`copyToClipboard`). */
+export function getUtility(idOrName: string): UtilityModel | undefined {
+  const q = idOrName.trim();
+  const lower = q.toLowerCase();
+  return listUtilities().find(
+    (u) => u.id === lower || u.name === q || u.name.toLowerCase() === lower
+  );
+}
+
+export function getUtilityDoc(module: string): UtilityDocModel | undefined {
+  return (index.utilityDocs ?? []).find((d) => d.module === module);
+}
+
+export type SearchKind = 'component' | 'token' | 'theme' | 'guideline' | 'utility';
 export type SearchHit = { kind: SearchKind; id: string; label: string; snippet: string };
 
 /** Keyword/substring search across the index (semantic is a later drop-in). */
@@ -114,7 +148,12 @@ export function search(query: string, kind?: SearchKind): SearchHit[] {
     for (const c of index.components) {
       const apiNames = frameworksFor(c).flatMap((f) => c.bindings[f]!.api.map((a) => a.name));
       if (match(c.id, c.name, c.summary, c.description, c.category, ...apiNames)) {
-        hits.push({ kind: 'component', id: c.id, label: c.name, snippet: c.summary || c.description.slice(0, 120) });
+        hits.push({
+          kind: 'component',
+          id: c.id,
+          label: c.name,
+          snippet: c.summary || c.description.slice(0, 120),
+        });
       }
     }
   }
@@ -132,11 +171,29 @@ export function search(query: string, kind?: SearchKind): SearchHit[] {
       }
     }
   }
+  if (!kind || kind === 'utility') {
+    for (const u of index.utilities ?? []) {
+      const memberNames = u.members.map((m) => m.name);
+      if (match(u.id, u.name, u.module, u.summary, u.description, ...memberNames)) {
+        hits.push({
+          kind: 'utility',
+          id: u.id,
+          label: `${u.name} (${u.module})`,
+          snippet: u.summary || u.signature,
+        });
+      }
+    }
+  }
   if (!kind || kind === 'guideline') {
     for (const c of index.components) {
       const g = c.guidelines;
       if (match(g.whenToUse, ...g.dos, ...g.donts, ...g.accessibility)) {
-        hits.push({ kind: 'guideline', id: c.id, label: `${c.name} guidelines`, snippet: g.whenToUse.slice(0, 120) });
+        hits.push({
+          kind: 'guideline',
+          id: c.id,
+          label: `${c.name} guidelines`,
+          snippet: g.whenToUse.slice(0, 120),
+        });
       }
     }
   }
@@ -188,18 +245,21 @@ export function formatComponent(c: ComponentModel, framework?: Framework): strin
     out.push(`\n**API**\n${formatApiTable(b)}`);
   }
 
-  if (c.relatedTokens.length) out.push(`\n**Related tokens:** ${c.relatedTokens.map((t) => `\`${t}\``).join(', ')}`);
+  if (c.relatedTokens.length)
+    out.push(`\n**Related tokens:** ${c.relatedTokens.map((t) => `\`${t}\``).join(', ')}`);
   if (c.examples.length) {
     const ex = c.examples[0];
     out.push(`\n**Example - ${ex.title} (${ex.framework})**\n\`\`\`html\n${ex.code}\n\`\`\``);
-    if (c.examples.length > 1) out.push(`_+${c.examples.length - 1} more via get-component-examples._`);
+    if (c.examples.length > 1)
+      out.push(`_+${c.examples.length - 1} more via get-component-examples._`);
   }
   return out.join('\n');
 }
 
 export function formatExamples(c: ComponentModel, framework?: Framework): string {
   const examples = framework ? c.examples.filter((e) => e.framework === framework) : c.examples;
-  if (!examples.length) return `No examples found for \`${c.id}\`${framework ? ` (${framework})` : ''}.`;
+  if (!examples.length)
+    return `No examples found for \`${c.id}\`${framework ? ` (${framework})` : ''}.`;
   const blocks = examples.map((e) => {
     const link = e.storybookUrl ? `\n[Open in Storybook](${e.storybookUrl})` : '';
     return `### ${e.title} _(${e.framework})_\n\`\`\`html\n${e.code}\n\`\`\`${link}`;
@@ -250,7 +310,11 @@ export function formatTheme(t: ThemeTemplateModel): string {
   out.push('\n## Component options (-> component inputs/props)');
   out.push('_Behavioral preferences. Pass as inputs/props, not CSS._');
   for (const [component, opts] of Object.entries(t.componentOptions)) {
-    out.push(`- **${component}**: ${Object.entries(opts).map(([k, v]) => `\`${k}=${v}\``).join(', ')}`);
+    out.push(
+      `- **${component}**: ${Object.entries(opts)
+        .map(([k, v]) => `\`${k}=${v}\``)
+        .join(', ')}`
+    );
   }
   if (t.usage) out.push(`\n## How to apply\n${t.usage}`);
   return out.join('\n');
@@ -259,12 +323,14 @@ export function formatTheme(t: ThemeTemplateModel): string {
 export function formatGuidelines(c: ComponentModel): string {
   const g = c.guidelines;
   const has = g.whenToUse || g.dos.length || g.donts.length || g.accessibility.length;
-  if (!has) return `No authored guidelines yet for \`${c.id}\`. (Author them in the component's MDX.)`;
+  if (!has)
+    return `No authored guidelines yet for \`${c.id}\`. (Author them in the component's MDX.)`;
   const out: string[] = [`# ${c.name} - guidelines`];
   if (g.whenToUse) out.push(`\n**When to use**\n${g.whenToUse}`);
   if (g.dos.length) out.push(`\n**Do**\n${g.dos.map((d) => `- ${d}`).join('\n')}`);
   if (g.donts.length) out.push(`\n**Don't**\n${g.donts.map((d) => `- ${d}`).join('\n')}`);
-  if (g.accessibility.length) out.push(`\n**Accessibility**\n${g.accessibility.map((a) => `- ${a}`).join('\n')}`);
+  if (g.accessibility.length)
+    out.push(`\n**Accessibility**\n${g.accessibility.map((a) => `- ${a}`).join('\n')}`);
   return out.join('\n');
 }
 
@@ -291,21 +357,70 @@ function formatRelease(r: ReleaseModel, full: boolean): string {
 export function formatChangelog(cl: PackageChangelogModel, scope: ChangelogScope = {}): string {
   const releases = selectReleases(cl, scope);
   if (!releases.length) {
-    const wanted = scope.version ? `release matching \`${scope.version}\`` : `releases after \`${scope.since}\``;
+    const wanted = scope.version
+      ? `release matching \`${scope.version}\``
+      : `releases after \`${scope.since}\``;
     return `No ${wanted} found for ${cl.package}. Latest release: ${cl.releases[0]?.version ?? 'none'}.`;
   }
   const full = Boolean(scope.version || scope.since);
   const shown = full ? releases : releases.slice(0, 15);
   const out = [`# ${cl.package} — release notes`, ...shown.map((r) => formatRelease(r, full))];
   if (shown.length < releases.length) {
-    out.push(`_...and ${releases.length - shown.length} older releases. Pass \`version\` or \`since\` to scope._`);
+    out.push(
+      `_...and ${releases.length - shown.length} older releases. Pass \`version\` or \`since\` to scope._`
+    );
   }
   return out.join('\n\n');
 }
 
 export function formatSearch(query: string, hits: SearchHit[]): string {
   if (!hits.length) return `No results for "${query}".`;
-  const rows = hits.slice(0, 40).map((h) => `- _[${h.kind}]_ **${h.label}** \`${h.id}\` - ${h.snippet}`);
-  const more = hits.length > 40 ? `\n\n_...and ${hits.length - 40} more. Narrow with \`kind\`._` : '';
+  const rows = hits
+    .slice(0, 40)
+    .map((h) => `- _[${h.kind}]_ **${h.label}** \`${h.id}\` - ${h.snippet}`);
+  const more =
+    hits.length > 40 ? `\n\n_...and ${hits.length - 40} more. Narrow with \`kind\`._` : '';
   return `# Search: "${query}" (${hits.length})\n\n${rows.join('\n')}${more}`;
+}
+
+// ---------------------------------------------------------------------------
+// CDK utility formatters
+// ---------------------------------------------------------------------------
+
+/** Grouped by module so the inventory reads as the CDK is organized. */
+export function formatUtilityList(utilities: UtilityModel[]): string {
+  if (!utilities.length) return 'No utilities match that filter.';
+  const byModule = new Map<string, UtilityModel[]>();
+  for (const u of utilities) byModule.set(u.module, [...(byModule.get(u.module) ?? []), u]);
+  const out = [
+    `# Uni CDK utilities (${utilities.length})`,
+    '',
+    'Import every symbol from `@uni-design-system/uni-angular`.',
+  ];
+  for (const [module, list] of byModule) {
+    const doc = getUtilityDoc(module);
+    out.push(`\n## ${module}${doc ? ` — ${doc.title}` : ''}`);
+    for (const u of list)
+      out.push(`- **${u.name}** \`${u.id}\` _(${u.kind})_${u.summary ? ` - ${u.summary}` : ''}`);
+  }
+  return out.join('\n');
+}
+
+export function formatUtility(u: UtilityModel): string {
+  const out: string[] = [`# ${u.name} \`${u.id}\``];
+  out.push(`_${u.kind} · cdk/${u.module} · Uni v${u.version}_`);
+  if (u.description) out.push(`\n${u.description}`);
+  out.push(`\n- import: \`import { ${u.name} } from '${u.importPath}';\``);
+  out.push(`\n\`\`\`ts\n${u.signature}\n\`\`\``);
+  if (u.members.length) {
+    out.push('\n**Members**');
+    for (const m of u.members)
+      out.push(`- \`${m.signature}\`${m.description ? ` - ${m.description}` : ''}`);
+  }
+  const siblings = listUtilities({ module: u.module }).filter((s) => s.id !== u.id);
+  if (siblings.length)
+    out.push(`\n**Same module:** ${siblings.map((s) => `\`${s.name}\``).join(', ')}`);
+  const doc = getUtilityDoc(u.module);
+  if (doc) out.push(`\n---\n\n_From the ${doc.title} docs page:_\n\n${doc.markdown}`);
+  return out.join('\n');
 }

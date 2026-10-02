@@ -125,3 +125,58 @@ describe('createUniServer', () => {
     await client.close();
   });
 });
+
+describe('CDK utilities', () => {
+  it('registers the utility tools and lists the CDK grouped by module', async () => {
+    const client = await connect();
+    const { tools } = await client.listTools();
+    const names = tools.map((t) => t.name);
+    expect(names).toContain('list-utilities');
+    expect(names).toContain('get-utility');
+
+    const list = textOf(
+      await client.callTool({ name: 'list-utilities', arguments: { module: 'clipboard' } })
+    );
+    expect(list).toContain('## clipboard');
+    expect(list).toContain('**copyToClipboard** `copy-to-clipboard`');
+    expect(list).not.toContain('## number');
+    await client.close();
+  });
+
+  it('answers get-utility by id or exported name, with the module docs attached', async () => {
+    const client = await connect();
+    const byId = textOf(
+      await client.callTool({ name: 'get-utility', arguments: { id: 'copy-to-clipboard' } })
+    );
+    const byName = textOf(
+      await client.callTool({ name: 'get-utility', arguments: { id: 'copyToClipboard' } })
+    );
+    expect(byName).toBe(byId);
+    expect(byId).toContain("import { copyToClipboard } from '@uni-design-system/uni-angular';");
+    expect(byId).toContain(
+      'function copyToClipboard(content: ClipboardContent): Promise<ClipboardCopyResult>'
+    );
+    expect(byId).toContain('**Same module:** `ClipboardCopyResult`');
+    expect(byId).toContain('## Copying rich content');
+
+    const missing = textOf(
+      await client.callTool({ name: 'get-utility', arguments: { id: 'nope' } })
+    );
+    expect(missing).toContain('No utility found');
+    await client.close();
+  });
+
+  it('finds utilities through search and serves them as resources', async () => {
+    const client = await connect();
+    const hits = textOf(
+      await client.callTool({ name: 'search', arguments: { query: 'clipboard', kind: 'utility' } })
+    );
+    expect(hits).toContain('_[utility]_ **copyToClipboard (clipboard)**');
+
+    const resource = await client.readResource({ uri: 'uni://utilities/permission-service' });
+    expect((resource.contents[0] as { text?: string }).text).toContain(
+      '# PermissionService `permission-service`'
+    );
+    await client.close();
+  });
+});

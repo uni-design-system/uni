@@ -86,7 +86,8 @@ const RuntimeThemeOutput = {
  * ~14 KB of theme JSON would double the cost of every call.
  */
 function runtimeTheme(result: BuildResult) {
-  if (!result.ok) return { content: [{ type: 'text' as const, text: result.error }], isError: true };
+  if (!result.ok)
+    return { content: [{ type: 'text' as const, text: result.error }], isError: true };
   return {
     content: [{ type: 'text' as const, text: summarizeEnvelope(result.envelope) }],
     structuredContent: result.envelope as unknown as Record<string, unknown>,
@@ -108,13 +109,17 @@ export function createUniServer(): McpServer {
         'recalling component APIs or token values from memory: names, props, and tokens ' +
         'here match the exact Uni release the developer installed. Start with ' +
         '`list-components` or `search`, then `get-component` / `get-component-examples`. ' +
+        'The CDK — the non-visual half of uni-angular (clipboard, permissions, timers, ' +
+        'local storage, notifications, datasources, exact decimal math, overlay and focus ' +
+        'helpers) — is covered by `list-utilities` and `get-utility`; reach for those before ' +
+        'hand-rolling a browser API call. ' +
         'Use real token ids (via `list-tokens`) instead of raw hex. Theming has four tools, ' +
         'split by what you need: to brand an app permanently, call `generate-uni-theme` once ' +
         'and write the returned static `uni-theme.ts` — then change look and feel by editing ' +
         "that file's tokens directly, since shared tokens propagate everywhere; to apply a " +
         'theme immediately with no build step (previews, per-tenant theming, generated UI), ' +
         'call `generate-runtime-theme` or `get-runtime-theme` and register the JSON they ' +
-        'return; to read a theme\'s token values without applying one, use `get-theme-template`. ' +
+        "return; to read a theme's token values without applying one, use `get-theme-template`. " +
         'Never inline `<svg>` in a component: when you meet inline SVG, or a brand icon set ' +
         'to import, call `create-icon-tokens` to convert it into theme icon tokens, add them ' +
         'to `uni-theme.ts`, and render with `<uni-icon name="…" />`. For release questions ' +
@@ -172,6 +177,45 @@ export function createUniServer(): McpServer {
     async ({ id, framework }) => {
       const c = store.getComponent(id);
       return c ? text(store.formatExamples(c, framework)) : notFound('component', id);
+    }
+  );
+
+  // -- list-utilities --------------------------------------------------------
+  server.registerTool(
+    'list-utilities',
+    {
+      title: 'List Uni CDK utilities',
+      description:
+        'Inventory of the CDK — the non-visual exports of uni-angular: functions, injectable ' +
+        'services, classes and types, grouped by module (clipboard, permission, timer, ' +
+        'local-storage, notification, datasource, number, datetime, overlay, a11y, …). ' +
+        'Filter by module or kind.',
+      inputSchema: {
+        module: z
+          .string()
+          .optional()
+          .describe('CDK folder, e.g. "clipboard", "number", "datasource"'),
+        kind: z.enum(['function', 'service', 'class', 'interface', 'type', 'const']).optional(),
+      },
+    },
+    async ({ module, kind }) => text(store.formatUtilityList(store.listUtilities({ module, kind })))
+  );
+
+  // -- get-utility -----------------------------------------------------------
+  server.registerTool(
+    'get-utility',
+    {
+      title: 'Get a Uni CDK utility',
+      description:
+        'Full reference for one CDK export: description, import line, signature, members ' +
+        "(for services and interfaces), the other symbols in its module, and the module's " +
+        'docs page with usage examples. Accepts the id ("copy-to-clipboard") or the ' +
+        'exported name ("copyToClipboard").',
+      inputSchema: { id: z.string().describe('utility id or exported name') },
+    },
+    async ({ id }) => {
+      const u = store.getUtility(id);
+      return u ? text(store.formatUtility(u)) : notFound('utility', id);
     }
   );
 
@@ -294,10 +338,7 @@ export function createUniServer(): McpServer {
           .enum(['sharp', 'modern', 'playful'])
           .optional()
           .describe('Shape language — sets the radii scale on the returned themes.'),
-        darkMode: z
-          .boolean()
-          .optional()
-          .describe('Include the dark theme too. Defaults to true.'),
+        darkMode: z.boolean().optional().describe('Include the dark theme too. Defaults to true.'),
       },
       outputSchema: RuntimeThemeOutput,
     },
@@ -338,7 +379,8 @@ export function createUniServer(): McpServer {
     },
     async ({ theme }) => {
       const result = buildDtcgTokens(theme);
-      if (!result.ok) return { content: [{ type: 'text' as const, text: result.error }], isError: true };
+      if (!result.ok)
+        return { content: [{ type: 'text' as const, text: result.error }], isError: true };
       return text('```json\n' + result.json + '\n```');
     }
   );
@@ -390,22 +432,30 @@ export function createUniServer(): McpServer {
       description:
         'Release notes for the Uni packages, from their changesets changelogs. Answers ' +
         '"what changed in X?" and "what do I get by upgrading?". Pass `version` for one ' +
-        "release's full notes (\"8.1\" matches every 8.1.x), `since` for the full notes of " +
+        'release\'s full notes ("8.1" matches every 8.1.x), `since` for the full notes of ' +
         'every release after an installed version (an upgrade diff), or neither for a ' +
         'compact release list.',
       inputSchema: {
         package: z
           .string()
           .optional()
-          .describe('npm name or short name, e.g. "uni-angular" (default), "uni-core", "uni-react", "uni-mcp".'),
+          .describe(
+            'npm name or short name, e.g. "uni-angular" (default), "uni-core", "uni-react", "uni-mcp".'
+          ),
         version: z.string().optional().describe('One release, e.g. "8.1.0" or "8.1".'),
-        since: z.string().optional().describe('Every release newer than this version, e.g. the installed "8.0.0".'),
+        since: z
+          .string()
+          .optional()
+          .describe('Every release newer than this version, e.g. the installed "8.0.0".'),
       },
     },
     async ({ package: pkg, version, since }) => {
       const cl = store.getChangelog(pkg);
       if (!cl) {
-        const known = store.listChangelogs().map((c) => `\`${c.package}\``).join(', ');
+        const known = store
+          .listChangelogs()
+          .map((c) => `\`${c.package}\``)
+          .join(', ');
         return text(`No changelog for \`${pkg}\`. Known packages: ${known}.`);
       }
       return text(store.formatChangelog(cl, { version, since }));
@@ -418,10 +468,10 @@ export function createUniServer(): McpServer {
     {
       title: 'Search the design system',
       description:
-        'Keyword search across components, tokens, themes, and guidelines. Narrow with `kind`.',
+        'Keyword search across components, CDK utilities, tokens, themes, and guidelines. Narrow with `kind`.',
       inputSchema: {
         query: z.string(),
-        kind: z.enum(['component', 'token', 'theme', 'guideline']).optional(),
+        kind: z.enum(['component', 'utility', 'token', 'theme', 'guideline']).optional(),
       },
     },
     async ({ query, kind }) => text(store.formatSearch(query, store.search(query, kind)))
@@ -470,6 +520,36 @@ function registerResources(server: McpServer): void {
             uri: uri.href,
             mimeType: 'text/markdown',
             text: c ? store.formatComponent(c) : `Unknown component: ${id}`,
+          },
+        ],
+      };
+    }
+  );
+
+  server.registerResource(
+    'utility',
+    new ResourceTemplate('uni://utilities/{id}', {
+      list: async () => ({
+        resources: store.listUtilities().map((u) => ({
+          uri: `uni://utilities/${u.id}`,
+          name: u.name,
+          description: u.summary || u.signature,
+        })),
+      }),
+    }),
+    {
+      title: 'Uni CDK utility',
+      description: 'A CDK utility reference card, with its module docs.',
+      mimeType: 'text/markdown',
+    },
+    async (uri, { id }) => {
+      const u = store.getUtility(String(id));
+      return {
+        contents: [
+          {
+            uri: uri.href,
+            mimeType: 'text/markdown',
+            text: u ? store.formatUtility(u) : `Unknown utility: ${id}`,
           },
         ],
       };

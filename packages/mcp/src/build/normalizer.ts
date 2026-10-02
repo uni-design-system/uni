@@ -11,8 +11,11 @@ import type {
   PackageChangelogModel,
   ThemeTemplateModel,
   TokenModel,
+  UtilityDocModel,
+  UtilityModel,
 } from '../schema.js';
 import type { ComponentFragment } from './angular-adapter.js';
+import type { UtilityFragment } from './cdk-adapter.js';
 import type { MdxGuidelines } from './mdx-adapter.js';
 import type { StorybookExample } from './storybook-adapter.js';
 
@@ -25,6 +28,8 @@ export type NormalizeInput = {
   themes: ThemeTemplateModel[];
   guidelines?: Map<string, MdxGuidelines>;
   changelogs?: PackageChangelogModel[];
+  utilities?: UtilityFragment[];
+  utilityDocs?: UtilityDocModel[];
 };
 
 export function normalize(input: NormalizeInput): UniIndex {
@@ -48,7 +53,7 @@ export function normalize(input: NormalizeInput): UniIndex {
 
   const components: ComponentModel[] = input.angular.map((frag) => {
     const examples = (examplesByComponent.get(frag.id) ?? []).map(
-      ({ componentId: _drop, ...ex }) => ex,
+      ({ componentId: _drop, ...ex }) => ex
     );
     return {
       id: frag.id,
@@ -70,6 +75,11 @@ export function normalize(input: NormalizeInput): UniIndex {
     } satisfies ComponentModel;
   });
 
+  const utilities: UtilityModel[] = (input.utilities ?? []).map((u) => ({
+    ...u,
+    version: input.version,
+  }));
+
   const index = {
     meta: {
       version: input.version,
@@ -80,12 +90,15 @@ export function normalize(input: NormalizeInput): UniIndex {
         tokens: input.tokens.length,
         themes: input.themes.length,
         examples: input.examples.length,
+        utilities: utilities.length,
       },
     },
     components,
     tokens: input.tokens,
     themes: input.themes,
     changelogs: input.changelogs ?? [],
+    utilities,
+    utilityDocs: input.utilityDocs ?? [],
   };
 
   // Validate — throws with a precise path on any violation.

@@ -131,6 +131,45 @@ export const PackageChangelogModel = z.object({
 });
 export type PackageChangelogModel = z.infer<typeof PackageChangelogModel>;
 
+/** One documented member of a utility: a class method, a property, or an interface field. */
+export const UtilityMemberModel = z.object({
+  name: z.string(),
+  kind: z.enum(['method', 'property']),
+  /** The declaration as written, e.g. `isAllowed(permission: Permission): Promise<boolean>`. */
+  signature: z.string(),
+  description: z.string().default(''),
+});
+export type UtilityMemberModel = z.infer<typeof UtilityMemberModel>;
+
+/**
+ * One public symbol of the CDK — the non-visual half of `uni-angular`:
+ * functions, injectable services, classes, and the types they take and return.
+ * Symbols are grouped by `module`, the CDK folder they live in, which is also
+ * the unit the docs page and the `uni://utilities/{module}` resource describe.
+ */
+export const UtilityModel = z.object({
+  id: z.string(), // "copy-to-clipboard"
+  name: z.string(), // "copyToClipboard"
+  kind: z.enum(['function', 'service', 'class', 'interface', 'type', 'const']),
+  module: z.string(), // "clipboard"
+  importPath: z.string(),
+  /** The declaration without its body, e.g. `function copyToClipboard(content: ClipboardContent): Promise<ClipboardCopyResult>`. */
+  signature: z.string(),
+  summary: z.string().default(''),
+  description: z.string().default(''),
+  members: z.array(UtilityMemberModel).default([]),
+  version: z.string(),
+});
+export type UtilityModel = z.infer<typeof UtilityModel>;
+
+/** A CDK module's authored docs page, as markdown prose and code (JSX stripped). */
+export const UtilityDocModel = z.object({
+  module: z.string(),
+  title: z.string(),
+  markdown: z.string(),
+});
+export type UtilityDocModel = z.infer<typeof UtilityDocModel>;
+
 export const IndexMeta = z.object({
   /** Uni release this index was built from. */
   version: z.string(),
@@ -141,6 +180,7 @@ export const IndexMeta = z.object({
     tokens: z.number(),
     themes: z.number(),
     examples: z.number(),
+    utilities: z.number().default(0),
   }),
 });
 export type IndexMeta = z.infer<typeof IndexMeta>;
@@ -151,5 +191,7 @@ export const UniIndex = z.object({
   tokens: z.array(TokenModel),
   themes: z.array(ThemeTemplateModel),
   changelogs: z.array(PackageChangelogModel).default([]),
+  utilities: z.array(UtilityModel).default([]),
+  utilityDocs: z.array(UtilityDocModel).default([]),
 });
 export type UniIndex = z.infer<typeof UniIndex>;
