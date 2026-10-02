@@ -1,5 +1,6 @@
 import { Meta, Title, Story } from '@storybook/addon-docs/blocks';
 import * as Stories from './theme.stories';
+import { DocsTable } from '../blocks/DocsTable';
 
 <Meta of={Stories} name="Theme" />
 <Title />
@@ -67,7 +68,9 @@ from the `generate-runtime-theme` / `get-runtime-theme` MCP tools, or the
 theme registry the MCP server hosts:
 
 ```ts
-const { themes } = await fetch('https://uni-mcp.onrender.com/themes/DarkTheme.json').then((r) => r.json());
+const { themes } = await fetch('https://uni-mcp.onrender.com/themes/DarkTheme.json').then((r) =>
+  r.json()
+);
 const result = themeService.registerTheme(themes[0].theme, { select: true });
 if (!result.success) console.warn(result.issues);
 ```
@@ -137,15 +140,23 @@ control snaps, a larger free-floating surface settles, content growing in
 place eases at both ends, a transient message arrives under its own steam, and
 a control answering a pointer should feel immediate:
 
-| Token          | Default            | Used by                                       |
-| -------------- | ------------------ | --------------------------------------------- |
-| `popup`        | 100ms linear, ×0.8 | dropdown, menu, multi-select, combobox, search-input, tag-input, time-input |
-| `panel`        | 250ms ease         | popover, callout                              |
-| `reveal`       | 350ms ease-in-out  | expand, expand-toggle                         |
-| `notification` | 350ms ease-in-out  | alert, snackbar                               |
-| `control`      | 300ms ease         | radio, menu-item                              |
+<DocsTable
+  head={['Token', 'Default', 'Used by']}
+  codeColumns={[0]}
+  rows={[
+    [
+      'popup',
+      '100ms linear, ×0.8',
+      'dropdown, menu, multi-select, combobox, search-input, tag-input, time-input',
+    ],
+    ['panel', '250ms ease', 'popover, callout'],
+    ['reveal', '350ms ease-in-out', 'expand, expand-toggle'],
+    ['notification', '350ms ease-in-out', 'alert, snackbar'],
+    ['control', '300ms ease', 'radio, menu-item'],
+  ]}
+/>
 
-`reveal` is a *base* speed rather than a final duration: `uni-expand` scales it
+`reveal` is a _base_ speed rather than a final duration: `uni-expand` scales it
 by content height (√-of-height, clamped) so a short region stays snappy and a
 tall one isn't rushed, and `uni-expand-toggle` reads the same token so the
 chevron turns on the region's clock.
@@ -202,7 +213,7 @@ edit.
 
 ### Variants are intents
 
-A variant names *what an action means*; the theme decides how that reads. So the
+A variant names _what an action means_; the theme decides how that reads. So the
 set is not ours to fix — a design system needs its own vocabulary, and
 `Variant` is an open registry you extend by declaration merging:
 
@@ -223,7 +234,7 @@ you. Style it like any other variant, under `components.<name>.variants`.
 
 **The registry extends; it cannot replace.** Declaration merging has no way to
 remove a member, so Uni's twelve names stay legal in your app. If you need to
-*enforce* a house set, that is a lint rule rather than a type.
+_enforce_ a house set, that is a lint rule rather than a type.
 
 Two names are reserved and always present: **`primary`**, which every component
 inherits as its default variant, and **`disabled`**, which the disabled state
@@ -234,7 +245,7 @@ resolves to.
 A variant your theme never styled cannot be a compile error once the set is
 open, and the miss would otherwise be silent — an absent style simply spreads to
 nothing. So the theme service says so once per component and variant in dev,
-naming what the theme *does* define, exactly as it does for an unknown spacing
+naming what the theme _does_ define, exactly as it does for an unknown spacing
 token.
 
 ### When the accent is not a single style
