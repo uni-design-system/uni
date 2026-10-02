@@ -4,6 +4,7 @@ import * as Stories from './drawer.stories';
 import { StoryUsage } from '../../../stories/blocks/StoryUsage';
 import { StoryExample } from '../../../stories/blocks/StoryExample';
 import { ThemeOptions } from '../../../stories/blocks/ThemeOptionsBlock';
+import { DocsTable } from '../../../stories/blocks/DocsTable';
 
 <Meta of={Stories} name="Drawer" />
 <Title />
@@ -87,7 +88,7 @@ confirmation, which a synchronous veto could not express:
   [(open)]="open"
   [disableAutoClose]="form.dirty()"
   (closeRequest)="confirmDiscard()"
->
+></uni-drawer>
 ```
 
 ```ts
@@ -110,18 +111,52 @@ usually async and can fail, so the drawer leaves the closing to you: handle
 
 ## Inputs
 
-| Input | Default | Notes |
-| --- | --- | --- |
-| `open` | `false` | Two-way. |
-| `mode` | `'side'` | `'side'` pushes content; `'over'` floats in the top layer. |
-| `position` | `'start'` | Logical edge — `start` is left in LTR. |
-| `width` | theme | Per-instance override of `drawer.behavior.width`. |
-| `headline` | — | Shorthand for a header row with a title. |
-| `defaultCloseButton` | `true` | Whether the header row renders a close button. |
-| `initialFocus` | — | CSS selector, resolved inside the panel when it opens. |
-| `ariaLabel` | — | Only consulted when there is no header to be labelled by. |
-| `scrim` | theme | `false` leaves the page behind undimmed. Still modal. |
-| `disableAutoClose` | `false` | Emit `closeRequest` without acting on it. |
+<DocsTable
+  head={['Input', 'Default', 'Notes']}
+  codeColumns={[0]}
+  rows={[
+    ['open', <code>false</code>, 'Two-way.'],
+    [
+      'mode',
+      <code>'side'</code>,
+      <>
+        <code>'side'</code> pushes content; <code>'over'</code> floats in the top layer.
+      </>,
+    ],
+    [
+      'position',
+      <code>'start'</code>,
+      <>
+        Logical edge — <code>start</code> is left in LTR.
+      </>,
+    ],
+    [
+      'width',
+      'theme',
+      <>
+        Per-instance override of <code>drawer.behavior.width</code>.
+      </>,
+    ],
+    ['headline', '—', 'Shorthand for a header row with a title.'],
+    ['defaultCloseButton', <code>true</code>, 'Whether the header row renders a close button.'],
+    ['initialFocus', '—', 'CSS selector, resolved inside the panel when it opens.'],
+    ['ariaLabel', '—', 'Only consulted when there is no header to be labelled by.'],
+    [
+      'scrim',
+      'theme',
+      <>
+        <code>false</code> leaves the page behind undimmed. Still modal.
+      </>,
+    ],
+    [
+      'disableAutoClose',
+      <code>false</code>,
+      <>
+        Emit <code>closeRequest</code> without acting on it.
+      </>,
+    ],
+  ]}
+/>
 
 ## Timing
 
