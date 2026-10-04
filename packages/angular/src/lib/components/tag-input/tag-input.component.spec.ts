@@ -518,4 +518,275 @@ describe('UniTagInputComponent', () => {
       expect(tabbable).toEqual([field()]);
     });
   });
+
+  describe('suggestion rows', () => {
+    const PEOPLE = [
+      {
+        value: 'alice@uni.dev',
+        label: 'Alice Chen',
+        description: 'Design',
+        avatarName: 'Alice Chen',
+        group: 'On this project',
+      },
+      { value: 'bob@uni.dev', label: 'Bob Ferrari', group: 'On this project' },
+      { value: 'carol@uni.dev', label: 'Carol Nwosu', group: 'Other contacts' },
+    ];
+
+    beforeEach(() => setInputs({ suggestions: PEOPLE }));
+
+    it('paints the description and an initials avatar in the default row', () => {
+      type('a');
+      const row = options()[0];
+
+      expect(row.textContent).toContain('Alice Chen');
+      expect(row.querySelector('.uni-tag-suggestion-description')?.textContent).toContain('Design');
+      // Decorative, so the name is not read twice.
+      expect(row.querySelector('uni-avatar')?.closest('[aria-hidden="true"]')).not.toBeNull();
+    });
+
+    it('puts a presentation heading before the first of each group', () => {
+      type('a');
+      const items = Array.from(host.querySelectorAll('[role="listbox"] > li'));
+
+      expect(items.map((li) => li.getAttribute('role'))).toEqual([
+        'presentation',
+        'option',
+        'option',
+        'presentation',
+        'option',
+      ]);
+      expect(items[0].textContent).toContain('On this project');
+      expect(items[3].textContent).toContain('Other contacts');
+    });
+
+    it('counts options only, so the active id skips headings', () => {
+      type('a');
+      press('ArrowDown');
+      press('ArrowDown');
+      press('ArrowDown');
+
+      const active = field().getAttribute('aria-activedescendant');
+      expect(active).toBe(options()[2].id);
+      expect(options()[2].textContent).toContain('Carol Nwosu');
+    });
+
+    it('copies avatarName from the suggestion onto the chip', () => {
+      type('a');
+      press('ArrowDown');
+      press('Enter');
+
+      expect(fixture.componentInstance.value()[0].avatarName).toBe('Alice Chen');
+    });
+  });
+
+  describe('openOnFocus', () => {
+    const focusField = () => {
+      field().dispatchEvent(new FocusEvent('focus'));
+      fixture.detectChanges();
+    };
+
+    it('stays closed on focus by default', () => {
+      setInputs({ suggestions: [{ value: 'alpha' }] });
+      focusField();
+
+      expect(options().length).toBe(0);
+    });
+
+    it('opens on focus and on click when set', () => {
+      setInputs({ suggestions: [{ value: 'alpha' }, { value: 'beta' }], openOnFocus: true });
+      focusField();
+      expect(options().length).toBe(2);
+
+      press('Escape');
+      expect(options().length).toBe(0);
+
+      field().dispatchEvent(new MouseEvent('click'));
+      fixture.detectChanges();
+      expect(options().length).toBe(2);
+    });
+
+    it('keeps offering who is left after a pick', () => {
+      setInputs({ suggestions: [{ value: 'alpha' }, { value: 'beta' }], openOnFocus: true });
+      focusField();
+      options()[0].click();
+      fixture.detectChanges();
+
+      expect(values()).toEqual(['alpha']);
+      expect(options().map((o) => o.textContent?.trim())).toEqual(['beta']);
+    });
+  });
+
+  describe('autoHighlight', () => {
+    beforeEach(() =>
+      setInputs({
+        preset: 'email',
+        autoHighlight: true,
+        suggestions: [{ value: 'alice@uni.dev', label: 'Alice Chen' }],
+      })
+    );
+
+    it('activates the first suggestion as the user types', () => {
+      type('ali');
+
+      expect(field().getAttribute('aria-activedescendant')).toBe(options()[0].id);
+    });
+
+    it('Enter picks the highlighted suggestion for text that is not yet a value', () => {
+      type('ali');
+      press('Enter');
+
+      expect(values()).toEqual(['alice@uni.dev']);
+    });
+
+    it('Tab picks it too, and keeps focus in the field', () => {
+      type('ali');
+      const event = press('Tab');
+
+      expect(values()).toEqual(['alice@uni.dev']);
+      expect(event.defaultPrevented).toBe(true);
+    });
+
+    it('a typed address that is already valid commits as typed', () => {
+      type('zed@uni.dev');
+      press('Enter');
+
+      expect(values()).toEqual(['zed@uni.dev']);
+    });
+  });
+
+  describe('backspaceRemoves', () => {
+    beforeEach(() =>
+      setInputs({ backspaceRemoves: true, value: [{ value: 'alpha' }, { value: 'beta' }] })
+    );
+
+    it('removes the last tag from an empty field and announces it', () => {
+      press('Backspace');
+
+      expect(values()).toEqual(['alpha']);
+      expect(host.querySelector('[role="status"]')?.textContent).toContain('beta removed');
+    });
+
+    it('describes the one-step removal in the hint', () => {
+      const describedBy = field().getAttribute('aria-describedby')!.split(' ').pop()!;
+
+      expect(host.querySelector(`#${describedBy}`)?.textContent).toContain('remove the last entry');
+    });
+  });
+
+  describe('keepInvalidText', () => {
+    let rejections: unknown[];
+
+    beforeEach(() => {
+      rejections = [];
+      fixture.componentInstance.rejected.subscribe((r) => rejections.push(r));
+      setInputs({ preset: 'email', keepInvalidText: true });
+    });
+
+    it('refuses an invalid draft, keeps it in the field and says why', () => {
+      type('bad');
+      press('Enter');
+
+      expect(values()).toEqual([]);
+      expect(field().value).toBe('bad');
+      expect(rejections).toEqual([{ raw: 'bad', reason: 'invalid' }]);
+    });
+
+    it('lets a space through while the text is not yet an address', () => {
+      type('ada lo');
+      const event = press(' ');
+
+      expect(event.defaultPrevented).toBe(false);
+      expect(rejections).toEqual([]);
+    });
+
+    it('holds focus on Tab when the draft was refused', () => {
+      type('bad');
+
+      expect(press('Tab').defaultPrevented).toBe(true);
+    });
+
+    it('still commits a valid address', () => {
+      type('zed@uni.dev');
+      press('Enter');
+
+      expect(values()).toEqual(['zed@uni.dev']);
+      expect(field().value).toBe('');
+    });
+  });
+
+  describe('unframed', () => {
+    it('renders the bare chip row without the field chrome', () => {
+      setInputs({ unframed: true, value: [{ value: 'alpha' }] });
+
+      expect(host.querySelector('uni-input-box')).toBeNull();
+      expect(chips().length).toBe(1);
+      expect(field()).not.toBeNull();
+    });
+
+    it('grows into the space its layout offers', () => {
+      setInputs({ unframed: true });
+
+      expect(getComputedStyle(host).flexGrow).toBe('1');
+      expect(getComputedStyle(field()).width).toBe('100%');
+    });
+
+    it('focuses the input from a press on any blank part of the field', () => {
+      setInputs({ unframed: true, value: [{ value: 'alpha' }] });
+      const blank = host.querySelector('div')!;
+      const event = new MouseEvent('mousedown', { bubbles: true, cancelable: true });
+      blank.dispatchEvent(event);
+
+      expect(event.defaultPrevented).toBe(true);
+      expect(document.activeElement).toBe(field());
+    });
+
+    it('leaves a press on a chip to the chip', () => {
+      setInputs({ unframed: true, value: [{ value: 'alpha' }] });
+      const event = new MouseEvent('mousedown', { bubbles: true, cancelable: true });
+      chips()[0].dispatchEvent(event);
+
+      expect(event.defaultPrevented).toBe(false);
+    });
+
+    it('keeps the chrome by default', () => {
+      expect(host.querySelector('uni-input-box')).not.toBeNull();
+    });
+  });
+
+  describe('draftChange and autofill', () => {
+    it('emits the draft on every change, undebounced', () => {
+      const drafts: string[] = [];
+      fixture.componentInstance.draftChange.subscribe((d) => drafts.push(d));
+      type('al');
+      type('alpha');
+      press('Enter');
+
+      expect(drafts).toEqual(['al', 'alpha', '']);
+    });
+
+    it('turns browser autofill off and opts out of password managers', () => {
+      expect(field().getAttribute('autocomplete')).toBe('off');
+      expect(field().hasAttribute('data-1p-ignore')).toBe(true);
+      expect(field().getAttribute('data-lpignore')).toBe('true');
+
+      setInputs({ autocomplete: 'one-time-code' });
+      expect(field().getAttribute('autocomplete')).toBe('one-time-code');
+    });
+  });
+
+  describe('chip theme options', () => {
+    const chipClass = () => chips()[0].className;
+
+    it('defaults chips to the theme entry: primary, soft', () => {
+      setInputs({ value: [{ value: 'alpha' }] });
+
+      expect(chipClass()).toContain('tone-soft');
+    });
+
+    it('lets the tagTone input override the themed tone', () => {
+      setInputs({ value: [{ value: 'alpha' }], tagTone: 'outline' });
+
+      expect(chipClass()).toContain('tone-outline');
+    });
+  });
 });

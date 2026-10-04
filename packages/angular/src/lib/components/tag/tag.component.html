@@ -7,9 +7,9 @@
   } @else if (reservesSlot()) {
     <!-- The check's place, held open so picking a chip never reflows the row. -->
     <span [class]="slotClass()" aria-hidden="true"></span>
-  } @else if (avatarSrc(); as src) {
+  } @else if (showImage()) {
     <span [class]="leadClass()" aria-hidden="true">
-      <img [src]="src" alt="" />
+      <img [src]="avatarSrc()" alt="" (error)="imageFailed.set(true)" />
     </span>
   } @else if (initials(); as text) {
     <span [class]="leadClass()" aria-hidden="true">{{ text }}</span>

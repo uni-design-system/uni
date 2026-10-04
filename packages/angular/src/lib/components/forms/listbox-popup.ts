@@ -7,6 +7,7 @@ import type {
   MotionToken,
   Radius,
   Shadow,
+  Typeface,
 } from '@uni-design-system/uni-core';
 import {
   anchorStyles,
@@ -39,8 +40,7 @@ export const supportsAnchoredPopup = (): boolean =>
     commit), and `auto`'s light-dismiss fires on pointerdown outside the
     popup — which includes their own field, closing the list behind the
     component's back on every click into the input. */
-export const listboxPopupAttr = (): 'manual' | null =>
-  supportsAnchoredPopup() ? 'manual' : null;
+export const listboxPopupAttr = (): 'manual' | null => (supportsAnchoredPopup() ? 'manual' : null);
 
 /**
  * A document-unique `anchor-name`, plus the style fragment that puts it on the
@@ -109,7 +109,24 @@ export interface UniListboxPopupOptions {
   /** Named motion primitive for the open animation. Defaults to `popup`, the
       same token `uni-dropdown` uses, so every panel in a form opens alike. */
   motion?: Motion;
+  /** Option text role. Defaults to `label`; a theme whose `label` is a caps
+      eyebrow re-points this at a body role instead. */
+  typeface?: Typeface;
+  /** Group heading text role (`role="presentation"` rows). Defaults to `caption`. */
+  headingTypeface?: Typeface;
+  /**
+   * Popup width. `anchor` (the default) matches the field; a length — a
+   * number is px — is left-aligned on the field and clamped by its width, so
+   * a short list under a wide field does not span the whole row.
+   */
+  listWidth?: 'anchor' | string | number;
 }
+
+/** `listWidth` as a CSS length, or undefined when the popup tracks its field. */
+const listWidthOf = (width: UniListboxPopupOptions['listWidth']): string | undefined => {
+  if (width === undefined || width === 'anchor') return undefined;
+  return typeof width === 'number' ? `${width}px` : width;
+};
 
 /**
  * The anchored half: the popup in the top layer, tracked to its field by the
@@ -130,10 +147,14 @@ export interface UniListboxPopupOptions {
  * yields the anchor's border-box width, which the base rules' padding would
  * otherwise widen by 8px.
  */
-const anchoredPopupStyles = (anchor: string, motion: MotionToken): CSSObject => ({
+const anchoredPopupStyles = (
+  anchor: string,
+  motion: MotionToken,
+  listWidth?: string
+): CSSObject => ({
   ...anchorStyles(anchor, 'bottom-start', { mainAxis: 4 }),
   positionTryFallbacks: 'flip-block',
-  width: 'anchor-size(width)',
+  width: listWidth ? `min(${listWidth}, anchor-size(width))` : 'anchor-size(width)',
   boxSizing: 'border-box',
   border: 'none',
   // Grows out of the field's bottom edge; corrected after measuring when the
@@ -174,31 +195,50 @@ export const listboxPopupStyles = (
   theme: ThemeService,
   options: UniListboxPopupOptions,
   { maxHeight = 280, anchor }: { maxHeight?: number; anchor?: string } = {}
-): CSSObject => ({
-  position: 'absolute',
-  top: '100%',
-  left: 0,
-  right: 0,
-  zIndex: 20,
-  margin: '4px 0 0',
-  padding: 4,
-  listStyle: 'none',
-  maxHeight,
-  overflowY: 'auto',
-  ...theme.colorPair((options.listColor ?? 'primary-surface') as ContainerColorToken),
-  ...theme.boxShadow(options.listShadow ?? 'menu'),
-  ...theme.radius(options.listBorderRadius ?? 'xs'),
-  '& [role="option"]': {
-    padding: '8px 12px',
-    cursor: 'pointer',
-    ...theme.typeface('label'),
-    ...theme.radius('xxs'),
-    '&.active, &:not([aria-disabled="true"]):hover': {
-      ...theme.colorPair((options.activeColor ?? 'primary-container') as ContainerColorToken),
+): CSSObject => {
+  const listWidth = listWidthOf(options.listWidth);
+  return {
+    position: 'absolute',
+    top: '100%',
+    left: 0,
+    // A stated width hangs from the field's leading edge; otherwise the popup
+    // spans the field.
+    ...(listWidth
+      ? { width: `min(${listWidth}, 100%)`, boxSizing: 'border-box' as const }
+      : { right: 0 }),
+    zIndex: 20,
+    margin: '4px 0 0',
+    padding: 4,
+    listStyle: 'none',
+    maxHeight,
+    overflowY: 'auto',
+    ...theme.colorPair((options.listColor ?? 'primary-surface') as ContainerColorToken),
+    ...theme.boxShadow(options.listShadow ?? 'menu'),
+    ...theme.radius(options.listBorderRadius ?? 'xs'),
+    '& [role="option"]': {
+      padding: '8px 12px',
+      cursor: 'pointer',
+      ...theme.typeface(options.typeface ?? 'label'),
+      ...theme.radius('xxs'),
+      '&.active, &:not([aria-disabled="true"]):hover': {
+        ...theme.colorPair((options.activeColor ?? 'primary-container') as ContainerColorToken),
+      },
     },
-  },
-  // Last, so the anchored rules win over the in-flow ones they replace.
-  ...(anchor
-    ? { '@supports (position-anchor: --a)': anchoredPopupStyles(anchor, theme.motion(options.motion)) }
-    : {}),
-});
+    // Group headings sit outside the option sequence: no hover, no pointer.
+    '& [role="presentation"]': {
+      padding: '8px 12px 4px',
+      opacity: 0.7,
+      ...theme.typeface(options.headingTypeface ?? 'caption'),
+    },
+    // Last, so the anchored rules win over the in-flow ones they replace.
+    ...(anchor
+      ? {
+          '@supports (position-anchor: --a)': anchoredPopupStyles(
+            anchor,
+            theme.motion(options.motion),
+            listWidth
+          ),
+        }
+      : {}),
+  };
+};

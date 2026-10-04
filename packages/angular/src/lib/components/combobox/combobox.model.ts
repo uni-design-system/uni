@@ -5,6 +5,7 @@ import type {
   IconName,
   Radius,
   Shadow,
+  Typeface,
 } from '@uni-design-system/uni-core';
 
 /** A commit was refused (no match); the field reverted to the committed label. */
@@ -30,7 +31,11 @@ export interface UniComboboxOptions {
   activeColor?: ContainerColorToken;
   /** Scroll height in rows — the list scrolls past this, never truncates. */
   maxVisibleOptions?: number;
-  descriptionColor?: ContentColorToken;  /** Named motion primitive for the suggestion popup's open animation.
+  descriptionColor?: ContentColorToken; /** Named motion primitive for the suggestion popup's open animation.
       Defaults to `popup` — the token `uni-dropdown` uses. */
   motion?: Motion;
+  /** Option text role. Defaults to `label`. */
+  typeface?: Typeface;
+  /** Popup width: `anchor` (default) matches the field; a length is clamped by it. */
+  listWidth?: 'anchor' | string | number;
 }

@@ -1,7 +1,12 @@
 <!-- Keydown/focusout ride the bubbling events from the inner input; the
      wrapper itself stays out of the tab order. -->
 <!-- eslint-disable-next-line @angular-eslint/template/interactive-supports-focus -->
-<div (keydown)="onKeydown($event)" (focusout)="onFocusOut($event)">
+<div
+  (keydown)="onKeydown($event)"
+  (focusin)="onFieldFocus($event)"
+  (click)="onFieldFocus($event)"
+  (focusout)="onFocusOut($event)"
+>
   <uni-debounce-input
     #searchField
     [label]="label()"

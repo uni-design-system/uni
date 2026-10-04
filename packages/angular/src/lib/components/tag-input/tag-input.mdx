@@ -26,10 +26,11 @@ a suggestion. For picking from a fixed list, use `uni-select` or
 
 ```ts
 interface UniTagItem {
-  value: string;      // canonical — what a form submits
-  label?: string;     // display; falls back to value
+  value: string; // canonical — what a form submits
+  label?: string; // display; falls back to value
   avatarSrc?: string;
-  invalid?: boolean;  // failed validate(), kept so it can be fixed
+  avatarName?: string; // initials lead when there is no image
+  invalid?: boolean; // failed validate(), kept so it can be fixed
   disabled?: boolean; // locked token, no remove control
 }
 ```
@@ -47,14 +48,48 @@ user can press Enter on the chip to lift it back into the input and fix it.
 
 <Story of={Stories.InvalidEntry} />
 
-Duplicates and over-`max` entries *are* refused, and report why through
+Duplicates and over-`max` entries _are_ refused, and report why through
 `(rejected)` — `{ raw, reason: 'duplicate' | 'max' | 'invalid' }`.
+
+Where the app would rather show a message than a red chip, set
+`keepInvalidText`: an invalid draft is refused, stays in the field to be
+fixed, and `(rejected)` fires with `reason: 'invalid'`.
 
 ### Suggestions
 
 Same contract as `uni-search-input`: the app filters. Refresh `suggestions`
 from the debounced `(query)` output. Entries already committed are hidden
 automatically.
+
+A row shows the label, the `description` under it, and an avatar when the
+suggestion carries `avatarSrc` or `avatarName`. `group` puts a heading above
+each run of suggestions that share it — the field does not sort, so order them
+yourself. `openOnFocus` shows the list on focus and click, and `autoHighlight`
+keeps the first row active so Enter or Tab picks it.
+
+<Story of={Stories.GroupedSuggestions} />
+
+For anything richer, project a row template. Only the row's content is
+replaced; the field keeps owning the option element and its active state.
+
+<Story of={Stories.SuggestionTemplate} />
+
+For a field of people, `uni-contact-input` packages all of this.
+
+### Unframed
+
+`unframed` drops the border, fill and inset and renders the bare chip row — an
+email client's To line. The surrounding layout draws the hairline and any
+focus cue.
+
+<Story of={Stories.Unframed} />
+
+### Browser autofill
+
+The field has its own suggestions, so it sets `autocomplete="off"` and tells
+password managers to skip it. Chrome can ignore `off` on a field it takes for
+an email or address; if its dropdown still competes with the list, pass
+another token through `autocomplete`.
 
 ### Presets
 
@@ -81,7 +116,9 @@ does clip inside such ancestors.
 Field chrome — colour, border, radius, focus outline — is **not** duplicated
 here. It comes from the `input` entry via `uni-input-box`, so a tag input
 restyles along with every other field. Chip appearance comes from the `tag`
-entry.
+entry; `chipVariant`, `chipTone` and `chipSize` pick which of its variants,
+tones and sizes this field's chips use, and the `tagVariant` / `tagTone` /
+`tagSize` inputs override them per field.
 
 ## Keyboard
 
@@ -94,11 +131,35 @@ recipients to reach the Send button.
 <KeyboardTable
   rows={[
     { keys: 'Enter', does: 'commits the highlighted suggestion, else the typed text' },
-    { keys: [',', ';'], does: <>(and Space for <code>email</code>) commits the typed text</> },
-    { keys: 'Tab', does: 'commits the typed text, then moves on — never traps' },
+    {
+      keys: [',', ';'],
+      does: (
+        <>
+          (and Space for <code>email</code>) commits the typed text
+        </>
+      ),
+    },
+    {
+      keys: 'Tab',
+      does: (
+        <>
+          commits the typed text, then moves on — never traps. With <code>autoHighlight</code> it
+          picks the highlighted suggestion and stays; with <code>keepInvalidText</code> a refused
+          draft holds focus
+        </>
+      ),
+    },
     { keys: ['ArrowDown', 'ArrowUp'], does: 'moves through suggestions' },
     { keys: ['Home', 'End'], does: 'moves the caret within the text' },
-    { keys: 'Backspace', does: <>(empty field) focuses the last chip — does <strong>not</strong> delete it</> },
+    {
+      keys: 'Backspace',
+      does: (
+        <>
+          (empty field) focuses the last chip — does <strong>not</strong> delete it, unless{' '}
+          <code>backspaceRemoves</code> is set
+        </>
+      ),
+    },
     { keys: 'ArrowLeft', does: '(caret at 0) focuses the last chip' },
     { keys: 'Escape', does: 'closes the list; if already closed, clears the typed text' },
     { keys: 'paste', does: 'commits every complete token, leaves an unterminated tail typed' },
@@ -109,11 +170,31 @@ recipients to reach the Send button.
 
 <KeyboardTable
   rows={[
-    { keys: ['ArrowLeft', 'ArrowRight'], does: 'previous / next chip; Right past the last returns to the input' },
+    {
+      keys: ['ArrowLeft', 'ArrowRight'],
+      does: 'previous / next chip; Right past the last returns to the input',
+    },
     { keys: ['Home', 'End'], does: 'first / last chip' },
-    { keys: 'Backspace', does: <>removes it, focus moves <strong>left</strong></> },
-    { keys: 'Delete', does: <>removes it, focus moves <strong>right</strong></> },
-    { keys: ['Enter', 'F2', 'double-click'], does: 'lifts the chip back into the input for editing' },
+    {
+      keys: 'Backspace',
+      does: (
+        <>
+          removes it, focus moves <strong>left</strong>
+        </>
+      ),
+    },
+    {
+      keys: 'Delete',
+      does: (
+        <>
+          removes it, focus moves <strong>right</strong>
+        </>
+      ),
+    },
+    {
+      keys: ['Enter', 'F2', 'double-click'],
+      does: 'lifts the chip back into the input for editing',
+    },
     { keys: 'Escape', does: 'returns focus to the input' },
     { keys: 'any printable key', does: 'returns to the input and starts typing' },
   ]}
@@ -140,4 +221,5 @@ forwards, without the cursor jumping.
 
 - Don't use it to pick from a closed list — that is `uni-multi-select-dropdown`.
 - Don't filter `suggestions` inside the component; drive them from `(query)`.
+- Don't rebuild a people picker on it — `uni-contact-input` already is one.
 - Don't set `preset="email"` for people's names: Space would split them.

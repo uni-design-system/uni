@@ -1,9 +1,12 @@
 <!-- Focusout rides the bubbling event so the list closes only when focus
      leaves the whole field, not while moving between chips and the input. -->
-<div [class]="wrapperClass()" (focusout)="onFocusOut($event)">
-  <!-- The chip row owns the leading inset, so the first chip sits at the
-       field's edge instead of riding its border. -->
-  <uni-input-box [error]="showError()" height="auto" [managedInset]="true">
+<!-- A press on any blank part of the field is a click into the input. -->
+<div
+  [class]="wrapperClass()"
+  (focusout)="onFocusOut($event)"
+  (mousedown)="onFieldMousedown($event)"
+>
+  <ng-template #chipRow>
     <ul [class]="fieldClass()">
       @for (item of value(); track item.value; let i = $index) {
         <!-- The focusable element is the chip's own button; this <li> only
@@ -15,8 +18,11 @@
             [label]="labelOf(item)"
             [value]="item.value"
             [avatarSrc]="item.avatarSrc"
-            [variant]="item.invalid ? 'warn' : tagVariant()"
-            [tone]="tagTone()"
+            [avatarName]="item.avatarName"
+            [variant]="
+              item.invalid ? 'warn' : (tagVariant() ?? componentOptions().chipVariant ?? 'primary')
+            "
+            [tone]="tagTone() ?? componentOptions().chipTone ?? 'soft'"
             [size]="tagSize() ?? componentOptions().chipSize ?? 'md'"
             [invalid]="!!item.invalid"
             [disabled]="!!item.disabled || disabled()"
@@ -28,7 +34,7 @@
         </li>
       }
 
-      <li [class]="inputClass()">
+      <li [class]="inputCellClass()">
         <!-- The field is one tab stop: chips carry tabindex="-1" and are
              entered with Backspace/ArrowLeft, so Tab never walks through
              eight recipients to reach the next control. -->
@@ -36,7 +42,15 @@
           #field
           type="text"
           role="combobox"
-          autocomplete="off"
+          aria-autocomplete="list"
+          data-1p-ignore
+          data-lpignore="true"
+          data-bwignore
+          data-form-type="other"
+          [attr.autocomplete]="autocomplete()"
+          [attr.autocapitalize]="preset() === 'email' ? 'off' : null"
+          [attr.autocorrect]="preset() === 'email' ? 'off' : null"
+          [attr.spellcheck]="preset() === 'email' ? 'false' : null"
           [class]="inputClass()"
           [disabled]="disabled()"
           [placeholder]="placeholder() ?? ''"
@@ -51,10 +65,22 @@
           (input)="onInput($any($event.target).value)"
           (paste)="onPaste($event)"
           (blur)="onBlur()"
+          (focus)="onFieldFocus()"
+          (click)="onFieldFocus()"
         />
       </li>
     </ul>
-  </uni-input-box>
+  </ng-template>
+
+  @if (unframed()) {
+    <ng-container [ngTemplateOutlet]="chipRow" />
+  } @else {
+    <!-- The chip row owns the leading inset, so the first chip sits at the
+         field's edge instead of riding its border. -->
+    <uni-input-box [error]="showError()" height="auto" [managedInset]="true">
+      <ng-container [ngTemplateOutlet]="chipRow" />
+    </uni-input-box>
+  }
 
   @if (list.open()) {
     <ul
@@ -65,29 +91,59 @@
       [attr.aria-label]="label()"
       [class]="listClass()"
     >
-      @for (suggestion of visibleSuggestions(); track suggestion.value; let i = $index) {
-        <!-- eslint-disable-next-line @angular-eslint/template/click-events-have-key-events, @angular-eslint/template/interactive-supports-focus -->
-        <li
-          role="option"
-          [id]="list.optionId(i)"
-          [class.active]="i === list.activeIndex()"
-          [attr.aria-selected]="i === list.activeIndex()"
-          (mousedown)="$event.preventDefault()"
-          (click)="selectSuggestion(suggestion)"
-        >
-          {{ labelOf(suggestion) }}
-          @if (suggestion.description) {
-            <span [class]="srOnly">{{ suggestion.description }}</span>
-          }
-        </li>
+      @for (row of rows(); track row.key) {
+        @if (row.kind === 'heading') {
+          <!-- Outside the option sequence: ids and the active index skip it. -->
+          <li role="presentation">{{ row.text }}</li>
+        } @else {
+          <!-- eslint-disable-next-line @angular-eslint/template/click-events-have-key-events, @angular-eslint/template/interactive-supports-focus -->
+          <li
+            role="option"
+            [id]="list.optionId(row.index)"
+            [class.active]="row.index === list.activeIndex()"
+            [attr.aria-selected]="row.index === list.activeIndex()"
+            (mousedown)="$event.preventDefault()"
+            (click)="selectSuggestion(row.suggestion)"
+          >
+            @if (rowTemplate(); as custom) {
+              <ng-container
+                [ngTemplateOutlet]="custom.template"
+                [ngTemplateOutletContext]="{
+                  $implicit: row.suggestion,
+                  index: row.index,
+                  active: row.index === list.activeIndex(),
+                }"
+              />
+            } @else {
+              <span class="uni-tag-suggestion">
+                @if (row.suggestion.avatarSrc || row.suggestion.avatarName) {
+                  <!-- Decorative: the label beside it already names the row. -->
+                  <span aria-hidden="true">
+                    <uni-avatar
+                      size="sm"
+                      [src]="row.suggestion.avatarSrc"
+                      [name]="row.suggestion.avatarName"
+                    />
+                  </span>
+                }
+                <span class="uni-tag-suggestion-text">
+                  <span>{{ labelOf(row.suggestion) }}</span>
+                  @if (row.suggestion.description) {
+                    <span class="uni-tag-suggestion-description">{{
+                      row.suggestion.description
+                    }}</span>
+                  }
+                </span>
+              </span>
+            }
+          </li>
+        }
       }
     </ul>
   }
 
   <!-- Said once for the whole field, rather than every chip advertising it. -->
-  <span [id]="hintId" [class]="srOnly">
-    Press Backspace to reach the last entry, then Backspace again to remove it.
-  </span>
+  <span [id]="hintId" [class]="srOnly">{{ hint() }}</span>
 
   <!-- Adds and removes are otherwise silent for a screen reader. -->
   <span role="status" aria-live="polite" [class]="srOnly">{{ announcer.message() }}</span>

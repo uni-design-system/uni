@@ -602,4 +602,26 @@ describe('UniComboboxComponent', () => {
       expect(shown).toContain(listbox());
     });
   });
+
+
+  describe('openOnFocus', () => {
+    const focusField = () => {
+      field().dispatchEvent(new FocusEvent('focus'));
+      fixture.detectChanges();
+    };
+
+    it('stays closed on focus by default', () => {
+      focusField();
+
+      expect(expanded()).toBe('false');
+    });
+
+    it('opens the list on focus when set', () => {
+      setInputs({ openOnFocus: true });
+      focusField();
+
+      expect(expanded()).toBe('true');
+      expect(options().length).toBeGreaterThan(0);
+    });
+  });
 });

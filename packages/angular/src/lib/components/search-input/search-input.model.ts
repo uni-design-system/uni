@@ -5,6 +5,7 @@ import type {
   Motion,
   Radius,
   Shadow,
+  Typeface,
 } from '@uni-design-system/uni-core';
 
 /** Theme-level options for `uni-search-input`, resolved by token name. */
@@ -23,7 +24,11 @@ export interface UniSearchInputOptions {
   /** Suggestion list radius token. */
   listBorderRadius?: Radius;
   /** Cap on rendered suggestions. */
-  maxSuggestions?: number;  /** Named motion primitive for the suggestion popup's open animation.
+  maxSuggestions?: number; /** Named motion primitive for the suggestion popup's open animation.
       Defaults to `popup` — the token `uni-dropdown` uses. */
   motion?: Motion;
+  /** Option text role. Defaults to `label`. */
+  typeface?: Typeface;
+  /** Popup width: `anchor` (default) matches the field; a length is clamped by it. */
+  listWidth?: 'anchor' | string | number;
 }

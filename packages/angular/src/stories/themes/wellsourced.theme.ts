@@ -480,9 +480,15 @@ const components = (p: WellsourcedPalette): ComponentThemes => ({
   // theme maps to the same white/charcoal as `primary-surface` — an invisible
   // highlight. Re-point it at the app's canvas hover tint, the same language
   // as the menu item pills.
-  combobox: { options: { activeColor: 'tertiary-surface' } },
-  searchInput: { options: { activeColor: 'tertiary-surface' } },
-  tagInput: { options: { activeColor: 'tertiary-surface' } },
+  combobox: { options: { activeColor: 'tertiary-surface', typeface: 'body-2-short' } },
+  searchInput: { options: { activeColor: 'tertiary-surface', typeface: 'body-2-short' } },
+  // Chips are outlined: the default soft primary chip is white in this theme
+  // and vanishes once the focused field turns white behind it.
+  tagInput: {
+    options: { activeColor: 'tertiary-surface', typeface: 'body-2-short', chipTone: 'outline' },
+  },
+  // The default `primary` avatar is white here, the same as the list surface.
+  contactInput: { options: { avatarVariant: 'quaternary' } },
   timeInput: { options: { activeColor: 'tertiary-surface' } },
   button: {
     fixed: {

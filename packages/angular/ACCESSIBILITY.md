@@ -174,6 +174,27 @@ All controls implement `FormValueControl`/`FormCheckboxControl` and set
   repeated on every chip.
 - `aria-invalid` is gated on `invalid && (touched || dirty)`; per-chip
   invalidity shows immediately, since it describes a token just typed.
+- Group headings in the suggestion list are `role="presentation"` and sit
+  outside the option sequence, so `aria-activedescendant` only ever names an
+  option. Avatars in rows are `aria-hidden`.
+- `backspaceRemoves` trades the two-step removal for a mail client's one-step;
+  the removal is announced and the field's hint describes whichever route is
+  active. `unframed` removes the visible focus ring with the chrome — the
+  surrounding layout must show focus (e.g. `:focus-within` on the row).
+
+### ContactInput
+- A composition of TagInput, so the combobox contract, single tab stop, live
+  region and `aria-invalid` gating are identical.
+- Keyboard: focus opens the contact list with nothing active;
+  ArrowDown/ArrowUp move through it; Enter picks the active contact, otherwise
+  commits the typed address (`autoHighlight` keeps the first match active so
+  Enter or Tab picks it); Backspace in an empty field removes
+  the last person; Escape closes the list, then clears the typed text.
+- Text that is neither a known contact nor a valid address is refused, stays
+  in the field and is announced; the app renders the message and links it with
+  `ariaDescribedBy`.
+- Each row's accessible name is the person's name, address and note; the
+  avatar is decorative.
 
 ### NumberInput
 - The control is `<input type="text">` with `role="spinbutton"`,

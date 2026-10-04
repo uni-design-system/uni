@@ -1,5 +1,12 @@
 import { NgTemplateOutlet } from '@angular/common';
-import { ChangeDetectionStrategy, Component, computed, input, output } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  input,
+  linkedSignal,
+  output,
+} from '@angular/core';
 import { css } from '@emotion/css';
 import type { IconName, Size, TagTone } from '@uni-design-system/uni-core';
 
@@ -16,7 +23,9 @@ const inlinePaddingOf = (style: Record<string, unknown>): number => {
 
   // A consumer theme may still state the shorthand. `0 10px` and `0 10px 0 8px`
   // both put the inline value second; a single value applies to every side.
-  const parts = String(style['padding'] ?? '').trim().split(/\s+/);
+  const parts = String(style['padding'] ?? '')
+    .trim()
+    .split(/\s+/);
   const shorthand = Number.parseFloat(parts[1] ?? parts[0] ?? '');
   return Number.isFinite(shorthand) ? shorthand : 10;
 };
@@ -47,7 +56,9 @@ const inlinePaddingOf = (style: Record<string, unknown>): number => {
     '[attr.aria-invalid]': "invalid() ? 'true' : null",
   },
 })
-export class UniTagComponent<T extends UniTagValue = UniTagValue> extends BaseComponent<UniTagOptions> {
+export class UniTagComponent<
+  T extends UniTagValue = UniTagValue,
+> extends BaseComponent<UniTagOptions> {
   // Presentation. `variant` comes from BaseComponent; chips default to `md`
   // rather than the library-wide `lg`, since they sit inside dense content.
   override size = input<Size>('md');
@@ -114,6 +125,14 @@ export class UniTagComponent<T extends UniTagValue = UniTagValue> extends BaseCo
   protected readonly removeGlyphSize = computed(() =>
     Math.max(Math.round(this.leadSize() * 0.8), 10)
   );
+
+  /** The image failed to load; reset whenever a new `avatarSrc` arrives. */
+  protected readonly imageFailed = linkedSignal({
+    source: this.avatarSrc,
+    computation: () => false,
+  });
+
+  protected readonly showImage = computed(() => !!this.avatarSrc() && !this.imageFailed());
 
   protected readonly initials = computed(() =>
     (this.avatarName() ?? '')
@@ -362,7 +381,7 @@ export class UniTagComponent<T extends UniTagValue = UniTagValue> extends BaseCo
       borderRadius: '50%',
       fontSize: Math.max(Math.round(this.leadSize() * 0.5), 8),
       // Initials sit on a wash of the current ink so they read on any tone.
-      backgroundColor: this.avatarSrc() ? undefined : 'rgba(0, 0, 0, 0.12)',
+      backgroundColor: this.showImage() ? undefined : 'rgba(0, 0, 0, 0.12)',
       '& img': { width: '100%', height: '100%', objectFit: 'cover' },
     })
   );

@@ -839,6 +839,9 @@ const buildComponents = (c: Colors): ComponentThemes => ({
     options: {
       chipGap: 'xs',
       chipSize: 'md',
+      // Chip colour role and archetype; `tagVariant` / `tagTone` override.
+      chipVariant: 'primary',
+      chipTone: 'soft',
       // The text input never collapses to a sliver next to wrapped chips.
       minInputWidth: '12ch',
       listColor: 'primary-surface',
@@ -846,6 +849,22 @@ const buildComponents = (c: Colors): ComponentThemes => ({
       listBorderRadius: 'xs',
       activeColor: 'primary-container',
       maxSuggestions: 8,
+      // Suggestion text roles and popup width (`'anchor'` tracks the field).
+      typeface: 'label',
+      headingTypeface: 'caption',
+      listWidth: 'anchor',
+    },
+  },
+  // Recipient field: uni-tag-input with a person row. Only the row is themed
+  // here — the popup comes from `tagInput`, the chips from `tag`, the field
+  // chrome from `input`.
+  contactInput: {
+    options: {
+      avatarSize: 'md',
+      avatarVariant: 'primary',
+      nameTypeface: 'body-2-short',
+      detailTypeface: 'caption',
+      rowGap: 'sm',
     },
   },
 

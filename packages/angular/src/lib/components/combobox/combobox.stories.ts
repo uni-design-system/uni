@@ -64,6 +64,9 @@ const meta: Meta<UniComboboxComponent<string>> = {
     filterWith: {
       description: 'Filter predicate; the default is locale-lowercased label-contains',
     },
+    openOnFocus: {
+      description: 'Open the list when the field takes focus, not only on click or ArrowDown',
+    },
     query: { description: 'Debounced draft text, for async option lists' },
     debounceTime: { description: 'Debounce for (query) and count announcements (default 250)' },
     clearable: {

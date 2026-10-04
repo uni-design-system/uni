@@ -24,6 +24,7 @@
         (keydown)="onKeydown($event)"
         (input)="onInput()"
         (click)="onFieldClick()"
+        (focus)="onFieldFocus()"
       />
       @if (clearable() && value() !== null && !disabled()) {
         <button

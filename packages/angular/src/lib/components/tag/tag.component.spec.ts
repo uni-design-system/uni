@@ -181,7 +181,13 @@ describe('UniTagComponent', () => {
 
   describe('when disabled', () => {
     beforeEach(() =>
-      setInputs({ label: 'Locked', value: 'locked', removable: true, interactive: true, disabled: true })
+      setInputs({
+        label: 'Locked',
+        value: 'locked',
+        removable: true,
+        interactive: true,
+        disabled: true,
+      })
     );
 
     it('disables both controls', () => {
@@ -233,6 +239,15 @@ describe('UniTagComponent', () => {
       // Decorative: the chip's own text is the accessible name.
       expect(img?.getAttribute('alt')).toBe('');
       expect(accessibleName(host)).toBe('Alice Chen');
+    });
+
+    it('falls back to initials when the image fails to load', () => {
+      setInputs({ label: 'Alice Chen', avatarSrc: 'missing.png', avatarName: 'Alice Chen' });
+      host.querySelector('img')!.dispatchEvent(new Event('error'));
+      fixture.detectChanges();
+
+      expect(host.querySelector('img')).toBeNull();
+      expect(host.textContent).toContain('AC');
     });
 
     it('falls back to initials from avatarName', () => {

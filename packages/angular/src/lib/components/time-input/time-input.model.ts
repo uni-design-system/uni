@@ -4,6 +4,7 @@ import type {
   Motion,
   Radius,
   Shadow,
+  Typeface,
 } from '@uni-design-system/uni-core';
 import type { UniTime } from '../../cdk';
 
@@ -28,7 +29,11 @@ export interface UniTimeInputOptions {
   /** Active/hover option fill; the on-color pair is derived. Must contrast
       with `listColor` or keyboard navigation turns invisible. */
   activeColor?: ContainerColorToken;
-  maxVisibleOptions?: number;  /** Named motion primitive for the suggestion popup's open animation.
+  maxVisibleOptions?: number; /** Named motion primitive for the suggestion popup's open animation.
       Defaults to `popup` — the token `uni-dropdown` uses. */
   motion?: Motion;
+  /** Option text role. Defaults to `label`. */
+  typeface?: Typeface;
+  /** Popup width: `anchor` (default) matches the field; a length is clamped by it. */
+  listWidth?: 'anchor' | string | number;
 }

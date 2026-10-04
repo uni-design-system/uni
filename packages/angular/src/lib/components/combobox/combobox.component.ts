@@ -98,6 +98,11 @@ export class UniComboboxComponent<T>
   /** Filter predicate; default is locale-lowercased label-contains. */
   filterWith = input<(option: Option<T>, query: string) => boolean>();
   debounceTime = input(250);
+  /**
+   * Open the list when the field takes focus, not only on click or ArrowDown.
+   * Off by default — a form tabbed through should not spray popups.
+   */
+  openOnFocus = input(false);
 
   // --- Events ---------------------------------------------------------------
   /** Debounced draft text, for async option lists. */
@@ -346,6 +351,11 @@ export class UniComboboxComponent<T>
       never opens — Tab-through forms must not spray popups. */
   protected onFieldClick(): void {
     if (this.disabled() || this.popupOpen()) return;
+    this.openList(this.committedFilteredPos());
+  }
+
+  protected onFieldFocus(): void {
+    if (!this.openOnFocus() || this.disabled() || this.popupOpen()) return;
     this.openList(this.committedFilteredPos());
   }
 

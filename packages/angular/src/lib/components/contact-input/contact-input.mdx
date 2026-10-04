@@ -1,0 +1,81 @@
+import { Meta, Title } from '@storybook/addon-docs/blocks';
+import * as Stories from './contact-input.stories';
+import { StoryUsage } from '../../../stories/blocks/StoryUsage';
+import { StoryExample } from '../../../stories/blocks/StoryExample';
+import { ThemeOptions } from '../../../stories/blocks/ThemeOptionsBlock';
+
+<Meta of={Stories} name="Contact Input" />
+<Title />
+
+`import { UniContactInputComponent } from '@uni-design-system/uni-angular';`
+
+## Overview
+
+Recipient field for picking people: removable chips, a text input, and a list
+of known contacts that opens on focus and narrows as the user types. Each row
+is drawn as a person — avatar, name, address, and an optional note. Reach for
+it for a To line, a share dialog, assignees or mentions; for tokens that are
+not people, use `uni-tag-input`, which this composes.
+
+It behaves like a mail client: ArrowDown walks the matches and Enter picks
+the active one, Backspace in an empty field removes the last person, and text
+that is neither a known contact nor a valid address stays in the field to be
+fixed. Set `autoHighlight` to keep the first match active, so Enter or Tab
+picks it without arrowing. The chips come
+from the `tag` theme entry, the popup from `tagInput`, the field chrome from
+`input`, and the person row from `contactInput`.
+
+## Usage
+
+<StoryUsage of={Stories.Primary} />
+
+The value is `UniContact[]`, and the control implements
+`FormValueControl<UniContact[]>`. `{ value: 'a@b.com' }` is a complete
+contact; `value` is canonical (an address, or an id for a closed directory —
+then set `email` for the line under the name).
+
+## Grouped contacts
+
+<StoryExample of={Stories.GroupedContacts} />
+
+The field does not sort: order `contacts` so each group is contiguous.
+
+## Unframed
+
+<StoryExample of={Stories.Unframed} />
+
+## Known contacts only
+
+<StoryExample of={Stories.KnownContactsOnly} />
+
+## Theme options
+
+<ThemeOptions componentName="contactInput" />
+
+## Accessibility
+
+- The text input is `role="combobox"` over a `role="listbox"` popup; nothing
+  is active until ArrowDown (or from the start, with `autoHighlight`), and
+  group headings are outside the option sequence.
+- The whole field is one tab stop. Enter picks the active contact, otherwise
+  commits the typed address, and Backspace in an empty field
+  removes the last person — described once through `aria-describedby`.
+- Adds, removes and refusals announce through a `role="status"` live region.
+- The control renders no validation message: handle `(rejected)`, render the
+  message, and link it with `ariaDescribedBy`.
+- `unframed` removes the focus ring along with the chrome; show focus on the
+  surrounding row (for example with `:focus-within`).
+
+## Do
+
+- Order `contacts` most-relevant first; only the first few are shown.
+- Set `filterLocally` to `false` and refresh `contacts` from `(query)` when
+  the directory lives on a server.
+- Clear your error message from `(draftChange)` once the user edits the text.
+
+## Don't
+
+- Don't use it for tokens that are not people — that is `uni-tag-input`.
+- Don't use it to pick one person from a closed list — that is `uni-combobox`.
+- Don't rely on `autocomplete="off"` alone if Chrome's address autofill still
+  appears; pass another token through `autocomplete`.

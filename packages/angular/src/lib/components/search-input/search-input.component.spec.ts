@@ -107,4 +107,29 @@ describe('UniSearchInputComponent', () => {
     key('Escape');
     expect(inputEl().value).toBe('');
   });
+
+
+  describe('openOnFocus', () => {
+    const focusIn = () => {
+      inputEl().dispatchEvent(new FocusEvent('focusin', { bubbles: true }));
+      fixture.detectChanges();
+    };
+
+    it('stays closed on focus by default', () => {
+      fixture.componentRef.setInput('suggestions', ['alpha', 'beta']);
+      fixture.detectChanges();
+      focusIn();
+
+      expect(host().querySelectorAll('[role="option"]').length).toBe(0);
+    });
+
+    it('shows the suggestions on focus when set', () => {
+      fixture.componentRef.setInput('suggestions', ['alpha', 'beta']);
+      fixture.componentRef.setInput('openOnFocus', true);
+      fixture.detectChanges();
+      focusIn();
+
+      expect(host().querySelectorAll('[role="option"]').length).toBe(2);
+    });
+  });
 });

@@ -1,5 +1,6 @@
 import { UniCheckboxComponent } from './checkbox/checkbox.component';
 import { UniComboboxComponent } from './combobox/combobox.component';
+import { UniContactInputComponent } from './contact-input/contact-input.component';
 import { UniDateInputComponent } from './date-input/date-input.component';
 import { UniDateTimeInputComponent } from './date-time-input/date-time-input.component';
 import { UniInputBoxComponent } from './input-box/input-box.component';
@@ -59,6 +60,7 @@ export const UNI_FORMS = [
   UniMultiSelectDropdownComponent,
   UniSearchInputComponent,
   UniTagInputComponent,
+  UniContactInputComponent,
   UniNumberInputComponent,
   UniNumberRangeInputComponent,
   UniQuantityStepperComponent,

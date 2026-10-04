@@ -19,6 +19,7 @@ export type ComponentName =
   | 'cardHeader'
   | 'checkbox'
   | 'combobox'
+  | 'contactInput'
   | 'dataSearch'
   | 'dataTable'
   | 'dateInput'

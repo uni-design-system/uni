@@ -260,6 +260,7 @@ Inheritance (inputs listed once, available on all subclasses):
   - `emptyText: string` = 'No matches' — i18n-able empty row, also announced when a filter matches nothing.
   - `filterLocally: boolean` = true — `false` renders `options` verbatim; narrow them app-side from `query`.
   - `debounceTime: number` = 250
+  - `openOnFocus: boolean` = false — Open the list when the field takes focus, not only on click or ArrowDown. Off by default — a form tabbed through should not spray popups.
 - two-way models:
   - `value: T | null` = null
   - `touched: boolean` = false
@@ -269,6 +270,38 @@ Inheritance (inputs listed once, available on all subclasses):
   - `selected: Option<T>` — An option committed.
   - `cleared: void`
   - `rejected: UniComboboxRejection` — A commit was refused (no match); the field reverted.
+
+## UniContactInputComponent
+- selector: `uni-contact-input, ContactInput`
+- inputs:
+  - `disabled: boolean` = false
+  - `invalid: boolean` = false
+  - `dirty: boolean` = false
+  - `required: boolean` = false
+  - `ariaDescribedBy: string`
+  - `label: string` (required) — Accessible name for the field, e.g. "To".
+  - `placeholder: string`
+  - `contacts: UniContact[]` = [] — Everyone who can be suggested, in the order (and groups) to offer them.
+  - `allowCustom: boolean` = true — Accept a typed value that is not a known contact. On by default — a typed email address becomes a chip; `false` restricts the field to `contacts`.
+  - `filterLocally: boolean` = true — `false` renders `contacts` verbatim; narrow them app-side from `(query)` when the directory lives on a server.
+  - `autoHighlight: boolean` = false — Keep the first match highlighted so Enter or Tab picks it without arrowing. Off by default: nothing is highlighted until ArrowDown, and Enter commits what is typed.
+  - `debounceTime: number` = 250
+  - `maxLength: number | undefined` = undefined
+  - `unframed: boolean` = false — Drop the field chrome and render a bare row — an email client's To line.
+  - `autocomplete: string` = 'off' — The text field's `autocomplete` token; see `uni-tag-input`.
+  - `tagVariant: Variant`
+  - `tagTone: TagTone`
+  - `tagSize: Size`
+- two-way models:
+  - `value: UniContact[]` = []
+  - `touched: boolean` = false
+- outputs:
+  - `touch: void` — Angular 22 marks the bound field touched through this output.
+  - `added: UniContact`
+  - `removed: UniContact`
+  - `rejected: UniTagRejection` — Typed text that did not become a person; an `invalid` one stays in the field.
+  - `query: string` — Debounced typed text, for loading contacts remotely.
+  - `draftChange: string` — Typed text on every change — e.g. to clear an error once it is edited.
 
 ## UniDataSearchComponent
 - selector: `uni-data-search`
@@ -847,6 +880,7 @@ Inheritance (inputs listed once, available on all subclasses):
   - `width: string | number` = '100%'
   - `debounceTime: number` = 400
   - `suggestions: string[]` = [] — Type-ahead entries. Keep them fresh from `change` emissions; the list shows while the field has focus and entries exist.
+  - `openOnFocus: boolean` = false — Show the suggestions on focus and on click, before anything is typed.
 - outputs:
   - `searchChange: string` — The debounced query, emitted as the user types.
   - `searchSubmit: string` — A committed search: Enter, or a suggestion chosen from the list.
@@ -1021,17 +1055,24 @@ Inheritance (inputs listed once, available on all subclasses):
   - `commitOnBlur: boolean` = true
   - `allowDuplicates: boolean` = false
   - `maxLength: number | undefined` = undefined
-  - `tagVariant: Variant` = 'primary'
-  - `tagTone: TagTone` = 'soft'
+  - `unframed: boolean` = false — Drop the field chrome (border, fill, inset) and render the bare chip row — an email client's To line. The surrounding layout draws any hairline and focus cue; the error state is still exposed through `aria-invalid`.
+  - `backspaceRemoves: boolean` = false — Backspace in an empty field removes the last tag outright, as mail clients do. Off by default: the two-step (focus the chip, then remove) never deletes blind.
+  - `keepInvalidText: boolean` = false — Refuse a draft that fails validation instead of committing it as a flagged chip: the text stays in the field to be fixed and `rejected` fires with `reason: 'invalid'`.
+  - `autocomplete: string` = 'off' — The text field's `autocomplete` token. The field has its own suggestion list, so browser autofill is off by default and password managers are told to skip it. Chrome can still ignore `off` on a field it takes for an email or address; pass another token if its dropdown competes with yours.
+  - `tagVariant: Variant`
+  - `tagTone: TagTone`
   - `tagSize: Size`
   - `suggestions: UniTagSuggestion[]` = []
   - `debounceTime: number` = 250
+  - `openOnFocus: boolean` = false — Show the suggestions on focus and on click, before anything is typed.
+  - `autoHighlight: boolean` = false — Keep the first suggestion active while the list is open, so Enter or Tab picks it without arrowing. A draft that is already valid under the field's validator still commits as typed.
 - two-way models:
   - `value: UniTagItem[]` = []
   - `touched: boolean` = false
 - outputs:
   - `touch: void` — Angular 22 marks the bound field touched through this output; the `touched` model above is bound inward by the directive and no longer propagates back out. Emitted wherever this control already decided the user was done with it.
   - `query: string` — Debounced text the app should filter `suggestions` from.
+  - `draftChange: string` — Uncommitted text, on every change and undebounced (cf. `query`).
   - `added: UniTagItem`
   - `removed: UniTagItem`
   - `rejected: UniTagRejection`

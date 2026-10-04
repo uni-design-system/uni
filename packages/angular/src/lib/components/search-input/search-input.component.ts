@@ -47,6 +47,8 @@ export class UniSearchInputComponent extends BaseComponent<UniSearchInputOptions
    * shows while the field has focus and entries exist.
    */
   suggestions = input<string[]>([]);
+  /** Show the suggestions on focus and on click, before anything is typed. */
+  openOnFocus = input(false);
 
   /** The debounced query, emitted as the user types. */
   searchChange = output<string>();
@@ -125,6 +127,14 @@ export class UniSearchInputComponent extends BaseComponent<UniSearchInputOptions
         else if (this.hasQuery()) this.clear();
         break;
     }
+  }
+
+  /** `focusin` and `click` bubbling from the inner input (never the clear
+      button, which has its own job). */
+  protected onFieldFocus(event: Event) {
+    if (!this.openOnFocus() || this.list.open()) return;
+    if (!(event.target instanceof HTMLInputElement)) return;
+    if (this.visibleSuggestions().length) this.list.show();
   }
 
   protected onFocusOut(event: FocusEvent) {

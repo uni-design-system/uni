@@ -1,0 +1,58 @@
+<uni-tag-input
+  preset="email"
+  [label]="label()"
+  [placeholder]="placeholder()"
+  [value]="items()"
+  [disabled]="disabled()"
+  [touched]="touched()"
+  [invalid]="invalid()"
+  [dirty]="dirty()"
+  [required]="required()"
+  [ariaDescribedBy]="ariaDescribedBy()"
+  [suggestions]="suggestions()"
+  [validate]="accepts"
+  [max]="maxLength()"
+  [unframed]="unframed()"
+  [autocomplete]="autocomplete()"
+  [debounceTime]="debounceTime()"
+  [tagVariant]="tagVariant()"
+  [tagTone]="tagTone()"
+  [tagSize]="tagSize()"
+  [openOnFocus]="true"
+  [autoHighlight]="autoHighlight()"
+  [backspaceRemoves]="true"
+  [keepInvalidText]="true"
+  (valueChange)="onItems($event)"
+  (touch)="onTouch()"
+  (draftChange)="onDraft($event)"
+  (query)="query.emit($event)"
+  (added)="added.emit(contactOf($event))"
+  (removed)="removed.emit(contactOf($event))"
+  (rejected)="rejected.emit($event)"
+>
+  <ng-template uniTagSuggestion let-suggestion>
+    @let contact = contactOf(suggestion);
+    <span [class]="rowClass()">
+      <!-- Decorative: the name beside it already names the row. -->
+      <span aria-hidden="true">
+        <uni-avatar
+          [src]="contact.avatarSrc"
+          [name]="contact.name || contact.value"
+          [size]="componentOptions().avatarSize ?? 'md'"
+          [variant]="componentOptions().avatarVariant ?? 'primary'"
+        />
+      </span>
+      <span class="uni-contact-text">
+        <span class="uni-contact-line">
+          <span class="uni-contact-name">{{ contact.name || contact.value }}</span>
+          @if (contact.note) {
+            <span class="uni-contact-note">{{ contact.note }}</span>
+          }
+        </span>
+        @if (detailOf(contact); as detail) {
+          <span class="uni-contact-detail">{{ detail }}</span>
+        }
+      </span>
+    </span>
+  </ng-template>
+</uni-tag-input>

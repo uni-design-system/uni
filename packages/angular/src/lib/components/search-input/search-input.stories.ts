@@ -25,6 +25,10 @@ const meta: Meta<StoryType> = {
       control: 'object',
       description: 'Type-ahead entries; refresh them from `searchChange` emissions.',
     },
+    openOnFocus: {
+      control: 'boolean',
+      description: 'Show the suggestions on focus and click, before anything is typed.',
+    },
     width: { control: 'text', description: "Field width. Default: '100%'" },
   },
 };
