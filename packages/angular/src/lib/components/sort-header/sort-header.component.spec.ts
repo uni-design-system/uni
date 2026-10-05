@@ -117,4 +117,30 @@ describe('UniSortHeaderComponent', () => {
     expect(() => click()).not.toThrow();
     expect(fixture.componentInstance.direction()).toBe('indet');
   });
+
+  describe('arrow', () => {
+    const icon = () => (fixture.nativeElement as HTMLElement).querySelector('.sort-icon')!;
+
+    it('hangs off the trailing side of the label by default', () => {
+      expect(getComputedStyle(icon()).right).toBe('-24px');
+    });
+
+    it('moves to the leading side in a right-aligned column', () => {
+      fixture.componentRef.setInput('align', 'right');
+      fixture.detectChanges();
+
+      expect(getComputedStyle(icon()).left).toBe('-24px');
+      expect(getComputedStyle(icon()).right).not.toBe('-24px');
+    });
+
+    it('draws arrowUp unless another icon is named', () => {
+      const name = () =>
+        fixture.debugElement.query((el) => el.name === 'uni-icon').componentInstance.name();
+      expect(name()).toBe('arrowUp');
+
+      fixture.componentRef.setInput('iconName', 'chevronUp');
+      fixture.detectChanges();
+      expect(name()).toBe('chevronUp');
+    });
+  });
 });

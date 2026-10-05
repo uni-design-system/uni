@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, computed, inject, input } from '@angular/core';
 import { css } from '@emotion/css';
+import type { IconName } from '@uni-design-system/uni-core';
 import { type UniDatasource, SortDirection } from '../../cdk';
 import { ThemeService } from '../../theming/theme.service';
 import { UniIconComponent } from '../icon';
@@ -23,6 +24,18 @@ export class UniSortHeaderComponent<T> {
 
   column = input<keyof T>();
   datasource = input<UniDatasource<T>>();
+  /**
+   * The glyph shown while sorted. One icon serves both directions — it is
+   * drawn as given for descending and rotated half a turn for ascending — so
+   * pick an arrow or chevron that reads either way up.
+   */
+  iconName = input<IconName>('arrowUp');
+  /**
+   * The column's text alignment. The arrow hangs outside the label so the
+   * label stays flush with the cells under it; in a right-aligned column it
+   * moves to the leading side, where it cannot push past the table's edge.
+   */
+  align = input<'left' | 'right' | 'center'>();
 
   // A real <button> makes sorting keyboard-operable (Enter/Space) for free
   protected readonly buttonClass = css({
@@ -51,7 +64,7 @@ export class UniSortHeaderComponent<T> {
 
       '& .sort-icon': {
         position: 'absolute',
-        right: -24,
+        ...(this.align() === 'right' ? { left: -24 } : { right: -24 }),
         top: -4,
         height: 24,
         width: 24,

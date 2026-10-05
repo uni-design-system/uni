@@ -45,6 +45,17 @@ point at shared tokens for surfaces, borders, and typography.
 
 <StoryExample of={Stories.WithDetailRow} />
 
+### Column options
+
+<StoryExample of={Stories.ColumnOptions} />
+
+Each `ColumnDefinition` can set a `width` (a preference — the table lays out
+automatically, so long content can still widen a column), opt out of sorting
+with `sortable: false`, and supply a cell `template`. A template receives the
+row as `$implicit` (`let-row`), its `index`, and every field by name
+(`let-name="name"`). Templated cells own their padding: the `tdPadding`
+options apply to plain cells only.
+
 ## Theme Options
 
 Globally defined attributes controlled by the theme.
@@ -53,6 +64,6 @@ Globally defined attributes controlled by the theme.
 
 ## Accessibility
 
-- Column headers use `scope="col"`; sortable headers are real buttons with `aria-sort` on the `<th>`.
+- Column headers use `scope="col"`; sortable headers are real buttons with `aria-sort` on the `<th>`. A `sortable: false` column is a plain heading with neither.
 - The loading overlay is a `role="status"` region and the table is `aria-busy` while loading.
 - Collapsed detail rows are `inert`, out of the accessibility tree until expanded.

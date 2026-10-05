@@ -1163,6 +1163,7 @@ const buildComponents = (c: Colors): ComponentThemes => ({
       thVerticalBorder: 'dotted',
       thHorizontalBorder: 'light',
       thPadding: 'sm',
+      sortIcon: 'arrowUp',
       tdTextRole: 'title-small',
       tdColor: 'primary-surface',
       tdStickyColor: 'primary-container',

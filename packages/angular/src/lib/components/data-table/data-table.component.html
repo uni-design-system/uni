@@ -30,10 +30,24 @@
                   [class.scrollable]="scrollable()"
                   [class.sticky]="column.isSticky"
                   [style.text-align]="column.textAlign"
+                  [style.width]="column.width"
                 >
-                  <uni-sort-header [datasource]="datasource()" [column]="column.columnDef">
-                    <span uni-text [typeface]="componentOptions().thTextRole">{{ column.header }}</span>
-                  </uni-sort-header>
+                  @if (column.sortable === false) {
+                    <span uni-text [typeface]="componentOptions().thTextRole">{{
+                      column.header
+                    }}</span>
+                  } @else {
+                    <uni-sort-header
+                      [datasource]="datasource()"
+                      [column]="column.columnDef"
+                      [align]="column.textAlign"
+                      [iconName]="componentOptions().sortIcon ?? 'arrowUp'"
+                    >
+                      <span uni-text [typeface]="componentOptions().thTextRole">{{
+                        column.header
+                      }}</span>
+                    </uni-sort-header>
+                  }
                 </th>
               }
             </tr>
@@ -64,7 +78,7 @@
                     @if (column.template) {
                       <ng-container
                         [ngTemplateOutlet]="column.template"
-                        [ngTemplateOutletContext]="record"
+                        [ngTemplateOutletContext]="cellContexts()[i]"
                       ></ng-container>
                     } @else {
                       <span uni-text [typeface]="componentOptions().tdTextRole">

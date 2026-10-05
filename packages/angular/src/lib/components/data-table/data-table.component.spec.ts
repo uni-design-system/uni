@@ -6,11 +6,11 @@
  * reactive view of one, so sorting and paging are asserted by what ends up in
  * the DOM after the datasource moves, not by inspecting inputs.
  */
-import { Component } from '@angular/core';
+import { Component, computed, type TemplateRef, viewChild } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { UniRecordDatasource } from '../../cdk';
 import { UniDataTableComponent } from './data-table.component';
-import type { ColumnDefinition } from './data-table.models';
+import type { ColumnDefinition, UniDataTableCellContext } from './data-table.models';
 
 interface Row {
   name: string;
@@ -35,10 +35,14 @@ describe('UniDataTableComponent', () => {
 
   /** Body rows only, skipping the detail rows the template interleaves. */
   const bodyRows = () =>
-    Array.from(host.querySelectorAll('tbody tr')).filter((tr) => tr.querySelector('td:not([colspan])'));
+    Array.from(host.querySelectorAll('tbody tr')).filter((tr) =>
+      tr.querySelector('td:not([colspan])')
+    );
 
   const cellText = () =>
-    bodyRows().map((tr) => Array.from(tr.querySelectorAll('td')).map((td) => td.textContent?.trim()));
+    bodyRows().map((tr) =>
+      Array.from(tr.querySelectorAll('td')).map((td) => td.textContent?.trim())
+    );
 
   const headers = () => Array.from(host.querySelectorAll('thead th'));
 
@@ -192,6 +196,78 @@ describe('UniDataTableComponent', () => {
     it('is not busy for a client-side datasource', () => {
       expect(host.querySelector('[aria-busy="true"]')).toBeNull();
     });
+  });
+});
+
+describe('UniDataTableComponent columns', () => {
+  let fixture: ComponentFixture<UniDataTableComponent<Row>>;
+  let host: HTMLElement;
+
+  const headers = () => Array.from(host.querySelectorAll<HTMLElement>('thead th'));
+
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({ imports: [UniDataTableComponent] }).compileComponents();
+    fixture = TestBed.createComponent<UniDataTableComponent<Row>>(UniDataTableComponent);
+    host = fixture.nativeElement;
+    fixture.componentRef.setInput('datasource', new UniRecordDatasource<Row>([...ROWS]));
+    fixture.componentRef.setInput('columns', [
+      { columnDef: 'name', header: 'Name', width: '240px', sortable: false },
+      { columnDef: 'qty', header: 'Quantity', textAlign: 'right' },
+    ] satisfies ColumnDefinition<Row>[]);
+    fixture.detectChanges();
+  });
+
+  it('applies a column width to its header cell', () => {
+    expect(headers()[0].style.width).toBe('240px');
+    expect(headers()[1].style.width).toBe('');
+  });
+
+  it('renders a non-sortable heading as plain text, with no button', () => {
+    expect(headers()[0].querySelector('button')).toBeNull();
+    expect(headers()[0].textContent?.trim()).toBe('Name');
+    expect(headers()[1].querySelector('button')).not.toBeNull();
+  });
+
+  it('puts the sort arrow on the leading side of a right-aligned column', () => {
+    const icon = headers()[1].querySelector('.sort-icon')!;
+
+    expect(getComputedStyle(icon).left).toBe('-24px');
+  });
+
+  it('clips header overflow so the arrow cannot widen the scroll area', () => {
+    expect(getComputedStyle(headers()[1]).overflow).toBe('hidden');
+  });
+});
+
+@Component({
+  imports: [UniDataTableComponent],
+  template: `
+    <ng-template #cell let-row let-index="index" let-qty="qty">
+      <span class="cell">{{ index }}:{{ row.name }}:{{ qty }}</span>
+    </ng-template>
+    <uni-data-table [datasource]="datasource" [columns]="columns()" />
+  `,
+})
+class CellHost {
+  readonly datasource = new UniRecordDatasource<Row>([...ROWS]);
+  private readonly cell = viewChild.required<TemplateRef<UniDataTableCellContext<Row>>>('cell');
+  readonly columns = computed<ColumnDefinition<Row>[]>(() => [
+    { columnDef: 'name', header: 'Name', template: this.cell() },
+  ]);
+}
+
+describe('UniDataTableComponent cell templates', () => {
+  it('gives the template the row, its index and its fields by name', async () => {
+    await TestBed.configureTestingModule({ imports: [CellHost] }).compileComponents();
+    const fixture = TestBed.createComponent(CellHost);
+    fixture.detectChanges();
+    const cells = Array.from((fixture.nativeElement as HTMLElement).querySelectorAll('.cell'));
+
+    expect(cells.map((cell) => cell.textContent?.trim())).toEqual([
+      '0:Cherry:3',
+      '1:Apple:9',
+      '2:Banana:1',
+    ]);
   });
 });
 

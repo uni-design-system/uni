@@ -36,7 +36,7 @@ const meta: Meta<StoryType> = {
     // Core functionality
     columns: {
       description:
-        'Defines the columns to be displayed in the table. Each column definition includes columnDef, header, and optional cell renderer function.',
+        'Defines the columns to be displayed in the table: columnDef, header, and optionally cell, template, textAlign, width, sortable (default true) and isSticky.',
     },
     datasource: {
       description:
@@ -240,4 +240,37 @@ export const WithDetailRow: Story = {
       `,
     };
   },
+};
+
+/**
+ * Column options: `width` steadies a column while a search narrows the rows,
+ * `sortable: false` renders a plain heading, and a cell template reads the
+ * whole row through `let-row`. In a right-aligned column the sort arrow sits
+ * on the leading side of the label, so a right-aligned last column never
+ * pushes past the table's edge.
+ */
+export const ColumnOptions: Story = {
+  render: () => ({
+    props: {
+      datasource: new UniRecordDatasource<any>(starWarsCharacters.slice(0, 6)),
+      base: [
+        { columnDef: 'species', header: 'Species', textAlign: 'left', sortable: false },
+        { columnDef: 'height', header: 'Height', textAlign: 'right' },
+      ],
+    },
+    template: `
+      <ng-template #nameCell let-row let-index="index">
+        <div box-layout padding="sm" uni-text="title-small">{{ index + 1 }}. {{ row.name }}</div>
+      </ng-template>
+      <uni-data-table
+        [datasource]="datasource"
+        [useRowClick]="false"
+        [columns]="[
+          { columnDef: 'name', header: 'Name', textAlign: 'left', width: '50%', template: nameCell },
+          base[0],
+          base[1]
+        ]"
+      />
+    `,
+  }),
 };

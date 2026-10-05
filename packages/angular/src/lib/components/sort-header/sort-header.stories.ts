@@ -23,6 +23,15 @@ const meta: Meta<StoryType> = {
       description:
         'The UniDatasource instance whose records are sorted when the header is clicked.',
     },
+    iconName: {
+      description: 'The sort glyph, rotated half a turn for ascending. Default: arrowUp.',
+    },
+    align: {
+      control: 'select',
+      options: ['left', 'center', 'right'],
+      description:
+        "The column's text alignment; 'right' moves the arrow to the leading side of the label.",
+    },
   },
   render: (args) => {
     const { ...props } = args;

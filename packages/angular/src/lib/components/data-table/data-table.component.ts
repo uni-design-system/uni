@@ -19,7 +19,11 @@ import { UniBoxDirective, UniCenterDirective } from '../layout';
 import { UniScrollAreaComponent } from '../scroll-area/scroll-area.component';
 import { UniSortHeaderComponent } from '../sort-header/sort-header.component';
 import { UniTextDirective } from '../text/text.directive';
-import { ColumnDefinition, type UniDataTableOptions } from './data-table.models';
+import {
+  ColumnDefinition,
+  type UniDataTableCellContext,
+  type UniDataTableOptions,
+} from './data-table.models';
 
 @Component({
   selector: 'uni-data-table',
@@ -105,6 +109,12 @@ export class UniDataTableComponent<T> extends BaseComponent<UniDataTableOptions>
       padding: 0, // Reset renderers default padding
 
       ...this.theme.padding(this.componentOptions().thPadding),
+      ...this.theme.verticalPadding(this.componentOptions().thPaddingVertical),
+      ...this.theme.horizontalPadding(this.componentOptions().thPaddingHorizontal),
+      // The sort arrow hangs outside its label. Where a column is too narrow
+      // to hold it, it is clipped here rather than widening the scroll area
+      // into a horizontal scrollbar with nothing to scroll.
+      overflow: 'hidden',
 
       borderBottom: this.getBorder(this.componentOptions().thHorizontalBorder),
       '&:not(:last-child)': {
@@ -142,6 +152,8 @@ export class UniDataTableComponent<T> extends BaseComponent<UniDataTableOptions>
         '&:not(.template)': {
           // Allow templates to define their own styles
           ...this.theme.padding(this.componentOptions().tdPadding),
+          ...this.theme.verticalPadding(this.componentOptions().tdPaddingVertical),
+          ...this.theme.horizontalPadding(this.componentOptions().tdPaddingHorizontal),
         },
       },
     ])
@@ -216,10 +228,21 @@ export class UniDataTableComponent<T> extends BaseComponent<UniDataTableOptions>
     this.toggleRow(index);
   }
 
+  /**
+   * One context per row for the cell templates, rebuilt only when the records
+   * change. The row's own fields are spread last-but-one so `let-name="name"`
+   * keeps resolving (and a row's own `index` wins over its position).
+   */
+  protected readonly cellContexts = computed<UniDataTableCellContext<T>[]>(() =>
+    this.datasource()
+      .records()
+      .map((record, index) => ({ index, ...record, $implicit: record }))
+  );
+
   /** aria-sort value for a column header, or null when the column is unsorted. */
   protected ariaSort(column: ColumnDefinition<T>): 'ascending' | 'descending' | null {
     const ds = this.datasource();
-    if (!ds || ds.sortColumn() !== column.columnDef) return null;
+    if (!ds || column.sortable === false || ds.sortColumn() !== column.columnDef) return null;
     const direction = ds.sortDirection();
     return direction === 'asc' ? 'ascending' : direction === 'desc' ? 'descending' : null;
   }

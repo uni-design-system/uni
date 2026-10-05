@@ -963,6 +963,8 @@ Inheritance (inputs listed once, available on all subclasses):
 - inputs:
   - `column: keyof T`
   - `datasource: UniDatasource<T>`
+  - `iconName: IconName` = 'arrowUp' — The glyph shown while sorted. One icon serves both directions — it is drawn as given for descending and rotated half a turn for ascending — so pick an arrow or chevron that reads either way up.
+  - `align: 'left' | 'right' | 'center'` — The column's text alignment. The arrow hangs outside the label so the label stays flush with the cells under it; in a right-aligned column it moves to the leading side, where it cannot push past the table's edge.
 
 ## UniStackDirective
 - selector: `[uni-stack-layout], [stack-layout]`
