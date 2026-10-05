@@ -1,5 +1,7 @@
 # @uni-design-system/uni-mcp
 
+## 11.6.0
+
 ## 11.5.0
 
 ### Minor Changes
