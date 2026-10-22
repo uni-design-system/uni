@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { afterEach, describe, expect, it, vi } from 'vitest';
 import { UniSelectComponent } from './select-input.component';
 
 describe('UniSelectComponent', () => {
@@ -37,6 +38,74 @@ describe('UniSelectComponent', () => {
     expect(select().selectedIndex).toBe(1);
   });
 
+  /**
+   * A native <select> with no selected <option> displays its first entry. The
+   * placeholder option used to be the only "nothing selected" row, so without
+   * one a model of `''` or a stale id showed "Red" while holding something
+   * else — and everything derived from the model stayed empty with no visible
+   * reason.
+   */
+  describe('a value no option stands for, with no placeholder', () => {
+    afterEach(() => vi.restoreAllMocks());
+
+    const selectedOption = () => select().options[select().selectedIndex];
+
+    it('renders as empty rather than as the first option', () => {
+      const warn = vi.spyOn(console, 'warn').mockImplementation(() => undefined);
+      fixture.componentRef.setInput('value', '');
+      fixture.detectChanges();
+
+      expect(select().value).toBe('-1');
+      expect(selectedOption().hidden).toBe(true);
+      expect(selectedOption().textContent?.trim()).toBe('');
+      expect(warn).toHaveBeenCalledWith(
+        '[uni-select] value "" matches no option — rendering as empty'
+      );
+    });
+
+    it('treats an unknown value the same way, once per value', () => {
+      const warn = vi.spyOn(console, 'warn').mockImplementation(() => undefined);
+      fixture.componentRef.setInput('value', 'green');
+      fixture.detectChanges();
+      fixture.detectChanges();
+
+      expect(select().value).toBe('-1');
+      expect(warn).toHaveBeenCalledTimes(1);
+    });
+
+    it('renders null as empty without a warning', () => {
+      const warn = vi.spyOn(console, 'warn').mockImplementation(() => undefined);
+      fixture.componentRef.setInput('value', null);
+      fixture.detectChanges();
+
+      expect(select().value).toBe('-1');
+      expect(warn).not.toHaveBeenCalled();
+    });
+
+    it('keeps the hidden row out of the list once a real option is selected', () => {
+      vi.spyOn(console, 'warn').mockImplementation(() => undefined);
+      fixture.componentRef.setInput('value', '');
+      fixture.detectChanges();
+      fixture.componentRef.setInput('value', 'blue');
+      fixture.detectChanges();
+
+      expect(select().options.length).toBe(2);
+      expect(select().selectedIndex).toBe(1);
+    });
+
+    it('does not warn while the options are still loading', () => {
+      const warn = vi.spyOn(console, 'warn').mockImplementation(() => undefined);
+      fixture.componentRef.setInput('options', []);
+      fixture.componentRef.setInput('value', 'blue');
+      fixture.detectChanges();
+
+      expect(warn).not.toHaveBeenCalled();
+      fixture.componentRef.setInput('options', options);
+      fixture.detectChanges();
+      expect(select().selectedIndex).toBe(1);
+    });
+  });
+
   describe('disabled options', () => {
     beforeEach(() => {
       fixture.componentRef.setInput('options', [
@@ -47,7 +116,11 @@ describe('UniSelectComponent', () => {
     });
 
     it('marks the option disabled so the browser skips it', () => {
-      const rendered = Array.from(select().querySelectorAll('option'));
+      // The value is null here, so the hidden "nothing selected" row (itself
+      // disabled) is rendered ahead of the real options.
+      const rendered = Array.from(
+        select().querySelectorAll<HTMLOptionElement>('option:not([hidden])')
+      );
       expect(rendered.map((option) => option.disabled)).toEqual([false, true]);
     });
 

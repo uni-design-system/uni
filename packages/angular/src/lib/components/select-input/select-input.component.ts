@@ -3,6 +3,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   computed,
+  effect,
   inject,
   input,
   model,
@@ -14,6 +15,8 @@ import { UniInputBoxComponent } from '../input-box/input-box.component';
 import { UniIconComponent } from '../icon';
 import { ThemeService } from '../../theming/theme.service';
 import type { UniSelectOptions } from './select-input.model';
+
+declare const ngDevMode: boolean | undefined;
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -79,7 +82,36 @@ export class UniSelectComponent<T> implements FormValueControl<T | null> {
     return index.toString();
   });
 
+  /**
+   * The model holds nothing an option stands for: `null`, or a value — `''`,
+   * a stale id — that matches no option. Both render as empty, never as the
+   * first entry.
+   */
+  protected readonly unmatched = computed(
+    () => Number(this.currentSelectedIndex()) === this.UNSELECTED
+  );
+
   protected readonly showError = computed(() => this.invalid() && (this.touched() || this.dirty()));
+
+  constructor() {
+    // A bound value outside `options` is usually a bug at the call site (a
+    // stale id, `''` for "empty" where the contract is `null`), and it used to
+    // hide behind the first option. Said once per value, in dev only, and not
+    // while the options are still empty — a value ahead of its options is the
+    // normal loading order, and the field self-heals when they arrive.
+    if (typeof ngDevMode === 'undefined' || ngDevMode) {
+      let warned: unknown = undefined;
+      effect(() => {
+        const value = this.value();
+        if (value === null || value === undefined || !this.options().length) return;
+        if (!this.unmatched() || warned === value) return;
+        warned = value;
+        console.warn(
+          `[uni-select] value ${JSON.stringify(value)} matches no option — rendering as empty`
+        );
+      });
+    }
+  }
 
   protected handleSelectChange(event: Event): void {
     const select = event.target as HTMLSelectElement;

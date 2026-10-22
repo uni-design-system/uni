@@ -18,6 +18,10 @@ platform keyboard behavior everywhere. Options are typed generically
 implements `FormValueControl` for the Signal Forms `[formField]` directive. Errors
 style the field only after interaction, matching Input.
 
+The value contract is `T | null`: `null` is "nothing selected". A value that no
+option stands for — `''`, a stale id — renders as empty too, never as the first
+option, and is reported with a dev-mode warning once the options have loaded.
+
 For choosing several, use Multi Select. When the list outgrows ~10 options, or
 users know what they're looking for and want to type it, use Combobox — the
 value contract is identical (`T | null`, `compareWith`), so the swap is a
@@ -53,3 +57,8 @@ the native `<select>` skips it for both pointer and keyboard.
 - `label` becomes the accessible name; `aria-invalid` reflects the touched error state.
 - Disabled options are rendered and announced, not hidden — removing them would
   make the list lie about what exists.
+
+## Don't
+
+- Bind `''` to mean "nothing selected" — the contract is `null`. The field shows
+  empty either way, but `''` is reported as a value outside the options.

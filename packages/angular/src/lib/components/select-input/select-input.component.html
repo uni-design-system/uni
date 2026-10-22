@@ -9,9 +9,13 @@
     [attr.aria-required]="required() ? true : null"
     [attr.aria-describedby]="ariaDescribedBy() || null"
   >
-    @if (placeholder()) {
-      <option [value]="UNSELECTED" disabled selected>
-        {{ placeholder() }}
+    <!-- The "nothing selected" option. Rendered whenever the model holds no
+         option — with a placeholder, as the placeholder; without one, hidden —
+         because a <select> with no selected <option> shows its first entry,
+         and the field would then display a choice the model does not hold. -->
+    @if (placeholder() || unmatched()) {
+      <option [value]="UNSELECTED" disabled selected [hidden]="!placeholder()">
+        {{ placeholder() ?? '' }}
       </option>
     }
 
