@@ -67,6 +67,9 @@ export class UniTextareaComponent implements FormValueControl<string> {
   fullWidth = input(false, { transform: booleanAttribute });
   grow = input<number | undefined>(undefined);
 
+  /** Drop the field chrome and render the bare textarea — see `uni-input-box`. */
+  unframed = input(false, { transform: booleanAttribute });
+
   private options = this.theme.getComponentOptions<UniTextareaOptions>('textarea');
 
   protected readonly resolvedRows = computed(() => this.rows() ?? this.options().rows ?? 3);

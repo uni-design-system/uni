@@ -1,4 +1,11 @@
-<uni-input-box [error]="showError()" height="auto" [width]="width()" [fullWidth]="fullWidth()" [grow]="grow()">
+<uni-input-box
+  [error]="showError()"
+  height="auto"
+  [width]="width()"
+  [fullWidth]="fullWidth()"
+  [grow]="grow()"
+  [unframed]="unframed()"
+>
   <textarea
     [value]="value()"
     (input)="handleInput($event)"

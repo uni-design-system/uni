@@ -25,6 +25,10 @@ const meta: Meta<StoryType> = {
       control: 'text',
       description: 'Required label text; becomes the accessible name.',
     },
+    unframed: {
+      control: 'boolean',
+      description: 'Drop the field chrome and render the bare textarea, as on uni-tag-input. Default: false',
+    },
     placeholder: {
       control: 'text',
       description: 'Placeholder text shown when the field is empty. Default: ""',

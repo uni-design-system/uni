@@ -1,5 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { UniTextareaComponent } from './textarea.component';
+import { emittedRuleFor } from '../../../testing/emitted-css';
 
 describe('UniTextareaComponent', () => {
   let fixture: ComponentFixture<UniTextareaComponent>;
@@ -16,6 +17,17 @@ describe('UniTextareaComponent', () => {
 
   it('applies the label as the accessible name', () => {
     expect(textarea().getAttribute('aria-label')).toBe('Message');
+  });
+
+  it('unframed drops the field chrome', () => {
+    const row = (): HTMLElement =>
+      (fixture.nativeElement as HTMLElement).querySelector('uni-input-box > *')!;
+    expect(emittedRuleFor(row())).toContain('border:1pxsolid');
+
+    fixture.componentRef.setInput('unframed', true);
+    fixture.detectChanges();
+    expect(emittedRuleFor(row())).not.toContain('border:1pxsolid');
+    expect(emittedRuleFor(row())).not.toContain(':focus');
   });
 
   it('updates the value model on input', () => {
