@@ -94,9 +94,9 @@ another token through `autocomplete`.
 ### Presets
 
 `preset="email"` wires an address validator, a paste parser that splits on
-`,` `;` newline and tab and unwraps `Name <a@b.com>`, and adds Space as a
-separator — correct for addresses, wrong for names, which is why it is not the
-default.
+`,` `;` newline, tab and whitespace (except inside `Name <a@b.com>`, which it
+unwraps), and adds Space as a separator — correct for addresses, wrong for
+names, which is why it is not the default.
 
 ## Suggestion popup
 

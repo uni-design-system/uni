@@ -16,7 +16,8 @@ const meta: Meta<UniTagInputComponent> = {
   args: { label: 'To', placeholder: 'Add a recipient…' },
   argTypes: {
     openOnFocus: {
-      description: 'Show the suggestions on focus and click, before anything is typed',
+      description:
+        'Show the suggestions on focus and click, before anything is typed — including suggestions that arrive after focus',
     },
     autoHighlight: {
       description: 'Keep the first suggestion active so Enter or Tab picks it without arrowing',

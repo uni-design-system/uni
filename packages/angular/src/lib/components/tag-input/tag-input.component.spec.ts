@@ -240,6 +240,29 @@ describe('UniTagInputComponent', () => {
       ]);
     });
 
+    /**
+     * A column copied from a spreadsheet arrives space-separated. It used to be
+     * one token — not a valid address — and under `keepInvalidText` the whole
+     * string sat in the field as an error, while typing the same two addresses
+     * worked because a typed space commits.
+     */
+    it('splits a space-separated paste under the email preset, keeping named spaces', () => {
+      setInputs({ preset: 'email' });
+      paste('ada@example.com grace@example.com Priya Raman <priya@uni.dev> ');
+
+      expect(fixture.componentInstance.value()).toEqual([
+        { value: 'ada@example.com' },
+        { value: 'grace@example.com' },
+        { value: 'priya@uni.dev', label: 'Priya Raman' },
+      ]);
+      expect(field().value).toBe('');
+    });
+
+    it('leaves spaces alone under the text preset', () => {
+      paste('New York, Los Angeles,');
+      expect(values()).toEqual(['New York', 'Los Angeles']);
+    });
+
     it('flags a malformed token in a paste without losing the good ones', () => {
       setInputs({ preset: 'email' });
       paste('a@b.com, nope@@x,');
@@ -603,6 +626,31 @@ describe('UniTagInputComponent', () => {
       field().dispatchEvent(new MouseEvent('click'));
       fixture.detectChanges();
       expect(options().length).toBe(2);
+    });
+
+    /**
+     * The list opened only if suggestions existed at the instant of focus, so a
+     * field focused while its suggestions were still loading sat focused with
+     * no list until the user clicked or typed.
+     */
+    it('opens when suggestions arrive after focus', () => {
+      setInputs({ suggestions: [], openOnFocus: true });
+      focusField();
+      expect(options().length).toBe(0);
+
+      setInputs({ suggestions: [{ value: 'alpha' }, { value: 'beta' }] });
+      expect(options().length).toBe(2);
+      expect(field().getAttribute('aria-expanded')).toBe('true');
+    });
+
+    it('stays closed for late suggestions once Escape dismissed the list', () => {
+      setInputs({ suggestions: [{ value: 'alpha' }], openOnFocus: true });
+      focusField();
+      press('Escape');
+      expect(options().length).toBe(0);
+
+      setInputs({ suggestions: [{ value: 'alpha' }, { value: 'beta' }] });
+      expect(options().length).toBe(0);
     });
 
     it('keeps offering who is left after a pick', () => {

@@ -50,6 +50,31 @@ type CommitResult = 'added' | 'refused' | 'invalid';
 /** Loose address check — deliberately permissive, matching what mail clients accept. */
 export const EMAIL_PATTERN = /^[^\s@,;]+@[^\s@,;.]+\.[^\s@,;]+$/;
 
+/**
+ * Split one comma-free run of pasted text on whitespace, keeping the words of
+ * a `Name <address>` together.
+ *
+ * A list copied from a spreadsheet column or a mail client's plain-text view
+ * often arrives space-separated. A space is never part of an address, and a
+ * typed space already commits — so it separates here too. The exception is a
+ * display name, whose spaces belong to it: words run up until the `<address>`
+ * that closes them.
+ */
+function splitAddressRun(run: string): string[] {
+  const out: string[] = [];
+  let name: string[] = [];
+  for (const word of run.trim().split(/\s+/).filter(Boolean)) {
+    if (/<[^>]*>/.test(word)) {
+      out.push([...name, word].join(' '));
+      name = [];
+    } else if (word.includes('@')) {
+      out.push(...name, word);
+      name = [];
+    } else name.push(word);
+  }
+  return [...out, ...name];
+}
+
 /** `Name <a@b.com>` / `"Name" <a@b.com>` → the address, plus the display name. */
 const unwrapAddress = (raw: string): { value: string; label?: string } => {
   const match = raw.match(/^\s*"?([^"<]*?)"?\s*<([^>]+)>\s*$/);
@@ -248,14 +273,12 @@ export class UniTagInputComponent
     const custom = this.parse();
     if (custom) return custom(raw);
 
-    const pattern =
-      this.preset() === 'email'
-        ? /[,;\n\t]+/
-        : new RegExp(
-            `[${this.separators()
-              .map((s) => `\\${s}`)
-              .join('')}\n\t]+`
-          );
+    if (this.preset() === 'email') return raw.split(/[,;\n\t]+/).flatMap(splitAddressRun);
+    const pattern = new RegExp(
+      `[${this.separators()
+        .map((s) => `\\${s}`)
+        .join('')}\n\t]+`
+    );
     return raw.split(pattern);
   }
 
@@ -467,10 +490,17 @@ export class UniTagInputComponent
     this.list.setActive(this.autoActive ? 0 : -1);
   }
 
-  /** Focus, and a click into an already-focused field after Escape. */
+  /**
+   * Focus, and a click into an already-focused field after Escape.
+   *
+   * Opens unconditionally: `list.open()` is already gated on there being
+   * something to show, so a field focused while its suggestions are still
+   * loading shows them the moment they arrive — and stays shut if Escape
+   * closed the list in between, since that cleared the request.
+   */
   protected onFieldFocus(): void {
     if (!this.openOnFocus() || this.disabled() || this.list.open()) return;
-    if (this.visibleSuggestions().length) this.openList();
+    this.openList();
   }
 
   protected onInput(value: string): void {
