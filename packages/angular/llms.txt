@@ -151,6 +151,7 @@ Inheritance (inputs listed once, available on all subclasses):
 - selector: `button[uni-text-button], button[text-button]`
 - inputs:
   - `disable: boolean` = false
+  - `disabled: boolean` = false — The native name, accepted as an alias of `disable`. Every other Uni form control takes `disabled`, so consumers write it here too — and without this input the binding landed on the DOM property, where the host's own `disabled` attribute binding removed it on the first pass. The button rendered enabled, with no error. Either name now works.
   - `loading: boolean` = false
   - `fullWidth: boolean` = false
   - `symbolLeft: string`
@@ -256,6 +257,7 @@ Inheritance (inputs listed once, available on all subclasses):
   - `options: Options<T>` = []
   - `width: string | number` = '100%'
   - `clearable: boolean` = true — Show a ✕ while a value is set; an emptied field on blur also clears.
+  - `emptyValue: T | null` = null — What "nothing selected" is written as. `null` by default — the control's contract is `FormValueControl<T | null>` — but a field bound to a plain `string` schema wants `''`, so a clear does not hand `null` to every reader of a string. A value equal to it reads as empty: no ✕, no match.
   - `commitOnBlur: boolean` = true — Blur commits an exact-match draft; a non-matching draft reverts.
   - `emptyText: string` = 'No matches' — i18n-able empty row, also announced when a filter matches nothing.
   - `filterLocally: boolean` = true — `false` renders `options` verbatim; narrow them app-side from `query`.
@@ -283,6 +285,7 @@ Inheritance (inputs listed once, available on all subclasses):
   - `placeholder: string`
   - `contacts: UniContact[]` = [] — Everyone who can be suggested, in the order (and groups) to offer them.
   - `allowCustom: boolean` = true — Accept a typed value that is not a known contact. On by default — a typed email address becomes a chip; `false` restricts the field to `contacts`.
+  - `chipAvatar: boolean | undefined` = undefined — Draw an initials avatar on each chip. Unbound, the `contactInput` theme entry's `chipAvatar` decides (on by default). Off, a chip is the name alone — in a narrow row of first names the initials only repeat it.
   - `filterLocally: boolean` = true — `false` renders `contacts` verbatim; narrow them app-side from `(query)` when the directory lives on a server.
   - `autoHighlight: boolean` = false — Keep the first match highlighted so Enter or Tab picks it without arrowing. Off by default: nothing is highlighted until ArrowDown, and Enter commits what is typed.
   - `debounceTime: number` = 250
@@ -543,8 +546,9 @@ Inheritance (inputs listed once, available on all subclasses):
   - `symbolName: string`
   - `variant: Variant` = 'ghost'
   - `size: Size` = 'lg'
-  - `disable: boolean`
-  - `loading: boolean`
+  - `disable: boolean` = false — A bare `disable` attribute reads as true, as `uni-button`'s does; `undefined` as false.
+  - `disabled: boolean` = false — The native name, accepted as an alias of `disable` — see `uni-button`.
+  - `loading: boolean` = false
   - `opticalSize: number` = 24
 
 ## UniIconComponent
@@ -574,6 +578,7 @@ Inheritance (inputs listed once, available on all subclasses):
   - `fullWidth: boolean` = false
   - `grow: number | undefined` = undefined
   - `managedInset: boolean` = false — Stop applying the themed leading inset to the inner control, for fields that place it themselves. The inset normally rides the `<input>`, which is right while the text is the field's leading edge. It is wrong the moment an adornment sits in front: a currency prefix would hug the border while the number it belongs to is indented past it. A field with adornments takes the inset over and puts it on whichever element is actually first.
+  - `unframed: boolean` = false — Drop the field chrome — border, fill, radius, shadow, leading inset and the focus treatment — and render the bare row. For fields drawn as an email client draws them: unframed lines with a hairline between. The surrounding layout draws any focus cue; the error state is still exposed through `aria-invalid` on the control inside. Same meaning as `uni-tag-input`'s.
 
 ## UniInputComponent
 - selector: `uni-input`
@@ -601,6 +606,8 @@ Inheritance (inputs listed once, available on all subclasses):
   - `width: string | number | undefined` = undefined
   - `fullWidth: boolean` = false
   - `grow: number | undefined` = undefined
+  - `unframed: boolean` = false — Drop the field chrome and render the bare input — see `uni-input-box`.
+  - `align: 'start' | 'center' | 'end'` — Text alignment, as `uni-number-input`'s. Default: `start`.
 - two-way models:
   - `value: string` = ''
   - `touched: boolean` = false
@@ -700,6 +707,7 @@ Inheritance (inputs listed once, available on all subclasses):
   - `unitAnnouncement: string` — Spoken long form of an abbreviated suffix, e.g. `'kilograms'` for `kg`.
   - `readOnly: boolean` = false
   - `embedded: boolean` = false — Renders without its own input-box chrome, for composers like uni-slider.
+  - `unframed: boolean` = false — Keep the box but drop its chrome — border, fill, inset, focus treatment — as `uni-input`'s `unframed` does. Unlike `embedded`, the field still owns its row and its steppers.
   - `min: number | undefined`
   - `max: number | undefined`
   - `step: number` = 1
@@ -865,6 +873,8 @@ Inheritance (inputs listed once, available on all subclasses):
   - `paddingBottom: OptionalSize`
   - `border: Variant`
   - `height: OptionalValue`
+  - `maxHeight: OptionalValue` — Grow with the content up to this height, then scroll. The shape a dialog body wants: as tall as the form until it would leave the viewport. With `height` unset the area is otherwise content-sized and never scrolls.
+  - `fill: boolean` = false — Take the room a flex-column parent leaves (`flex: 1 1 auto; min-height: 0`) and scroll within it — the body of a dialog or drawer without a wrapper.
   - `width: OptionalValue`
   - `appearance: ScrollbarAppearance` = 'compact'
   - `autoHeightDisabled: boolean` = false
@@ -1099,6 +1109,7 @@ Inheritance (inputs listed once, available on all subclasses):
   - `width: string | number | undefined` = undefined
   - `fullWidth: boolean` = false
   - `grow: number | undefined` = undefined
+  - `unframed: boolean` = false — Drop the field chrome and render the bare textarea — see `uni-input-box`.
 - two-way models:
   - `value: string` = ''
   - `touched: boolean` = false
@@ -1183,6 +1194,7 @@ Inheritance (inputs listed once, available on all subclasses):
 - selector: `uni-tour`
 - inputs:
   - `steps: UniTourStep[]` (required)
+  - `progressStyle: 'dots' | 'fraction' | 'none'` — Per-instance override of the `progressStyle` theme option, so a one-off pointer can differ from the app's tours without a second theme entry. A one-step tour renders no progress whatever this says — one dot beside Done counts nothing.
   - `nextLabel: string` = 'Next'
   - `backLabel: string` = 'Back'
   - `skipLabel: string` = 'Skip'
@@ -1190,8 +1202,8 @@ Inheritance (inputs listed once, available on all subclasses):
 - two-way models:
   - `active: number | null` = null — The presented step index, or null when the tour is not running.
 - outputs:
-  - `started: void`
-  - `finished: void`
+  - `started: void` — The first step of a run was presented — from `start()` or from a write to `active`.
+  - `finished: void` — The run walked past its last step. Never emitted for a run in which no step was presented (empty `steps`, every target missing): a tour that never opened did not finish.
 
 ## UniWrapDirective
 - selector: `[uni-wrap-layout], [wrap-layout]`
