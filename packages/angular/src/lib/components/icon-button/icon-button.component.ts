@@ -1,4 +1,11 @@
-import { ChangeDetectionStrategy, Component, computed, inject, input } from '@angular/core';
+import {
+  booleanAttribute,
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  inject,
+  input,
+} from '@angular/core';
 import { css } from '@emotion/css';
 
 import { type IconName } from '../icon/icon.record';
@@ -35,7 +42,7 @@ export interface UniIconButtonVariant {
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
-    '[attr.disabled]': 'disable() || loading() || null',
+    '[attr.disabled]': 'isDisabled() || null',
     '[attr.aria-busy]': "loading() ? 'true' : null",
     '[attr.aria-label]': 'ariaLabel() || null',
     '[class]': 'className()',
@@ -59,9 +66,15 @@ export class UniIconButtonComponent {
   symbolName = input<string>();
   variant = input<Variant>('ghost');
   size = input<Size>('lg');
-  disable = input<boolean>();
-  loading = input<boolean>();
+  /** A bare `disable` attribute reads as true, as `uni-button`'s does; `undefined` as false. */
+  disable = input(false, { transform: booleanAttribute });
+  /** The native name, accepted as an alias of `disable` — see `uni-button`. */
+  disabled = input(false, { transform: booleanAttribute });
+  loading = input(false, { transform: booleanAttribute });
   opticalSize = input(24);
+
+  /** What the host's `disabled` attribute reflects: either name, or a request in flight. */
+  protected readonly isDisabled = computed(() => this.disable() || this.disabled() || this.loading());
 
   protected readonly srOnlyClass = css(visuallyHidden);
 

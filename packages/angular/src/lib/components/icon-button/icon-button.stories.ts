@@ -19,6 +19,11 @@ const meta: Meta<StoryType> = {
       control: 'radio',
       description: 'The size of the button as defined by the loaded theme.',
     },
+    disable: {
+      control: 'boolean',
+      description:
+        'Disables the button. `disabled` — the native name every other Uni control uses — is accepted as an alias, and a bare attribute reads as true.',
+    },
     loading: {
       control: 'boolean',
       description:
