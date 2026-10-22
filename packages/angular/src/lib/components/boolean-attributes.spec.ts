@@ -20,10 +20,11 @@
  * catching, and six copies of this test would be six places to forget.
  * `forms/listbox-popup.spec.ts` sits in a shared home for the same reason.
  */
-import { Component, Type } from '@angular/core';
+import { Component, signal, Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { UniButtonComponent } from './button/button.component';
 import { UniCheckboxComponent } from './checkbox/checkbox.component';
+import { UniIconButtonComponent } from './icon-button/icon-button.component';
 import { UniInputComponent } from './input/input.component';
 import { UniInputBoxComponent } from './input-box/input-box.component';
 import { UniRadioComponent } from './radio/radio.component';
@@ -198,6 +199,72 @@ describe('uni-button disable and loading as bare attributes', () => {
     expect(button.hasAttribute('disabled')).toBe(false);
     expect(button.hasAttribute('aria-busy')).toBe(false);
   });
+});
+
+/**
+ * The native name, on both buttons. Every other Uni control takes `disabled`,
+ * so consumers write it on the buttons too — and until 11.7 that binding went
+ * to the DOM property, where the host's own attribute binding
+ * (`disable() || loading() || null`) wrote `null` on the first pass and
+ * removed it. A button that had to *start* disabled rendered enabled, with no
+ * error; later toggles happened to work, which is why it hid.
+ *
+ * `icon-button` is in the same sweep because its `disable` had no transform at
+ * all: the bare attribute bound the empty string and did nothing.
+ */
+describe('disabled on the buttons', () => {
+  const render = async (type: Type<unknown>, template: string) => {
+    const Host = Component({ selector: 'uni-test-host', imports: [type], template })(
+      class TestHost {
+        off = signal(true);
+        maybe: { saving: boolean } | undefined = undefined;
+      }
+    );
+    TestBed.resetTestingModule();
+    await TestBed.configureTestingModule({ imports: [Host] }).compileComponents();
+    const fixture = TestBed.createComponent(Host);
+    fixture.detectChanges();
+    const button = (fixture.nativeElement as HTMLElement).querySelector('button')!;
+    return { button, fixture };
+  };
+
+  for (const [name, type, attr] of [
+    ['uni-button', UniButtonComponent, 'text-button'],
+    ['uni-icon-button', UniIconButtonComponent, 'icon-button'],
+  ] as const) {
+    it(`${name}: [disabled]="true" disables the button on the first pass`, async () => {
+      const { button } = await render(type, `<button ${attr} [disabled]="off()">Save</button>`);
+      expect(button.disabled).toBe(true);
+    });
+
+    it(`${name}: a bare disabled attribute disables the button`, async () => {
+      const { button } = await render(type, `<button ${attr} disabled>Save</button>`);
+      expect(button.disabled).toBe(true);
+    });
+
+    it(`${name}: a bare disable attribute disables the button`, async () => {
+      const { button } = await render(type, `<button ${attr} disable>Save</button>`);
+      expect(button.disabled).toBe(true);
+    });
+
+    it(`${name}: an undefined optional chain reads as false, without a !! coercion`, async () => {
+      const { button } = await render(
+        type,
+        `<button ${attr} [disable]="maybe?.saving">Save</button>`
+      );
+      expect(button.disabled).toBe(false);
+    });
+
+    it(`${name}: releases the attribute when the binding turns false`, async () => {
+      const { button, fixture } = await render(
+        type,
+        `<button ${attr} [disabled]="off()">Save</button>`
+      );
+      (fixture.componentInstance as { off: ReturnType<typeof signal<boolean>> }).off.set(false);
+      fixture.detectChanges();
+      expect(button.disabled).toBe(false);
+    });
+  }
 });
 
 /** `uni-text`'s `nowrap`: present means one line, absent means the text wraps. */
