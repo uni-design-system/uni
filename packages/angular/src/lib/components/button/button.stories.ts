@@ -81,6 +81,16 @@ const meta: Meta<StoryType> = {
     },
 
     // Behavior
+    disable: {
+      control: 'boolean',
+      description:
+        'Disables the button. `disabled` — the native name every other Uni control uses — is accepted as an alias, and a bare attribute reads as true. Default: false',
+      table: {
+        category: 'Behavior',
+        type: { summary: 'boolean' },
+        defaultValue: { summary: 'false' },
+      },
+    },
     loading: {
       control: 'boolean',
       description:

@@ -35,7 +35,7 @@ import { RippleDirective } from '../../directives/ripple';
     UniSymbolComponent,
   ],
   host: {
-    '[attr.disabled]': 'disable() || loading() || null',
+    '[attr.disabled]': 'isDisabled() || null',
     '[attr.aria-busy]': "loading() ? 'true' : null",
     '[class]': 'className()',
   },
@@ -43,11 +43,23 @@ import { RippleDirective } from '../../directives/ripple';
 })
 export class UniButtonComponent extends BaseComponent<UniButtonOptions, UniButtonVariant> {
   readonly disable = input(false, { transform: booleanAttribute });
+  /**
+   * The native name, accepted as an alias of `disable`.
+   *
+   * Every other Uni form control takes `disabled`, so consumers write it here
+   * too — and without this input the binding landed on the DOM property, where
+   * the host's own `disabled` attribute binding removed it on the first pass.
+   * The button rendered enabled, with no error. Either name now works.
+   */
+  readonly disabled = input(false, { transform: booleanAttribute });
   readonly loading = input(false, { transform: booleanAttribute });
   readonly fullWidth = input(false, { transform: booleanAttribute });
 
   readonly symbolLeft = input<string>();
   readonly symbolRight = input<string>();
+
+  /** What the host's `disabled` attribute reflects: either name, or a request in flight. */
+  protected readonly isDisabled = computed(() => this.disable() || this.disabled() || this.loading());
 
   spinnerBox = css({
     position: 'absolute',
