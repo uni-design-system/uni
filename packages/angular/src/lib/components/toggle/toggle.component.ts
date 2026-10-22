@@ -220,11 +220,11 @@ export class UniToggleComponent
     const { travel } = this.metrics();
     const accent = this.color(this.accent());
     return css({
-      position: 'absolute',
-      zIndex: -1,
-      width: 0,
-      height: 0,
-      opacity: 0,
+      // The shared recipe, not a private `position: absolute; width: 0` —
+      // that one was the last hidden helper in the library off the fixed
+      // recipe, and the only one still able to escape an ancestor's overflow
+      // clip. Out of flow either way, so the track beside it is unmoved.
+      ...visuallyHidden,
 
       '&:checked + .toggle-switch': {
         backgroundColor: accent,

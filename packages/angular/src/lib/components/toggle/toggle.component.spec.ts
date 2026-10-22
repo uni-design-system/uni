@@ -83,6 +83,21 @@ describe('UniToggleComponent geometry', () => {
     });
   }
 
+  /**
+   * The native input was the last hidden helper in the library off the shared
+   * `visuallyHidden` recipe — a private `position: absolute; width: 0`, inside
+   * a host and label that set no `position`, and so still able to escape an
+   * ancestor's overflow clip (the drawer RFC §1 defect, fixed everywhere else
+   * in 10.1).
+   */
+  it('hides the native input with the shared fixed recipe', () => {
+    render();
+    const rule = emittedRuleFor(hidden());
+    expect(rule).toContain('position:fixed');
+    expect(rule).toContain('clip-path:inset(50%)');
+    expect(rule).not.toContain('position:absolute');
+  });
+
   it('renders identically to the pre-sizes geometry when no size is given', () => {
     // `lg` is BaseComponent's default, and must reproduce what every existing
     // consumer already sees: 40x20, knob 16, one track height of travel.
