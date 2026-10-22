@@ -47,6 +47,16 @@ const meta: Meta<StoryType> = {
       description: "Edge the drawer attaches to. Default: 'start'",
     },
     open: { control: 'boolean', description: 'Two-way bindable open state.' },
+    modal: {
+      control: 'boolean',
+      description:
+        "Overlay mode only. true (default): showModal, focus trap, inert page, scrim. false: a popover=\"manual\" in the top layer — the page behind stays live; Escape still asks to close; scrim is ignored.",
+    },
+    closeOnOutsideClick: {
+      control: 'boolean',
+      description:
+        "Non-modal only: ask to close (reason 'outside') on a click beyond the panel. Off by default — for a workbench the canvas is the outside.",
+    },
   },
 };
 
@@ -297,4 +307,86 @@ export const Overlay: Story = {
     // A fade-out, not the fade-in playing again.
     await expect(scrimOut.animationName).not.toBe(fadeInName);
   },
+};
+
+/**
+ * The workbench: a settings panel beside the document it changes. With
+ * `modal` off the panel is a manual popover in the top layer — nothing can
+ * clip or cover it — but the page behind stays live: the counter is still
+ * clickable, the text still selectable, with the panel open. Escape inside
+ * the panel still asks to close.
+ */
+export const NonModal: Story = {
+  render: () => ({
+    props: { open: false, clicks: 0 },
+    template: `
+      <div box-layout padding="md">
+        <h2 uni-text="headline-small">Presentation preview</h2>
+        <span uni-text="body-1-long" display="block">
+          Change a setting in the panel and judge the result here, without closing it.
+        </span>
+        <div row-layout gap="sm" alignItems="center">
+          <button text-button variant="secondary" size="md" (click)="clicks = clicks + 1">
+            Still clickable
+          </button>
+          <span uni-text="body-2">Clicked {{ clicks }} times</span>
+        </div>
+        <button text-button variant="primary" size="md" (click)="open = true">Open settings</button>
+      </div>
+      <uni-drawer
+        mode="over"
+        position="end"
+        [modal]="false"
+        [width]="360"
+        headline="Settings"
+        initialFocus="input"
+        [(open)]="open"
+      >
+        <div stack-layout gap="md">
+          <uni-input label="Cover title" placeholder="Spring collection" />
+          <uni-input label="Subtitle" placeholder="For the Hartley residence" />
+        </div>
+        <div drawer-buttons confirmButtonText="Apply"></div>
+      </uni-drawer>
+    `,
+  }),
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    await userEvent.click(canvas.getByRole('button', { name: /open settings/i }));
+    const panel = await waitFor(() => {
+      const dialog = canvasElement.ownerDocument.querySelector('dialog');
+      if (!dialog?.matches(':popover-open')) throw new Error('panel not shown');
+      return dialog;
+    });
+    // Not modal: no `open`, no backdrop, and the page behind is not inert.
+    await expect(panel.open).toBe(false);
+    await expect(panel.matches(':modal')).toBe(false);
+    await userEvent.click(canvas.getByRole('button', { name: /still clickable/i }));
+    await expect(canvas.getByText(/clicked 1 times/i)).toBeTruthy();
+    await expect(panel.matches(':popover-open')).toBe(true);
+  },
+};
+
+/**
+ * A footer that is not Cancel/Save: a running total on the leading edge and
+ * the panel's own three actions, in the footer's chrome.
+ */
+export const CustomFooter: Story = {
+  render: () => ({
+    props: { open: false },
+    template: `
+      <button text-button variant="primary" size="md" (click)="open = true">Edit quote</button>
+      <uni-drawer mode="over" position="end" [width]="480" headline="Edit quote" [(open)]="open" #drawer>
+        <div stack-layout gap="md">
+          <uni-input label="Line" placeholder="Describe the line" />
+          <uni-number-input label="Unit price" [value]="24.5" />
+        </div>
+        <div drawer-buttons>
+          <span drawer-footnote uni-text="label">Total 1,204.00 USD</span>
+          <button text-button variant="warn" size="md" (click)="drawer.requestClose('close-button')">Discard</button>
+          <button text-button variant="primary" size="md" (click)="open = false">Save</button>
+        </div>
+      </uni-drawer>
+    `,
+  }),
 };

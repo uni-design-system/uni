@@ -18,8 +18,11 @@ export type DrawerPosition = 'start' | 'end';
 /** Surface treatment of the panel behind its content. */
 export type DrawerBackground = 'solid' | 'glass' | 'gradient';
 
-/** Why the drawer is asking to close. */
-export type DrawerCloseReason = 'close-button' | 'escape' | 'backdrop';
+/**
+ * Why the drawer is asking to close. `outside` is a click beyond a non-modal
+ * panel with `closeOnOutsideClick` set; a modal panel reports `backdrop`.
+ */
+export type DrawerCloseReason = 'close-button' | 'escape' | 'backdrop' | 'outside';
 
 /**
  * Emitted by `closeRequest` before the drawer closes. The drawer is *asking*;

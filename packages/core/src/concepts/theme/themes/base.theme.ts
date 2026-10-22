@@ -516,6 +516,10 @@ const buildComponents = (c: Colors): ComponentThemes => ({
       divider: undefined,
       closeButtonIcon: 'close',
       closeButtonSize: 'md',
+      // A rich head is part of the sheet, not a pill on it: no surface of its
+      // own, and the body's inset.
+      richColor: undefined,
+      richPadding: 'md',
     },
   },
   // Declared in `ComponentName` since 8.x with nothing behind them, so a theme

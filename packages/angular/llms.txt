@@ -402,6 +402,8 @@ Inheritance (inputs listed once, available on all subclasses):
   - `cancelButtonText: string`
   - `cancelButtonVariant: Variant`
   - `disableConfirm: boolean`
+  - `closeOnConfirm: boolean` = true — Whether Confirm closes the dialog as it emits `confirmed`. On by default. Off, the caller closes when its save resolves — a dialog that confirms asynchronously stays open with its error when the save fails.
+  - `loading: boolean` = false — Passed to the Confirm button: a spinner, and no second click.
   - `padding: NullableSize`
   - `paddingBottom: NullableSize`
   - `justifyContent: JustifyContent`
@@ -421,6 +423,11 @@ Inheritance (inputs listed once, available on all subclasses):
 
 ## UniDialogHeaderComponent
 - selector: `[uni-dialog-header], [dialog-header]`
+- inputs:
+  - `rich: boolean` = false — Render the projection as a block rather than one line of text. A sheet's head — eyebrow, headline, blurb — has nowhere to go in a title bar.
+
+## UniDialogTitleDirective
+- selector: `[uni-dialog-title], [dialog-title]`
 
 ## UniDividerComponent
 - selector: `uni-divider`
@@ -436,6 +443,7 @@ Inheritance (inputs listed once, available on all subclasses):
   - `cancelButtonText: string`
   - `cancelButtonVariant: Variant`
   - `disableConfirm: boolean`
+  - `loading: boolean` = false — Passed to the Save button: a spinner, and no second click.
   - `padding: NullableSize`
   - `justifyContent: JustifyContent`
 - outputs:
@@ -446,6 +454,8 @@ Inheritance (inputs listed once, available on all subclasses):
 - inputs:
   - `mode: DrawerMode` = 'side'
   - `position: DrawerPosition` = 'start'
+  - `modal: boolean` = true — Whether `over` mode is modal. On by default: `showModal()`, a focus trap, an inert page and a scrim. Off, the panel is a `popover="manual"` — in the top layer, so nothing can clip or cover it, but the page behind stays live: a settings panel beside the canvas it changes. Escape still asks to close through `closeRequest`; `scrim` has no backdrop to paint and is ignored; see `closeOnOutsideClick` for clicks beyond the panel.
+  - `closeOnOutsideClick: boolean` = false — Non-modal only: ask to close (`reason: 'outside'`) on a click beyond the panel. Off by default — for a workbench the canvas *is* the outside.
   - `ariaLabel: string` — Accessible name for the overlay mode. Only consulted when the drawer has no header to be labelled by. There is deliberately no default. A drawer used as an editor panel that inherited the literal "Navigation" would announce itself as something it is not, and a wrong accessible name is worse than a missing one — the missing one is at least caught by any audit.
   - `headline: string` — Title for the drawer's header row. Shorthand for projecting a `[uni-drawer-header]`; project one instead when the header needs more than a title (a record counter, prev/next navigation).
   - `defaultCloseButton: boolean` = true — Whether the header row renders a close button.

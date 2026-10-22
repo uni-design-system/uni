@@ -73,6 +73,21 @@ what consumers must supply themselves.
   without one, set the `ariaLabel` input.
 - `initialFocus` (CSS selector) directs focus on open when the browser
   default (first focusable) isn't right.
+- A `rich` header renders its projection as a block; mark the headline
+  `[dialog-title]` so it alone is the dialog's name, not the eyebrow and
+  blurb around it.
+- `[dialog-buttons]` with `closeOnConfirm` off leaves the dialog open after
+  Confirm for an async save; `loading` sets `aria-busy` on Confirm.
+
+### Drawer
+- `over` mode is a native `<dialog>` + `showModal()` by default: focus trap,
+  `aria-modal`, Escape via the intercepted `cancel` event, backdrop click.
+- `modal: false` shows the same `<dialog>` as a `popover="manual"`: top layer,
+  no `aria-modal`, no focus trap, and the page behind stays live. Escape asks
+  to close only while focus is inside the panel; `closeOnOutsideClick` is the
+  only other dismissal, and it is off by default.
+- A header labels the panel (`aria-labelledby`); without one, set `ariaLabel`.
+  There is no default name on purpose.
 
 ### Tooltip
 - Shows on keyboard focus (immediately) and on hover (after `hoverDelay`);

@@ -1,4 +1,12 @@
-import { ChangeDetectionStrategy, Component, computed, inject, input, output } from '@angular/core';
+import {
+  booleanAttribute,
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  inject,
+  input,
+  output,
+} from '@angular/core';
 import { css } from '@emotion/css';
 import { UniButtonComponent } from '../../button';
 import { UniRowDirective } from '../../layout';
@@ -13,6 +21,10 @@ import type { UniDrawerButtonsOptions } from './drawer-buttons.model';
  * Sits outside the scrolling body, so the actions stay reachable however long
  * the form is. Mirrors `[dialog-buttons]`; the difference is posture, which
  * lives in the `drawerButtons` theme options rather than here.
+ *
+ * Empty, it renders a Cancel/Save pair wired to the drawer. Project your own
+ * buttons and they replace the pair while keeping the row's chrome; a
+ * `[drawer-footnote]` projects on the leading edge.
  */
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -30,6 +42,8 @@ export class UniDrawerButtonsComponent extends BaseComponent<UniDrawerButtonsOpt
   cancelButtonText = input<string>();
   cancelButtonVariant = input<Variant>();
   disableConfirm = input<boolean>();
+  /** Passed to the Save button: a spinner, and no second click. */
+  loading = input(false, { transform: booleanAttribute });
   padding = input<NullableSize>();
   justifyContent = input<JustifyContent>();
 
@@ -48,6 +62,16 @@ export class UniDrawerButtonsComponent extends BaseComponent<UniDrawerButtonsOpt
   );
   protected gapValue = computed(() => this.componentOptions().gap ?? 'sm');
   protected buttonSize = computed<Size>(() => this.componentOptions().buttonSize ?? 'md');
+
+  /** The footnote cell — see `[dialog-buttons]`. */
+  protected readonly footnoteClass = computed(() =>
+    css({
+      flex: '1 1 auto',
+      minWidth: 0,
+      order: this.componentOptions().reverseOrder ? 1 : -1,
+      '&:empty': { display: 'none' },
+    })
+  );
 
   /** A pinned row, sized by its content rather than by the body beside it. */
   protected readonly hostClass = computed(() =>

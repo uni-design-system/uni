@@ -54,6 +54,14 @@ draws no progress.
 - Arrow-key navigation never fires while the user is typing in a spotlit target.
 - The close button reads as the skip affordance (`skipLabel`).
 
+## Stepping into a panel
+
+Each step re-shows the callout, so a panel the previous step's click opened —
+which entered the top layer after it and would otherwise cover it — ends up
+beneath it again, and the next step can point inside the panel. This needs the
+panel to be non-modal: a `showModal()` dialog makes everything outside it
+inert, which no stacking undoes. For a drawer, that is `[modal]="false"`.
+
 ## Do
 
 - Keep tours short and gate only steps whose gesture teaches something

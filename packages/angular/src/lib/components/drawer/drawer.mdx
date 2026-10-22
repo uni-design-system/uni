@@ -20,7 +20,8 @@ A panel attached to an edge of the page, in one of two modes:
   separates it from the content, and it is hidden from assistive tech while closed.
 - **`over`** renders a native `<dialog>` in the top layer: focus trapping, Escape, and
   the scrim backdrop come from the platform, and the panel slides in from its edge
-  (`position`: `start` or `end`).
+  (`position`: `start` or `end`). With `modal` off it is a `popover="manual"`
+  instead — still the top layer, but the page behind stays live.
 
 `[(open)]` is two-way; Escape and backdrop clicks keep it in sync.
 
@@ -73,6 +74,35 @@ never scrolls, the body always does, and nothing escapes either.
 
 <StoryExample of={Stories.Overlay} />
 
+## Non-modal overlay
+
+`over` mode is modal by default: `showModal()`, a focus trap, an inert page, a
+scrim. That is right for an editor that interrupts, and wrong for a workbench —
+a settings panel beside the document it changes, where the designer must scroll
+the canvas, open a card and judge the result with the panel still open.
+
+`[modal]="false"` is the third cell of the matrix: overlaying **and** non-modal.
+The panel is shown as a `popover="manual"`, so it keeps what makes `over` mode
+attractive — the top layer, where no ancestor stacking context or
+`overflow: hidden` can clip or cover it — and drops the trap and the inert page.
+It is also what makes a toast's Undo reachable while a panel is open: inertness
+removed those controls from hit-testing entirely.
+
+<StoryExample of={Stories.NonModal} />
+
+Three things follow from a popover having no backdrop, and are explicit rather
+than discovered:
+
+- **No scrim.** `scrim` has nothing to paint and is ignored, with a dev-mode
+  warning when it is set.
+- **Escape** still asks to close through `closeRequest` (`reason: 'escape'`) —
+  only while focus is inside the panel, since that is what a keydown reaching it
+  means — so `disableAutoClose` vetoes it exactly as in modal mode.
+- **Click-outside** is off: for a workbench the canvas *is* the outside. Opt in
+  with `closeOnOutsideClick`, which asks to close with `reason: 'outside'`.
+
+`initialFocus` still applies on open, and focus returns to the opener on close.
+
 ## Closing, and refusing to close
 
 Escape, a backdrop click, the header's close button and the footer's cancel all
@@ -103,9 +133,30 @@ adding a `closeRequest` listener alone changes nothing.
 <div class="tip">
 
 The footer's **confirm** button does not close the drawer — unlike
-`[dialog-buttons]`, whose confirm dismisses the dialog. A panel's save is
-usually async and can fail, so the drawer leaves the closing to you: handle
-`(confirmed)` and set `open` when the save resolves.
+`[dialog-buttons]`, whose confirm dismisses the dialog by default. A panel's
+save is usually async and can fail, so the drawer leaves the closing to you:
+handle `(confirmed)` and set `open` when the save resolves; `loading` puts the
+spinner on Save meanwhile.
+
+</div>
+
+## The footer
+
+Empty, `[drawer-buttons]` renders the Cancel/Save pair. Project your own
+buttons and they replace the pair while keeping the row's chrome — padding,
+gap, `justifyContent`, the divider, `stretch` and `reverseOrder` — and a
+`[drawer-footnote]` projects on the leading edge: a running total, a note,
+pushing the actions to the trailing edge. Close from your own buttons through
+the drawer's `requestClose('close-button')`, so a veto is honoured there too.
+
+<StoryExample of={Stories.CustomFooter} />
+
+<div class="tip">
+
+The slot selector `[drawer-buttons]` is also the component's selector. An
+element carrying the attribute without the component imported is projected
+into the footer row as a plain element. Import the component deliberately:
+with it, the row gets the chrome; without it, it is yours entirely.
 
 </div>
 
@@ -153,6 +204,22 @@ usually async and can fail, so the drawer leaves the closing to you: handle
       <code>false</code>,
       <>
         Emit <code>closeRequest</code> without acting on it.
+      </>,
+    ],
+    [
+      'modal',
+      <code>true</code>,
+      <>
+        Overlay mode only. <code>false</code> shows a <code>popover="manual"</code>: top layer,
+        no focus trap, no inert page, no scrim.
+      </>,
+    ],
+    [
+      'closeOnOutsideClick',
+      <code>false</code>,
+      <>
+        Non-modal only: ask to close (<code>reason: 'outside'</code>) on a click beyond the
+        panel.
       </>,
     ],
   ]}
@@ -208,4 +275,5 @@ still makes the page behind inert, so the board is readable but not clickable.
 - A drawer with a header is labelled by that header's title via `aria-labelledby`. Without one, give it an `ariaLabel`. There is deliberately no default: a panel that inherited the name "Navigation" would announce itself as something it is not, and a wrong accessible name is worse than a missing one.
 - `initialFocus` matters more here than in a dialog. The platform focuses the first focusable element, which in a panel with a header is the close button; point it at the first field instead.
 - `scrim: false` keeps the drawer modal — focus is still trapped, the page behind is still inert — while leaving the backdrop transparent. Do not read a missing scrim as a non-modal drawer.
+- `modal: false` is the non-modal drawer: a `popover="manual"` `<dialog>` with no `aria-modal`, no focus trap and a live page behind it. Escape asks to close only while focus is inside the panel; nothing else dismisses it unless `closeOnOutsideClick` is set.
 - A closed side drawer is `aria-hidden`, so its links leave the accessibility tree.

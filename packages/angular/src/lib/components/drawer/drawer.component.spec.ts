@@ -10,6 +10,7 @@
  */
 import { Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { UniDrawerComponent } from './drawer.component';
 import { UniDrawerHeaderComponent } from './drawer-header/drawer-header.component';
 import { UniDrawerButtonsComponent } from './drawer-buttons/drawer-buttons.component';
@@ -252,6 +253,137 @@ describe('UniDrawerComponent', () => {
       expect(fixture.componentInstance.open()).toBe(true);
       expect(panel.hasAttribute('closing')).toBe(false);
     });
+  });
+
+  /**
+   * `modal: false` — the third cell of the matrix: overlaying and non-modal.
+   * `over` was `showModal()` only, so a workbench panel beside a live canvas
+   * made the canvas inert, and a toast's Undo behind any panel could not be
+   * clicked. The panel is a `popover="manual"` instead: still the top layer,
+   * no trap, no inert page, no backdrop.
+   */
+  describe('non-modal', () => {
+    let requests: UniDrawerCloseRequest[];
+    let shows: number;
+    let hides: number;
+    let modals: number;
+
+    beforeEach(() => {
+      requests = [];
+      shows = hides = modals = 0;
+      vi.spyOn(HTMLElement.prototype, 'showPopover').mockImplementation(() => void shows++);
+      vi.spyOn(HTMLElement.prototype, 'hidePopover').mockImplementation(() => void hides++);
+      vi.spyOn(HTMLDialogElement.prototype, 'showModal').mockImplementation(() => void modals++);
+      fixture.componentInstance.closeRequest.subscribe((r) => requests.push(r));
+      fixture.componentRef.setInput('modal', false);
+    });
+
+    afterEach(() => vi.restoreAllMocks());
+
+    it('opens as a manual popover, never as a modal dialog', () => {
+      const panel = openOverlay();
+      expect(panel.getAttribute('popover')).toBe('manual');
+      expect(shows).toBe(1);
+      expect(modals).toBe(0);
+      expect(panel.hasAttribute('open')).toBe(false);
+      expect(panel.getAttribute('aria-modal')).toBeNull();
+    });
+
+    it('keys its shown state on :popover-open rather than [open]', () => {
+      const panel = openOverlay();
+      const rule = emittedRuleFor(panel);
+      expect(rule).toContain(':not(:popover-open){display:none');
+      expect(rule).not.toContain(':not([open])');
+      expect(rule).not.toContain('::backdrop');
+    });
+
+    it('Escape inside the panel asks to close, and is vetoable', () => {
+      const panel = openOverlay();
+      const escape = new KeyboardEvent('keydown', { key: 'Escape', bubbles: true, cancelable: true });
+      panel.dispatchEvent(escape);
+      fixture.detectChanges();
+      expect(escape.defaultPrevented).toBe(true);
+      expect(requests).toEqual([{ reason: 'escape' }]);
+      expect(fixture.componentInstance.open()).toBe(false);
+      expect(panel.hasAttribute('closing')).toBe(true);
+    });
+
+    it('hides the popover once the slide-out ends', () => {
+      const panel = openOverlay();
+      fixture.componentInstance.open.set(false);
+      fixture.detectChanges();
+      // Some other animation ending (the scrim's, a child's) must not hide it.
+      panel.dispatchEvent(Object.assign(new Event('animationend'), { animationName: 'other' }));
+      expect(hides).toBe(0);
+      // The slide-out keyframe name is private; the handler matches on it.
+      const name = (fixture.componentInstance as unknown as { slideOut: () => string }).slideOut();
+      panel.dispatchEvent(Object.assign(new Event('animationend'), { animationName: name }));
+      fixture.detectChanges();
+      expect(hides).toBe(1);
+      expect(panel.hasAttribute('closing')).toBe(false);
+    });
+
+    it('returns focus to the opener once hidden, as the modal dialog does natively', () => {
+      const opener = document.createElement('button');
+      document.body.appendChild(opener);
+      opener.focus();
+      const panel = openOverlay();
+      const field = document.createElement('input');
+      panel.appendChild(field);
+      field.focus();
+
+      fixture.componentInstance.open.set(false);
+      fixture.detectChanges();
+      const name = (fixture.componentInstance as unknown as { slideOut: () => string }).slideOut();
+      panel.dispatchEvent(Object.assign(new Event('animationend'), { animationName: name }));
+      expect(document.activeElement).toBe(opener);
+      opener.remove();
+    });
+
+    it('ignores clicks beyond the panel by default — the canvas is the outside', async () => {
+      openOverlay();
+      await new Promise((resolve) => setTimeout(resolve));
+      document.body.click();
+      fixture.detectChanges();
+      expect(requests).toEqual([]);
+      expect(fixture.componentInstance.open()).toBe(true);
+    });
+
+    it('closeOnOutsideClick asks to close on a click beyond the panel, not on the opening click', async () => {
+      fixture.componentRef.setInput('closeOnOutsideClick', true);
+      openOverlay();
+      // Synchronously after opening: the click that opened it is still bubbling.
+      document.body.click();
+      expect(requests).toEqual([]);
+
+      await new Promise((resolve) => setTimeout(resolve));
+      document.body.click();
+      fixture.detectChanges();
+      expect(requests).toEqual([{ reason: 'outside' }]);
+      expect(fixture.componentInstance.open()).toBe(false);
+    });
+
+    it('a click inside the panel never counts as outside', async () => {
+      fixture.componentRef.setInput('closeOnOutsideClick', true);
+      const panel = openOverlay();
+      await new Promise((resolve) => setTimeout(resolve));
+      panel.click();
+      expect(requests).toEqual([]);
+    });
+
+    it('warns in dev when scrim is set: a popover has no backdrop to paint', () => {
+      const warn = vi.spyOn(console, 'warn').mockImplementation(() => undefined);
+      fixture.componentRef.setInput('scrim', false);
+      openOverlay();
+      expect(warn).toHaveBeenCalledWith(
+        '[uni-drawer] `scrim` has no effect on a non-modal drawer: a popover has no backdrop'
+      );
+    });
+  });
+
+  it('a modal drawer carries no popover attribute, as before', () => {
+    const panel = openOverlay();
+    expect(panel.hasAttribute('popover')).toBe(false);
   });
 
   it('directs initial focus past the native first-focusable', () => {

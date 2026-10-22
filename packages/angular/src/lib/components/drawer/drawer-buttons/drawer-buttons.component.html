@@ -6,16 +6,23 @@
   [flexDirection]="componentOptions().reverseOrder ? 'row-reverse' : 'row'"
   [class]="className()"
 >
-  <button text-button [variant]="cancelVariant()" [size]="buttonSize()" (click)="closeDrawer()">
-    {{ cancelButtonText() || 'Cancel' }}
-  </button>
-  <button
-    text-button
-    [variant]="confirmVariant()"
-    [size]="buttonSize()"
-    (click)="confirmed.emit()"
-    [disable]="disableConfirm()"
-  >
-    {{ confirmButtonText() || 'Save' }}
-  </button>
+  <span [class]="footnoteClass()"
+    ><ng-content select="[uni-drawer-footnote], [drawer-footnote]"
+  /></span>
+  <!-- Projected actions replace the pair; the pair is the fallback. -->
+  <ng-content>
+    <button text-button [variant]="cancelVariant()" [size]="buttonSize()" (click)="closeDrawer()">
+      {{ cancelButtonText() || 'Cancel' }}
+    </button>
+    <button
+      text-button
+      [variant]="confirmVariant()"
+      [size]="buttonSize()"
+      (click)="confirmed.emit()"
+      [disable]="disableConfirm()"
+      [loading]="loading()"
+    >
+      {{ confirmButtonText() || 'Save' }}
+    </button>
+  </ng-content>
 </div>

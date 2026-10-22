@@ -1,10 +1,13 @@
 import {
+  booleanAttribute,
   ChangeDetectionStrategy,
   Component,
   computed,
+  DestroyRef,
   effect,
   ElementRef,
   forwardRef,
+  inject,
   input,
   model,
   output,
@@ -16,7 +19,7 @@ import { NgTemplateOutlet } from '@angular/common';
 import { css, keyframes } from '@emotion/css';
 import { fadeIn, fadeOut } from '@uni-design-system/uni-core';
 import { BaseComponent, COMPONENT_NAME } from '../base/base.component';
-import { BackdropDismiss, uniqueId } from '../../cdk';
+import { BackdropDismiss, restoreOverlayFocus, uniqueId } from '../../cdk';
 import { UniDrawerHeaderComponent } from './drawer-header/drawer-header.component';
 import {
   DRAWER_PANEL,
@@ -27,6 +30,8 @@ import {
   type UniDrawerOptions,
 } from './drawer.model';
 
+declare const ngDevMode: boolean | undefined;
+
 /**
  * Drawer with two modes sharing one three-row layout:
  *
@@ -35,7 +40,9 @@ import {
  *   separates it from the page.
  * - `over` — a native `<dialog>` in the top layer: focus trap, Escape and
  *   scrim backdrop come from the platform (same machinery as `uni-dialog`),
- *   sliding in from its edge.
+ *   sliding in from its edge. With `modal` off it is shown as a
+ *   `popover="manual"` instead: still the top layer, but no focus trap, no
+ *   inert page and no backdrop — a workbench beside a live document.
  *
  * **The panel is never the scroll container.** It is a flex column of three
  * rows — an optional `[uni-drawer-header]`, the projected body, an optional
@@ -86,11 +93,13 @@ import {
       <dialog
         #overlay
         [class]="overClass()"
+        [attr.popover]="modal() ? null : 'manual'"
         [attr.aria-labelledby]="labelledBy()"
         [attr.aria-label]="labelledBy() ? null : ariaLabel()"
         (pointerdown)="backdrop.press($event)"
         (click)="onBackdropClick($event)"
         (cancel)="onCancel($event)"
+        (keydown)="onKeydown($event)"
         (animationend)="onAnimationEnd($event)"
       >
         <ng-container [ngTemplateOutlet]="headerTemplate()" />
@@ -106,6 +115,22 @@ export class UniDrawerComponent extends BaseComponent<UniDrawerOptions> {
 
   mode = input<DrawerMode>('side');
   position = input<DrawerPosition>('start');
+
+  /**
+   * Whether `over` mode is modal. On by default: `showModal()`, a focus trap,
+   * an inert page and a scrim. Off, the panel is a `popover="manual"` — in
+   * the top layer, so nothing can clip or cover it, but the page behind stays
+   * live: a settings panel beside the canvas it changes. Escape still asks to
+   * close through `closeRequest`; `scrim` has no backdrop to paint and is
+   * ignored; see `closeOnOutsideClick` for clicks beyond the panel.
+   */
+  modal = input(true, { transform: booleanAttribute });
+
+  /**
+   * Non-modal only: ask to close (`reason: 'outside'`) on a click beyond the
+   * panel. Off by default — for a workbench the canvas *is* the outside.
+   */
+  closeOnOutsideClick = input(false, { transform: booleanAttribute });
 
   /**
    * Accessible name for the overlay mode. Only consulted when the drawer has
@@ -176,23 +201,69 @@ export class UniDrawerComponent extends BaseComponent<UniDrawerOptions> {
   protected readonly footerTemplate = viewChild.required<TemplateRef<unknown>>('footer');
   private readonly overlay = viewChild<ElementRef<HTMLDialogElement>>('overlay');
 
+  /** The non-modal panel's shown state — a popover has no `open` attribute to read. */
+  private popoverShown = false;
+  private detachOutsideClick: (() => void) | null = null;
+  /** Where focus was when the non-modal panel opened; a modal dialog restores this natively. */
+  private openerFocus: HTMLElement | null = null;
+
   constructor() {
     super();
     effect(() => {
       const dialog = this.overlay()?.nativeElement;
       if (!dialog) return;
+      const modal = this.modal();
+      const shown = modal ? dialog.open : this.popoverShown;
       if (this.open()) {
-        if (!dialog.open) {
+        if (!shown) {
           dialog.removeAttribute('closing');
-          dialog.showModal();
+          if (modal) dialog.showModal();
+          else {
+            this.openerFocus = document.activeElement as HTMLElement | null;
+            dialog.showPopover();
+            this.popoverShown = true;
+            this.listenOutside(dialog);
+          }
           const selector = this.initialFocus();
           if (selector) dialog.querySelector<HTMLElement>(selector)?.focus();
         }
-      } else if (dialog.open) {
+      } else if (shown) {
         // Slide out first; the dialog closes when the animation reports done.
         dialog.setAttribute('closing', 'true');
       }
     });
+
+    // A scrim needs a backdrop, and a popover has none: say so rather than
+    // silently painting nothing.
+    if (typeof ngDevMode === 'undefined' || ngDevMode) {
+      let warned = false;
+      effect(() => {
+        if (warned || this.modal() || this.scrim() === undefined) return;
+        warned = true;
+        console.warn('[uni-drawer] `scrim` has no effect on a non-modal drawer: a popover has no backdrop');
+      });
+    }
+
+    inject(DestroyRef).onDestroy(() => this.detachOutsideClick?.());
+  }
+
+  /**
+   * Non-modal, opt-in: a click beyond the panel asks to close. Attached a
+   * tick after opening so the click that opened the panel cannot also close
+   * it, and detached when the panel hides.
+   */
+  private listenOutside(dialog: HTMLDialogElement): void {
+    this.detachOutsideClick?.();
+    if (!this.closeOnOutsideClick()) return;
+    const onClick = (event: MouseEvent) => {
+      if (!dialog.contains(event.target as Node)) this.requestClose('outside');
+    };
+    const timer = setTimeout(() => document.addEventListener('click', onClick), 0);
+    this.detachOutsideClick = () => {
+      clearTimeout(timer);
+      document.removeEventListener('click', onClick);
+      this.detachOutsideClick = null;
+    };
   }
 
   /**
@@ -218,11 +289,33 @@ export class UniDrawerComponent extends BaseComponent<UniDrawerOptions> {
     this.requestClose('escape');
   }
 
+  /**
+   * A popover fires no `cancel`, so a non-modal panel hears Escape itself —
+   * only while focus is inside it, which is what the keydown reaching the
+   * panel means. Stopped there: one layer per Escape, so an enclosing
+   * handler does not also act on it.
+   */
+  protected onKeydown(event: KeyboardEvent): void {
+    if (this.modal() || event.key !== 'Escape') return;
+    event.preventDefault();
+    event.stopPropagation();
+    this.requestClose('escape');
+  }
+
   protected onAnimationEnd(event: AnimationEvent): void {
     const dialog = this.overlay()?.nativeElement;
     if (!dialog || !dialog.hasAttribute('closing')) return;
     if (event.animationName.includes(this.slideOut())) {
-      dialog.close();
+      if (this.modal()) dialog.close();
+      else {
+        dialog.hidePopover();
+        this.popoverShown = false;
+        this.detachOutsideClick?.();
+        // A manual popover does not hand focus back on its own; a keyboard
+        // user who closed from inside the panel must not be stranded.
+        restoreOverlayFocus(dialog, this.openerFocus);
+        this.openerFocus = null;
+      }
       dialog.removeAttribute('closing');
     }
   }
@@ -320,8 +413,16 @@ export class UniDrawerComponent extends BaseComponent<UniDrawerOptions> {
   protected readonly overClass = computed(() => {
     const options = this.componentOptions();
     const motion = this.motion();
-    const scrim = this.showScrim();
+    const modal = this.modal();
+    const scrim = modal && this.showScrim();
     const start = this.position() === 'start';
+    // What "shown" is: a modal dialog carries `open`; a popover matches
+    // `:popover-open`. The UA hides the other state with `display: none`,
+    // which the shell's `display: flex` would otherwise beat on specificity
+    // — leaving the panel sitting in normal flow behind the page whenever it
+    // is shut. The closing animation still runs: the shown state is only
+    // dropped after it ends.
+    const shown = modal ? '[open]' : ':popover-open';
     return css({
       ...this.shell,
       width: this.panelWidth(),
@@ -333,17 +434,17 @@ export class UniDrawerComponent extends BaseComponent<UniDrawerOptions> {
       margin: start ? '0 auto 0 0' : '0 0 0 auto',
       ...this.surface(),
       ...this.theme.boxShadow(options.elevation),
-      // The UA stylesheet hides a closed dialog with `display: none`, which the
-      // shell's `display: flex` would otherwise beat on specificity — leaving
-      // the panel sitting in normal flow behind the page whenever it is shut.
-      // The closing animation still runs: `open` is only removed after it ends.
-      '&:not([open])': { display: 'none' },
+      [`&:not(${shown})`]: { display: 'none' },
       // `scrim: false` keeps the modality — focus trap, inert page — but stops
-      // the drawer dimming what it covers.
-      '&::backdrop': scrim
-        ? { ...this.theme.backdrop(options.backdrop) }
-        : { background: 'transparent' },
-      '&[open]': { animation: `${this.slideIn()} ${motion.duration}ms ${motion.easing}` },
+      // the drawer dimming what it covers. A popover has no backdrop at all.
+      ...(modal
+        ? {
+            '&::backdrop': scrim
+              ? { ...this.theme.backdrop(options.backdrop) }
+              : { background: 'transparent' },
+          }
+        : {}),
+      [`&${shown}`]: { animation: `${this.slideIn()} ${motion.duration}ms ${motion.easing}` },
       '&[closing]': { animation: `${this.slideOut()} ${motion.duration}ms ${motion.easing}` },
       // Same duration as the slide, so the dimming tracks the panel rather
       // than snapping. Declared after the `[open]` rules: the two match on
