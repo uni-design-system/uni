@@ -6,6 +6,7 @@ import { UniBoxDirective, UniCenterDirective, UniStackDirective } from '../layou
 import { UniTextDirective } from '../text';
 import { UniDialogButtonsComponent } from './dialog-buttons/dialog-buttons.component';
 import { UniDialogHeaderComponent } from './dialog-header/dialog-header.component';
+import { UniDialogTitleDirective } from './dialog-header/dialog-title.directive';
 import { UniDialogComponent as Dialog } from './dialog.component';
 
 type StoryType = Dialog;
@@ -24,6 +25,7 @@ const meta: Meta<StoryType> = {
         UniStackDirective,
         UniDialogHeaderComponent,
         UniDialogButtonsComponent,
+        UniDialogTitleDirective,
       ],
     }),
   ],
@@ -294,6 +296,95 @@ export const Controlled: Story = {
           </span>
         </div>
         <footer dialog-buttons confirmButtonText="Save" cancelButtonText="Cancel"></footer>
+      </dialog>
+    `,
+  }),
+};
+
+/**
+ * A sheet's head: eyebrow, headline and blurb, left-aligned, beside the close
+ * button. `rich` renders the projection as a block instead of one centred
+ * line, and `[dialog-title]` on the headline makes it — not all three lines —
+ * the dialog's accessible name.
+ */
+export const RichHead: Story = {
+  render: () => ({
+    props: { show: false },
+    template: `
+      <button text-button variant="primary" (click)="show = true">Open dialog</button>
+      <dialog uni-dialog [(show)]="show">
+        <header dialog-header rich>
+          <span uni-text="label" display="block" color="on-surface-variant">Custom work</span>
+          <h2 uni-text="headline-small" dialog-title>Add custom work</h2>
+          <span uni-text="body-2-long" display="block" color="on-surface-variant">
+            Describe the piece, who it is for, and when it is needed.
+          </span>
+        </header>
+        <div stack-layout gap="md" padding="md" [width]="420">
+          <uni-input label="Piece" placeholder="What is being made" />
+          <uni-input label="Client" placeholder="Who it is for" />
+        </div>
+        <footer dialog-buttons confirmButtonText="Add" cancelButtonText="Cancel"></footer>
+      </dialog>
+    `,
+  }),
+  play: async ({ canvasElement }) => {
+    const panel = await openPanel(canvasElement);
+    const title = panel.querySelector(`#${panel.getAttribute('aria-labelledby')}`)!;
+    await expect(title.textContent?.trim()).toBe('Add custom work');
+  },
+};
+
+/**
+ * A footer that is not Confirm/Cancel: a footnote on the leading edge and
+ * the sheet's own actions, in the footer's chrome. Confirm here is
+ * asynchronous — `closeOnConfirm` is off and `loading` runs while the save
+ * is in flight, so a failure leaves the dialog open with its error.
+ */
+export const CustomFooter: Story = {
+  render: () => ({
+    props: {
+      show: false,
+      saving: false,
+      save(dialog: Dialog) {
+        this.saving = true;
+        setTimeout(() => {
+          this.saving = false;
+          dialog.close();
+        }, 1200);
+      },
+    },
+    template: `
+      <button text-button variant="primary" (click)="show = true">Open dialog</button>
+      <dialog uni-dialog [(show)]="show" #dialog>
+        <header dialog-header>Confirm purchase order</header>
+        <div box-layout padding="md" [width]="420">
+          <span uni-text="body-1-long">Three line items, one vendor, delivery in two weeks.</span>
+        </div>
+        <footer dialog-buttons [closeOnConfirm]="false" [loading]="saving" (confirmed)="save(dialog)">
+          <span dialog-footnote uni-text="caption" color="on-surface-variant">The order opens for your review.</span>
+        </footer>
+      </dialog>
+    `,
+  }),
+};
+
+/** The same footer with the sheet's own three-state actions in place of the pair. */
+export const ProjectedActions: Story = {
+  render: () => ({
+    props: { show: false },
+    template: `
+      <button text-button variant="primary" (click)="show = true">Open dialog</button>
+      <dialog uni-dialog [(show)]="show" #dialog>
+        <header dialog-header>Unsaved changes</header>
+        <div box-layout padding="md" [width]="420">
+          <span uni-text="body-1-long">Keep the draft, use the saved version, or discard both?</span>
+        </div>
+        <footer dialog-buttons justifyContent="flex-end">
+          <button text-button variant="warn" (click)="dialog.close()">Discard</button>
+          <button text-button variant="secondary" (click)="dialog.close()">Use saved</button>
+          <button text-button variant="primary" (click)="dialog.close()">Keep draft</button>
+        </footer>
       </dialog>
     `,
   }),

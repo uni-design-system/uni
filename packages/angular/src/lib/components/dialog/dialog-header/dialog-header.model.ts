@@ -22,4 +22,11 @@ export interface UniDialogHeaderOptions {
   divider?: Border;
   closeButtonIcon?: IconName;
   closeButtonSize?: Size;
+  /**
+   * Surface of a `rich` head. Unset (the default) inherits the dialog's own
+   * surface: a head that is part of the sheet rather than a pill on it.
+   */
+  richColor?: ContainerColorToken;
+  /** Padding of a `rich` head. Defaults to `md`; `paddingHorizontal` still outranks it sideways. */
+  richPadding?: NullableSize;
 }

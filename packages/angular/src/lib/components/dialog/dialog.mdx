@@ -113,6 +113,44 @@ and let `defaultCloseButton` render the floating close in the corner.
 
 <StoryExample of={Stories.WithoutHeader} />
 
+### The head
+
+A title bar is one line, centred by default, beside the close button. A sheet
+opens with more — an eyebrow, a headline, a blurb — and `rich` renders the
+projection as a block instead, left as you wrote it, in the theme's
+`richColor` (unset: the dialog's own surface) and `richPadding`. Mark the
+headline `[dialog-title]` and it alone becomes the dialog's accessible name;
+without one, the whole block is.
+
+<StoryExample of={Stories.RichHead} />
+
+### The footer
+
+Empty, `[dialog-buttons]` renders a Confirm/Cancel pair wired to the dialog.
+Three inputs shape the pair for a sheet that saves asynchronously:
+`closeOnConfirm` off leaves the closing to you, so a failed save keeps the
+dialog open with its error; `loading` puts the spinner on Confirm; and a
+`[dialog-footnote]` projects on the leading edge, pushing the actions to the
+trailing one.
+
+<StoryExample of={Stories.CustomFooter} />
+
+Project your own buttons and they replace the pair while keeping the row's
+chrome — padding, gap, `justifyContent`, the divider, `stretch` and
+`reverseOrder`. Close the dialog from them through a template reference.
+
+<StoryExample of={Stories.ProjectedActions} />
+
+<div class="tip">
+
+The slot selector `[dialog-buttons]` is also the component's selector. An
+element carrying the attribute without the component imported is projected
+into the footer row as a plain element — which is how apps kept a custom
+footer before this slot existed. Import the component deliberately: with it,
+the row gets the chrome; without it, it is yours entirely.
+
+</div>
+
 ### Controlled by `show`
 
 `[(show)]` is two-way, so state outside the template can open and close the
@@ -155,3 +193,5 @@ Built on the native `<dialog>` element for automatic ARIA support. Includes:
 - Focus trapping and keyboard navigation (Tab, Escape, Enter)
 - Screen reader announcements
 - Semantic dialog roles
+- A `[dialog-header]` labels the dialog; in a `rich` head, mark the headline
+  `[dialog-title]` so the eyebrow and blurb are not read as part of the name

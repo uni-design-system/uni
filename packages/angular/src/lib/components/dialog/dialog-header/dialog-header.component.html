@@ -1,31 +1,60 @@
-<div
-  row-layout
-  [containerColor]="componentOptions().color"
-  [borderRadius]="componentOptions().borderRadius"
-  [height]="componentOptions().height"
-  alignItems="center"
-  [paddingHorizontal]="componentOptions().paddingHorizontal ?? 'sm'"
->
-  <!-- Balance spacer: only centered titles need to offset the close button. -->
-  @if ((componentOptions().textAlign || 'center') === 'center') {
-    <div box-layout [width]="26"></div>
-  }
-  <div box-layout [grow]="1" [attr.id]="titleId">
-    <span uni-text
-      [typeface]="componentOptions().textRole"
-      [color]="componentOptions().textColor"
-      display="block"
-      [textAlign]="componentOptions().textAlign || 'center'"
-      ><ng-content></ng-content
-    ></span>
-  </div>
-  <button
-    icon-button
-    [iconName]="componentOptions().closeButtonIcon"
-    variant="ghost"
-    (click)="closeDialog()"
-    [size]="componentOptions().closeButtonSize || 'md'"
+<!-- One <ng-content>, parked in a template so both shapes can render it. -->
+<ng-template #content><ng-content></ng-content></ng-template>
+
+@if (rich()) {
+  <div
+    row-layout
+    [containerColor]="componentOptions().richColor"
+    alignItems="flex-start"
+    gap="sm"
+    [padding]="componentOptions().richPadding ?? 'md'"
+    [paddingHorizontal]="componentOptions().paddingHorizontal"
   >
-    Close
-  </button>
-</div>
+    <!-- The block names the dialog unless a [dialog-title] inside it does. -->
+    <div box-layout [grow]="1" [minWidth]="0" [attr.id]="markedTitle() ? null : titleId">
+      <ng-container [ngTemplateOutlet]="content" />
+    </div>
+    <button
+      icon-button
+      [iconName]="componentOptions().closeButtonIcon"
+      variant="ghost"
+      (click)="closeDialog()"
+      [size]="componentOptions().closeButtonSize || 'md'"
+    >
+      Close
+    </button>
+  </div>
+} @else {
+  <div
+    row-layout
+    [containerColor]="componentOptions().color"
+    [borderRadius]="componentOptions().borderRadius"
+    [height]="componentOptions().height"
+    alignItems="center"
+    [paddingHorizontal]="componentOptions().paddingHorizontal ?? 'sm'"
+  >
+    <!-- Balance spacer: only centered titles need to offset the close button. -->
+    @if ((componentOptions().textAlign || 'center') === 'center') {
+      <div box-layout [width]="26"></div>
+    }
+    <div box-layout [grow]="1" [attr.id]="titleId">
+      <span
+        uni-text
+        [typeface]="componentOptions().textRole"
+        [color]="componentOptions().textColor"
+        display="block"
+        [textAlign]="componentOptions().textAlign || 'center'"
+        ><ng-container [ngTemplateOutlet]="content"
+      /></span>
+    </div>
+    <button
+      icon-button
+      [iconName]="componentOptions().closeButtonIcon"
+      variant="ghost"
+      (click)="closeDialog()"
+      [size]="componentOptions().closeButtonSize || 'md'"
+    >
+      Close
+    </button>
+  </div>
+}
