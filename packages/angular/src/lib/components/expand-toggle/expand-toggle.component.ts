@@ -31,9 +31,19 @@ import { UniTextDirective } from '../text/text.directive';
       >
         <uni-icon name="chevronUp" size="1em" />
         <span [class]="labelClassName">
-          <span uni-text="label">{{ label() }}</span>
+          <span
+            uni-text
+            [typeface]="expandOptions().textRole ?? 'label'"
+            [color]="expandOptions().textColor"
+            >{{ label() }}</span
+          >
           @if (sublabel()) {
-            <span uni-text="caption" color="on-background-variant">{{ sublabel() }}</span>
+            <span
+              uni-text
+              [typeface]="expandOptions().sublabelRole ?? 'caption'"
+              [color]="expandOptions().sublabelColor ?? 'on-background-variant'"
+              >{{ sublabel() }}</span
+            >
           }
         </span>
       </button>
@@ -77,7 +87,8 @@ export class UniExpandToggleComponent {
   /** Fallback clock when no `transitionSpeed` is bound: the `expand` entry's
       motion token — the same one the region itself reads. */
   private readonly themeService = inject(ThemeService);
-  private readonly expandOptions =
+  /** The `expand` entry — shared with the region, so the two cannot drift. */
+  protected readonly expandOptions =
     this.themeService.getComponentOptions<UniExpandOptions>('expand');
 
   private readonly speed = computed(() => {

@@ -11,7 +11,7 @@ const meta: Meta<StoryType> = {
     return {
       props,
       template: `
-        <uni-expand-toggle [collapsed]="collapsed" #toggle />
+        <uni-expand-toggle [collapsed]="collapsed" [label]="label" [sublabel]="sublabel" #toggle />
         <div>Collapsed: {{ toggle.collapsed() }}</div>
       `,
     };

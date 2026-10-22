@@ -1,6 +1,7 @@
 import { Meta, Title } from '@storybook/addon-docs/blocks';
 import * as Stories from './expand-toggle.stories';
 import { StoryUsage } from '../../../stories/blocks/StoryUsage';
+import { ThemeOptions } from '../../../stories/blocks/ThemeOptionsBlock';
 
 <Meta of={Stories} name="Expand Toggle" />
 <Title />
@@ -33,7 +34,16 @@ already says what the region is.
 
 Only the chevron rotates, not the row, so the label stays upright.
 
+The label and sublabel take their type from the `expand` theme entry —
+`textRole` (default `label`) and `sublabelRole` (default `caption`), with
+`textColor` / `sublabelColor` for the ink — so a theme whose `label` role is a
+caps eyebrow can set the trigger in a body face instead.
+
 <StoryUsage of={Stories.Labelled} />
+
+## Theme options
+
+<ThemeOptions componentName="expand" />
 
 ## Accessibility
 
