@@ -1,5 +1,6 @@
 import { Meta, Title } from '@storybook/addon-docs/blocks';
 import { StoryUsage } from '../../../stories/blocks/StoryUsage';
+import { StoryExample } from '../../../stories/blocks/StoryExample';
 import * as Stories from './scroll-area.stories';
 
 <Meta of={Stories} name="Scroll Area" />
@@ -14,9 +15,18 @@ Emotion-styled WebKit scrollbars with a `scrollbar-width`/`scrollbar-color`
 fallback. It detects scrollable state via ResizeObserver (the `scrollable` output)
 and offers `scrollToTop`/`scrollToBottom` for programmatic control.
 
+Three ways to size it: `height` fixes it; `maxHeight` lets it grow with its
+content up to a cap, then scroll; `fill` takes the room a flex-column parent
+leaves and scrolls within it — the body of a dialog without a wrapper. With none
+of them the area is content-sized and never scrolls.
+
 ## Usage
 
 <StoryUsage
   of={Stories.Primary}
   exclude={['scrollbarClassName', 'contentClassName', 'trackClassName']}
 />
+
+## Max height
+
+<StoryExample of={Stories.MaxHeight} />

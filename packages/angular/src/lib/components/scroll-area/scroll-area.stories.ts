@@ -13,7 +13,18 @@ const meta: Meta<StoryType> = {
       imports: [UniTextDirective, UniButtonComponent],
     }),
   ],
-  argTypes: {},
+  argTypes: {
+    height: { description: 'A fixed height; the area scrolls past it' },
+    maxHeight: {
+      description:
+        'Grow with the content up to this height, then scroll — the shape a dialog body wants',
+    },
+    fill: {
+      control: 'boolean',
+      description:
+        'Take the room a flex-column parent leaves (flex: 1 1 auto; min-height: 0) and scroll within it',
+    },
+  },
   render: (args) => {
     const { ngContent, ...props } = args;
     return {
@@ -68,4 +79,12 @@ export const Primary: Story = {
 
     `,
   },
+};
+
+/**
+ * `maxHeight`: as tall as its content until the cap, then scrolling. With
+ * neither `height` nor `maxHeight` the area is content-sized and never scrolls.
+ */
+export const MaxHeight: Story = {
+  args: { ...Primary.args, height: undefined, maxHeight: 160 },
 };

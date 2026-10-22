@@ -1,5 +1,6 @@
 import {
   afterNextRender,
+  booleanAttribute,
   ChangeDetectionStrategy,
   Component,
   computed,
@@ -72,6 +73,17 @@ export class UniScrollAreaComponent {
   paddingBottom = input<OptionalSize>();
   border = input<Variant>();
   height = input<OptionalValue>();
+  /**
+   * Grow with the content up to this height, then scroll. The shape a dialog
+   * body wants: as tall as the form until it would leave the viewport. With
+   * `height` unset the area is otherwise content-sized and never scrolls.
+   */
+  maxHeight = input<OptionalValue>();
+  /**
+   * Take the room a flex-column parent leaves (`flex: 1 1 auto; min-height: 0`)
+   * and scroll within it — the body of a dialog or drawer without a wrapper.
+   */
+  fill = input(false, { transform: booleanAttribute });
   width = input<OptionalValue>();
   appearance = input<ScrollbarAppearance>('compact');
   autoHeightDisabled = input<boolean>(false);
@@ -88,17 +100,37 @@ export class UniScrollAreaComponent {
     this.viewport().nativeElement.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
-  protected readonly className = computed(() => {
-    return css({
-      display: 'block',
-      overflow: 'hidden',
-      height: this.height(),
-      width: this.width(),
+  /**
+   * `maxHeight` and `fill` both size the host by something other than its own
+   * content, and a `height: 100%` viewport cannot resolve against that — so
+   * in either mode the host becomes a flex column and the viewport its one
+   * shrinkable item. Content-sized and `height`-sized areas keep the block
+   * layout they always had.
+   */
+  private readonly flexed = computed(() => this.fill() || this.maxHeight() !== undefined);
 
-      ...this.theme.colorPair(this.containerColor()),
-      ...this.theme.radius(this.borderRadius()),
-      ...this.theme.border(this.border()),
-    });
+  protected readonly className = computed(() => {
+    return css([
+      {
+        display: 'block',
+        overflow: 'hidden',
+        height: this.height(),
+        width: this.width(),
+
+        ...this.theme.colorPair(this.containerColor()),
+        ...this.theme.radius(this.borderRadius()),
+        ...this.theme.border(this.border()),
+      },
+      this.flexed() && {
+        display: 'flex',
+        flexDirection: 'column',
+        maxHeight: this.maxHeight(),
+      },
+      this.fill() && {
+        flex: '1 1 auto',
+        minHeight: 0,
+      },
+    ]);
   });
 
   protected viewportClassName = computed(() => {
@@ -143,6 +175,13 @@ export class UniScrollAreaComponent {
           borderRadius: 12,
           ...this.theme.border('quaternary'),
         },
+      },
+      // The one flex item of a `maxHeight`/`fill` host: it may shrink below
+      // its content, which is what makes it scroll.
+      this.flexed() && {
+        height: 'auto',
+        flex: '1 1 auto',
+        minHeight: 0,
       },
     ]);
   });
