@@ -193,7 +193,7 @@ export class UniDialogComponent extends BaseComponent<UniDialogOptions> {
       position: 'relative',
       overflowX: 'hidden',
       overflowY: 'auto',
-      overscrollBehavior: 'contain',
+      overscrollBehavior: this.componentOptions().overscroll ?? 'contain',
       ...this.theme.padding(this.componentOptions().bodyPadding),
     })
   );

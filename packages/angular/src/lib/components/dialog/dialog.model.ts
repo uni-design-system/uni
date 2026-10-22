@@ -42,4 +42,11 @@ export interface UniDialogOptions {
    * there.
    */
   inset?: NullableSize;
+  /**
+   * `overscroll-behavior` of the scrolling body row. `contain` (the default)
+   * stops a scroll that reaches the body's end from continuing into the page
+   * behind the dialog but still lets it rubber-band; `none` stops both; `auto`
+   * is the browser's. A house decision rather than a per-sheet one.
+   */
+  overscroll?: 'auto' | 'contain' | 'none';
 }

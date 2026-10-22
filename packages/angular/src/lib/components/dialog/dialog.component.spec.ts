@@ -15,6 +15,8 @@ import { UniDialogButtonsComponent } from './dialog-buttons/dialog-buttons.compo
 import { UniDialogHeaderComponent } from './dialog-header/dialog-header.component';
 import { UniDialogComponent } from './dialog.component';
 import { UniDrawerComponent } from '../drawer/drawer.component';
+import { createTheme, LightTheme } from '@uni-design-system/uni-core';
+import { ThemeService } from '../../theming';
 
 describe('UniDialogComponent', () => {
   let fixture: ComponentFixture<UniDialogComponent>;
@@ -175,6 +177,20 @@ describe('UniDialogComponent rows', () => {
     expect(bodyStyle.overscrollBehavior).toBe('contain');
     // A containing block, so no absolute descendant escapes into an ancestor.
     expect(bodyStyle.position).toBe('relative');
+  });
+
+  it('takes the body overscroll from the theme option', () => {
+    TestBed.inject(ThemeService).registerTheme(
+      createTheme({
+        id: 'NoBounce',
+        name: 'No Bounce',
+        colors: LightTheme.colors,
+        components: { dialog: { options: { overscroll: 'none' } } },
+      }),
+      { select: true }
+    );
+    fixture.detectChanges();
+    expect(getComputedStyle(bodyRow()).overscrollBehavior).toBe('none');
   });
 
   it('pins the header and footer while the body takes the slack', () => {

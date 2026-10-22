@@ -56,6 +56,12 @@ Two options, because the two rows want different things:
 Padding on the surface is safe here (it is not safe on a box that scrolls)
 precisely because the dialog never scrolls: only its body row does.
 
+### Overscroll
+
+What happens when a scroll reaches the body's end is the `overscroll` theme
+option: `contain` (default) keeps it from chaining into the page behind the
+dialog, `none` also stops the rubber-band at the ends, `auto` is the browser's.
+
 <div class="tip">
 
 Setting one overflow axis computes the other to `auto`. If you write your own
