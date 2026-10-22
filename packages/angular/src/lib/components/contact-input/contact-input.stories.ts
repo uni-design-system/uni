@@ -42,6 +42,15 @@ const meta: Meta<UniContactInputComponent> = {
         'Keep the first match highlighted so Enter or Tab picks it without arrowing (default false)',
     },
     unframed: { description: 'Drop the field chrome and render a bare row' },
+    parse: {
+      description:
+        'Split pasted text into addresses yourself; the default splits on , ; newline, tab and whitespace and unwraps Name <address>',
+    },
+    chipAvatar: {
+      control: 'boolean',
+      description:
+        "Draw an initials avatar on each chip. Unbound, the theme's contactInput.chipAvatar decides (default true)",
+    },
     maxLength: { description: 'Maximum number of people; bound as [max]' },
     autocomplete: { description: "The text field's autocomplete token (default 'off')" },
     added: { description: 'A person was added' },

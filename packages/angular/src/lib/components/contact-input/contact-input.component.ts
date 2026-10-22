@@ -68,6 +68,17 @@ export class UniContactInputComponent
   /** What a typed value must satisfy under `allowCustom`. Defaults to an email address. */
   validate = input<(raw: string) => boolean>();
   /**
+   * Split pasted text into addresses yourself. The default splits on `,` `;`
+   * newline, tab and whitespace, and unwraps `Name <address>`.
+   */
+  parse = input<(pasted: string) => string[]>();
+  /**
+   * Draw an initials avatar on each chip. Unbound, the `contactInput` theme
+   * entry's `chipAvatar` decides (on by default). Off, a chip is the name
+   * alone — in a narrow row of first names the initials only repeat it.
+   */
+  chipAvatar = input<boolean | undefined>(undefined);
+  /**
    * `false` renders `contacts` verbatim; narrow them app-side from `(query)`
    * when the directory lives on a server.
    */
@@ -116,16 +127,21 @@ export class UniContactInputComponent
     () => new Map(this.value().map((contact) => [contact.value, contact]))
   );
 
-  /** The value as the chips the inner field renders. */
-  protected readonly items = computed<UniTagItem[]>(() =>
-    this.value().map((contact) => ({
-      value: contact.value,
-      avatarName: contact.name || contact.value,
-      ...(contact.name ? { label: contact.name } : {}),
-      ...(contact.avatarSrc ? { avatarSrc: contact.avatarSrc } : {}),
-      ...(contact.disabled ? { disabled: true } : {}),
-    }))
+  private readonly showChipAvatar = computed(
+    () => this.chipAvatar() ?? this.componentOptions().chipAvatar ?? true
   );
+
+  /** The value as the chips the inner field renders. */
+  protected readonly items = computed<UniTagItem[]>(() => {
+    const avatar = this.showChipAvatar();
+    return this.value().map((contact) => ({
+      value: contact.value,
+      ...(avatar ? { avatarName: contact.name || contact.value } : {}),
+      ...(contact.name ? { label: contact.name } : {}),
+      ...(avatar && contact.avatarSrc ? { avatarSrc: contact.avatarSrc } : {}),
+      ...(contact.disabled ? { disabled: true } : {}),
+    }));
+  });
 
   /** Contacts matching the typed text by name, address or value. */
   protected readonly suggestions = computed<UniTagSuggestion[]>(() => {

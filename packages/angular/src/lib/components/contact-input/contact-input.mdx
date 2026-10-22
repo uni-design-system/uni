@@ -21,9 +21,11 @@ It behaves like a mail client: ArrowDown walks the matches and Enter picks
 the active one, Backspace in an empty field removes the last person, and text
 that is neither a known contact nor a valid address stays in the field to be
 fixed. Set `autoHighlight` to keep the first match active, so Enter or Tab
-picks it without arrowing. The chips come
+picks it without arrowing. A paste splits on commas, semicolons, line breaks
+and whitespace, so a column copied from a spreadsheet becomes one chip per
+address (`parse` takes over tokenizing when that is wrong). The chips come
 from the `tag` theme entry, the popup from `tagInput`, the field chrome from
-`input`, and the person row from `contactInput`.
+`input`, and the person row and chip avatar from `contactInput`.
 
 ## Usage
 

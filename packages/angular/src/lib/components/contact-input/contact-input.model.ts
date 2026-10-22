@@ -45,4 +45,9 @@ export interface UniContactInputOptions {
   detailTypeface?: Typeface;
   /** Space between the avatar and the text. */
   rowGap?: OptionalSize;
+  /**
+   * Draw an initials avatar on each chip. On by default; the component's
+   * `chipAvatar` input overrides it per field.
+   */
+  chipAvatar?: boolean;
 }

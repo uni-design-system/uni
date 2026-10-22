@@ -197,6 +197,55 @@ describe('UniContactInputComponent', () => {
     });
   });
 
+  describe('paste', () => {
+    const paste = (text: string) => {
+      const event = new Event('paste', { bubbles: true, cancelable: true }) as ClipboardEvent;
+      Object.defineProperty(event, 'clipboardData', { value: { getData: () => text } });
+      field().dispatchEvent(event);
+      fixture.detectChanges();
+    };
+
+    it('splits addresses separated only by spaces', () => {
+      paste('ada@example.com grace@example.com ');
+      expect(values()).toEqual(['ada@example.com', 'grace@example.com']);
+      expect(field().value).toBe('');
+    });
+
+    it('forwards a custom parse to the inner field', () => {
+      setInputs({ parse: (raw: string) => raw.split('|') });
+      paste('ada@example.com|grace@example.com');
+      expect(values()).toEqual(['ada@example.com', 'grace@example.com']);
+    });
+  });
+
+  describe('chips', () => {
+    const chipAvatarName = () => chips()[0]?.getAttribute('ng-reflect-avatar-name');
+
+    it('draw an initials avatar by default', () => {
+      setInputs({ value: [CONTACTS[0]] });
+      expect(fixture.componentInstance['items']()[0].avatarName).toBe('Alice Chen');
+    });
+
+    it('draw the name alone with chipAvatar off', () => {
+      setInputs({ value: [CONTACTS[0]], chipAvatar: false });
+      const item = fixture.componentInstance['items']()[0];
+      expect(item.avatarName).toBeUndefined();
+      expect(item.label).toBe('Alice Chen');
+      expect(chipAvatarName()).toBeNull();
+    });
+  });
+
+  describe('contacts that arrive after focus', () => {
+    it('open the list while the field is still focused', () => {
+      setInputs({ contacts: [] });
+      focusField();
+      expect(options().length).toBe(0);
+
+      setInputs({ contacts: CONTACTS });
+      expect(options().length).toBe(4);
+    });
+  });
+
   describe('chrome and ARIA', () => {
     it('is framed by default and bare when unframed', () => {
       expect(host.querySelector('uni-input-box')).not.toBeNull();
