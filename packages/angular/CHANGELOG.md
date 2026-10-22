@@ -1,5 +1,31 @@
 # @uni-design-system/uni-angular
 
+## 11.7.0
+
+### Minor Changes
+
+- [`ffe2080`](https://github.com/uni-design-system/uni/commit/ffe2080abfa45e577454cfd76b7d472fa51b25e9) Thanks [@gaenglish](https://github.com/gaenglish)! - Data table refinements from the Wellsourced adoption.
+  - **Phantom scrollbar fixed**: a right-aligned last column no longer grows a horizontal scrollbar. The sort arrow now sits on the leading side of the label in right-aligned columns, and header cells clip the arrow instead of letting it widen the scroll area.
+  - **`ColumnDefinition`**: `width` (a preferred column width) and `sortable` (default `true`; `false` renders a plain heading with no sort button or `aria-sort`).
+  - **Cell templates** receive the row as `$implicit` and its `index`, alongside the row's fields by name, so `let-row` works and existing `let-name="name"` templates are unchanged. The context type is exported as `UniDataTableCellContext<T>`.
+  - **`dataTable` theme options**: `thPaddingVertical` / `thPaddingHorizontal` and `tdPaddingVertical` / `tdPaddingHorizontal` override `thPadding` / `tdPadding` per axis; `sortIcon` picks the sort glyph (default `arrowUp`).
+  - **`uni-sort-header`**: `iconName` and `align` inputs.
+
+- [`9ff14bc`](https://github.com/uni-design-system/uni/commit/9ff14bca485025a6108c8bf0c20f8cea703e39f5) Thanks [@gaenglish](https://github.com/gaenglish)! - Close the first two tiers of the Wellsourced change-request queue: six silent-failure fixes and five "the theme could not reach it" gaps, all additive.
+  - **`uni-select`**: a value no option stands for — `''`, a stale id, or `null` with no `placeholder` — now renders as empty instead of as the first option. A native `<select>` with no selected `<option>` shows its first entry, so the field used to display a choice the model did not hold. A hidden "nothing selected" row is rendered whenever the model is unmatched (the placeholder, when there is one), and a dev-mode warning names a bound value that matches no option once the options have loaded.
+  - **`uni-button`, `uni-icon-button`**: `disabled` is accepted as an alias of `disable`. The native name — the one every other Uni control uses — used to land on the DOM property, where the host's own attribute binding removed it on the first pass, so a button that had to start disabled rendered enabled with no error. `icon-button`'s `disable` and `loading` gain the `booleanAttribute` transform `text-button`'s already had: `<button icon-button disable>` works, and an optional chain (`[disable]="x()?.saving"`) no longer needs a `!!`.
+  - **`uni-tour`**: `finished` is only emitted for a run that presented at least one step, and `started` fires when the first step is presented — from `start()` or from a write to `active` — rather than at the call. A `start()` issued before `steps` are bound waits for them, so a host that loads steps from a service and starts in the same turn opens on the first one instead of reporting a finish for a tour that never opened. A one-step tour draws no progress, `progressStyle` accepts `'none'` and has a per-instance input, and a step may omit `body`.
+  - **`uni-notification-badge`**: the `typeface` option is read (it was declared and never wired), the host is `inline-flex` so it no longer drops a wrapped link under its flex siblings, and the disc takes its size from a new `sizes` block (`sm` 14 / `md` 16 / `lg` 20px, keyed by `size`; `lg` is the default and the 20px it always drew). A count may widen rather than clip inside a fixed square. `offset` documents how it should scale with the wrapped element.
+  - **`uni-contact-input`**: forwards `parse`; a `chipAvatar` input and theme option (default `true`) draw the chip as the name alone when the initials would only repeat it. **`uni-tag-input`** under `preset="email"` now splits a paste on whitespace too — a column copied from a spreadsheet becomes one chip per address — while keeping the words of `Name <address>` together; and `openOnFocus` opens the list when suggestions arrive _after_ focus, so a field focused while its contacts are still loading shows them the moment they land (unless Escape dismissed the list in between).
+  - **`uni-toggle`**: the hidden native input uses the shared `visuallyHidden` recipe — the last hidden helper in the library still on a private `position: absolute`.
+  - **`uni-expand-toggle`**: the labelled trigger's type is themable through the `expand` entry — `textRole` / `textColor` and `sublabelRole` / `sublabelColor`, defaulting to the `label` / `caption` it hardcoded. The checkbox finding from 11.2.0, closed here.
+  - **`uni-input`, `uni-textarea`, `uni-number-input`**: `unframed` drops the field chrome (border, fill, radius, shadow, inset and focus treatment) and renders the bare control, the same meaning it has on `uni-tag-input`; it lives on `uni-input-box` and is forwarded. `uni-input` also gains `align`, as `uni-number-input` has. (`labelHidden` was asked for too: the text fields never draw their `label` — it is the accessible name only — so there is nothing to hide.)
+  - **`uni-dialog`**: an `overscroll` theme option (`auto` / `contain` / `none`, default `contain`, which is what the body hardcoded) for the scrolling body row.
+  - **`uni-scroll-area`**: `maxHeight` lets the area grow with its content up to a cap and then scroll; `fill` takes the room a flex-column parent leaves. Either makes it the body of a dialog without a wrapper. With neither (or `height`) the layout is unchanged.
+  - **`uni-combobox`**: `emptyValue` is what a clear writes — `null` by default, `''` for a field bound to a plain `string` schema, whose readers no longer meet a `null` after the ✕.
+
+  Theme-level additions in uni-core's base theme: `notificationBadge.sizes` and `options.typeface`, `expand.options.textRole` / `sublabelRole` / `sublabelColor`, `dialog.options.overscroll`, `contactInput.options.chipAvatar`. Every default reproduces what the component previously hardcoded.
+
 ## 11.6.0
 
 ### Minor Changes
