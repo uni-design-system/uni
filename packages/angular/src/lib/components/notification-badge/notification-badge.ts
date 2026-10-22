@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, computed, input } from '@angular/core';
 import { css } from '@emotion/css';
-import type { Variant } from '@uni-design-system/uni-core';
+import type { StyleExpression, Variant } from '@uni-design-system/uni-core';
 import { BaseComponent } from '../base';
 import { COMPONENT_NAME } from '../base/base.component';
 import { UniTextDirective } from '../text';
@@ -70,10 +70,22 @@ export class UniNotificationBadgeComponent extends BaseComponent<UniNotification
     return count !== undefined && count > 0;
   });
 
+  /**
+   * The disc's height for the active `size`, read out of the theme's `sizes`
+   * block as data — the treatment `uni-checkbox` and `uni-toggle` give theirs.
+   * Falls back to the 20px every badge drew before the block existed.
+   */
+  private readonly discSize = computed(() => {
+    const size = (this.componentTheme().sizes?.[this.size()] as StyleExpression | undefined)
+      ?.height;
+    return typeof size === 'number' ? size : 20;
+  });
+
   protected readonly className = computed(() => {
     const variant = this.badgeVariant();
     const color = this.color();
     const position = this.position();
+    const size = this.discSize();
     // A theme may omit `offset`; without the fallback this concatenates to
     // the invalid length 'undefinedpx' and the badge loses its position.
     const offset = (this.componentOptions().offset ?? 0) + 'px';
@@ -85,40 +97,55 @@ export class UniNotificationBadgeComponent extends BaseComponent<UniNotification
       'bottom-left': { bottom: offset, left: offset },
     }[position];
 
+    // Geometry scales with the disc. A count is a circle that may widen —
+    // "99+" used to be clipped inside a fixed 20px square — and a pill starts
+    // wider and takes more side room.
+    const dot = Math.round(size * 0.4);
     const variantStyles = {
       dot: {
-        width: '8px',
-        height: '8px',
+        width: dot,
+        height: dot,
         borderRadius: '50%',
         minWidth: 'unset',
       },
       count: {
-        width: 20,
-        height: 20,
-        borderRadius: 10,
+        minWidth: size,
+        height: size,
+        borderRadius: size / 2,
+        padding: `0 ${Math.round(size * 0.2)}px`,
       },
       pill: {
-        minWidth: '24px',
-        height: '20px',
-        borderRadius: '10px',
-        padding: '0 8px',
+        minWidth: Math.round(size * 1.2),
+        height: size,
+        borderRadius: size / 2,
+        padding: `0 ${Math.round(size * 0.4)}px`,
       },
     }[variant];
 
     return css({
       position: 'relative',
-      display: 'inline-block',
+      // Inline-flex, not inline-block: an inline-block wrapper sits on the
+      // text baseline and carries line-height below it, so inside a flex row
+      // the wrapped link dropped a few pixels under its siblings. A wrapper
+      // must not change the layout of what it wraps.
+      display: 'inline-flex',
+      alignItems: 'center',
 
       '& .notification-badge-indicator': {
         position: 'absolute',
         display: 'inline-flex',
         alignItems: 'center',
         justifyContent: 'center',
+        boxSizing: 'border-box',
         ...this.theme.getContainerColors(color || 'warn'),
         zIndex: 1,
 
         ...positionStyles,
         ...variantStyles,
+
+        // The count's line box must not outgrow the disc, or a typeface with a
+        // generous line-height pushes the digits off-centre.
+        '& [uni-text]': { lineHeight: 1 },
       },
     });
   });

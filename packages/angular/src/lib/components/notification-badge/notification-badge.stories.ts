@@ -26,6 +26,12 @@ const meta: Meta<UniNotificationBadgeComponent> = {
       options: ['dot', 'count', 'pill'],
       description: 'Visual style of the badge',
     },
+    size: {
+      control: 'select',
+      options: ['sm', 'md', 'lg'],
+      description:
+        "Disc size, from the theme's `notificationBadge.sizes` block (base: 14 / 16 / 20px). Default: lg",
+    },
     color: {
       control: 'select',
       options: [

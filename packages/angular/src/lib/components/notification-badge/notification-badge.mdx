@@ -17,8 +17,11 @@ avatar. Three shapes: `dot` (something is new), `count` (how many), and `pill`
 (counts that need room); `maxCount` caps the display ("99+"). Position it on any
 corner of the wrapped content.
 
-Radius and offset resolve from the `notificationBadge` theme options; the badge
-wears the active `variant` color.
+Radius, offset and the count's typeface resolve from the `notificationBadge`
+theme options, and the disc's size from its `sizes` block through the `size`
+input (a `sm` badge for a 12px nav label, `lg` for an icon button); the badge
+wears the active `variant` color. The wrapper is inline-flex, so it never moves
+the element it wraps.
 
 ## Usage
 
