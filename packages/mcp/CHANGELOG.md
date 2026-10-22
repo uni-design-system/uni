@@ -1,5 +1,7 @@
 # @uni-design-system/uni-mcp
 
+## 11.11.0
+
 ## 11.10.0
 
 ## 11.9.0
