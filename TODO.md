@@ -319,6 +319,29 @@ audits: `packages/angular/TODO.md` (v4 audit) and `uni-theme-generation-plan.md`
       desktop option and both are stated honestly in ACCESSIBILITY.md. Revisit
       only with a taller field or a different stacked layout.
 
+## Wellsourced change-request queue (2026-10-22)
+
+The consumer keeps its requests in
+`Wellsourced/apps/web/mockups/uni-change-requests/` with a status index
+(`STATUS-2026-10-09.md`). 11.7.0 closed tiers 1–2 (correctness + "the theme
+cannot reach it"); the answer is `packages/angular/prototypes/uni-11.7.0-wellsourced-response.md`.
+Still open, in order:
+
+- [ ] **Footer slots + rich dialog head** (`uni-dialog-pinned-regions-cr.md`
+      §3–§4, `drawer-buttons-slot-2026-10-09.md`) **with the non-modal `over`
+      drawer** (`drawer-non-modal-2026-10-10.md`) — one drawer release. Also
+      unblocks tour §6.
+- [ ] **Data-table selection column + id-keyed expansion**
+      (`data-table-selection-2026-10-10.md`): `useMultiSelect` is a dead input.
+- [ ] **`uni-card` state via Emotion class** (`card-theme-state-2026-10-09.md`);
+      `uni-card-group` is a scope decision.
+- [ ] **Tour target resolver / lazy retry / `targetMissing`**
+      (`tour-and-callout-2026-10-14.md` §2, §6).
+- [ ] **Color roles** (`theme-color-roles-2026-10-10.md`) — overlaps ROADMAP
+      Track 1 §8; then **phone input** (`phone-input-2026-10-10.md`).
+- [ ] Decisions: combobox `allowCustom` / `displayWith` (declined by design above,
+      now with a consumer case); callout default faces; data-table §2 padding.
+
 ## Process / quality
 
 - [x] ~~Angular build does no typechecking~~ — fixed 2026-08-29: `pnpm build` is
