@@ -90,6 +90,13 @@ describe('UniDialogButtonsComponent in a dialog', () => {
     expect(buttons()).toEqual(['Discard', 'Keep']);
   });
 
+  it('centres its items on the cross axis, so a footnote sits on the buttons\' centre line', () => {
+    fixture.componentInstance.footnote.set(true);
+    fixture.detectChanges();
+    const row = footer().firstElementChild as HTMLElement;
+    expect(getComputedStyle(row).alignItems).toBe('center');
+  });
+
   it('a projected row keeps the chrome: the padded, justified row', () => {
     fixture.componentInstance.custom.set(true);
     fixture.detectChanges();

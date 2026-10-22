@@ -1138,11 +1138,18 @@ const buildComponents = (c: Colors): ComponentThemes => ({
     // (borders.primary … borders.success — override with `border` to pin all
     // cards to one primitive, e.g. a custom 'brush-stroke'), the radii scale
     // (`xs` = the classic 8px), and an optional elevation shadow.
-    options: { borderRadius: 'xs' },
+    // A selected card wears the `primary` frame and the primary container
+    // fill: every card already has the primary frame under this theme, so
+    // the fill is what makes the pick visible.
+    options: { borderRadius: 'xs', selectedBorder: 'primary', selectedColor: 'primary-container' },
     // Both halves of the pair: painting a surface without its on-color left
     // text to the user-agent default (black), which is invisible on a dark
     // theme's background — `cardHeader` below pairs every variant the same way.
     fixed: { overflow: 'hidden', backgroundColor: c.background, color: c['on-background'] },
+  },
+  // Pick-one grid of cards; the cards own every colour decision.
+  cardGroup: {
+    options: { gap: 'md', templateColumns: 'repeat(auto-fit, minmax(160px, 1fr))' },
   },
   cardHeader: {
     fixed: { padding: '12px 24px' },

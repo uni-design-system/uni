@@ -67,7 +67,7 @@ import { BackdropDismiss, uniqueId } from '../../cdk';
   providers: [{ provide: COMPONENT_NAME, useValue: 'dialog' }],
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
-    '[attr.aria-labelledby]': 'hasTitle() ? titleId : null',
+    '[attr.aria-labelledby]': 'hasTitle() ? (titleIdOverride() ?? titleId) : null',
     '[attr.aria-label]': 'ariaLabel() ?? null',
     '[class]': 'className()',
     '(pointerdown)': 'backdrop.press($event)',
@@ -99,6 +99,11 @@ export class UniDialogComponent extends BaseComponent<UniDialogOptions> {
   /** Id referenced by aria-labelledby; DialogHeader attaches it to the title. */
   readonly titleId = uniqueId('uni-dialog-title');
   readonly hasTitle = signal(false);
+  /**
+   * An id the title already had, which then names the dialog in place of
+   * `titleId` — a consumer's own id on a `[dialog-title]` is never replaced.
+   */
+  readonly titleIdOverride = signal<string | null>(null);
 
   /** Emits true once opened and false once the closing animation finishes. */
   showing = output<boolean>();

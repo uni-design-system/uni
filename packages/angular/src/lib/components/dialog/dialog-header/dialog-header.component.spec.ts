@@ -4,7 +4,7 @@
  * inside it names the dialog on its own — so an eyebrow and a blurb are not
  * read out as part of the name.
  */
-import { Component, signal } from '@angular/core';
+import { Component, input, signal } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { UniDialogHeaderComponent } from './dialog-header.component';
 import { UniDialogTitleDirective } from './dialog-title.directive';
@@ -93,10 +93,106 @@ describe('UniDialogHeaderComponent shapes', () => {
     fixture.componentInstance.rich.set(true);
     fixture.componentInstance.marked.set(true);
     fixture.detectChanges();
-    expect(labelledBy()?.id).toBe(dialog().getAttribute('aria-labelledby'));
+    // The consumer's own id is kept and pointed at, not replaced.
+    expect(dialog().getAttribute('aria-labelledby')).toBe('headline');
     expect(labelledBy()?.textContent?.trim()).toBe('Add custom work');
     expect(labelledBy()?.tagName).toBe('H2');
     // Exactly one element carries the id.
     expect(host().querySelectorAll(`#${dialog().getAttribute('aria-labelledby')}`).length).toBe(1);
+  });
+});
+
+/**
+ * A sheet wrapped in an app component: the header is declared in the
+ * wrapper's template and the head's content is projected *through* it. A
+ * content query cannot see such a node and a directive inside it cannot
+ * inject the dialog, so the first cut named every wrapped sheet by its whole
+ * head. The header now finds the marked title in the DOM, and defers to the
+ * dialog's own `ariaLabel` when there is none.
+ */
+@Component({
+  selector: 'app-sheet',
+  imports: [UniDialogComponent, UniDialogHeaderComponent],
+  template: `
+    <dialog uni-dialog [show]="true" [ariaLabel]="ariaLabel()" [defaultCloseButton]="closeButton()">
+      <header dialog-header rich><ng-content select="[sheet-head]" /></header>
+      <p>body</p>
+    </dialog>
+  `,
+})
+class SheetWrapper {
+  ariaLabel = input<string>();
+  closeButton = input<boolean | undefined>(undefined);
+}
+
+@Component({
+  imports: [SheetWrapper, UniDialogTitleDirective],
+  template: `
+    <app-sheet [ariaLabel]="ariaLabel()" [closeButton]="closeButton()">
+      <div sheet-head>
+        <span id="eyebrow">Presentations</span>
+        @if (marked()) {
+          <h2 dialog-title id="headline">New presentation</h2>
+        } @else {
+          <h2 id="headline">New presentation</h2>
+        }
+        <p>Starts with 3 of 10 board items.</p>
+      </div>
+    </app-sheet>
+  `,
+})
+class WrappedHost {
+  ariaLabel = signal<string | undefined>(undefined);
+  closeButton = signal<boolean | undefined>(undefined);
+  marked = signal(false);
+}
+
+describe('UniDialogHeaderComponent through a wrapper', () => {
+  let fixture: ComponentFixture<WrappedHost>;
+
+  const host = () => fixture.nativeElement as HTMLElement;
+  const dialog = () => host().querySelector('dialog')!;
+  const name = () => {
+    const id = dialog().getAttribute('aria-labelledby');
+    return id ? host().querySelector(`#${id}`)?.textContent?.trim() : dialog().getAttribute('aria-label');
+  };
+  const closeButton = () => host().querySelector('header button');
+
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({ imports: [WrappedHost] }).compileComponents();
+    fixture = TestBed.createComponent(WrappedHost);
+    fixture.detectChanges();
+    await fixture.whenStable();
+    fixture.detectChanges();
+  });
+
+  it('a [dialog-title] projected through the wrapper still names the dialog alone', async () => {
+    fixture.componentInstance.marked.set(true);
+    fixture.detectChanges();
+    await fixture.whenStable();
+    fixture.detectChanges();
+    expect(name()).toBe('New presentation');
+    expect(host().querySelectorAll(`#${dialog().getAttribute('aria-labelledby')}`).length).toBe(1);
+  });
+
+  it('without a marked title, the dialog\'s own ariaLabel wins over the block', async () => {
+    fixture.componentInstance.ariaLabel.set('New presentation');
+    fixture.detectChanges();
+    await fixture.whenStable();
+    fixture.detectChanges();
+    expect(dialog().getAttribute('aria-labelledby')).toBeNull();
+    expect(name()).toBe('New presentation');
+  });
+
+  it('without either, the block is the name, as for a bare dialog', () => {
+    expect(name()).toContain('Presentations');
+    expect(name()).toContain('Starts with 3 of 10');
+  });
+
+  it('renders the close button unless the dialog says defaultCloseButton=false', async () => {
+    expect(closeButton()).not.toBeNull();
+    fixture.componentInstance.closeButton.set(false);
+    fixture.detectChanges();
+    expect(closeButton()).toBeNull();
   });
 });

@@ -71,6 +71,11 @@ describe('UniDrawerButtonsComponent', () => {
     expect(emittedRuleFor(row)).toContain('justify-content:flex-end');
   });
 
+  it('centres its items on the cross axis', () => {
+    const row = footer().firstElementChild as HTMLElement;
+    expect(getComputedStyle(row).alignItems).toBe('center');
+  });
+
   it('loading marks Save busy', () => {
     fixture.componentInstance.loading.set(true);
     fixture.detectChanges();

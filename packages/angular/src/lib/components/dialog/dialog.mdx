@@ -119,8 +119,12 @@ A title bar is one line, centred by default, beside the close button. A sheet
 opens with more — an eyebrow, a headline, a blurb — and `rich` renders the
 projection as a block instead, left as you wrote it, in the theme's
 `richColor` (unset: the dialog's own surface) and `richPadding`. Mark the
-headline `[dialog-title]` and it alone becomes the dialog's accessible name;
-without one, the whole block is.
+headline `[dialog-title]` and it alone becomes the dialog's accessible name —
+found in the DOM, so it works when the head is projected through a wrapper
+component, and its own id is kept. Without one, the dialog's `ariaLabel` names
+it if set; only a bare dialog with neither is named by the whole block. The
+close button in either shape follows the dialog's `defaultCloseButton`: a sheet
+that closes from its footer says `[defaultCloseButton]="false"` once.
 
 <StoryExample of={Stories.RichHead} />
 

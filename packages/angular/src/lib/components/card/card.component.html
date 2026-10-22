@@ -1,3 +1,15 @@
-<div [style]="cardStyle()">
+<!-- The frame carries the theme style and the state classes a theme keys on
+     (`&.card-selected`, `&.card-interactive`); inside a group it is also the
+     radio. -->
+<div
+  #frame
+  [class]="frameClasses()"
+  [attr.role]="isOption() ? 'radio' : null"
+  [attr.aria-checked]="isOption() ? isSelected() : null"
+  [attr.aria-disabled]="isOption() && isDisabled() ? true : null"
+  [attr.tabindex]="tabIndex()"
+  (click)="onClick($event)"
+  (keydown)="onKeydown($event)"
+>
   <ng-content></ng-content>
 </div>

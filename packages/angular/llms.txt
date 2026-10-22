@@ -208,9 +208,35 @@ Inheritance (inputs listed once, available on all subclasses):
 
 ## UniCardComponent
 - selector: `uni-card`
+- inputs:
+  - `selected: boolean | undefined` = undefined — Paint the selected state. Inside a group it is derived from the group's value and this input is ignored.
+  - `interactive: boolean` = false — A card the user acts on: a pointer cursor, the theme's hover wash, and `activated` on click, Space or Enter. Always on for an option in a group.
+  - `value: T` — What this card stands for inside a `uni-card-group`.
+  - `disabled: boolean` = false
+- outputs:
+  - `activated: void` — An interactive card was clicked or activated from the keyboard.
 
 ## UniCardContentComponent
 - selector: `uni-card-content`
+
+## UniCardGroupComponent
+- selector: `uni-card-group`
+- inputs:
+  - `disabled: boolean` = false
+  - `invalid: boolean` = false
+  - `dirty: boolean` = false
+  - `required: boolean` = false
+  - `ariaDescribedBy: string`
+  - `ariaLabel: string` — Accessible name of the group, e.g. "Kind of work".
+  - `ariaLabelledBy: string` — Id of the element naming the group, when a visible heading does.
+  - `templateColumns: string` — `grid-template-columns`, overriding the theme option per instance.
+  - `gap: NullableSize` — Space between cards, overriding the theme option per instance.
+- two-way models:
+  - `value: T | null` = null
+  - `touched: boolean` = false
+- outputs:
+  - `touch: void` — Angular 22 marks the bound field touched through this output.
+  - `activated: T` — The card the user just picked.
 
 ## UniCardHeaderComponent
 - selector: `uni-card-header`

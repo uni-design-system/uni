@@ -324,8 +324,8 @@ audits: `packages/angular/TODO.md` (v4 audit) and `uni-theme-generation-plan.md`
 The consumer keeps its requests in
 `Wellsourced/apps/web/mockups/uni-change-requests/` with a status index
 (`STATUS-2026-10-09.md`). 11.7.0 closed tiers 1–2 (correctness + "the theme
-cannot reach it"), 11.8.0 the dialog/drawer item, 11.9.0 the data-table item; the answers
-are `packages/angular/prototypes/uni-11.{7,8,9}.0-wellsourced-response.md`.
+cannot reach it"), 11.8.0 the dialog/drawer item, 11.9.0 the data-table item, 11.10.0 the card item; the answers are
+`packages/angular/prototypes/uni-11.{7,8,9,10}.0-wellsourced-response.md`.
 Still open, in order:
 
 - [x] ~~**Footer slots + rich dialog head** with the non-modal `over`
@@ -339,8 +339,10 @@ Still open, in order:
       2026-10-22 for 11.9.0: `rowId` on the datasources, `useMultiSelect`
       wired, `selectableWhen`, `expanded` model, `expandableWhen`, `rowClass`.
       Answer: `packages/angular/prototypes/uni-11.9.0-wellsourced-response.md`.
-- [ ] **`uni-card` state via Emotion class** (`card-theme-state-2026-10-09.md`);
-      `uni-card-group` is a scope decision.
+- [x] ~~**`uni-card` state via Emotion class + `uni-card-group`**~~ — shipped
+      2026-10-22 for 11.10.0, with the rich-head follow-ups
+      (`dialog-rich-head-followups-2026-10-22.md`). Answer:
+      `packages/angular/prototypes/uni-11.10.0-wellsourced-response.md`.
 - [ ] **Tour target resolver / lazy retry / `targetMissing`**
       (`tour-and-callout-2026-10-14.md` §2, §6).
 - [ ] **Color roles** (`theme-color-roles-2026-10-10.md`) — overlaps ROADMAP

@@ -1,4 +1,5 @@
 import type {
+  AlignItems,
   Border,
   JustifyContent,
   NullableSize,
@@ -20,6 +21,12 @@ export interface UniDrawerButtonsOptions {
   /** Padding around the row, as a spacing token. */
   padding?: NullableSize;
   justifyContent?: JustifyContent;
+  /**
+   * Cross-axis alignment of the row. Defaults to `center`, so a footnote —
+   * one line of text beside a 36 or 44px button — sits on the button's
+   * centre line rather than stretched to the row's top edge.
+   */
+  alignItems?: AlignItems;
   confirmButtonVariant?: Variant;
   cancelButtonVariant?: Variant;
   /** Size passed to both buttons. */

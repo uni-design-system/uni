@@ -3,6 +3,7 @@
   [gap]="gapValue()"
   [padding]="paddingValue()"
   [justifyContent]="justifyContentValue()"
+  [alignItems]="componentOptions().alignItems ?? 'center'"
   [flexDirection]="componentOptions().reverseOrder ? 'row-reverse' : 'row'"
   [class]="className()"
 >

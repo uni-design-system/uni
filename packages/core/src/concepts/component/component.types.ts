@@ -16,6 +16,7 @@ export type ComponentName =
   | 'callout'
   | 'card'
   | 'cardContent'
+  | 'cardGroup'
   | 'cardHeader'
   | 'checkbox'
   | 'combobox'

@@ -10,19 +10,22 @@
     [padding]="componentOptions().richPadding ?? 'md'"
     [paddingHorizontal]="componentOptions().paddingHorizontal"
   >
-    <!-- The block names the dialog unless a [dialog-title] inside it does. -->
-    <div box-layout [grow]="1" [minWidth]="0" [attr.id]="markedTitle() ? null : titleId">
+    <!-- The block names the dialog unless a [dialog-title] inside it does,
+         or the dialog carries its own ariaLabel. -->
+    <div box-layout [grow]="1" [minWidth]="0" [attr.id]="blockId()">
       <ng-container [ngTemplateOutlet]="content" />
     </div>
-    <button
-      icon-button
-      [iconName]="componentOptions().closeButtonIcon"
-      variant="ghost"
-      (click)="closeDialog()"
-      [size]="componentOptions().closeButtonSize || 'md'"
-    >
-      Close
-    </button>
+    @if (showClose()) {
+      <button
+        icon-button
+        [iconName]="componentOptions().closeButtonIcon"
+        variant="ghost"
+        (click)="closeDialog()"
+        [size]="componentOptions().closeButtonSize || 'md'"
+      >
+        Close
+      </button>
+    }
   </div>
 } @else {
   <div
@@ -47,14 +50,16 @@
         ><ng-container [ngTemplateOutlet]="content"
       /></span>
     </div>
-    <button
-      icon-button
-      [iconName]="componentOptions().closeButtonIcon"
-      variant="ghost"
-      (click)="closeDialog()"
-      [size]="componentOptions().closeButtonSize || 'md'"
-    >
-      Close
-    </button>
+    @if (showClose()) {
+      <button
+        icon-button
+        [iconName]="componentOptions().closeButtonIcon"
+        variant="ghost"
+        (click)="closeDialog()"
+        [size]="componentOptions().closeButtonSize || 'md'"
+      >
+        Close
+      </button>
+    }
   </div>
 }

@@ -75,7 +75,10 @@ what consumers must supply themselves.
   default (first focusable) isn't right.
 - A `rich` header renders its projection as a block; mark the headline
   `[dialog-title]` so it alone is the dialog's name, not the eyebrow and
-  blurb around it.
+  blurb around it (found in the DOM, so a title projected through a wrapper
+  counts, and its own id is kept). With no marked title the dialog's
+  `ariaLabel` wins; the block names only a bare dialog with neither.
+- The header's close button follows the dialog's `defaultCloseButton`.
 - `[dialog-buttons]` with `closeOnConfirm` off leaves the dialog open after
   Confirm for an async save; `loading` sets `aria-busy` on Confirm.
 
@@ -88,6 +91,18 @@ what consumers must supply themselves.
   only other dismissal, and it is off by default.
 - A header labels the panel (`aria-labelledby`); without one, set `ariaLabel`.
   There is no default name on purpose.
+
+### Card / Card Group
+- A plain `uni-card` is content: no role, no tab stop. `interactive` adds the
+  pointer and `activated`, nothing else; it is not a button.
+- Inside `uni-card-group`, a card with a `value` is `role="radio"` with
+  `aria-checked`, and the group is `role="radiogroup"` (`ariaLabel` /
+  `ariaLabelledBy`, `aria-required`, `aria-invalid` gated on touched or dirty).
+- APG radio keyboard model: one tab stop, arrows move *and* select (wrapping),
+  Home/End, Space or Enter selects. Disabled cards are `aria-disabled` and
+  skipped.
+- A click on a control inside the card's content is the control's, never the
+  card's.
 
 ### Data Table
 - Column headers are `scope="col"`; a sortable header is a real button with

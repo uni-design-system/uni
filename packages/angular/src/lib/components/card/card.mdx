@@ -2,6 +2,8 @@ import { Meta, Title } from '@storybook/addon-docs/blocks';
 
 import * as Stories from './card.stories';
 import { StoryUsage } from '../../../stories/blocks/StoryUsage';
+import { StoryExample } from '../../../stories/blocks/StoryExample';
+import { KeyboardTable } from '../../../stories/blocks/DocsTable';
 import { ThemeOptions } from '../../../stories/blocks/ThemeOptionsBlock';
 
 <Meta of={Stories} name="Card" />
@@ -25,8 +27,52 @@ a custom primitive to restyle every card in the theme at once.
 
 <StoryUsage of={Stories.Primary} />
 
+## States
+
+<StoryExample of={Stories.States} />
+
+`interactive` makes the card something the user acts on — a pointer cursor,
+the theme's `hoverColor`, and `activated` on click, Space or Enter — and
+`selected` paints it as picked, in the `selectedBorder` frame (`primary` by
+default) with an optional `selectedColor` and `selectedElevation`. Both are
+classes on the frame, `card-interactive` and `card-selected`, so a variant's
+own `&.card-selected` rule reaches them the way it reaches `uni-tag`'s. A
+click on a control inside the card's content is the control's, not the card's.
+
+## Pick one: Card Group
+
+<StoryExample of={Stories.PickOne} />
+
+`uni-card-group` is a `radiogroup` of the `uni-card`s projected into it: each
+card with a `value` becomes a `role="radio"`, selected and focus-managed by the
+group, and a card without one is plain content. The group implements
+`FormValueControl<T | null>`, so it binds with `[formField]`, and is laid out as
+a grid (`templateColumns`, `gap`, or the `cardGroup` theme options).
+
 ## Theme options
 
 <ThemeOptions componentName="card" />
 
 <ThemeOptions componentName="cardHeader" />
+
+<ThemeOptions componentName="cardGroup" />
+
+## Keyboard (Card Group)
+
+<KeyboardTable
+  rows={[
+    { keys: 'Tab', does: 'Into the group, onto the selected card (else the first enabled one); out again on the next Tab' },
+    { keys: 'ArrowRight / ArrowDown', does: 'Next enabled card — focus moves and it is selected; wraps' },
+    { keys: 'ArrowLeft / ArrowUp', does: 'Previous enabled card; wraps' },
+    { keys: 'Home / End', does: 'First / last enabled card' },
+    { keys: 'Space / Enter', does: 'Select the focused card' },
+  ]}
+/>
+
+## Accessibility
+
+- A plain card is content: no role, no tab stop.
+- An option in a group is `role="radio"` with `aria-checked`; the group is `role="radiogroup"`, named by `ariaLabel` or `ariaLabelledBy`, with `aria-required` and an `aria-invalid` gated on touched or dirty.
+- One tab stop for the group; the arrow keys both move and select (the APG radio group), so a selection is never a two-step.
+- A disabled card is `aria-disabled`, skipped by the arrows and never selected.
+- The group is touched once focus leaves it, not while it moves within.
