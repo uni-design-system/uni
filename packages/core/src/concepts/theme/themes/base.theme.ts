@@ -479,6 +479,7 @@ const buildComponents = (c: Colors): ComponentThemes => ({
       padding: 'sm',
       bodyPadding: undefined,
       inset: 'lg',
+      overscroll: 'contain',
       elevation: 'dialog',
       backdrop: 'scrim',
       // The same token the drawer's slide reads: a larger free-floating
@@ -618,7 +619,15 @@ const buildComponents = (c: Colors): ComponentThemes => ({
   // the actual duration scales with content height (√-of-height, clamped
   // ~0.15–0.6s at this speed — see `expandDuration`). The toggle's chevron
   // rotation shares the clock.
-  expand: { options: { motion: 'reveal' } },
+  expand: {
+    options: {
+      motion: 'reveal',
+      // The labelled toggle's type. `label`/`caption` are what it hardcoded.
+      textRole: 'label',
+      sublabelRole: 'caption',
+      sublabelColor: 'on-background-variant',
+    },
+  },
   input: {
     options: {
       typeface: 'input',
@@ -865,6 +874,7 @@ const buildComponents = (c: Colors): ComponentThemes => ({
       nameTypeface: 'body-2-short',
       detailTypeface: 'caption',
       rowGap: 'sm',
+      chipAvatar: true,
     },
   },
 
@@ -1176,7 +1186,12 @@ const buildComponents = (c: Colors): ComponentThemes => ({
       loadingSpinnerSize: 40,
     },
   },
-  notificationBadge: { options: { borderRadius: 'sm', offset: -10 } },
+  notificationBadge: {
+    options: { borderRadius: 'sm', offset: -10, typeface: 'overline' },
+    // Disc height per size token; `lg` is BaseComponent's default and the 20px
+    // every badge drew before the block existed.
+    sizes: { sm: { height: 14 }, md: { height: 16 }, lg: { height: 20 } },
+  },
   paginator: {
     options: {
       gap: 'xs',
