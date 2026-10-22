@@ -1,5 +1,5 @@
 import { computed, signal } from '@angular/core';
-import { UniBaseDatasource, Sort } from './base-datasource';
+import { UniBaseDatasource, Sort, UniDatasourceOptions } from './base-datasource';
 
 export class UniRecordDatasource<T> extends UniBaseDatasource<T> {
   private _pageNumber = signal(1);
@@ -50,8 +50,9 @@ export class UniRecordDatasource<T> extends UniBaseDatasource<T> {
     return filteredRecords;
   });
 
-  constructor(data: T[]) {
+  constructor(data: T[], options?: UniDatasourceOptions<T>) {
     super();
+    this.rowId = options?.rowId;
     this.initialRecords.set(data);
   }
 

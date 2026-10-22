@@ -318,10 +318,14 @@ Inheritance (inputs listed once, available on all subclasses):
 - inputs:
   - `datasource: UniDatasource<T>` (required)
   - `columns: ColumnDefinition<T>[]` (required)
-  - `useMultiSelect: boolean` = false
+  - `useMultiSelect: boolean` = false — Draw a leading checkbox column over the datasource's `selections`: a header box that selects or clears every selectable row on the page (`indeterminate` while only some are), and a box per row.
+  - `selectAllLabel: string` = 'Select all rows' — Accessible name of the header checkbox.
   - `useRowClick: boolean` = true
   - `height: string`
+- two-way models:
+  - `expanded: RowKey | null` = null — The expanded row, two-way: its `rowId` when the datasource has one, else its index on the page. `null` collapses every row. Keyed by id, a deep link can open a row before the records arrive, and a sort or a realtime reorder keeps the same record open.
 - outputs:
+  - `selectionChange: T[]` — The datasource's selection after a checkbox changed it — the same array `selections()` holds.
   - `rowSelect: T`
   - `rowClick: T`
 

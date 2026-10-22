@@ -22,6 +22,28 @@
         <table [class]="tableClass()">
           <thead>
             <tr>
+              @if (useMultiSelect()) {
+                <!-- Governs the selectable rows on this page; another page's
+                     selection is left alone. -->
+                <th
+                  scope="col"
+                  [class]="thClass()"
+                  [class.selection]="true"
+                  [style.width]="selectionColumnWidth()"
+                >
+                  <span [class]="selectionCellClass()">
+                    <uni-checkbox
+                      labelHidden
+                      [size]="componentOptions().selectionCheckboxSize ?? 'sm'"
+                      [label]="selectAllLabel()"
+                      [checked]="allSelected()"
+                      [indeterminate]="someSelected()"
+                      [disabled]="selectableRows().length === 0"
+                      (checkedChange)="toggleAll()"
+                    />
+                  </span>
+                </th>
+              }
               @for (column of columns(); track column.columnDef) {
                 <th
                   scope="col"
@@ -53,13 +75,19 @@
             </tr>
           </thead>
           <tbody>
-            <!-- track $index: records are arbitrary consumer objects, typically
-                 re-fetched as fresh references — identity tracking recreated
-                 every row (NG0956). Row expansion is index-addressed already. -->
-            @for (record of ds.records(); track $index; let i = $index) {
+            <!-- Tracked by `rowId` where the datasource has one, so a re-fetched
+                 record keeps its row; else by index — records are arbitrary
+                 consumer objects, typically re-fetched as fresh references, and
+                 identity tracking recreated every row (NG0956). -->
+            @for (record of ds.records(); track keyOf(record, $index); let i = $index) {
               <tr
-                [class]="trClass()"
+                [class]="rowClasses(record)"
+                [class.selected]="useMultiSelect() && ds.isSelected(record)"
+                [class.inexpandable]="!!detailRowTemplate() && !isExpandable(record)"
                 [attr.tabindex]="useRowClick() ? 0 : null"
+                [attr.aria-expanded]="
+                  detailRowTemplate() && isExpandable(record) ? isExpanded(record, i) : null
+                "
                 (click)="handleRowClick(record, $index)"
                 (keydown.enter)="useRowClick() && handleRowClick(record, $index)"
                 (keydown.space)="
@@ -67,6 +95,29 @@
                   useRowClick() && $event.preventDefault()
                 "
               >
+                @if (useMultiSelect()) {
+                  <!-- The box is its own control: a click or a Space on it must
+                       not also be the row's click. -->
+                  <!-- eslint-disable-next-line @angular-eslint/template/click-events-have-key-events, @angular-eslint/template/interactive-supports-focus -->
+                  <td
+                    [class]="tdClass()"
+                    [class.scrollable]="scrollable()"
+                    (click)="$event.stopPropagation()"
+                    (keydown.enter)="$event.stopPropagation()"
+                    (keydown.space)="$event.stopPropagation()"
+                  >
+                    <span [class]="selectionCellClass()">
+                      <uni-checkbox
+                        labelHidden
+                        [size]="componentOptions().selectionCheckboxSize ?? 'sm'"
+                        [label]="rowSelectLabel(record)"
+                        [disabled]="!isSelectable(record)"
+                        [checked]="ds.isSelected(record)"
+                        (checkedChange)="toggleSelect(record)"
+                      />
+                    </span>
+                  </td>
+                }
                 @for (column of columns(); track column.columnDef) {
                   <td
                     [class]="tdClass()"
@@ -97,10 +148,10 @@
                      readers and unreachable by keyboard until expanded -->
                 <tr
                   [class]="detailRowClass()"
-                  [class.expanded]="expandedIndex() === $index"
-                  [attr.inert]="expandedIndex() === $index ? null : ''"
+                  [class.expanded]="isExpanded(record, i)"
+                  [attr.inert]="isExpanded(record, i) ? null : ''"
                 >
-                  <td [attr.colspan]="columns().length">
+                  <td [attr.colspan]="columnCount()">
                     <div class="detail-content-wrapper">
                       <div class="detail-inner">
                         <ng-container

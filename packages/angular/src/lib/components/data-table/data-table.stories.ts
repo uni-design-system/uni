@@ -8,6 +8,8 @@ import {
 import { starWarsCharacters } from '../../../stories/data/star-wars-characters';
 import { UniRecordDatasource } from '../../cdk';
 import { UniDataSearchComponent } from '../data-search/data-search.component';
+import { JsonPipe } from '@angular/common';
+import { UniButtonComponent } from '../button/button.component';
 import { UniBoxDirective, UniRowDirective } from '../layout';
 import { UniPaginatorComponent } from '../paginator/paginator.component';
 import { UniTextDirective } from '../text/text.directive';
@@ -21,7 +23,9 @@ const meta: Meta<StoryType> = {
   decorators: [
     moduleMetadata({
       imports: [
+        JsonPipe,
         UniBoxDirective,
+        UniButtonComponent,
         UniRowDirective,
         UniPaginatorComponent,
         UniTextDirective,
@@ -45,8 +49,26 @@ const meta: Meta<StoryType> = {
 
     // Behavior
     useMultiSelect: {
-      description: 'When true, enables multi-selection functionality for rows. Default is false.',
+      description:
+        "Draw a leading checkbox column over the datasource's selections: a select-all header box (indeterminate while only some rows are selected) and a box per row. Default is false.",
     },
+    selectableWhen: {
+      description:
+        'Which rows may be selected; the rest render a disabled box and are skipped by select-all.',
+    },
+    selectLabel: {
+      description: "Accessible name of a row's checkbox, or a function naming it per row. Default 'Select row'.",
+    },
+    selectAllLabel: { description: "Accessible name of the header checkbox. Default 'Select all rows'." },
+    expanded: {
+      description:
+        "Two-way: the expanded row's rowId (its page index when the datasource has none); null collapses all.",
+    },
+    expandableWhen: {
+      description:
+        'Which rows have a detail to open; a row that fails it takes no hover affordance and a click on it only emits rowClick.',
+    },
+    rowClass: { description: 'Extra class per row, e.g. to dim delivered rows.' },
     useRowClick: {
       description:
         'When true, enables click events on rows and applies hover styling. Default is true.',
@@ -63,8 +85,12 @@ const meta: Meta<StoryType> = {
 
     // Events
     rowSelect: {
-      description: 'Event emitted when a row is selected.',
+      description: "Event emitted when a row's checkbox toggles it.",
       action: 'rowSelect',
+    },
+    selectionChange: {
+      description: "The datasource's selection after a checkbox changed it.",
+      action: 'selectionChange',
     },
     rowClick: {
       description: 'Event emitted when a row is clicked.',
@@ -271,6 +297,93 @@ export const ColumnOptions: Story = {
           base[1]
         ]"
       />
+    `,
+  }),
+};
+
+type Order = { id: string; item: string; vendor: string; status: 'ready' | 'ordered' | 'delivered' };
+
+const ORDERS: Order[] = [
+  { id: 'po-104', item: 'Sofa, linen', vendor: 'Hartley & Co', status: 'ready' },
+  { id: 'po-105', item: 'Floor lamp', vendor: 'Lumen', status: 'ordered' },
+  { id: 'po-106', item: 'Wool rug 8×10', vendor: 'Hartley & Co', status: 'ready' },
+  { id: 'po-107', item: 'Side table', vendor: 'Oak Works', status: 'delivered' },
+  { id: 'po-108', item: 'Armchair', vendor: 'Hartley & Co', status: 'ready' },
+];
+
+/**
+ * The selection column, over the datasource's own `selections`. The datasource
+ * has a `rowId`, so a selection survives a re-fetch that rebuilds the rows;
+ * `selectableWhen` keeps delivered orders out of it, and the header box
+ * governs the rest — indeterminate while only some are selected.
+ */
+export const Selection: Story = {
+  render: () => ({
+    props: {
+      datasource: new UniRecordDatasource<Order>(ORDERS, { rowId: (row) => row.id }),
+      columns: [
+        { columnDef: 'id', header: 'PO', textAlign: 'left' },
+        { columnDef: 'item', header: 'Item', textAlign: 'left' },
+        { columnDef: 'vendor', header: 'Vendor', textAlign: 'left' },
+        { columnDef: 'status', header: 'Status' },
+      ],
+      selectable: (row: Order) => row.status !== 'delivered',
+      selectLabelOf: (row: Order) => `Select ${row.id}`,
+      selected: [] as Order[],
+    },
+    template: `
+      <uni-data-table
+        [datasource]="datasource"
+        [columns]="columns"
+        [useMultiSelect]="true"
+        [selectableWhen]="selectable"
+        [useRowClick]="false"
+        [selectLabel]="selectLabelOf"
+        (selectionChange)="selected = $event"
+      />
+      <p uni-text="body-2">Selected: {{ selected.length ? (selected | json) : 'nothing' }}</p>
+    `,
+  }),
+};
+
+/**
+ * The expanded row as a two-way model keyed by `rowId`: open a row from
+ * outside (a deep link), keep it open while the table sorts, and gate which
+ * rows have a detail at all — a delivered order has nothing to show and takes
+ * no affordance. `rowClass` dims it.
+ */
+export const ExpandedRow: Story = {
+  render: () => ({
+    props: {
+      datasource: new UniRecordDatasource<Order>(ORDERS, { rowId: (row) => row.id }),
+      columns: [
+        { columnDef: 'id', header: 'PO', textAlign: 'left' },
+        { columnDef: 'item', header: 'Item', textAlign: 'left' },
+        { columnDef: 'status', header: 'Status' },
+      ],
+      expanded: 'po-106' as string | number | null,
+      expandable: (row: Order) => row.status !== 'delivered',
+      dim: (row: Order) => (row.status === 'delivered' ? 'delivered' : ''),
+    },
+    template: `
+      <div row-layout gap="sm" alignItems="center" paddingBottom="sm">
+        <button text-button size="sm" variant="secondary" (click)="expanded = 'po-104'">Open po-104</button>
+        <button text-button size="sm" variant="ghost" (click)="expanded = null">Collapse</button>
+        <span uni-text="body-2">Expanded: {{ expanded ?? 'none' }}</span>
+      </div>
+      <uni-data-table
+        [datasource]="datasource"
+        [columns]="columns"
+        [detailRowTemplate]="detail"
+        [(expanded)]="expanded"
+        [expandableWhen]="expandable"
+        [rowClass]="dim"
+      />
+      <ng-template #detail let-row>
+        <div box-layout padding="md" uni-text="body-2-long">
+          {{ row.item }} from {{ row.vendor }} — tracking and notes would go here.
+        </div>
+      </ng-template>
     `,
   }),
 };

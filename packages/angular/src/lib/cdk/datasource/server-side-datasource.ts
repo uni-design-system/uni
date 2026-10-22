@@ -7,7 +7,7 @@ import {
   type ResourceStatus,
   signal,
 } from '@angular/core';
-import { UniBaseDatasource, Sort, SortDirection } from './base-datasource';
+import { UniBaseDatasource, Sort, SortDirection, UniDatasourceOptions } from './base-datasource';
 
 export interface PageRequest {
   pageNumber: number;
@@ -80,9 +80,11 @@ export class UniServerSideDatasource<T> extends UniBaseDatasource<T> {
 
   constructor(
     private dataLoader: DataLoader<T>,
-    initialPageSize = 10
+    initialPageSize = 10,
+    options?: UniDatasourceOptions<T>
   ) {
     super();
+    this.rowId = options?.rowId;
     this._pageSize.set(initialPageSize);
 
     this.dataResource = resource({

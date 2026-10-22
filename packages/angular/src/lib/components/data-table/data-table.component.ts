@@ -5,15 +5,17 @@ import {
   computed,
   input,
   linkedSignal,
+  model,
   output,
   signal,
   type TemplateRef,
 } from '@angular/core';
 import { css } from '@emotion/css';
-import { UniDatasource, UniServerSideDatasource } from '../../cdk';
+import { type RowKey, UniDatasource, UniServerSideDatasource } from '../../cdk';
 import { fadeIn, Z_INDEX } from '@uni-design-system/uni-core';
 import { BaseComponent } from '../base';
 import { COMPONENT_NAME } from '../base/base.component';
+import { UniCheckboxComponent } from '../checkbox/checkbox.component';
 import { UniIconComponent } from '../icon';
 import { UniBoxDirective, UniCenterDirective } from '../layout';
 import { UniScrollAreaComponent } from '../scroll-area/scroll-area.component';
@@ -25,11 +27,21 @@ import {
   type UniDataTableOptions,
 } from './data-table.models';
 
+/**
+ * Data grid over a `UniDatasource`: sortable headers, a leading selection
+ * column, and an expandable detail row per record.
+ *
+ * Rows are addressed by the datasource's `rowId` where it has one — so a
+ * selection survives a re-fetch that rebuilds the records, and the expanded
+ * row follows its record through a sort — and by reference (selection) or
+ * page index (expansion) where it has none.
+ */
 @Component({
   selector: 'uni-data-table',
   imports: [
     NgTemplateOutlet,
     UniBoxDirective,
+    UniCheckboxComponent,
     UniScrollAreaComponent,
     UniTextDirective,
     UniSortHeaderComponent,
@@ -45,9 +57,40 @@ export class UniDataTableComponent<T> extends BaseComponent<UniDataTableOptions>
   columns = input.required<ColumnDefinition<T>[]>();
 
   detailRowTemplate = input<TemplateRef<{ $implicit: T; index: number }>>();
-  expandedIndex = signal<number | null>(null);
 
+  /**
+   * The expanded row, two-way: its `rowId` when the datasource has one, else
+   * its index on the page. `null` collapses every row. Keyed by id, a deep
+   * link can open a row before the records arrive, and a sort or a realtime
+   * reorder keeps the same record open.
+   */
+  expanded = model<RowKey | null>(null);
+
+  /**
+   * Which rows have a detail to open. A row that fails it takes no hover
+   * affordance and no `aria-expanded`, and a click on it only emits
+   * `rowClick`. Defaults to every row.
+   */
+  expandableWhen = input<(row: T) => boolean>();
+
+  /** Extra class per row — to dim a delivered order, say. */
+  rowClass = input<(row: T) => string>();
+
+  /**
+   * Draw a leading checkbox column over the datasource's `selections`: a
+   * header box that selects or clears every selectable row on the page
+   * (`indeterminate` while only some are), and a box per row.
+   */
   useMultiSelect = input<boolean>(false);
+  /** Which rows may be selected. The rest render a disabled box and are skipped by select-all. */
+  selectableWhen = input<(row: T) => boolean>();
+  /** Accessible name of a row's checkbox; a function names it per row. */
+  selectLabel = input<string | ((row: T) => string)>('Select row');
+  /** Accessible name of the header checkbox. */
+  selectAllLabel = input('Select all rows');
+  /** The datasource's selection after a checkbox changed it — the same array `selections()` holds. */
+  selectionChange = output<T[]>();
+
   useRowClick = input<boolean>(true);
   highlight? = input<(row: T) => boolean>();
 
@@ -159,8 +202,9 @@ export class UniDataTableComponent<T> extends BaseComponent<UniDataTableOptions>
     ])
   );
 
-  protected readonly trClass = computed(() =>
-    css(
+  protected readonly trClass = computed(() => {
+    const selected = this.componentOptions().selectedRowColor;
+    return css(
       {
         '& td': {
           ...this.theme.backgroundColor('transparent'),
@@ -170,14 +214,18 @@ export class UniDataTableComponent<T> extends BaseComponent<UniDataTableOptions>
           borderBottom: this.getBorder(this.componentOptions().tdHorizontalBorder),
         },
       },
+      // A row with nothing to open takes no affordance; `rowClick` still fires.
       this.useRowClick() && {
-        '&:hover td': {
+        '&:not(.inexpandable):hover td': {
           ...this.theme.backgroundColor(this.componentOptions().rowHoverColor),
           cursor: 'pointer',
         },
+      },
+      selected && {
+        '&.selected td': { ...this.theme.backgroundColor(selected) },
       }
-    )
-  );
+    );
+  });
 
   protected readonly detailRowClass = computed(() =>
     css({
@@ -218,15 +266,120 @@ export class UniDataTableComponent<T> extends BaseComponent<UniDataTableOptions>
     }
   });
 
+  /** A row's key for expansion and tracking: its `rowId`, else its page index. */
+  protected keyOf(row: T, index: number): RowKey {
+    const rowId = this.datasource().rowId;
+    return rowId ? rowId(row) : index;
+  }
+
+  protected isExpanded(row: T, index: number): boolean {
+    return this.expanded() === this.keyOf(row, index);
+  }
+
+  protected isExpandable(row: T): boolean {
+    return this.expandableWhen()?.(row) ?? true;
+  }
+
+  /**
+   * The page index of the expanded row, or null.
+   *
+   * @deprecated Read or bind `expanded` instead, which is keyed by `rowId`
+   * and survives a sort. Removed in 12.0.
+   */
+  readonly expandedIndex = computed<number | null>(() => {
+    const key = this.expanded();
+    if (key === null) return null;
+    const index = this.datasource()
+      .records()
+      .findIndex((row, i) => this.keyOf(row, i) === key);
+    return index < 0 ? null : index;
+  });
+
+  /** Expand or collapse the row at `index` on the page. */
   toggleRow(index: number) {
-    this.expandedIndex.update((current) => (current === index ? null : index));
+    const row = this.datasource().records()[index];
+    if (row === undefined) return;
+    const key = this.keyOf(row, index);
+    this.expanded.update((current) => (current === key ? null : key));
   }
 
   handleRowClick(row: T, index: number) {
     this.rowClick.emit(row);
-
-    this.toggleRow(index);
+    if (this.isExpandable(row)) this.toggleRow(index);
   }
+
+  /** Classes for a record row: the themed row plus the consumer's own. */
+  protected rowClasses(row: T): string {
+    const extra = this.rowClass()?.(row);
+    return extra ? `${this.trClass()} ${extra}` : this.trClass();
+  }
+
+  // --- Selection -------------------------------------------------------------
+
+  protected isSelectable(row: T): boolean {
+    return this.selectableWhen()?.(row) ?? true;
+  }
+
+  /** The rows on the page that may be selected — what the header box governs. */
+  protected readonly selectableRows = computed(() =>
+    this.datasource()
+      .records()
+      .filter((row) => this.isSelectable(row))
+  );
+
+  protected readonly allSelected = computed(() => {
+    const rows = this.selectableRows();
+    const ds = this.datasource();
+    ds.selections();
+    return rows.length > 0 && rows.every((row) => ds.isSelected(row));
+  });
+
+  protected readonly someSelected = computed(() => {
+    const ds = this.datasource();
+    ds.selections();
+    return !this.allSelected() && this.selectableRows().some((row) => ds.isSelected(row));
+  });
+
+  protected rowSelectLabel(row: T): string {
+    const label = this.selectLabel();
+    return typeof label === 'function' ? label(row) : label;
+  }
+
+  protected toggleSelect(row: T) {
+    const ds = this.datasource();
+    ds.toggleSelection(row);
+    this.rowSelect.emit(row);
+    this.selectionChange.emit(ds.selections());
+  }
+
+  protected toggleAll() {
+    const ds = this.datasource();
+    ds.setSelected(this.selectableRows(), !this.allSelected());
+    this.selectionChange.emit(ds.selections());
+  }
+
+  /** Columns a detail row spans: the defined ones plus the selection column. */
+  protected readonly columnCount = computed(
+    () => this.columns().length + (this.useMultiSelect() ? 1 : 0)
+  );
+
+  /**
+   * The selection column's width, on the header cell: auto table layout
+   * hands the slack to columns with no stated width, so stated here the
+   * column stays this wide and the data columns absorb the rest.
+   */
+  protected readonly selectionColumnWidth = computed(() => {
+    const width = this.componentOptions().selectionColumnWidth ?? 40;
+    return typeof width === 'number' ? `${width}px` : width;
+  });
+
+  protected readonly selectionCellClass = computed(() =>
+    css({
+      display: 'inline-block',
+      textAlign: 'center',
+      '& uni-checkbox': { verticalAlign: 'middle' },
+    })
+  );
 
   /**
    * One context per row for the cell templates, rebuilt only when the records

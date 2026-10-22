@@ -151,10 +151,21 @@ class ServerSideComponent {
 - `disablePrevious`: Signal indicating if previous button should be disabled
 - `disableNext`: Signal indicating if next button should be disabled
 
+### Row identity
+
+Both constructors take an options object with `rowId`, a function returning a
+stable key for a row (`{ rowId: (row) => row.id }`); it is also settable
+afterwards (`datasource.rowId = …`). Without one, rows are compared by
+reference — which never matches a row rebuilt from a fresh fetch, so a
+realtime update that replaced the records would empty the selection. With
+one, `isSelected`, `toggleSelection` and `setSelected` key by it, and so do
+`uni-data-table`'s expanded row and its row tracking.
+
 ### Common Methods (Both Datasources)
 
-- `isSelected(row)`: Checks if a row is selected
+- `isSelected(row)`: Checks if a row is selected (by `rowId` when set)
 - `toggleSelection(row)`: Toggles selection state of a row
+- `setSelected(rows, selected)`: Selects or deselects several rows, leaving the rest as they are
 - `clearSelections()`: Clears all selections
 - `selectAll()`: Selects all records on current page
 - `sortRecords(sort)`: Sets the sort configuration

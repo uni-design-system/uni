@@ -45,6 +45,33 @@ point at shared tokens for surfaces, borders, and typography.
 
 <StoryExample of={Stories.WithDetailRow} />
 
+### Selection
+
+<StoryExample of={Stories.Selection} />
+
+`useMultiSelect` draws a leading checkbox column over the datasource's own
+`selections`: a header box that selects or clears every selectable row on the
+page (indeterminate while only some are) and a box per row. `selectableWhen`
+keeps rows out of it — they render a disabled box and select-all skips them.
+Read the selection from the datasource's `selections` signal, or from
+`(selectionChange)`, which carries the same array after a box changed it.
+
+Give the datasource a `rowId` (`new UniRecordDatasource(rows, { rowId: (row) =>
+row.id })`) and the selection is keyed by it: a realtime update that rebuilds
+the records keeps the same rows selected, where reference equality would have
+emptied it.
+
+### Expanded row
+
+<StoryExample of={Stories.ExpandedRow} />
+
+`expanded` is a two-way model: the expanded row's `rowId`, or its page index
+when the datasource has none, and `null` collapses every row. Keyed by id, a
+deep link can open a row before the records arrive, and a sort or a re-fetch
+that reorders them keeps the same record open. `expandableWhen` names the rows
+that have a detail at all — the rest take no hover affordance and a click on
+them only emits `rowClick` — and `rowClass` adds a class per row.
+
 ### Column options
 
 <StoryExample of={Stories.ColumnOptions} />
@@ -66,4 +93,5 @@ Globally defined attributes controlled by the theme.
 
 - Column headers use `scope="col"`; sortable headers are real buttons with `aria-sort` on the `<th>`. A `sortable: false` column is a plain heading with neither.
 - The loading overlay is a `role="status"` region and the table is `aria-busy` while loading.
-- Collapsed detail rows are `inert`, out of the accessibility tree until expanded.
+- Collapsed detail rows are `inert`, out of the accessibility tree until expanded; a row with a detail carries `aria-expanded`.
+- Selection boxes are real `uni-checkbox`es named without drawing — "Select row" and "Select all rows" by default, or per row through `selectLabel` — and a box is its own control: a click or Space on it is never the row's click.

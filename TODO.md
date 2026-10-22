@@ -324,8 +324,8 @@ audits: `packages/angular/TODO.md` (v4 audit) and `uni-theme-generation-plan.md`
 The consumer keeps its requests in
 `Wellsourced/apps/web/mockups/uni-change-requests/` with a status index
 (`STATUS-2026-10-09.md`). 11.7.0 closed tiers 1–2 (correctness + "the theme
-cannot reach it"), 11.8.0 the dialog/drawer item; the answers are
-`packages/angular/prototypes/uni-11.{7,8}.0-wellsourced-response.md`.
+cannot reach it"), 11.8.0 the dialog/drawer item, 11.9.0 the data-table item; the answers
+are `packages/angular/prototypes/uni-11.{7,8,9}.0-wellsourced-response.md`.
 Still open, in order:
 
 - [x] ~~**Footer slots + rich dialog head** with the non-modal `over`
@@ -335,8 +335,10 @@ Still open, in order:
       per step). Answer: `packages/angular/prototypes/uni-11.8.0-wellsourced-response.md`.
       Finding on the way: a modal dialog's inertness cannot be undone by
       top-layer order, so tour §6 needs the non-modal drawer, not the re-show.
-- [ ] **Data-table selection column + id-keyed expansion**
-      (`data-table-selection-2026-10-10.md`): `useMultiSelect` is a dead input.
+- [x] ~~**Data-table selection column + id-keyed expansion**~~ — shipped
+      2026-10-22 for 11.9.0: `rowId` on the datasources, `useMultiSelect`
+      wired, `selectableWhen`, `expanded` model, `expandableWhen`, `rowClass`.
+      Answer: `packages/angular/prototypes/uni-11.9.0-wellsourced-response.md`.
 - [ ] **`uni-card` state via Emotion class** (`card-theme-state-2026-10-09.md`);
       `uni-card-group` is a scope decision.
 - [ ] **Tour target resolver / lazy retry / `targetMissing`**

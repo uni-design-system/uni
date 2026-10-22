@@ -8,6 +8,7 @@ import type {
   Motion,
   NullableSize,
   Radius,
+  Size,
   TextRole,
 } from '@uni-design-system/uni-core';
 
@@ -72,4 +73,10 @@ export interface UniDataTableOptions {
   loadingOverlayColor?: ColorKey;
   loadingSpinnerColor?: ColorKey;
   loadingSpinnerSize?: string | number;
+  /** Width of the leading checkbox column under `useMultiSelect`. Defaults to 40. */
+  selectionColumnWidth?: string | number;
+  /** Size token of the selection checkboxes. Defaults to `sm`. */
+  selectionCheckboxSize?: Size;
+  /** Fill of a selected row's cells. Unset (the default) leaves them as they are. */
+  selectedRowColor?: ContainerColorToken;
 }

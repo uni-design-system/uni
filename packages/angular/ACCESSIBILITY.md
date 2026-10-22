@@ -89,6 +89,18 @@ what consumers must supply themselves.
 - A header labels the panel (`aria-labelledby`); without one, set `ariaLabel`.
   There is no default name on purpose.
 
+### Data Table
+- Column headers are `scope="col"`; a sortable header is a real button with
+  `aria-sort` on the `<th>`.
+- `useMultiSelect` draws real `uni-checkbox`es, named without drawing
+  (`selectLabel`, `selectAllLabel`); the header box reflects
+  `indeterminate`. A box is its own control — a click or Space on it is
+  never the row's click.
+- A row with a detail carries `aria-expanded`; collapsed detail rows are
+  `inert`. A row `expandableWhen` rules out carries neither.
+- The loading overlay is a `role="status"` region and the table is
+  `aria-busy` while loading.
+
 ### Tooltip
 - Shows on keyboard focus (immediately) and on hover (after `hoverDelay`);
   hides on blur, pointer-out, or `Escape` (WCAG 1.4.13).

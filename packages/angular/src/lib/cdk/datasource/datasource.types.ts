@@ -4,7 +4,7 @@ import { UniServerSideDatasource } from './server-side-datasource';
 
 export type UniDatasource<T> = UniBaseDatasource<T>;
 
-export type { Sort, SortDirection } from './base-datasource';
+export type { RowKey, Sort, SortDirection, UniDatasourceOptions } from './base-datasource';
 export type { DataLoader, PageRequest, PageResponse } from './server-side-datasource';
 
 export { UniBaseDatasource, UniRecordDatasource, UniServerSideDatasource };

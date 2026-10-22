@@ -6,9 +6,12 @@
  * reactive view of one, so sorting and paging are asserted by what ends up in
  * the DOM after the datasource moves, not by inspecting inputs.
  */
-import { Component, computed, type TemplateRef, viewChild } from '@angular/core';
+import { Component, computed, signal, type TemplateRef, viewChild } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { UniRecordDatasource } from '../../cdk';
+import { createTheme, LightTheme } from '@uni-design-system/uni-core';
+import { type RowKey, UniRecordDatasource } from '../../cdk';
+import { ThemeService } from '../../theming';
+import { emittedRuleFor } from '../../../testing/emitted-css';
 import { UniDataTableComponent } from './data-table.component';
 import type { ColumnDefinition, UniDataTableCellContext } from './data-table.models';
 
@@ -345,5 +348,350 @@ describe('UniDataTableComponent detail rows', () => {
 
     expect(detailRows()[0].hasAttribute('inert')).toBe(true);
     expect(detailRows()[2].hasAttribute('inert')).toBe(false);
+  });
+});
+
+interface Order {
+  id: string;
+  item: string;
+  status: 'ready' | 'delivered';
+}
+
+const ORDERS: Order[] = [
+  { id: 'o1', item: 'Sofa', status: 'ready' },
+  { id: 'o2', item: 'Lamp', status: 'delivered' },
+  { id: 'o3', item: 'Rug', status: 'ready' },
+];
+
+const ORDER_COLUMNS: ColumnDefinition<Order>[] = [
+  { columnDef: 'item', header: 'Item' },
+  { columnDef: 'status', header: 'Status' },
+];
+
+/**
+ * The selection column: `useMultiSelect` used to be read nowhere. It now
+ * draws a checkbox column over the datasource's own `selections`, so a
+ * consumer no longer has to keep a second table alive for a select column.
+ */
+describe('UniDataTableComponent selection', () => {
+  let fixture: ComponentFixture<UniDataTableComponent<Order>>;
+  let datasource: UniRecordDatasource<Order>;
+  let host: HTMLElement;
+
+  const headerBox = () => host.querySelector<HTMLElement>('thead uni-checkbox')!;
+  const headerInput = () => headerBox().querySelector('input')!;
+  const rowBoxes = () => Array.from(host.querySelectorAll<HTMLElement>('tbody uni-checkbox'));
+  const rowInputs = () => rowBoxes().map((box) => box.querySelector('input')!);
+  const bodyRows = () =>
+    Array.from(host.querySelectorAll<HTMLElement>('tbody tr')).filter((tr) =>
+      tr.querySelector('td:not([colspan])')
+    );
+  const tick = (input: HTMLInputElement) => {
+    input.click();
+    fixture.detectChanges();
+  };
+
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({ imports: [UniDataTableComponent] }).compileComponents();
+    datasource = new UniRecordDatasource<Order>([...ORDERS], { rowId: (row) => row.id });
+    fixture = TestBed.createComponent<UniDataTableComponent<Order>>(UniDataTableComponent);
+    host = fixture.nativeElement;
+    fixture.componentRef.setInput('datasource', datasource);
+    fixture.componentRef.setInput('columns', ORDER_COLUMNS);
+    fixture.componentRef.setInput('useMultiSelect', true);
+    fixture.detectChanges();
+  });
+
+  it('draws nothing without useMultiSelect, as before', () => {
+    fixture.componentRef.setInput('useMultiSelect', false);
+    fixture.detectChanges();
+    expect(host.querySelector('uni-checkbox')).toBeNull();
+    expect(host.querySelectorAll('thead th')).toHaveLength(2);
+  });
+
+  it('draws a leading checkbox column: one in the header, one per row, named without drawing', () => {
+    expect(host.querySelectorAll('thead th')).toHaveLength(3);
+    expect(headerBox().textContent?.trim()).toBe('Select all rows');
+    expect(rowBoxes()).toHaveLength(3);
+    expect(rowBoxes()[0].textContent?.trim()).toBe('Select row');
+    expect(bodyRows()[0].querySelectorAll('td')).toHaveLength(3);
+  });
+
+  it('states the column width on the header cell, so the slack goes to the data columns', () => {
+    expect(host.querySelector<HTMLElement>('thead th')!.style.width).toBe('40px');
+  });
+
+  it('names each row box per row through a selectLabel function', () => {
+    fixture.componentRef.setInput('selectLabel', (row: Order) => `Select ${row.item}`);
+    fixture.detectChanges();
+    expect(rowBoxes().map((box) => box.textContent?.trim())).toEqual([
+      'Select Sofa',
+      'Select Lamp',
+      'Select Rug',
+    ]);
+  });
+
+  it('a row box toggles the datasource selection and reports it', () => {
+    const changes: Order[][] = [];
+    fixture.componentInstance.selectionChange.subscribe((rows) => changes.push(rows));
+
+    tick(rowInputs()[0]);
+    expect(datasource.isSelected(ORDERS[0])).toBe(true);
+    expect(changes).toEqual([[ORDERS[0]]]);
+    expect(bodyRows()[0].classList).toContain('selected');
+
+    tick(rowInputs()[0]);
+    expect(datasource.selections()).toEqual([]);
+  });
+
+  it('reflects a selection made from outside the table', () => {
+    datasource.toggleSelection(ORDERS[2]);
+    fixture.detectChanges();
+    expect(rowInputs()[2].checked).toBe(true);
+    expect(rowInputs()[0].checked).toBe(false);
+  });
+
+  it('the header box is indeterminate with some selected, checked with all, and toggles every selectable row', () => {
+    tick(rowInputs()[0]);
+    expect(headerInput().indeterminate).toBe(true);
+    expect(headerInput().checked).toBe(false);
+
+    tick(headerInput());
+    expect(datasource.selections().map((row) => row.id)).toEqual(['o1', 'o2', 'o3']);
+    expect(headerInput().checked).toBe(true);
+    expect(headerInput().indeterminate).toBe(false);
+
+    tick(headerInput());
+    expect(datasource.selections()).toEqual([]);
+  });
+
+  it('a box click is not a row click', () => {
+    const clicked: Order[] = [];
+    fixture.componentInstance.rowClick.subscribe((row) => clicked.push(row));
+    tick(rowInputs()[1]);
+    expect(clicked).toEqual([]);
+    expect(fixture.componentInstance.expanded()).toBeNull();
+  });
+
+  describe('selectableWhen', () => {
+    beforeEach(() => {
+      fixture.componentRef.setInput('selectableWhen', (row: Order) => row.status === 'ready');
+      fixture.detectChanges();
+    });
+
+    it('disables the box of a row that may not be selected', () => {
+      expect(rowInputs().map((input) => input.disabled)).toEqual([false, true, false]);
+    });
+
+    it('select-all selects only the selectable rows, and reads as all once they are', () => {
+      tick(headerInput());
+      expect(datasource.selections().map((row) => row.id)).toEqual(['o1', 'o3']);
+      expect(headerInput().checked).toBe(true);
+      expect(headerInput().indeterminate).toBe(false);
+    });
+
+    it('disables the header box when nothing on the page may be selected', () => {
+      fixture.componentRef.setInput('selectableWhen', () => false);
+      fixture.detectChanges();
+      expect(headerInput().disabled).toBe(true);
+    });
+  });
+
+  it('keeps the selection across a re-fetch with equal ids', () => {
+    tick(rowInputs()[0]);
+    datasource.initialRecords.set(ORDERS.map((row) => ({ ...row })));
+    fixture.detectChanges();
+
+    expect(rowInputs()[0].checked).toBe(true);
+    expect(bodyRows()[0].classList).toContain('selected');
+  });
+
+  it('spans the selection column with the detail row', async () => {
+    const { fixture: f, host: h } = await renderKeyedDetail({ useMultiSelect: true });
+    expect(h.querySelector('td[colspan]')!.getAttribute('colspan')).toBe('3');
+    f.destroy();
+  });
+
+  it('tints a selected row from the theme option', () => {
+    TestBed.inject(ThemeService).registerTheme(
+      createTheme({
+        id: 'Tinted',
+        name: 'Tinted',
+        colors: LightTheme.colors,
+        components: { dataTable: { options: { selectedRowColor: 'primary-container' } } },
+      }),
+      { select: true }
+    );
+    tick(rowInputs()[0]);
+    // `emittedRuleFor` strips whitespace.
+    expect(emittedRuleFor(bodyRows()[0])).toMatch(/\.selectedtd\{background-color/);
+  });
+});
+
+@Component({
+  imports: [UniDataTableComponent],
+  template: `
+    <ng-template #detail let-row>
+      <span class="detail">More about {{ row.item }}</span>
+    </ng-template>
+    <uni-data-table
+      [datasource]="datasource"
+      [columns]="columns"
+      [detailRowTemplate]="detail"
+      [useMultiSelect]="useMultiSelect()"
+      [expandableWhen]="expandableWhen()"
+      [rowClass]="rowClass()"
+      [(expanded)]="expanded"
+    />
+  `,
+})
+class KeyedDetailHost {
+  readonly datasource = new UniRecordDatasource<Order>([...ORDERS], { rowId: (row) => row.id });
+  readonly columns = ORDER_COLUMNS;
+  readonly useMultiSelect = signal(false);
+  readonly expandableWhen = signal<((row: Order) => boolean) | undefined>(undefined);
+  readonly rowClass = signal<((row: Order) => string) | undefined>(undefined);
+  readonly expanded = signal<RowKey | null>(null);
+}
+
+async function renderKeyedDetail(inputs: { useMultiSelect?: boolean } = {}) {
+  TestBed.resetTestingModule();
+  await TestBed.configureTestingModule({ imports: [KeyedDetailHost] }).compileComponents();
+  const fixture = TestBed.createComponent(KeyedDetailHost);
+  if (inputs.useMultiSelect) fixture.componentInstance.useMultiSelect.set(true);
+  fixture.detectChanges();
+  return { fixture, host: fixture.nativeElement as HTMLElement };
+}
+
+/**
+ * Expansion keyed by `rowId`: the expanded row used to be an internal page
+ * index, so a consumer could not open a row, close all rows, or keep one open
+ * across a sort or a re-fetch that reordered the records.
+ */
+describe('UniDataTableComponent expanded model', () => {
+  let fixture: ComponentFixture<KeyedDetailHost>;
+  let host: HTMLElement;
+
+  const recordRows = () =>
+    Array.from(host.querySelectorAll<HTMLElement>('tbody tr')).filter(
+      (tr) => !tr.querySelector('td[colspan]')
+    );
+  const openDetails = () =>
+    Array.from(host.querySelectorAll('td[colspan]'))
+      .map((td) => td.closest('tr')!)
+      .filter((tr) => !tr.hasAttribute('inert'))
+      .map((tr) => tr.querySelector('.detail')?.textContent?.trim());
+
+  beforeEach(async () => {
+    ({ fixture, host } = await renderKeyedDetail());
+  });
+
+  it('opens the row the consumer names, by id', () => {
+    fixture.componentInstance.expanded.set('o3');
+    fixture.detectChanges();
+    expect(openDetails()).toEqual(['More about Rug']);
+    expect(recordRows()[2].getAttribute('aria-expanded')).toBe('true');
+    expect(recordRows()[0].getAttribute('aria-expanded')).toBe('false');
+  });
+
+  it('reports the clicked row by id through the model', () => {
+    recordRows()[1].click();
+    fixture.detectChanges();
+    expect(fixture.componentInstance.expanded()).toBe('o2');
+
+    recordRows()[1].click();
+    fixture.detectChanges();
+    expect(fixture.componentInstance.expanded()).toBeNull();
+  });
+
+  it('keeps the same record open through a sort that moves it', () => {
+    fixture.componentInstance.expanded.set('o2');
+    fixture.componentInstance.datasource.sortRecords({ column: 'item', direction: 'asc' });
+    fixture.detectChanges();
+
+    // Lamp sorted first; still the open one.
+    expect(recordRows()[0].textContent).toContain('Lamp');
+    expect(openDetails()).toEqual(['More about Lamp']);
+  });
+
+  it('keeps the same record open across a re-fetch with equal ids', () => {
+    fixture.componentInstance.expanded.set('o1');
+    fixture.detectChanges();
+    fixture.componentInstance.datasource.initialRecords.set(ORDERS.map((row) => ({ ...row })));
+    fixture.detectChanges();
+    expect(openDetails()).toEqual(['More about Sofa']);
+  });
+
+  it('null collapses every row', () => {
+    fixture.componentInstance.expanded.set('o1');
+    fixture.detectChanges();
+    fixture.componentInstance.expanded.set(null);
+    fixture.detectChanges();
+    expect(openDetails()).toEqual([]);
+  });
+
+  it('exposes the page index of the open row through the deprecated expandedIndex', () => {
+    const table = fixture.debugElement.query((el) => el.name === 'uni-data-table')
+      .componentInstance as UniDataTableComponent<Order>;
+    fixture.componentInstance.expanded.set('o3');
+    fixture.detectChanges();
+    expect(table.expandedIndex()).toBe(2);
+    expect(table.toggleRow).toBeTypeOf('function');
+  });
+
+  describe('expandableWhen', () => {
+    beforeEach(() => {
+      fixture.componentInstance.expandableWhen.set((row) => row.status === 'ready');
+      fixture.detectChanges();
+    });
+
+    it('a row with no detail takes no affordance and no aria-expanded', () => {
+      expect(recordRows()[1].classList).toContain('inexpandable');
+      expect(recordRows()[1].getAttribute('aria-expanded')).toBeNull();
+      expect(recordRows()[0].classList).not.toContain('inexpandable');
+      expect(recordRows()[0].getAttribute('aria-expanded')).toBe('false');
+    });
+
+    it('a click on it still emits rowClick but opens nothing', () => {
+      const table = fixture.debugElement.query((el) => el.name === 'uni-data-table')
+        .componentInstance as UniDataTableComponent<Order>;
+      const clicked: Order[] = [];
+      table.rowClick.subscribe((row) => clicked.push(row));
+
+      recordRows()[1].click();
+      fixture.detectChanges();
+      expect(clicked).toEqual([ORDERS[1]]);
+      expect(fixture.componentInstance.expanded()).toBeNull();
+    });
+
+    it('keeps the hover affordance off an inexpandable row', () => {
+      expect(emittedRuleFor(recordRows()[0])).toContain(':not(.inexpandable):hovertd');
+    });
+  });
+
+  it('adds the consumer rowClass to the row', () => {
+    fixture.componentInstance.rowClass.set((row) => (row.status === 'delivered' ? 'dim' : ''));
+    fixture.detectChanges();
+    expect(recordRows()[1].classList).toContain('dim');
+    expect(recordRows()[0].classList).not.toContain('dim');
+  });
+});
+
+/** Without a `rowId` the expanded key is the page index, as the old signal was. */
+describe('UniDataTableComponent expanded without a rowId', () => {
+  it('keys by page index', async () => {
+    await TestBed.configureTestingModule({ imports: [DetailHost] }).compileComponents();
+    const fixture = TestBed.createComponent(DetailHost);
+    fixture.detectChanges();
+    const table = fixture.debugElement.query((el) => el.name === 'uni-data-table')
+      .componentInstance as UniDataTableComponent<Row>;
+    const rows = Array.from(
+      (fixture.nativeElement as HTMLElement).querySelectorAll<HTMLElement>('tbody tr')
+    ).filter((tr) => !tr.querySelector('td[colspan]'));
+
+    rows[2].click();
+    fixture.detectChanges();
+    expect(table.expanded()).toBe(2);
+    expect(table.expandedIndex()).toBe(2);
   });
 });

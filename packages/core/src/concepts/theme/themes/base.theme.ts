@@ -1188,6 +1188,11 @@ const buildComponents = (c: Colors): ComponentThemes => ({
       loadingOverlayColor: 'scrim',
       loadingSpinnerColor: 'primary',
       loadingSpinnerSize: 40,
+      // The selection column under `useMultiSelect`; no tint on a selected
+      // row by default — the box says it.
+      selectionColumnWidth: 40,
+      selectionCheckboxSize: 'sm',
+      selectedRowColor: undefined,
     },
   },
   notificationBadge: {
