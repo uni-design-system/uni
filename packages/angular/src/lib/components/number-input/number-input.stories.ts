@@ -48,6 +48,11 @@ const meta: Meta<StoryType> = {
       options: ['half-up', 'half-even', 'ceil', 'floor', 'trunc'],
       description: 'How a tie rounds. Default: `half-up`',
     },
+    unframed: {
+      control: 'boolean',
+      description:
+        'Keep the box but drop its chrome, as uni-input does; unlike embedded, the field still owns its row and steppers. Default: false',
+    },
     align: {
       control: 'inline-radio',
       options: ['start', 'end', 'center'],

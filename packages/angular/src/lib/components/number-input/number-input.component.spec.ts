@@ -8,7 +8,25 @@
  * what commits, what is refused, what is announced, and what the DOM says.
  */
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { emittedRuleFor } from '../../../testing/emitted-css';
 import { UniNumberInputComponent } from './number-input.component';
+
+describe('UniNumberInputComponent chrome', () => {
+  it('unframed keeps the box but drops its chrome and insets', async () => {
+    await TestBed.configureTestingModule({ imports: [UniNumberInputComponent] }).compileComponents();
+    const fixture = TestBed.createComponent(UniNumberInputComponent);
+    fixture.componentRef.setInput('label', 'Amount');
+    fixture.componentRef.setInput('unframed', true);
+    fixture.detectChanges();
+
+    const row = (fixture.nativeElement as HTMLElement).querySelector<HTMLElement>(
+      'uni-input-box > *'
+    )!;
+    expect(row).not.toBeNull();
+    expect(emittedRuleFor(row)).not.toContain('border:1pxsolid');
+    expect(emittedRuleFor(row)).not.toContain(':focus');
+  });
+});
 
 describe('UniNumberInputComponent', () => {
   let fixture: ComponentFixture<UniNumberInputComponent>;

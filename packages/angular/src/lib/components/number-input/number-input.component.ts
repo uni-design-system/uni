@@ -1,5 +1,6 @@
 import { NgTemplateOutlet } from '@angular/common';
 import {
+  booleanAttribute,
   ChangeDetectionStrategy,
   Component,
   computed,
@@ -123,6 +124,12 @@ export class UniNumberInputComponent
   readOnly = input(false);
   /** Renders without its own input-box chrome, for composers like uni-slider. */
   embedded = input(false);
+  /**
+   * Keep the box but drop its chrome — border, fill, inset, focus treatment —
+   * as `uni-input`'s `unframed` does. Unlike `embedded`, the field still owns
+   * its row and its steppers.
+   */
+  unframed = input(false, { transform: booleanAttribute });
 
   // --- Range and stepping --------------------------------------------------
   min = input<number | undefined>();
@@ -637,7 +644,9 @@ export class UniNumberInputComponent
       // `removeInputPlatformStyling` zeroes padding on `& input` at a higher
       // specificity than this class. Skipped when a stepper holds the trailing
       // edge: a button is meant to reach the border.
-      this.showSteppers() ? undefined : this.theme.paddingRight(this.trailingInset()),
+      this.showSteppers() || this.unframed()
+        ? undefined
+        : this.theme.paddingRight(this.trailingInset()),
     ]);
   });
 
@@ -686,7 +695,9 @@ export class UniNumberInputComponent
    * `embedded` fields have no chrome, so they get no inset either.
    */
   private readonly leadingInset = computed(() =>
-    this.embedded() ? undefined : this.theme.paddingLeft(this.fieldChrome().paddingLeft)
+    this.embedded() || this.unframed()
+      ? undefined
+      : this.theme.paddingLeft(this.fieldChrome().paddingLeft)
   );
 
   private affixBase() {
