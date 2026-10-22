@@ -7,7 +7,7 @@
  */
 import { Component, signal } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { afterEach, beforeEach, describe, expect, it } from 'vitest';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import type { UniCalloutDismissal } from './callout.model';
 import { UniCalloutComponent } from './callout.component';
 
@@ -236,6 +236,27 @@ describe('UniCalloutComponent', () => {
     expect(target().style.getPropertyValue('anchor-name')).toBe('');
     expect(scrimChildren().length).toBe(0);
     vi.useRealTimers();
+  });
+
+  /**
+   * A panel opened by the previous step's click entered the top layer after
+   * the callout's pieces, so it stacked above them and buried the next step.
+   * Every retarget re-shows scrim and panel, which moves them back on top —
+   * so a tour can point at the control that opens a panel and then at
+   * something inside it.
+   */
+  it('re-shows scrim and panel, in that order, on every retarget', async () => {
+    fixture.componentInstance.open.set(true);
+    await flush();
+    const order: string[] = [];
+    vi.spyOn(panel(), 'showPopover').mockImplementation(() => void order.push('panel'));
+    const scrim = panel().previousElementSibling as HTMLElement;
+    vi.spyOn(scrim, 'showPopover').mockImplementation(() => void order.push('scrim'));
+
+    fixture.componentInstance.target.set(opener());
+    await flush();
+    expect(order).toEqual(['scrim', 'panel']);
+    vi.restoreAllMocks();
   });
 
   it('cleans up its document listener when destroyed while open', async () => {

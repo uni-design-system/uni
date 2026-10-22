@@ -245,24 +245,24 @@ export class UniCalloutComponent extends BaseComponent<UniCalloutOptions> {
     this.activeTarget.set(target);
 
     const wantScrim = (this.backdrop() ?? (target ? 'spotlight' : 'dim')) !== 'none';
-    if (wantScrim !== this.scrimShown()) {
-      const scrim = this.scrimRef().nativeElement;
-      const panel = this.panelRef().nativeElement;
-      try {
-        if (wantScrim) {
-          // Top-layer order is stacking order: re-show the panel above the
-          // late-arriving scrim.
-          scrim.showPopover();
-          panel.hidePopover();
-          panel.showPopover();
-        } else {
-          scrim.hidePopover();
-        }
-      } catch {
-        // a piece was already in the requested state
-      }
-      this.scrimShown.set(wantScrim);
+    // Re-shown on every step, not only when the scrim state changes. Top-layer
+    // order is stacking order, so anything shown since the last step — a
+    // panel the previous step's click opened — sits above these pieces and
+    // buries the next one. Hiding and showing again puts them back on top:
+    // scrim first, then the panel above it. (A *modal* dialog also makes
+    // everything outside it inert, which no stacking can undo; a tour that
+    // steps into a panel wants `uni-drawer`'s `modal: false`.)
+    const scrim = this.scrimRef().nativeElement;
+    const panel = this.panelRef().nativeElement;
+    try {
+      scrim.hidePopover();
+      if (wantScrim) scrim.showPopover();
+      panel.hidePopover();
+      panel.showPopover();
+    } catch {
+      // a piece was already in the requested state
     }
+    this.scrimShown.set(wantScrim);
     this.focusInitial();
   }
 
