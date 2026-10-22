@@ -1,6 +1,6 @@
-import type { Motion } from '@uni-design-system/uni-core';
+import type { ColorKey, Motion, Typeface } from '@uni-design-system/uni-core';
 
-/** Theme-level options for `uni-expand`. */
+/** Theme-level options for `uni-expand` and its `uni-expand-toggle` trigger. */
 export interface UniExpandOptions {
   /**
    * Named motion primitive for the reveal. Defaults to `reveal`, whose
@@ -11,4 +11,16 @@ export interface UniExpandOptions {
    * reads the same token so trigger and region move on one clock.
    */
   motion?: Motion;
+  /**
+   * Typeface role for a labelled toggle's label. Defaults to `label` — in a
+   * scale where that is the caps eyebrow above a field, point it at a body
+   * role, as the selection controls' `textRole` does.
+   */
+  textRole?: Typeface;
+  /** Ink for the label. Unset inherits the surrounding on-color. */
+  textColor?: ColorKey;
+  /** Typeface role for the muted sublabel. Defaults to `caption`. */
+  sublabelRole?: Typeface;
+  /** Ink for the sublabel. Defaults to `on-background-variant`. */
+  sublabelColor?: ColorKey;
 }
