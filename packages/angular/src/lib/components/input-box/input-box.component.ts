@@ -48,22 +48,39 @@ export class UniInputBoxComponent extends BaseComponent<UniInputBoxOptions> {
    */
   managedInset = input<boolean>(false);
 
+  /**
+   * Drop the field chrome — border, fill, radius, shadow, leading inset and
+   * the focus treatment — and render the bare row. For fields drawn as an
+   * email client draws them: unframed lines with a hairline between. The
+   * surrounding layout draws any focus cue; the error state is still exposed
+   * through `aria-invalid` on the control inside. Same meaning as
+   * `uni-tag-input`'s.
+   */
+  unframed = input(false, { transform: booleanAttribute });
+
   /** Auto-height fields (tag input, textarea) still keep the themed height as
       a floor, so a single-line field lines up with every other input. */
   protected readonly minHeight = computed(() =>
     this.height() === 'auto' ? this.componentOptions().height : undefined
   );
 
-  protected readonly color = computed(() =>
-    this.error() ? this.componentOptions().errorColor : this.componentOptions().color
-  );
+  protected readonly color = computed(() => {
+    if (this.unframed()) return undefined;
+    return this.error() ? this.componentOptions().errorColor : this.componentOptions().color;
+  });
 
-  protected readonly border = computed(() =>
-    this.error() ? this.componentOptions().errorBorder : this.componentOptions().border
-  );
+  protected readonly border = computed(() => {
+    if (this.unframed()) return undefined;
+    return this.error() ? this.componentOptions().errorBorder : this.componentOptions().border;
+  });
 
-  protected readonly shadow = computed(() =>
-    this.error() ? this.componentOptions().errorShadow : this.componentOptions().shadow
+  protected readonly shadow = computed(() => {
+    if (this.unframed()) return undefined;
+    return this.error() ? this.componentOptions().errorShadow : this.componentOptions().shadow;
+  });
+
+  protected readonly radius = computed(() =>
+    this.unframed() ? undefined : this.componentOptions().borderRadius
   );
 
   protected readonly inputBoxClass = computed(() =>
@@ -77,7 +94,7 @@ export class UniInputBoxComponent extends BaseComponent<UniInputBoxOptions> {
         '& input, select, textarea': {
           ...removeInputPlatformStyling,
           height: '100%',
-          ...(this.managedInset()
+          ...(this.managedInset() || this.unframed()
             ? undefined
             : this.theme.paddingLeft(this.componentOptions().paddingLeft)),
           ...this.theme.color(this.componentOptions().textColor),
@@ -100,20 +117,25 @@ export class UniInputBoxComponent extends BaseComponent<UniInputBoxOptions> {
           cursor: 'not-allowed !important',
         },
 
-        '&:has(input:focus, select:focus, textarea:focus)': {
-          outline: this.componentOptions().focusOutline,
-          outlineOffset: this.componentOptions().focusOutlineOffset,
-          // Optional focus chrome (border/ring/background). It yields to the
-          // error state, so a flagged field stays visibly flagged while the
-          // user is in it correcting the value.
-          ...(this.error()
-            ? {}
-            : {
-                ...this.theme.border(this.componentOptions().focusBorder),
-                ...this.theme.boxShadow(this.componentOptions().focusShadow),
-                ...this.theme.backgroundColor(this.componentOptions().focusColor),
-              }),
-        },
+        // A bare row has no chrome to focus; its layout draws the cue.
+        ...(this.unframed()
+          ? {}
+          : {
+              '&:has(input:focus, select:focus, textarea:focus)': {
+                outline: this.componentOptions().focusOutline,
+                outlineOffset: this.componentOptions().focusOutlineOffset,
+                // Optional focus chrome (border/ring/background). It yields to
+                // the error state, so a flagged field stays visibly flagged
+                // while the user is in it correcting the value.
+                ...(this.error()
+                  ? {}
+                  : {
+                      ...this.theme.border(this.componentOptions().focusBorder),
+                      ...this.theme.boxShadow(this.componentOptions().focusShadow),
+                      ...this.theme.backgroundColor(this.componentOptions().focusColor),
+                    }),
+              },
+            }),
       },
     ])
   );
