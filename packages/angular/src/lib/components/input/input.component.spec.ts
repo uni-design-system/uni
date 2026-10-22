@@ -1,5 +1,7 @@
+import { Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { UniInputComponent } from './input.component';
+import { emittedRuleFor } from '../../../testing/emitted-css';
 
 describe('UniInputComponent', () => {
   let fixture: ComponentFixture<UniInputComponent>;
@@ -75,5 +77,82 @@ describe('UniInputComponent', () => {
     fixture.componentRef.setInput('pattern', [/^\d+$/, /4$/]);
     fixture.detectChanges();
     expect(input().hasAttribute('pattern')).toBe(false);
+  });
+});
+
+/**
+ * The three presentation choices other controls already exposed and the text
+ * fields did not, so apps reached past the component boundary (`::ng-deep`,
+ * encapsulation off) to make them.
+ */
+describe('UniInputComponent chrome', () => {
+  let fixture: ComponentFixture<UniInputComponent>;
+
+  const row = (): HTMLElement =>
+    (fixture.nativeElement as HTMLElement).querySelector('uni-input-box > *')!;
+  const input = (): HTMLInputElement =>
+    (fixture.nativeElement as HTMLElement).querySelector('input')!;
+
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({ imports: [UniInputComponent] }).compileComponents();
+    fixture = TestBed.createComponent(UniInputComponent);
+    fixture.componentRef.setInput('label', 'Subject');
+    fixture.detectChanges();
+  });
+
+  // The row's own block opens with the theme's colour pair; the border is the
+  // themed `1px solid`; the inset is the 8px on the inner control's padding.
+  // (`border:medium` elsewhere in the rule is the platform reset on the inner
+  // control, which is not chrome.)
+  it('is framed by default: fill, border, inset and a focus treatment', () => {
+    const rule = emittedRuleFor(row());
+    expect(rule).toMatch(/\{color:[^;]+;background-color:[^;]+;display:flex/);
+    expect(rule).toContain('border:1pxsolid');
+    expect(rule).toContain('border-radius');
+    expect(rule).toContain('padding:0px0px0px8px');
+    expect(rule).toContain(':focus');
+  });
+
+  it('unframed drops the chrome, the leading inset and the focus treatment', () => {
+    fixture.componentRef.setInput('unframed', true);
+    fixture.detectChanges();
+    const rule = emittedRuleFor(row());
+    expect(rule).not.toMatch(/\{color:[^;]+;background-color:[^;]+;display:flex/);
+    expect(rule).not.toContain('border:1pxsolid');
+    expect(rule).not.toContain('border-radius');
+    expect(rule).not.toContain('box-shadow:0');
+    expect(rule).not.toContain('padding:0px0px0px8px');
+    expect(rule).not.toContain(':focus');
+  });
+
+  it('still exposes the error state while unframed', () => {
+    fixture.componentRef.setInput('unframed', true);
+    fixture.componentRef.setInput('invalid', true);
+    fixture.componentRef.setInput('dirty', true);
+    fixture.detectChanges();
+    expect(input().getAttribute('aria-invalid')).toBe('true');
+  });
+
+  it('aligns the text with align, as uni-number-input does', () => {
+    expect(emittedRuleFor(input())).not.toContain('text-align');
+    fixture.componentRef.setInput('align', 'center');
+    fixture.detectChanges();
+    expect(emittedRuleFor(input())).toContain('text-align:center');
+  });
+
+  it('reads a bare unframed attribute as true', async () => {
+    const Host = Component({
+      selector: 'uni-test-host',
+      imports: [UniInputComponent],
+      template: `<uni-input label="Subject" unframed />`,
+    })(class TestHost {});
+    TestBed.resetTestingModule();
+    await TestBed.configureTestingModule({ imports: [Host] }).compileComponents();
+    const hostFixture = TestBed.createComponent(Host);
+    hostFixture.detectChanges();
+    const instance = hostFixture.debugElement
+      .query((node) => (node.nativeElement as HTMLElement | null)?.matches?.('uni-input') === true)
+      .injector.get(UniInputComponent);
+    expect(instance.unframed()).toBe(true);
   });
 });

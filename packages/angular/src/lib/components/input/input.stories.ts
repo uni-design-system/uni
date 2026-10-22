@@ -32,6 +32,16 @@ const meta: Meta<StoryType> = {
       control: 'text',
       description: 'Placeholder text shown when the input is empty. Default: ""',
     },
+    unframed: {
+      control: 'boolean',
+      description:
+        'Drop the field chrome — border, fill, radius, shadow, inset and focus treatment — and render the bare input, as on uni-tag-input. Default: false',
+    },
+    align: {
+      control: 'inline-radio',
+      options: ['start', 'center', 'end'],
+      description: 'Text alignment, as uni-number-input has. Default: start',
+    },
 
     // Status Inputs
     disabled: {

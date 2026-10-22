@@ -1,4 +1,10 @@
-<uni-input-box [error]="showError()" [width]="width()" [fullWidth]="fullWidth()" [grow]="grow()">
+<uni-input-box
+  [error]="showError()"
+  [width]="width()"
+  [fullWidth]="fullWidth()"
+  [grow]="grow()"
+  [unframed]="unframed()"
+>
   <ng-content select="pre-input, [pre-input]" />
   <input
     [type]="type()"
@@ -8,7 +14,7 @@
     [disabled]="disabled()"
     [readOnly]="readonly()"
     (blur)="markAsTouched()"
-    [class]="inputClass"
+    [class]="inputClass()"
     [attr.name]="name() || null"
     [attr.autocomplete]="autocomplete() || null"
     [attr.inputmode]="inputMode() || null"

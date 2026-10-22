@@ -101,6 +101,12 @@ export class UniInputComponent implements FormValueControl<string> {
   fullWidth = input(false, { transform: booleanAttribute });
   grow = input<number | undefined>(undefined);
 
+  // --- PRESENTATION ---
+  /** Drop the field chrome and render the bare input — see `uni-input-box`. */
+  unframed = input(false, { transform: booleanAttribute });
+  /** Text alignment, as `uni-number-input`'s. Default: `start`. */
+  align = input<'start' | 'center' | 'end'>();
+
   // Only show errors if the user has actually interacted with the field
   protected readonly showError = computed(() => this.invalid() && (this.touched() || this.dirty()));
 
@@ -113,5 +119,8 @@ export class UniInputComponent implements FormValueControl<string> {
     this.value.set((event.target as HTMLInputElement).value);
   }
 
-  inputClass = css({});
+  protected readonly inputClass = computed(() => {
+    const align = this.align();
+    return css(align ? { textAlign: align } : {});
+  });
 }
