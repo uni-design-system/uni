@@ -23,7 +23,8 @@ Under ~10 options and no need to type → `uni-select`, the native, zero-JS,
 mobile-friendly answer. More options, or users know what they're looking for →
 `uni-combobox`. The value contract is identical (`T | null`, `compareWith`),
 so swapping one for the other as a list grows is a template-only change — that
-is deliberate. For open sets, where typing *creates* values, use
+is deliberate. A clear writes `null`; a field bound to a plain `string` schema
+sets `emptyValue="''"` so its readers never meet a `null`. For open sets, where typing *creates* values, use
 `uni-tag-input` (multi) or `uni-search-input` (queries); for closed multi
 sets, `uni-multi-select-dropdown`.
 

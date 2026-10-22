@@ -258,6 +258,34 @@ describe('UniComboboxComponent', () => {
       expect(cleared.length).toBe(1);
     });
 
+    /**
+     * Bound to a Signal Forms field typed `string`, a cleared `null` reached
+     * every reader of that string — a `.trim()` threw mid-render after a click
+     * on the ✕. `emptyValue` lets a string field say what empty is.
+     */
+    describe('emptyValue', () => {
+      it('is what the ✕ writes', () => {
+        setInputs({ value: 'AL', emptyValue: '' });
+        click(clearButton()!);
+        expect(fixture.componentInstance.value()).toBe('');
+      });
+
+      it('is what an emptied field on blur writes', () => {
+        setInputs({ value: 'AL', emptyValue: '' });
+        type('');
+        blurField();
+        expect(fixture.componentInstance.value()).toBe('');
+      });
+
+      it('reads as nothing selected: no ✕, no committed option', () => {
+        setInputs({ value: '', emptyValue: '' });
+        expect(clearButton()).toBeNull();
+        expect(field().value).toBe('');
+        click(toggleButton());
+        expect(options().filter((o) => o.getAttribute('aria-selected') === 'true')).toEqual([]);
+      });
+    });
+
     it('never nulls the model from an emptied field when not clearable', () => {
       setInputs({ value: 'AL', clearable: false });
       type('');

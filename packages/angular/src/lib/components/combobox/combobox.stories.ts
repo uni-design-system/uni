@@ -72,6 +72,10 @@ const meta: Meta<UniComboboxComponent<string>> = {
     clearable: {
       description: 'Show a ✕ while a value is set; an emptied field on blur also clears',
     },
+    emptyValue: {
+      description:
+        "What a clear writes: null by default; '' for a field bound to a plain string schema",
+    },
     commitOnBlur: { description: 'Blur commits an exact-match draft (default true)' },
     emptyText: { description: 'i18n-able empty row, also announced when nothing matches' },
     selected: { description: 'An option committed' },

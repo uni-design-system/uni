@@ -26,7 +26,7 @@
         (click)="onFieldClick()"
         (focus)="onFieldFocus()"
       />
-      @if (clearable() && value() !== null && !disabled()) {
+      @if (clearable() && hasValue() && !disabled()) {
         <button
           icon-button
           type="button"

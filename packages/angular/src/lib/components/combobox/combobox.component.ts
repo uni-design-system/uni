@@ -87,6 +87,13 @@ export class UniComboboxComponent<T>
   width = input<string | number>('100%');
   /** Show a ✕ while a value is set; an emptied field on blur also clears. */
   clearable = input(true);
+  /**
+   * What "nothing selected" is written as. `null` by default — the control's
+   * contract is `FormValueControl<T | null>` — but a field bound to a plain
+   * `string` schema wants `''`, so a clear does not hand `null` to every
+   * reader of a string. A value equal to it reads as empty: no ✕, no match.
+   */
+  emptyValue = input<T | null>(null);
   /** Blur commits an exact-match draft; a non-matching draft reverts. */
   commitOnBlur = input(true);
   /** i18n-able empty row, also announced when a filter matches nothing. */
@@ -144,11 +151,17 @@ export class UniComboboxComponent<T>
    */
   protected readonly popupOpen = signal(false);
 
+  /** Whether the model holds a selection, as opposed to `emptyValue`. */
+  protected readonly hasValue = computed(() => {
+    const value = this.value();
+    return value !== null && value !== undefined && value !== this.emptyValue();
+  });
+
   /** Index in options() of the option matching value(), else -1. */
   protected readonly committedIndex = computed(() => {
     const value = this.value();
-    if (value === null || value === undefined) return -1;
-    return this.options().findIndex((option) => this.compareWith()(option.value, value));
+    if (!this.hasValue()) return -1;
+    return this.options().findIndex((option) => this.compareWith()(option.value, value as T));
   });
 
   /** A value with no matching option renders '' but is preserved — options may
@@ -198,7 +211,7 @@ export class UniComboboxComponent<T>
   }
 
   protected clear(): void {
-    this.value.set(null);
+    this.value.set(this.emptyValue());
     this.draft.set(null);
     this.closeList();
     this.setFieldText('');
@@ -228,8 +241,8 @@ export class UniComboboxComponent<T>
     if (draft === '') {
       // An emptied field on Tab/blur is a deliberate "no value" — but only
       // clearable fields may null the model this way.
-      if (this.clearable() && this.value() !== null && !enterOnly) {
-        this.value.set(null);
+      if (this.clearable() && this.hasValue() && !enterOnly) {
+        this.value.set(this.emptyValue());
         this.announcer.announce('Selection cleared.');
         this.cleared.emit();
       }
