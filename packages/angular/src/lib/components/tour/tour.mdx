@@ -21,6 +21,13 @@ direction of travel with a dev warning, never an error. `active` is a
 two-way model, so tours are deep-linkable; Escape or the close button skips
 and reports the step through `skipped`.
 
+`started` fires when the first step of a run is presented — through `start()`
+or a write to `active` — and `finished` only for a run that presented at least
+one step. A `start()` issued before `steps` are bound waits for them, so a host
+that loads steps from a service and starts in the same turn still opens on the
+first one. A step without a `body` renders its title alone, and a one-step tour
+draws no progress.
+
 ## Usage
 
 <StoryUsage of={Stories.Primary} />
@@ -50,7 +57,8 @@ and reports the step through `skipped`.
 ## Do
 
 - Keep tours short and gate only steps whose gesture teaches something
-- Handle `skipped`/`finished` and persist them — the tour holds no storage
+- Handle `skipped`/`finished` and persist them — the tour holds no storage;
+  `finished` is only ever reported for a run that actually opened
 
 ## Don't
 

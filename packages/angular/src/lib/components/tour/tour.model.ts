@@ -17,7 +17,8 @@ export interface UniTourStep {
   /** Element or id to spotlight; omit for a centered, page-dimming step. */
   target?: HTMLElement | string;
   title: string;
-  body: string;
+  /** Omit for a title-only pointer; no paragraph is rendered. */
+  body?: string;
   placement?: Placement;
   backdrop?: 'spotlight' | 'dim' | 'none';
   targetInteractive?: boolean;
@@ -26,6 +27,10 @@ export interface UniTourStep {
 
 /** Theme options for the `tour` component entry. */
 export interface UniTourOptions {
-  progressStyle: 'dots' | 'fraction';
+  /**
+   * How the footer counts steps. `none` draws no progress; a one-step tour
+   * never draws any. The component's `progressStyle` input overrides it.
+   */
+  progressStyle: 'dots' | 'fraction' | 'none';
   footerGap: Size;
 }

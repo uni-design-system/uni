@@ -49,13 +49,27 @@ export class UniTourComponent extends BaseComponent<UniTourOptions> {
   /** The presented step index, or null when the tour is not running. */
   active = model<number | null>(null);
 
+  /**
+   * Per-instance override of the `progressStyle` theme option, so a one-off
+   * pointer can differ from the app's tours without a second theme entry.
+   * A one-step tour renders no progress whatever this says — one dot beside
+   * Done counts nothing.
+   */
+  progressStyle = input<'dots' | 'fraction' | 'none'>();
+
   nextLabel = input('Next');
   backLabel = input('Back');
   skipLabel = input('Skip');
   doneLabel = input('Done');
 
+  /** The first step of a run was presented — from `start()` or from a write to `active`. */
   started = output<void>();
   stepChanged = output<{ key: string; index: number }>();
+  /**
+   * The run walked past its last step. Never emitted for a run in which no
+   * step was presented (empty `steps`, every target missing): a tour that
+   * never opened did not finish.
+   */
   finished = output<void>();
   skipped = output<{ key: string; index: number }>();
 
@@ -67,6 +81,10 @@ export class UniTourComponent extends BaseComponent<UniTourOptions> {
   protected readonly resolvedTarget = signal<HTMLElement | undefined>(undefined);
   private readonly presentedIndex = signal<number | null>(null);
   private gateCleanup: (() => void) | null = null;
+  /** Whether this run has presented a step — what `started` and `finished` key on. */
+  private presentedAny = false;
+  /** A `start()` that found no steps, waiting for them to arrive. */
+  private readonly pendingStart = signal<number | null>(null);
 
   protected readonly index = computed(() => this.presentedIndex() ?? 0);
   protected readonly currentStep = computed<UniTourStep | undefined>(() => {
@@ -86,6 +104,11 @@ export class UniTourComponent extends BaseComponent<UniTourOptions> {
     const step = this.currentStep();
     return step ? `${step.title}, step ${this.index() + 1} of ${this.steps().length}` : '';
   });
+  /** The progress to draw: the input, else the theme option; none for a single step. */
+  protected readonly progress = computed<'dots' | 'fraction' | 'none'>(() => {
+    if (this.steps().length <= 1) return 'none';
+    return this.progressStyle() ?? this.componentOptions().progressStyle ?? 'dots';
+  });
 
   constructor() {
     super();
@@ -97,11 +120,29 @@ export class UniTourComponent extends BaseComponent<UniTourOptions> {
       untracked(() => (index === null ? this.stopTour() : this.present(index, 1)));
     });
 
+    // A `start()` issued before the steps were bound — a host that sets them
+    // from a service and starts in the same turn sees `[]` — begins once they
+    // arrive, rather than walking off the end of an empty list.
+    effect(() => {
+      const at = this.pendingStart();
+      if (at === null || !this.steps().length) return;
+      this.pendingStart.set(null);
+      untracked(() => this.present(at, 1));
+    });
+
     this.destroyRef.onDestroy(() => this.gateCleanup?.());
   }
 
+  /**
+   * Begin a run at step `at`. `started` fires once the first step is actually
+   * presented — not here — so a start that presents nothing reports nothing.
+   * With no steps yet, the start waits for them.
+   */
   start(at = 0): void {
-    this.started.emit();
+    if (!this.steps().length) {
+      this.pendingStart.set(at);
+      return;
+    }
     this.present(at, 1);
   }
 
@@ -158,6 +199,10 @@ export class UniTourComponent extends BaseComponent<UniTourOptions> {
     this.resolvedTarget.set(target ?? undefined);
     this.setupGate(step, target);
     this.calloutOpen.set(true);
+    if (!this.presentedAny) {
+      this.presentedAny = true;
+      this.started.emit();
+    }
     this.stepChanged.emit({ key: step.key, index });
   }
 
@@ -203,11 +248,12 @@ export class UniTourComponent extends BaseComponent<UniTourOptions> {
   }
 
   private finishTour(): void {
-    this.gateCleanup?.();
-    this.calloutOpen.set(false);
-    this.presentedIndex.set(null);
-    this.active.set(null);
-    this.finished.emit();
+    const ran = this.presentedAny;
+    this.stopTour();
+    if (ran) this.finished.emit();
+    else if (typeof ngDevMode === 'undefined' || ngDevMode) {
+      console.warn('[uni-tour] no step could be presented — the run did not start');
+    }
   }
 
   private stopTour(): void {
@@ -215,6 +261,7 @@ export class UniTourComponent extends BaseComponent<UniTourOptions> {
     this.calloutOpen.set(false);
     this.presentedIndex.set(null);
     this.active.set(null);
+    this.presentedAny = false;
   }
 
   // --- styling --------------------------------------------------------------

@@ -13,6 +13,14 @@ const meta: Meta<StoryType> = {
   parameters: {
     componentSubtitle: 'Step sequencer over one callout — onboarding without a library',
   },
+  argTypes: {
+    progressStyle: {
+      control: 'select',
+      options: [undefined, 'dots', 'fraction', 'none'],
+      description:
+        "Per-instance override of the `progressStyle` theme option: `dots`, `fraction` or `none`. A one-step tour renders no progress whatever this says.",
+    },
+  },
   decorators: [
     moduleMetadata({
       imports: [UniButtonComponent, UniInputComponent, UniStackDirective],

@@ -11,14 +11,16 @@
   (dismissed)="onDismissed($event)"
   (panelKeydown)="onPanelKeydown($event)"
 >
-  <p>{{ currentStep()?.body }}</p>
+  @if (currentStep()?.body; as body) {
+    <p>{{ body }}</p>
+  }
   <div callout-actions [class]="footerClassName()">
     @if (index() > 0) {
       <button text-button variant="ghost" (click)="back()">{{ backLabel() }}</button>
     }
-    @if (componentOptions().progressStyle === 'fraction') {
+    @if (progress() === 'fraction') {
       <span aria-hidden="true" [class]="fractionClassName">{{ index() + 1 }} of {{ steps().length }}</span>
-    } @else {
+    } @else if (progress() === 'dots') {
       <span aria-hidden="true" [class]="dotsClassName()">
         @for (step of steps(); track $index) {
           <i [class.on]="$index === index()"></i>

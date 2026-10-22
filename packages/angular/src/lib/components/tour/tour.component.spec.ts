@@ -3,7 +3,7 @@
  * (`packages/angular/prototypes/popover/test.mjs`), tour section. The tour
  * layer is pure sequencing logic over one callout — everything ports.
  */
-import { Component, viewChild } from '@angular/core';
+import { Component, signal, viewChild } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import type { UniTourStep } from './tour.model';
@@ -18,7 +18,8 @@ import { UniTourComponent } from './tour.component';
     <input id="name-field" />
     <button id="create-button">Create</button>
     <uni-tour
-      [steps]="steps"
+      [steps]="steps()"
+      [progressStyle]="progressStyle()"
       (stepChanged)="events.push('step:' + $event.key)"
       (finished)="events.push('finished')"
       (skipped)="events.push('skipped:' + $event.key)"
@@ -29,7 +30,8 @@ import { UniTourComponent } from './tour.component';
 class HostComponent {
   tour = viewChild.required(UniTourComponent);
   events: string[] = [];
-  steps: UniTourStep[] = [
+  progressStyle = signal<'dots' | 'fraction' | 'none' | undefined>(undefined);
+  steps = signal<UniTourStep[]>([
     { key: 'welcome', title: 'Welcome to Projects', body: 'A quick look around.' },
     { key: 'search', target: 'search-field', title: 'Find anything', body: 'Type to filter.' },
     {
@@ -55,7 +57,7 @@ class HostComponent {
     },
     { key: 'ghost', target: 'does-not-exist', title: 'Ghost', body: 'Never shown.' },
     { key: 'done', title: 'All set', body: 'Enjoy.' },
-  ];
+  ]);
 }
 
 describe('UniTourComponent', () => {
@@ -203,4 +205,88 @@ describe('UniTourComponent', () => {
     await flush();
     expect(panel().getAttribute('aria-label')).toContain('Weekly report');
   });
+
+  /**
+   * `started` keys on a step being presented, not on who asked: a controller
+   * that drives the tour through `active` (deep links, inspection) used to
+   * never hear the start, because only `start()` emitted it.
+   */
+  it('emits started once when a run begins through the active model', async () => {
+    tour().active.set(1);
+    await flush();
+    await flush();
+    tour().active.set(2);
+    await flush();
+    expect(fixture.componentInstance.events.filter((e) => e === 'started')).toEqual(['started']);
+  });
+
+  it('renders no paragraph for a title-only step', async () => {
+    fixture.componentInstance.steps.set([{ key: 'here', title: "It's here." }, ...STEPS_TAIL]);
+    fixture.detectChanges();
+    await start();
+    expect(panel().querySelector('p')).toBeNull();
+  });
+
+  describe('progress', () => {
+    const dots = () => panel().querySelectorAll('i').length;
+
+    it('draws one dot per step by default', async () => {
+      await start();
+      expect(dots()).toBe(7);
+    });
+
+    it('draws no progress for a one-step tour — a lone dot counts nothing', async () => {
+      fixture.componentInstance.steps.set([{ key: 'here', title: "It's here.", body: 'Here.' }]);
+      fixture.detectChanges();
+      await start();
+      expect(dots()).toBe(0);
+      expect(panel().textContent).not.toContain('1 of 1');
+    });
+
+    it('takes a per-instance progressStyle over the theme option', async () => {
+      fixture.componentInstance.progressStyle.set('none');
+      fixture.detectChanges();
+      await start();
+      expect(dots()).toBe(0);
+    });
+  });
+
+  /**
+   * A host that sets `steps` from a service and calls `start()` in the same
+   * turn used to see `[]`: `present()` walked off the end and `finished` fired
+   * for a tour that never opened — and a controller wrote that down as done.
+   */
+  describe('a start before the steps arrive', () => {
+    it('waits for the steps, then presents the first one', async () => {
+      fixture.componentInstance.steps.set([]);
+      fixture.detectChanges();
+      tour().start();
+      await flush();
+      expect(fixture.componentInstance.events).toEqual([]);
+
+      fixture.componentInstance.steps.set(STEPS_TAIL);
+      fixture.detectChanges();
+      await flush();
+      await flush();
+      expect(fixture.componentInstance.events).toEqual(['started', 'step:done']);
+    });
+
+    it('never reports finished for a run in which nothing was presented', async () => {
+      const warn = vi.spyOn(console, 'warn').mockImplementation(() => undefined);
+      fixture.componentInstance.steps.set([
+        { key: 'ghost', target: 'does-not-exist', title: 'Ghost', body: 'Never shown.' },
+      ]);
+      fixture.detectChanges();
+      tour().start();
+      await flush();
+
+      expect(fixture.componentInstance.events).toEqual([]);
+      expect(warn).toHaveBeenCalledWith(
+        '[uni-tour] no step could be presented — the run did not start'
+      );
+    });
+  });
 });
+
+/** A single, target-free closing step — enough to present without the page. */
+const STEPS_TAIL: UniTourStep[] = [{ key: 'done', title: 'All set', body: 'Enjoy.' }];
