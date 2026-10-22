@@ -64,7 +64,10 @@ export interface UniCardGroupPanel<T = unknown> {
 export interface UniCardOption<T = unknown> {
   readonly value: Signal<T | undefined>;
   readonly disabled: Signal<boolean>;
+  /** The host element, for document order. */
   readonly element: HTMLElement;
+  /** The radio itself — the frame inside the host, where the group's keys count. */
+  frame(): HTMLElement;
   focus(): void;
 }
 

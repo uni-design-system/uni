@@ -23,7 +23,7 @@ import { UniCardGroupComponent } from './card-group.component';
     >
       <uni-card value="custom">Custom work</uni-card>
       <uni-card value="catalog" [disabled]="catalogOff()">Catalog order</uni-card>
-      <uni-card value="repair">Repair</uni-card>
+      <uni-card value="repair">Repair <input id="note" /></uni-card>
       <uni-card>Not an option</uni-card>
     </uni-card-group>
     <button id="outside">Outside</button>
@@ -47,8 +47,10 @@ describe('UniCardGroupComponent', () => {
   const radios = () => Array.from(host.querySelectorAll<HTMLElement>('[role="radio"]'));
   const checked = () => radios().map((r) => r.getAttribute('aria-checked'));
   const tabIndexes = () => radios().map((r) => r.getAttribute('tabindex'));
+  /** A key from the frame holding the tab stop — where a real keypress lands. */
   const keydown = (key: string) => {
-    group().dispatchEvent(new KeyboardEvent('keydown', { key, bubbles: true, cancelable: true }));
+    const from = radios().find((r) => r.getAttribute('tabindex') === '0') ?? radios()[0];
+    from.dispatchEvent(new KeyboardEvent('keydown', { key, bubbles: true, cancelable: true }));
     fixture.detectChanges();
   };
   const settle = async () => {
@@ -125,6 +127,33 @@ describe('UniCardGroupComponent', () => {
     keydown('ArrowLeft');
     await settle();
     expect(fixture.componentInstance.value()).toBe('repair');
+  });
+
+  /**
+   * Any arrow that bubbled up from inside a card used to move the selection
+   * and the focus — the caret moving in an address field on a ship-to card
+   * jumped to the next card and dropped the field.
+   */
+  it('leaves a key that started inside a card\'s content to the content', async () => {
+    fixture.componentInstance.value.set('repair');
+    fixture.detectChanges();
+    const field = host.querySelector<HTMLInputElement>('#note')!;
+    const event = new KeyboardEvent('keydown', {
+      key: 'ArrowLeft',
+      bubbles: true,
+      cancelable: true,
+    });
+    field.dispatchEvent(event);
+    await settle();
+    expect(event.defaultPrevented).toBe(false);
+    expect(fixture.componentInstance.value()).toBe('repair');
+  });
+
+  it('a card that is an option is a grid host, so its frame fills the cell', () => {
+    const cards = Array.from(host.querySelectorAll<HTMLElement>('uni-card'));
+    expect(getComputedStyle(cards[0]).display).toBe('grid');
+    // Plain content in the group is left as it was.
+    expect(getComputedStyle(cards[3]).display).not.toBe('grid');
   });
 
   it('Home and End go to the first and last enabled card', async () => {

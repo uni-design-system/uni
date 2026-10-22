@@ -16,10 +16,8 @@ dim interludes, and interaction gates. A step with `advanceOn` locks Next
 until the user performs the gesture on its target — clicks auto-advance
 (the gesture is complete), anything else unlocks Next and announces it
 through one polite `role="status"` region, so nobody is yanked forward
-mid-typing. Steps whose declared target cannot be found are skipped in the
-direction of travel with a dev warning, never an error. `active` is a
-two-way model, so tours are deep-linkable; Escape or the close button skips
-and reports the step through `skipped`.
+mid-typing. `active` is a two-way model, so tours are deep-linkable; Escape
+or the close button skips and reports the step through `skipped`.
 
 `started` fires when the first step of a run is presented — through `start()`
 or a write to `active` — and `finished` only for a run that presented at least
@@ -31,6 +29,27 @@ draws no progress.
 ## Usage
 
 <StoryUsage of={Stories.Primary} />
+
+## Targets
+
+A step's `target` is an element, a string, or a function returning an
+element, and every shape is resolved when the step presents — never earlier.
+A string is an id unless the tour's `resolveTarget` says otherwise; a
+controller whose steps name `data-tour` tokens gives it one lookup instead of
+pre-resolving every step.
+
+A target that is not in the DOM yet is waited for: the tour watches the
+document for `targetTimeout` (2 s by default) and opens the step the moment
+the element lands, with the previous step left up meanwhile. That covers a
+page that renders in pieces and a click-gated step whose click opens the
+panel the next step points into — the click advances before Angular has drawn
+the panel. Only a target that never appears is skipped, in the direction of
+travel, with a dev warning and a `targetMissing` event (`{ key, index }`) a
+controller can log. `targetTimeout="0"` skips at once. An element handed in
+that is no longer in the document counts as missing, so a controller that
+pre-resolved its elements survives a re-render.
+
+<StoryUsage of={Stories.IntoNewDom} />
 
 ## Theme options
 
@@ -70,5 +89,5 @@ inert, which no stacking undoes. For a drawer, that is `[modal]="false"`.
 
 ## Don't
 
-- Point steps at elements that may not exist without accepting the skip
+- Point steps at elements that may never exist without handling `targetMissing`
 - Span routes in one tour; sequence per page instead

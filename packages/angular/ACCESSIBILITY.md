@@ -101,8 +101,9 @@ what consumers must supply themselves.
 - APG radio keyboard model: one tab stop, arrows move *and* select (wrapping),
   Home/End, Space or Enter selects. Disabled cards are `aria-disabled` and
   skipped.
-- A click on a control inside the card's content is the control's, never the
-  card's.
+- A click or a key inside the card's content is the content's, never the
+  card's or the group's: an arrow in a field on a card moves the caret, not
+  the selection.
 
 ### Data Table
 - Column headers are `scope="col"`; a sortable header is a real button with
@@ -510,7 +511,9 @@ All controls implement `FormValueControl`/`FormCheckboxControl` and set
   typing in a spotlit target is never hijacked; Tab is the callout's duet
   loop.
 - Escape and the close button (named by `skipLabel`) skip the tour and report
-  the step; missing-target steps are skipped, not broken.
+  the step. A step whose target has not rendered yet is waited for
+  (`targetTimeout`), and one whose target never appears is skipped and
+  reported through `targetMissing`, not broken.
 
 ## Known gaps (tracked in TODO.md)
 

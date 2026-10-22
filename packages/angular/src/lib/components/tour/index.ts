@@ -5,4 +5,10 @@
  */
 
 export { UniTourComponent } from './tour.component';
-export type { UniTourAdvance, UniTourOptions, UniTourStep } from './tour.model';
+export type {
+  UniTourAdvance,
+  UniTourOptions,
+  UniTourStep,
+  UniTourTarget,
+  UniTourTargetMissing,
+} from './tour.model';

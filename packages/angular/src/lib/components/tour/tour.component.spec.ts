@@ -20,10 +20,13 @@ import { UniTourComponent } from './tour.component';
     <uni-tour
       [steps]="steps()"
       [progressStyle]="progressStyle()"
+      [targetTimeout]="targetTimeout()"
+      [resolveTarget]="resolveTarget()"
       (stepChanged)="events.push('step:' + $event.key)"
       (finished)="events.push('finished')"
       (skipped)="events.push('skipped:' + $event.key)"
       (started)="events.push('started')"
+      (targetMissing)="events.push('missing:' + $event.key)"
     />
   `,
 })
@@ -31,6 +34,9 @@ class HostComponent {
   tour = viewChild.required(UniTourComponent);
   events: string[] = [];
   progressStyle = signal<'dots' | 'fraction' | 'none' | undefined>(undefined);
+  /** Most of the suite wants a missing target skipped at once; the target tests wait. */
+  targetTimeout = signal(0);
+  resolveTarget = signal<((ref: string) => HTMLElement | null) | undefined>(undefined);
   steps = signal<UniTourStep[]>([
     { key: 'welcome', title: 'Welcome to Projects', body: 'A quick look around.' },
     { key: 'search', target: 'search-field', title: 'Find anything', body: 'Type to filter.' },
@@ -164,8 +170,9 @@ describe('UniTourComponent', () => {
     host.querySelector<HTMLButtonElement>('#create-button')!.click();
     await flush();
 
-    // ghost (step 6) has a missing target → warned and skipped to "done"
+    // ghost (step 6) has a missing target → warned, reported and skipped to "done"
     expect(warn).toHaveBeenCalledWith('[uni-tour] step "ghost" target missing — skipped');
+    expect(fixture.componentInstance.events).toContain('missing:ghost');
     expect(panel().getAttribute('aria-label')).toBe('All set, step 7 of 7');
   });
 
@@ -227,6 +234,111 @@ describe('UniTourComponent', () => {
     expect(panel().querySelector('p')).toBeNull();
   });
 
+  /**
+   * Targets used to resolve synchronously, as element-or-id, the instant a
+   * step presented: a page landing in pieces lost every step whose target
+   * arrived a moment late, a click-gated step could never point into the
+   * panel its click opened, and a `data-tour` token passed as a string was
+   * looked up as an id and silently skipped.
+   */
+  describe('targets', () => {
+    const wait = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+    const late = (): UniTourStep[] => [
+      { key: 'late', target: 'late-panel', title: 'Inside the panel', body: 'Rendered late.' },
+      ...STEPS_TAIL,
+    ];
+
+    it('waits for a target that renders after the step is requested', async () => {
+      fixture.componentInstance.targetTimeout.set(500);
+      fixture.componentInstance.steps.set(late());
+      fixture.detectChanges();
+      await start();
+      expect(fixture.componentInstance.events).toEqual([]);
+
+      const panelEl = document.createElement('div');
+      panelEl.id = 'late-panel';
+      host.appendChild(panelEl);
+      await flush();
+      await flush();
+
+      expect(fixture.componentInstance.events).toEqual(['started', 'step:late']);
+      expect(panel().getAttribute('aria-label')).toContain('Inside the panel');
+    });
+
+    it('keeps the current step up while the next one waits', async () => {
+      fixture.componentInstance.targetTimeout.set(500);
+      fixture.componentInstance.steps.set([STEPS_TAIL[0], ...late()]);
+      fixture.detectChanges();
+      await start();
+      nextButton()!.click();
+      await flush();
+      expect(panel().getAttribute('aria-label')).toContain('All set');
+      expect(tour().active()).toBe(0);
+    });
+
+    it('reports targetMissing and skips once the window runs out', async () => {
+      vi.spyOn(console, 'warn').mockImplementation(() => undefined);
+      fixture.componentInstance.targetTimeout.set(30);
+      fixture.componentInstance.steps.set(late());
+      fixture.detectChanges();
+      await start();
+      await wait(60);
+      await flush();
+
+      expect(fixture.componentInstance.events).toEqual(['missing:late', 'started', 'step:done']);
+    });
+
+    it('stops waiting when the tour is stopped', async () => {
+      fixture.componentInstance.targetTimeout.set(30);
+      fixture.componentInstance.steps.set(late());
+      fixture.detectChanges();
+      await start();
+      tour().skip();
+      await wait(60);
+      await flush();
+      expect(fixture.componentInstance.events).toEqual([]);
+    });
+
+    it('calls a function target when the step presents', async () => {
+      let calls = 0;
+      fixture.componentInstance.steps.set([
+        {
+          key: 'fn',
+          target: () => (calls++, host.querySelector<HTMLElement>('#create-button')),
+          title: 'Resolved',
+        },
+      ]);
+      fixture.detectChanges();
+      expect(calls).toBe(0);
+      await start();
+      expect(calls).toBe(1);
+      expect(panel().getAttribute('aria-label')).toContain('Resolved');
+    });
+
+    it('maps string targets through resolveTarget', async () => {
+      host.querySelector('#create-button')!.setAttribute('data-tour', 'create');
+      fixture.componentInstance.resolveTarget.set((token) =>
+        host.querySelector<HTMLElement>(`[data-tour="${token}"]`)
+      );
+      fixture.componentInstance.steps.set([{ key: 'token', target: 'create', title: 'By token' }]);
+      fixture.detectChanges();
+      await start();
+      expect(panel().getAttribute('aria-label')).toContain('By token');
+    });
+
+    it('treats an element no longer in the document as missing', async () => {
+      vi.spyOn(console, 'warn').mockImplementation(() => undefined);
+      const detached = document.createElement('div');
+      fixture.componentInstance.steps.set([
+        { key: 'gone', target: detached, title: 'Gone' },
+        ...STEPS_TAIL,
+      ]);
+      fixture.detectChanges();
+      await start();
+      expect(fixture.componentInstance.events).toEqual(['missing:gone', 'started', 'step:done']);
+    });
+  });
+
   describe('progress', () => {
     const dots = () => panel().querySelectorAll('i').length;
 
@@ -280,7 +392,7 @@ describe('UniTourComponent', () => {
       tour().start();
       await flush();
 
-      expect(fixture.componentInstance.events).toEqual([]);
+      expect(fixture.componentInstance.events).toEqual(['missing:ghost']);
       expect(warn).toHaveBeenCalledWith(
         '[uni-tour] no step could be presented — the run did not start'
       );

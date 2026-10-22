@@ -1235,6 +1235,7 @@ Inheritance (inputs listed once, available on all subclasses):
 - inputs:
   - `steps: UniTourStep[]` (required)
   - `progressStyle: 'dots' | 'fraction' | 'none'` — Per-instance override of the `progressStyle` theme option, so a one-off pointer can differ from the app's tours without a second theme entry. A one-step tour renders no progress whatever this says — one dot beside Done counts nothing.
+  - `targetTimeout: number` = 2000 — How long, in milliseconds, a step waits for a target that is not in the DOM when it presents. The document is watched for the whole window, so the step opens as soon as the target renders; past it the step is skipped. `0` skips at once.
   - `nextLabel: string` = 'Next'
   - `backLabel: string` = 'Back'
   - `skipLabel: string` = 'Skip'
@@ -1244,6 +1245,7 @@ Inheritance (inputs listed once, available on all subclasses):
 - outputs:
   - `started: void` — The first step of a run was presented — from `start()` or from a write to `active`.
   - `finished: void` — The run walked past its last step. Never emitted for a run in which no step was presented (empty `steps`, every target missing): a tour that never opened did not finish.
+  - `targetMissing: UniTourTargetMissing` — A step's target was not found within `targetTimeout`, so the step was skipped.
 
 ## UniWrapDirective
 - selector: `[uni-wrap-layout], [wrap-layout]`

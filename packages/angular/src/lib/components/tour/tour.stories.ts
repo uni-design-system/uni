@@ -20,6 +20,18 @@ const meta: Meta<StoryType> = {
       description:
         "Per-instance override of the `progressStyle` theme option: `dots`, `fraction` or `none`. A one-step tour renders no progress whatever this says.",
     },
+    targetTimeout: {
+      control: 'number',
+      description:
+        'Milliseconds a step waits for a target that is not in the DOM yet before it is skipped (default 2000). `0` skips at once.',
+    },
+    resolveTarget: {
+      description:
+        'Maps a string target to its element — `document.getElementById` when unset. Give it a `data-tour` lookup to name steps by token.',
+    },
+    targetMissing: {
+      description: 'A step was skipped because its target never resolved: `{ key, index }`.',
+    },
   },
   decorators: [
     moduleMetadata({
@@ -85,6 +97,58 @@ export const Primary: Story = {
         <uni-input label="Project name" id="tour-demo-name"></uni-input>
         <div><button text-button variant="secondary" id="tour-demo-create">Create project</button></div>
         <uni-tour #tour [steps]="steps"></uni-tour>
+      </div>
+    `,
+  }),
+};
+
+/**
+ * Targets resolve when a step presents, and a missing one is waited for.
+ * The first step is click-gated on a button that renders a panel; the click
+ * advances before Angular has drawn the panel, so the next step's target is
+ * not there yet — the tour watches the DOM and opens on it the moment it
+ * lands. Steps name their targets by `data-tour` token through
+ * `resolveTarget`, and the third step's token exists nowhere, so after
+ * `targetTimeout` it is reported through `targetMissing` and skipped.
+ */
+export const IntoNewDom: Story = {
+  render: () => ({
+    props: {
+      open: false,
+      missing: '',
+      byToken: (token: string) => document.querySelector<HTMLElement>(`[data-tour="${token}"]`),
+      steps: [
+        {
+          key: 'open',
+          target: 'open-details',
+          title: 'Open the details',
+          body: 'Click to open the panel — the next step points inside it.',
+          advanceOn: { event: 'click' },
+        },
+        {
+          key: 'inside',
+          target: 'detail-field',
+          title: 'Inside the panel',
+          body: 'This field did not exist when the previous step advanced.',
+        },
+        {
+          key: 'nowhere',
+          target: 'no-such-token',
+          title: 'Never shown',
+          body: 'No element carries this token; after the wait it is reported and skipped.',
+        },
+        { key: 'done', title: 'All set', body: 'Press Done to wrap up.' },
+      ] satisfies UniTourStep[],
+    },
+    template: `
+      <div stack-layout gap="md">
+        <button text-button (click)="open = false; missing = ''; tour.start()">Start tour</button>
+        <div><button text-button variant="secondary" data-tour="open-details" (click)="open = true">Open details</button></div>
+        @if (open) {
+          <uni-input label="Detail" data-tour="detail-field"></uni-input>
+        }
+        <p>Missing: {{ missing || 'none yet' }}</p>
+        <uni-tour #tour [steps]="steps" [resolveTarget]="byToken" [targetTimeout]="1500" (targetMissing)="missing = $event.key"></uni-tour>
       </div>
     `,
   }),

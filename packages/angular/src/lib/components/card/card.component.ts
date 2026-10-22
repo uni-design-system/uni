@@ -39,6 +39,7 @@ import {
   imports: [],
   templateUrl: './card.component.html',
   providers: [{ provide: COMPONENT_NAME, useValue: 'card' }],
+  host: { '[class]': 'hostClass()' },
 })
 export class UniCardComponent<T = unknown>
   extends BaseComponent<UniCardOptions>
@@ -46,7 +47,7 @@ export class UniCardComponent<T = unknown>
 {
   private readonly group = inject(UNI_CARD_GROUP, { optional: true }) as UniCardGroupPanel<T> | null;
   readonly element: HTMLElement = inject<ElementRef<HTMLElement>>(ElementRef).nativeElement;
-  private readonly frame = viewChild.required<ElementRef<HTMLElement>>('frame');
+  private readonly frameRef = viewChild.required<ElementRef<HTMLElement>>('frame');
 
   /**
    * Paint the selected state. Inside a group it is derived from the group's
@@ -95,8 +96,13 @@ export class UniCardComponent<T = unknown>
     return this.group!.isFocusTarget(this) ? 0 : -1;
   });
 
+  /** The frame: the element that is the radio inside a group. */
+  frame(): HTMLElement {
+    return this.frameRef().nativeElement;
+  }
+
   focus(): void {
-    this.frame().nativeElement.focus();
+    this.frame().focus();
   }
 
   /**
@@ -106,7 +112,7 @@ export class UniCardComponent<T = unknown>
   protected onClick(event: MouseEvent): void {
     if (!this.isInteractive() || this.isDisabled()) return;
     const target = event.target as HTMLElement | null;
-    const frame = this.frame().nativeElement;
+    const frame = this.frame();
     const control = target?.closest('a, button, input, select, textarea, label');
     if (control && control !== frame && frame.contains(control)) return;
     this.activate();
@@ -125,6 +131,14 @@ export class UniCardComponent<T = unknown>
     if (this.isOption()) this.group!.select(this.value() as T, this);
     this.activated.emit();
   }
+
+  /**
+   * As a grid item in a group the host is stretched to the row, but it has no
+   * display of its own, so the frame inside — the border, the fill, the
+   * ring — stopped at its content and two cards in a row showed two heights.
+   * A grid host hands the cell's height to its one child.
+   */
+  protected readonly hostClass = computed(() => (this.isOption() ? css({ display: 'grid' }) : ''));
 
   /**
    * Token-resolved frame (variant-named border primitive, radii, elevation)

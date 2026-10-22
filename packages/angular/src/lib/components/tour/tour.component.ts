@@ -13,14 +13,22 @@ import {
   untracked,
 } from '@angular/core';
 import { css } from '@emotion/css';
-import { createAnnouncer, resolveElement, visuallyHidden } from '../../cdk';
+import { createAnnouncer, visuallyHidden } from '../../cdk';
 import { BaseComponent, COMPONENT_NAME } from '../base/base.component';
 import { UniButtonComponent } from '../button/button.component';
 import { UniCalloutComponent } from '../callout/callout.component';
 import type { UniCalloutDismissal } from '../callout/callout.model';
-import type { UniTourStep, UniTourOptions } from './tour.model';
+import type {
+  UniTourOptions,
+  UniTourStep,
+  UniTourTarget,
+  UniTourTargetMissing,
+} from './tour.model';
 
 declare const ngDevMode: boolean | undefined;
+
+/** The default string resolver: a target names an element by id. */
+const byId = (ref: string): HTMLElement | null => document.getElementById(ref);
 
 /**
  * A thin sequencer over one `uni-callout`: steps spotlight their targets, a
@@ -29,9 +37,15 @@ declare const ngDevMode: boolean | undefined;
  * clicks, unlocking Next otherwise — announced through one `role="status"`
  * region). Escape or the close button skips the tour and reports the step.
  *
- * `active` is a two-way model, so a tour is deep-linkable and inspectable;
- * steps whose declared target cannot be resolved are skipped (with a dev
- * warning) in the direction of travel rather than erroring.
+ * `active` is a two-way model, so a tour is deep-linkable and inspectable.
+ *
+ * Targets resolve when a step presents, not before: an element, a string
+ * handed to `resolveTarget` (an id by default), or a function. One that is
+ * not there yet is waited for — the DOM is watched for `targetTimeout` and
+ * the step presents the moment it appears — so a page that lands in pieces,
+ * or a panel the previous step's click opened, does not lose its steps. Only
+ * a target that never shows is skipped, in the direction of travel, with a
+ * dev warning and a `targetMissing` event.
  */
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -57,6 +71,22 @@ export class UniTourComponent extends BaseComponent<UniTourOptions> {
    */
   progressStyle = input<'dots' | 'fraction' | 'none'>();
 
+  /**
+   * Maps a string target to its element; `document.getElementById` when
+   * unset. A controller whose steps name `data-tour` tokens gives
+   * `(token) => document.querySelector(`[data-tour="${token}"]`)` once,
+   * instead of pre-resolving every step.
+   */
+  resolveTarget = input<(ref: string) => HTMLElement | null | undefined>();
+
+  /**
+   * How long, in milliseconds, a step waits for a target that is not in the
+   * DOM when it presents. The document is watched for the whole window, so
+   * the step opens as soon as the target renders; past it the step is
+   * skipped. `0` skips at once.
+   */
+  targetTimeout = input(2000);
+
   nextLabel = input('Next');
   backLabel = input('Back');
   skipLabel = input('Skip');
@@ -72,6 +102,8 @@ export class UniTourComponent extends BaseComponent<UniTourOptions> {
    */
   finished = output<void>();
   skipped = output<{ key: string; index: number }>();
+  /** A step's target was not found within `targetTimeout`, so the step was skipped. */
+  targetMissing = output<UniTourTargetMissing>();
 
   protected readonly calloutOpen = signal(false);
   protected readonly satisfied = signal(true);
@@ -81,6 +113,8 @@ export class UniTourComponent extends BaseComponent<UniTourOptions> {
   protected readonly resolvedTarget = signal<HTMLElement | undefined>(undefined);
   private readonly presentedIndex = signal<number | null>(null);
   private gateCleanup: (() => void) | null = null;
+  /** Tears down the watch for a step whose target has not rendered yet. */
+  private waitCleanup: (() => void) | null = null;
   /** Whether this run has presented a step — what `started` and `finished` key on. */
   private presentedAny = false;
   /** A `start()` that found no steps, waiting for them to arrive. */
@@ -130,7 +164,10 @@ export class UniTourComponent extends BaseComponent<UniTourOptions> {
       untracked(() => this.present(at, 1));
     });
 
-    this.destroyRef.onDestroy(() => this.gateCleanup?.());
+    this.destroyRef.onDestroy(() => {
+      this.gateCleanup?.();
+      this.waitCleanup?.();
+    });
   }
 
   /**
@@ -170,10 +207,12 @@ export class UniTourComponent extends BaseComponent<UniTourOptions> {
   }
 
   /**
-   * Present step `index`, skipping (in the direction of travel) steps whose
-   * declared target cannot be resolved right now.
+   * Present step `index`. A step whose target does not resolve right now is
+   * waited for (`targetTimeout`), and skipped in the direction of travel
+   * only if it never appears.
    */
   private present(index: number, dir: 1 | -1): void {
+    this.waitCleanup?.();
     this.gateCleanup?.();
     const steps = this.steps();
     if (index < 0 || index >= steps.length) {
@@ -182,18 +221,66 @@ export class UniTourComponent extends BaseComponent<UniTourOptions> {
     }
 
     const step = steps[index];
-    let target: HTMLElement | null = null;
-    if (step.target !== undefined && step.target !== '') {
-      target = resolveElement(step.target);
-      if (!target) {
-        if (typeof ngDevMode === 'undefined' || ngDevMode) {
-          console.warn(`[uni-tour] step "${step.key}" target missing — skipped`);
-        }
-        this.present(index + dir, dir);
-        return;
-      }
+    if (step.target === undefined || step.target === '') {
+      this.show(index, step, null);
+      return;
     }
+    const target = this.resolve(step.target);
+    if (target) this.show(index, step, target);
+    else this.waitForTarget(index, step, dir);
+  }
 
+  /**
+   * The element a target stands for, or null. Looked up fresh every time —
+   * never cached across steps, the page may have re-rendered — and an
+   * element no longer in the document counts as missing.
+   */
+  private resolve(ref: UniTourTarget): HTMLElement | null {
+    let element: HTMLElement | null | undefined;
+    if (typeof ref === 'function') element = ref();
+    else if (typeof ref === 'string') element = (this.resolveTarget() ?? byId)(ref);
+    else element = ref;
+    return element && element.isConnected ? element : null;
+  }
+
+  /**
+   * Watch the document until the step's target renders or the window runs
+   * out. The previous step stays up meanwhile — a page landing in pieces
+   * should not flash the tour closed and open again.
+   */
+  private waitForTarget(index: number, step: UniTourStep, dir: 1 | -1): void {
+    const timeout = this.targetTimeout();
+    if (timeout <= 0 || typeof MutationObserver === 'undefined') {
+      this.skipStep(index, step, dir);
+      return;
+    }
+    const observer = new MutationObserver(() => {
+      const target = this.resolve(step.target as UniTourTarget);
+      if (!target) return;
+      this.waitCleanup?.();
+      this.show(index, step, target);
+    });
+    observer.observe(document.body, { childList: true, subtree: true, attributes: true });
+    const timer = setTimeout(() => {
+      this.waitCleanup?.();
+      this.skipStep(index, step, dir);
+    }, timeout);
+    this.waitCleanup = () => {
+      observer.disconnect();
+      clearTimeout(timer);
+      this.waitCleanup = null;
+    };
+  }
+
+  private skipStep(index: number, step: UniTourStep, dir: 1 | -1): void {
+    if (typeof ngDevMode === 'undefined' || ngDevMode) {
+      console.warn(`[uni-tour] step "${step.key}" target missing — skipped`);
+    }
+    this.targetMissing.emit({ key: step.key, index });
+    this.present(index + dir, dir);
+  }
+
+  private show(index: number, step: UniTourStep, target: HTMLElement | null): void {
     this.presentedIndex.set(index);
     this.active.set(index);
     this.resolvedTarget.set(target ?? undefined);
@@ -257,6 +344,7 @@ export class UniTourComponent extends BaseComponent<UniTourOptions> {
   }
 
   private stopTour(): void {
+    this.waitCleanup?.();
     this.gateCleanup?.();
     this.calloutOpen.set(false);
     this.presentedIndex.set(null);

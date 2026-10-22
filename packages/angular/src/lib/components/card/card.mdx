@@ -47,7 +47,11 @@ click on a control inside the card's content is the control's, not the card's.
 card with a `value` becomes a `role="radio"`, selected and focus-managed by the
 group, and a card without one is plain content. The group implements
 `FormValueControl<T | null>`, so it binds with `[formField]`, and is laid out as
-a grid (`templateColumns`, `gap`, or the `cardGroup` theme options).
+a grid (`templateColumns`, `gap`, or the `cardGroup` theme options). An option
+card fills its cell, so cards in a row share a frame height whatever their
+content. The group's keys count only on a card's frame: a control inside a
+card's content — a field, a select — keeps its own arrows, as it keeps its own
+clicks.
 
 ## Theme options
 

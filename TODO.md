@@ -324,8 +324,9 @@ audits: `packages/angular/TODO.md` (v4 audit) and `uni-theme-generation-plan.md`
 The consumer keeps its requests in
 `Wellsourced/apps/web/mockups/uni-change-requests/` with a status index
 (`STATUS-2026-10-09.md`). 11.7.0 closed tiers 1–2 (correctness + "the theme
-cannot reach it"), 11.8.0 the dialog/drawer item, 11.9.0 the data-table item, 11.10.0 the card item; the answers are
-`packages/angular/prototypes/uni-11.{7,8,9,10}.0-wellsourced-response.md`.
+cannot reach it"), 11.8.0 the dialog/drawer item, 11.9.0 the data-table item,
+11.10.0 the card item, 11.11.0 the tour targets; the answers are
+`packages/angular/prototypes/uni-11.{7,8,9,10,11}.0-wellsourced-response.md`.
 Still open, in order:
 
 - [x] ~~**Footer slots + rich dialog head** with the non-modal `over`
@@ -343,8 +344,13 @@ Still open, in order:
       2026-10-22 for 11.10.0, with the rich-head follow-ups
       (`dialog-rich-head-followups-2026-10-22.md`). Answer:
       `packages/angular/prototypes/uni-11.10.0-wellsourced-response.md`.
-- [ ] **Tour target resolver / lazy retry / `targetMissing`**
-      (`tour-and-callout-2026-10-14.md` §2, §6).
+- [x] ~~**Tour target resolver / lazy retry / `targetMissing`**~~ — shipped
+      2026-10-22 for 11.11.0 (`tour-and-callout-2026-10-14.md` §2: function
+      targets, `resolveTarget`, a `MutationObserver` wait for `targetTimeout`,
+      `targetMissing`), with the card-group follow-ups
+      (`card-group-followups-2026-10-22.md`: keys only from a frame, option
+      hosts `display: grid`). Answer:
+      `packages/angular/prototypes/uni-11.11.0-wellsourced-response.md`.
 - [ ] **Color roles** (`theme-color-roles-2026-10-10.md`) — overlaps ROADMAP
       Track 1 §8; then **phone input** (`phone-input-2026-10-10.md`).
 - [ ] Decisions: combobox `allowCustom` / `displayWith` (declined by design above,

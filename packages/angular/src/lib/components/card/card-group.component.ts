@@ -143,9 +143,15 @@ export class UniCardGroupComponent<T = unknown>
 
   // --- Keyboard ------------------------------------------------------------
 
+  /**
+   * The group's keys are the frames'. A key that started inside a card's
+   * content — the caret moving in an address field on a ship-to card — is
+   * the content's, as the card's own Space and Enter already are.
+   */
   protected onKeydown(event: KeyboardEvent): void {
     const cards = this.enabled();
     if (!cards.length || this.disabled()) return;
+    if (!this.ordered().some((card) => card.frame() === event.target)) return;
     const current = Math.max(0, cards.indexOf(this.focused() as UniCardOption<T>));
     let next: number | undefined;
     switch (event.key) {
