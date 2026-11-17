@@ -100,6 +100,7 @@ export class UniAlertComponent extends BaseComponent<UniAlertOptions> implements
 
   ngAfterViewInit() {
     this.alertRef?.nativeElement.addEventListener('animationend', (e) => {
+      if (e.target !== e.currentTarget) return; // bubbled from projected content
       if (e.animationName === this.fadeOut.toString()) {
         this.alertRef?.nativeElement.close();
         this.showing.emit(false);

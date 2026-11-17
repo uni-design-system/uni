@@ -270,6 +270,18 @@ Inheritance (inputs listed once, available on all subclasses):
 - outputs:
   - `touch: void` — Angular 22 marks the bound field touched through this output; the `touched` model above is bound inward by the directive and no longer propagates back out. Emitted wherever this control already decided the user was done with it.
 
+## UniColorSwatchComponent
+- selector: `uni-color-swatch, ColorSwatch`
+- inputs:
+  - `hex: string | null` — The color, in any spelling uni-core's `normalizeHex` reads (`#434C5A`, `434c5a`, `rgb(67, 76, 90)`). Absent or unreadable renders the empty block.
+  - `name: string` — What the color is called.
+  - `detail: string` — Secondary text: after the name on `chip`, the line under it on `tile`.
+  - `caption: string` — A small third line — where the color came from, when it was matched.
+  - `face: UniColorSwatchFace` = 'chip' — - `chip` — the block and one line of text, inline in a sentence or a row. - `tile` — the block beside two lines: the name, then the detail. - `card` — the block alone, filling its container edge to edge: the image area of a card, a gallery slide, a thumbnail. The host sizes the box and draws any caption; the swatch carries the words as its accessible name. - `dot` — the block alone at `size`, round. Requires `ariaLabel`.
+  - `size: Size` = 'md' — The block's edge, from the theme's `colorSwatch.sizes` (base: 14 / 22 / 40 / 72px).
+  - `ariaLabel: string` — Accessible name for the text-less faces. Required for `dot`; on `card` it replaces the derived "name, detail, hue".
+  - `emptyLabel: string` = 'No color yet' — Shown, and read, when no hex, name or detail is given.
+
 ## UniComboboxComponent
 - selector: `uni-combobox, Combobox`
 - inputs:
@@ -545,6 +557,19 @@ Inheritance (inputs listed once, available on all subclasses):
   - `transitionSpeed: number` — Rotation duration in seconds. Expand Area binds the region's resolved `duration` here so chevron and reveal share one clock even when the region is size-scaled or overridden per instance.
 - two-way models:
   - `collapsed: boolean` = true
+
+## UniEyedropperComponent
+- selector: `uni-eyedropper, Eyedropper`
+- inputs:
+  - `images: readonly string[]` = [] — Image URLs to sample from. They must be CORS-readable (see the docs).
+  - `sampleRadius: number` = 4 — A sample is the mean of a `(2r + 1)²` region: 4 → 9 × 9 px.
+  - `preferNative: boolean` = true — With no `images`, hand over to the browser's `EyeDropper` when it has one.
+  - `label: string` = 'Sample a color' — The trigger's text — the same on both paths.
+  - `labels: Partial<UniEyedropperLabels>` = {} — Overrides for any of the sampler's strings.
+  - `disabled: boolean` = false
+- outputs:
+  - `sampled: UniSampledColor`
+  - `canceled: void` — The sampler was left without taking a color.
 
 ## UniFileDropZoneComponent
 - selector: `uni-file-drop-zone`

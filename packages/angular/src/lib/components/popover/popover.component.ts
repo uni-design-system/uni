@@ -1,4 +1,5 @@
 import {
+  afterRenderEffect,
   afterNextRender,
   ChangeDetectionStrategy,
   Component,
@@ -18,6 +19,7 @@ import {
 import { css } from '@emotion/css';
 import {
   anchorArrowStyles,
+  trackPlacement,
   anchorStyles,
   clearAnchorName,
   discreteOverlayTransition,
@@ -119,6 +121,8 @@ export class UniPopoverComponent extends BaseComponent<UniPopoverOptions> {
   private closeTimer = useTimer();
   /** The element currently carrying our anchor-name. */
   private anchoredEl: HTMLElement | null = null;
+  /** Where the panel landed, once measured — see the tracking effect. */
+  private readonly landed = signal<Placement | null>(null);
   private detachEscape: (() => void) | null = null;
 
   constructor() {
@@ -151,6 +155,19 @@ export class UniPopoverComponent extends BaseComponent<UniPopoverOptions> {
       if (want === untracked(this.showing)) return;
       if (want) this.showPopover();
       else this.hidePopover();
+    });
+
+    // The arrow follows the side the browser actually put the panel on (it
+    // flips at viewport edges). After render, so the anchored class is in the
+    // DOM when measured; `showing` only turns true once `applyAnchor` has run.
+    afterRenderEffect((onCleanup) => {
+      const placement = this.placement();
+      if (!this.showing() || !this.arrow() || !this.anchoredEl) return;
+      onCleanup(
+        trackPlacement(this.panelRef().nativeElement, this.anchoredEl, placement, (at) =>
+          this.landed.set(at)
+        )
+      );
     });
 
     this.destroyRef.onDestroy(() => {
@@ -374,7 +391,8 @@ export class UniPopoverComponent extends BaseComponent<UniPopoverOptions> {
 
   protected readonly arrowClassName = computed(() => {
     const options = this.componentOptions();
-    const side = this.placement().split('-')[0];
+    const placement = this.landed() ?? this.placement();
+    const side = placement.split('-')[0];
     // Border on the two edges of the clipped half that face outward
     const borders: Record<string, object> = {
       top: { ...this.theme.borderRight(options.border), ...this.theme.borderBottom(options.border) },
@@ -384,7 +402,7 @@ export class UniPopoverComponent extends BaseComponent<UniPopoverOptions> {
     };
     return css({
       ...this.theme.colorPair(options.color),
-      ...anchorArrowStyles(this.placement(), options.arrowSize),
+      ...anchorArrowStyles(placement, options.arrowSize),
       ...borders[side],
     });
   });

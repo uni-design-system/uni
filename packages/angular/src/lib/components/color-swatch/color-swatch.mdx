@@ -1,0 +1,76 @@
+import { Meta, Title } from '@storybook/addon-docs/blocks';
+import * as Stories from './color-swatch.stories';
+import { StoryUsage } from '../../../stories/blocks/StoryUsage';
+import { StoryExample } from '../../../stories/blocks/StoryExample';
+import { ThemeOptions } from '../../../stories/blocks/ThemeOptionsBlock';
+
+<Meta of={Stories} name="Color Swatch" />
+<Title />
+
+`import { UniColorSwatchComponent } from '@uni-design-system/uni-angular';`
+
+## Overview
+
+Color Swatch shows a color that is _content_ rather than theme — a paint, a
+fabric, a brand ink, a sampled pixel — as a bordered block with its name
+beside it. Reach for it wherever such a color is displayed: a row in a list, a
+line in a sentence, the image area of a card. It is not for theme colors;
+those are tokens.
+
+The block's fill is the given `hex` in every scheme and is never a theme
+token. The theme owns the chrome around it, and above all the border — it is
+what makes a near-white read as a swatch on a light surface. The swatch has no
+opinion about what a color _is_: it takes a `hex`, a `name`, a line of
+`detail` and an optional `caption`, and your app decides what goes in them.
+
+## Usage
+
+<StoryUsage of={Stories.Chip} />
+
+## Faces
+
+`chip` sits in a line of text; `tile` stacks the name over the detail, with
+the caption beneath; `dot` is the block alone and must be given an
+`ariaLabel`.
+
+<StoryExample of={Stories.Faces} />
+
+## Card
+
+`card` is the block alone, edge to edge: the image area of a card, a gallery
+slide, a thumbnail. The host sizes the box and draws its own caption, so the
+face carries no text — its name, detail and hue are its accessible name
+instead.
+
+<StoryExample of={Stories.Card} />
+
+## Without a hex
+
+With no `hex` — or one that cannot be read — the swatch renders the empty
+block: the surface with one hairline diagonal, never a placeholder hue. `hex`
+accepts what uni-core's `normalizeHex()` does: `#434C5A`, `434c5a`,
+`rgb(67, 76, 90)`.
+
+<StoryExample of={Stories.Empty} />
+
+## Theme options
+
+<ThemeOptions componentName="colorSwatch" />
+
+## Accessibility
+
+- A color is never shown by color alone: `chip` and `tile` put the name and detail in the DOM, and their block is `aria-hidden`.
+- `card` is `role="img"` named "name, detail, hue" — the hue in words ("a dark slate blue") from uni-core's `nameHue()`; `ariaLabel` overrides it.
+- `dot` is `role="img"` and requires `ariaLabel`; without one it logs a dev-mode error and falls back to the derived name.
+- Given nothing, the swatch says `emptyLabel` ("No color yet").
+- The block prints as it shows (`print-color-adjust: exact`).
+
+## Do
+
+- Keep the border: re-point `colorSwatch.options.border` at another primitive rather than removing it
+- Use `card` where the color stands in for a photograph, and put the name in your own caption
+
+## Don't
+
+- Use `dot` without an `ariaLabel`, or anywhere the name is not also on screen nearby
+- Put a theme token in `hex` — a swatch is the same sRGB in light and dark

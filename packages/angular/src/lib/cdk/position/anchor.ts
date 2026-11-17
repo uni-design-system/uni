@@ -128,9 +128,10 @@ const before = (d: number): string => (d ? `calc(0% - ${d}px)` : '0');
 
 /**
  * Absolute positioning for a rotated-square arrow sitting on the panel edge
- * that faces the anchor. Static per placement: if the browser flips the panel
- * via position-try, the arrow stays on the configured side (cosmetic-only
- * degradation, matching the flip-support caveat above).
+ * that faces the anchor. Static per placement — and the browser may flip the
+ * panel via position-try — so pass the placement the panel actually landed at
+ * ({@link trackPlacement}), not the requested one, or a flipped panel carries
+ * its arrow on the far edge, pointing away from the anchor.
  *
  * `overlap` (default 0 — cut exactly on the panel edge) extends the kept half
  * into the panel; see {@link ARROW_CLIP} for when that is ever wanted.
@@ -180,6 +181,12 @@ export interface SpotlightOptions {
   ringWidth?: number;
   /** Scrim paint; scheme-invariant by convention, like `::backdrop`. */
   scrimColor?: string;
+  /**
+   * Width of the fade at the hole's edge, px. 0 (the default) keeps the hard
+   * edge. The scrim thins toward the target across this distance, so a value
+   * near `pad` fades out just as it reaches the target's box.
+   */
+  feather?: number;
 }
 
 export interface SpotlightStyles {
@@ -203,11 +210,17 @@ export interface SpotlightStyles {
  * cover blocks the hole itself. Callers append these to a fixed, transparent,
  * `pointer-events: none` full-viewport container (each piece is
  * `position: fixed`).
+ *
+ * `feather` softens the hole's edge with a second, inset shadow in the scrim
+ * color. The outer shadow cannot do it: it is clipped at the box, so its blur
+ * would only show at the far (200vmax) edge.
  */
 export function spotlightStyles(anchor: string, options: SpotlightOptions = {}): SpotlightStyles {
   const pad = options.pad ?? 6;
   const ringWidth = options.ringWidth ?? 2;
   const scrimColor = options.scrimColor ?? 'rgba(0, 0, 0, 0.45)';
+  const feather = Math.max(0, options.feather ?? 0);
+  const scrim = `0 0 0 200vmax ${scrimColor}`;
 
   const holeInset = (extra: number): Record<string, string> =>
     Object.fromEntries(
@@ -227,7 +240,9 @@ export function spotlightStyles(anchor: string, options: SpotlightOptions = {}):
       pointerEvents: 'none',
       borderWidth: ringWidth,
       borderStyle: 'solid',
-      boxShadow: `0 0 0 200vmax ${scrimColor}`,
+      boxShadow: feather
+        ? `${scrim}, inset 0 0 ${feather}px ${Math.round(feather * 0.4)}px ${scrimColor}`
+        : scrim,
     },
     strips: {
       top: { ...blocker, top: 0, left: 0, right: 0, bottom: `calc(anchor(top) + ${pad}px)` },
@@ -297,4 +312,85 @@ export function transformOriginFor(panel: AnchorRect, trigger: AnchorRect): stri
   const vertical = y === 'start' ? 'top' : y === 'end' ? 'bottom' : 'center';
   const horizontal = x === 'start' ? 'left' : x === 'end' ? 'right' : 'center';
   return `${vertical} ${horizontal}`;
+}
+
+/**
+ * The placement a panel **actually** landed at, given the one that was asked
+ * for. `position-try-fallbacks` flips a panel across its anchor at viewport
+ * edges (`flip-block`, `flip-inline`, or both); a flip never swaps the axes,
+ * so the requested placement fixes which axis is the main one and the two
+ * rects decide the rest: the side is where the panel's center sits relative
+ * to the anchor's, and a `-start` / `-end` alignment is whichever pair of
+ * cross-axis edges ended up closer together.
+ *
+ * Returns `requested` unchanged when the panel has no box yet (`display:
+ * none`, or jsdom).
+ */
+export function resolvedPlacement(
+  requested: Placement,
+  panel: AnchorRect,
+  anchor: AnchorRect
+): Placement {
+  if (!panel.width && !panel.height) return requested;
+
+  const [requestedSide, requestedAlign] = requested.split('-') as [string, string | undefined];
+  const vertical = requestedSide === 'top' || requestedSide === 'bottom';
+  const center = (rect: AnchorRect, onY: boolean) =>
+    onY ? rect.top + rect.height / 2 : rect.left + rect.width / 2;
+
+  const before = center(panel, vertical) < center(anchor, vertical);
+  const side = vertical ? (before ? 'top' : 'bottom') : before ? 'left' : 'right';
+  if (!requestedAlign) return side;
+
+  const startGap = vertical ? panel.left - anchor.left : panel.top - anchor.top;
+  const endGap = vertical ? panel.right - anchor.right : panel.bottom - anchor.bottom;
+  // A tie (panel and anchor equally wide) keeps what was asked for.
+  const align =
+    Math.abs(Math.abs(startGap) - Math.abs(endGap)) <= 1
+      ? requestedAlign
+      : Math.abs(startGap) < Math.abs(endGap)
+        ? 'start'
+        : 'end';
+  return `${side}-${align}` as Placement;
+}
+
+/**
+ * Reports where `panel` landed relative to `anchor` — now, and again whenever
+ * a scroll, a viewport resize or a change in either box could have made the
+ * browser flip it. Anchor positioning itself needs no listeners; these exist
+ * only for the parts styled per placement (the arrow), which CSS cannot key
+ * off the fallback that was applied. Call once the panel is shown and its
+ * anchored styles are rendered; the returned function stops the tracking.
+ */
+export function trackPlacement(
+  panel: HTMLElement,
+  anchor: HTMLElement,
+  requested: Placement,
+  report: (placement: Placement) => void
+): () => void {
+  let frame = 0;
+  const measure = () => {
+    frame = 0;
+    report(
+      resolvedPlacement(requested, panel.getBoundingClientRect(), anchor.getBoundingClientRect())
+    );
+  };
+  // One measurement per frame however many scroll events land in it.
+  const schedule = () => {
+    if (!frame) frame = requestAnimationFrame(measure);
+  };
+
+  measure();
+  window.addEventListener('scroll', schedule, { capture: true, passive: true });
+  window.addEventListener('resize', schedule);
+  const sizes = typeof ResizeObserver === 'undefined' ? null : new ResizeObserver(schedule);
+  sizes?.observe(panel);
+  sizes?.observe(anchor);
+
+  return () => {
+    if (frame) cancelAnimationFrame(frame);
+    window.removeEventListener('scroll', schedule, { capture: true });
+    window.removeEventListener('resize', schedule);
+    sizes?.disconnect();
+  };
 }

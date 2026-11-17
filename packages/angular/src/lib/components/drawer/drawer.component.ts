@@ -305,6 +305,8 @@ export class UniDrawerComponent extends BaseComponent<UniDrawerOptions> {
   protected onAnimationEnd(event: AnimationEvent): void {
     const dialog = this.overlay()?.nativeElement;
     if (!dialog || !dialog.hasAttribute('closing')) return;
+    // Bubbled from projected content (see the dialog's `closingAnimation`).
+    if (event.target !== dialog) return;
     if (event.animationName.includes(this.slideOut())) {
       if (this.modal()) dialog.close();
       else {

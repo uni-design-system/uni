@@ -94,6 +94,32 @@ describe('UniDialogComponent backdrop clicks', () => {
     dialog = fixture.nativeElement.querySelector('dialog');
   });
 
+  /**
+   * Emotion names keyframes by content, so a tooltip's fade-out inside the
+   * dialog carries the dialog's own animation name — and `animationend`
+   * bubbles. Hovering a tooltip used to close the dialog under it.
+   */
+  it('ignores an animationend that bubbled up from its content', () => {
+    const host = dialog;
+    const child = host.querySelector('#field')!;
+    const component = fixture.debugElement.query((el) => el.name === 'dialog')!
+      .componentInstance as UniDialogComponent;
+    const emitted: boolean[] = [];
+    component.showing.subscribe((value) => emitted.push(value));
+    host.setAttribute('closing', 'true');
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const animationName = (component as any).dialogFadeOut;
+    const end = () => Object.assign(new Event('animationend', { bubbles: true }), { animationName });
+
+    child.dispatchEvent(end());
+    expect(host.hasAttribute('closing')).toBe(true);
+    expect(emitted).toEqual([]);
+
+    host.dispatchEvent(end());
+    expect(host.hasAttribute('closing')).toBe(false);
+    expect(emitted).toEqual([false]);
+  });
+
   it('closes on a press and release on the backdrop', () => {
     dialog.dispatchEvent(new Event('pointerdown', { bubbles: true }));
     dialog.dispatchEvent(new Event('click', { bubbles: true }));

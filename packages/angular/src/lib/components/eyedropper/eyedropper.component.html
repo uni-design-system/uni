@@ -1,0 +1,91 @@
+<!-- One trigger, two paths: its label does not change between them. -->
+<button
+  type="button"
+  text-button
+  [variant]="componentOptions().buttonVariant ?? 'ghost'"
+  [size]="componentOptions().buttonSize ?? 'sm'"
+  [disabled]="disabled() || !canSample()"
+  (click)="start()"
+>
+  {{ label() }}
+</button>
+<!-- In the DOM before it has anything to say, or the first sample is silent. -->
+<span role="status" aria-live="polite" [class]="srOnly">{{ announcer.message() }}</span>
+
+<dialog
+  uni-dialog
+  initialFocus="canvas"
+  [show]="open()"
+  (showChange)="onShowChange($event)"
+>
+  <header dialog-header>{{ text().title }}</header>
+  <div [class]="bodyClassName()">
+    <span data-part="hint">{{ text().hint }}</span>
+
+    @if (images().length > 1) {
+      <div data-part="photos">
+        @for (src of images(); track $index) {
+          <button
+            type="button"
+            text-button
+            size="sm"
+            [variant]="$index === index() ? 'primary' : 'ghost'"
+            [attr.aria-pressed]="$index === index()"
+            (click)="pick($index)"
+          >
+            {{ text().photo }} {{ $index + 1 }}
+          </button>
+        }
+      </div>
+    }
+
+    <div data-part="stage">
+      <div data-part="frame">
+        <!-- The canvas is the control: pointer and arrow keys move the sample
+             point. `application` hands those keys to it under a screen reader. -->
+        <canvas
+          #photo
+          tabindex="0"
+          role="application"
+          [attr.aria-label]="text().canvas"
+          (pointermove)="onPointerMove($event)"
+          (pointerleave)="loupe.set(null)"
+          (click)="onClick($event)"
+          (focus)="onFocus()"
+          (keydown)="onKeydown($event)"
+        ></canvas>
+        <div
+          data-part="loupe"
+          aria-hidden="true"
+          [attr.data-on]="loupe() ? '' : null"
+          [style.left.px]="loupe()?.left ?? 0"
+          [style.top.px]="loupe()?.top ?? 0"
+        >
+          <canvas #loupeCanvas width="9" height="9"></canvas>
+        </div>
+      </div>
+    </div>
+
+    @if (loadError()) {
+      <span data-part="error" role="alert">{{ text().loadError }}</span>
+    }
+
+    <div data-part="foot">
+      <span data-part="reading">
+        @if (reading(); as hex) {
+          <uni-color-swatch face="chip" size="sm" [hex]="hex" [name]="readingHue()" [detail]="hex" />
+        } @else {
+          {{ text().prompt }}
+        }
+      </span>
+      @if (nativeAvailable) {
+        <button type="button" text-button variant="ghost" size="sm" (click)="fromScreen()">
+          {{ text().fromScreen }}
+        </button>
+      }
+      <button type="button" text-button variant="ghost" size="sm" (click)="cancel()">
+        {{ text().cancel }}
+      </button>
+    </div>
+  </div>
+</dialog>

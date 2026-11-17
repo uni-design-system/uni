@@ -43,6 +43,27 @@ drops the scrim entirely.
 <StoryExample of={Stories.Dim} />
 <StoryExample of={Stories.NoBackdrop} />
 
+### The arrow follows the panel
+
+The browser flips the panel to the other side of its target when there is no
+room on the side you asked for. The arrow is drawn from where the panel
+actually landed — measured on open, on every tour step, and on scroll and
+resize — so it always points at the target. `uni-popover` and `uni-tooltip`
+do the same.
+
+### Scrim and spotlight edge
+
+By default the scrim is `scrimColor`, with a hard edge at the hole. Two
+optional theme options change that. `backdrop` names a primitive from the
+theme's `backdrops` scale — the one the dialog and the drawer read — so a tour
+sets the page back exactly as a dialog does, filter included; it replaces
+`scrimColor`. `spotlightFeather` (px) fades the scrim toward the target instead
+of stopping at a line; set `ringWidth` to 0 for a ring-less, soft spotlight.
+
+```ts
+callout: { options: { backdrop: 'scrim', spotlightFeather: 10, ringWidth: 0 } }
+```
+
 ### Dismissal tracking
 
 <StoryExample of={Stories.DismissalTracking} />

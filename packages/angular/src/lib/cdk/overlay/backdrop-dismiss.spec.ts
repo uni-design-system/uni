@@ -63,6 +63,27 @@ describe('BackdropDismiss', () => {
     expect(hits).toEqual([false, false]);
   });
 
+  /**
+   * jsdom does not know `:popover-open`, so the open overlay is a stubbed
+   * `querySelector`. The first backdrop click belongs to the overlay (the
+   * browser light-dismisses it on the press); the second closes the dialog.
+   */
+  it('gives a press that dismisses an overlay inside the dialog to the overlay', () => {
+    const menu = document.createElement('div');
+    dialog.appendChild(menu);
+    let open = true;
+    const query = dialog.querySelector.bind(dialog);
+    dialog.querySelector = ((selector: string) =>
+      selector === ':popover-open' ? (open ? menu : null) : query(selector)) as never;
+
+    press(dialog);
+    open = false; // light dismiss happens between the press and the click
+    click(dialog);
+    press(dialog);
+    click(dialog);
+    expect(hits).toEqual([false, true]);
+  });
+
   it('does not treat a nested dialog as its own backdrop', () => {
     const nested = document.createElement('dialog');
     dialog.appendChild(nested);

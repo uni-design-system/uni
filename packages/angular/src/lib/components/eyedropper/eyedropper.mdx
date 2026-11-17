@@ -1,0 +1,90 @@
+import { Meta, Title } from '@storybook/addon-docs/blocks';
+import * as Stories from './eyedropper.stories';
+import { StoryUsage } from '../../../stories/blocks/StoryUsage';
+import { StoryExample } from '../../../stories/blocks/StoryExample';
+import { ThemeOptions } from '../../../stories/blocks/ThemeOptionsBlock';
+import { KeyboardTable } from '../../../stories/blocks/DocsTable';
+
+<Meta of={Stories} name="Eyedropper" />
+<Title />
+
+`import { UniEyedropperComponent } from '@uni-design-system/uni-angular';`
+
+## Overview
+
+Eyedropper samples a color — from your own images through a loupe, or from
+anything on screen where the browser has an eyedropper of its own. It is one
+button with two paths behind it, and the button's label does not change
+between them. Reach for it beside a hex input.
+
+A sample is the **mean of a region**, never one pixel: one pixel of a
+photographed chip is noise. It emits a hex, and only a hex — a photograph's
+lighting is a reference, not a specification.
+
+## Usage
+
+<StoryUsage of={Stories.FromImages} />
+
+## Which path opens
+
+- **With `images`**: a dialog over the photograph. The pointer or the arrow
+  keys move the sample point; a click or Enter takes it. Where the browser
+  also has a native eyedropper, the dialog offers _From the screen_.
+- **With no images**: the browser's `EyeDropper` (Chromium desktop), which
+  samples anything on screen. Set `preferNative` to `false` to stay out of it.
+- **With neither**: the trigger is disabled.
+
+<StoryExample of={Stories.FromTheScreen} />
+
+## Images must be readable
+
+A canvas can only be read back when the image is same-origin or served with
+`Access-Control-Allow-Origin`. The sampler requests images with
+`crossOrigin="anonymous"`; one that cannot be read shows the `loadError`
+string in place of a reading. Images are decoded once, at most 1600px on the
+long edge.
+
+## Shared helpers
+
+The parsing, naming and averaging live in uni-core, framework-free, so every
+binding treats a color the same way:
+
+```ts
+import { meanColor, nameHue, normalizeHex } from '@uni-design-system/uni-core';
+
+normalizeHex('rgb(67, 76, 90)'); // '#434C5A'
+nameHue('#434C5A'); // 'a dark slate blue'
+meanColor(imageData.data); // '#RRGGBB' of the region
+```
+
+## Theme options
+
+<ThemeOptions componentName="eyedropper" />
+
+## Keyboard
+
+<KeyboardTable
+  rows={[
+    { keys: ['←', '→', '↑', '↓'], does: 'Move the sample point one pixel' },
+    { keys: 'Shift + arrow', does: 'Move it ten pixels' },
+    { keys: 'Enter', does: 'Take the color under the point' },
+    { keys: 'Escape', does: <>Close the sampler; emits <code>canceled</code></> },
+  ]}
+/>
+
+## Accessibility
+
+- The photograph's canvas is focusable, takes focus when the sampler opens, and is named by a string that states the keys (`labels.canvas`).
+- The result is announced through a polite live region by hue as well as by characters: "Sampled #434C5A, a dark slate blue."
+- The current reading is shown as a swatch with its hex and hue in text, not as color alone.
+- Capability is detected, never assumed: the screen button exists only where `EyeDropper` does.
+
+## Do
+
+- Pass the item's own photographs as `images` so sampling works in every browser
+- Treat the result as a reference hex; keep the color's name and code as the record
+
+## Don't
+
+- Fill a color's name or code from a sample
+- Point `images` at a host that does not allow cross-origin reads

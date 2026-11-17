@@ -127,6 +127,7 @@ export class UniSnackbarComponent
 
   ngAfterViewInit() {
     this._snackbar?.addEventListener('animationend', (e) => {
+      if (e.target !== e.currentTarget) return; // bubbled from projected content
       if (e.animationName == this.fadeOut) {
         // Leaves the top layer only once the fade has finished — hiding first
         // would remove the bar mid-animation.

@@ -1,5 +1,6 @@
 import {
   afterNextRender,
+  afterRenderEffect,
   ChangeDetectionStrategy,
   Component,
   computed,
@@ -22,6 +23,7 @@ import {
   anchorStyles,
   newAnchorName,
   resolveFocusTarget,
+  trackPlacement,
   uniqueId,
   useTimer,
   FOCUSABLE_SELECTOR,
@@ -87,6 +89,9 @@ export class UniTooltipComponent extends BaseComponent<UniTooltipOptions> {
 
   private tipRef = viewChild.required<ElementRef<HTMLElement>>('tip');
 
+  /** Where the bubble landed, once measured: the browser flips it at viewport edges. */
+  private readonly landed = signal<Placement | null>(null);
+
   constructor() {
     super();
 
@@ -102,6 +107,17 @@ export class UniTooltipComponent extends BaseComponent<UniTooltipOptions> {
       else if (!mouseInside) {
         this.hideTooltip();
       }
+    });
+
+    // The arrow follows the side the bubble actually landed on.
+    afterRenderEffect((onCleanup) => {
+      const placement = this.placement();
+      if (!this.visible()) return;
+      onCleanup(
+        trackPlacement(this.tipRef().nativeElement, this.elRef.nativeElement, placement, (at) =>
+          this.landed.set(at)
+        )
+      );
     });
 
     // A tooltip must be reachable by keyboard (WCAG 1.4.13): when the
@@ -190,6 +206,7 @@ export class UniTooltipComponent extends BaseComponent<UniTooltipOptions> {
   }
 
   protected onAnimationEnd(event: AnimationEvent) {
+    if (event.target !== event.currentTarget) return; // bubbled from a child
     if (event.animationName.includes(this.tooltipFadeOut)) {
       this.tipRef().nativeElement.hidePopover();
       this.visible.set(false);
@@ -244,7 +261,7 @@ export class UniTooltipComponent extends BaseComponent<UniTooltipOptions> {
   protected readonly arrowClassName = computed(() =>
     css({
       ...this.theme.colorPair(this.componentOptions().color),
-      ...anchorArrowStyles(this.placement()),
+      ...anchorArrowStyles(this.landed() ?? this.placement()),
     })
   );
 }

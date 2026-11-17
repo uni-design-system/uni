@@ -3,6 +3,7 @@ import {
   anchorArrowStyles,
   anchorStyles,
   newAnchorName,
+  resolvedPlacement,
   spotlightStyles,
   transformOriginFor,
   type Placement,
@@ -132,6 +133,62 @@ describe('spotlightStyles', () => {
     expect(custom.window['top']).toBe('calc(anchor(top) - 13px)');
     expect(custom.window['boxShadow']).toBe('0 0 0 200vmax rgb(0 0 0 / 0.6)');
     expect(custom.cover['top']).toBe('calc(anchor(top) - 10px)');
+  });
+
+  it('feathers the hole edge with an inset shadow in the scrim color', () => {
+    const soft = spotlightStyles('--x', { feather: 10, scrimColor: 'rgb(0 0 0 / 0.6)' });
+    expect(soft.window['boxShadow']).toBe(
+      '0 0 0 200vmax rgb(0 0 0 / 0.6), inset 0 0 10px 4px rgb(0 0 0 / 0.6)'
+    );
+    // Unset, zero and negative all keep the single hard-edged layer.
+    for (const feather of [undefined, 0, -4]) {
+      expect(spotlightStyles('--x', { feather }).window['boxShadow']).toBe(
+        '0 0 0 200vmax rgba(0, 0, 0, 0.45)'
+      );
+    }
+  });
+});
+
+describe('resolvedPlacement', () => {
+  const rect = (top: number, left: number, width: number, height: number) => ({
+    top,
+    left,
+    width,
+    height,
+    right: left + width,
+    bottom: top + height,
+  });
+  // A 100×40 anchor in the middle of the page.
+  const anchor = rect(400, 400, 100, 40);
+
+  it('keeps the request when the panel landed where it was asked', () => {
+    expect(resolvedPlacement('bottom', rect(452, 350, 200, 120), anchor)).toBe('bottom');
+    expect(resolvedPlacement('left-start', rect(400, 188, 200, 120), anchor)).toBe('left-start');
+  });
+
+  it('follows a block flip to the other side', () => {
+    expect(resolvedPlacement('bottom', rect(268, 350, 200, 120), anchor)).toBe('top');
+    expect(resolvedPlacement('top-start', rect(452, 400, 200, 120), anchor)).toBe('bottom-start');
+  });
+
+  it('follows an inline flip, for side placements and for alignment', () => {
+    expect(resolvedPlacement('right', rect(360, 188, 200, 120), anchor)).toBe('left');
+    // bottom-start hangs from the anchor's left edge; flipped inline it hangs
+    // from the right one.
+    expect(resolvedPlacement('bottom-start', rect(452, 300, 200, 120), anchor)).toBe('bottom-end');
+    expect(resolvedPlacement('right-end', rect(400, 512, 200, 120), anchor)).toBe('right-start');
+  });
+
+  it('follows both flips at once', () => {
+    expect(resolvedPlacement('bottom-start', rect(268, 300, 200, 120), anchor)).toBe('top-end');
+  });
+
+  it('keeps the requested alignment when panel and anchor are equally wide', () => {
+    expect(resolvedPlacement('bottom-end', rect(452, 400, 100, 120), anchor)).toBe('bottom-end');
+  });
+
+  it('returns the request for a panel with no box', () => {
+    expect(resolvedPlacement('bottom-start', rect(0, 0, 0, 0), anchor)).toBe('bottom-start');
   });
 });
 

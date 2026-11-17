@@ -223,7 +223,11 @@ export class UniDialogComponent extends BaseComponent<UniDialogOptions> {
   }
 
   protected closingAnimation(e: AnimationEvent) {
-    // Close the dialog if the animation is finished
+    // `animationend` bubbles, and Emotion names keyframes by their content: a
+    // tooltip (or anything else built on the shared `fadeOut`) finishing its
+    // own fade inside the dialog arrives here under the dialog's animation
+    // name. Only the dialog's own animation closes the dialog.
+    if (e.target !== this._dialog) return;
     if (e.animationName.includes(this.dialogFadeOut)) {
       this._dialog.close();
       this._dialog.removeAttribute('closing');

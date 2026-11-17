@@ -127,7 +127,10 @@ export class UniSelectComponent<T> implements FormValueControl<T | null> {
   }
 
   selectClass = css({
-    '& select': {
+    // Doubled selector: the input box's own `& select` rule sets the padding
+    // shorthand at the same specificity and is emitted later, which zeroed
+    // the arrow's reserve and ran a content-sized select's text under it.
+    '&& select': {
       paddingRight: 24, // Prevent arrow from overlapping
       cursor: 'pointer',
       '&::-ms-expand': { display: 'none' },

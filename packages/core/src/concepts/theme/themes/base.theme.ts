@@ -405,6 +405,40 @@ const buildComponents = (c: Colors): ComponentThemes => ({
       xl: { height: 56, width: 56, fontSize: 22 },
     },
   },
+  // A *specified* color — a paint, a fabric, a brand ink — never a theme one:
+  // the block's fill is the value's own sRGB in every scheme, and nothing
+  // about it enters the theme. Only the chrome around it is themed. The
+  // `border` is what makes a near-white read as a swatch on a light surface
+  // (and a near-black on a dark one), so re-point it rather than removing it.
+  colorSwatch: {
+    options: {
+      border: 'light',
+      borderRadius: 'xxs',
+      gap: 'sm',
+      nameTypeface: 'body-2-short',
+      detailTypeface: 'caption',
+      detailColor: 'on-surface-variant',
+      captionTypeface: 'overline',
+      emptyColor: 'surface',
+    },
+    // The block's edge per size token.
+    sizes: { sm: { height: 14 }, md: { height: 22 }, lg: { height: 40 }, xl: { height: 72 } },
+  },
+  // The sampler's surface comes from `dialog`; these dress the trigger, the
+  // stage behind the photograph and the loupe.
+  eyedropper: {
+    options: {
+      buttonVariant: 'ghost',
+      buttonSize: 'sm',
+      width: '720px',
+      stageColor: 'surface-variant',
+      stageBorderRadius: 'xs',
+      loupeSize: 96,
+      loupeBorder: 'light',
+      hintTypeface: 'caption',
+      hintColor: 'on-surface-variant',
+    },
+  },
   // Overlap is a spacing token; the ring separates stacked avatars using the
   // surface color so groups read on any background.
   avatarGroup: { options: { overlap: 'sm', ringColor: 'surface', ringWidth: 2 } },
@@ -1339,6 +1373,7 @@ const buildComponents = (c: Colors): ComponentThemes => ({
       spotlightPadding: 6,
       spotlightRadius: 'xs',
       ringWidth: 2,
+      spotlightFeather: 0,
       motion: 'panel',
     },
   },

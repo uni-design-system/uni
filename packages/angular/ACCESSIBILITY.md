@@ -73,6 +73,9 @@ what consumers must supply themselves.
   without one, set the `ariaLabel` input.
 - `initialFocus` (CSS selector) directs focus on open when the browser
   default (first focusable) isn't right.
+- A backdrop click that dismisses a menu, dropdown, popover or listbox popup
+  open inside the dialog closes that overlay only — one layer per click, as
+  Escape already was. The same holds for a modal `uni-drawer`.
 - A `rich` header renders its projection as a block; mark the headline
   `[dialog-title]` so it alone is the dialog's name, not the eyebrow and
   blurb around it (found in the DOM, so a title projected through a wrapper
@@ -498,6 +501,29 @@ All controls implement `FormValueControl`/`FormCheckboxControl` and set
   clicks pulse the panel rather than closing unless `dismissOnBackdrop`.
 - The spotlight ring is a shape, not color alone; the scrim never carries
   meaning.
+- The arrow is drawn on the edge that faces the target wherever the browser
+  put the panel, so it never points away from the control it introduces.
+
+### ColorSwatch
+
+- A color is never shown by color alone. `chip` and `tile` put the `name` and
+  `detail` in the DOM beside an `aria-hidden` block.
+- `card` and `dot` carry no text and are `role="img"`: `card` is named "name,
+  detail, hue" (the hue in words, from uni-core's `nameHue()`), and `dot`
+  requires an `ariaLabel` — a dev-mode error says so, and the derived name is
+  used meanwhile.
+- With nothing set the swatch reads `emptyLabel`.
+
+### Eyedropper
+
+- One trigger whose name does not change between the image and the screen
+  path; it is disabled when there is nothing to sample.
+- In the sampler the photograph's canvas takes focus and is named by a string
+  that states its keys: arrows move the sample point (Shift = 10px), Enter
+  takes the color, Escape closes and emits `canceled`.
+- The result is announced through a polite `role="status"` region by hue as
+  well as by characters ("Sampled #434C5A, a dark slate blue."), and the
+  current reading is shown as text beside its swatch.
 
 ### Tour
 

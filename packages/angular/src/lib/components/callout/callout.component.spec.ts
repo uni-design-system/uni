@@ -10,6 +10,8 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import type { UniCalloutDismissal } from './callout.model';
 import { UniCalloutComponent } from './callout.component';
+import { createTheme, LightTheme } from '@uni-design-system/uni-core';
+import { ThemeService } from '../../theming';
 
 @Component({
   imports: [UniCalloutComponent],
@@ -257,6 +259,140 @@ describe('UniCalloutComponent', () => {
     await flush();
     expect(order).toEqual(['scrim', 'panel']);
     vi.restoreAllMocks();
+  });
+
+  describe('arrow', () => {
+    const box = (top: number, left: number, width: number, height: number) =>
+      ({ top, left, width, height, right: left + width, bottom: top + height }) as DOMRect;
+
+    /** The CSS emotion emitted for the arrow's class. */
+    const arrowRule = (): string => {
+      const arrow = panel().lastElementChild as HTMLElement;
+      const classes = arrow.className.split(/\s+/).filter(Boolean);
+      let text = '';
+      for (const sheet of Array.from(document.styleSheets)) {
+        for (const rule of Array.from(sheet.cssRules)) {
+          const selector = (rule as CSSStyleRule).selectorText;
+          if (selector && classes.some((c) => selector.includes(`.${c}`))) {
+            text += (rule as CSSStyleRule).cssText.replace(/\s+/g, '');
+          }
+        }
+      }
+      return text;
+    };
+
+    afterEach(() => vi.restoreAllMocks());
+
+    it('sits on the top edge when the panel lands below its target, as asked', async () => {
+      vi.spyOn(target(), 'getBoundingClientRect').mockReturnValue(box(100, 400, 100, 40));
+      vi.spyOn(panel(), 'getBoundingClientRect').mockReturnValue(box(158, 290, 320, 120));
+      await openCallout();
+
+      expect(arrowRule()).toContain('top:-4px');
+      expect(arrowRule()).not.toContain('bottom:-4px');
+    });
+
+    /**
+     * No room below: `position-try-fallbacks` puts the panel above. The arrow
+     * used to stay on the top edge, pointing away from the control.
+     */
+    it('moves to the bottom edge when the browser flips the panel above', async () => {
+      vi.spyOn(target(), 'getBoundingClientRect').mockReturnValue(box(700, 400, 100, 40));
+      vi.spyOn(panel(), 'getBoundingClientRect').mockReturnValue(box(562, 290, 320, 120));
+      await openCallout();
+
+      expect(arrowRule()).toContain('bottom:-4px');
+      expect(arrowRule()).not.toContain('top:-4px');
+    });
+
+    it('follows the panel when a scroll flips it back', async () => {
+      vi.spyOn(target(), 'getBoundingClientRect').mockReturnValue(box(700, 400, 100, 40));
+      const panelBox = vi
+        .spyOn(panel(), 'getBoundingClientRect')
+        .mockReturnValue(box(562, 290, 320, 120));
+      await openCallout();
+      expect(arrowRule()).toContain('bottom:-4px');
+
+      panelBox.mockReturnValue(box(758, 290, 320, 120));
+      window.dispatchEvent(new Event('scroll'));
+      await new Promise((resolve) => requestAnimationFrame(resolve));
+      await flush();
+      expect(arrowRule()).toContain('top:-4px');
+    });
+  });
+
+  describe('scrim', () => {
+    /** The CSS emotion emitted for an element's classes. */
+    const ruleFor = (element: Element): string => {
+      const classes = element.className.split(/\s+/).filter(Boolean);
+      let text = '';
+      for (const sheet of Array.from(document.styleSheets)) {
+        for (const rule of Array.from(sheet.cssRules)) {
+          const selector = (rule as CSSStyleRule).selectorText;
+          if (selector && classes.some((c) => selector.includes(`.${c}`))) {
+            text += (rule as CSSStyleRule).cssText.replace(/\s+/g, '');
+          }
+        }
+      }
+      return text;
+    };
+
+    const useTheme = (options: Record<string, unknown>) =>
+      TestBed.inject(ThemeService).registerTheme(
+        createTheme({
+          id: 'Veil',
+          name: 'Veil',
+          colors: LightTheme.colors,
+          backdrops: { scrim: { background: 'rgba(255,255,255,0.6)', backdropFilter: 'blur(2px)' } },
+          components: { callout: { options } },
+        }),
+        { select: true }
+      );
+
+    /**
+     * The dialog sets the page back with the theme's `scrim` backdrop; a tour
+     * beside it should not dim the page some other way. A shadow cannot carry
+     * a filter, so the frost rides on the strips around the hole.
+     */
+    it('takes its paint and its filter from a named backdrop', async () => {
+      useTheme({ backdrop: 'scrim' });
+      fixture.componentInstance.targetInteractive.set(false);
+      await openCallout();
+
+      const [win, ...rest] = Array.from(scrimChildren());
+      const strips = rest.slice(0, 4);
+      const cover = rest[4];
+      expect(ruleFor(win)).toContain('200vmaxrgba(255,255,255,0.6)');
+      for (const strip of strips) expect(ruleFor(strip)).toContain('backdrop-filter:blur(2px)');
+      // The cover sits on the control being shown: never frosted.
+      expect(ruleFor(cover)).not.toContain('backdrop-filter');
+    });
+
+    it('frosts the full cover when there is no target', async () => {
+      useTheme({ backdrop: 'scrim' });
+      fixture.componentInstance.target.set(undefined);
+      await openCallout();
+
+      const cover = scrimChildren()[0];
+      expect(ruleFor(cover)).toContain('backdrop-filter:blur(2px)');
+      expect(ruleFor(cover)).toContain('rgba(255,255,255,0.6)');
+    });
+
+    it('feathers the hole from the same paint when `spotlightFeather` is set', async () => {
+      useTheme({ backdrop: 'scrim', spotlightFeather: 10 });
+      await openCallout();
+
+      expect(ruleFor(scrimChildren()[0])).toContain('inset0010px4pxrgba(255,255,255,0.6)');
+    });
+
+    it('is unchanged without either option: one hard-edged layer, no filter', async () => {
+      await openCallout();
+
+      const [win, strip] = Array.from(scrimChildren());
+      expect(ruleFor(win)).toContain('box-shadow:000200vmaxrgba(0,0,0,0.45);');
+      expect(ruleFor(win)).not.toContain('inset0');
+      expect(ruleFor(strip)).not.toContain('backdrop-filter');
+    });
   });
 
   it('cleans up its document listener when destroyed while open', async () => {

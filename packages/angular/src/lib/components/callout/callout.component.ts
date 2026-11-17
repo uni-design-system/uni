@@ -1,4 +1,5 @@
 import {
+  afterRenderEffect,
   ChangeDetectionStrategy,
   Component,
   computed,
@@ -24,6 +25,7 @@ import {
   resolveElement,
   setAnchorName,
   spotlightStyles,
+  trackPlacement,
   uniqueId,
   type Placement,
 } from '../../cdk';
@@ -36,7 +38,9 @@ import type { UniCalloutDismissal, UniCalloutOptions } from './callout.model';
  * around its target. Both the scrim and the panel are `popover="manual"`
  * elements shown in order, so they stack deterministically in the top layer
  * above every app z-index, and every scrim piece is CSS-anchor-positioned to
- * the target — the hole tracks scroll/resize/layout with zero listeners.
+ * the target — the hole tracks scroll/resize/layout with zero listeners. (The
+ * arrow is the one part that listens while open: it follows the side the
+ * browser actually put the panel on, which CSS cannot report.)
  *
  * The panel is a non-modal `role="dialog"` (deliberately no `aria-modal`):
  * focus moves into it on open, Tab runs a "duet loop" over the panel's
@@ -103,6 +107,12 @@ export class UniCalloutComponent extends BaseComponent<UniCalloutOptions> {
 
   protected readonly showing = signal(false);
   protected readonly activeTarget = signal<HTMLElement | null>(null);
+  /**
+   * Where the panel landed, once measured. The browser flips it at viewport
+   * edges, and a coach mark whose arrow points away from its control reads as
+   * a bug, so the arrow is drawn from this rather than from `placement()`.
+   */
+  private readonly landed = signal<Placement | null>(null);
   private readonly scrimShown = signal(false);
   /**
    * Keeps the spotlight pieces rendered and the panel anchored through the
@@ -139,6 +149,20 @@ export class UniCalloutComponent extends BaseComponent<UniCalloutOptions> {
       this.backdrop();
       if (!untracked(this.showing)) return;
       untracked(() => this.retarget(resolveElement(ref)));
+    });
+
+    // After render, so the panel's anchored class is in the DOM when measured.
+    // Tracking stops at close and `landed` is left alone: the arrow holds its
+    // side through the fade.
+    afterRenderEffect((onCleanup) => {
+      const target = this.activeTarget();
+      const placement = this.placement();
+      if (!this.showing() || !target || !this.arrow()) return;
+      onCleanup(
+        trackPlacement(this.panelRef().nativeElement, target, placement, (at) =>
+          this.landed.set(at)
+        )
+      );
     });
 
     this.destroyRef.onDestroy(() => {
@@ -335,12 +359,32 @@ export class UniCalloutComponent extends BaseComponent<UniCalloutOptions> {
 
   // --- styling --------------------------------------------------------------
 
+  /**
+   * The scrim's paint and filter. A `backdrop` name from the theme's scale
+   * wins over `scrimColor`, and is the only way to a filter: the spotlight's
+   * scrim is a shadow, which cannot carry `backdrop-filter`, so the filter
+   * goes on the strips — they tile exactly the area the shadow paints.
+   */
+  private readonly scrim = computed(() => {
+    const options = this.componentOptions();
+    const backdrop = (options.backdrop ? this.theme.backdrop(options.backdrop) : undefined) as
+      | Record<string, unknown>
+      | undefined;
+    const paint = backdrop?.['background'] ?? backdrop?.['backgroundColor'];
+    const filter = backdrop?.['backdropFilter'];
+    return {
+      color: typeof paint === 'string' ? paint : options.scrimColor,
+      filter: typeof filter === 'string' ? filter : undefined,
+    };
+  });
+
   private readonly spotlight = computed(() => {
     const options = this.componentOptions();
     return spotlightStyles(this.anchorName, {
       pad: options.spotlightPadding,
       ringWidth: options.ringWidth,
-      scrimColor: options.scrimColor,
+      scrimColor: this.scrim().color,
+      feather: options.spotlightFeather,
     });
   });
 
@@ -378,7 +422,7 @@ export class UniCalloutComponent extends BaseComponent<UniCalloutOptions> {
   });
 
   protected stripClassName(side: (typeof this.stripSides)[number]): string {
-    return css(this.spotlight().strips[side]);
+    return css({ ...this.spotlight().strips[side], backdropFilter: this.scrim().filter });
   }
 
   protected readonly coverClassName = computed(() => css(this.spotlight().cover));
@@ -386,7 +430,8 @@ export class UniCalloutComponent extends BaseComponent<UniCalloutOptions> {
   protected readonly fullCoverClassName = computed(() =>
     css({
       inset: 0,
-      background: this.componentOptions().scrimColor,
+      background: this.scrim().color,
+      backdropFilter: this.scrim().filter,
       pointerEvents: 'auto',
     })
   );
@@ -458,7 +503,7 @@ export class UniCalloutComponent extends BaseComponent<UniCalloutOptions> {
     const options = this.componentOptions();
     return css({
       ...this.theme.colorPair(options.color),
-      ...anchorArrowStyles(this.placement(), options.arrowSize),
+      ...anchorArrowStyles(this.landed() ?? this.placement(), options.arrowSize),
     });
   });
 }
