@@ -9,8 +9,10 @@
  * Deliberately out of scope: token *values* in the index (color tokens are
  * hex by nature — that's data, not example code), the generated theme-file
  * content (the one place colors are supposed to live), the theme payload the
- * runtime theme tools return (same reason — it *is* the theme), and hex passed
- * as generation *input* (a seed is engine input, not a style).
+ * runtime theme tools return (same reason — it *is* the theme), hex passed
+ * as generation *input* (a seed is engine input, not a style), and the
+ * components in CONTENT_COLOR_COMPONENTS below, whose hex is the content they
+ * display rather than a style.
  */
 import { describe, expect, it } from 'vitest';
 import index from '../data/uni-index.json' with { type: 'json' };
@@ -18,6 +20,20 @@ import { formatGeneratedTheme } from './generate.js';
 import { buildGeneratedTheme, summarizeEnvelope } from './theme-json.js';
 
 const HEX = /#[0-9a-fA-F]{3,8}\b/g;
+
+/**
+ * Components whose job is to show or read a color the app supplies. A hex in
+ * their examples and docs is the value being displayed (`hex="#434C5A"` on a
+ * swatch, the eyedropper's "Sampled #434C5A" announcement) — content, like the
+ * text in a label — so the rule does not apply to them. Add a component here
+ * only when its hex is data in that sense; anything that *styles* with a hex
+ * still belongs on a theme token.
+ */
+const CONTENT_COLOR_COMPONENTS = new Set(['color-swatch', 'eyedropper']);
+
+const taughtComponents = index.components.filter(
+  (component) => !CONTENT_COLOR_COMPONENTS.has(component.id)
+);
 
 interface Violation {
   where: string;
@@ -32,7 +48,7 @@ const findHex = (where: string, text: string | undefined, out: Violation[]): voi
 describe('MCP teaching corpus contains no raw hex colors', () => {
   it('example snippets style through tokens only', () => {
     const violations: Violation[] = [];
-    for (const component of index.components) {
+    for (const component of taughtComponents) {
       for (const example of component.examples ?? []) {
         findHex(`${component.id} · example "${example.title}"`, example.code, violations);
       }
@@ -42,12 +58,18 @@ describe('MCP teaching corpus contains no raw hex colors', () => {
 
   it('component API metadata and guidelines are hex-free', () => {
     const violations: Violation[] = [];
-    for (const component of index.components) {
+    for (const component of taughtComponents) {
       findHex(`${component.id} · bindings`, JSON.stringify(component.bindings), violations);
       findHex(`${component.id} · guidelines`, JSON.stringify(component.guidelines), violations);
       findHex(`${component.id} · summary/description`, `${component.summary} ${component.description}`, violations);
     }
     expect(violations).toEqual([]);
+  });
+
+  it('exempts only components that exist', () => {
+    // A renamed or removed component must not leave a stale exemption behind.
+    const ids = new Set(index.components.map((component) => component.id));
+    expect([...CONTENT_COLOR_COMPONENTS].filter((id) => !ids.has(id))).toEqual([]);
   });
 
   it('generate-uni-theme guidance is hex-free outside the theme file itself', () => {
