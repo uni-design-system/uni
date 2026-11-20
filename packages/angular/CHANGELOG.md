@@ -1,5 +1,15 @@
 # @uni-design-system/uni-angular
 
+## 11.13.1
+
+### Patch Changes
+
+- [`3fdbdaa`](https://github.com/uni-design-system/uni/commit/3fdbdaadae66762dc8d3a96f15cc45915e3ed7ae) Thanks [@gaenglish](https://github.com/gaenglish)! - `uni-menu`: a labeled item takes an optional `description`, secondary text
+  that trails the label on the same line, as combobox options do. The item keeps
+  its themed height and typeahead still matches the label. Its color is the new
+  `menuItem.descriptionColor` theme option (`on-surface-variant` in the base
+  theme); a disabled item's description takes the disabled color.
+
 ## 11.13.0
 
 ### Minor Changes
