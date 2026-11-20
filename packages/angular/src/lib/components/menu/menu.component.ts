@@ -87,6 +87,7 @@ let nextMenuId = 0;
                     <div
                       menu-item
                       [label]="item.label"
+                      [description]="item.description"
                       [symbolName]="item.symbolName"
                       [active]="activeItem() === item"
                       [template]="item.template"
@@ -104,6 +105,7 @@ let nextMenuId = 0;
                 <div
                   menu-item
                   [label]="item.label"
+                  [description]="item.description"
                   [symbolName]="item.symbolName"
                   [active]="activeItem() === item"
                   [template]="item.template"

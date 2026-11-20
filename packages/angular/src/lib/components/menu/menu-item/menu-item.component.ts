@@ -35,6 +35,8 @@ export class UniMenuItemComponent<T = any> {
   private _elementRef = inject(ElementRef);
 
   label = input<string>();
+  /** Secondary text trailing the label; ignored when a `template` is set. */
+  description = input<string>();
   template = input<TemplateRef<T>>();
   context = input<T>();
   symbolName = input<string>();
@@ -53,6 +55,28 @@ export class UniMenuItemComponent<T = any> {
 
   /** Typography comes from the host's themed typeface; the span only lays out. */
   protected readonly LabelClassName = css({ display: 'block', whiteSpace: 'nowrap' });
+
+  /**
+   * Label and description share one line: the label leads, the description is
+   * pushed to the trailing edge and sits on the label's baseline — the same
+   * arrangement combobox options use, so the item keeps its themed height.
+   */
+  protected readonly textClassName = computed(() =>
+    css({
+      display: 'flex',
+      alignItems: 'baseline',
+      ...this.theme.gap(this.options().gap),
+    })
+  );
+
+  protected readonly descriptionClassName = computed(() =>
+    css({
+      marginLeft: 'auto',
+      whiteSpace: 'nowrap',
+      fontSize: '0.85em',
+      ...this.theme.color(this.options().descriptionColor),
+    })
+  );
 
   protected readonly menuItemClassName = computed(() => {
     const options = this.options();
@@ -93,6 +117,7 @@ export class UniMenuItemComponent<T = any> {
         '&[aria-disabled="true"]': {
           color: this.theme.colors()['on-disabled-surface'],
           pointerEvents: 'none',
+          '& [data-part="description"]': { color: 'inherit' },
         },
       },
       transitionSpeed > 0 && { transition: `all ${transitionSpeed}s ${motion?.easing ?? 'ease'}` },

@@ -618,6 +618,7 @@ const buildComponents = (c: Colors): ComponentThemes => ({
       typeface: 'label',
       textColor: undefined,
       hoverColor: 'primary-container',
+      descriptionColor: 'on-surface-variant',
       activeIcon: 'check',
       motion: 'control',
     },

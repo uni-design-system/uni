@@ -701,6 +701,7 @@ Inheritance (inputs listed once, available on all subclasses):
 - selector: `[uni-menu-item], [menu-item]`
 - inputs:
   - `label: string`
+  - `description: string` — Secondary text trailing the label; ignored when a `template` is set.
   - `template: TemplateRef<T>`
   - `context: T`
   - `symbolName: string`

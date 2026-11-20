@@ -120,6 +120,30 @@ describe('UniMenuComponent', () => {
     });
   });
 
+  it('passes a labeled item\'s description through and keeps typeahead on the label', () => {
+    fixture.componentRef.setInput('menuItems', [
+      { label: 'Freight', description: 'Carrier charges' },
+      { label: 'Tariff', description: 'Customs duty' },
+    ]);
+    fixture.detectChanges();
+    document.body.appendChild(fixture.nativeElement);
+
+    const menuItems = (fixture.nativeElement as HTMLElement).querySelectorAll<HTMLElement>(
+      '[role="menuitem"]'
+    );
+    expect(menuItems[1].querySelector('[data-part="description"]')?.textContent?.trim()).toBe(
+      'Customs duty'
+    );
+
+    menuItems[0].focus();
+    // "c" starts both descriptions and neither label.
+    menuItems[0].dispatchEvent(new KeyboardEvent('keydown', { key: 'c', bubbles: true }));
+    expect(document.activeElement).toBe(menuItems[0]);
+    menuItems[0].dispatchEvent(new KeyboardEvent('keydown', { key: 't', bubbles: true }));
+    expect(document.activeElement).toBe(menuItems[1]);
+    (fixture.nativeElement as HTMLElement).remove();
+  });
+
   describe('group headings', () => {
     const grouped: MenuItem[] = [
       { heading: 'Fruit' },

@@ -20,6 +20,9 @@ interface BaseMenuItem {
 
 export interface MenuItemWithLabel extends BaseMenuItem {
   label: string;
+  /** Secondary text trailing the label on the same line, in the theme's
+      `menuItem.descriptionColor`. Typeahead still matches the label only. */
+  description?: string;
   template?: never;
   context?: never;
   divider?: never;
@@ -28,6 +31,7 @@ export interface MenuItemWithLabel extends BaseMenuItem {
 
 export interface MenuItemWithTemplate<T = any> extends BaseMenuItem {
   label?: never;
+  description?: never;
   template: TemplateRef<T>;
   context: T;
   divider?: never;
@@ -69,6 +73,8 @@ export interface UniMenuItemOptions {
   /** Resting text color; undefined inherits the panel's on-color. */
   textColor?: ColorKey;
   hoverColor?: ContainerColorToken;
+  /** Color of a labeled item's `description`. */
+  descriptionColor?: ColorKey;
   /** Trailing symbol marking the active item; undefined/'' renders none. */
   activeIcon?: IconName;
   /** Named motion primitive for the hover/focus fill. Defaults to `control`;

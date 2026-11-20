@@ -82,3 +82,19 @@ export const Headings: Story = {
     ],
   },
 };
+
+/**
+ * A labeled item can carry a `description`: secondary text that trails the
+ * label on the same line. Typeahead still matches the label.
+ */
+export const Descriptions: Story = {
+  args: {
+    menuItems: [
+      { heading: 'Export' },
+      { label: 'Spreadsheet', description: 'One row per line' },
+      { label: 'Document', description: 'Ready to print' },
+      { divider: true },
+      { label: 'Share', description: 'Anyone with the link' },
+    ],
+  },
+};

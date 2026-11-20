@@ -87,6 +87,48 @@ describe('UniMenuItemComponent', () => {
     });
   });
 
+  describe('description', () => {
+    const description = () =>
+      (fixture.nativeElement as HTMLElement).querySelector<HTMLElement>(
+        '[data-part="description"]'
+      );
+
+    it('renders nothing extra without one', () => {
+      fixture.componentRef.setInput('label', 'Freight');
+      fixture.detectChanges();
+      expect(description()).toBeNull();
+    });
+
+    it('trails the label on the same line in the theme descriptionColor', () => {
+      fixture.componentRef.setInput('label', 'Freight');
+      fixture.componentRef.setInput('description', 'Carrier charges');
+      fixture.detectChanges();
+
+      const desc = description()!;
+      expect(desc.textContent?.trim()).toBe('Carrier charges');
+      expect((fixture.nativeElement as HTMLElement).textContent).toContain('Freight');
+
+      const styles = stylesFor(desc.className);
+      expect(styles).toContain('margin-left:auto');
+      expect(styles).toContain('white-space:nowrap');
+      expect(styles).toContain(TestBed.inject(ThemeService).colors()['on-surface-variant']);
+      // One line: the row aligns on the baseline and the item keeps its height.
+      expect(stylesFor(desc.parentElement!.className)).toContain('align-items:baseline');
+      expect(stylesFor((fixture.nativeElement as HTMLElement).className)).toContain('height:38px');
+    });
+
+    it('takes the disabled color with the rest of a disabled item', () => {
+      fixture.componentRef.setInput('label', 'Freight');
+      fixture.componentRef.setInput('description', 'Carrier charges');
+      fixture.componentRef.setInput('disabled', true);
+      fixture.detectChanges();
+
+      expect(stylesFor((fixture.nativeElement as HTMLElement).className)).toMatch(
+        /\[aria-disabled="true"\] \[data-part="description"\]\{color:inherit/
+      );
+    });
+  });
+
   it('lets the hoverColor input override the theme option', () => {
     const themedClass = (fixture.nativeElement as HTMLElement).className;
 

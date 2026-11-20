@@ -1,6 +1,7 @@
 import * as Stories from './menu.stories';
 import { Meta, Title } from '@storybook/addon-docs/blocks';
 import { StoryUsage } from '../../../stories/blocks/StoryUsage';
+import { StoryExample } from '../../../stories/blocks/StoryExample';
 import { ThemeOptions } from '../../../stories/blocks/ThemeOptionsBlock';
 
 <Meta of={Stories} name="Menu" />
@@ -21,8 +22,8 @@ An item is a labeled action, a templated action, a divider, or a group heading:
 
 ```
 MenuItem =
-  | { label: string; symbolName?: string; action?: () => void;
-      variant?: Variant; disabled?: boolean }
+  | { label: string; description?: string; symbolName?: string;
+      action?: () => void; variant?: Variant; disabled?: boolean }
   | { template: TemplateRef<T>; context: T; symbolName?: string;
       action?: () => void; variant?: Variant; disabled?: boolean }
   | { divider: true }
@@ -33,6 +34,8 @@ MenuItem =
   renders the item in the theme's destructive tone.
 - `disabled` items render with the disabled color and are skipped by keyboard
   navigation.
+- `description` is secondary text that trails the label on the same line, in
+  the theme's `menuItem.descriptionColor`. See [Descriptions](#descriptions).
 - `{ divider: true }` renders a `role="separator"` rule styled by the `menu`
   theme options.
 - `{ heading: 'Edit' }` names the items that follow, up to the next heading or
@@ -63,7 +66,17 @@ Its look comes from the `menu` theme options `headingTypeface`, `headingColor`,
 `headingHeight` and `headingPaddingHorizontal`. The padding follows
 `menuItem.paddingHorizontal` when unset, so heading and item text align.
 
-<StoryUsage of={Stories.Headings} exclude={['TriggerClassName', 'handleMenuItemClick']} />
+<StoryExample of={Stories.Headings} />
+
+## Descriptions
+
+A labeled item can carry a `description` — a few words of secondary text. It
+sits on the label's line, pushed to the trailing edge, so the item keeps its
+themed height; the menu widens to fit. It is read as part of the item's name,
+and typeahead still matches the label only. Reach for a templated item when
+the content needs more than one line.
+
+<StoryExample of={Stories.Descriptions} />
 
 ## Theme options
 

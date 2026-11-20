@@ -7,7 +7,15 @@
   @if (tpl) {
     <ng-container [ngTemplateOutlet]="tpl" [ngTemplateOutletContext]="context()"></ng-container>
   } @else {
-    <span [class]="LabelClassName">{{ label() }}</span>
+    @let desc = description();
+    @if (desc) {
+      <span [class]="textClassName()">
+        <span [class]="LabelClassName">{{ label() }}</span>
+        <span data-part="description" [class]="descriptionClassName()">{{ desc }}</span>
+      </span>
+    } @else {
+      <span [class]="LabelClassName">{{ label() }}</span>
+    }
   }
 </div>
 @let activeSym = activeIcon();
