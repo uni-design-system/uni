@@ -39,6 +39,9 @@ what consumers must supply themselves.
   starting with that letter, `Escape` closes (native popover light-dismiss),
   `Tab` closes and returns focus to the trigger.
 - Items are `role="menuitem"`; the active item is marked `aria-current`.
+- A `{ heading }` item renders the items under it in a `role="group"` with
+  `aria-labelledby` pointing at the heading text. The heading is not a
+  `menuitem`: it takes no focus and is skipped by arrows, Home/End and typeahead.
 - Focus returns to the trigger when the menu closes.
 
 ### Dropdown

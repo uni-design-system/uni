@@ -119,4 +119,126 @@ describe('UniMenuComponent', () => {
       expect(stylesFor(warn.className)).toContain(warnColor);
     });
   });
+
+  describe('group headings', () => {
+    const grouped: MenuItem[] = [
+      { heading: 'Fruit' },
+      { label: 'Apple' },
+      { label: 'Banana' },
+      { divider: true },
+      { heading: 'Greens' },
+      { label: 'Fennel' },
+    ];
+
+    const host = () => fixture.nativeElement as HTMLElement;
+    const menuItems = () => Array.from(host().querySelectorAll<HTMLElement>('[role="menuitem"]'));
+    const press = (el: HTMLElement, key: string) =>
+      el.dispatchEvent(new KeyboardEvent('keydown', { key, bubbles: true }));
+
+    beforeEach(() => {
+      fixture.componentRef.setInput('menuItems', grouped);
+      fixture.detectChanges();
+      document.body.appendChild(host());
+    });
+
+    afterEach(() => host().remove());
+
+    it('gathers the items under a heading into a group labeled by it', () => {
+      const groups = Array.from(host().querySelectorAll('[role="group"]'));
+      expect(groups.length).toBe(2);
+      expect(menuItems().length).toBe(3);
+
+      const names = groups.map((group) => {
+        const heading = document.getElementById(group.getAttribute('aria-labelledby')!)!;
+        expect(group.contains(heading)).toBe(true);
+        expect(heading.getAttribute('role')).toBe('presentation');
+        return heading.textContent?.trim();
+      });
+      expect(names).toEqual(['Fruit', 'Greens']);
+      expect(groups.map((group) => group.querySelectorAll('[role="menuitem"]').length)).toEqual([
+        2, 1,
+      ]);
+      // The divider stays between the groups, a direct child of the menu.
+      expect(host().querySelector('[role="menu"] > [role="separator"]')).not.toBeNull();
+    });
+
+    it('leaves items with no heading above them as direct children of the menu', () => {
+      fixture.componentRef.setInput('menuItems', [
+        { label: 'Loose' },
+        { heading: 'Fruit' },
+        { label: 'Apple' },
+        { divider: true },
+        { label: 'After' },
+      ]);
+      fixture.detectChanges();
+
+      const direct = Array.from(
+        host().querySelectorAll('[role="menu"] > [role="menuitem"]')
+      ).map((el) => el.textContent?.trim());
+      expect(direct).toEqual(['Loose', 'After']);
+      expect(host().querySelectorAll('[role="group"]').length).toBe(1);
+    });
+
+    it('opens onto the first item and moves past headings and dividers', () => {
+      const [apple, banana, fennel] = menuItems();
+
+      fixture.componentInstance.onOpened();
+      expect(document.activeElement).toBe(apple);
+
+      press(apple, 'ArrowDown');
+      expect(document.activeElement).toBe(banana);
+      press(banana, 'ArrowDown');
+      expect(document.activeElement).toBe(fennel);
+      press(fennel, 'Home');
+      expect(document.activeElement).toBe(apple);
+      press(apple, 'End');
+      expect(document.activeElement).toBe(fennel);
+    });
+
+    it('does not match a heading in typeahead', () => {
+      const [apple] = menuItems();
+      apple.focus();
+
+      // "g" is the first letter of the Greens heading and of no item.
+      press(apple, 'g');
+      expect(document.activeElement).toBe(apple);
+
+      press(apple, 'f');
+      expect(document.activeElement?.textContent?.trim()).toBe('Fennel');
+    });
+
+    it('ignores a click on a heading', () => {
+      let clicked: MenuItem | undefined;
+      fixture.componentInstance.menuItemClicked.subscribe((item) => (clicked = item));
+
+      host().querySelector<HTMLElement>('[role="presentation"]')!.click();
+      expect(clicked).toBeUndefined();
+    });
+
+    it('renders nothing for a heading with no items under it', () => {
+      fixture.componentRef.setInput('menuItems', [
+        { heading: 'Empty' },
+        { divider: true },
+        { heading: 'Also empty' },
+        { heading: 'Fruit' },
+        { label: 'Apple' },
+        { heading: 'Trailing' },
+      ]);
+      fixture.detectChanges();
+
+      const headings = Array.from(host().querySelectorAll('[role="presentation"]')).map((el) =>
+        el.textContent?.trim()
+      );
+      expect(headings).toEqual(['Fruit']);
+    });
+
+    it('styles the heading from the menu theme options, aligned with the items', () => {
+      const heading = host().querySelector<HTMLElement>('[role="presentation"]')!;
+      const styles = stylesFor(heading.className);
+      // Base theme: 28px tall; padding falls back to menuItem's `md` (16px).
+      expect(styles).toContain('height:28px');
+      expect(styles).toContain('padding-inline:16px');
+      expect(styles).toContain(TestBed.inject(ThemeService).colors()['on-surface-variant']);
+    });
+  });
 });

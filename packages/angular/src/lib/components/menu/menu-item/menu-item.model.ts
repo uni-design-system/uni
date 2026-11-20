@@ -23,6 +23,7 @@ export interface MenuItemWithLabel extends BaseMenuItem {
   template?: never;
   context?: never;
   divider?: never;
+  heading?: never;
 }
 
 export interface MenuItemWithTemplate<T = any> extends BaseMenuItem {
@@ -30,6 +31,7 @@ export interface MenuItemWithTemplate<T = any> extends BaseMenuItem {
   template: TemplateRef<T>;
   context: T;
   divider?: never;
+  heading?: never;
 }
 
 /** A non-interactive separator between item groups; styled by the theme's `menu` options. */
@@ -37,9 +39,25 @@ export interface MenuDivider {
   divider: true;
 }
 
-export type MenuItem<T = any> = MenuDivider | MenuItemWithLabel | MenuItemWithTemplate<T>;
+/**
+ * A non-interactive name for the items that follow, up to the next heading or
+ * divider. Those items render inside a `role="group"` labeled by the heading;
+ * the heading itself takes no focus, no hover and no click. A heading with no
+ * items under it renders nothing.
+ */
+export interface MenuHeading {
+  heading: string;
+}
+
+export type MenuItem<T = any> =
+  | MenuDivider
+  | MenuHeading
+  | MenuItemWithLabel
+  | MenuItemWithTemplate<T>;
 
 export const isDivider = (item: MenuItem): item is MenuDivider => 'divider' in item;
+
+export const isHeading = (item: MenuItem): item is MenuHeading => 'heading' in item;
 
 /** Theme options for the `menuItem` component entry. */
 export interface UniMenuItemOptions {

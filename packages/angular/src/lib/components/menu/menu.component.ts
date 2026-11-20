@@ -12,10 +12,27 @@ import { css } from '@emotion/css';
 import { type Placement } from '../../cdk';
 
 import { UniMenuItemComponent } from './menu-item/menu-item.component';
-import { isDivider, MenuItem } from './menu-item/menu-item.model';
+import {
+  isDivider,
+  isHeading,
+  type MenuItem,
+  type MenuItemWithLabel,
+  type MenuItemWithTemplate,
+  type UniMenuItemOptions,
+} from './menu-item/menu-item.model';
 import type { UniMenuOptions } from './menu.model';
 import { UniDropdownComponent } from '../dropdown';
 import { ThemeService } from '../../theming';
+
+type MenuAction = MenuItemWithLabel | MenuItemWithTemplate;
+
+/** What the template renders: the flat `menuItems` with headed runs gathered into groups. */
+type MenuEntry =
+  | { kind: 'divider' }
+  | { kind: 'item'; item: MenuAction }
+  | { kind: 'group'; heading: string; id: string; items: MenuAction[] };
+
+let nextMenuId = 0;
 
 @Component({
   selector: 'uni-menu',
@@ -52,22 +69,50 @@ import { ThemeService } from '../../theming';
                label, labels may repeat, dividers have neither) and consumers
                naturally rebuild the array each CD pass — identity tracking
                recreated every node and tripped NG0956. -->
-          @for (item of menuItems(); track $index) {
-            @if (isDivider(item)) {
-              <div role="separator" [class]="dividerClassName()"></div>
-            } @else {
-              <!-- eslint-disable-next-line @angular-eslint/template/click-events-have-key-events -->
-              <div
-                menu-item
-                [label]="item.label"
-                [symbolName]="item.symbolName"
-                [active]="activeItem() === item"
-                [template]="item.template"
-                [context]="item.context"
-                [variant]="item.variant"
-                [disabled]="item.disabled ?? false"
-                (click)="handleMenuItemClick(item, dropdown)"
-              ></div>
+          @for (entry of entries(); track $index) {
+            @switch (entry.kind) {
+              @case ('divider') {
+                <div role="separator" [class]="dividerClassName()"></div>
+              }
+              @case ('group') {
+                <!-- A heading names the items under it: they sit in a group
+                     labeled by the heading, which is text only — never a
+                     menuitem, so it is no stop for arrows or typeahead. -->
+                <div role="group" [attr.aria-labelledby]="entry.id">
+                  <div role="presentation" [id]="entry.id" [class]="headingClassName()">
+                    {{ entry.heading }}
+                  </div>
+                  @for (item of entry.items; track $index) {
+                    <!-- eslint-disable-next-line @angular-eslint/template/click-events-have-key-events -->
+                    <div
+                      menu-item
+                      [label]="item.label"
+                      [symbolName]="item.symbolName"
+                      [active]="activeItem() === item"
+                      [template]="item.template"
+                      [context]="item.context"
+                      [variant]="item.variant"
+                      [disabled]="item.disabled ?? false"
+                      (click)="handleMenuItemClick(item, dropdown)"
+                    ></div>
+                  }
+                </div>
+              }
+              @case ('item') {
+                @let item = entry.item;
+                <!-- eslint-disable-next-line @angular-eslint/template/click-events-have-key-events -->
+                <div
+                  menu-item
+                  [label]="item.label"
+                  [symbolName]="item.symbolName"
+                  [active]="activeItem() === item"
+                  [template]="item.template"
+                  [context]="item.context"
+                  [variant]="item.variant"
+                  [disabled]="item.disabled ?? false"
+                  (click)="handleMenuItemClick(item, dropdown)"
+                ></div>
+              }
             }
           }
         </div>
@@ -89,8 +134,43 @@ export class UniMenuComponent {
 
   TriggerClassName = css({ display: 'inline-block' });
 
-  /** Type guard for the template: dividers render as separators, not items. */
-  protected readonly isDivider = isDivider;
+  private readonly uid = nextMenuId++;
+
+  /**
+   * The flat `menuItems` array as render entries. A heading opens a group that
+   * runs to the next heading or divider; items with no heading above them stay
+   * direct children of the menu, exactly as before headings existed. A heading
+   * with no items under it is dropped.
+   */
+  protected readonly entries = computed<MenuEntry[]>(() => {
+    const entries: MenuEntry[] = [];
+    let group: Extract<MenuEntry, { kind: 'group' }> | undefined;
+    const flush = () => {
+      if (group?.items.length) entries.push(group);
+      group = undefined;
+    };
+
+    this.menuItems().forEach((item, index) => {
+      if (isHeading(item)) {
+        flush();
+        group = {
+          kind: 'group',
+          heading: item.heading,
+          id: `uni-menu-${this.uid}-heading-${index}`,
+          items: [],
+        };
+      } else if (isDivider(item)) {
+        flush();
+        entries.push({ kind: 'divider' });
+      } else if (group) {
+        group.items.push(item);
+      } else {
+        entries.push({ kind: 'item', item });
+      }
+    });
+    flush();
+    return entries;
+  });
 
   protected readonly menuOptions = computed(() =>
     this.theme.getComponentOptions<UniMenuOptions>('menu')()
@@ -110,6 +190,24 @@ export class UniMenuComponent {
     });
   });
 
+  protected readonly headingClassName = computed(() => {
+    const { headingTypeface, headingColor, headingHeight, headingPaddingHorizontal } =
+      this.menuOptions();
+    const itemPadding =
+      this.theme.getComponentOptions<UniMenuItemOptions>('menuItem')().paddingHorizontal;
+    return css({
+      display: 'flex',
+      alignItems: 'center',
+      boxSizing: 'border-box',
+      cursor: 'default',
+      whiteSpace: 'nowrap',
+      height: headingHeight,
+      ...this.theme.horizontalPadding(headingPaddingHorizontal ?? itemPadding),
+      ...this.theme.typeface(headingTypeface),
+      ...this.theme.color(headingColor),
+    });
+  });
+
   private itemComponents = viewChildren(UniMenuItemComponent);
   private dropdownComponent = viewChild(UniDropdownComponent);
 
@@ -124,7 +222,7 @@ export class UniMenuComponent {
   });
 
   handleMenuItemClick(item: MenuItem, dropdown: UniDropdownComponent) {
-    if (!isDivider(item) && item.action) {
+    if (!isDivider(item) && !isHeading(item) && item.action) {
       item.action();
     }
 

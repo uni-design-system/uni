@@ -597,6 +597,12 @@ const buildComponents = (c: Colors): ComponentThemes => ({
       paddingHorizontal: 'none',
       dividerBorder: 'light',
       dividerSpacing: 'xs',
+      // Group headings (`{ heading: '…' }` items). The padding is undefined so
+      // it follows `menuItem.paddingHorizontal` and the text aligns.
+      headingTypeface: 'caption',
+      headingColor: 'on-surface-variant',
+      headingHeight: 28,
+      headingPaddingHorizontal: undefined,
     },
   },
   // Item anatomy: every density/shape/type knob is a token, and `variants`

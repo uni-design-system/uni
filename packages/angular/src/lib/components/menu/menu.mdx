@@ -17,7 +17,7 @@ Actions are optional as the `Menu` component also emits the clicked menu item vi
 
 ### Menu Item Interface
 
-An item is either a labeled action, a templated action, or a divider:
+An item is a labeled action, a templated action, a divider, or a group heading:
 
 ```
 MenuItem =
@@ -26,6 +26,7 @@ MenuItem =
   | { template: TemplateRef<T>; context: T; symbolName?: string;
       action?: () => void; variant?: Variant; disabled?: boolean }
   | { divider: true }
+  | { heading: string }
 ```
 
 - `variant` routes through the theme's `menuItem` variants — e.g. `variant: 'warn'`
@@ -34,6 +35,8 @@ MenuItem =
   navigation.
 - `{ divider: true }` renders a `role="separator"` rule styled by the `menu`
   theme options.
+- `{ heading: 'Edit' }` names the items that follow, up to the next heading or
+  divider. See [Group headings](#group-headings).
 
 ## Usage
 
@@ -42,6 +45,25 @@ MenuItem =
 ## Tones
 
 <StoryUsage of={Stories.Tones} exclude={['TriggerClassName', 'handleMenuItemClick']} />
+
+## Group headings
+
+A heading names a group of items. The array stays flat: the items from a
+heading to the next heading or divider render inside a `role="group"` labeled
+by the heading, and items with no heading above them render as before.
+
+The heading is text, not a command. It takes no focus, has no hover fill, is
+skipped by arrow keys, Home, End and typeahead, and a click on it does nothing.
+A heading with no items under it (the caller filtered them all out) renders
+nothing, so a menu can be built with `filter` or `flatMap` without tidying up
+after itself. Use a heading in place of a disabled item, which assistive
+technology reads as an unavailable command.
+
+Its look comes from the `menu` theme options `headingTypeface`, `headingColor`,
+`headingHeight` and `headingPaddingHorizontal`. The padding follows
+`menuItem.paddingHorizontal` when unset, so heading and item text align.
+
+<StoryUsage of={Stories.Headings} exclude={['TriggerClassName', 'handleMenuItemClick']} />
 
 ## Theme options
 
@@ -60,3 +82,4 @@ popovers until a theme deliberately splits them.
 
 - Full ARIA menu pattern: arrows and Home/End move, first-letter typeahead jumps, Enter/Space activates.
 - ArrowDown/ArrowUp on the trigger opens onto the first/last item; focus returns to the trigger on close.
+- A group heading labels its items through `role="group"` and `aria-labelledby`; the heading itself is never a menu item.

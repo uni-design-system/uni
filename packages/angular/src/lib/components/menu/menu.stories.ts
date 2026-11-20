@@ -60,3 +60,25 @@ export const Tones: Story = {
     ],
   },
 };
+
+/**
+ * A `{ heading: '…' }` item names the items that follow it, up to the next
+ * heading or divider. The heading is text, not a command: arrow keys, Home,
+ * End and typeahead pass over it, and the items under it are announced as a
+ * group with that name.
+ */
+export const Headings: Story = {
+  args: {
+    menuItems: [
+      { heading: 'Edit' },
+      { label: 'Rename', symbolName: 'edit' },
+      { label: 'Duplicate', symbolName: 'content_copy' },
+      { divider: true },
+      { heading: 'Send' },
+      { label: 'Share', symbolName: 'share' },
+      { label: 'Export', symbolName: 'download' },
+      { divider: true },
+      { label: 'Delete', symbolName: 'delete', variant: 'warn' },
+    ],
+  },
+};
