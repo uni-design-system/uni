@@ -222,7 +222,8 @@ function formatApiTable(members: ComponentModel['bindings'][Framework]): string 
       const def = m.default ? ` = \`${m.default}\`` : '';
       const dep = m.deprecated ? ` (deprecated: ${m.deprecated})` : '';
       const doc = m.description ? ` - ${m.description}` : '';
-      return `- \`${m.name}: ${m.type}\`${req}${def} _(${m.kind})_${doc}${dep}`;
+      const alias = m.alias ? ` — bind as \`${m.alias}\`` : '';
+      return `- \`${m.name}: ${m.type}\`${req}${def} _(${m.kind})_${alias}${doc}${dep}`;
     })
     .join('\n');
 }

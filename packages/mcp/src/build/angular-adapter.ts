@@ -7,6 +7,12 @@
  */
 import { readFileSync, readdirSync, statSync } from 'node:fs';
 import { join, relative } from 'node:path';
+// The member parser is shared with generate-api.mjs, which runs on bare Node.
+import {
+  jsdocBefore,
+  parseMembers,
+  type SignalMember,
+} from '../../../angular/scripts/signal-members.mjs';
 import type { ApiMember, Binding, ComponentModel } from '../schema.js';
 
 const IMPORT_PATH = '@uni-design-system/uni-angular';
@@ -21,13 +27,7 @@ export type ComponentFragment = Pick<
   binding: Binding;
 };
 
-type ParsedMember = {
-  name: string;
-  kind: string;
-  type: string;
-  default?: string;
-  doc: string;
-};
+type ParsedMember = SignalMember;
 
 type ParsedFile = {
   path: string;
@@ -51,19 +51,6 @@ function collect(dir: string, out: string[] = []): string[] {
       out.push(p);
   }
   return out;
-}
-
-/** JSDoc block immediately preceding an offset, flattened to one line. */
-function jsdocBefore(src: string, index: number): string {
-  const before = src.slice(0, index);
-  const m = before.match(/\/\*\*((?:[^*]|\*(?!\/))*)\*\/\s*$/);
-  if (!m) return '';
-  return m[1]
-    .split('\n')
-    .map((l) => l.replace(/^\s*\*\s?/, '').trim())
-    .filter(Boolean)
-    .join(' ')
-    .trim();
 }
 
 /**
@@ -104,25 +91,7 @@ function parseFile(srcRoot: string, path: string): ParsedFile | null {
   const cls = src.match(/export class (\w+)/)?.[1];
   if (!selector || !cls) return null;
 
-  const members: ParsedMember[] = [];
-  const memberRe =
-    /^ {2}(?:readonly |override )*(\w+)\s*=\s*(input\.required|input|model\.required|model|output)(?:<([^=;]*?)>)?\((.*?)\);?$/gm;
-  let m: RegExpExecArray | null;
-  while ((m = memberRe.exec(src))) {
-    const [, name, kind, type, defaultVal] = m;
-    const lineStart = src.lastIndexOf('\n', m.index) + 1;
-    const line = src.slice(lineStart, m.index + m[0].length);
-    if (/^\s{2}(protected|private)/.test(line)) continue;
-    let resolvedType = (type || '').trim();
-    const def = kind.includes('required') ? undefined : defaultVal?.trim() || undefined;
-    if (!resolvedType) {
-      if (def === 'true' || def === 'false') resolvedType = 'boolean';
-      else if (def && /^-?[\d.]+$/.test(def)) resolvedType = 'number';
-      else if (def && /^['"`]/.test(def)) resolvedType = 'string';
-      else resolvedType = 'unknown';
-    }
-    members.push({ name, kind, type: resolvedType, default: def, doc: jsdocBefore(src, m.index) });
-  }
+  const members: ParsedMember[] = parseMembers(src);
 
   // Inherited inputs, appended so the component's own API reads first. A
   // subclass that redeclares one with `override` has already been captured by
@@ -135,8 +104,7 @@ function parseFile(srcRoot: string, path: string): ParsedFile | null {
   // The class JSDoc conventionally sits above the decorator, not between the
   // decorator and `export class` — accept either placement.
   const classDoc =
-    jsdocBefore(src, src.indexOf(`export class ${cls}`)) ||
-    jsdocBefore(src, decorator.index ?? 0);
+    jsdocBefore(src, src.indexOf(`export class ${cls}`)) || jsdocBefore(src, decorator.index ?? 0);
   return { path: relative(srcRoot, path), cls, selector, members, classDoc };
 }
 
@@ -205,38 +173,41 @@ function toApiMembers(members: ParsedMember[]): ApiMember[] {
     type: mem.type,
     required: mem.kind.includes('required'),
     default: mem.default,
+    alias: mem.alias,
     description: mem.doc,
   }));
 }
 
 /** Parse `packages/angular/src/lib` into Angular component fragments. */
 export function ingestAngular(srcRoot: string): ComponentFragment[] {
-  return collect(srcRoot)
-    .map((p) => parseFile(srcRoot, p))
-    .filter((e): e is ParsedFile => Boolean(e))
-    // Drop internal story/demo/support components (mirrors generate-api.mjs).
-    .filter(
-      (e) =>
-        !/story|demo/i.test(e.cls) &&
-        !/datasource\.component|permissions\.component|timer\.component|local-storage\.component/.test(
-          e.path,
-        ),
-    )
-    .map((e) => {
-      const id = idFromClass(e.cls);
-      return {
-        id,
-        name: humanName(e.cls),
-        summary: e.classDoc.split(/(?<=[.!?])\s/)[0] ?? '',
-        description: e.classDoc,
-        category: classify(e.path, id),
-        sourcePath: e.path,
-        binding: {
-          importPath: IMPORT_PATH,
-          selectorOrTag: e.selector,
-          api: toApiMembers(e.members),
-        },
-      } satisfies ComponentFragment;
-    })
-    .sort((a, b) => a.id.localeCompare(b.id));
+  return (
+    collect(srcRoot)
+      .map((p) => parseFile(srcRoot, p))
+      .filter((e): e is ParsedFile => Boolean(e))
+      // Drop internal story/demo/support components (mirrors generate-api.mjs).
+      .filter(
+        (e) =>
+          !/story|demo/i.test(e.cls) &&
+          !/datasource\.component|permissions\.component|timer\.component|local-storage\.component/.test(
+            e.path
+          )
+      )
+      .map((e) => {
+        const id = idFromClass(e.cls);
+        return {
+          id,
+          name: humanName(e.cls),
+          summary: e.classDoc.split(/(?<=[.!?])\s/)[0] ?? '',
+          description: e.classDoc,
+          category: classify(e.path, id),
+          sourcePath: e.path,
+          binding: {
+            importPath: IMPORT_PATH,
+            selectorOrTag: e.selector,
+            api: toApiMembers(e.members),
+          },
+        } satisfies ComponentFragment;
+      })
+      .sort((a, b) => a.id.localeCompare(b.id))
+  );
 }

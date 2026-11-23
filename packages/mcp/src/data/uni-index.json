@@ -1,7 +1,7 @@
 {
   "meta": {
     "version": "11.13.1",
-    "builtAt": "2026-11-23T19:33:55.286Z",
+    "builtAt": "2026-11-23T19:47:54.176Z",
     "frameworks": [
       "angular"
     ],
@@ -818,17 +818,17 @@
             {
               "name": "fullWidth",
               "kind": "input",
-              "type": "unknown",
+              "type": "boolean",
               "required": false,
-              "default": "false, { transform: booleanAttribute }",
+              "default": "false",
               "description": ""
             },
             {
               "name": "fullHeight",
               "kind": "input",
-              "type": "unknown",
+              "type": "boolean",
               "required": false,
-              "default": "false, { transform: booleanAttribute }",
+              "default": "false",
               "description": ""
             },
             {
@@ -994,33 +994,33 @@
             {
               "name": "disable",
               "kind": "input",
-              "type": "unknown",
+              "type": "boolean",
               "required": false,
-              "default": "false, { transform: booleanAttribute }",
+              "default": "false",
               "description": ""
             },
             {
               "name": "disabled",
               "kind": "input",
-              "type": "unknown",
+              "type": "boolean",
               "required": false,
-              "default": "false, { transform: booleanAttribute }",
+              "default": "false",
               "description": "The native name, accepted as an alias of `disable`. Every other Uni form control takes `disabled`, so consumers write it here too — and without this input the binding landed on the DOM property, where the host's own `disabled` attribute binding removed it on the first pass. The button rendered enabled, with no error. Either name now works."
             },
             {
               "name": "loading",
               "kind": "input",
-              "type": "unknown",
+              "type": "boolean",
               "required": false,
-              "default": "false, { transform: booleanAttribute }",
+              "default": "false",
               "description": ""
             },
             {
               "name": "fullWidth",
               "kind": "input",
-              "type": "unknown",
+              "type": "boolean",
               "required": false,
-              "default": "false, { transform: booleanAttribute }",
+              "default": "false",
               "description": ""
             },
             {
@@ -1232,6 +1232,13 @@
               "type": "UniDate",
               "required": false,
               "description": "Latest selectable date (inclusive)."
+            },
+            {
+              "name": "disabledDates",
+              "kind": "input",
+              "type": "UniDate[] | ((date: UniDate) => boolean)",
+              "required": false,
+              "description": "Blocked days: a list of dates, or a predicate."
             },
             {
               "name": "markers",
@@ -1595,9 +1602,9 @@
             {
               "name": "interactive",
               "kind": "input",
-              "type": "unknown",
+              "type": "boolean",
               "required": false,
-              "default": "false, { transform: booleanAttribute }",
+              "default": "false",
               "description": "A card the user acts on: a pointer cursor, the theme's hover wash, and `activated` on click, Space or Enter. Always on for an option in a group."
             },
             {
@@ -1610,9 +1617,9 @@
             {
               "name": "disabled",
               "kind": "input",
-              "type": "unknown",
+              "type": "boolean",
               "required": false,
-              "default": "false, { transform: booleanAttribute }",
+              "default": "false",
               "description": ""
             },
             {
@@ -2059,17 +2066,17 @@
             {
               "name": "labelHidden",
               "kind": "input",
-              "type": "unknown",
+              "type": "boolean",
               "required": false,
-              "default": "false, { transform: booleanAttribute }",
+              "default": "false",
               "description": "Keep `label` as the accessible name, but do not draw it. For the shape where the thing being selected is already on screen beside the box — a table's select column, a row in a list — the name is needed by assistive tech and must not be printed. The string stays in the DOM, so a test querying by label text and a screen reader see the same words."
             },
             {
               "name": "fullWidth",
               "kind": "input",
-              "type": "unknown",
+              "type": "boolean",
               "required": false,
-              "default": "false, { transform: booleanAttribute }",
+              "default": "false",
               "description": "Stretch the control and its label across the container, making the whole width the hit target. Pair it with projected content for a clickable row."
             },
             {
@@ -2398,6 +2405,14 @@
               "description": ""
             },
             {
+              "name": "compareWith",
+              "kind": "input",
+              "type": "(optionValue: T, value: T) => boolean",
+              "required": false,
+              "default": "(a, b) => a === b",
+              "description": "Equality used to match `value` against option values, called as `compareWith(optionValue, value)`. Defaults to reference equality, which never matches an object value rebuilt from elsewhere (e.g. a saved record against options from a fresh fetch) — pass a key comparison like `(a, b) => a?.id === b?.id` for object values."
+            },
+            {
               "name": "width",
               "kind": "input",
               "type": "string | number",
@@ -2444,6 +2459,13 @@
               "required": false,
               "default": "true",
               "description": "`false` renders `options` verbatim; narrow them app-side from `query`."
+            },
+            {
+              "name": "filterWith",
+              "kind": "input",
+              "type": "(option: Option<T>, query: string) => boolean",
+              "required": false,
+              "description": "Filter predicate; default is locale-lowercased label-contains."
             },
             {
               "name": "debounceTime",
@@ -2741,6 +2763,20 @@
               "description": "Accept a typed value that is not a known contact. On by default — a typed email address becomes a chip; `false` restricts the field to `contacts`."
             },
             {
+              "name": "validate",
+              "kind": "input",
+              "type": "(raw: string) => boolean",
+              "required": false,
+              "description": "What a typed value must satisfy under `allowCustom`. Defaults to an email address."
+            },
+            {
+              "name": "parse",
+              "kind": "input",
+              "type": "(pasted: string) => string[]",
+              "required": false,
+              "description": "Split pasted text into addresses yourself. The default splits on `,` `;` newline, tab and whitespace, and unwraps `Name <address>`."
+            },
+            {
               "name": "chipAvatar",
               "kind": "input",
               "type": "boolean | undefined",
@@ -2777,15 +2813,16 @@
               "kind": "input",
               "type": "number | undefined",
               "required": false,
-              "default": "undefined, { alias: 'max' }",
+              "default": "undefined",
+              "alias": "max",
               "description": ""
             },
             {
               "name": "unframed",
               "kind": "input",
-              "type": "unknown",
+              "type": "boolean",
               "required": false,
-              "default": "false, { transform: booleanAttribute }",
+              "default": "false",
               "description": "Drop the field chrome and render a bare row — an email client's To line."
             },
             {
@@ -3022,6 +3059,13 @@
               "description": ""
             },
             {
+              "name": "detailRowTemplate",
+              "kind": "input",
+              "type": "TemplateRef<{ $implicit: T; index: number }>",
+              "required": false,
+              "description": ""
+            },
+            {
               "name": "expanded",
               "kind": "model",
               "type": "RowKey | null",
@@ -3030,12 +3074,41 @@
               "description": "The expanded row, two-way: its `rowId` when the datasource has one, else its index on the page. `null` collapses every row. Keyed by id, a deep link can open a row before the records arrive, and a sort or a realtime reorder keeps the same record open."
             },
             {
+              "name": "expandableWhen",
+              "kind": "input",
+              "type": "(row: T) => boolean",
+              "required": false,
+              "description": "Which rows have a detail to open. A row that fails it takes no hover affordance and no `aria-expanded`, and a click on it only emits `rowClick`. Defaults to every row."
+            },
+            {
+              "name": "rowClass",
+              "kind": "input",
+              "type": "(row: T) => string",
+              "required": false,
+              "description": "Extra class per row — to dim a delivered order, say."
+            },
+            {
               "name": "useMultiSelect",
               "kind": "input",
               "type": "boolean",
               "required": false,
               "default": "false",
               "description": "Draw a leading checkbox column over the datasource's `selections`: a header box that selects or clears every selectable row on the page (`indeterminate` while only some are), and a box per row."
+            },
+            {
+              "name": "selectableWhen",
+              "kind": "input",
+              "type": "(row: T) => boolean",
+              "required": false,
+              "description": "Which rows may be selected. The rest render a disabled box and are skipped by select-all."
+            },
+            {
+              "name": "selectLabel",
+              "kind": "input",
+              "type": "string | ((row: T) => string)",
+              "required": false,
+              "default": "'Select row'",
+              "description": "Accessible name of a row's checkbox; a function names it per row."
             },
             {
               "name": "selectAllLabel",
@@ -3262,6 +3335,13 @@
               "description": ""
             },
             {
+              "name": "parse",
+              "kind": "input",
+              "type": "(raw: string, locale: string) => UniDate | null",
+              "required": false,
+              "description": "Custom parser, replacing the built-in ISO/locale/month-name parsing."
+            },
+            {
               "name": "embedded",
               "kind": "input",
               "type": "boolean",
@@ -3280,6 +3360,13 @@
               "name": "maxDate",
               "kind": "input",
               "type": "UniDate",
+              "required": false,
+              "description": ""
+            },
+            {
+              "name": "disabledDates",
+              "kind": "input",
+              "type": "UniDate[] | ((date: UniDate) => boolean)",
               "required": false,
               "description": ""
             },
@@ -3477,6 +3564,13 @@
               "description": "Latest allowed moment; the date and time fences are split from it."
             },
             {
+              "name": "disabledDates",
+              "kind": "input",
+              "type": "UniDate[] | ((date: UniDate) => boolean)",
+              "required": false,
+              "description": ""
+            },
+            {
               "name": "markers",
               "kind": "input",
               "type": "UniCalendarMarker[]",
@@ -3519,6 +3613,13 @@
               "type": "string",
               "required": false,
               "description": ""
+            },
+            {
+              "name": "slotsFor",
+              "kind": "input",
+              "type": "(date: UniDate) => UniTime[]",
+              "required": false,
+              "description": "Scheduling: the day's available times. Gates the time part on a date."
             },
             {
               "name": "variant",
@@ -3895,17 +3996,17 @@
             {
               "name": "closeOnConfirm",
               "kind": "input",
-              "type": "unknown",
+              "type": "boolean",
               "required": false,
-              "default": "true, { transform: booleanAttribute }",
+              "default": "true",
               "description": "Whether Confirm closes the dialog as it emits `confirmed`. On by default. Off, the caller closes when its save resolves — a dialog that confirms asynchronously stays open with its error when the save fails."
             },
             {
               "name": "loading",
               "kind": "input",
-              "type": "unknown",
+              "type": "boolean",
               "required": false,
-              "default": "false, { transform: booleanAttribute }",
+              "default": "false",
               "description": "Passed to the Confirm button: a spinner, and no second click."
             },
             {
@@ -3980,9 +4081,9 @@
             {
               "name": "rich",
               "kind": "input",
-              "type": "unknown",
+              "type": "boolean",
               "required": false,
-              "default": "false, { transform: booleanAttribute }",
+              "default": "false",
               "description": "Render the projection as a block rather than one line of text. A sheet's head — eyebrow, headline, blurb — has nowhere to go in a title bar."
             },
             {
@@ -4156,17 +4257,17 @@
             {
               "name": "modal",
               "kind": "input",
-              "type": "unknown",
+              "type": "boolean",
               "required": false,
-              "default": "true, { transform: booleanAttribute }",
+              "default": "true",
               "description": "Whether `over` mode is modal. On by default: `showModal()`, a focus trap, an inert page and a scrim. Off, the panel is a `popover=\"manual\"` — in the top layer, so nothing can clip or cover it, but the page behind stays live: a settings panel beside the canvas it changes. Escape still asks to close through `closeRequest`; `scrim` has no backdrop to paint and is ignored; see `closeOnOutsideClick` for clicks beyond the panel."
             },
             {
               "name": "closeOnOutsideClick",
               "kind": "input",
-              "type": "unknown",
+              "type": "boolean",
               "required": false,
-              "default": "false, { transform: booleanAttribute }",
+              "default": "false",
               "description": "Non-modal only: ask to close (`reason: 'outside'`) on a click beyond the panel. Off by default — for a workbench the canvas *is* the outside."
             },
             {
@@ -4354,9 +4455,9 @@
             {
               "name": "loading",
               "kind": "input",
-              "type": "unknown",
+              "type": "boolean",
               "required": false,
-              "default": "false, { transform: booleanAttribute }",
+              "default": "false",
               "description": "Passed to the Save button: a spinner, and no second click."
             },
             {
@@ -4693,9 +4794,9 @@
             {
               "name": "initCollapsed",
               "kind": "input",
-              "type": "unknown",
+              "type": "boolean",
               "required": false,
-              "default": "false, { transform: booleanAttribute }",
+              "default": "false",
               "description": ""
             },
             {
@@ -4839,9 +4940,9 @@
             {
               "name": "preferNative",
               "kind": "input",
-              "type": "unknown",
+              "type": "boolean",
               "required": false,
-              "default": "true, { transform: booleanAttribute }",
+              "default": "true",
               "description": "With no `images`, hand over to the browser's `EyeDropper` when it has one."
             },
             {
@@ -4863,9 +4964,9 @@
             {
               "name": "disabled",
               "kind": "input",
-              "type": "unknown",
+              "type": "boolean",
               "required": false,
-              "default": "false, { transform: booleanAttribute }",
+              "default": "false",
               "description": ""
             },
             {
@@ -5291,25 +5392,25 @@
             {
               "name": "disable",
               "kind": "input",
-              "type": "unknown",
+              "type": "boolean",
               "required": false,
-              "default": "false, { transform: booleanAttribute }",
+              "default": "false",
               "description": "A bare `disable` attribute reads as true, as `uni-button`'s does; `undefined` as false."
             },
             {
               "name": "disabled",
               "kind": "input",
-              "type": "unknown",
+              "type": "boolean",
               "required": false,
-              "default": "false, { transform: booleanAttribute }",
+              "default": "false",
               "description": "The native name, accepted as an alias of `disable` — see `uni-button`."
             },
             {
               "name": "loading",
               "kind": "input",
-              "type": "unknown",
+              "type": "boolean",
               "required": false,
-              "default": "false, { transform: booleanAttribute }",
+              "default": "false",
               "description": ""
             },
             {
@@ -5377,19 +5478,27 @@
               "description": "Which side of the label the glyph sits on."
             },
             {
+              "name": "underline",
+              "kind": "input",
+              "type": "boolean | undefined",
+              "required": false,
+              "default": "undefined",
+              "description": "Underline the label, overriding the theme's default."
+            },
+            {
               "name": "link",
               "kind": "input",
-              "type": "unknown",
+              "type": "boolean",
               "required": false,
-              "default": "false, { transform: booleanAttribute }",
+              "default": "false",
               "description": "Paint the label with the theme's link colour instead of inheriting the ink."
             },
             {
               "name": "disable",
               "kind": "input",
-              "type": "unknown",
+              "type": "boolean",
               "required": false,
-              "default": "false, { transform: booleanAttribute }",
+              "default": "false",
               "description": ""
             },
             {
@@ -5575,7 +5684,8 @@
               "kind": "input",
               "type": "number | undefined",
               "required": false,
-              "default": "undefined, { alias: 'min' }",
+              "default": "undefined",
+              "alias": "min",
               "description": ""
             },
             {
@@ -5583,7 +5693,8 @@
               "kind": "input",
               "type": "number | undefined",
               "required": false,
-              "default": "undefined, { alias: 'max' }",
+              "default": "undefined",
+              "alias": "max",
               "description": ""
             },
             {
@@ -5656,9 +5767,9 @@
             {
               "name": "fullWidth",
               "kind": "input",
-              "type": "unknown",
+              "type": "boolean",
               "required": false,
-              "default": "false, { transform: booleanAttribute }",
+              "default": "false",
               "description": ""
             },
             {
@@ -5672,9 +5783,9 @@
             {
               "name": "unframed",
               "kind": "input",
-              "type": "unknown",
+              "type": "boolean",
               "required": false,
-              "default": "false, { transform: booleanAttribute }",
+              "default": "false",
               "description": "Drop the field chrome and render the bare input — see `uni-input-box`."
             },
             {
@@ -5812,9 +5923,9 @@
             {
               "name": "fullWidth",
               "kind": "input",
-              "type": "unknown",
+              "type": "boolean",
               "required": false,
-              "default": "false, { transform: booleanAttribute }",
+              "default": "false",
               "description": ""
             },
             {
@@ -5836,9 +5947,9 @@
             {
               "name": "unframed",
               "kind": "input",
-              "type": "unknown",
+              "type": "boolean",
               "required": false,
-              "default": "false, { transform: booleanAttribute }",
+              "default": "false",
               "description": "Drop the field chrome — border, fill, radius, shadow, leading inset and the focus treatment — and render the bare row. For fields drawn as an email client draws them: unframed lines with a hairline between. The surrounding layout draws any focus cue; the error state is still exposed through `aria-invalid` on the control inside. Same meaning as `uni-tag-input`'s."
             },
             {
@@ -6779,9 +6890,9 @@
             {
               "name": "unframed",
               "kind": "input",
-              "type": "unknown",
+              "type": "boolean",
               "required": false,
-              "default": "false, { transform: booleanAttribute }",
+              "default": "false",
               "description": "Keep the box but drop its chrome — border, fill, inset, focus treatment — as `uni-input`'s `unframed` does. Unlike `embedded`, the field still owns its row and its steppers."
             },
             {
@@ -6890,6 +7001,13 @@
               "required": false,
               "default": "true",
               "description": ""
+            },
+            {
+              "name": "parse",
+              "kind": "input",
+              "type": "(raw: string, locale: string) => string | null",
+              "required": false,
+              "description": "Custom parser, replacing the built-in locale parsing."
             },
             {
               "name": "stepperLayout",
@@ -7185,7 +7303,8 @@
               "kind": "input",
               "type": "number | undefined",
               "required": false,
-              "default": "undefined, { alias: 'min' }",
+              "default": "undefined",
+              "alias": "min",
               "description": ""
             },
             {
@@ -7193,7 +7312,8 @@
               "kind": "input",
               "type": "number | undefined",
               "required": false,
-              "default": "undefined, { alias: 'max' }",
+              "default": "undefined",
+              "alias": "max",
               "description": ""
             },
             {
@@ -7253,12 +7373,12 @@
         {
           "title": "Price Filter",
           "framework": "angular",
-          "code": "<!-- Storybook story: Price Filter -->\n<uni-number-range-input\n  label=\"Price range\"\n  [value]=\"{ start: 200, end: 1500 }\"\n  currency=\"USD\"\n  [minValue]=\"0\"\n  [maxValue]=\"5000\"\n  [step]=\"10\"\n/>"
+          "code": "<!-- Storybook story: Price Filter -->\n<uni-number-range-input\n  label=\"Price range\"\n  [value]=\"{ start: 200, end: 1500 }\"\n  currency=\"USD\"\n  [min]=\"0\"\n  [max]=\"5000\"\n  [step]=\"10\"\n/>"
         },
         {
           "title": "Minimum Gap",
           "framework": "angular",
-          "code": "<!-- Storybook story: Minimum Gap -->\n<uni-number-range-input\n  label=\"Temperature tolerance\"\n  [value]=\"{ start: 5, end: 20 }\"\n  suffix=\"°C\"\n  [minValue]=\"-20\"\n  [maxValue]=\"40\"\n  [minGap]=\"5\"\n/>"
+          "code": "<!-- Storybook story: Minimum Gap -->\n<uni-number-range-input\n  label=\"Temperature tolerance\"\n  [value]=\"{ start: 5, end: 20 }\"\n  suffix=\"°C\"\n  [min]=\"-20\"\n  [max]=\"40\"\n  [minGap]=\"5\"\n/>"
         },
         {
           "title": "Open Ended",
@@ -7268,7 +7388,7 @@
         {
           "title": "Custom End Labels",
           "framework": "angular",
-          "code": "<!-- Storybook story: Custom End Labels -->\n<uni-number-range-input\n  label=\"Delivery window\"\n  [value]=\"{ start: 2, end: 7 }\"\n  suffix=\" days\"\n  startLabel=\"From\"\n  endLabel=\"To\"\n  [minValue]=\"0\"\n/>"
+          "code": "<!-- Storybook story: Custom End Labels -->\n<uni-number-range-input\n  label=\"Delivery window\"\n  [value]=\"{ start: 2, end: 7 }\"\n  suffix=\" days\"\n  startLabel=\"From\"\n  endLabel=\"To\"\n  [min]=\"0\"\n/>"
         },
         {
           "title": "Disabled",
@@ -8025,17 +8145,17 @@
             {
               "name": "labelHidden",
               "kind": "input",
-              "type": "unknown",
+              "type": "boolean",
               "required": false,
-              "default": "false, { transform: booleanAttribute }",
+              "default": "false",
               "description": "Keep `label` as the group's accessible name, but do not draw it. The heading still carries the id `aria-labelledby` points at, so the group keeps its name; only the option rows are visible."
             },
             {
               "name": "fullWidth",
               "kind": "input",
-              "type": "unknown",
+              "type": "boolean",
               "required": false,
-              "default": "false, { transform: booleanAttribute }",
+              "default": "false",
               "description": "Stretch each option row across the container, so the whole width is the hit target."
             },
             {
@@ -8342,9 +8462,9 @@
             {
               "name": "fill",
               "kind": "input",
-              "type": "unknown",
+              "type": "boolean",
               "required": false,
-              "default": "false, { transform: booleanAttribute }",
+              "default": "false",
               "description": "Take the room a flex-column parent leaves (`flex: 1 1 auto; min-height: 0`) and scroll within it — the body of a dialog or drawer without a wrapper."
             },
             {
@@ -8625,9 +8745,9 @@
             {
               "name": "fullWidth",
               "kind": "input",
-              "type": "unknown",
+              "type": "boolean",
               "required": false,
-              "default": "false, { transform: booleanAttribute }",
+              "default": "false",
               "description": ""
             },
             {
@@ -8637,6 +8757,14 @@
               "required": false,
               "default": "undefined",
               "description": ""
+            },
+            {
+              "name": "compareWith",
+              "kind": "input",
+              "type": "(optionValue: T, value: T) => boolean",
+              "required": false,
+              "default": "(a, b) => a === b",
+              "description": "Equality used to match `value` against option values, called as `compareWith(optionValue, value)`. Defaults to reference equality, which never matches an object value rebuilt from elsewhere (e.g. a saved record against options from a fresh fetch) — pass a key comparison like `(a, b) => a?.id === b?.id` for object values."
             },
             {
               "name": "ariaLabel",
@@ -8990,6 +9118,13 @@
               "required": false,
               "default": "'none'",
               "description": "Where the current value is shown. `tooltip` appears on hover, focus and drag; `inline` sits at the trailing edge of the track; `input` seats a compact `uni-number-input` there, two-way bound to the same value — drag for the ballpark, type for the exact figure, which is the pairing that makes bounded numeric input actually usable. `input` applies to `single` mode only; a range would need two fields, and `inline` already reads well for two ends."
+            },
+            {
+              "name": "formatValue",
+              "kind": "input",
+              "type": "(value: number) => string",
+              "required": false,
+              "description": "Overrides how a value is rendered and spoken."
             },
             {
               "name": "minGap",
@@ -10203,15 +10338,30 @@
               "kind": "input",
               "type": "number | undefined",
               "required": false,
-              "default": "undefined, { alias: 'max' }",
+              "default": "undefined",
+              "alias": "max",
+              "description": ""
+            },
+            {
+              "name": "validate",
+              "kind": "input",
+              "type": "(raw: string) => boolean",
+              "required": false,
+              "description": ""
+            },
+            {
+              "name": "parse",
+              "kind": "input",
+              "type": "(pasted: string) => string[]",
+              "required": false,
               "description": ""
             },
             {
               "name": "unframed",
               "kind": "input",
-              "type": "unknown",
+              "type": "boolean",
               "required": false,
-              "default": "false, { transform: booleanAttribute }",
+              "default": "false",
               "description": "Drop the field chrome (border, fill, inset) and render the bare chip row — an email client's To line. The surrounding layout draws any hairline and focus cue; the error state is still exposed through `aria-invalid`."
             },
             {
@@ -10369,7 +10519,7 @@
         {
           "title": "With Maximum",
           "framework": "angular",
-          "code": "<!-- Storybook story: With Maximum -->\n<uni-tag-input\n  label=\"To\"\n  placeholder=\"Add a recipient…\"\n  [maxLength]=\"3\"\n  [value]=\"[{ value: 'alpha' }, { value: 'beta' }]\"\n/>"
+          "code": "<!-- Storybook story: With Maximum -->\n<uni-tag-input\n  label=\"To\"\n  placeholder=\"Add a recipient…\"\n  [max]=\"3\"\n  [value]=\"[{ value: 'alpha' }, { value: 'beta' }]\"\n/>"
         },
         {
           "title": "Disabled",
@@ -10428,7 +10578,8 @@
               "kind": "input",
               "type": "Typeface | ''",
               "required": false,
-              "default": "'', { alias: 'uni-text' }",
+              "default": "''",
+              "alias": "uni-text",
               "description": "Typeface via the selector attribute: `uni-text=\"headline-large\"`."
             },
             {
@@ -10470,9 +10621,9 @@
             {
               "name": "nowrap",
               "kind": "input",
-              "type": "unknown",
+              "type": "boolean",
               "required": false,
-              "default": "false, { transform: booleanAttribute }",
+              "default": "false",
               "description": "Keeps the text on one line. A bare `nowrap` attribute is `true`; absent is `false`."
             },
             {
@@ -10485,9 +10636,9 @@
             {
               "name": "ellipsis",
               "kind": "input",
-              "type": "unknown",
+              "type": "boolean",
               "required": false,
-              "default": "false, { transform: booleanAttribute }",
+              "default": "false",
               "description": "Truncates overflow with an ellipsis. A bare `ellipsis` attribute is `true`; absent is `false`."
             }
           ]
@@ -10675,9 +10826,9 @@
             {
               "name": "fullWidth",
               "kind": "input",
-              "type": "unknown",
+              "type": "boolean",
               "required": false,
-              "default": "false, { transform: booleanAttribute }",
+              "default": "false",
               "description": ""
             },
             {
@@ -10691,9 +10842,9 @@
             {
               "name": "unframed",
               "kind": "input",
-              "type": "unknown",
+              "type": "boolean",
               "required": false,
-              "default": "false, { transform: booleanAttribute }",
+              "default": "false",
               "description": "Drop the field chrome and render the bare textarea — see `uni-input-box`."
             }
           ]
@@ -11123,17 +11274,17 @@
             {
               "name": "labelHidden",
               "kind": "input",
-              "type": "unknown",
+              "type": "boolean",
               "required": false,
-              "default": "false, { transform: booleanAttribute }",
+              "default": "false",
               "description": "Keep `label` as the accessible name, but do not draw it — for a switch in a row or a table cell whose meaning is already on screen beside it. The string stays in the DOM, so a test querying by label text and a screen reader see the same words."
             },
             {
               "name": "fullWidth",
               "kind": "input",
-              "type": "unknown",
+              "type": "boolean",
               "required": false,
-              "default": "false, { transform: booleanAttribute }",
+              "default": "false",
               "description": "Stretch the control and its label across the container, making the whole width the hit target. Pair it with projected content for a clickable row."
             },
             {
@@ -11364,6 +11515,13 @@
               "description": "Per-instance override of the `progressStyle` theme option, so a one-off pointer can differ from the app's tours without a second theme entry. A one-step tour renders no progress whatever this says — one dot beside Done counts nothing."
             },
             {
+              "name": "resolveTarget",
+              "kind": "input",
+              "type": "(ref: string) => HTMLElement | null | undefined",
+              "required": false,
+              "description": "Maps a string target to its element; `document.getElementById` when unset. A controller whose steps name `data-tour` tokens gives `(token) => document.querySelector(`[data-tour=\"${token}\"]`)` once, instead of pre-resolving every step."
+            },
+            {
               "name": "targetTimeout",
               "kind": "input",
               "type": "number",
@@ -11411,11 +11569,25 @@
               "description": "The first step of a run was presented — from `start()` or from a write to `active`."
             },
             {
+              "name": "stepChanged",
+              "kind": "output",
+              "type": "{ key: string; index: number }",
+              "required": false,
+              "description": ""
+            },
+            {
               "name": "finished",
               "kind": "output",
               "type": "void",
               "required": false,
               "description": "The run walked past its last step. Never emitted for a run in which no step was presented (empty `steps`, every target missing): a tour that never opened did not finish."
+            },
+            {
+              "name": "skipped",
+              "kind": "output",
+              "type": "{ key: string; index: number }",
+              "required": false,
+              "description": ""
             },
             {
               "name": "targetMissing",

@@ -30,6 +30,12 @@ export type StorybookOptions = {
   pathToId: Map<string, string>;
   /** Component id → selector, for synthesizing the element of an args-only story. */
   idToSelector?: Map<string, string>;
+  /**
+   * Component id → its inputs and models, as property name → the name a
+   * template binds (the alias, where one is declared). Args outside this map
+   * are kept out of a synthesized tag. Omit to bind every arg by its own name.
+   */
+  idToInputs?: Map<string, ReadonlyMap<string, string>>;
   framework: Framework;
   /** Optional deployed Storybook base URL for deep links. */
   storybookBaseUrl?: string;
@@ -271,14 +277,25 @@ function elementFor(selectorOrTag: string): { open: string; close: string } | un
  */
 export function synthesizeTemplate(
   selectorOrTag: string,
-  args: Map<string, string>
+  args: Map<string, string>,
+  inputs?: ReadonlyMap<string, string>
 ): string | undefined {
   const element = elementFor(selectorOrTag);
   if (!element) return undefined;
 
   const attrs: string[] = [];
   const named: string[] = [];
-  for (const [key, value] of args) {
+  // Args the component does not declare as an input or model. Storybook sets
+  // them as properties all the same, but a binding to one would not compile
+  // in an app, so they are reported rather than written into the tag.
+  const undeclared: string[] = [];
+  for (const [arg, value] of args) {
+    if (inputs && !inputs.has(arg)) {
+      undeclared.push(`${arg}: ${outdent(value)}`);
+      continue;
+    }
+    // Args are keyed by property; a template binds the alias.
+    const key = inputs?.get(arg) ?? arg;
     const text = STRING_LITERAL.exec(value);
     const plain = text?.[1] ?? text?.[2];
     if (plain !== undefined && !/[\\"]/.test(plain)) attrs.push(`${key}="${plain}"`);
@@ -294,11 +311,22 @@ export function synthesizeTemplate(
     oneLine.length <= 100 || attrs.length === 0
       ? oneLine
       : `${element.open}\n${attrs.map((attr) => `  ${attr}`).join('\n')}\n${element.close.trimStart()}`;
-  return named.length ? `${tag}\n<!-- bound values:\n${named.join('\n')}\n-->` : tag;
+  const parts = [tag];
+  if (named.length) parts.push(`<!-- bound values:\n${named.join('\n')}\n-->`);
+  if (undeclared.length) {
+    parts.push(
+      `<!-- story args that are not inputs of this component:\n${undeclared.join('\n')}\n-->`
+    );
+  }
+  return parts.join('\n');
 }
 
 /** Assemble a readable snippet: the render template (if any) + the story's args. */
-export function buildCode(name: string, template: string | undefined, args: string | undefined): string {
+export function buildCode(
+  name: string,
+  template: string | undefined,
+  args: string | undefined
+): string {
   const parts: string[] = [`<!-- Storybook story: ${name} -->`];
   if (template) parts.push(template);
   if (args) parts.push(`<!-- args:\n${args}\n-->`);
@@ -314,7 +342,8 @@ export function buildArgsOnlyCode(
   name: string,
   src: string,
   exportName: string,
-  selectorOrTag: string | undefined
+  selectorOrTag: string | undefined,
+  inputs?: ReadonlyMap<string, string>
 ): string {
   // A `render` whose template could not be read (a wrapper component, a
   // template built by a helper) draws something other than the bare element.
@@ -322,7 +351,8 @@ export function buildArgsOnlyCode(
     /\brender\s*:|^\s*render\s*\(/m.test(block ?? '')
   );
   const merged = selectorOrTag && !customRender ? mergedArgs(src, exportName) : undefined;
-  const synthesized = merged && selectorOrTag ? synthesizeTemplate(selectorOrTag, merged) : undefined;
+  const synthesized =
+    merged && selectorOrTag ? synthesizeTemplate(selectorOrTag, merged, inputs) : undefined;
   if (synthesized) return `<!-- Storybook story: ${name} -->\n${synthesized}`;
 
   const parts: string[] = [`<!-- Storybook story: ${name} -->`];
@@ -371,7 +401,8 @@ export function ingestStorybook(opts: StorybookOptions): StorybookExample[] {
             entry.name,
             cached.src,
             entry.exportName,
-            opts.idToSelector?.get(componentId)
+            opts.idToSelector?.get(componentId),
+            opts.idToInputs?.get(componentId)
           ),
       storybookUrl: opts.storybookBaseUrl
         ? `${opts.storybookBaseUrl.replace(/\/$/, '')}/?path=/story/${entry.id}`

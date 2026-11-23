@@ -47,6 +47,14 @@ function main() {
     packageRoot: angularRoot,
     pathToId,
     idToSelector: new Map(angular.map((f) => [f.id, f.binding.selectorOrTag])),
+    idToInputs: new Map(
+      angular.map((f) => [
+        f.id,
+        new Map(
+          f.binding.api.filter((m) => m.kind !== 'output').map((m) => [m.name, m.alias ?? m.name])
+        ),
+      ])
+    ),
     framework: 'angular',
     storybookBaseUrl: process.env.UNI_STORYBOOK_URL,
   });

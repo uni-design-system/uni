@@ -201,6 +201,33 @@ export const Primary: Story = { args: { size: 'sm' } };
       );
     });
 
+    it('binds only declared inputs, by alias, and reports the rest', () => {
+      const inputs = new Map([
+        ['label', 'label'],
+        ['maxLength', 'max'],
+        ['items', 'items'],
+      ]);
+      const code = synthesizeTemplate(
+        'uni-tag-input',
+        args({ label: "'To'", maxLength: '3', items: 'FACETS', onRemove: 'fn()', theme: "'dark'" }),
+        inputs
+      )!;
+
+      expect(code.split('\n')[0]).toBe('<uni-tag-input label="To" [max]="3" [items]="items" />');
+      expect(code).toContain('items = FACETS');
+      expect(code).toContain(
+        "<!-- story args that are not inputs of this component:\nonRemove: fn()\ntheme: 'dark'\n-->"
+      );
+      expect(code).not.toContain('[onRemove]');
+      expect(code).not.toContain('theme="dark"');
+    });
+
+    it('binds every arg when no input list is given', () => {
+      expect(synthesizeTemplate('uni-tag', args({ anything: "'x'" }))).toBe(
+        '<uni-tag anything="x" />'
+      );
+    });
+
     it('declines a selector it cannot turn into an element', () => {
       expect(synthesizeTemplate('uni-a:not(.b)', args({}))).toBeUndefined();
     });

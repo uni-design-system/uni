@@ -8,6 +8,7 @@
  */
 import { readFileSync, writeFileSync, readdirSync, statSync } from 'node:fs';
 import { join, relative } from 'node:path';
+import { jsdocBefore, parseMembers } from './signal-members.mjs';
 
 const SRC = new URL('../src/lib', import.meta.url).pathname;
 const OUT = new URL('../llms.txt', import.meta.url).pathname;
@@ -29,20 +30,6 @@ function collect(dir, out = []) {
   return out;
 }
 
-/** Extract the JSDoc summary (first sentence-ish) preceding an offset. */
-function jsdocBefore(src, index) {
-  const before = src.slice(0, index);
-  // Content may not contain `*/`, so only the immediately preceding block matches
-  const m = before.match(/\/\*\*((?:[^*]|\*(?!\/))*)\*\/\s*$/);
-  if (!m) return '';
-  return m[1]
-    .split('\n')
-    .map((l) => l.replace(/^\s*\*\s?/, '').trim())
-    .filter(Boolean)
-    .join(' ')
-    .trim();
-}
-
 function parseFile(path) {
   const src = readFileSync(path, 'utf8');
   const decorator = src.match(/@(Component|Directive)\(\{([\s\S]*?)\n\}\)/);
@@ -52,43 +39,7 @@ function parseFile(path) {
   const cls = src.match(/export class (\w+)/)?.[1];
   if (!selector || !cls) return null;
 
-  const members = [];
-  const memberRe =
-    /^ {2}(?:readonly |override )*(\w+)\s*=\s*(input\.required|input|model\.required|model|output)(?:<([^=;]*?)>)?\((.*?)\);?$/gm;
-  let m;
-  while ((m = memberRe.exec(src))) {
-    const [, name, kind, type, defaultVal] = m;
-    // skip protected/private (they don't match: those lines start with the modifier)
-    const lineStart = src.lastIndexOf('\n', m.index) + 1;
-    const line = src.slice(lineStart, m.index + m[0].length);
-    if (/^\s{2}(protected|private)/.test(line)) continue;
-    let resolvedType = (type || '').trim();
-    let def = kind.includes('required') ? undefined : defaultVal?.trim() || undefined;
-    // `input(false, { transform: booleanAttribute })` — the options object is
-    // not part of the default, and a `booleanAttribute` transform is what makes
-    // a valueless attribute (`<uni-checkbox labelHidden>`) read as true. Report
-    // the accepted type, not the raw argument list.
-    const options = def?.match(/,\s*\{([\s\S]*)\}$/);
-    if (options) {
-      def = def.slice(0, options.index).trim();
-      if (/transform:\s*booleanAttribute/.test(options[1])) resolvedType ||= 'boolean';
-      else if (/transform:\s*numberAttribute/.test(options[1])) resolvedType ||= 'number';
-    }
-    if (!resolvedType) {
-      // No explicit generic: infer from the default value literal
-      if (def === 'true' || def === 'false') resolvedType = 'boolean';
-      else if (def && /^-?[\d.]+$/.test(def)) resolvedType = 'number';
-      else if (def && /^['"`]/.test(def)) resolvedType = 'string';
-      else resolvedType = 'unknown';
-    }
-    members.push({
-      name,
-      kind,
-      type: resolvedType,
-      default: def,
-      doc: jsdocBefore(src, m.index),
-    });
-  }
+  const members = parseMembers(src);
   const classDoc = jsdocBefore(src, src.indexOf(`export class ${cls}`));
   return { path: relative(SRC, path), cls, selector, members, classDoc };
 }
@@ -133,7 +84,8 @@ for (const e of entries) {
     for (const i of inputs) {
       const req = i.kind === 'input.required' ? ' (required)' : '';
       const def = i.default !== undefined && i.default !== '' ? ` = ${i.default}` : '';
-      lines.push(`  - \`${i.name}: ${i.type}\`${req}${def}${i.doc ? ` — ${i.doc}` : ''}`);
+      const alias = i.alias ? ` (bind as \`${i.alias}\`)` : '';
+      lines.push(`  - \`${i.name}: ${i.type}\`${req}${def}${alias}${i.doc ? ` — ${i.doc}` : ''}`);
     }
   }
   if (models.length) {

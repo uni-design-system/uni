@@ -18,6 +18,12 @@ export const ApiMember = z.object({
   type: z.string(),
   required: z.boolean().default(false),
   default: z.string().optional(),
+  /**
+   * The name a template binds, when it differs from the property `name`
+   * (Angular's `input(…, { alias })`). `name` stays the property, which is
+   * what the class, Storybook args and the docs refer to.
+   */
+  alias: z.string().optional(),
   description: z.string().default(''),
   deprecated: z.string().optional(),
 });

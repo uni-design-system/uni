@@ -171,6 +171,7 @@ Inheritance (inputs listed once, available on all subclasses):
   - `mode: UniCalendarMode` = 'single' — `'single'` reads/writes a `UniDate`; `'range'` a `UniDateRange`.
   - `minDate: UniDate` — Earliest selectable date (inclusive).
   - `maxDate: UniDate` — Latest selectable date (inclusive).
+  - `disabledDates: UniDate[] | ((date: UniDate) => boolean)` — Blocked days: a list of dates, or a predicate.
   - `markers: UniCalendarMarker[]` = [] — Availability dots; `label` extends the day's accessible name.
   - `locale: string` — BCP 47 tag; defaults to the document language, then the browser's.
   - `weekStart: 0 | 1 | 2 | 3 | 4 | 5 | 6` — First day of week, 0 = Sunday; defaults from the locale's week info.
@@ -293,12 +294,14 @@ Inheritance (inputs listed once, available on all subclasses):
   - `label: string` (required) — Accessible name for the field, e.g. "State"; echoed on the listbox.
   - `placeholder: string`
   - `options: Options<T>` = []
+  - `compareWith: (optionValue: T, value: T) => boolean` = (a, b) => a === b — Equality used to match `value` against option values, called as `compareWith(optionValue, value)`. Defaults to reference equality, which never matches an object value rebuilt from elsewhere (e.g. a saved record against options from a fresh fetch) — pass a key comparison like `(a, b) => a?.id === b?.id` for object values.
   - `width: string | number` = '100%'
   - `clearable: boolean` = true — Show a ✕ while a value is set; an emptied field on blur also clears.
   - `emptyValue: T | null` = null — What "nothing selected" is written as. `null` by default — the control's contract is `FormValueControl<T | null>` — but a field bound to a plain `string` schema wants `''`, so a clear does not hand `null` to every reader of a string. A value equal to it reads as empty: no ✕, no match.
   - `commitOnBlur: boolean` = true — Blur commits an exact-match draft; a non-matching draft reverts.
   - `emptyText: string` = 'No matches' — i18n-able empty row, also announced when a filter matches nothing.
   - `filterLocally: boolean` = true — `false` renders `options` verbatim; narrow them app-side from `query`.
+  - `filterWith: (option: Option<T>, query: string) => boolean` — Filter predicate; default is locale-lowercased label-contains.
   - `debounceTime: number` = 250
   - `openOnFocus: boolean` = false — Open the list when the field takes focus, not only on click or ArrowDown. Off by default — a form tabbed through should not spray popups.
 - two-way models:
@@ -325,11 +328,13 @@ Inheritance (inputs listed once, available on all subclasses):
   - `placeholder: string`
   - `contacts: UniContact[]` = [] — Everyone who can be suggested, in the order (and groups) to offer them.
   - `allowCustom: boolean` = true — Accept a typed value that is not a known contact. On by default — a typed email address becomes a chip; `false` restricts the field to `contacts`.
+  - `validate: (raw: string) => boolean` — What a typed value must satisfy under `allowCustom`. Defaults to an email address.
+  - `parse: (pasted: string) => string[]` — Split pasted text into addresses yourself. The default splits on `,` `;` newline, tab and whitespace, and unwraps `Name <address>`.
   - `chipAvatar: boolean | undefined` = undefined — Draw an initials avatar on each chip. Unbound, the `contactInput` theme entry's `chipAvatar` decides (on by default). Off, a chip is the name alone — in a narrow row of first names the initials only repeat it.
   - `filterLocally: boolean` = true — `false` renders `contacts` verbatim; narrow them app-side from `(query)` when the directory lives on a server.
   - `autoHighlight: boolean` = false — Keep the first match highlighted so Enter or Tab picks it without arrowing. Off by default: nothing is highlighted until ArrowDown, and Enter commits what is typed.
   - `debounceTime: number` = 250
-  - `maxLength: number | undefined` = undefined
+  - `maxLength: number | undefined` = undefined (bind as `max`)
   - `unframed: boolean` = false — Drop the field chrome and render a bare row — an email client's To line.
   - `autocomplete: string` = 'off' — The text field's `autocomplete` token; see `uni-tag-input`.
   - `tagVariant: Variant`
@@ -358,7 +363,12 @@ Inheritance (inputs listed once, available on all subclasses):
 - inputs:
   - `datasource: UniDatasource<T>` (required)
   - `columns: ColumnDefinition<T>[]` (required)
+  - `detailRowTemplate: TemplateRef<{ $implicit: T; index: number }>`
+  - `expandableWhen: (row: T) => boolean` — Which rows have a detail to open. A row that fails it takes no hover affordance and no `aria-expanded`, and a click on it only emits `rowClick`. Defaults to every row.
+  - `rowClass: (row: T) => string` — Extra class per row — to dim a delivered order, say.
   - `useMultiSelect: boolean` = false — Draw a leading checkbox column over the datasource's `selections`: a header box that selects or clears every selectable row on the page (`indeterminate` while only some are), and a box per row.
+  - `selectableWhen: (row: T) => boolean` — Which rows may be selected. The rest render a disabled box and are skipped by select-all.
+  - `selectLabel: string | ((row: T) => string)` = 'Select row' — Accessible name of a row's checkbox; a function names it per row.
   - `selectAllLabel: string` = 'Select all rows' — Accessible name of the header checkbox.
   - `useRowClick: boolean` = true
   - `height: string`
@@ -382,9 +392,11 @@ Inheritance (inputs listed once, available on all subclasses):
   - `displayFormat: Intl.DateTimeFormatOptions` = { dateStyle: 'medium' } — How the committed value renders, e.g. `{ dateStyle: 'long' }`.
   - `locale: string` — BCP 47 tag; defaults to the document language, then the browser's.
   - `commitOnBlur: boolean` = true
+  - `parse: (raw: string, locale: string) => UniDate | null` — Custom parser, replacing the built-in ISO/locale/month-name parsing.
   - `embedded: boolean` = false — Renders without its own input-box chrome, for composers like uni-date-time-input.
   - `minDate: UniDate`
   - `maxDate: UniDate`
+  - `disabledDates: UniDate[] | ((date: UniDate) => boolean)`
   - `markers: UniCalendarMarker[]` = []
   - `weekStart: 0 | 1 | 2 | 3 | 4 | 5 | 6`
 - two-way models:
@@ -407,12 +419,14 @@ Inheritance (inputs listed once, available on all subclasses):
   - `label: string` (required) — Names the group; the parts are announced as "Date" and "Time" under it.
   - `minDateTime: UniDateTime` — Earliest allowed moment; the date and time fences are split from it.
   - `maxDateTime: UniDateTime` — Latest allowed moment; the date and time fences are split from it.
+  - `disabledDates: UniDate[] | ((date: UniDate) => boolean)`
   - `markers: UniCalendarMarker[]` = []
   - `slots: UniTime[]` — Fixed time choices; superseded per-day by `slotsFor` when that is set.
   - `minuteStep: number` = 30
   - `hour12: boolean`
   - `weekStart: 0 | 1 | 2 | 3 | 4 | 5 | 6`
   - `locale: string`
+  - `slotsFor: (date: UniDate) => UniTime[]` — Scheduling: the day's available times. Gates the time part on a date.
 - two-way models:
   - `value: UniDateTime | undefined`
   - `touched: boolean` = false
@@ -631,6 +645,7 @@ Inheritance (inputs listed once, available on all subclasses):
   - `iconName: IconName` — Theme icon token rendered beside the label. Prefer this over `symbolName`.
   - `symbolName: string` — Material Symbols ligature, for glyphs the theme's icon set doesn't carry.
   - `iconPosition: 'start' | 'end'` = 'start' — Which side of the label the glyph sits on.
+  - `underline: boolean | undefined` = undefined — Underline the label, overriding the theme's default.
   - `link: boolean` = false — Paint the label with the theme's link colour instead of inheriting the ink.
   - `disable: boolean` = false
 
@@ -660,8 +675,8 @@ Inheritance (inputs listed once, available on all subclasses):
   - `type: UniInputType` = 'text' — Native input type. Text-like types only — `date`/`time` have dedicated components, and non-text types break the input chrome and the string value.
   - `readonly: boolean` = false
   - `name: string` = ''
-  - `minAttr: number | undefined` = undefined
-  - `maxAttr: number | undefined` = undefined
+  - `minAttr: number | undefined` = undefined (bind as `min`)
+  - `maxAttr: number | undefined` = undefined (bind as `max`)
   - `minLength: number | undefined` = undefined
   - `maxLength: number | undefined` = undefined
   - `pattern: readonly RegExp[]` = [] — Patterns the value must match — all of them, per Signal Forms. The native `pattern` attribute can only express one, so it is reflected only when there is exactly one; Signal Forms validates the rest either way.
@@ -790,6 +805,7 @@ Inheritance (inputs listed once, available on all subclasses):
   - `allowExpressions: boolean` = false — `12*3` → 36. Off by default: a parser in a form field is a real cost.
   - `wheel: boolean` = false — Scroll-to-step. Off by default — see `onWheel`.
   - `repeat: boolean` = true
+  - `parse: (raw: string, locale: string) => string | null` — Custom parser, replacing the built-in locale parsing.
   - `stepperLayout: UniNumberInputOptions['stepperLayout']` — Overrides the themed layout for this instance.
 - two-way models:
   - `value: number | null` = null
@@ -821,8 +837,8 @@ Inheritance (inputs listed once, available on all subclasses):
   - `roundingMode: UniRoundingMode` = 'half-up'
   - `placeholderStart: string`
   - `placeholderEnd: string`
-  - `minValue: number | undefined` = undefined
-  - `maxValue: number | undefined` = undefined
+  - `minValue: number | undefined` = undefined (bind as `min`)
+  - `maxValue: number | undefined` = undefined (bind as `max`)
   - `step: number` = 1
   - `minGap: number` — Enforced distance between the two ends.
 - two-way models:
@@ -977,6 +993,7 @@ Inheritance (inputs listed once, available on all subclasses):
   - `width: string | number | undefined` = undefined
   - `fullWidth: boolean` = false
   - `grow: number | undefined` = undefined
+  - `compareWith: (optionValue: T, value: T) => boolean` = (a, b) => a === b — Equality used to match `value` against option values, called as `compareWith(optionValue, value)`. Defaults to reference equality, which never matches an object value rebuilt from elsewhere (e.g. a saved record against options from a fresh fetch) — pass a key comparison like `(a, b) => a?.id === b?.id` for object values.
   - `ariaLabel: string` — Accessible name for the select; a placeholder is not a label.
 - two-way models:
   - `value: T | null` = null
@@ -1012,6 +1029,7 @@ Inheritance (inputs listed once, available on all subclasses):
   - `marks: UniSliderMark[]` = []
   - `snapToMarks: boolean` = false — Marks become the only valid stops — t-shirt sizing, Likert scales.
   - `valueDisplay: 'none' | 'inline' | 'tooltip' | 'input'` = 'none' — Where the current value is shown. `tooltip` appears on hover, focus and drag; `inline` sits at the trailing edge of the track; `input` seats a compact `uni-number-input` there, two-way bound to the same value — drag for the ballpark, type for the exact figure, which is the pairing that makes bounded numeric input actually usable. `input` applies to `single` mode only; a range would need two fields, and `inline` already reads well for two ends.
+  - `formatValue: (value: number) => string` — Overrides how a value is rendered and spoken.
   - `minGap: number` — Enforced distance between the two ends, in range mode.
   - `variant: Variant` = 'primary'
 - two-way models:
@@ -1134,7 +1152,9 @@ Inheritance (inputs listed once, available on all subclasses):
   - `separators: string[]` = [',', ';']
   - `commitOnBlur: boolean` = true
   - `allowDuplicates: boolean` = false
-  - `maxLength: number | undefined` = undefined
+  - `maxLength: number | undefined` = undefined (bind as `max`)
+  - `validate: (raw: string) => boolean`
+  - `parse: (pasted: string) => string[]`
   - `unframed: boolean` = false — Drop the field chrome (border, fill, inset) and render the bare chip row — an email client's To line. The surrounding layout draws any hairline and focus cue; the error state is still exposed through `aria-invalid`.
   - `backspaceRemoves: boolean` = false — Backspace in an empty field removes the last tag outright, as mail clients do. Off by default: the two-step (focus the chip, then remove) never deletes blind.
   - `keepInvalidText: boolean` = false — Refuse a draft that fails validation instead of committing it as a flagged chip: the text stays in the field to be fixed and `rejected` fires with `reason: 'invalid'`.
@@ -1187,7 +1207,7 @@ Inheritance (inputs listed once, available on all subclasses):
 ## UniTextDirective
 - selector: `[uni-text]`
 - inputs:
-  - `uniText: Typeface | ''` = '' — Typeface via the selector attribute: `uni-text="headline-large"`.
+  - `uniText: Typeface | ''` = '' (bind as `uni-text`) — Typeface via the selector attribute: `uni-text="headline-large"`.
   - `typeface: Typeface | undefined` = undefined — Explicit typeface; the attribute value wins when both are set.
   - `color: ColorKey` — The ink, mapping straight to the CSS `color` property.
   - `display: OptionalDisplay`
@@ -1263,6 +1283,7 @@ Inheritance (inputs listed once, available on all subclasses):
 - inputs:
   - `steps: UniTourStep[]` (required)
   - `progressStyle: 'dots' | 'fraction' | 'none'` — Per-instance override of the `progressStyle` theme option, so a one-off pointer can differ from the app's tours without a second theme entry. A one-step tour renders no progress whatever this says — one dot beside Done counts nothing.
+  - `resolveTarget: (ref: string) => HTMLElement | null | undefined` — Maps a string target to its element; `document.getElementById` when unset. A controller whose steps name `data-tour` tokens gives `(token) => document.querySelector(`[data-tour="${token}"]`)` once, instead of pre-resolving every step.
   - `targetTimeout: number` = 2000 — How long, in milliseconds, a step waits for a target that is not in the DOM when it presents. The document is watched for the whole window, so the step opens as soon as the target renders; past it the step is skipped. `0` skips at once.
   - `nextLabel: string` = 'Next'
   - `backLabel: string` = 'Back'
@@ -1272,7 +1293,9 @@ Inheritance (inputs listed once, available on all subclasses):
   - `active: number | null` = null — The presented step index, or null when the tour is not running.
 - outputs:
   - `started: void` — The first step of a run was presented — from `start()` or from a write to `active`.
+  - `stepChanged: { key: string; index: number }`
   - `finished: void` — The run walked past its last step. Never emitted for a run in which no step was presented (empty `steps`, every target missing): a tour that never opened did not finish.
+  - `skipped: { key: string; index: number }`
   - `targetMissing: UniTourTargetMissing` — A step's target was not found within `targetTimeout`, so the step was skipped.
 
 ## UniWrapDirective
