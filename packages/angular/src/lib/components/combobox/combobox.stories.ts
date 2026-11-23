@@ -51,7 +51,7 @@ const meta: Meta<UniComboboxComponent<string>> = {
         "The committed option's value, T | null — never its label and never the draft text",
     },
     options: {
-      description: 'The closed set: { label, value, description?, disabled? } (cdk Options<T>)',
+      description: 'The closed set: { label, value, description?, disabled?, labelStyle? } (cdk Options<T>)',
     },
     compareWith: {
       description:
@@ -68,6 +68,8 @@ const meta: Meta<UniComboboxComponent<string>> = {
       description: 'Open the list when the field takes focus, not only on click or ArrowDown',
     },
     query: { description: 'Debounced draft text, for async option lists' },
+    opened: { description: 'The list was shown — once per opening, by any route' },
+    closed: { description: 'The list was dismissed — once per closing, only after an opened' },
     debounceTime: { description: 'Debounce for (query) and count announcements (default 250)' },
     clearable: {
       description: 'Show a ✕ while a value is set; an emptied field on blur also clears',
@@ -201,4 +203,39 @@ export const Invalid: Story = {
 
 export const Disabled: Story = {
   args: { value: 'Colorado', disabled: true },
+};
+
+const FACES: Options<string> = [
+  { label: 'Georgia', value: 'georgia', description: 'Serif', labelStyle: { fontFamily: 'Georgia, serif' } },
+  { label: 'Palatino', value: 'palatino', description: 'Serif', labelStyle: { fontFamily: 'Palatino, "Palatino Linotype", serif' } },
+  { label: 'Times New Roman', value: 'times', description: 'Serif', labelStyle: { fontFamily: '"Times New Roman", Times, serif' } },
+  { label: 'Helvetica', value: 'helvetica', description: 'Sans', labelStyle: { fontFamily: 'Helvetica, Arial, sans-serif' } },
+  { label: 'Verdana', value: 'verdana', description: 'Sans', labelStyle: { fontFamily: 'Verdana, sans-serif' } },
+  { label: 'Trebuchet Bold', value: 'trebuchet-bold', description: 'Sans', labelStyle: { fontFamily: '"Trebuchet MS", sans-serif', fontWeight: 700 } },
+  { label: 'Courier New', value: 'courier', description: 'Mono', labelStyle: { fontFamily: '"Courier New", monospace' } },
+  { label: 'Georgia Italic', value: 'georgia-italic', description: 'Serif', labelStyle: { fontFamily: 'Georgia, serif', fontStyle: 'italic' } },
+  { label: 'Theme default', value: 'default' },
+];
+
+/**
+ * `labelStyle` sets one option's label in its own family, weight and slant —
+ * a typeface list that shows each face. Rows keep the theme's size and
+ * height, the committed choice shows in its face in the field, and a draft
+ * returns to the theme's type. `(opened)` is the moment to load font files.
+ */
+export const LabelStyle: Story = {
+  render: (args) => ({
+    props: { ...args, options: FACES, value: 'palatino', log: '' },
+    template: `
+      <uni-combobox
+        label="Display face"
+        placeholder="Choose a typeface"
+        [options]="options"
+        [(value)]="value"
+        (opened)="log = 'opened — load the faces now'"
+        (closed)="log = 'closed'"
+      />
+      <p style="margin-top: 12px; font: 13px sans-serif">{{ log }}</p>
+    `,
+  }),
 };

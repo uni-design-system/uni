@@ -14,6 +14,9 @@
         [disabled]="disabled()"
         [placeholder]="placeholder() ?? ''"
         [value]="displayValue()"
+        [style.font-family]="fieldLabelStyle()?.fontFamily"
+        [style.font-weight]="fieldLabelStyle()?.fontWeight"
+        [style.font-style]="fieldLabelStyle()?.fontStyle"
         [attr.aria-label]="label()"
         [attr.aria-expanded]="popupOpen()"
         [attr.aria-controls]="list.listboxId"
@@ -83,7 +86,14 @@
               }
             </span>
             <span class="text">
-              <span class="option-label">{{ options()[optIndex].label }}</span>
+              <!-- Type only: the row's size, line height and color stay the theme's. -->
+              <span
+                class="option-label"
+                [style.font-family]="options()[optIndex].labelStyle?.fontFamily"
+                [style.font-weight]="options()[optIndex].labelStyle?.fontWeight"
+                [style.font-style]="options()[optIndex].labelStyle?.fontStyle"
+                >{{ options()[optIndex].label }}</span
+              >
               @if (options()[optIndex].description) {
                 <span class="desc">{{ options()[optIndex].description }}</span>
               }

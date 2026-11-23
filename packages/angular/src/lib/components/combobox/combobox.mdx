@@ -47,6 +47,26 @@ they arrive.
 
 <StoryExample of={Stories.DisabledOptions} />
 
+## Options in their own type
+
+An option may carry a `labelStyle` — `fontFamily`, `fontWeight`, `fontStyle`
+and nothing else — and its label is set in that type. This is what a typeface
+list needs: each family drawn in its own face. The description, the check and
+the row keep the theme's type, size and height, and the accessible name is
+still the plain `label`.
+
+The field follows the value: while a styled option is committed, the field
+shows its label in the same type. Once the user types, the draft returns to
+the theme's input type — a draft is a filter, not a value.
+
+<StoryExample of={Stories.LabelStyle} />
+
+Uni applies the style; it does not load fonts. `(opened)` fires once each time
+the list is shown — by click, arrows, typing or focus — and `(closed)` once
+each time it is dismissed, so an app can fetch the faces on first open rather
+than on page load. `labelStyle` is honored here only: `uni-select` wraps the
+native control, whose options the operating system draws.
+
 ## Async options
 
 <StoryExample of={Stories.Async} />

@@ -1,7 +1,7 @@
 {
   "meta": {
     "version": "11.13.1",
-    "builtAt": "2026-11-20T12:26:05.486Z",
+    "builtAt": "2026-11-23T19:19:13.359Z",
     "frameworks": [
       "angular"
     ],
@@ -9,8 +9,8 @@
       "components": 92,
       "tokens": 540,
       "themes": 2,
-      "examples": 274,
-      "utilities": 126
+      "examples": 275,
+      "utilities": 127
     }
   },
   "components": [
@@ -2490,6 +2490,20 @@
               "description": "A commit was refused (no match); the field reverted."
             },
             {
+              "name": "opened",
+              "kind": "output",
+              "type": "void",
+              "required": false,
+              "description": "The list was shown — once per opening, by any route (click, arrows, typing, focus). The moment to load what the rows need, e.g. font files."
+            },
+            {
+              "name": "closed",
+              "kind": "output",
+              "type": "void",
+              "required": false,
+              "description": "The list was dismissed — once per closing, and only after an `opened`."
+            },
+            {
               "name": "variant",
               "kind": "input",
               "type": "Variant",
@@ -2538,6 +2552,11 @@
           "title": "Disabled",
           "framework": "angular",
           "code": "<!-- Storybook story: Disabled -->\n<uni-combobox\nlabel=\"Country\"\nplaceholder=\"Type to search countries\"\nemptyText=\"No countries found\"\n[filterLocally]=\"false\"\n[options]=\"options\"\n(query)=\"onQuery($event)\"\n/>\n<!-- args:\n{ value: 'Colorado', disabled: true }\n-->"
+        },
+        {
+          "title": "Label Style",
+          "framework": "angular",
+          "code": "<!-- Storybook story: Label Style -->\n<uni-combobox\nlabel=\"Display face\"\nplaceholder=\"Choose a typeface\"\n[options]=\"options\"\n[(value)]=\"value\"\n(opened)=\"log = 'opened — load the faces now'\"\n(closed)=\"log = 'closed'\"\n/>\n<p style=\"margin-top: 12px; font: 13px sans-serif\">{{ log }}</p>"
         }
       ],
       "guidelines": {
@@ -24314,6 +24333,37 @@
       "version": "11.13.1"
     },
     {
+      "id": "option-label-style",
+      "name": "OptionLabelStyle",
+      "kind": "interface",
+      "module": "option",
+      "importPath": "@uni-design-system/uni-angular",
+      "signature": "interface OptionLabelStyle",
+      "summary": "How one option's label is set.",
+      "description": "How one option's label is set. Type only — family, weight and slant — so a list of typefaces can show each face. Size, line height and color stay the theme's, which is what keeps every row the same height.",
+      "members": [
+        {
+          "name": "fontFamily",
+          "kind": "property",
+          "signature": "fontFamily?: string",
+          "description": "A CSS `font-family` value. Loading the face is the app's job."
+        },
+        {
+          "name": "fontWeight",
+          "kind": "property",
+          "signature": "fontWeight?: string | number",
+          "description": ""
+        },
+        {
+          "name": "fontStyle",
+          "kind": "property",
+          "signature": "fontStyle?: 'normal' | 'italic'",
+          "description": ""
+        }
+      ],
+      "version": "11.13.1"
+    },
+    {
       "id": "option",
       "name": "Option",
       "kind": "interface",
@@ -24346,6 +24396,12 @@
           "kind": "property",
           "signature": "disabled?: boolean",
           "description": "Visible and announced, but not committable; listbox navigation skips it."
+        },
+        {
+          "name": "labelStyle",
+          "kind": "property",
+          "signature": "labelStyle?: OptionLabelStyle",
+          "description": "Draws this option's label in its own type; the description and the row keep the theme's. Honored by `uni-combobox` only — the native `<option>` behind `uni-select` is drawn by the operating system, and the multi-select controls ignore it."
         }
       ],
       "version": "11.13.1"

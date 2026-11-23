@@ -310,6 +310,8 @@ Inheritance (inputs listed once, available on all subclasses):
   - `selected: Option<T>` — An option committed.
   - `cleared: void`
   - `rejected: UniComboboxRejection` — A commit was refused (no match); the field reverted.
+  - `opened: void` — The list was shown — once per opening, by any route (click, arrows, typing, focus). The moment to load what the rows need, e.g. font files.
+  - `closed: void` — The list was dismissed — once per closing, and only after an `opened`.
 
 ## UniContactInputComponent
 - selector: `uni-contact-input, ContactInput`

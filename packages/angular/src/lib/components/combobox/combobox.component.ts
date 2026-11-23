@@ -20,6 +20,7 @@ import {
   motionSafe,
   visuallyHidden,
   type Option,
+  type OptionLabelStyle,
   type Options,
 } from '../../cdk';
 import { BaseComponent, COMPONENT_NAME } from '../base/base.component';
@@ -119,6 +120,13 @@ export class UniComboboxComponent<T>
   cleared = output<void>();
   /** A commit was refused (no match); the field reverted. */
   rejected = output<UniComboboxRejection>();
+  /**
+   * The list was shown — once per opening, by any route (click, arrows,
+   * typing, focus). The moment to load what the rows need, e.g. font files.
+   */
+  opened = output<void>();
+  /** The list was dismissed — once per closing, and only after an `opened`. */
+  closed = output<void>();
 
   private readonly host = inject<ElementRef<HTMLElement>>(ElementRef);
   private readonly inputRef = viewChild.required<ElementRef<HTMLInputElement>>('field');
@@ -172,6 +180,16 @@ export class UniComboboxComponent<T>
   });
 
   protected readonly displayValue = computed(() => this.draft() ?? this.committedLabel());
+
+  /**
+   * The committed option's `labelStyle`, while the field shows that option's
+   * label. A draft is a filter, not a value, so it stays in the theme's type.
+   */
+  protected readonly fieldLabelStyle = computed<OptionLabelStyle | undefined>(() => {
+    if (this.draft() !== null) return undefined;
+    const index = this.committedIndex();
+    return index >= 0 ? this.options()[index].labelStyle : undefined;
+  });
 
   /** Indices into options() surviving the filter. The draft filters; the
       committed label does not — reopening always shows the full set. */
@@ -295,8 +313,7 @@ export class UniComboboxComponent<T>
         return;
       }
       if (!this.popupOpen()) {
-        this.popupOpen.set(true);
-        this.list.show();
+        this.setOpen(true);
         if (event.key === 'ArrowDown') {
           const committed = this.committedFilteredPos();
           if (committed >= 0) {
@@ -341,8 +358,7 @@ export class UniComboboxComponent<T>
   protected onInput(): void {
     const text = this.inputRef().nativeElement.value;
     this.draft.set(text);
-    this.popupOpen.set(true);
-    this.list.show();
+    this.setOpen(true);
     // Typing never selects — rules 2/3 make Enter still work without arrowing.
     this.list.setActive(-1);
     clearTimeout(this.queryTimer);
@@ -405,16 +421,27 @@ export class UniComboboxComponent<T>
     return this.filteredIndices().indexOf(committed);
   }
 
+  /**
+   * The only writer of `popupOpen`, so `opened`/`closed` fire on real
+   * transitions: closing an already-closed list (Tab, blur) emits nothing.
+   */
+  private setOpen(open: boolean): void {
+    if (open) this.list.show();
+    else this.list.hide();
+    if (this.popupOpen() === open) return;
+    this.popupOpen.set(open);
+    if (open) this.opened.emit();
+    else this.closed.emit();
+  }
+
   private openList(activeFilteredPos: number): void {
-    this.popupOpen.set(true);
-    this.list.show();
+    this.setOpen(true);
     this.list.setActive(activeFilteredPos);
     this.scrollToActive();
   }
 
   private closeList(): void {
-    this.popupOpen.set(false);
-    this.list.hide();
+    this.setOpen(false);
   }
 
   private scrollToActive(): void {

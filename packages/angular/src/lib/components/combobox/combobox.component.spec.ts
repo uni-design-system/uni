@@ -652,4 +652,138 @@ describe('UniComboboxComponent', () => {
       expect(options().length).toBeGreaterThan(0);
     });
   });
+
+  describe('labelStyle', () => {
+    const FACES: Options<string> = [
+      { label: 'Fraunces', value: 'fraunces', labelStyle: { fontFamily: 'Fraunces, serif' } },
+      {
+        label: 'Inter Italic',
+        value: 'inter-italic',
+        description: 'Sans',
+        labelStyle: { fontFamily: 'Inter, sans-serif', fontWeight: 600, fontStyle: 'italic' },
+      },
+      { label: 'Theme default', value: 'default' },
+    ];
+    const labelEls = () =>
+      options().map((el) => el.querySelector<HTMLElement>('.option-label')!);
+
+    beforeEach(() => setInputs({ options: FACES }));
+
+    it('sets each option label in its own type and nothing else', () => {
+      click(field());
+      const [fraunces, inter] = labelEls();
+
+      expect(fraunces.style.fontFamily).toBe('Fraunces, serif');
+      expect(inter.style.fontFamily).toBe('Inter, sans-serif');
+      expect(inter.style.fontWeight).toBe('600');
+      expect(inter.style.fontStyle).toBe('italic');
+      expect(options()[1].querySelector<HTMLElement>('.desc')!.getAttribute('style')).toBeNull();
+      expect(options()[1].getAttribute('style')).toBeNull();
+    });
+
+    it('leaves an option without labelStyle untouched', () => {
+      click(field());
+
+      expect(labelEls()[2].getAttribute('style')).toBeFalsy();
+    });
+
+    it('does not change the option text the accessibility tree reads', () => {
+      click(field());
+      const styled = options().map((el) => el.textContent?.replace(/\s+/g, ' ').trim());
+
+      setInputs({ options: FACES.map(({ labelStyle: _labelStyle, ...option }) => option) });
+
+      expect(options().map((el) => el.textContent?.replace(/\s+/g, ' ').trim())).toEqual(styled);
+    });
+
+    it('shows the committed label in its type, and a draft in the theme type', () => {
+      setInputs({ value: 'inter-italic' });
+      expect(field().style.fontFamily).toBe('Inter, sans-serif');
+      expect(field().style.fontWeight).toBe('600');
+      expect(field().style.fontStyle).toBe('italic');
+
+      type('f');
+      expect(field().style.fontFamily).toBe('');
+      expect(field().style.fontWeight).toBe('');
+      expect(field().style.fontStyle).toBe('');
+
+      // A non-matching draft reverts on blur — the committed type returns.
+      blurField();
+      expect(field().value).toBe('Inter Italic');
+      expect(field().style.fontFamily).toBe('Inter, sans-serif');
+    });
+
+    it('keeps the field in the theme type when the committed option has no labelStyle', () => {
+      setInputs({ value: 'default' });
+
+      expect(field().style.fontFamily).toBe('');
+    });
+  });
+
+  describe('opened / closed', () => {
+    let events: string[];
+
+    beforeEach(() => {
+      events = [];
+      fixture.componentInstance.opened.subscribe(() => events.push('opened'));
+      fixture.componentInstance.closed.subscribe(() => events.push('closed'));
+    });
+
+    it('emits opened once on click, and not again while open', () => {
+      click(field());
+      press('ArrowDown');
+      type('a');
+
+      expect(events).toEqual(['opened']);
+    });
+
+    it('emits opened on ArrowDown and on typing into a closed field', () => {
+      press('ArrowDown');
+      press('Escape');
+      type('a');
+
+      expect(events).toEqual(['opened', 'closed', 'opened']);
+    });
+
+    it('emits opened on Alt+ArrowDown and on the chevron', () => {
+      press('ArrowDown', { altKey: true });
+      press('ArrowUp', { altKey: true });
+      toggleButton().dispatchEvent(new MouseEvent('mousedown', { bubbles: true, cancelable: true }));
+      toggleButton().dispatchEvent(new MouseEvent('mousedown', { bubbles: true, cancelable: true }));
+
+      expect(events).toEqual(['opened', 'closed', 'opened', 'closed']);
+    });
+
+    it('emits closed once on commit', () => {
+      click(field());
+      click(options()[1]);
+
+      expect(events).toEqual(['opened', 'closed']);
+    });
+
+    it('emits closed once on blur', () => {
+      click(field());
+      blurField();
+
+      expect(events).toEqual(['opened', 'closed']);
+    });
+
+    it('emits closed once on Tab followed by blur', () => {
+      click(field());
+      press('Tab');
+      blurField();
+
+      expect(events).toEqual(['opened', 'closed']);
+    });
+
+    it('never emits closed without a preceding opened', () => {
+      press('Escape');
+      press('Tab');
+      blurField();
+      setInputs({ value: 'AZ' });
+      click(clearButton()!);
+
+      expect(events).toEqual([]);
+    });
+  });
 });
