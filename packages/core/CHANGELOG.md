@@ -1,5 +1,7 @@
 # @uni-design-system/uni-core
 
+## 11.14.0
+
 ## 11.13.1
 
 ### Patch Changes

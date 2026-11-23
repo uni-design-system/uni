@@ -1,5 +1,38 @@
 # @uni-design-system/uni-mcp
 
+## 11.14.0
+
+### Patch Changes
+
+- [`1ef535b`](https://github.com/uni-design-system/uni/commit/1ef535b74782d0642c8d0c78810af0dec04ea417) Thanks [@gaenglish](https://github.com/gaenglish)! - Component API tables are complete, and synthesized examples bind only what a
+  component declares.
+  - 23 inputs and outputs were missing from the API tables: any member whose
+    type or default holds an arrow function (`compareWith`, `filterWith`,
+    `disabledDates`, `rowClass`, `parse`, `validate`, …), whose type is an
+    object literal (`tour`'s `stepChanged`, `skipped`), or whose declaration
+    wraps across lines. They are now listed.
+  - An input's default no longer includes its options bag
+    (`false, { transform: booleanAttribute }` is now `false`, typed `boolean`).
+  - An aliased input reports the name a template binds: `maxLength` on
+    `uni-tag-input` is listed with "bind as `max`".
+  - The element synthesized for an args-only story binds only args the
+    component declares as an input or model, under the alias where there is
+    one. Any other arg is listed beneath the tag instead of bound.
+  - An input declared with a transform type (`input<T, TransformT>`) reports
+    `T` alone.
+
+- [`ae4d169`](https://github.com/uni-design-system/uni/commit/ae4d16911f75398b6a4ba14b97d44c10c79b4cfd) Thanks [@gaenglish](https://github.com/gaenglish)! - Component examples no longer borrow markup or args from a neighboring story.
+  A story that only sets `args` was given the first template found anywhere in
+  its stories file, and a story without `args` was given the next story's, so
+  52 examples described something other than what the story renders. Templates
+  and args are now read from the story's own declaration, with the meta-level
+  `render` as the only shared fallback.
+
+  A story rendered from args alone now gets real markup: the component's
+  element, synthesized from its selector and the merged meta and story args.
+  Literal values are written into the tag; a value that refers to something in
+  the stories file is bound by name and its source listed underneath.
+
 ## 11.13.1
 
 ## 11.13.0
