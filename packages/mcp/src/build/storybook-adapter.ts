@@ -47,53 +47,18 @@ function dedent(template: string): string {
 }
 
 /**
- * Grab the first `template: `...`` block from a stories/render source — the
- * meta-level `render`, shared by every story that only sets `args`.
+ * The object literal assigned at the first match of `declaration` — a story
+ * export or the file's meta — brace-balanced so nothing from a neighboring
+ * declaration can leak in. Starts at the `{` after the `=`, not the first
+ * `{`, because a type annotation may hold braces of its own.
  */
-function extractTemplate(src: string): string | undefined {
-  const m = src.match(/template:\s*`([\s\S]*?)`/);
-  return m ? dedent(m[1]) : undefined;
-}
-
-/**
- * The template belonging to one named story, when it brings its own `render`.
- *
- * Without this every story in a file was handed the file's *first* template, so
- * a component whose meta declares a generic `render` had all of its examples
- * collapse into the same stub — the richest stories documented as the poorest.
- * Brace-balances the story's object literal the way `extractArgs` does, so a
- * later story's template cannot leak in.
- */
-function extractStoryTemplate(src: string, exportName: string): string | undefined {
-  const start = src.search(new RegExp(`export const ${exportName}\\b`));
+function objectLiteralAfter(src: string, declaration: RegExp): string | undefined {
+  const start = src.search(declaration);
   if (start === -1) return undefined;
-  const braceStart = src.indexOf('{', start);
-  if (braceStart === -1) return undefined;
+  const assign = /=\s*\{/.exec(src.slice(start));
+  if (!assign) return undefined;
+  const braceStart = start + assign.index + assign[0].length - 1;
 
-  let depth = 0;
-  for (let i = braceStart; i < src.length; i++) {
-    if (src[i] === '{') depth++;
-    else if (src[i] === '}') {
-      depth--;
-      if (depth === 0) {
-        const block = src.slice(braceStart, i + 1);
-        const m = block.match(/template:\s*`([\s\S]*?)`/);
-        return m ? dedent(m[1]) : undefined;
-      }
-    }
-  }
-  return undefined;
-}
-
-/** Grab the `args: { ... }` object literal for a named story export. */
-function extractArgs(src: string, exportName: string): string | undefined {
-  const start = src.search(new RegExp(`export const ${exportName}\\b`));
-  if (start === -1) return undefined;
-  const argsIdx = src.indexOf('args:', start);
-  if (argsIdx === -1) return undefined;
-  const braceStart = src.indexOf('{', argsIdx);
-  if (braceStart === -1) return undefined;
-  // Balance braces to find the end of the args object.
   let depth = 0;
   for (let i = braceStart; i < src.length; i++) {
     if (src[i] === '{') depth++;
@@ -105,10 +70,83 @@ function extractArgs(src: string, exportName: string): string | undefined {
   return undefined;
 }
 
-/** Assemble a readable snippet: render template (if any) + the story's args. */
-function buildCode(name: string, template: string | undefined, args: string | undefined): string {
+/** The object literal of one named story export. */
+const storyBlock = (src: string, exportName: string): string | undefined =>
+  objectLiteralAfter(src, new RegExp(`export const ${exportName}\\b`));
+
+/** The object literal of the file's meta (`const meta = {…}`). */
+const metaBlock = (src: string): string | undefined => objectLiteralAfter(src, /\bconst meta\b/);
+
+/** The `args: { ... }` object literal directly inside one object literal. */
+function argsIn(block: string | undefined): string | undefined {
+  if (!block) return undefined;
+  const argsIdx = block.search(/\bargs:/);
+  if (argsIdx === -1) return undefined;
+  const braceStart = block.indexOf('{', argsIdx);
+  if (braceStart === -1) return undefined;
+  let depth = 0;
+  for (let i = braceStart; i < block.length; i++) {
+    if (block[i] === '{') depth++;
+    else if (block[i] === '}') {
+      depth--;
+      if (depth === 0) return block.slice(braceStart, i + 1);
+    }
+  }
+  return undefined;
+}
+
+/** The first `template: `...`` inside one object literal. */
+function templateIn(block: string | undefined): string | undefined {
+  const m = block?.match(/template:\s*`([\s\S]*?)`/);
+  return m ? dedent(m[1]) : undefined;
+}
+
+/**
+ * The meta-level `render` template, shared by every story that only sets
+ * `args`. Read from the meta object alone: taking the file's first template
+ * instead handed args-only stories the markup of whichever sibling story
+ * happened to declare a `render` first.
+ */
+export function extractMetaTemplate(src: string): string | undefined {
+  return templateIn(metaBlock(src));
+}
+
+/**
+ * The meta-level `args`, which every story inherits. An args-only story with
+ * no template anywhere is rendered from these plus its own, so the example
+ * needs both to show what is on screen.
+ */
+export function extractMetaArgs(src: string): string | undefined {
+  return argsIn(metaBlock(src));
+}
+
+/** The template belonging to one named story, when it brings its own `render`. */
+export function extractStoryTemplate(src: string, exportName: string): string | undefined {
+  return templateIn(storyBlock(src, exportName));
+}
+
+/**
+ * The `args: { ... }` object literal of a named story export. Scoped to the
+ * story's own block, so a story without args does not pick up the next one's.
+ */
+export function extractArgs(src: string, exportName: string): string | undefined {
+  return argsIn(storyBlock(src, exportName));
+}
+
+/**
+ * Assemble a readable snippet: the render template (if any) + the story's
+ * args. With no template the component is rendered straight from args, so the
+ * meta's defaults are listed too — they are half of what is on screen.
+ */
+export function buildCode(
+  name: string,
+  template: string | undefined,
+  args: string | undefined,
+  metaArgs?: string
+): string {
   const parts: string[] = [`<!-- Storybook story: ${name} -->`];
   if (template) parts.push(template);
+  else if (metaArgs) parts.push(`<!-- default args (shared by every story):\n${metaArgs}\n-->`);
   if (args) parts.push(`<!-- args:\n${args}\n-->`);
   return parts.join('\n');
 }
@@ -120,7 +158,7 @@ export function ingestStorybook(opts: StorybookOptions): StorybookExample[] {
   };
 
   // Cache per-stories-file parsing (template + full source) to avoid re-reads.
-  const fileCache = new Map<string, { src: string; template?: string }>();
+  const fileCache = new Map<string, { src: string; template?: string; args?: string }>();
   const examples: StorybookExample[] = [];
 
   for (const entry of Object.values(index.entries)) {
@@ -133,7 +171,7 @@ export function ingestStorybook(opts: StorybookOptions): StorybookExample[] {
       const abs = join(opts.packageRoot, entry.importPath.replace(/^\.\//, ''));
       if (!existsSync(abs)) continue;
       const src = readFileSync(abs, 'utf8');
-      cached = { src, template: extractTemplate(src) };
+      cached = { src, template: extractMetaTemplate(src), args: extractMetaArgs(src) };
       fileCache.set(entry.importPath, cached);
     }
 
@@ -145,7 +183,7 @@ export function ingestStorybook(opts: StorybookOptions): StorybookExample[] {
       componentId,
       title: entry.name,
       framework: opts.framework,
-      code: buildCode(entry.name, template, args),
+      code: buildCode(entry.name, template, args, cached.args),
       storybookUrl: opts.storybookBaseUrl
         ? `${opts.storybookBaseUrl.replace(/\/$/, '')}/?path=/story/${entry.id}`
         : undefined,
