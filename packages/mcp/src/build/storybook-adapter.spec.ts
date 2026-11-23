@@ -1,8 +1,9 @@
 import { describe, expect, it } from 'vitest';
 import {
-  buildCode,
+  buildArgsOnlyCode,
   extractArgs,
-  extractMetaArgs,
+  splitArgs,
+  synthesizeTemplate,
   extractMetaTemplate,
   extractStoryTemplate,
 } from './storybook-adapter.js';
@@ -78,19 +79,146 @@ describe('storybook adapter extraction', () => {
     expect(extractArgs(META_RENDER, 'Icon')).toBeUndefined();
   });
 
-  it('lists the meta args for a story rendered from args alone', () => {
-    const metaArgs = extractMetaArgs(NO_META_RENDER);
-    expect(metaArgs).toBe("{ label: 'State', options: STATES }");
+  describe('args-only stories', () => {
+    const SRC = `
+const meta: Meta<UniComboboxComponent<string>> = {
+  args: { label: 'State', placeholder: 'Choose a state', options: STATES },
+  argTypes: { unframed: { description: 'Rows to render (text shape only)' } },
+};
+export default meta;
 
-    const code = buildCode('Primary', undefined, "{ value: 'Arizona' }", metaArgs);
-    expect(code).toContain("{ label: 'State', options: STATES }");
-    expect(code).toContain("{ value: 'Arizona' }");
-    expect(code).not.toContain('Country');
+export const Primary: Story = { args: { value: 'Arizona' } };
+export const Disabled: Story = { args: { ...Primary.args, disabled: true, label: 'Home state' } };
+export const Bare: Story = {};
+export const Opaque: Story = { args: { ...shared } };
+`;
+
+    it('synthesizes the element from the selector and the merged args', () => {
+      expect(buildArgsOnlyCode('Primary', SRC, 'Primary', 'uni-combobox, Combobox')).toBe(
+        [
+          '<!-- Storybook story: Primary -->',
+          '<uni-combobox label="State" placeholder="Choose a state" [options]="options" value="Arizona" />',
+          '<!-- bound values:',
+          'options = STATES',
+          '-->',
+        ].join('\n')
+      );
+    });
+
+    it("lets the story's args override the meta's and expands a sibling spread", () => {
+      const code = buildArgsOnlyCode('Disabled', SRC, 'Disabled', 'uni-combobox');
+      expect(code).toContain('label="Home state"');
+      expect(code).not.toContain('label="State"');
+      expect(code).toContain('value="Arizona"');
+      expect(code).toContain('[disabled]="true"');
+    });
+
+    it('renders a story with no args of its own from the meta args', () => {
+      expect(buildArgsOnlyCode('Bare', SRC, 'Bare', 'uni-combobox')).toContain(
+        '<uni-combobox label="State" placeholder="Choose a state" [options]="options" />'
+      );
+    });
+
+    it('falls back to the raw args when a spread cannot be resolved', () => {
+      const code = buildArgsOnlyCode('Opaque', SRC, 'Opaque', 'uni-combobox');
+      expect(code).not.toContain('<uni-combobox');
+      expect(code).toContain('default args');
+      expect(code).toContain('{ ...shared }');
+    });
+
+    it('falls back to the raw args when a render it could not read draws the story', () => {
+      const src = `
+const meta: Meta = { render: (args) => ({ props: args, template: wrap(args) }) };
+export const Primary: Story = { args: { size: 'sm' } };
+`;
+      const code = buildArgsOnlyCode('Primary', src, 'Primary', 'uni-tag');
+      expect(code).not.toContain('<uni-tag');
+      expect(code).toContain("{ size: 'sm' }");
+    });
+
+    it('falls back to the raw args without a selector', () => {
+      expect(buildArgsOnlyCode('Primary', SRC, 'Primary', undefined)).toContain(
+        "<!-- args:\n{ value: 'Arizona' }\n-->"
+      );
+    });
   });
 
-  it('leaves the meta args out when a template shows the markup', () => {
-    expect(buildCode('Async', '<uni-combobox />', undefined, '{ label: 1 }')).toBe(
-      '<!-- Storybook story: Async -->\n<uni-combobox />'
-    );
+  describe('synthesizeTemplate', () => {
+    const args = (entries: Record<string, string>) => new Map(Object.entries(entries));
+
+    it('writes literals inline and names everything else', () => {
+      const code = synthesizeTemplate(
+        'uni-calendar',
+        args({
+          ariaLabel: "'Calendar'",
+          weekStart: '1',
+          range: '{ start: 50, end: 500 }',
+          slots: "['09:00', '09:30']",
+          value: 'dayIn(12)',
+          disabledDates: '(date: string) => false',
+          when: '`${TODAY}T15:00`',
+        })
+      )!;
+
+      expect(code).toContain('ariaLabel="Calendar"');
+      expect(code).toContain('[weekStart]="1"');
+      expect(code).toContain('[range]="{ start: 50, end: 500 }"');
+      expect(code).toContain(`[slots]="['09:00', '09:30']"`);
+      expect(code).toContain('[value]="value"');
+      expect(code).toContain('[disabledDates]="disabledDates"');
+      expect(code).toContain('[when]="when"');
+      expect(code).toContain('value = dayIn(12)');
+      expect(code).toContain('disabledDates = (date: string) => false');
+    });
+
+    it('names a string that could not sit in an attribute', () => {
+      const code = synthesizeTemplate('uni-tag', args({ label: `'say "hi"'` }))!;
+      expect(code).toContain('[label]="label"');
+      expect(code).toContain(`label = 'say "hi"'`);
+    });
+
+    it('breaks a long tag one attribute per line', () => {
+      const code = synthesizeTemplate(
+        'uni-number-range-input',
+        args({
+          label: "'Delivery window'",
+          suffix: "' days'",
+          startLabel: "'From'",
+          endLabel: "'To'",
+          value: '{ start: 2, end: 7 }',
+        })
+      )!;
+      expect(code.split('\n')[0]).toBe('<uni-number-range-input');
+      expect(code.split('\n').at(-1)).toBe('/>');
+    });
+
+    it('hosts an attribute selector on its tag, or a div', () => {
+      expect(synthesizeTemplate('button[uni-button]', args({ size: "'sm'" }))).toBe(
+        '<button uni-button size="sm"></button>'
+      );
+      expect(synthesizeTemplate('[uni-wrap-layout], [wrap-layout]', args({}))).toBe(
+        '<div uni-wrap-layout></div>'
+      );
+    });
+
+    it('declines a selector it cannot turn into an element', () => {
+      expect(synthesizeTemplate('uni-a:not(.b)', args({}))).toBeUndefined();
+    });
+  });
+
+  it('splits only the top-level entries of an args literal', () => {
+    expect(
+      splitArgs(`{
+        label: 'a, b',
+        items: [{ label: 'Home', href: '#' }, { label: 'Q3' }],
+        options,
+        ...Primary.args,
+      }`)
+    ).toEqual([
+      { key: 'label', value: "'a, b'" },
+      { key: 'items', value: "[{ label: 'Home', href: '#' }, { label: 'Q3' }]" },
+      { key: 'options', value: 'options' },
+      { spread: 'Primary.args' },
+    ]);
   });
 });

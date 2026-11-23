@@ -46,6 +46,7 @@ function main() {
     indexPath: join(angularRoot, 'storybook-static/index.json'),
     packageRoot: angularRoot,
     pathToId,
+    idToSelector: new Map(angular.map((f) => [f.id, f.binding.selectorOrTag])),
     framework: 'angular',
     storybookBaseUrl: process.env.UNI_STORYBOOK_URL,
   });

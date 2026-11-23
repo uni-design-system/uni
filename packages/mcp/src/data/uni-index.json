@@ -1,7 +1,7 @@
 {
   "meta": {
     "version": "11.13.1",
-    "builtAt": "2026-11-23T19:23:58.362Z",
+    "builtAt": "2026-11-23T19:33:55.286Z",
     "frameworks": [
       "angular"
     ],
@@ -226,7 +226,7 @@
         {
           "title": "Initials",
           "framework": "angular",
-          "code": "<!-- Storybook story: Initials -->\n<!-- args:\n{ name: 'Grace Hopper', variant: 'primary', size: 'lg' }\n-->"
+          "code": "<!-- Storybook story: Initials -->\n<uni-avatar name=\"Grace Hopper\" variant=\"primary\" size=\"lg\" />"
         },
         {
           "title": "Sizes And Variants",
@@ -359,17 +359,17 @@
         {
           "title": "Primary",
           "framework": "angular",
-          "code": "<!-- Storybook story: Primary -->\n<!-- args:\n{\n    image: 'images/phone-zone-illustration.svg',\n    imagePosition: 'center',\n    imageSize: '400px',\n    height: '400px',\n    width: '100%',\n  }\n-->"
+          "code": "<!-- Storybook story: Primary -->\n<uni-background\n  image=\"images/phone-zone-illustration.svg\"\n  imagePosition=\"center\"\n  imageSize=\"400px\"\n  height=\"400px\"\n  width=\"100%\"\n/>"
         },
         {
           "title": "Contain Size",
           "framework": "angular",
-          "code": "<!-- Storybook story: Contain Size -->\n<!-- args:\n{\n    ...Primary.args,\n    imageSize: 'contain',\n  }\n-->"
+          "code": "<!-- Storybook story: Contain Size -->\n<uni-background\n  image=\"images/phone-zone-illustration.svg\"\n  imagePosition=\"center\"\n  imageSize=\"contain\"\n  height=\"400px\"\n  width=\"100%\"\n/>"
         },
         {
           "title": "Custom Position",
           "framework": "angular",
-          "code": "<!-- Storybook story: Custom Position -->\n<!-- args:\n{\n    ...Primary.args,\n    imagePosition: 'top',\n  }\n-->"
+          "code": "<!-- Storybook story: Custom Position -->\n<uni-background\n  image=\"images/phone-zone-illustration.svg\"\n  imagePosition=\"top\"\n  imageSize=\"400px\"\n  height=\"400px\"\n  width=\"100%\"\n/>"
         }
       ],
       "guidelines": {
@@ -951,12 +951,12 @@
         {
           "title": "Default",
           "framework": "angular",
-          "code": "<!-- Storybook story: Default -->\n<!-- args:\n{\n    items: [\n      { label: 'Home', href: '#' },\n      { label: 'Reports', href: '#' },\n      { label: 'Q3 Revenue' },\n    ],\n  }\n-->"
+          "code": "<!-- Storybook story: Default -->\n<uni-breadcrumb [items]=\"items\" />\n<!-- bound values:\nitems = [\n  { label: 'Home', href: '#' },\n  { label: 'Reports', href: '#' },\n  { label: 'Q3 Revenue' },\n]\n-->"
         },
         {
           "title": "Router-driven (no hrefs)",
           "framework": "angular",
-          "code": "<!-- Storybook story: Router-driven (no hrefs) -->\n<!-- args:\n{\n    items: [{ label: 'Home' }, { label: 'Settings' }, { label: 'Notifications' }],\n  }\n-->"
+          "code": "<!-- Storybook story: Router-driven (no hrefs) -->\n<uni-breadcrumb [items]=\"items\" />\n<!-- bound values:\nitems = [{ label: 'Home' }, { label: 'Settings' }, { label: 'Notifications' }]\n-->"
         }
       ],
       "guidelines": {
@@ -1292,22 +1292,22 @@
         {
           "title": "Primary",
           "framework": "angular",
-          "code": "<!-- Storybook story: Primary -->\n<!-- default args (shared by every story):\n{ ariaLabel: 'Calendar' }\n-->\n<!-- args:\n{ value: dayIn(12), month: MONTH }\n-->"
+          "code": "<!-- Storybook story: Primary -->\n<uni-calendar ariaLabel=\"Calendar\" [value]=\"value\" [month]=\"month\" />\n<!-- bound values:\nvalue = dayIn(12)\nmonth = MONTH\n-->"
         },
         {
           "title": "Range",
           "framework": "angular",
-          "code": "<!-- Storybook story: Range -->\n<!-- default args (shared by every story):\n{ ariaLabel: 'Calendar' }\n-->\n<!-- args:\n{ mode: 'range', value: { start: dayIn(3), end: dayIn(7) }, month: MONTH }\n-->"
+          "code": "<!-- Storybook story: Range -->\n<uni-calendar ariaLabel=\"Calendar\" mode=\"range\" [value]=\"value\" [month]=\"month\" />\n<!-- bound values:\nvalue = { start: dayIn(3), end: dayIn(7) }\nmonth = MONTH\n-->"
         },
         {
           "title": "Markers",
           "framework": "angular",
-          "code": "<!-- Storybook story: Markers -->\n<!-- default args (shared by every story):\n{ ariaLabel: 'Calendar' }\n-->\n<!-- args:\n{\n    month: MONTH,\n    markers: [\n      { date: dayIn(4), variant: 'success', label: '3 slots open' },\n      { date: dayIn(4), variant: 'primary' },\n      { date: dayIn(16), variant: 'warn', label: '1 slot open' },\n      { date: dayIn(24), variant: 'secondary' },\n    ],\n  }\n-->"
+          "code": "<!-- Storybook story: Markers -->\n<uni-calendar ariaLabel=\"Calendar\" [month]=\"month\" [markers]=\"markers\" />\n<!-- bound values:\nmonth = MONTH\nmarkers = [\n  { date: dayIn(4), variant: 'success', label: '3 slots open' },\n  { date: dayIn(4), variant: 'primary' },\n  { date: dayIn(16), variant: 'warn', label: '1 slot open' },\n  { date: dayIn(24), variant: 'secondary' },\n]\n-->"
         },
         {
           "title": "Fenced And Disabled",
           "framework": "angular",
-          "code": "<!-- Storybook story: Fenced And Disabled -->\n<!-- default args (shared by every story):\n{ ariaLabel: 'Calendar' }\n-->\n<!-- args:\n{\n    month: MONTH,\n    minDate: dayIn(5),\n    maxDate: dayIn(25),\n    disabledDates: (date: string) => [0, 6].includes(new Date(`${date}T00:00:00Z`).getUTCDay()),\n  }\n-->"
+          "code": "<!-- Storybook story: Fenced And Disabled -->\n<uni-calendar\n  ariaLabel=\"Calendar\"\n  [month]=\"month\"\n  [minDate]=\"minDate\"\n  [maxDate]=\"maxDate\"\n  [disabledDates]=\"disabledDates\"\n/>\n<!-- bound values:\nmonth = MONTH\nminDate = dayIn(5)\nmaxDate = dayIn(25)\ndisabledDates = (date: string) => [0, 6].includes(new Date(`${date}T00:00:00Z`).getUTCDay())\n-->"
         },
         {
           "title": "Sizes",
@@ -1317,7 +1317,7 @@
         {
           "title": "Locale And Week Start",
           "framework": "angular",
-          "code": "<!-- Storybook story: Locale And Week Start -->\n<!-- default args (shared by every story):\n{ ariaLabel: 'Calendar' }\n-->\n<!-- args:\n{ locale: 'de-DE', weekStart: 1, month: MONTH, value: dayIn(12) }\n-->"
+          "code": "<!-- Storybook story: Locale And Week Start -->\n<uni-calendar ariaLabel=\"Calendar\" locale=\"de-DE\" [weekStart]=\"1\" [month]=\"month\" [value]=\"value\" />\n<!-- bound values:\nmonth = MONTH\nvalue = dayIn(12)\n-->"
         },
         {
           "title": "Scheduling",
@@ -2262,7 +2262,7 @@
         {
           "title": "Chip",
           "framework": "angular",
-          "code": "<!-- Storybook story: Chip -->\n<!-- args:\n{\n    hex: '#434C5A',\n    name: 'Hale Navy',\n    detail: 'HC-154 · Benjamin Moore',\n    face: 'chip',\n    size: 'md',\n  }\n-->"
+          "code": "<!-- Storybook story: Chip -->\n<uni-color-swatch\n  hex=\"#434C5A\"\n  name=\"Hale Navy\"\n  detail=\"HC-154 · Benjamin Moore\"\n  face=\"chip\"\n  size=\"md\"\n/>"
         },
         {
           "title": "Faces",
@@ -2526,12 +2526,12 @@
         {
           "title": "Primary",
           "framework": "angular",
-          "code": "<!-- Storybook story: Primary -->\n<!-- default args (shared by every story):\n{ label: 'State', placeholder: 'Choose a state', options: STATES }\n-->\n<!-- args:\n{ value: 'Arizona' }\n-->"
+          "code": "<!-- Storybook story: Primary -->\n<uni-combobox label=\"State\" placeholder=\"Choose a state\" [options]=\"options\" value=\"Arizona\" />\n<!-- bound values:\noptions = STATES\n-->"
         },
         {
           "title": "Disabled Options",
           "framework": "angular",
-          "code": "<!-- Storybook story: Disabled Options -->\n<!-- default args (shared by every story):\n{ label: 'State', placeholder: 'Choose a state', options: STATES }\n-->\n<!-- args:\n{ label: 'Assignee', placeholder: 'Choose a person', options: ASSIGNEES }\n-->"
+          "code": "<!-- Storybook story: Disabled Options -->\n<uni-combobox label=\"Assignee\" placeholder=\"Choose a person\" [options]=\"options\" />\n<!-- bound values:\noptions = ASSIGNEES\n-->"
         },
         {
           "title": "Async",
@@ -2546,12 +2546,12 @@
         {
           "title": "Invalid",
           "framework": "angular",
-          "code": "<!-- Storybook story: Invalid -->\n<!-- default args (shared by every story):\n{ label: 'State', placeholder: 'Choose a state', options: STATES }\n-->\n<!-- args:\n{ required: true, invalid: true, touched: true }\n-->"
+          "code": "<!-- Storybook story: Invalid -->\n<uni-combobox\n  label=\"State\"\n  placeholder=\"Choose a state\"\n  [options]=\"options\"\n  [required]=\"true\"\n  [invalid]=\"true\"\n  [touched]=\"true\"\n/>\n<!-- bound values:\noptions = STATES\n-->"
         },
         {
           "title": "Disabled",
           "framework": "angular",
-          "code": "<!-- Storybook story: Disabled -->\n<!-- default args (shared by every story):\n{ label: 'State', placeholder: 'Choose a state', options: STATES }\n-->\n<!-- args:\n{ value: 'Colorado', disabled: true }\n-->"
+          "code": "<!-- Storybook story: Disabled -->\n<uni-combobox\n  label=\"State\"\n  placeholder=\"Choose a state\"\n  [options]=\"options\"\n  value=\"Colorado\"\n  [disabled]=\"true\"\n/>\n<!-- bound values:\noptions = STATES\n-->"
         },
         {
           "title": "Label Style",
@@ -2875,27 +2875,27 @@
         {
           "title": "Primary",
           "framework": "angular",
-          "code": "<!-- Storybook story: Primary -->\n<!-- default args (shared by every story):\n{ label: 'To', placeholder: 'Name or address…', contacts: CONTACTS }\n-->\n<!-- args:\n{ value: [{ value: 'alice@uni.dev', name: 'Alice Chen' }] }\n-->"
+          "code": "<!-- Storybook story: Primary -->\n<uni-contact-input\n  label=\"To\"\n  placeholder=\"Name or address…\"\n  [contacts]=\"contacts\"\n  [value]=\"[{ value: 'alice@uni.dev', name: 'Alice Chen' }]\"\n/>\n<!-- bound values:\ncontacts = CONTACTS\n-->"
         },
         {
           "title": "Grouped Contacts",
           "framework": "angular",
-          "code": "<!-- Storybook story: Grouped Contacts -->\n<!-- default args (shared by every story):\n{ label: 'To', placeholder: 'Name or address…', contacts: CONTACTS }\n-->\n<!-- args:\n{ contacts: GROUPED }\n-->"
+          "code": "<!-- Storybook story: Grouped Contacts -->\n<uni-contact-input label=\"To\" placeholder=\"Name or address…\" [contacts]=\"contacts\" />\n<!-- bound values:\ncontacts = GROUPED\n-->"
         },
         {
           "title": "Unframed",
           "framework": "angular",
-          "code": "<!-- Storybook story: Unframed -->\n<!-- default args (shared by every story):\n{ label: 'To', placeholder: 'Name or address…', contacts: CONTACTS }\n-->\n<!-- args:\n{ unframed: true, value: [{ value: 'alice@uni.dev', name: 'Alice Chen' }] }\n-->"
+          "code": "<!-- Storybook story: Unframed -->\n<uni-contact-input\n  label=\"To\"\n  placeholder=\"Name or address…\"\n  [contacts]=\"contacts\"\n  [unframed]=\"true\"\n  [value]=\"[{ value: 'alice@uni.dev', name: 'Alice Chen' }]\"\n/>\n<!-- bound values:\ncontacts = CONTACTS\n-->"
         },
         {
           "title": "Known Contacts Only",
           "framework": "angular",
-          "code": "<!-- Storybook story: Known Contacts Only -->\n<!-- default args (shared by every story):\n{ label: 'To', placeholder: 'Name or address…', contacts: CONTACTS }\n-->\n<!-- args:\n{ allowCustom: false, placeholder: 'Search people…' }\n-->"
+          "code": "<!-- Storybook story: Known Contacts Only -->\n<uni-contact-input\n  label=\"To\"\n  placeholder=\"Search people…\"\n  [contacts]=\"contacts\"\n  [allowCustom]=\"false\"\n/>\n<!-- bound values:\ncontacts = CONTACTS\n-->"
         },
         {
           "title": "Disabled",
           "framework": "angular",
-          "code": "<!-- Storybook story: Disabled -->\n<!-- default args (shared by every story):\n{ label: 'To', placeholder: 'Name or address…', contacts: CONTACTS }\n-->\n<!-- args:\n{ disabled: true, value: [{ value: 'alice@uni.dev', name: 'Alice Chen' }] }\n-->"
+          "code": "<!-- Storybook story: Disabled -->\n<uni-contact-input\n  label=\"To\"\n  placeholder=\"Name or address…\"\n  [contacts]=\"contacts\"\n  [disabled]=\"true\"\n  [value]=\"[{ value: 'alice@uni.dev', name: 'Alice Chen' }]\"\n/>\n<!-- bound values:\ncontacts = CONTACTS\n-->"
         }
       ],
       "guidelines": {
@@ -3342,22 +3342,22 @@
         {
           "title": "Primary",
           "framework": "angular",
-          "code": "<!-- Storybook story: Primary -->\n<!-- default args (shared by every story):\n{ label: 'Due date' }\n-->\n<!-- args:\n{ value: dayIn(12) }\n-->"
+          "code": "<!-- Storybook story: Primary -->\n<uni-date-input label=\"Due date\" [value]=\"value\" />\n<!-- bound values:\nvalue = dayIn(12)\n-->"
         },
         {
           "title": "With Calendar Constraints",
           "framework": "angular",
-          "code": "<!-- Storybook story: With Calendar Constraints -->\n<!-- default args (shared by every story):\n{ label: 'Due date' }\n-->\n<!-- args:\n{\n    label: 'Appointment date',\n    minDate: TODAY,\n    maxDate: addDays(TODAY, 45),\n    disabledDates: (date: string) => [0, 6].includes(new Date(`${date}T00:00:00Z`).getUTCDay()),\n    markers: [\n      { date: addDays(TODAY, 1), variant: 'success', label: '3 slots open' },\n      { date: addDays(TODAY, 3), variant: 'primary', label: '1 slot open' },\n    ],\n  }\n-->"
+          "code": "<!-- Storybook story: With Calendar Constraints -->\n<uni-date-input\n  label=\"Appointment date\"\n  [minDate]=\"minDate\"\n  [maxDate]=\"maxDate\"\n  [disabledDates]=\"disabledDates\"\n  [markers]=\"markers\"\n/>\n<!-- bound values:\nminDate = TODAY\nmaxDate = addDays(TODAY, 45)\ndisabledDates = (date: string) => [0, 6].includes(new Date(`${date}T00:00:00Z`).getUTCDay())\nmarkers = [\n  { date: addDays(TODAY, 1), variant: 'success', label: '3 slots open' },\n  { date: addDays(TODAY, 3), variant: 'primary', label: '1 slot open' },\n]\n-->"
         },
         {
           "title": "Display Format",
           "framework": "angular",
-          "code": "<!-- Storybook story: Display Format -->\n<!-- default args (shared by every story):\n{ label: 'Due date' }\n-->\n<!-- args:\n{ value: dayIn(12), displayFormat: { dateStyle: 'full' } }\n-->"
+          "code": "<!-- Storybook story: Display Format -->\n<uni-date-input label=\"Due date\" [value]=\"value\" [displayFormat]=\"{ dateStyle: 'full' }\" />\n<!-- bound values:\nvalue = dayIn(12)\n-->"
         },
         {
           "title": "Disabled",
           "framework": "angular",
-          "code": "<!-- Storybook story: Disabled -->\n<!-- default args (shared by every story):\n{ label: 'Due date' }\n-->\n<!-- args:\n{ value: dayIn(12), disabled: true }\n-->"
+          "code": "<!-- Storybook story: Disabled -->\n<uni-date-input label=\"Due date\" [value]=\"value\" [disabled]=\"true\" />\n<!-- bound values:\nvalue = dayIn(12)\n-->"
         }
       ],
       "guidelines": {
@@ -3543,7 +3543,7 @@
         {
           "title": "Primary",
           "framework": "angular",
-          "code": "<!-- Storybook story: Primary -->\n<!-- default args (shared by every story):\n{ label: 'Appointment' }\n-->\n<!-- args:\n{ value: `${addDays(TODAY, 1)}T15:00` }\n-->"
+          "code": "<!-- Storybook story: Primary -->\n<uni-date-time-input label=\"Appointment\" [value]=\"value\" />\n<!-- bound values:\nvalue = `${addDays(TODAY, 1)}T15:00`\n-->"
         },
         {
           "title": "Scheduling",
@@ -3553,7 +3553,7 @@
         {
           "title": "Disabled",
           "framework": "angular",
-          "code": "<!-- Storybook story: Disabled -->\n<!-- default args (shared by every story):\n{ label: 'Appointment' }\n-->\n<!-- args:\n{ value: `${addDays(TODAY, 1)}T15:00`, disabled: true }\n-->"
+          "code": "<!-- Storybook story: Disabled -->\n<uni-date-time-input label=\"Appointment\" [value]=\"value\" [disabled]=\"true\" />\n<!-- bound values:\nvalue = `${addDays(TODAY, 1)}T15:00`\n-->"
         }
       ],
       "guidelines": {
@@ -5054,7 +5054,7 @@
         {
           "title": "Primary",
           "framework": "angular",
-          "code": "<!-- Storybook story: Primary -->\n<!-- args:\n{\n    label: 'Image',\n    browseButtonText: 'Browse for image',\n    allowedFileExtensions: ['png', 'jpg'],\n  }\n-->"
+          "code": "<!-- Storybook story: Primary -->\n<uni-file-drop-zone\n  label=\"Image\"\n  browseButtonText=\"Browse for image\"\n  [allowedFileExtensions]=\"['png', 'jpg']\"\n/>"
         },
         {
           "title": "With Help Template",
@@ -5944,7 +5944,7 @@
         {
           "title": "Primary",
           "framework": "angular",
-          "code": "<!-- Storybook story: Primary -->\n<!-- args:\n{\n    json: { a: { b: ['c', 'd', 'e', 'f'], g: ['h', 'i'] }, j: 'k' },\n  }\n-->"
+          "code": "<!-- Storybook story: Primary -->\n<uni-json-view [json]=\"{ a: { b: ['c', 'd', 'e', 'f'], g: ['h', 'i'] }, j: 'k' }\" />"
         }
       ],
       "guidelines": {
@@ -7248,32 +7248,32 @@
         {
           "title": "Primary",
           "framework": "angular",
-          "code": "<!-- Storybook story: Primary -->\n<!-- default args (shared by every story):\n{ label: 'Price range', value: { start: 50, end: 500 } }\n-->"
+          "code": "<!-- Storybook story: Primary -->\n<uni-number-range-input label=\"Price range\" [value]=\"{ start: 50, end: 500 }\" />"
         },
         {
           "title": "Price Filter",
           "framework": "angular",
-          "code": "<!-- Storybook story: Price Filter -->\n<!-- default args (shared by every story):\n{ label: 'Price range', value: { start: 50, end: 500 } }\n-->\n<!-- args:\n{\n    label: 'Price range',\n    currency: 'USD',\n    minValue: 0,\n    maxValue: 5000,\n    step: 10,\n    value: { start: 200, end: 1500 },\n  }\n-->"
+          "code": "<!-- Storybook story: Price Filter -->\n<uni-number-range-input\n  label=\"Price range\"\n  [value]=\"{ start: 200, end: 1500 }\"\n  currency=\"USD\"\n  [minValue]=\"0\"\n  [maxValue]=\"5000\"\n  [step]=\"10\"\n/>"
         },
         {
           "title": "Minimum Gap",
           "framework": "angular",
-          "code": "<!-- Storybook story: Minimum Gap -->\n<!-- default args (shared by every story):\n{ label: 'Price range', value: { start: 50, end: 500 } }\n-->\n<!-- args:\n{ label: 'Temperature tolerance', suffix: '°C', minValue: -20, maxValue: 40, minGap: 5, value: { start: 5, end: 20 } }\n-->"
+          "code": "<!-- Storybook story: Minimum Gap -->\n<uni-number-range-input\n  label=\"Temperature tolerance\"\n  [value]=\"{ start: 5, end: 20 }\"\n  suffix=\"°C\"\n  [minValue]=\"-20\"\n  [maxValue]=\"40\"\n  [minGap]=\"5\"\n/>"
         },
         {
           "title": "Open Ended",
           "framework": "angular",
-          "code": "<!-- Storybook story: Open Ended -->\n<!-- default args (shared by every story):\n{ label: 'Price range', value: { start: 50, end: 500 } }\n-->\n<!-- args:\n{ label: 'Price range', currency: 'USD', value: { start: 50 } }\n-->"
+          "code": "<!-- Storybook story: Open Ended -->\n<uni-number-range-input label=\"Price range\" [value]=\"{ start: 50 }\" currency=\"USD\" />"
         },
         {
           "title": "Custom End Labels",
           "framework": "angular",
-          "code": "<!-- Storybook story: Custom End Labels -->\n<!-- default args (shared by every story):\n{ label: 'Price range', value: { start: 50, end: 500 } }\n-->\n<!-- args:\n{ label: 'Delivery window', suffix: ' days', startLabel: 'From', endLabel: 'To', minValue: 0, value: { start: 2, end: 7 } }\n-->"
+          "code": "<!-- Storybook story: Custom End Labels -->\n<uni-number-range-input\n  label=\"Delivery window\"\n  [value]=\"{ start: 2, end: 7 }\"\n  suffix=\" days\"\n  startLabel=\"From\"\n  endLabel=\"To\"\n  [minValue]=\"0\"\n/>"
         },
         {
           "title": "Disabled",
           "framework": "angular",
-          "code": "<!-- Storybook story: Disabled -->\n<!-- default args (shared by every story):\n{ label: 'Price range', value: { start: 50, end: 500 } }\n-->\n<!-- args:\n{ disabled: true }\n-->"
+          "code": "<!-- Storybook story: Disabled -->\n<uni-number-range-input label=\"Price range\" [value]=\"{ start: 50, end: 500 }\" [disabled]=\"true\" />"
         }
       ],
       "guidelines": {
@@ -7873,12 +7873,12 @@
         {
           "title": "Primary",
           "framework": "angular",
-          "code": "<!-- Storybook story: Primary -->\n<!-- default args (shared by every story):\n{ label: 'Quantity, Blue T-shirt (M)', value: 3, min: 1 }\n-->"
+          "code": "<!-- Storybook story: Primary -->\n<uni-quantity-stepper label=\"Quantity, Blue T-shirt (M)\" [value]=\"3\" [min]=\"1\" />"
         },
         {
           "title": "Cart Line",
           "framework": "angular",
-          "code": "<!-- Storybook story: Cart Line -->\n<!-- default args (shared by every story):\n{ label: 'Quantity, Blue T-shirt (M)', value: 3, min: 1 }\n-->\n<!-- args:\n{ value: 1, min: 1, deleteAtMin: true }\n-->"
+          "code": "<!-- Storybook story: Cart Line -->\n<uni-quantity-stepper\n  label=\"Quantity, Blue T-shirt (M)\"\n  [value]=\"1\"\n  [min]=\"1\"\n  [deleteAtMin]=\"true\"\n/>"
         },
         {
           "title": "Sizes",
@@ -7888,17 +7888,17 @@
         {
           "title": "Read Only Value",
           "framework": "angular",
-          "code": "<!-- Storybook story: Read Only Value -->\n<!-- default args (shared by every story):\n{ label: 'Quantity, Blue T-shirt (M)', value: 3, min: 1 }\n-->\n<!-- args:\n{ editable: false, value: 4 }\n-->"
+          "code": "<!-- Storybook story: Read Only Value -->\n<uni-quantity-stepper label=\"Quantity, Blue T-shirt (M)\" [value]=\"4\" [min]=\"1\" [editable]=\"false\" />"
         },
         {
           "title": "Bounded",
           "framework": "angular",
-          "code": "<!-- Storybook story: Bounded -->\n<!-- default args (shared by every story):\n{ label: 'Quantity, Blue T-shirt (M)', value: 3, min: 1 }\n-->\n<!-- args:\n{ value: 8, min: 1, max: 8 }\n-->"
+          "code": "<!-- Storybook story: Bounded -->\n<uni-quantity-stepper label=\"Quantity, Blue T-shirt (M)\" [value]=\"8\" [min]=\"1\" [max]=\"8\" />"
         },
         {
           "title": "Disabled",
           "framework": "angular",
-          "code": "<!-- Storybook story: Disabled -->\n<!-- default args (shared by every story):\n{ label: 'Quantity, Blue T-shirt (M)', value: 3, min: 1 }\n-->\n<!-- args:\n{ disabled: true }\n-->"
+          "code": "<!-- Storybook story: Disabled -->\n<uni-quantity-stepper label=\"Quantity, Blue T-shirt (M)\" [value]=\"3\" [min]=\"1\" [disabled]=\"true\" />"
         }
       ],
       "guidelines": {
@@ -8511,7 +8511,7 @@
         {
           "title": "Primary",
           "framework": "angular",
-          "code": "<!-- Storybook story: Primary -->\n<!-- args:\n{ label: 'Search' }\n-->"
+          "code": "<!-- Storybook story: Primary -->\n<uni-search-input label=\"Search\" />"
         },
         {
           "title": "Type-ahead",
@@ -8803,7 +8803,7 @@
         {
           "title": "Text Lines",
           "framework": "angular",
-          "code": "<!-- Storybook story: Text Lines -->\n<!-- args:\n{ shape: 'text', lines: 3 }\n-->"
+          "code": "<!-- Storybook story: Text Lines -->\n<uni-skeleton shape=\"text\" [lines]=\"3\" />"
         },
         {
           "title": "Per Instance Tokens",
@@ -9532,7 +9532,7 @@
         {
           "title": "Primary",
           "framework": "angular",
-          "code": "<!-- Storybook story: Primary -->\n<!-- args:\n{\n    name: 'settings',\n  }\n-->"
+          "code": "<!-- Storybook story: Primary -->\n<uni-symbol name=\"settings\" />"
         }
       ],
       "guidelines": {
@@ -9848,7 +9848,7 @@
         {
           "title": "Primary",
           "framework": "angular",
-          "code": "<!-- Storybook story: Primary -->\n<!-- default args (shared by every story):\n{ label: 'Design', value: 'design' }\n-->"
+          "code": "<!-- Storybook story: Primary -->\n<uni-tag label=\"Design\" value=\"design\" />"
         },
         {
           "title": "Variants And Tones",
@@ -9863,17 +9863,17 @@
         {
           "title": "Removable",
           "framework": "angular",
-          "code": "<!-- Storybook story: Removable -->\n<!-- default args (shared by every story):\n{ label: 'Design', value: 'design' }\n-->\n<!-- args:\n{ removable: true }\n-->"
+          "code": "<!-- Storybook story: Removable -->\n<uni-tag label=\"Design\" value=\"design\" [removable]=\"true\" />"
         },
         {
           "title": "Interactive",
           "framework": "angular",
-          "code": "<!-- Storybook story: Interactive -->\n<!-- default args (shared by every story):\n{ label: 'Design', value: 'design' }\n-->\n<!-- args:\n{ interactive: true, removable: true, selected: false }\n-->"
+          "code": "<!-- Storybook story: Interactive -->\n<uni-tag label=\"Design\" value=\"design\" [interactive]=\"true\" [removable]=\"true\" [selected]=\"false\" />"
         },
         {
           "title": "Selected",
           "framework": "angular",
-          "code": "<!-- Storybook story: Selected -->\n<!-- default args (shared by every story):\n{ label: 'Design', value: 'design' }\n-->\n<!-- args:\n{ interactive: true, selected: true }\n-->"
+          "code": "<!-- Storybook story: Selected -->\n<uni-tag label=\"Design\" value=\"design\" [interactive]=\"true\" [selected]=\"true\" />"
         },
         {
           "title": "Toggles",
@@ -9888,17 +9888,17 @@
         {
           "title": "Invalid",
           "framework": "angular",
-          "code": "<!-- Storybook story: Invalid -->\n<!-- default args (shared by every story):\n{ label: 'Design', value: 'design' }\n-->\n<!-- args:\n{ label: 'nope@@x', invalid: true, removable: true, variant: 'warn' }\n-->"
+          "code": "<!-- Storybook story: Invalid -->\n<uni-tag label=\"nope@@x\" value=\"design\" [invalid]=\"true\" [removable]=\"true\" variant=\"warn\" />"
         },
         {
           "title": "Disabled",
           "framework": "angular",
-          "code": "<!-- Storybook story: Disabled -->\n<!-- default args (shared by every story):\n{ label: 'Design', value: 'design' }\n-->\n<!-- args:\n{ label: 'Locked', disabled: true, removable: true }\n-->"
+          "code": "<!-- Storybook story: Disabled -->\n<uni-tag label=\"Locked\" value=\"design\" [disabled]=\"true\" [removable]=\"true\" />"
         },
         {
           "title": "Truncated",
           "framework": "angular",
-          "code": "<!-- Storybook story: Truncated -->\n<!-- default args (shared by every story):\n{ label: 'Design', value: 'design' }\n-->\n<!-- args:\n{\n    label: 'A very long tag label that has to be truncated somewhere',\n    maxWidth: '18ch',\n    removable: true,\n  }\n-->"
+          "code": "<!-- Storybook story: Truncated -->\n<uni-tag\n  label=\"A very long tag label that has to be truncated somewhere\"\n  value=\"design\"\n  maxWidth=\"18ch\"\n  [removable]=\"true\"\n/>"
         }
       ],
       "guidelines": {
@@ -10038,7 +10038,7 @@
         {
           "title": "Wrap",
           "framework": "angular",
-          "code": "<!-- Storybook story: Wrap -->\n<!-- default args (shared by every story):\n{ items: FACETS, multiple: true }\n-->\n<!-- args:\n{ value: ['engineering'] }\n-->"
+          "code": "<!-- Storybook story: Wrap -->\n<uni-tag-group [items]=\"items\" [multiple]=\"true\" [value]=\"['engineering']\" />\n<!-- bound values:\nitems = FACETS\n-->"
         },
         {
           "title": "Justify",
@@ -10048,12 +10048,12 @@
         {
           "title": "Single Select",
           "framework": "angular",
-          "code": "<!-- Storybook story: Single Select -->\n<!-- default args (shared by every story):\n{ items: FACETS, multiple: true }\n-->\n<!-- args:\n{ multiple: false, value: ['legal'] }\n-->"
+          "code": "<!-- Storybook story: Single Select -->\n<uni-tag-group [items]=\"items\" [multiple]=\"false\" [value]=\"['legal']\" />\n<!-- bound values:\nitems = FACETS\n-->"
         },
         {
           "title": "Mixed Chips",
           "framework": "angular",
-          "code": "<!-- Storybook story: Mixed Chips -->\n<!-- default args (shared by every story):\n{ items: FACETS, multiple: true }\n-->\n<!-- args:\n{\n    items: [\n      { label: 'Starred', value: 'starred', iconName: 'star' },\n      { label: 'Live', value: 'live', dot: true, variant: 'success' },\n      { label: 'Alice Chen', value: 'alice', avatarName: 'Alice Chen' },\n      { label: 'Blocked', value: 'blocked', variant: 'warn', tone: 'outline' },\n      { label: 'Archived', value: 'archived', disabled: true },\n      { label: 'Custom', value: 'custom', removable: true },\n    ],\n  }\n-->"
+          "code": "<!-- Storybook story: Mixed Chips -->\n<uni-tag-group [items]=\"items\" [multiple]=\"true\" />\n<!-- bound values:\nitems = [\n  { label: 'Starred', value: 'starred', iconName: 'star' },\n  { label: 'Live', value: 'live', dot: true, variant: 'success' },\n  { label: 'Alice Chen', value: 'alice', avatarName: 'Alice Chen' },\n  { label: 'Blocked', value: 'blocked', variant: 'warn', tone: 'outline' },\n  { label: 'Archived', value: 'archived', disabled: true },\n  { label: 'Custom', value: 'custom', removable: true },\n]\n-->"
         }
       ],
       "guidelines": {
@@ -10349,7 +10349,7 @@
         {
           "title": "Primary",
           "framework": "angular",
-          "code": "<!-- Storybook story: Primary -->\n<!-- default args (shared by every story):\n{ label: 'To', placeholder: 'Add a recipient…' }\n-->\n<!-- args:\n{ value: [{ value: 'alice@uni.dev', label: 'Alice Chen' }] }\n-->"
+          "code": "<!-- Storybook story: Primary -->\n<uni-tag-input\n  label=\"To\"\n  placeholder=\"Add a recipient…\"\n  [value]=\"[{ value: 'alice@uni.dev', label: 'Alice Chen' }]\"\n/>"
         },
         {
           "title": "Email Recipients",
@@ -10359,22 +10359,22 @@
         {
           "title": "Invalid Entry",
           "framework": "angular",
-          "code": "<!-- Storybook story: Invalid Entry -->\n<!-- default args (shared by every story):\n{ label: 'To', placeholder: 'Add a recipient…' }\n-->\n<!-- args:\n{\n    preset: 'email',\n    value: [\n      { value: 'alice@uni.dev', label: 'Alice Chen' },\n      { value: 'nope@@x', invalid: true },\n    ],\n  }\n-->"
+          "code": "<!-- Storybook story: Invalid Entry -->\n<uni-tag-input label=\"To\" placeholder=\"Add a recipient…\" preset=\"email\" [value]=\"value\" />\n<!-- bound values:\nvalue = [\n  { value: 'alice@uni.dev', label: 'Alice Chen' },\n  { value: 'nope@@x', invalid: true },\n]\n-->"
         },
         {
           "title": "Locked Entry",
           "framework": "angular",
-          "code": "<!-- Storybook story: Locked Entry -->\n<!-- default args (shared by every story):\n{ label: 'To', placeholder: 'Add a recipient…' }\n-->\n<!-- args:\n{\n    value: [\n      { value: 'owner@uni.dev', label: 'Thread owner', disabled: true },\n      { value: 'bob@uni.dev', label: 'Bob Ferrari' },\n    ],\n  }\n-->"
+          "code": "<!-- Storybook story: Locked Entry -->\n<uni-tag-input label=\"To\" placeholder=\"Add a recipient…\" [value]=\"value\" />\n<!-- bound values:\nvalue = [\n  { value: 'owner@uni.dev', label: 'Thread owner', disabled: true },\n  { value: 'bob@uni.dev', label: 'Bob Ferrari' },\n]\n-->"
         },
         {
           "title": "With Maximum",
           "framework": "angular",
-          "code": "<!-- Storybook story: With Maximum -->\n<!-- default args (shared by every story):\n{ label: 'To', placeholder: 'Add a recipient…' }\n-->\n<!-- args:\n{ maxLength: 3, value: [{ value: 'alpha' }, { value: 'beta' }] }\n-->"
+          "code": "<!-- Storybook story: With Maximum -->\n<uni-tag-input\n  label=\"To\"\n  placeholder=\"Add a recipient…\"\n  [maxLength]=\"3\"\n  [value]=\"[{ value: 'alpha' }, { value: 'beta' }]\"\n/>"
         },
         {
           "title": "Disabled",
           "framework": "angular",
-          "code": "<!-- Storybook story: Disabled -->\n<!-- default args (shared by every story):\n{ label: 'To', placeholder: 'Add a recipient…' }\n-->\n<!-- args:\n{ disabled: true, value: [{ value: 'alpha' }, { value: 'beta' }] }\n-->"
+          "code": "<!-- Storybook story: Disabled -->\n<uni-tag-input\n  label=\"To\"\n  placeholder=\"Add a recipient…\"\n  [disabled]=\"true\"\n  [value]=\"[{ value: 'alpha' }, { value: 'beta' }]\"\n/>"
         },
         {
           "title": "Grouped Suggestions",
@@ -10389,7 +10389,7 @@
         {
           "title": "Unframed",
           "framework": "angular",
-          "code": "<!-- Storybook story: Unframed -->\n<!-- default args (shared by every story):\n{ label: 'To', placeholder: 'Add a recipient…' }\n-->\n<!-- args:\n{\n    unframed: true,\n    preset: 'email',\n    value: [{ value: 'alice@uni.dev', label: 'Alice Chen', avatarName: 'Alice Chen' }],\n  }\n-->"
+          "code": "<!-- Storybook story: Unframed -->\n<uni-tag-input\n  label=\"To\"\n  placeholder=\"Add a recipient…\"\n  [unframed]=\"true\"\n  preset=\"email\"\n  [value]=\"value\"\n/>\n<!-- bound values:\nvalue = [{ value: 'alice@uni.dev', label: 'Alice Chen', avatarName: 'Alice Chen' }]\n-->"
         }
       ],
       "guidelines": {
@@ -11000,22 +11000,22 @@
         {
           "title": "Primary",
           "framework": "angular",
-          "code": "<!-- Storybook story: Primary -->\n<!-- default args (shared by every story):\n{ label: 'Start time' }\n-->\n<!-- args:\n{ minTime: '09:00', maxTime: '17:00', minuteStep: 30, value: '09:30' }\n-->"
+          "code": "<!-- Storybook story: Primary -->\n<uni-time-input\n  label=\"Start time\"\n  minTime=\"09:00\"\n  maxTime=\"17:00\"\n  [minuteStep]=\"30\"\n  value=\"09:30\"\n/>"
         },
         {
           "title": "Slots",
           "framework": "angular",
-          "code": "<!-- Storybook story: Slots -->\n<!-- default args (shared by every story):\n{ label: 'Start time' }\n-->\n<!-- args:\n{ label: 'Slot time', slots: ['09:00', '09:30', '11:00', '14:30'] }\n-->"
+          "code": "<!-- Storybook story: Slots -->\n<uni-time-input label=\"Slot time\" [slots]=\"['09:00', '09:30', '11:00', '14:30']\" />"
         },
         {
           "title": "Twenty Four Hour",
           "framework": "angular",
-          "code": "<!-- Storybook story: Twenty Four Hour -->\n<!-- default args (shared by every story):\n{ label: 'Start time' }\n-->\n<!-- args:\n{ hour12: false, minTime: '08:00', maxTime: '18:00', value: '15:00' }\n-->"
+          "code": "<!-- Storybook story: Twenty Four Hour -->\n<uni-time-input label=\"Start time\" [hour12]=\"false\" minTime=\"08:00\" maxTime=\"18:00\" value=\"15:00\" />"
         },
         {
           "title": "Disabled",
           "framework": "angular",
-          "code": "<!-- Storybook story: Disabled -->\n<!-- default args (shared by every story):\n{ label: 'Start time' }\n-->\n<!-- args:\n{ value: '09:30', disabled: true }\n-->"
+          "code": "<!-- Storybook story: Disabled -->\n<uni-time-input label=\"Start time\" value=\"09:30\" [disabled]=\"true\" />"
         }
       ],
       "guidelines": {
@@ -11518,7 +11518,7 @@
         {
           "title": "Primary",
           "framework": "angular",
-          "code": "<!-- Storybook story: Primary -->"
+          "code": "<!-- Storybook story: Primary -->\n<div uni-wrap-layout></div>"
         }
       ],
       "guidelines": {
